@@ -1,4 +1,11 @@
+deps/
 config.lua
+discordia.log
+gateway.json
+lit
+luvi
+luvit
+stats.json
 stats/*.json
 
 # Compiled Lua sources
