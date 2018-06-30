@@ -114,6 +114,7 @@ function Bot:LoadModuleFile(fileName)
 	sandbox.Config = Config
 	sandbox.Discordia = discordia
 	sandbox.Module = {}
+	sandbox.require = require
 
 	local func, err = loadfile(fileName, "bt", sandbox)
 	if (not func) then
@@ -219,6 +220,7 @@ Bot:RegisterCommand("exec", "Executes a file", function (message, fileName)
 	sandbox.Config = Config
 	sandbox.CommandMessage = message
 	sandbox.Discordia = discordia
+	sandbox.require = require
 
 	local lines = {}
 	sandbox.print = function(...)
