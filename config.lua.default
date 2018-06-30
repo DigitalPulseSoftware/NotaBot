@@ -1,0 +1,33 @@
+Guild = "" -- Guild ID where Not a Bot works on
+Token = "" -- Bot token
+
+-- Module which will be loaded at bot start
+AutoloadModules = {
+	"module_channels.lua",
+	"module_modo.lua",
+	"module_game.lua",
+	"module_stats.lua"
+}
+
+-- Module configs
+ChannelModuleConfig = {}
+GameModuleConfig = {}
+ModoModule = {
+	-- Channel ID where alerts will be reported
+	AlertChannel = "",
+	-- Custom emoji name to use as moderation emoji
+	EmojiName = "", 
+	-- Table of roles ID against which custom emoji name will have no effect
+	ImmunityRoles = {},
+	-- Number of moderation reaction required to ping moderator role
+	ModeratorPingThreshold = 5,
+	-- Role to ping when moderator reaction count exceeds ModeratorPingThreshold
+	ModeratorRoleId = "",
+	-- Mute duration in case of auto-mute
+	MuteDuration = 10 * 60,
+	-- Auto-mute role ID, the module will setup mute permissions on all channels automatically
+	MuteRoleId = "",
+	 -- Number of moderation reaction required to auto-mute the message author
+	MuteThreshold = 10
+}
+StatsLogChannel = ""
