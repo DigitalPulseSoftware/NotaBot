@@ -203,10 +203,9 @@ end
 
 function Module:SaveStats(filename)
 	filename = filename or "stats.json"
-	print("Saving stats to " .. filename .. "...")
 	local outputFile = io.open(filename, "w+")
 	if (not outputFile) then
-		print("Failed to open stats.json")
+		print("Failed to open " .. filename)
 		return
 	end
 
