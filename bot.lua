@@ -307,7 +307,7 @@ end)
 
 client:run('Bot ' .. Config.Token)
 
-for k,moduleFile in pairs(config.AutoloadModules) do
+for k,moduleFile in pairs(Config.AutoloadModules) do
 	local moduleTable, err, codeErr = Bot:LoadModuleFile(moduleFile)
 	if (moduleTable) then
 		print("Auto-loaded module \"" .. moduleTable.Name .. "\"")
