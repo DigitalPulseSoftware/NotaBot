@@ -64,7 +64,7 @@ function Bot:LoadModule(moduleTable)
 		if (key:startswith("On") and type(func) == "function") then
 			local eventName = key:sub(3, 3):lower() .. key:sub(4)
 			if (eventName ~= "loaded" and eventName ~= "unload") then
-				moduleEvents[eventName] = function (...) moduleTable[key](moduleTable, ...) end
+				moduleEvents[eventName] = function (...) self:CallModuleFunction(moduleTable, key, ...) end
 			end
 		end
 	end
@@ -87,7 +87,7 @@ end
 
 function Bot:EnableModule(moduleTable)
 	if (moduleTable.OnReady) then
-		wrap(function () moduleTable:OnReady() end)()
+		wrap(function () self:CallModuleFunction(moduleTable, "OnReady") end)()
 	end
 
 	for eventName,cb in pairs(moduleTable._Events) do
@@ -104,6 +104,13 @@ function Bot:EnableModule(moduleTable)
 		end
 
 		table.insert(eventTable, cb)
+	end
+end
+
+function Bot:CallModuleFunction(moduleTable, functionName, ...)
+	local success, err = pcall(moduleTable[functionName], moduleTable, ...)
+	if (not success) then
+		client:warning("Module (%s) function (%s) failed: %s", moduleTable.Name, functionName, err)
 	end
 end
 
