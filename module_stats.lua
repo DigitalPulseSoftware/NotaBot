@@ -139,7 +139,7 @@ function Module:PrintStats(channel, stats)
 	end
 
 	table.insert(fields, {
-		name = "Most added reactions", value = addedReactionList, inline = true
+		name = "Most added reactions", value = #addedReactionList > 0 and addedReactionList or "<None>", inline = true
 	})
 
 	local mostActiveChannels = {}
@@ -160,7 +160,7 @@ function Module:PrintStats(channel, stats)
 	end
 
 	table.insert(fields, {
-		name = "Most active channels", value = activeChannelList, inline = true
+		name = "Most active channels", value = #activeChannelList > 0 and activeChannelList or "<None>", inline = true
 	})
 
 
