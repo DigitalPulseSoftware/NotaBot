@@ -8,7 +8,6 @@ local discordia = Discordia
 local bot = Bot
 local enums = discordia.enums
 local bit = require("bit")
-local config = Config
 
 Module.Name = "modo"
 Module.MutedUsers = {}
