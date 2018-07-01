@@ -2,11 +2,12 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
+local bot = Bot
 local client = Client
 local config = Config
 local discordia = Discordia
+local enums = discordia.enums
 local json = require("json")
-local bot = Bot
 
 Module.Name = "stats"
 
@@ -44,14 +45,29 @@ function Module:OnLoaded()
 		self:ResetStats()
 	end
 
+	bot:RegisterCommand("resetstats", "Reset stats", function (commandMessage)
+		if (not commandMessage.member:hasPermission(enums.permission.administrator)) then
+			print(tostring(message.member.name) .. " tried to use !resetstats")
+			return
+		end
+
+		self:ResetStats()
+		commandMessage:reply("Stats reset successfully")
+	end)
+
 	bot:RegisterCommand("serverstats", "Print stats", function (commandMessage)
 		self:PrintStats(commandMessage.channel, self.Stats)
 	end)
 
 	bot:RegisterCommand("savestats", "Saves message stats to the disk", function (commandMessage)
+		if (not commandMessage.member:hasPermission(enums.permission.administrator)) then
+			print(tostring(message.member.name) .. " tried to use !savestats")
+			return
+		end
+
 		self:SaveStats()
 		self.SaveCounter = 0
-		commandMessage:reply("Stats saved")
+		commandMessage:reply("Stats saved successfully")
 	end)
 end
 
@@ -62,6 +78,7 @@ function Module:OnUnload()
 		self.Clock:stop()
 	end
 
+	bot:UnregisterCommand("resetstats")
 	bot:UnregisterCommand("savestats")
 	bot:UnregisterCommand("serverstats")
 end
