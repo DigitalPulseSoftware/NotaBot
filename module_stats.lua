@@ -16,7 +16,7 @@ function Module:OnLoaded()
 	self.Clock:on("day", function ()
 		local stats = self.Stats
 		self:SaveStats(os.date("stats/stats_%Y-%m-%d.json", stats.Date or os.time()))
-		self:ResetStats()
+		self.Stats = self:ResetStats()
 
 		if (config.StatsModuleLogChannel) then
 			local guild = client:getGuild(config.Guild)
@@ -38,11 +38,12 @@ function Module:OnLoaded()
 
 	self.Clock:start()
 
-	if (self:LoadStats()) then
+	self.Stats = self:LoadStats()
+	if (self.Stats) then
 		print("Successfully reloaded stats from file")
 	else
 		print("Failed to load stats, resetting...")
-		self:ResetStats()
+		self.Stats = self:ResetStats()
 	end
 
 	bot:RegisterCommand("resetstats", "Reset stats", function (commandMessage)
@@ -51,12 +52,28 @@ function Module:OnLoaded()
 			return
 		end
 
-		self:ResetStats()
+		self.Stats = self:ResetStats()
 		commandMessage:reply("Stats reset successfully")
 	end)
 
-	bot:RegisterCommand("serverstats", "Print stats", function (commandMessage)
-		self:PrintStats(commandMessage.channel, self.Stats)
+	bot:RegisterCommand("serverstats", "Print stats", function (commandMessage, date)
+		local stats
+		if (date) then
+			if (not date:match("^%d%d%d%d%-%d%d%-%d%d$")) then
+				commandMessage:reply("Invalid date format, please write it as YYYY-MM-DD")
+				return
+			end
+
+			stats = self:LoadStats(string.format("stats/stats_%s.json", date))
+			if (not stats) then
+				commandMessage:reply("We have no stats for that date")
+				return
+			end
+		else
+			stats = self.Stats
+		end
+
+		self:PrintStats(commandMessage.channel, stats)
 	end)
 
 	bot:RegisterCommand("savestats", "Saves message stats to the disk", function (commandMessage)
@@ -83,28 +100,29 @@ function Module:OnUnload()
 	bot:UnregisterCommand("serverstats")
 end
 
-function Module:LoadStats()
-	local saveFile = io.open("stats.json", "r")
+function Module:LoadStats(filename)
+	filename = filename or "stats.json"
+
+	local saveFile = io.open(filename, "r")
 	if (not saveFile) then
-		print("Failed to open stats.json")
-		return false
+		print("Failed to open " .. filename)
+		return
 	end
 
 	local content = saveFile:read("*a")
 	if (not content) then
 		print("Failed to read stats from file: " .. tostring(err))
-		return false
+		return
 	end
 	saveFile:close()
 
 	local success, contentOrErr = pcall(json.decode, content)
 	if (not success) then
 		print("Failed to decode stats json: " .. tostring(contentOrErr))
-		return false
+		return
 	end
 
-	self.Stats = contentOrErr
-	return true
+	return contentOrErr
 end
 
 function Module:PrintStats(channel, stats)	
@@ -112,7 +130,7 @@ function Module:PrintStats(channel, stats)
 	
 	local fields = {}
 	table.insert(fields, {
-		name = "Member count", value = tostring(guild.totalMemberCount), inline = true
+		name = "Member count", value = tostring(stats.MemberCount or guild.totalMemberCount), inline = true
 	})
 
 	table.insert(fields, {
@@ -173,7 +191,7 @@ function Module:PrintStats(channel, stats)
 
 		local channelData = mostActiveChannels[i]
 		local channel = guild:getChannel(channelData.id)
-		activeChannelList = activeChannelList .. string.format("%s : %s\n", channel.mentionString, channelData.messageCount)
+		activeChannelList = activeChannelList .. string.format("%s : %s\n", channel and channel.mentionString or "<deleted channel>", channelData.messageCount)
 	end
 
 	table.insert(fields, {
@@ -206,16 +224,21 @@ function Module:PrintStats(channel, stats)
 end
 
 function Module:ResetStats()
-	self.Stats = {}
-	self.Stats.Date = os.time()
-	self.Stats.Channels = {}
-	self.Stats.Reactions = {}
-	self.Stats.Users = {}
-	self.Stats.MemberLeft = 0
-	self.Stats.MemberJoined = 0
-	self.Stats.MessageCount = 0
-	self.Stats.ReactionAdded = 0
-	self.Stats.ReactionRemoved = 0
+	local guild = client:getGuild(config.Guild)
+
+	local stats = {}
+	stats.Date = os.time()
+	stats.Channels = {}
+	stats.Reactions = {}
+	stats.Users = {}
+	stats.MemberCount = guild.totalMemberCount
+	stats.MemberLeft = 0
+	stats.MemberJoined = 0
+	stats.MessageCount = 0
+	stats.ReactionAdded = 0
+	stats.ReactionRemoved = 0
+
+	return stats
 end
 
 function Module:SaveStats(filename)
