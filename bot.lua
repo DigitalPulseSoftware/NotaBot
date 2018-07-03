@@ -108,10 +108,7 @@ function Bot:EnableModule(moduleTable)
 end
 
 function Bot:CallModuleFunction(moduleTable, functionName, ...)
-	local success, err = pcall(moduleTable[functionName], moduleTable, ...)
-	if (not success) then
-		client:warning("Module (%s) function (%s) failed: %s", moduleTable.Name, functionName, err)
-	end
+	return self:ProtectedCall(string.format("Module (%s) function (%s)", moduleTable.Name, functionName), moduleTable[functionName], moduleTable, ...)
 end
 
 function Bot:LoadModuleFile(fileName)
@@ -163,6 +160,13 @@ function Bot:UnloadModule(moduleName)
 	end
 	
 	return false
+end
+
+function Bot:ProtectedCall(context, func, ...)
+	local success, err = pcall(func, ...)
+	if (not success) then
+		client:warning("%s failed: %s", context, err)
+	end
 end
 
 function Bot:RegisterCommand(commandName, description, exec)
@@ -310,7 +314,7 @@ client:on('messageCreate', function(message)
 	local commandName = args[1]:sub(2)
 	local commandTable = Bot.Commands[commandName]
 	if (commandTable) then
-		commandTable.func(message, table.unpack(args, 2))
+		Bot:ProtectedCall("Command " .. commandName, commandTable.func, message, table.unpack(args, 2))
 	end
 end)
 
