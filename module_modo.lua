@@ -109,9 +109,9 @@ function Module:HandleEmojiAdd(userId, message)
 	end
 
 	local guild = message.guild
-	local member = message.member
+	local messageMember = message.member
 	for _,roleId in pairs(self.Config.ImmunityRoles) do
-		if (member:hasRole(roleId)) then
+		if (messageMember:hasRole(roleId)) then
 			return
 		end
 	end
@@ -166,8 +166,9 @@ function Module:HandleEmojiAdd(userId, message)
 			end
 		end
 	else
+		local reporterUser = client:getUser(userId)
 		local embedContent = {
-			title = string.format("One user reported a message", member.user.fullname),
+			title = "One user reported a message",
 			fields = {
 				{
 					name = "Reported user",
@@ -176,7 +177,7 @@ function Module:HandleEmojiAdd(userId, message)
 				},
 				{
 					name = "Reporter",
-					value = member.user.mentionString,
+					value = reporterUser.mentionString,
 					inline = true
 				},
 				{
@@ -245,10 +246,8 @@ end
 
 function Module:OnChannelCreate(channel)
 	if (channel.type == enums.channelType.text) then
-		print("Text channel")
 		self:CheckTextMutePermissions(channel)
-	else
-		print("Voice channel")
+	elseif (channel.type == enums.channelType.voice) then
 		self:CheckVoiceMutePermissions(channel)
 	end
 end
