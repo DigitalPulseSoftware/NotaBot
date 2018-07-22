@@ -132,19 +132,19 @@ function Module:PrintStats(channel, stats)
 	
 	local fields = {}
 	table.insert(fields, {
-		name = "Member count", value = tostring(stats.MemberCount or guild.totalMemberCount), inline = true
+		name = "Member count", value = stats.MemberCount or "<Not logged>", inline = true
 	})
 
 	table.insert(fields, {
-		name = "New members", value = tostring(stats.MemberJoined), inline = true
+		name = "New members", value = stats.MemberJoined, inline = true
 	})
 
 	table.insert(fields, {
-		name = "Lost members", value = tostring(stats.MemberLeft), inline = true
+		name = "Lost members", value = stats.MemberLeft, inline = true
 	})
 
 	table.insert(fields, {
-		name = "Messages posted", value = tostring(stats.MessageCount), inline = true
+		name = "Messages posted", value = stats.MessageCount, inline = true
 	})
 
 	table.insert(fields, {
@@ -156,7 +156,7 @@ function Module:PrintStats(channel, stats)
 	})
 
 	table.insert(fields, {
-		name = "Total reactions added", value = tostring(stats.ReactionAdded or 0), inline = true
+		name = "Total reactions added", value = stats.ReactionAdded or 0, inline = true
 	})
 
 	local mostAddedReaction = {}
@@ -323,6 +323,7 @@ function Module:OnMemberJoin(member)
 	end
 
 	self.Stats.MemberJoined = self.Stats.MemberJoined + 1
+	self.Stats.MemberCount = self.Stats.MemberCount + 1
 end
 
 function Module:OnMemberLeave(member)
@@ -331,6 +332,7 @@ function Module:OnMemberLeave(member)
 	end
 
 	self.Stats.MemberLeft = self.Stats.MemberLeft + 1
+	self.Stats.MemberCount = self.Stats.MemberCount - 1
 end
 
 function Module:OnReactionAdd(reaction, userId)
