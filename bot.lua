@@ -307,7 +307,7 @@ Bot:RegisterCommand("unload", "Unload a module", function (message, moduleName)
 		return
 	end
 
-	if (UnloadModule(moduleName)) then
+	if (Bot:UnloadModule(moduleName)) then
 		message:reply("Module \"" .. moduleName .. "\" unloaded.")
 	else
 		message:reply("Module \"" .. moduleName .. "\" not found.")
