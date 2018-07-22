@@ -171,8 +171,12 @@ end
 function Bot:ProtectedCall(context, func, ...)
 	local success, err = pcall(func, ...)
 	if (not success) then
-		client:warning("%s failed: %s", context, err)
+		err = string.format("%s failed: %s", context, err)
+		client:warning("%s", err)
+		return false, err
 	end
+
+	return true
 end
 
 function Bot:RegisterCommand(commandName, description, exec)
