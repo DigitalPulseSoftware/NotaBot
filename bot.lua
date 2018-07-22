@@ -202,6 +202,7 @@ function Bot:GetEmojiData(emojiIdOrName)
 			if (emojiIdOrName == emoji.id or emojiIdOrName == emoji.name) then
 				reactionData = {}
 				reactionData.Custom = true
+				reactionData.Emoji = emoji
 				reactionData.Id = emoji.id
 				reactionData.Name = emoji.name
 				reactionData.MentionString = emoji.mentionString
