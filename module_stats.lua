@@ -205,16 +205,16 @@ function Module:PrintStats(channel, stats)
 	local resetStr
 	if (resetTime > 3600) then
 		local hourCount = math.floor(resetTime / 3600)
-		resetStr = string.format("%s hour%s ago", hourCount, hourCount > 1 and "s" or "")
+		resetStr = string.format("%s hour%s", hourCount, hourCount > 1 and "s" or "")
 	elseif (resetTime > 60) then
 		local minuteCount = math.floor(resetTime / 60)
-		resetStr = string.format("%s minute%s ago", minuteCount, minuteCount > 1 and "s" or "")
+		resetStr = string.format("%s minute%s", minuteCount, minuteCount > 1 and "s" or "")
 	else
 		local secondCount = math.floor(resetTime)
-		resetStr = string.format("%s second%s ago", secondCount, secondCount > 1 and "s" or "")
+		resetStr = string.format("%s second%s", secondCount, secondCount > 1 and "s" or "")
 	end
 
-	local title = string.format("Server stats - %s, reset %s", os.date("%d-%m-%Y", stats.Date), resetStr)
+	local title = string.format("Server stats - %s, started %s ago", os.date("%d-%m-%Y", stats.Date), resetStr)
 	
 	channel:send({
 		embed = {
