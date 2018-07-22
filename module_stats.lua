@@ -86,6 +86,8 @@ function Module:OnLoaded()
 		self.SaveCounter = 0
 		commandMessage:reply("Stats saved successfully")
 	end)
+
+	return true
 end
 
 function Module:OnUnload()

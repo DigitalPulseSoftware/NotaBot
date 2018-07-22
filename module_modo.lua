@@ -35,6 +35,8 @@ function Module:OnLoaded()
 		end
 	end)
 	self.Clock:start()
+
+	return true
 end
 
 function Module:OnReady()

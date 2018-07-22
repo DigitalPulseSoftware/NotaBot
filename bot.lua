@@ -73,7 +73,13 @@ function Bot:LoadModule(moduleTable)
 	self.Modules[moduleTable.Name] = moduleTable
 	
 	if (moduleTable.OnLoaded) then
-		moduleTable:OnLoaded()
+		local success, err = self:CallModuleFunction(moduleTable, "OnLoaded")
+		if (not success) then
+			self.Modules[moduleTable.Name] = nil
+
+			err = err or "OnLoaded hook returned false"
+			return false, err
+		end
 	end
 
 	print("Loaded module " .. moduleTable.Name)

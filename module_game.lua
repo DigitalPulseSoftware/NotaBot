@@ -21,6 +21,7 @@ function Module:OnLoaded()
 	
 	self.Clock:start()
 	self:UpdateGame()
+	return true
 end
 
 function Module:OnUnload()

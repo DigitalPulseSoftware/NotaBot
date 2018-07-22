@@ -155,7 +155,8 @@ function Module:OnReady()
 		end
 	end
 
-	print("Bot ready (" .. (os.clock() - t1) * 1000 .. "s).")
+	print("Channels module ready (" .. (os.clock() - t1) * 1000 .. "s).")
+	return true
 end
 
 function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionName)
