@@ -343,15 +343,17 @@ end)
 client:run('Bot ' .. Config.Token)
 
 for k,moduleFile in pairs(Config.AutoloadModules) do
-	local moduleTable, err, codeErr = Bot:LoadModuleFile(moduleFile)
-	if (moduleTable) then
-		print("Auto-loaded module \"" .. moduleTable.Name .. "\"")
-	else
-		local errorMessage = err
-		if (codeErr) then
-			errorMessage = errorMessage .. "\n" .. codeErr
-		end
+	wrap(function ()
+		local moduleTable, err, codeErr = Bot:LoadModuleFile(moduleFile)
+		if (moduleTable) then
+			print("Auto-loaded module \"" .. moduleTable.Name .. "\"")
+		else
+			local errorMessage = err
+			if (codeErr) then
+				errorMessage = errorMessage .. "\n" .. codeErr
+			end
 
-		print(errorMessage)
-	end
+			print(errorMessage)
+		end
+	end)()
 end
