@@ -336,6 +336,10 @@ function Module:OnMemberLeave(member)
 end
 
 function Module:OnReactionAdd(reaction, userId)
+	if (reaction.message.channel.type ~= enums.channelType.text) then
+		return
+	end
+
 	self.Stats.ReactionAdded = (self.Stats.ReactionAdded or 0) + 1
 
 	local channelStats = self:GetChannelStats(reaction.message.channel.id)
@@ -349,6 +353,10 @@ function Module:OnReactionAdd(reaction, userId)
 end
 
 function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, userId)
+	if (channel.type ~= enums.channelType.text) then
+		return
+	end
+
 	self.Stats.ReactionAdded = (self.Stats.ReactionAdded or 0) + 1
 
 	local channelStats = self:GetChannelStats(channel.id)
@@ -362,6 +370,10 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 end
 
 function Module:OnReactionRemove(reaction, userId)
+	if (reaction.message.channel.type ~= enums.channelType.text) then
+		return
+	end
+
 	self.Stats.ReactionRemoved = (self.Stats.ReactionRemoved or 0) + 1
 
 	local reactionStats = self:GetReactionStats(reaction.emojiName)
@@ -369,6 +381,10 @@ function Module:OnReactionRemove(reaction, userId)
 end
 
 function Module:OnReactionRemoveUncached(channel, messageId, reactionIdorName, userId)
+	if (channel.type ~= enums.channelType.text) then
+		return
+	end
+
 	self.Stats.ReactionRemoved = (self.Stats.ReactionRemoved or 0) + 1
 
 	local reactionStats = self:GetReactionStats(bot:GetEmojiData(reactionIdorName).Name)
