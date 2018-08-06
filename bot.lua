@@ -190,14 +190,16 @@ function Bot:UnregisterCommand(commandName)
 	self.Commands[commandName] = nil
 end
 
-function Bot:GetEmojiData(emojiIdOrName)
-	local reactionData = self.EmojiCache[reactionIdOrName]
-	if (not reactionName) then
-		local guild = client:getGuild(Config.Guild)
-		if (not guild) then
-			return reactionIdOrName
-		end
 
+function Bot:GetEmojiData(guild, emojiIdOrName)
+	local emojiCache = self.EmojiCache[guild.id]
+	if (not emojiCache) then
+		emojiCache = {}
+		self.EmojiCache[guild.id] = emojiCache
+	end
+
+	local reactionData = emojiCache[reactionIdOrName]
+	if (not reactionName) then
 		for k,emoji in pairs(guild.emojis) do
 			if (emojiIdOrName == emoji.id or emojiIdOrName == emoji.name) then
 				reactionData = {}
@@ -218,12 +220,17 @@ function Bot:GetEmojiData(emojiIdOrName)
 			reactionData.MentionString = emojiIdOrName
 		end
 
-		self.EmojiCache[reactionData.Id] = reactionData
-		self.EmojiCache[reactionData.Name] = reactionData
+		emojiCache[reactionData.Id] = reactionData
+		emojiCache[reactionData.Name] = reactionData
 	end
 
 	return reactionData
 end
+
+client:on('emojisUpdate', function (guild)
+	Bot.EmojiCache[guild.id] = nil
+end)
+
 
 Bot:RegisterCommand("exec", "Executes a file", function (message, fileName)
 	if (not message.member:hasPermission(enums.permission.administrator)) then

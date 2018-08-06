@@ -371,7 +371,7 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 	local channelStats = self:GetChannelStats(channel.id)
 	channelStats.ReactionCount = (channelStats.ReactionCount or 0) + 1
 
-	local reactionStats = self:GetReactionStats(bot:GetEmojiData(reactionIdorName).Name)
+	local reactionStats = self:GetReactionStats(bot:GetEmojiData(channel.guild, reactionIdorName).Name)
 	reactionStats.ReactionCount = (reactionStats.ReactionCount or 0) + 1
 
 	local userStats = self:GetUserStats(userId)
@@ -396,6 +396,6 @@ function Module:OnReactionRemoveUncached(channel, messageId, reactionIdorName, u
 
 	self.Stats.ReactionRemoved = (self.Stats.ReactionRemoved or 0) + 1
 
-	local reactionStats = self:GetReactionStats(bot:GetEmojiData(reactionIdorName).Name)
+	local reactionStats = self:GetReactionStats(bot:GetEmojiData(channel.guild, reactionIdorName).Name)
 	reactionStats.ReactionCount = math.max((reactionStats.ReactionCount or 0) - 1, 0)
 end

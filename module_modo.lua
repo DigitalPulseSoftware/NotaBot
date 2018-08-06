@@ -271,7 +271,7 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 		return
 	end
 
-	local emojiData = bot:GetEmojiData(reactionIdorName)
+	local emojiData = bot:GetEmojiData(channel.guild, reactionIdorName)
 	if (emojiData.Name ~= self.Config.EmojiName) then
 		return
 	end

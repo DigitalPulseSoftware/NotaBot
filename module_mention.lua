@@ -29,7 +29,7 @@ function Module:OnMessageCreate(message)
 	end
 
 	if (mention) then
-		local mentionEmoji = bot:GetEmojiData("mention")
+		local mentionEmoji = bot:GetEmojiData(message.guild, "mention")
 		if (not mentionEmoji or not mentionEmoji.Emoji) then
 			return
 		end
