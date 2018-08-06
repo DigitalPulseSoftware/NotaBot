@@ -124,7 +124,7 @@ function Bot:LoadModuleFile(fileName)
 	sandbox.Config = Config
 	sandbox.Discordia = discordia
 	sandbox.Module = {}
-	sandbox.require = require
+	sandbox.require = require -- I still don't understand why we have to do this
 
 	local func, err = loadfile(fileName, "bt", sandbox)
 	if (not func) then
@@ -172,7 +172,7 @@ function Bot:ProtectedCall(context, func, ...)
 	local success, err = pcall(func, ...)
 	if (not success) then
 		err = string.format("%s failed: %s", context, err)
-		client:warning("%s", err)
+		client:warning(err)
 		return false, err
 	end
 
@@ -278,7 +278,7 @@ Bot:RegisterCommand("exec", "Executes a file", function (message, fileName)
 	end
 end)
 
-Bot:RegisterCommand("load", "(Re)load a module", function (message, moduleFile)
+Bot:RegisterCommand("load", "(Re)loads a module", function (message, moduleFile)
 	if (not message.member:hasPermission(enums.permission.administrator)) then
 		print(tostring(message.member.name) .. " tried to use !load")
 		return
@@ -298,7 +298,7 @@ Bot:RegisterCommand("load", "(Re)load a module", function (message, moduleFile)
 			errorMessage = errorMessage .. "\n" .. code(codeErr)
 		end
 
-		message:reply(errorMessage)
+		message:reply("Failed to load module: " .. errorMessage)
 		return
 	end
 end)
@@ -310,7 +310,7 @@ Bot:RegisterCommand("unload", "Unload a module", function (message, moduleName)
 	end
 	
 	if (not moduleName) then
-		message:reply("You must enter a module filename")
+		message:reply("You must enter a module name")
 		return
 	end
 
