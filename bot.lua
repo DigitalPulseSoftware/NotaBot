@@ -190,6 +190,14 @@ function Bot:UnregisterCommand(commandName)
 	self.Commands[commandName] = nil
 end
 
+function Bot:DecodeUser(guild, message)
+	local userId = message:match("<@!?(%d+)>")
+	if (userId) then
+		return guild:getMember(userId)
+	end
+
+	return nil
+end
 
 function Bot:GetEmojiData(guild, emojiIdOrName)
 	local emojiCache = self.EmojiCache[guild.id]
