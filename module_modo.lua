@@ -67,7 +67,7 @@ function Module:OnReady()
 	print("Permissions applied (" .. (os.clock() - t2) * 1000 .. "s).")
 end
 
-function Module:OnUnloaded()
+function Module:OnUnload()
 	if (self.Clock) then
 		self.Clock:stop()
 	end
