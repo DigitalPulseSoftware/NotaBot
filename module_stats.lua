@@ -7,7 +7,9 @@ local client = Client
 local config = Config
 local discordia = Discordia
 local enums = discordia.enums
+local fs = require("coro-fs")
 local json = require("json")
+local path = require("path")
 
 Module.Name = "stats"
 
@@ -245,6 +247,13 @@ end
 
 function Module:SaveStats(filename)
 	filename = filename or "stats.json"
+
+	local dirname = path.dirname(filename)
+	if (dirname ~= "." and not fs.mkdirp(dirname)) then
+		print("Failed to create directory " .. dirname)
+		return
+	end
+
 	local outputFile = io.open(filename, "w+")
 	if (not outputFile) then
 		print("Failed to open " .. filename)
