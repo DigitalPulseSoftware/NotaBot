@@ -311,7 +311,7 @@ Bot:RegisterCommand("load", "(Re)loads a module", function (message, moduleFile)
 	end
 end)
 
-Bot:RegisterCommand("unload", "Unload a module", function (message, moduleName)
+Bot:RegisterCommand("unload", "Unloads a module", function (message, moduleName)
 	if (not message.member:hasPermission(enums.permission.administrator)) then
 		print(tostring(message.member.name) .. " tried to use !unload")
 		return
