@@ -255,6 +255,10 @@ function Module:OnChannelCreate(channel)
 end
 
 function Module:OnReactionAdd(reaction, userId)
+	if (reaction.message.channel.type ~= enums.channelType.text) then
+		return
+	end
+
 	if (reaction.emojiName ~= self.Config.EmojiName) then
 		return
 	end
@@ -263,6 +267,10 @@ function Module:OnReactionAdd(reaction, userId)
 end
 
 function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, userId)
+	if (channel.type ~= enums.channelType.text) then
+		return
+	end
+
 	local emojiData = bot:GetEmojiData(reactionIdorName)
 	if (emojiData.Name ~= self.Config.EmojiName) then
 		return
@@ -277,9 +285,17 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 end
 
 function Module:OnMessageDelete(message)
+	if (message.channel.type ~= enums.channelType.text) then
+		return
+	end
+
 	self:HandleMessageRemove(message.channel, message.id)
 end
 
 function Module:OnMessageDeleteUncached(channel, messageId)
+	if (channel.type ~= enums.channelType.text) then
+		return
+	end
+
 	self:HandleMessageRemove(channel, messageId)
 end
