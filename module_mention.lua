@@ -6,10 +6,15 @@ local client = Client
 local config = Config
 local discordia = Discordia
 local bot = Bot
+local enums = discordia.enums
 
 Module.Name = "mention"
 
 function Module:OnMessageCreate(message)
+	if (message.channel.type ~= enums.channelType.text) then
+		return
+	end
+
 	local mention = false
 
 	if (message.mentionsEveryone) then
