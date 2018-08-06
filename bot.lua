@@ -322,6 +322,10 @@ Bot:RegisterCommand("unload", "Unload a module", function (message, moduleName)
 end)
 
 client:on('messageCreate', function(message)
+	if (message.channel.type ~= enums.channelType.text) then
+		return
+	end
+
 	local prefix = '!'
 	local content = message.content
 	if (content:sub(1,1) ~= prefix) then
