@@ -172,7 +172,7 @@ function Module:PrintStats(channel, stats)
 		end
 
 		local reactionData = mostAddedReaction[i]
-		addedReactionList = addedReactionList .. string.format("%s : %s\n", bot:GetEmojiData(reactionData.name).MentionString, reactionData.count)
+		addedReactionList = addedReactionList .. string.format("%s %s\n", reactionData.count, bot:GetEmojiData(guild, reactionData.name).MentionString)
 	end
 
 	table.insert(fields, {
@@ -193,7 +193,7 @@ function Module:PrintStats(channel, stats)
 
 		local channelData = mostActiveChannels[i]
 		local channel = guild:getChannel(channelData.id)
-		activeChannelList = activeChannelList .. string.format("%s : %s\n", channel and channel.mentionString or "<deleted channel>", channelData.messageCount)
+		activeChannelList = activeChannelList .. string.format("%s messages in %s\n", channelData.messageCount, channel and channel.mentionString or "<deleted channel>")
 	end
 
 	table.insert(fields, {
