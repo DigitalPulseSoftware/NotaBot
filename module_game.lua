@@ -18,7 +18,7 @@ function Module:OnLoaded()
 			self.Counter = 0
 		end
 	end)
-	
+
 	self.Clock:start()
 	self:UpdateGame()
 	return true

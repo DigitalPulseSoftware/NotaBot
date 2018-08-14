@@ -10,8 +10,6 @@ local enums = discordia.enums
 local bit = require("bit")
 
 Module.Name = "modo"
-Module.MutedUsers = {}
-Module.ReportedMessages = {}
 
 function Module:OnLoaded()
 	self.Config = config.ModoModule
@@ -26,36 +24,48 @@ function Module:OnLoaded()
 	assert(self.Config.MuteThreshold)
 
 	self.Clock = discordia.Clock()
-	self.Clock:on("sec", function ()
+	self.Clock:on("min", function ()
 		local now = os.time()
-		for userId,endTime in pairs(self.MutedUsers) do
-			if (now >= endTime) then
-				self:Unmute(userId)
+		self:ForEachGuild(function (guildId, config, data, persistentData)
+			local guild = client:getGuild(guildId)
+			assert(guild)
+
+			for userId,endTime in pairs(persistentData.MutedUsers) do
+				if (now >= endTime) then
+					self:Unmute(guild, userId)
+				end
 			end
-		end
+		end)
 	end)
-	self.Clock:start()
 
 	return true
 end
 
 function Module:OnReady()
-	local guild = client:getGuild(config.Guild)
-	local t1 = os.clock()
+	self.Clock:start()
+end
 
-	print("Unmuting all previously muted users, if any")
+function Module:OnEnable(guild)
+	local data = self:GetPersistentData(guild)
+	data.MutedUsers = data.MutedUsers or {}
+	data.ReportedMessages = data.ReportedMessages or {}
+
 	local mutedRole = guild:getRole(self.Config.MuteRoleId)
-
-	for _,member in pairs(mutedRole.members) do
-		if (not member:removeRole(mutedRole.id)) then
-			print("Failed to unmute " .. member.fullname)
+	if (mutedRole) then
+		client:info("[%s][%s] Unmuting all previously muted users, if any.", guild.name, self.Name)
+		local t1 = os.clock()
+		
+		for _,member in pairs(mutedRole.members) do
+			if (not data.MutedUsers[member.id] and not member:removeRole(mutedRole.id)) then
+				client:warning("[%s] Failed to unmute %s", guild.name, member.fullname)
+			end
 		end
+
+		client:info("[%s][%s] Users unmuted (%ss).", guild.name, self.Name, (os.clock() - t1) * 1000)
 	end
-
 	local t2 = os.clock()
-	print("Users unmuted (" .. (t2 - t1) * 1000 .. "s).")
 
-	print("Checking mute role permission on all channels...")
+	client:info("[%s][%s] Checking mute role permission on all channels...", guild.name, self.Name)
 	for _, channel in pairs(guild.textChannels) do
 		self:CheckTextMutePermissions(channel)
 	end
@@ -64,7 +74,7 @@ function Module:OnReady()
 		self:CheckVoiceMutePermissions(channel)
 	end
 	
-	print("Permissions applied (" .. (os.clock() - t2) * 1000 .. "s).")
+	client:info("[%s][%s] Permissions applied (%ss).", guild.name, self.Name, (os.clock() - t2) * 1000)
 end
 
 function Module:OnUnload()
@@ -75,28 +85,21 @@ end
 
 local DenyPermission = function (permissionOverwrite, permission)
 	if (bit.band(permissionOverwrite.deniedPermissions, permission) ~= permission and not permissionOverwrite:denyPermissions(permission)) then
-		print("Failed to deny permissions on channel " .. permissionOverwrite.channel.name)
+		client:warning("[%s] Failed to deny permissions on channel %s", permissionOverwrite.guild.name, permissionOverwrite.channel.name)
 	end
 end
 
 function Module:CheckTextMutePermissions(channel)
-	local guild = client:getGuild(config.Guild)
-	local mutedRole = guild:getRole(self.Config.MuteRoleId)
+	local mutedRole = channel.guild:getRole(self.Config.MuteRoleId)
 	local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	DenyPermission(permissions, enums.permission.addReactions)
 	DenyPermission(permissions, enums.permission.sendMessages)
 end
 
 function Module:CheckVoiceMutePermissions(channel)
-	local guild = client:getGuild(config.Guild)
-	local mutedRole = guild:getRole(self.Config.MuteRoleId)
+	local mutedRole = channel.guild:getRole(self.Config.MuteRoleId)
 	local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	DenyPermission(permissions, enums.permission.speak)
-end
-
-function Module:GenerateMessageLink(message)
-	local guildId = message.guild and message.guild.id or "@me"
-	return string.format("https://discordapp.com/channels/%s/%s/%s", guildId, message.channel.id, message.id)
 end
 
 function Module:HandleEmojiAdd(userId, message)
@@ -120,7 +123,9 @@ function Module:HandleEmojiAdd(userId, message)
 
 	local alertChannel = client:getChannel(self.Config.AlertChannel)
 
-	local reportedMessage = self.ReportedMessages[message.id]
+	local data = self:GetPersistentData(guild)
+
+	local reportedMessage = data.ReportedMessages[message.id]
 	if (reportedMessage) then
 		-- Check if user already reported this message
 		if (table.search(reportedMessage.ReporterIds, userId)) then
@@ -148,10 +153,10 @@ function Module:HandleEmojiAdd(userId, message)
 			reportedMessage.MuteApplied = true
 
 			-- Auto-mute
-			if (self:Mute(reportedMessage.ReportedUserId)) then
+			if (self:Mute(guild, reportedMessage.ReportedUserId)) then
 				local reportedUser = client:getUser(reportedMessage.ReportedUserId)
-				alertChannel:send(string.format("%s has been auto-muted for %d seconds\n<%s>", reportedUser.mentionString, self.Config.MuteDuration, self:GenerateMessageLink(alertMessage)))
-				message.channel:send(string.format("%s has been auto-muted for %d seconds due to reporting", reportedUser.mentionString, self.Config.MuteDuration, self:GenerateMessageLink(alertMessage)))
+				alertChannel:send(string.format("%s has been auto-muted for %d seconds\n<%s>", reportedUser.mentionString, self.Config.MuteDuration, bot:GenerateMessageLink(alertMessage)))
+				message.channel:send(string.format("%s has been auto-muted for %d seconds due to reporting", reportedUser.mentionString, self.Config.MuteDuration, bot:GenerateMessageLink(alertMessage)))
 			else
 				alertChannel:send(string.format("Failed to mute %s", member.user.fullname))
 			end
@@ -164,7 +169,7 @@ function Module:HandleEmojiAdd(userId, message)
 			local guild = client:getGuild(config.Guild)
 			local moderatorRole = guild:getRole(self.Config.ModeratorRoleId)
 			if (moderatorRole) then
-				alertChannel:send(string.format("A message has been reported %d times %s\n<%s>", reporterCount, moderatorRole.mentionString, self:GenerateMessageLink(alertMessage)))
+				alertChannel:send(string.format("A message has been reported %d times %s\n<%s>", reporterCount, moderatorRole.mentionString, bot:GenerateMessageLink(alertMessage)))
 			end
 		end
 	else
@@ -188,7 +193,7 @@ function Module:HandleEmojiAdd(userId, message)
 				},
 				{
 					name = "Message Link",
-					value = self:GenerateMessageLink(message)
+					value = bot:GenerateMessageLink(message)
 				}
 			},
 			timestamp = discordia.Date():toISO('T', 'Z')
@@ -198,7 +203,7 @@ function Module:HandleEmojiAdd(userId, message)
 			embed = embedContent
 		})
 
-		self.ReportedMessages[message.id] = {
+		data.ReportedMessages[message.id] = {
 			AlertMessageId = alertMessage.id,
 			Embed = embedContent,
 			ReportedUserId = message.author.id,
@@ -208,7 +213,9 @@ function Module:HandleEmojiAdd(userId, message)
 end
 
 function Module:HandleMessageRemove(channel, messageId)
-	local reportedMessage = self.ReportedMessages[messageId]
+	local data = self:GetPersistentData(channel.guild)
+
+	local reportedMessage = data.ReportedMessages[messageId]
 	if (not reportedMessage) then
 		return
 	end
@@ -220,22 +227,24 @@ function Module:HandleMessageRemove(channel, messageId)
 	alertMessage:setEmbed(reportedMessage.Embed)
 end
 
-function Module:Mute(userId)
-	local guild = client:getGuild(config.Guild)
+function Module:Mute(guild, userId)
 	local member = guild:getMember(userId)
 	if (member and member:addRole(self.Config.MuteRoleId)) then
-		self.MutedUsers[userId] = os.time() + self.Config.MuteDuration
+		local data = self:GetPersistentData(guild)
+
+		data.MutedUsers[userId] = os.time() + self.Config.MuteDuration
 		return true
 	end
 
 	return false
 end
 
-function Module:Unmute(userId)
-	local guild = client:getGuild(config.Guild)
+function Module:Unmute(guild, userId)
 	local member = guild:getMember(userId)
 	if (member) then
-		Module.MutedUsers[userId] = nil
+		local data = self:GetPersistentData(guild)
+
+		data.MutedUsers[userId] = nil
 		if (member:removeRole(self.Config.MuteRoleId)) then
 			return true
 		else

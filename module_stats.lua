@@ -16,37 +16,22 @@ Module.Name = "stats"
 function Module:OnLoaded()
 	self.Clock = discordia.Clock()
 	self.Clock:on("day", function ()
-		local stats = self.Stats
-		self:SaveStats(os.date("stats/stats_%Y-%m-%d.json", stats.Date or os.time()))
-		self.Stats = self:ResetStats()
+		self:ForEachGuild(function (guildId, notConfig, data, persistentData)
+			local guild = client:getGuild(guildId)
+			assert(guild)
 
-		if (config.StatsModuleLogChannel) then
-			local guild = client:getGuild(config.Guild)
-			local channel = guild:getChannel(config.StatsModuleLogChannel)
-			if (channel) then
-				self:PrintStats(channel, stats)
+			local stats = persistentData.Stats
+			self:SaveStats(self:GetStatsFilename(guild, stats.Date), stats)
+			persistentData.Stats = self:ResetStats(guild)
+
+			if (config.StatsModuleLogChannel) then
+				local channel = guild:getChannel(config.StatsModuleLogChannel)
+				if (channel) then
+					self:PrintStats(channel, stats)
+				end
 			end
-		end
+		end)
 	end)
-
-	self.SaveCounter = 0
-	self.Clock:on("min", function ()
-		self.SaveCounter = self.SaveCounter + 1
-		if (self.SaveCounter >= 5) then
-			self:SaveStats()
-			self.SaveCounter = 0
-		end
-	end)
-
-	self.Clock:start()
-
-	self.Stats = self:LoadStats()
-	if (self.Stats) then
-		print("Successfully reloaded stats from file")
-	else
-		print("Failed to load stats, resetting...")
-		self.Stats = self:ResetStats()
-	end
 
 	bot:RegisterCommand("resetstats", "Reset stats", function (commandMessage)
 		if (not commandMessage.member:hasPermission(enums.permission.administrator)) then
@@ -54,7 +39,8 @@ function Module:OnLoaded()
 			return
 		end
 
-		self.Stats = self:ResetStats()
+		local data = self:GetPersistentData(commandMessage.guild)
+		data.Stats = self:ResetStats()
 		commandMessage:reply("Stats reset successfully")
 	end)
 
@@ -66,41 +52,50 @@ function Module:OnLoaded()
 				return
 			end
 
-			stats = self:LoadStats(string.format("stats/stats_%s.json", date))
+			stats = self:LoadStats(self:GetStatsFilename(commandMessage.guild, date))
 			if (not stats) then
 				commandMessage:reply("We have no stats for that date")
 				return
 			end
 		else
-			stats = self.Stats
+			local data = self:GetPersistentData(commandMessage.guild)
+			stats = data.Stats
 		end
 
 		self:PrintStats(commandMessage.channel, stats)
 	end)
 
-	bot:RegisterCommand("savestats", "Saves message stats to the disk", function (commandMessage)
-		if (not commandMessage.member:hasPermission(enums.permission.administrator)) then
-			print(tostring(message.member.name) .. " tried to use !savestats")
-			return
-		end
-
-		self:SaveStats()
-		self.SaveCounter = 0
-		commandMessage:reply("Stats saved successfully")
-	end)
-
 	return true
 end
 
-function Module:OnUnload()
-	self:SaveStats()
+function Module:OnEnable(guild)
+	local data = self:GetPersistentData(guild)
+	if (not data.Stats) then
+		client:info("[%s][%s] No previous stats found, resetting...", guild.name, self.Name)
+		data.Stats = self:ResetStats(guild)
+	else
+		local currentDate = os.date("%Y-%m-%d")
+		local statsDate = os.date("%Y-%m-%d", data.Stats.Date)
+		if (currentDate ~= statsDate) then
+			client:info("[%s][%s] Previous stats data has been found but date does not match (%s), saving and resetting", guild.name, self.Name, statsDate)
+			self:SaveStats(self:GetStatsFilename(guild, data.Stats.Date), data.Stats)
+			data.Stats = self:ResetStats(guild)
+		else
+			client:info("[%s][%s] Previous stats data has been found and date does match, continuing...", guild.name, self.Name)
+		end
+	end
+end
 
+function Module:OnReady()
+	self.Clock:start()
+end
+
+function Module:OnUnload()
 	if (self.Clock) then
 		self.Clock:stop()
 	end
 
 	bot:UnregisterCommand("resetstats")
-	bot:UnregisterCommand("savestats")
 	bot:UnregisterCommand("serverstats")
 end
 
@@ -129,40 +124,15 @@ function Module:LoadStats(filename)
 	return contentOrErr
 end
 
+function Module:GetStatsFilename(guild, time)
+	return string.format("stats/guild_%s/stats_%s.json", guild.id, (type(time) == "number") and os.date("%Y-%m-%d", time) or time)
+end
+
 function Module:PrintStats(channel, stats)	
 	local guild = channel.guild
 	
-	local fields = {}
-	table.insert(fields, {
-		name = "Member count", value = stats.MemberCount or "<Not logged>", inline = true
-	})
-
-	table.insert(fields, {
-		name = "New members", value = stats.MemberJoined, inline = true
-	})
-
-	table.insert(fields, {
-		name = "Lost members", value = stats.MemberLeft, inline = true
-	})
-
-	table.insert(fields, {
-		name = "Messages posted", value = stats.MessageCount, inline = true
-	})
-
-	table.insert(fields, {
-		name = "Active members", value = table.count(stats.Users), inline = true
-	})
-
-	table.insert(fields, {
-		name = "Active channels", value = table.count(stats.Channels), inline = true
-	})
-
-	table.insert(fields, {
-		name = "Total reactions added", value = stats.ReactionAdded or 0, inline = true
-	})
-
 	local mostAddedReaction = {}
-	for reactionName, reactionStats in pairs(stats.Reactions or {}) do
+	for reactionName, reactionStats in pairs(stats.Reactions) do
 		table.insert(mostAddedReaction, { name = reactionName, count = reactionStats.ReactionCount })
 	end
 	table.sort(mostAddedReaction, function (a, b) return a.count > b.count end)
@@ -176,10 +146,6 @@ function Module:PrintStats(channel, stats)
 		local reactionData = mostAddedReaction[i]
 		addedReactionList = addedReactionList .. string.format("%s %s\n", reactionData.count, bot:GetEmojiData(guild, reactionData.name).MentionString)
 	end
-
-	table.insert(fields, {
-		name = "Most added reactions", value = #addedReactionList > 0 and addedReactionList or "<None>", inline = true
-	})
 
 	local mostActiveChannels = {}
 	for channelId, channelStats in pairs(stats.Channels) do
@@ -195,41 +161,52 @@ function Module:PrintStats(channel, stats)
 
 		local channelData = mostActiveChannels[i]
 		local channel = guild:getChannel(channelData.id)
-		activeChannelList = activeChannelList .. string.format("%s messages in %s\n", channelData.messageCount, channel and channel.mentionString or "<deleted channel>")
+		activeChannelList = activeChannelList .. string.format("%d m. in %s\n", channelData.messageCount, channel and channel.mentionString or "<deleted channel>")
 	end
 
-	table.insert(fields, {
-		name = "Most active channels", value = #activeChannelList > 0 and activeChannelList or "<None>", inline = true
-	})
+	local fields = {
+		{
+			name = "Member count", value = stats.MemberCount or "<Not logged>", inline = true
+		},
+		{
+			name = "New members", value = stats.MemberJoined, inline = true
+		},
+		{
+			name = "Lost members", value = stats.MemberLeft, inline = true
+		},
+		{
+			name = "Messages posted", value = stats.MessageCount, inline = true
+		},
+		{
+			name = "Active members", value = table.count(stats.Users), inline = true
+		},
+		{
+			name = "Active channels", value = table.count(stats.Channels), inline = true
+		},
+		{
+			name = "Total reactions added", value = stats.ReactionAdded, inline = true
+		},
+		{
+			name = "Most added reactions", value = #addedReactionList > 0 and addedReactionList or "<None>", inline = true
+		},
+		{
+			name = "Most active channels", value = #activeChannelList > 0 and activeChannelList or "<None>", inline = true
+		}
+	}
 
-
-	local resetTime = os.difftime(os.time(), stats.Date or os.time())
-	local resetStr
-	if (resetTime > 3600) then
-		local hourCount = math.floor(resetTime / 3600)
-		resetStr = string.format("%s hour%s", hourCount, hourCount > 1 and "s" or "")
-	elseif (resetTime > 60) then
-		local minuteCount = math.floor(resetTime / 60)
-		resetStr = string.format("%s minute%s", minuteCount, minuteCount > 1 and "s" or "")
-	else
-		local secondCount = math.floor(resetTime)
-		resetStr = string.format("%s second%s", secondCount, secondCount > 1 and "s" or "")
-	end
-
-	local title = string.format("Server stats - %s, started %s ago", os.date("%d-%m-%Y", stats.Date), resetStr)
+	local resetTime = os.difftime(os.time(), stats.Date)
+	local title = string.format("Server stats - %s, started %s ago", os.date("%d-%m-%Y", stats.Date), util.FormatTime(resetTime, 2))
 	
 	channel:send({
 		embed = {
 			title = title,
 			fields = fields,
-			timestamp = discordia.Date():toISO('T', 'Z')
+			timestamp = discordia.Date(stats.Date):toISO('T', 'Z')
 		}
 	})
 end
 
-function Module:ResetStats()
-	local guild = client:getGuild(config.Guild)
-
+function Module:ResetStats(guild)
 	local stats = {}
 	stats.Date = os.time()
 	stats.Channels = {}
@@ -245,84 +222,95 @@ function Module:ResetStats()
 	return stats
 end
 
-function Module:SaveStats(filename)
-	filename = filename or "stats.json"
+function Module:SaveStats(filename, stats)
+	filename = filename
 
 	local dirname = path.dirname(filename)
 	if (dirname ~= "." and not fs.mkdirp(dirname)) then
-		print("Failed to create directory " .. dirname)
+		client:error("[%s] Failed to create directory %s", self.Name, dirname)
 		return
 	end
 
 	local outputFile = io.open(filename, "w+")
 	if (not outputFile) then
-		print("Failed to open " .. filename)
+		client:error("[%s] Failed to open %s", self.Name, filename)
 		return
 	end
 
-	local success, err = outputFile:write(json.encode(self.Stats))
+	local success, err = outputFile:write(json.encode(stats))
 	if (not success) then
-		print("Failed to write stats to file: " .. tostring(err))
+		client:error("[%s] Failed to open %s", self.Name, err)
 		return
 	end
 
 	outputFile:close()
 end
 
-function Module:GetChannelStats(channelId)
-	local channelStats = self.Stats.Channels[channelId]
+function Module:GetChannelStats(guild, channelId)
+	local data = self:GetPersistentData(guild)
+
+	local channels = data.Stats.Channels
+	local channelStats = channels[channelId]
 	if (not channelStats) then
 		channelStats = {}
 		channelStats.MessageCount = 0
 		channelStats.ReactionCount = 0
-		self.Stats.Channels[channelId] = channelStats
+
+		channels[channelId] = channelStats
 	end
 
 	return channelStats
 end
 
-function Module:GetReactionStats(reactionName)
-	local reactions = self.Stats.Reactions
-	if (not reactions) then
-		reactions = {}
-		self.Stats.Reactions = reactions
-	end
+function Module:GetReactionStats(guild, reactionName)
+	local data = self:GetPersistentData(guild)
 
+	local reactions = data.Stats.Reactions
 	local reactionStats = reactions[reactionName]
 	if (not reactionStats) then
 		reactionStats = {}
 		reactionStats.ReactionCount = 0
-		self.Stats.Reactions[reactionName] = reactionStats
+
+		reactions[reactionName] = reactionStats
 	end
 
 	return reactionStats
 end
 
-function Module:GetUserStats(userId)
-	local userStats = self.Stats.Users[userId]
+function Module:GetUserStats(guild, userId)
+	local data = self:GetPersistentData(guild)
+
+	local users = data.Stats.Users
+	local userStats = users[userId]
 	if (not userStats) then
 		userStats = {}
 		userStats.MessageCount = 0
 		userStats.ReactionCount = 0
-		self.Stats.Users[userId] = userStats
+
+		users[userId] = userStats
 	end
 
 	return userStats
 end
 
 function Module:OnMessageCreate(message)
+	if (message.channel.type ~= enums.channelType.text) then
+		return
+	end
+
 	if (message.author.bot) then
 		return
 	end
 
-	self.Stats.MessageCount = self.Stats.MessageCount + 1
+	local data = self:GetPersistentData(message.guild)
+	data.Stats.MessageCount = data.Stats.MessageCount + 1
 	
 	-- Channels
-	local channelStats = self:GetChannelStats(message.channel.id)
+	local channelStats = self:GetChannelStats(message.guild, message.channel.id)
 	channelStats.MessageCount = channelStats.MessageCount + 1
 	
 	-- Members
-	local userStats = self:GetUserStats(message.author.id)
+	local userStats = self:GetUserStats(message.guild, message.author.id)
 	userStats.MessageCount = userStats.MessageCount + 1
 end
 
@@ -331,8 +319,9 @@ function Module:OnMemberJoin(member)
 		return
 	end
 
-	self.Stats.MemberJoined = self.Stats.MemberJoined + 1
-	self.Stats.MemberCount = self.Stats.MemberCount + 1
+	local data = self:GetPersistentData(member.guild)
+	data.Stats.MemberJoined = data.Stats.MemberJoined + 1
+	data.Stats.MemberCount = data.Stats.MemberCount + 1
 end
 
 function Module:OnMemberLeave(member)
@@ -340,8 +329,9 @@ function Module:OnMemberLeave(member)
 		return
 	end
 
-	self.Stats.MemberLeft = self.Stats.MemberLeft + 1
-	self.Stats.MemberCount = self.Stats.MemberCount - 1
+	local data = self:GetPersistentData(member.guild)
+	data.Stats.MemberLeft = data.Stats.MemberLeft + 1
+	data.Stats.MemberCount = data.Stats.MemberCount - 1
 end
 
 function Module:OnReactionAdd(reaction, userId)
@@ -349,16 +339,17 @@ function Module:OnReactionAdd(reaction, userId)
 		return
 	end
 
-	self.Stats.ReactionAdded = (self.Stats.ReactionAdded or 0) + 1
+	local data = self:GetPersistentData(reaction.message.guild)
+	data.Stats.ReactionAdded = data.Stats.ReactionAdded + 1
 
-	local channelStats = self:GetChannelStats(reaction.message.channel.id)
-	channelStats.ReactionCount = (channelStats.ReactionCount or 0) + 1
+	local channelStats = self:GetChannelStats(reaction.message.guild, reaction.message.channel.id)
+	channelStats.ReactionCount = channelStats.ReactionCount + 1
 
-	local reactionStats = self:GetReactionStats(reaction.emojiName)
-	reactionStats.ReactionCount = (reactionStats.ReactionCount or 0) + 1
+	local reactionStats = self:GetReactionStats(reaction.message.guild, reaction.emojiName)
+	reactionStats.ReactionCount = reactionStats.ReactionCount + 1
 
-	local userStats = self:GetUserStats(userId)
-	userStats.ReactionCount = (userStats.ReactionCount or 0) + 1
+	local userStats = self:GetUserStats(reaction.message.guild, userId)
+	userStats.ReactionCount = userStats.ReactionCount + 1
 end
 
 function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, userId)
@@ -366,16 +357,17 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 		return
 	end
 
-	self.Stats.ReactionAdded = (self.Stats.ReactionAdded or 0) + 1
+	local data = self:GetPersistentData(channel.guild)
+	data.Stats.ReactionAdded = data.Stats.ReactionAdded + 1
 
-	local channelStats = self:GetChannelStats(channel.id)
-	channelStats.ReactionCount = (channelStats.ReactionCount or 0) + 1
+	local channelStats = self:GetChannelStats(channel.guild, channel.id)
+	channelStats.ReactionCount = channelStats.ReactionCount + 1
 
-	local reactionStats = self:GetReactionStats(bot:GetEmojiData(channel.guild, reactionIdorName).Name)
-	reactionStats.ReactionCount = (reactionStats.ReactionCount or 0) + 1
+	local reactionStats = self:GetReactionStats(channel.guild, bot:GetEmojiData(channel.guild, reactionIdorName).Name)
+	reactionStats.ReactionCount = reactionStats.ReactionCount + 1
 
-	local userStats = self:GetUserStats(userId)
-	userStats.ReactionCount = (userStats.ReactionCount or 0) + 1
+	local userStats = self:GetUserStats(channel.guild, userId)
+	userStats.ReactionCount = userStats.ReactionCount + 1
 end
 
 function Module:OnReactionRemove(reaction, userId)
@@ -383,10 +375,11 @@ function Module:OnReactionRemove(reaction, userId)
 		return
 	end
 
-	self.Stats.ReactionRemoved = (self.Stats.ReactionRemoved or 0) + 1
+	local data = self:GetPersistentData(reaction.message.guild)
+	data.Stats.ReactionRemoved = data.Stats.ReactionRemoved + 1
 
-	local reactionStats = self:GetReactionStats(reaction.emojiName)
-	reactionStats.ReactionCount = math.max((reactionStats.ReactionCount or 0) - 1, 0)
+	local reactionStats = self:GetReactionStats(reaction.message.guild, reaction.emojiName)
+	reactionStats.ReactionCount = math.max(reactionStats.ReactionCount - 1, 0)
 end
 
 function Module:OnReactionRemoveUncached(channel, messageId, reactionIdorName, userId)
@@ -394,8 +387,9 @@ function Module:OnReactionRemoveUncached(channel, messageId, reactionIdorName, u
 		return
 	end
 
-	self.Stats.ReactionRemoved = (self.Stats.ReactionRemoved or 0) + 1
+	local data = self:GetPersistentData(channel.guild)
+	data.Stats.ReactionRemoved = data.Stats.ReactionRemoved + 1
 
-	local reactionStats = self:GetReactionStats(bot:GetEmojiData(channel.guild, reactionIdorName).Name)
-	reactionStats.ReactionCount = math.max((reactionStats.ReactionCount or 0) - 1, 0)
+	local reactionStats = self:GetReactionStats(channel.guild, bot:GetEmojiData(channel.guild, reactionIdorName).Name)
+	reactionStats.ReactionCount = math.max(reactionStats.ReactionCount - 1, 0)
 end
