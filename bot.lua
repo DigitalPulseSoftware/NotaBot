@@ -299,6 +299,7 @@ function Bot:LoadModule(moduleTable)
 	print("Loaded module " .. moduleTable.Name)
 
 	if (isReady) then
+		self:CallOnReady(moduleTable)
 		self:MakeModuleReady(moduleTable)
 	end
 
