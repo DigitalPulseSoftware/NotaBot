@@ -1,3 +1,7 @@
+-- Copyright (C) 2018 Jérôme Leclercq
+-- This file is part of the "Not a Bot" application
+-- For conditions of distribution and use, see copyright notice in LICENSE
+
 local emojiNameToCode = {
 	grinning = "\xF0\x9F\x98\x80",
 	grimacing = "\xF0\x9F\x98\xAC",
