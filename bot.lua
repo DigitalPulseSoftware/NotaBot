@@ -45,6 +45,7 @@ end
 -- Bot code
 
 Bot = {}
+Bot.Client = client
 Bot.Clock = discordia.Clock()
 Bot.Commands = {}
 Bot.Events = {}
