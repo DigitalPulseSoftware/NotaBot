@@ -274,6 +274,7 @@ local emojiNameToCode = {
 	dolphin = "\xF0\x9F\x90\xAC",
 	whale = "\xF0\x9F\x90\xB3",
 	whale2 = "\xF0\x9F\x90\x8B",
+	not_a_bot = "\xF0\x9F\xA4\x96",
 	crocodile = "\xF0\x9F\x90\x8A",
 	leopard = "\xF0\x9F\x90\x86",
 	tiger2 = "\xF0\x9F\x90\x85",
@@ -1510,7 +1511,7 @@ local emojiNameToCode = {
 Bot.EmojiNameToCode = emojiNameToCode
 
 local emojiCodeToName = {}
-for name, code in pairs(Bot.EmojiNameToCode) do
+for name, code in pairs(emojiNameToCode) do
 	emojiCodeToName[code] = name
 end
 Bot.EmojiCodeToName = emojiCodeToName
