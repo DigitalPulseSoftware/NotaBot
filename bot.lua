@@ -116,11 +116,19 @@ local discordiaEvents = {
 
 client:onSync("ready", function ()
 	print('Logged in as '.. client.user.username)
-	isReady = true
 
-	for moduleName,moduleTable in pairs(Bot.Modules) do
-		Bot:MakeModuleReady(moduleTable)
+	if (isReady) then
+		for moduleName,moduleTable in pairs(Bot.Modules) do
+			Bot:CallOnReady(moduleTable)
+		end
+	else
+		for moduleName,moduleTable in pairs(Bot.Modules) do
+			Bot:CallOnReady(moduleTable)
+			Bot:MakeModuleReady(moduleTable)
+		end
 	end
+
+	isReady = true
 end)
 
 function Bot:LoadModule(moduleTable)
@@ -131,7 +139,7 @@ function Bot:LoadModule(moduleTable)
 	for key,func in pairs(moduleTable) do
 		if (key:startswith("On") and type(func) == "function") then
 			local eventName = key:sub(3, 3):lower() .. key:sub(4)
-			if (eventName ~= "loaded" and eventName ~= "unload" and eventName ~= "enable" and eventName ~= "disable") then
+			if (eventName ~= "loaded" and eventName ~= "unload" and eventName ~= "enable" and eventName ~= "disable" and eventName ~= "ready") then
 				if (not discordiaEvents[eventName]) then
 					return false, "Module tried to bind hook \"" .. eventName .. "\" which doesn't exist"
 				end
@@ -297,13 +305,15 @@ function Bot:LoadModule(moduleTable)
 	return moduleTable
 end
 
-function Bot:MakeModuleReady(moduleTable)
+function Bot:CallOnReady(moduleTable)
 	if (moduleTable.OnReady) then
 		wrap(function () self:CallModuleFunction(moduleTable, "OnReady") end)()
 	end
+end
 
+function Bot:MakeModuleReady(moduleTable)
 	moduleTable:ForEachGuild(function (guildId, config, data, persistentData)
-		moduleTable:EnableForGuild(client:getGuild(guildId), true)
+		moduleTable:EnableForGuild(client:getGuild(guildId), true, true)
 	end)
 
 	for eventName,eventData in pairs(moduleTable._Events) do
