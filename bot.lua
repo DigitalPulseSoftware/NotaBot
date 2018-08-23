@@ -47,7 +47,6 @@ end
 Bot = {}
 Bot.Clock = discordia.Clock()
 Bot.Commands = {}
-Bot.EmojiCache = {}
 Bot.Events = {}
 Bot.Modules = {}
 
@@ -501,46 +500,15 @@ function Bot:GenerateMessageLink(message)
 	return string.format("https://discordapp.com/channels/%s/%s/%s", guildId, message.channel.id, message.id)
 end
 
-function Bot:GetEmojiData(guild, emojiIdOrName)
-	local emojiCache = self.EmojiCache[guild.id]
-	if (not emojiCache) then
-		emojiCache = {}
-		self.EmojiCache[guild.id] = emojiCache
-	end
+-- Why is this required Oo
+local env = setmetatable({ }, { __index = _G })
+env.Bot = Bot
+env.Client = client
+env.Config = Config
+env.discordia = discordia
+env.require = require
 
-	local reactionData = emojiCache[reactionIdOrName]
-	if (not reactionName) then
-		for k,emoji in pairs(guild.emojis) do
-			if (emojiIdOrName == emoji.id or emojiIdOrName == emoji.name) then
-				reactionData = {}
-				reactionData.Custom = true
-				reactionData.Emoji = emoji
-				reactionData.Id = emoji.id
-				reactionData.Name = emoji.name
-				reactionData.MentionString = emoji.mentionString
-				break
-			end
-		end
-
-		if (not reactionData) then
-			reactionData = {}
-			reactionData.Custom = false
-			reactionData.Id = emojiIdOrName
-			reactionData.Name = emojiIdOrName
-			reactionData.MentionString = emojiIdOrName
-		end
-
-		emojiCache[reactionData.Id] = reactionData
-		emojiCache[reactionData.Name] = reactionData
-	end
-
-	return reactionData
-end
-
-client:on('emojisUpdate', function (guild)
-	Bot.EmojiCache[guild.id] = nil
-end)
-
+loadfile("bot_emoji.lua", "t", env)()
 
 Bot:RegisterCommand("exec", "Executes a file", function (message, fileName)
 	if (not message.member:hasPermission(enums.permission.administrator)) then
