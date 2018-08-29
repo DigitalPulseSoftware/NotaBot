@@ -3,12 +3,32 @@
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
 local client = Client
-local config = Config
 local discordia = Discordia
 local bot = Bot
 local enums = discordia.enums
 
 Module.Name = "mention"
+
+function Module:GetConfigTable()
+	return {
+		{
+			Name = "Emoji",
+			Description = "Emoji to add as a reaction",
+			Type = bot.ConfigType.Emoji,
+			Default = "mention"
+		}
+	}
+end
+
+function Module:OnEnable(guild)
+	local config = self:GetConfig(guild)
+	local mentionEmoji = bot:GetEmojiData(guild, config.Emoji)
+	if (not mentionEmoji) then
+		return false, "Emoji \"" .. config.Emoji .. "\" not found"
+	end
+
+	return true
+end
 
 function Module:OnMessageCreate(message)
 	if (message.channel.type ~= enums.channelType.text) then
@@ -29,11 +49,12 @@ function Module:OnMessageCreate(message)
 	end
 
 	if (mention) then
-		local mentionEmoji = bot:GetEmojiData(message.guild, "mention")
-		if (not mentionEmoji or not mentionEmoji.Emoji) then
+		local config = self:GetConfig(message.guild)
+		local mentionEmoji = bot:GetEmojiData(message.guild, config.Emoji)
+		if (not mentionEmoji) then
 			return
 		end
 
-		message:addReaction(mentionEmoji.Emoji)
+		message:addReaction(mentionEmoji.Emoji or mentionEmoji.Id)
 	end
 end

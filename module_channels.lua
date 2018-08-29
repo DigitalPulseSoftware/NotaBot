@@ -2,229 +2,288 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
+local bot = Bot
 local client = Client
-local config = Config
 local discordia = Discordia
 local enums = discordia.enums
 
--- Discord base emoji codes, from https://apps.timwhitlock.info/emoji/tables/unicode
-local baseEmojis = {
-	one                  = "\x31\xE2\x83\xA3",
-	two                  = "\x32\xE2\x83\xA3",
-	three                = "\x33\xE2\x83\xA3",
-	four                 = "\x34\xE2\x83\xA3",
-	five                 = "\x35\xE2\x83\xA3",
-	six                  = "\x36\xE2\x83\xA3",
-	seven                = "\x37\xE2\x83\xA3",
-	eight                = "\x38\xE2\x83\xA3",
-	nine                 = "\x39\xE2\x83\xA3",
-	tv                   = "\xF0\x9F\x93\xBA",
-	globe_with_meridians = "\xF0\x9F\x8C\x90",
-	gear                 = "\xE2\x9A\x99",
-	file_cabinet         = "\xF0\x9F\x97\x84",
-	no_bell              = "\xF0\x9F\x94\x95"
-}
-
-local codeToEmojis = {}
-for k,v in pairs(baseEmojis) do
-	codeToEmojis[v] = k
-end
-
 Module.Name = "channels"
 
-function Module:OnEnable(guild)
-	local data = self:GetData(guild)
-	data.ColoredRankCache = {}
-	data.ReactionsToRole = {}
-	data.ReactionIdToName = {}
-	data.WhiteRankCache = {}
+function Module:GetConfigTable()
+	return {
+		{
+			Name = "ChannelConfig",
+			Description = "Map explaining which role to add/remove from which reaction on which message, use the !channelconfig command to setup this",
+			Type = bot.ConfigType.Custom,
+			Default = {}
+		}
+	}
+end
 
-	local t1 = os.clock()
+function Module:OnLoaded()
+	bot:RegisterCommand("channelconfig", "Configures the channel module messages and reactions", function (commandMessage)
+		--[[if (not commandMessage.member:hasPermission(enums.permission.administrator)) then
+			print(tostring(commandMessage.member.name) .. " tried to use !channelconfig")
+			return
+		end]]
 
-	local emojiCache = {}
+		local guild = commandMessage.guild
+		local config = self:GetConfig(guild)
+		local data = self:GetData(guild)
+		local channelConfig = config.ChannelConfig
 
-	local ProcessRole = function (channelId, messageId, reaction, roleData)
-		local remove = false
-		if (roleData.name:sub(1,1) == "~") then
-			roleData.name = roleData.name:sub(2)
-			remove = true
-		end
+		for channelId,messageTable in pairs(channelConfig) do
+			local channel = guild:getChannel(channelId)
+			if (channel) then
+				for messageId,reactionTable in pairs(messageTable) do
+					local message = channel:getMessage(messageId)
+					if (message) then
+						local fields = {}
+						for k,reactionInfo in pairs(reactionTable) do
+							local roleActions = self:GetReactionActions(guild, channelId, messageId, reactionInfo.reaction, true)
+							assert(roleActions)
 
-		if (roleData.colored) then
-			data.ColoredRankCache[roleData.name] = true
-		else
-			data.WhiteRankCache[roleData.name] = true
-		end
+							local addedRoles = {}
+							for _, roleId in pairs(roleActions.Add) do
+								local role = guild:getRole(roleId)
+								if (role) then
+									table.insert(addedRoles, role.mentionString)
+								else
+									table.insert(addedRoles, "<invalid role " .. roleId .. ">") 
+								end
+							end
 
-		local reactionKey = string.format("%s_%s_%s", channelId, messageId, reaction)
+							local removedRoles = {}
+							for _, roleId in pairs(roleActions.Remove) do
+								local role = guild:getRole(roleId)
+								if (role) then
+									table.insert(removedRoles, role.mentionString)
+								else
+									table.insert(removedRoles, "<invalid role " .. roleId .. ">") 
+								end
+							end
 
-		local roleActions = data.ReactionsToRole[reactionKey]
-		if (not roleActions) then
-			roleActions = {}
-			roleActions.Add = {}
-			roleActions.Remove = {}
+							local actions = ""
 
-			data.ReactionsToRole[reactionKey] = roleActions
-		end
+							if (#addedRoles > 0) then
+								actions = string.format("%s**Adds role%s**\n-  %s\n", actions, #addedRoles > 1 and "s" or "", table.concat(addedRoles, "\n-  "))
+							end
 
-		if (not remove) then
-			table.insert(roleActions.Add, roleData)
-		else
-			table.insert(roleActions.Remove, roleData)
-		end
-	end
+							if (#removedRoles > 0) then
+								actions = string.format("%s**Removes role%s:**\n-  %s\n", actions, #removedRoles > 1 and "s" or "", table.concat(removedRoles, "\n-  "))
+							end
 
-	client:info("[%s][%s] Processing roles...", guild.name, self.Name)
+							if (roleActions.Message) then
+								actions = string.format("%s**Sends private message:**\n\"%s\"\n", actions, roleActions.Message)
+							end
 
-	for channelId,messagetable in pairs(config.ChannelModuleConfig) do
-		for messageId,reactionTable in pairs(messagetable) do
-			for k,reactionInfo in pairs(reactionTable) do
-				emojiCache[reactionInfo.reaction] = baseEmojis[reactionInfo.reaction] or "custom"
+							local emoji = bot:GetEmojiData(guild, reactionInfo.reaction)
 
-				if (reactionInfo.role) then
-					ProcessRole(channelId, messageId, reactionInfo.reaction, reactionInfo.role)
-				elseif (reactionInfo.roles) then
-					for k,roleData in pairs(reactionInfo.roles) do
-						ProcessRole(channelId, messageId, reactionInfo.reaction, roleData)
+							table.insert(fields, {
+								name = emoji and emoji.MentionString or "<invalid emoji>",
+								value = actions
+							})
+						end
+
+						commandMessage:reply({
+							embed = { 
+								description = string.format("Message in %s:\n%s", channel.mentionString, bot:GenerateMessageLink(message)),
+								fields = fields
+							}
+						})
 					end
 				end
 			end
 		end
+	end)
+
+	return true
+end
+
+function Module:OnUnload()
+	bot:UnregisterCommand("channelconfig")
+end
+
+function Module:GetReactionActions(guild, channelId, messageId, reaction, noCreate)
+	local reactionKey = string.format("%s_%s_%s", channelId, messageId, reaction)
+
+	local data = self:GetData(guild)
+	local roleActions = data.ReactionActions[reactionKey]
+	if (not roleActions and not noCreate) then
+		roleActions = {}
+		roleActions.Add = {}
+		roleActions.Remove = {}
+
+		data.ReactionActions[reactionKey] = roleActions
 	end
 
-	for k,emoji in pairs(guild.emojis) do
-		if (emojiCache[emoji.name]) then
-			emojiCache[emoji.name] = emoji.id
+	return roleActions
+end
+
+function Module:OnEnable(guild)
+	local config = self:GetConfig(guild)
+
+	local data = self:GetData(guild)
+	data.ReactionActions = {}
+
+	local t1 = os.clock()
+
+	local ProcessRole = function (channelId, messageId, reaction, roleId)
+		local remove = false
+		if (roleId:sub(1,1) == "-") then
+			roleId = roleId:sub(2)
+			remove = true
+		end
+
+		if (guild:getRole(roleId)) then
+			local roleActions = self:GetReactionActions(guild, channelId, messageId, reaction)
+			if (not remove) then
+				table.insert(roleActions.Add, roleId)
+			else
+				table.insert(roleActions.Remove, roleId)
+			end
+		else
+			self:LogWarning(guild, "Role %s not found", roleId)
 		end
 	end
 
-	for k,role in pairs(guild.roles) do
-		local white = (role:getColor():toHex() == "#000000")
-		local rankCache = white and data.WhiteRankCache or data.ColoredRankCache -- Select rank cache depending on rank color
+	self:LogInfo(guild, "Processing roles...")
 
-		if (rankCache[role.name]) then
-			rankCache[role.name] = role.id
+	for channelId,messagetable in pairs(config.ChannelConfig) do
+		for messageId,reactionTable in pairs(messagetable) do
+			for k,reactionInfo in pairs(reactionTable) do
+				if (reactionInfo.roles) then
+					for k,roleId in pairs(reactionInfo.roles) do
+						ProcessRole(channelId, messageId, reactionInfo.reaction, roleId)
+					end
+				end
+
+				if (reactionInfo.message) then
+					local roleActions = self:GetReactionActions(guild, channelId, messageId, reactionInfo.reaction)
+					roleActions.Message = reactionInfo.message
+				end
+			end
 		end
 	end
 
-	for name,id in pairs(emojiCache) do
-		data.ReactionIdToName[id] = name
-	end
-
-	for roleName,roleId in pairs(data.ColoredRankCache) do
-		if (type(roleId) == "boolean") then
-			client:warning("[%s][%s] role %s (colored) not found", guild.name, self.Name, roleName)
-		end
-	end
-
-	for roleName,roleId in pairs(data.WhiteRankCache) do
-		if (type(roleId) == "boolean") then
-			client:warning("[%s][%s] role %s not found", guild.name, self.Name, roleName)
-		end
-	end
-
-	client:info("[%s][%s] Adding emojis to concerned messages...", guild.name, self.Name)
+	self:LogInfo(guild, "Adding emojis to concerned messages...")
 
 	-- Make sure reactions are present on messages
-	for channelId,messagetable in pairs(config.ChannelModuleConfig) do
+	for channelId,messagetable in pairs(config.ChannelConfig) do
 		local channel = guild:getChannel(channelId)
 		for messageId,reactionTable in pairs(messagetable) do
 			local message = channel:getMessage(messageId)
 			
-			local activeReactions = {}
+			local hasReaction = {}
 			for k,reaction in pairs(message.reactions) do
 				if (reaction.me) then
-					local emojiName = codeToEmojis[reaction.emojiName] or reaction.emojiName
-					activeReactions[emojiName] = true
+					local emoji = bot:GetEmojiData(guild, reaction.emojiName)
+					if (emoji) then
+						hasReaction[emoji.Name] = true
+					else
+						self:LogError(guild, "Found reaction which does not exist in guild: %s", reaction.emojiName)
+					end
 				end
 			end
 			
 			for k,reactionInfo in pairs(reactionTable) do
-				local emoji = emojiCache[reactionInfo.reaction]
-				assert(emoji)
-
-				if (tonumber(emoji)) then
-					emoji = guild:getEmoji(emoji)
-				end
-
-				local hasReaction = activeReactions[reactionInfo.reaction]
-				if (not hasReaction and not message:addReaction(emoji)) then
-					client:warning("[%s][%s] Failed to add reaction %s on message %s (channel: %s)", guild.name, self.Name, tostring(emojiName), message.id, message.channel.id)
+				local emoji = bot:GetEmojiData(guild, reactionInfo.reaction)
+				if (emoji) then
+					if (not hasReaction[emoji.Name] and not message:addReaction(emoji)) then
+						self:LogWarning(guild, "Failed to add reaction %s on message %s (channel: %s)", tostring(emojiName), message.id, message.channel.id)
+					end
+				else
+					self:LogError(guild, "Emoji \"%s\" does not exist", reactionInfo.reaction)
 				end
 			end
 		end
 	end
 
-	client:info("[%s][%s] Channels module ready (%ss).", guild.name, self.Name, (os.clock() - t1) * 1000)
 	return true
 end
 
 function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionName)
-	local data = self:GetData(guild)
-	local reactionKey = string.format("%s_%s_%s", channelId, messageId, reactionName)
-	local roleData = data.ReactionsToRole[reactionKey]
-	if (not roleData) then
+	if (client.user.id == userId) then
 		return
 	end
 
-	if (client.user.id == userId) then
+	local roleActions = self:GetReactionActions(guild, channelId, messageId, reactionName, true)
+	if (not roleActions) then
 		return
 	end
 
 	local member = guild:getMember(userId)
 
-	for k,roleInfo in pairs(roleData.Add) do
-		local roleCache = roleInfo.colored and data.ColoredRankCache or data.WhiteRankCache -- Select rank cache depending on rank color
-		local roleId = roleCache[roleInfo.name]
-		
-		client:info("[%s][%s] Adding %s%s to %s", guild.name, self.Name, roleInfo.name, roleInfo.colored and " (colored)" or "", member.fullname)
-		if (not member:hasRole(roleId) and not member:addRole(roleId)) then
-			client:warning("[%s][%s] Failed to add role % to %s", guild.name, self.Name, roleInfo.name, member.fullname)
+	for k,roleId in pairs(roleActions.Add) do
+		local role = guild:getRole(roleId)
+		if (role) then
+			self:LogInfo(guild, "Adding %s%s to %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
+			if (not member:addRole(roleId)) then
+				self:LogWarning(guild, "Failed to add role % to %s", role.name, member.tag)
+			end
+		else
+			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
 		end
 	end
 
-	for k,roleInfo in pairs(roleData.Remove) do
-		local roleCache = roleInfo.colored and data.ColoredRankCache or data.WhiteRankCache -- Select rank cache depending on rank color
-		local roleId = roleCache[roleInfo.name]
-		
-		client:info("[%s][%s] Removing %s%s from %s", guild.name, self.Name, roleInfo.name, roleInfo.colored and " (colored)" or "", member.fullname)
-		if (member:hasRole(roleId) and not member:removeRole(roleId)) then
-			client:warning("[%s][%s] Failed to remove role % from %s", guild.name, self.Name, roleInfo.name, member.fullname)
+	for k,roleId in pairs(roleActions.Remove) do
+		local role = guild:getRole(roleId)
+		if (role) then
+			self:LogInfo(guild, "Removing %s%s from %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
+			if (not member:removeRole(roleId)) then
+				self:LogWarning(guild, "Failed to remove role % from %s", role.name, member.tag)
+			end
+		else
+			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
+		end
+	end
+
+	if (roleActions.Message) then
+		local privateChannel = member.user:getPrivateChannel()
+		if (privateChannel) then
+			local message = privateChannel:send(string.format("[From %s]\n%s", guild.name, roleActions.Message))
+			if (not message) then
+				self:LogWarning(guild, "Failed to send reaction message to %s (maybe user disabled private messages from this server?)", targetMember.user.tag)
+			end
+		else
+			self:LogWarning(guild, "Failed to get private channel with %s", targetMember.user.tag)
 		end
 	end
 end
 
 function Module:HandleReactionRemove(guild, userId, channelId, messageId, reactionName)
-	local data = self:GetData(guild)
-	local reactionKey = string.format("%s_%s_%s", channelId, messageId, reactionName)
-	local roleData = data.ReactionsToRole[reactionKey]
-	if (not roleData) then
+	if (client.user.id == userId) then
 		return
 	end
 
-	if (client.user.id == userId) then
+	local roleActions = self:GetReactionActions(guild, channelId, messageId, reactionName, true)
+	if (not roleActions) then
 		return
 	end
 
 	local member = guild:getMember(userId)
 
-	for k,roleInfo in pairs(roleData.Add) do
-		local roleCache = roleInfo.colored and data.ColoredRankCache or data.WhiteRankCache -- Select rank cache depending on rank color
-		local roleId = roleCache[roleInfo.name]
-
-		client:info("[%s][%s] Removing %s%s from %s", guild.name, self.Name, roleInfo.name, roleInfo.colored and " (colored)" or "", member.fullname)
-		if (member:hasRole(roleId) and not member:removeRole(roleId)) then
-			client:warning("[%s][%s] Failed to remove role % from %s", guild.name, self.Name, roleInfo.name, member.fullname)
+	for k,roleId in pairs(roleActions.Add) do
+		local role = guild:getRole(roleId)
+		if (role) then
+			self:LogInfo(guild, "Removing %s%s from %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
+			if (not member:removeRole(roleId)) then
+				self:LogWarning(guild, "Failed to remove role % from %s", role.name, member.tag)
+			end
+		else
+			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
 		end
 	end
 
-	for k,roleInfo in pairs(roleData.Remove) do
-		local roleCache = roleInfo.colored and data.ColoredRankCache or data.WhiteRankCache -- Select rank cache depending on rank color
-		local roleId = roleCache[roleInfo.name]
-		
-		client:info("[%s][%s] Adding back %s%s to %s", guild.name, self.Name, roleInfo.name, roleInfo.colored and " (colored)" or "", member.fullname)
-		if (not member:hasRole(roleId) and not member:addRole(roleId)) then
-			client:warning("[%s][%s] Failed to add role % to %s", guild.name, self.Name, roleInfo.name, member.fullname)
+	for k,roleId in pairs(roleActions.Remove) do
+		local role = guild:getRole(roleId)
+		if (role) then
+			self:LogInfo(guild, "Adding back %s%s to %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
+			if (not member:addRole(roleId)) then
+				self:LogWarning(guild, "Failed to add role % to %s", role.name, member.tag)
+			end
+		else
+			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
 		end
 	end
 end
@@ -234,13 +293,13 @@ function Module:OnReactionAdd(reaction, userId)
 		return
 	end
 
-	local data = self:GetData(reaction.message.guild)
-	local emojiName = data.ReactionIdToName[reaction.emojiId or reaction.emojiName]
-	if (not emojiName) then
+	local emoji = bot:GetEmojiData(reaction.message.guild, reaction.emojiName)
+	if (not emoji) then
+		self:LogWarning(reaction.message.guild, "Emoji %s was used but not found in guild", reaction.emojiName)
 		return
 	end
 
-	self:HandleReactionAdd(reaction.message.channel.guild, userId, reaction.message.channel.id, reaction.message.id, emojiName)
+	self:HandleReactionAdd(reaction.message.channel.guild, userId, reaction.message.channel.id, reaction.message.id, emoji.Name)
 end
 
 function Module:OnReactionAddUncached(channel, messageId, reactionIdOrName, userId)
@@ -248,13 +307,13 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdOrName, user
 		return
 	end
 
-	local data = self:GetData(channel.guild)
-	local emojiName = data.ReactionIdToName[reactionIdOrName]
-	if (not emojiName) then
+	local emoji = bot:GetEmojiData(channel.guild, reactionIdOrName)
+	if (not emoji) then
+		self:LogWarning(channel.guild, "Emoji %s was used but not found in guild", reactionIdOrName)
 		return
 	end
 
-	self:HandleReactionAdd(channel.guild, userId, channel.id, messageId, emojiName)
+	self:HandleReactionAdd(channel.guild, userId, channel.id, messageId, emoji.Name)
 end
 
 function Module:OnReactionRemove(reaction, userId)
@@ -262,13 +321,13 @@ function Module:OnReactionRemove(reaction, userId)
 		return
 	end
 
-	local data = self:GetData(reaction.message.guild)
-	local emojiName = data.ReactionIdToName[reaction.emojiId or reaction.emojiName]
-	if (not emojiName) then
+	local emoji = bot:GetEmojiData(reaction.message.guild, reaction.emojiName)
+	if (not emoji) then
+		self:LogWarning(reaction.message.guild, "Emoji %s was used but not found in guild", reaction.emojiName)
 		return
 	end
 
-	self:HandleReactionRemove(reaction.message.channel.guild, userId, reaction.message.channel.id, reaction.message.id, emojiName)
+	self:HandleReactionRemove(reaction.message.channel.guild, userId, reaction.message.channel.id, reaction.message.id, emoji.Name)
 end
 
 function Module:OnReactionRemoveUncached(channel, messageId, reactionIdOrName, userId)
@@ -276,11 +335,11 @@ function Module:OnReactionRemoveUncached(channel, messageId, reactionIdOrName, u
 		return
 	end
 
-	local data = self:GetData(channel.guild)
-	local emojiName = data.ReactionIdToName[reactionIdOrName]
-	if (not emojiName) then
+	local emoji = bot:GetEmojiData(channel.guild, reactionIdOrName)
+	if (not emoji) then
+		self:LogWarning(channel.guild, "Emoji %s was used but not found in guild", reactionIdOrName)
 		return
 	end
 
-	self:HandleReactionRemove(channel.guild, userId, channel.id, messageId, emojiName)
+	self:HandleReactionRemove(channel.guild, userId, channel.id, messageId, emoji.Name)
 end

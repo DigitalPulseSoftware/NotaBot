@@ -7,6 +7,7 @@ local config = Config
 local discordia = Discordia
 
 Module.Name = "game"
+Module.Global = true
 
 function Module:OnLoaded()
 	self.Clock = discordia.Clock()

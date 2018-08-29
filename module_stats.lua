@@ -13,10 +13,21 @@ local path = require("path")
 
 Module.Name = "stats"
 
+function Module:GetConfigTable()
+	return {
+		{
+			Name = "LogChannel",
+			Description = "Channel where stats will be posted each day",
+			Type = bot.ConfigType.Channel,
+			Optional = true
+		}
+	}
+end
+
 function Module:OnLoaded()
 	self.Clock = discordia.Clock()
 	self.Clock:on("day", function ()
-		self:ForEachGuild(function (guildId, notConfig, data, persistentData)
+		self:ForEachGuild(function (guildId, config, data, persistentData)
 			local guild = client:getGuild(guildId)
 			assert(guild)
 
@@ -24,8 +35,8 @@ function Module:OnLoaded()
 			self:SaveStats(self:GetStatsFilename(guild, stats.Date), stats)
 			persistentData.Stats = self:ResetStats(guild)
 
-			if (config.StatsModuleLogChannel) then
-				local channel = guild:getChannel(config.StatsModuleLogChannel)
+			if (config.LogChannel) then
+				local channel = guild:getChannel(config.LogChannel)
 				if (channel) then
 					self:PrintStats(channel, stats)
 				end
@@ -52,7 +63,7 @@ function Module:OnLoaded()
 				return
 			end
 
-			stats = self:LoadStats(self:GetStatsFilename(commandMessage.guild, date))
+			stats = self:LoadStats(commandMessage.guild, self:GetStatsFilename(commandMessage.guild, date))
 			if (not stats) then
 				commandMessage:reply("We have no stats for that date")
 				return
@@ -71,19 +82,21 @@ end
 function Module:OnEnable(guild)
 	local data = self:GetPersistentData(guild)
 	if (not data.Stats) then
-		client:info("[%s][%s] No previous stats found, resetting...", guild.name, self.Name)
+		self:LogInfo(guild, "No previous stats found, resetting...")
 		data.Stats = self:ResetStats(guild)
 	else
 		local currentDate = os.date("%Y-%m-%d")
 		local statsDate = os.date("%Y-%m-%d", data.Stats.Date)
 		if (currentDate ~= statsDate) then
-			client:info("[%s][%s] Previous stats data has been found but date does not match (%s), saving and resetting", guild.name, self.Name, statsDate)
+			self:LogInfo(guild, "Previous stats data has been found but date does not match (%s), saving and resetting", statsDate)
 			self:SaveStats(self:GetStatsFilename(guild, data.Stats.Date), data.Stats)
 			data.Stats = self:ResetStats(guild)
 		else
-			client:info("[%s][%s] Previous stats data has been found and date does match, continuing...", guild.name, self.Name)
+			self:LogInfo(guild, "Previous stats data has been found and date does match, continuing...")
 		end
 	end
+
+	return true
 end
 
 function Module:OnReady()
@@ -99,29 +112,14 @@ function Module:OnUnload()
 	bot:UnregisterCommand("serverstats")
 end
 
-function Module:LoadStats(filename)
-	filename = filename or "stats.json"
-
-	local saveFile = io.open(filename, "r")
-	if (not saveFile) then
-		print("Failed to open " .. filename)
+function Module:LoadStats(guild, filepath)
+	local stats, err = bot:UnserializeFromFile(filepath)
+	if (not stats) then
+		self:LogError(guild, "Failed to load stats: %s", err)
 		return
 	end
 
-	local content = saveFile:read("*a")
-	if (not content) then
-		print("Failed to read stats from file: " .. tostring(err))
-		return
-	end
-	saveFile:close()
-
-	local success, contentOrErr = pcall(json.decode, content)
-	if (not success) then
-		print("Failed to decode stats json: " .. tostring(contentOrErr))
-		return
-	end
-
-	return contentOrErr
+	return stats
 end
 
 function Module:GetStatsFilename(guild, time)
@@ -144,7 +142,9 @@ function Module:PrintStats(channel, stats)
 		end
 
 		local reactionData = mostAddedReaction[i]
-		addedReactionList = addedReactionList .. string.format("%s %s\n", reactionData.count, bot:GetEmojiData(guild, reactionData.name).MentionString)
+
+		local emojiData = bot:GetEmojiData(guild, reactionData.name)
+		addedReactionList = addedReactionList .. string.format("%s %s\n", reactionData.count, emojiData.MentionString or "<bot error>")
 	end
 
 	local mostActiveChannels = {}
@@ -227,19 +227,19 @@ function Module:SaveStats(filename, stats)
 
 	local dirname = path.dirname(filename)
 	if (dirname ~= "." and not fs.mkdirp(dirname)) then
-		client:error("[%s] Failed to create directory %s", self.Name, dirname)
+		self:LogError("Failed to create directory %s", dirname)
 		return
 	end
 
 	local outputFile = io.open(filename, "w+")
 	if (not outputFile) then
-		client:error("[%s] Failed to open %s", self.Name, filename)
+		self:LogError("Failed to open %s", filename)
 		return
 	end
 
 	local success, err = outputFile:write(json.encode(stats))
 	if (not success) then
-		client:error("[%s] Failed to open %s", self.Name, err)
+		self:LogError("Failed to open %s", err)
 		return
 	end
 
@@ -357,13 +357,19 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 		return
 	end
 
+	local emojiData = bot:GetEmojiData(channel.guild, reactionIdorName)
+	if (not emojiData) then
+		self:LogWarning(channel.guild, "Emoji %s was used but not found in guild", reactionIdorName)
+		return
+	end
+
 	local data = self:GetPersistentData(channel.guild)
 	data.Stats.ReactionAdded = data.Stats.ReactionAdded + 1
 
 	local channelStats = self:GetChannelStats(channel.guild, channel.id)
 	channelStats.ReactionCount = channelStats.ReactionCount + 1
 
-	local reactionStats = self:GetReactionStats(channel.guild, bot:GetEmojiData(channel.guild, reactionIdorName).Name)
+	local reactionStats = self:GetReactionStats(channel.guild, emojiData.Name)
 	reactionStats.ReactionCount = reactionStats.ReactionCount + 1
 
 	local userStats = self:GetUserStats(channel.guild, userId)
@@ -387,9 +393,15 @@ function Module:OnReactionRemoveUncached(channel, messageId, reactionIdorName, u
 		return
 	end
 
+	local emojiData = bot:GetEmojiData(channel.guild, reactionIdorName)
+	if (not emojiData) then
+		self:LogWarning(channel.guild, "Emoji %s was used but not found in guild", reactionIdorName)
+		return
+	end
+
 	local data = self:GetPersistentData(channel.guild)
 	data.Stats.ReactionRemoved = data.Stats.ReactionRemoved + 1
 
-	local reactionStats = self:GetReactionStats(channel.guild, bot:GetEmojiData(channel.guild, reactionIdorName).Name)
+	local reactionStats = self:GetReactionStats(channel.guild, emojiData.Name)
 	reactionStats.ReactionCount = math.max(reactionStats.ReactionCount - 1, 0)
 end
