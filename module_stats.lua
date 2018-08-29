@@ -44,37 +44,47 @@ function Module:OnLoaded()
 		end)
 	end)
 
-	bot:RegisterCommand("resetstats", "Reset stats", function (commandMessage)
-		if (not commandMessage.member:hasPermission(enums.permission.administrator)) then
-			print(tostring(message.member.name) .. " tried to use !resetstats")
-			return
-		end
+	Bot:RegisterCommand({
+		Name = "resetstats",
+		Args = {},
+		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
 
-		local data = self:GetPersistentData(commandMessage.guild)
-		data.Stats = self:ResetStats()
-		commandMessage:reply("Stats reset successfully")
-	end)
-
-	bot:RegisterCommand("serverstats", "Print stats", function (commandMessage, date)
-		local stats
-		if (date) then
-			if (not date:match("^%d%d%d%d%-%d%d%-%d%d$")) then
-				commandMessage:reply("Invalid date format, please write it as YYYY-MM-DD")
-				return
-			end
-
-			stats = self:LoadStats(commandMessage.guild, self:GetStatsFilename(commandMessage.guild, date))
-			if (not stats) then
-				commandMessage:reply("We have no stats for that date")
-				return
-			end
-		else
+		Help = "Resets stats of the day",
+		Func = function (commandMessage)
 			local data = self:GetPersistentData(commandMessage.guild)
-			stats = data.Stats
+			data.Stats = self:ResetStats()
+			commandMessage:reply("Stats reset successfully")
 		end
+	})
 
-		self:PrintStats(commandMessage.channel, stats)
-	end)
+	Bot:RegisterCommand({
+		Name = "serverstats",
+		Args = {
+			{Name = "date", Type = Bot.ConfigType.String}
+		},
+
+		Help = "Prints stats",
+		Func = function (commandMessage)
+			local stats
+			if (date) then
+				if (not date:match("^%d%d%d%d%-%d%d%-%d%d$")) then
+					commandMessage:reply("Invalid date format, please write it as YYYY-MM-DD")
+					return
+				end
+
+				stats = self:LoadStats(commandMessage.guild, self:GetStatsFilename(commandMessage.guild, date))
+				if (not stats) then
+					commandMessage:reply("We have no stats for that date")
+					return
+				end
+			else
+				local data = self:GetPersistentData(commandMessage.guild)
+				stats = data.Stats
+			end
+
+			self:PrintStats(commandMessage.channel, stats)
+		end
+	})
 
 	return true
 end

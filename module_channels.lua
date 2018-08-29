@@ -21,81 +21,83 @@ function Module:GetConfigTable()
 end
 
 function Module:OnLoaded()
-	bot:RegisterCommand("channelconfig", "Configures the channel module messages and reactions", function (commandMessage)
-		--[[if (not commandMessage.member:hasPermission(enums.permission.administrator)) then
-			print(tostring(commandMessage.member.name) .. " tried to use !channelconfig")
-			return
-		end]]
+	Bot:RegisterCommand({
+		Name = "channelconfig",
+		Args = {},
+		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
 
-		local guild = commandMessage.guild
-		local config = self:GetConfig(guild)
-		local data = self:GetData(guild)
-		local channelConfig = config.ChannelConfig
+		Help = "Configures the channel module messages and reactions",
+		Func = function (message)
+			local guild = commandMessage.guild
+			local config = self:GetConfig(guild)
+			local data = self:GetData(guild)
+			local channelConfig = config.ChannelConfig
 
-		for channelId,messageTable in pairs(channelConfig) do
-			local channel = guild:getChannel(channelId)
-			if (channel) then
-				for messageId,reactionTable in pairs(messageTable) do
-					local message = channel:getMessage(messageId)
-					if (message) then
-						local fields = {}
-						for k,reactionInfo in pairs(reactionTable) do
-							local roleActions = self:GetReactionActions(guild, channelId, messageId, reactionInfo.reaction, true)
-							assert(roleActions)
+			for channelId,messageTable in pairs(channelConfig) do
+				local channel = guild:getChannel(channelId)
+				if (channel) then
+					for messageId,reactionTable in pairs(messageTable) do
+						local message = channel:getMessage(messageId)
+						if (message) then
+							local fields = {}
+							for k,reactionInfo in pairs(reactionTable) do
+								local roleActions = self:GetReactionActions(guild, channelId, messageId, reactionInfo.reaction, true)
+								assert(roleActions)
 
-							local addedRoles = {}
-							for _, roleId in pairs(roleActions.Add) do
-								local role = guild:getRole(roleId)
-								if (role) then
-									table.insert(addedRoles, role.mentionString)
-								else
-									table.insert(addedRoles, "<invalid role " .. roleId .. ">") 
+								local addedRoles = {}
+								for _, roleId in pairs(roleActions.Add) do
+									local role = guild:getRole(roleId)
+									if (role) then
+										table.insert(addedRoles, role.mentionString)
+									else
+										table.insert(addedRoles, "<invalid role " .. roleId .. ">") 
+									end
 								end
-							end
 
-							local removedRoles = {}
-							for _, roleId in pairs(roleActions.Remove) do
-								local role = guild:getRole(roleId)
-								if (role) then
-									table.insert(removedRoles, role.mentionString)
-								else
-									table.insert(removedRoles, "<invalid role " .. roleId .. ">") 
+								local removedRoles = {}
+								for _, roleId in pairs(roleActions.Remove) do
+									local role = guild:getRole(roleId)
+									if (role) then
+										table.insert(removedRoles, role.mentionString)
+									else
+										table.insert(removedRoles, "<invalid role " .. roleId .. ">") 
+									end
 								end
+
+								local actions = ""
+
+								if (#addedRoles > 0) then
+									actions = string.format("%s**Adds role%s**\n-  %s\n", actions, #addedRoles > 1 and "s" or "", table.concat(addedRoles, "\n-  "))
+								end
+
+								if (#removedRoles > 0) then
+									actions = string.format("%s**Removes role%s:**\n-  %s\n", actions, #removedRoles > 1 and "s" or "", table.concat(removedRoles, "\n-  "))
+								end
+
+								if (roleActions.Message) then
+									actions = string.format("%s**Sends private message:**\n\"%s\"\n", actions, roleActions.Message)
+								end
+
+								local emoji = bot:GetEmojiData(guild, reactionInfo.reaction)
+
+								table.insert(fields, {
+									name = emoji and emoji.MentionString or "<invalid emoji>",
+									value = actions
+								})
 							end
 
-							local actions = ""
-
-							if (#addedRoles > 0) then
-								actions = string.format("%s**Adds role%s**\n-  %s\n", actions, #addedRoles > 1 and "s" or "", table.concat(addedRoles, "\n-  "))
-							end
-
-							if (#removedRoles > 0) then
-								actions = string.format("%s**Removes role%s:**\n-  %s\n", actions, #removedRoles > 1 and "s" or "", table.concat(removedRoles, "\n-  "))
-							end
-
-							if (roleActions.Message) then
-								actions = string.format("%s**Sends private message:**\n\"%s\"\n", actions, roleActions.Message)
-							end
-
-							local emoji = bot:GetEmojiData(guild, reactionInfo.reaction)
-
-							table.insert(fields, {
-								name = emoji and emoji.MentionString or "<invalid emoji>",
-								value = actions
+							commandMessage:reply({
+								embed = { 
+									description = string.format("Message in %s:\n%s", channel.mentionString, bot:GenerateMessageLink(message)),
+									fields = fields
+								}
 							})
 						end
-
-						commandMessage:reply({
-							embed = { 
-								description = string.format("Message in %s:\n%s", channel.mentionString, bot:GenerateMessageLink(message)),
-								fields = fields
-							}
-						})
 					end
 				end
 			end
 		end
-	end)
+	})
 
 	return true
 end
