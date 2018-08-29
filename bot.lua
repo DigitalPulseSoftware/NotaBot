@@ -54,10 +54,11 @@ Bot.ConfigType = enums.enum {
 	Duration = 3,
 	Emoji    = 4,
 	Integer  = 5,
-	Number   = 7,
-	Role     = 8,
-	String   = 9,
-	User	 = 10
+	Member   = 7,
+	Number   = 8,
+	Role     = 9,
+	String   = 10,
+	User	 = 11
 }
 
 Bot.ConfigTypeString = {}
@@ -78,6 +79,10 @@ Bot.ConfigTypeToString = {
 		return emojiData and emojiData.MentionString or "<Invalid emoji>"
 	end,
 	[Bot.ConfigType.Integer] = tostring,
+	[Bot.ConfigType.Member] = function (value, guild)
+		local member = guild:getMember(value)
+		return member and member.user.mentionString or "<Invalid member>"
+	end,
 	[Bot.ConfigType.Number] = function (value) return type(value) == "number" end,
 	[Bot.ConfigType.Role] = function (value, guild)
 		local role = guild:getRole(value)
@@ -85,8 +90,8 @@ Bot.ConfigTypeToString = {
 	end,
 	[Bot.ConfigType.String] = tostring,
 	[Bot.ConfigType.User] = function (value, guild)
-		local member = guild:getMember(value)
-		return member and member.user.mentionString or "<Invalid user>"
+		local user = client:getUser(value)
+		return user and user.mentionString or "<Invalid user>"
 	end
 }
 
@@ -114,6 +119,10 @@ Bot.ConfigTypeParser = {
 	end,
 	[Bot.ConfigType.Integer] = function (value, guild)
 		return tonumber(value:match("^(%d+)$"))
+	end,
+	[Bot.ConfigType.Member] = function (value, guild)
+		local member = Bot:DecodeMember(guild, value)
+		return member and member.id
 	end,
 	[Bot.ConfigType.Number] = function (value)
 		return tonumber(value)
