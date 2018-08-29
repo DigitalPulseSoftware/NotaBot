@@ -2,6 +2,8 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
+-- TODO: Use this list extracted from Discord source: https://pastebin.com/ZbBPhZ6w
+
 local emojiNameToCode = {
 	grinning = "\xF0\x9F\x98\x80",
 	grimacing = "\xF0\x9F\x98\xAC",
@@ -1573,7 +1575,7 @@ function Bot:GetEmojiData(guild, emojiIdOrName)
 	end
 
 	if (not emojiData) then
-		self.Client:logWarning("Failed to find emoji %s in %s", emojiIdOrName, guild.name)
+		self.Client:warning("Failed to find emoji \"%s\" in %s", emojiIdOrName, guild.name)
 		-- Not a valid emoji
 		return nil
 	end
