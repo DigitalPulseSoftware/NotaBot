@@ -181,8 +181,9 @@ function ModuleMetatable:EnableForGuild(guild, ignoreCheck, dontSave)
 		end
 	end
 
-	local config = self:GetConfig(guild)
-	config._Enabled = true
+	local guildData = self:GetGuildData(guild.id)
+	guildData._Ready = true
+	guildData.Config._Enabled = true
 
 	if (not dontSave) then
 		self:SaveConfig(guild)
@@ -192,9 +193,9 @@ function ModuleMetatable:EnableForGuild(guild, ignoreCheck, dontSave)
 	return true
 end
 
-function ModuleMetatable:ForEachGuild(callback, evenDisabled)
+function ModuleMetatable:ForEachGuild(callback, evenDisabled, evenNonReady)
 	for guildId, data in pairs(self._Guilds) do
-		if (evenDisabled or data.Config._Enabled) then
+		if ((evenNonReady or data._Ready) and (evenDisabled or data.Config._Enabled)) then
 			callback(guildId, data.Config, data.Data, data.PersistentData)
 		end
 	end
@@ -225,6 +226,7 @@ function ModuleMetatable:GetGuildData(guildId, noCreate)
 		guildData.Config = {}
 		guildData.Data = {}
 		guildData.PersistentData = {}
+		guildData._Ready = false
 
 		self:_PrepareConfig(guildId, guildData.Config)
 
@@ -424,7 +426,7 @@ function Bot:LoadModule(moduleTable)
 
 	moduleTable:ForEachGuild(function (guildId, config, data, persistentData)
 		moduleTable:_PrepareConfig(guildId, config)
-	end, true)
+	end, true, true)
 
 	-- Loading finished, call callback
 	self.Modules[moduleTable.Name] = moduleTable
@@ -511,7 +513,7 @@ end
 function Bot:MakeModuleReady(moduleTable)
 	moduleTable:ForEachGuild(function (guildId, config, data, persistentData)
 		moduleTable:EnableForGuild(self.Client:getGuild(guildId), true, true)
-	end)
+	end, true, true)
 
 	for eventName,eventData in pairs(moduleTable._Events) do
 		local eventTable = self.Events[eventName]
