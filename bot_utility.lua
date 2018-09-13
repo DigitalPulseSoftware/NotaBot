@@ -123,14 +123,14 @@ local ehandler = function(err)
 end
 
 function Bot:ProtectedCall(context, func, ...)
-	local success, ret = xpcall(func, ehandler, ...)
+	local success, a, b, c, d, e, f = xpcall(func, ehandler, ...)
 	if (not success) then
-		local err = string.format("%s failed: %s", context, ret)
+		local err = string.format("%s failed: %s", context, a)
 		self.Client:warning(err)
 		return false, err
 	end
 
-	return success, ret
+	return success, a, b, c, d, e, f
 end
 
 -- Serialization/unserialization
