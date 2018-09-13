@@ -2,10 +2,15 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
+local enums = discordia.enums
 local fs = require("coro-fs")
 local wrap = coroutine.wrap
 
 local isReady = false
+
+local function code(str)
+    return string.format('```\n%s```', str)
+end
 
 -- Maps event name to function to retrieve its guild
 local discordiaEvents = {
@@ -138,7 +143,7 @@ function ModuleMetatable:_PrepareConfig(guildId, guildConfig)
 	end
 end
 
-function ModuleMetatable:DisableForGuild(guild)
+function ModuleMetatable:DisableForGuild(guild, dontSave)
 	if (not self:IsEnabledForGuild(guild)) then
 		return true
 	end
@@ -153,7 +158,9 @@ function ModuleMetatable:DisableForGuild(guild)
 	if (success) then
 		local config = self:GetConfig(guild)
 		config._Enabled = false
-		self:SaveConfig(guild)
+		if (not dontSave) then
+			self:SaveConfig(guild)
+		end
 
 		self:LogInfo(guild, "Module disabled")
 		return true
@@ -261,6 +268,27 @@ for k, func in pairs({"error", "info", "warning"}) do
 	end
 end
 
+function ModuleMetatable:RegisterCommand(values)
+	local privilegeCheck = values.PrivilegeCheck
+	if (privilegeCheck) then
+		values.PrivilegeCheck = function (member)
+			if (not self:IsEnabledForGuild(member.guild)) then
+				return false
+			end
+
+			return privilegeCheck(member) 
+		end
+	else
+		values.PrivilegeCheck = function (member) 
+			return self:IsEnabledForGuild(member.guild)
+		end
+	end
+
+	table.insert(self._Commands, values.Name)
+
+	return Bot:RegisterCommand(values)
+end
+
 function ModuleMetatable:Save(guild)
 	self:SaveConfig(guild)
 	self:SavePersistentData(guild)
@@ -307,6 +335,7 @@ function ModuleMetatable:SavePersistentData(guild)
 		end)
 	end
 end
+
 
 function Bot:CallModuleFunction(moduleTable, functionName, ...)
 	return self:ProtectedCall(string.format("Module (%s) function (%s)", moduleTable.Name, functionName), moduleTable[functionName], moduleTable, ...)
@@ -416,7 +445,7 @@ function Bot:LoadModule(moduleTable)
 	end
 	moduleTable._Events = moduleEvents
 
-	-- Prepare guild data
+	moduleTable._Commands = {}
 	moduleTable._Guilds = {}
 
 	setmetatable(moduleTable, ModuleMetatable)
@@ -513,14 +542,17 @@ end
 function Bot:MakeModuleReady(moduleTable)
 	moduleTable:ForEachGuild(function (guildId, config, data, persistentData)
 		moduleTable:EnableForGuild(self.Client:getGuild(guildId), true, true)
-	end, true, true)
+	end, false, true)
 
 	for eventName,eventData in pairs(moduleTable._Events) do
 		local eventTable = self.Events[eventName]
 		if (not eventTable) then
 			eventTable = {}
 			self.Client:onSync(eventName, function (...)
-				local eventGuild = discordiaEvents[eventName](..., self.Client)
+				local parameters = {...}
+				table.insert(parameters, self.Client)
+
+				local eventGuild = discordiaEvents[eventName](table.unpack(parameters))
 				for _, eventData in pairs(eventTable) do
 					if (not eventGuild or eventData.Module:IsEnabledForGuild(eventGuild)) then
 						wrap(eventData.Callback)(eventData.Module, ...)
@@ -553,6 +585,10 @@ function Bot:UnloadModule(moduleName)
 			table.remove(eventTable, i)
 		end
 
+		for _, commandName in pairs(moduleTable._Commands) do
+			Bot:UnregisterCommand(commandName)
+		end
+
 		self.Modules[moduleName] = nil
 
 		self.Client:info("[<*>][%s] Unloaded module", moduleTable.Name)
@@ -576,3 +612,358 @@ Bot.Client:onSync("ready", function ()
 
 	isReady = true
 end)
+
+
+Bot:RegisterCommand({
+	Name = "modulelist",
+	Args = {},
+	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+
+	Help = "Configures a module",
+	Func = function (message)
+		local moduleList = {}
+		for moduleName, moduleTable in pairs(Bot.Modules) do
+			table.insert(moduleList, moduleTable)
+		end
+		table.sort(moduleList, function (a, b) return a.Name < b.Name end)
+
+		local moduleListStr = {}
+		for _, moduleTable in pairs(moduleList) do
+			local enabledEmoji
+			if (moduleTable.Global) then
+				enabledEmoji = ":globe_with_meridians:"
+			elseif (moduleTable:IsEnabledForGuild(message.guild)) then
+				enabledEmoji = ":white_check_mark:"
+			else
+				enabledEmoji = ":x:"
+			end
+
+			table.insert(moduleListStr, string.format("%s **%s**", enabledEmoji, moduleTable.Name))
+		end
+
+		message:reply({
+			embed = {
+				title = "Module list",
+				fields = {
+					{name = "Loaded modules", value = table.concat(moduleListStr, '\n')},
+				},
+				timestamp = discordia.Date():toISO('T', 'Z')
+			}
+		})
+	end
+})
+
+Bot:RegisterCommand({
+	Name = "config",
+	Args = {
+		{Name = "module", Type = Bot.ConfigType.String},
+		{Name = "action", Type = Bot.ConfigType.String, Optional = true},
+		{Name = "key", Type = Bot.ConfigType.String, Optional = true},
+		{Name = "value", Type = Bot.ConfigType.String, Optional = true}
+	},
+	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+
+	Help = "Configures a module",
+	Func = function (message, moduleName, action, key, value)
+		moduleName = moduleName:lower()
+
+		local moduleTable = Bot.Modules[moduleName]
+		if (not moduleTable) then
+			message:reply("Invalid module \"" .. moduleName .. "\"")
+			return
+		end
+
+		action = action and action:lower() or "list"
+
+		local guild = message.guild
+		local config = moduleTable:GetConfig(guild)
+
+		local StringifyConfigValue = function (configTable, value)
+			if (value ~= nil) then
+				local valueToString = Bot.ConfigTypeToString[configTable.Type]
+				if (configTable.Array) then
+					valueStr = {}
+					for _, value in pairs(value) do
+						table.insert(valueStr, valueToString(value, guild))
+					end
+
+					return table.concat(valueStr, ", ")
+				else
+					return valueToString(value, guild)
+				end
+			else
+				assert(configTable.Optional)
+				return "<None>"
+			end
+		end
+
+		if (action == "list") then
+			local fields = {}
+			local globalFields = {}
+			for k,configTable in pairs(moduleTable._Config) do
+				local valueStr = StringifyConfigValue(configTable, config[configTable.Name])
+				local fieldType = Bot.ConfigTypeString[configTable.Type]
+				if (configTable.Array) then
+					fieldType = fieldType .. " array"
+				end
+
+				table.insert(configTable.Global and globalFields or fields, {
+					name = ":gear: " .. configTable.Name,
+					value = string.format("**Description:** %s\n**Value (%s):** %s", configTable.Description, fieldType, valueStr)
+				})
+			end
+
+			local enabledText
+			if (moduleTable.Global) then
+				enabledText = ":globe_with_meridians: This module is global and cannot be enabled nor disabled on a guild basis"
+			elseif (moduleTable:IsEnabledForGuild(guild)) then
+				enabledText = ":white_check_mark: Module **enabled** (use `!disable " .. moduleTable.Name .. "` to disable it)"
+			else
+				enabledText = ":x: Module **disabled** (use `!enable " .. moduleTable.Name .. "` to enable it)"
+			end
+
+			if (message.member.id == Config.OwnerUserId) then
+				for _, field in pairs(globalFields) do
+					field.name = ":globe_with_meridians: " .. field.name
+					table.insert(fields, field)
+				end
+			end
+
+			message:reply({
+				embed = {
+					title = "Configuration for " .. moduleTable.Name .. " module",
+					description = string.format("%s\n\nConfiguration list:", enabledText, moduleTable.Name),
+					fields = fields,
+					footer = {text = string.format("Use `!config %s add/remove/reset/set ConfigName <value>` to change configuration settings.", moduleTable.Name)}
+				}
+			})
+		elseif (action == "add" or action == "remove" or action == "reset" or action == "set") then
+			if (not key) then
+				message:reply("Missing config key name")
+				return
+			end
+
+			local configTable
+			for k,configData in pairs(moduleTable._Config) do
+				if (configData.Name == key) then
+					configTable = configData
+					break
+				end
+			end
+
+			if (not configTable) then
+				message:reply(string.format("Module %s has no config key \"%s\"", moduleTable.Name, key))
+				return
+			end
+
+			if (not configTable.Array and (action == "add" or action == "remove")) then
+				message:reply("Configuration **" .. configTable.Name .. "** is not an array, use the *set* action to change its value")
+				return
+			end
+
+			local newValue
+			if (action ~= "reset") then
+				if (not value or #value == 0) then
+					if (configTable.Optional and action == "set") then
+						value = nil
+					else
+						message:reply("Missing config value")
+						return
+					end
+				end
+
+				if (value) then
+					local valueParser = Bot.ConfigTypeParser[configTable.Type]
+
+					newValue = valueParser(value, guild)
+					if (newValue == nil) then
+						message:reply("Failed to parse new value (type: " .. Bot.ConfigTypeString[configTable.Type] .. ")")
+						return
+					end
+				end
+			else
+				local default = configTable.Default
+				if (type(default) == "table") then
+					newValue = table.deepcopy(default)
+				else
+					newValue = default
+				end
+			end
+
+			local wasModified = false
+
+			if (action == "add") then
+				assert(configTable.Array)
+				-- Insert value (if not present)
+				local found = false
+				local values = config[configTable.Name]
+				for _, value in pairs(values) do
+					if (value == newValue) then
+						found = true
+						break
+					end
+				end
+
+				if (not found) then
+					table.insert(values, newValue)
+					wasModified = true
+				end
+			elseif (action == "remove") then
+				assert(configTable.Array)
+				-- Remove value (if present)
+				local values = config[configTable.Name]
+				for i = 1, #values do
+					if (values[i] == newValue) then
+						table.remove(values, i)
+						wasModified = true
+						break
+					end
+				end
+			elseif (action == "reset" or action == "set") then
+				-- Replace value
+				if (configTable.Array and action ~= "reset") then
+					config[configTable.Name] = {newValue}
+				else
+					config[configTable.Name] = newValue
+				end
+
+				wasModified = true
+			end
+
+			if (wasModified) then
+				moduleTable:SaveConfig(guild)
+			end
+
+			local valueStr =  StringifyConfigValue(configTable, config[configTable.Name])
+			local fieldType = Bot.ConfigTypeString[configTable.Type]
+			if (configTable.Array) then
+				fieldType = fieldType .. " array"
+			end
+
+			message:reply({
+				embed = {
+					title = "Configuration update for " .. moduleTable.Name .. " module",
+					fields = {
+						{
+							name = ":gear: " .. configTable.Name,
+							value = string.format("**Description:** %s\n**New value (%s):** %s%s", configTable.Description, fieldType, valueStr, wasModified and "" or " (nothing changed)")
+						}
+					},
+					timestamp = discordia.Date():toISO('T', 'Z')
+				}
+			})
+		else
+			message:reply("Invalid action \"" .. action .. "\" (valid actions are *add*, *remove* or *set*)")
+		end
+	end
+})
+
+Bot:RegisterCommand({
+	Name = "load",
+	Args = {
+		{Name = "modulefile", Type = Bot.ConfigType.String}
+	},
+	PrivilegeCheck = function (member) return member.id == Config.OwnerUserId end,
+
+	Help = "(Re)loads a module",
+	Func = function (message, moduleFile)
+		local moduleTable, err, codeErr = Bot:LoadModuleFile(moduleFile)
+		if (moduleTable) then
+			message:reply("Module **" .. moduleTable.Name .. "** loaded")
+		else
+			local errorMessage = err
+			if (codeErr) then
+				errorMessage = errorMessage .. "\n" .. code(codeErr)
+			end
+
+			message:reply("Failed to load module: " .. errorMessage)
+		end
+	end
+})
+
+Bot:RegisterCommand({
+	Name = "disable",
+	Args = {
+		{Name = "module", Type = Bot.ConfigType.String}
+	},
+	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+
+	Help = "Disables a module",
+	Func = function (message, moduleName)
+		local success, err = Bot:DisableModule(moduleName, message.guild)
+		if (success) then
+			message:reply("Module **" .. moduleName .. "** disabled")
+		else
+			message:reply("Failed to disable **" .. moduleName .. "** module: " .. err)
+		end
+	end
+})
+
+Bot:RegisterCommand({
+	Name = "enable",
+	Args = {
+		{Name = "module", Type = Bot.ConfigType.String}
+	},
+	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+
+	Help = "Enables a module",
+	Func = function (message, moduleName)
+		local success, err = Bot:EnableModule(moduleName, message.guild)
+		if (success) then
+			message:reply("Module **" .. moduleName .. "** enabled")
+		else
+			message:reply("Failed to enable **" .. moduleName .. "** module: " .. tostring(err))
+		end
+	end
+})
+
+Bot:RegisterCommand({
+	Name = "reload",
+	Args = {
+		{Name = "module", Type = Bot.ConfigType.String}
+	},
+	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+
+	Help = "Reloads a module (as disable/enable would do)",
+	Func = function (message, moduleName)
+		local moduleTable = Bot.Modules[moduleName]
+		if (not moduleTable) then
+			message:reply("Module **" .. moduleName .. "** doesn't exist")
+			return
+		end
+
+		if (not moduleTable:IsEnabledForGuild(message.guild)) then
+			message:reply("Module **" .. moduleName .. "** is not enabled")
+			return
+		end
+
+		local success, err = moduleTable:DisableForGuild(message.guild)
+		if (success) then
+			local success, err = moduleTable:EnableForGuild(message.guild)
+			if (success) then
+				message:reply("Module **" .. moduleName .. "** reloaded")
+			else
+				message:reply("Failed to re-enable **" .. moduleName .. "** module: " .. err)
+			end
+		else
+			message:reply("Failed to disable **" .. moduleName .. "** module: " .. err)
+		end
+	end
+})
+
+Bot:RegisterCommand({
+	Name = "unload",
+	Args = {
+		{Name = "module", Type = Bot.ConfigType.String}
+	},
+	PrivilegeCheck = function (member) return member.id == Config.OwnerUserId end,
+
+	Help = "Unloads a module",
+	Func = function (message, moduleName)
+		if (Bot:UnloadModule(moduleName)) then
+			message:reply("Module **" .. moduleName .. "** unloaded.")
+		else
+			message:reply("Module **" .. moduleName .. "** not found.")
+		end
+	end
+})
