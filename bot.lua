@@ -55,10 +55,11 @@ Bot.ConfigType = enums.enum {
 	Emoji    = 4,
 	Integer  = 5,
 	Member   = 7,
-	Number   = 8,
-	Role     = 9,
-	String   = 10,
-	User	 = 11
+	Message  = 8,
+	Number   = 9,
+	Role     = 10,
+	String   = 11,
+	User	 = 12
 }
 
 Bot.ConfigTypeString = {}
@@ -79,7 +80,8 @@ Bot.ConfigTypeToString = {
 		return emojiData and emojiData.MentionString or "<Invalid emoji>"
 	end,
 	[Bot.ConfigType.Integer] = tostring,
-	[Bot.ConfigType.Member] = function (value, guild)
+	[Bot.ConfigType.Member] = tostring,
+	[Bot.ConfigType.Message] = function (value, guild)
 		local member = guild:getMember(value)
 		return member and member.user.mentionString or "<Invalid member>"
 	end,
@@ -104,8 +106,7 @@ Bot.ConfigTypeParameter = {
 		end
 	end,
 	[Bot.ConfigType.Channel] = function (value, guild)
-		local channel = Bot:DecodeChannel(guild, value)
-		return channel
+		return Bot:DecodeChannel(guild, value)
 	end,
 	[Bot.ConfigType.Custom] = function (value, guild) 
 		return nil
@@ -121,22 +122,22 @@ Bot.ConfigTypeParameter = {
 		return tonumber(value:match("^(%d+)$"))
 	end,
 	[Bot.ConfigType.Member] = function (value, guild)
-		local member = Bot:DecodeMember(guild, value)
-		return member
+		return Bot:DecodeMember(guild, value)
+	end,
+	[Bot.ConfigType.Message] = function (value, guild)
+		return Bot:DecodeMessage(value)
 	end,
 	[Bot.ConfigType.Number] = function (value)
 		return tonumber(value)
 	end,
 	[Bot.ConfigType.Role] = function (value, guild)
-		local role = guild:getRole(value)
-		return role
+		return guild:getRole(value)
 	end,
 	[Bot.ConfigType.String] = function (value, guild)
 		return value
 	end,
 	[Bot.ConfigType.User] = function (value, guild)
-		local user = Bot:DecodeUser(value)
-		return user
+		return Bot:DecodeUser(value)
 	end
 }
 
@@ -168,6 +169,10 @@ Bot.ConfigTypeParser = {
 	[Bot.ConfigType.Member] = function (value, guild)
 		local member = Bot:DecodeMember(guild, value)
 		return member and member.id
+	end,
+	[Bot.ConfigType.Message] = function (value, guild)
+		local message = Bot:DecodeMessage(value)
+		return message and Bot:GenerateMessageLink(message)
 	end,
 	[Bot.ConfigType.Number] = function (value)
 		return tonumber(value)
