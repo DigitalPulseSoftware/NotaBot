@@ -11,11 +11,16 @@ function Bot:DecodeChannel(guild, message)
 	assert(message)
 
 	local channelId = message:match("<#(%d+)>")
-	if (channelId) then
-		return guild:getChannel(channelId)
+	if (not channelId) then
+		return nil, "Invalid channel id"
 	end
 
-	return nil
+	local channel = guild:getChannel(channelId)
+	if (not channel) then
+		return nil, "This channel is not part of this guild"
+	end
+
+	return channel
 end
 
 function Bot:DecodeEmoji(guild, message)
@@ -24,9 +29,21 @@ function Bot:DecodeEmoji(guild, message)
 
 	local emojiId = message:match("<a?:[%w_]+:(%d+)>")
 	if (emojiId) then
-		return self:GetEmojiData(guild, emojiId) -- Custom emoji
+		 -- Custom emoji
+		local emoji = self:GetEmojiData(guild, emojiId)
+		if (not emoji) then
+			return nil, "Failed to get emoji, maybe this is a global emoji?"
+		end
+
+		return emoji
 	else
-		return self:GetEmojiData(guild, message) -- Discord emoji
+		-- Discord emoji
+		local emoji = self:GetEmojiData(guild, message)
+		if (not emoji) then
+			return nil, "Invalid emoji"
+		end
+
+		return emoji
 	end
 end
 
@@ -35,11 +52,16 @@ function Bot:DecodeMember(guild, message)
 	assert(message)
 
 	local userId = message:match("<@!?(%d+)>")
-	if (userId) then
-		return guild:getMember(userId)
+	if (not userId) then
+		return nil, "Invalid user id"
 	end
 
-	return nil
+	local member = guild:getMember(userId)
+	if (not member) then
+		return nil, "This user is not part of this guild"
+	end
+
+	return member
 end
 
 function Bot:DecodeUser(message)
@@ -47,11 +69,16 @@ function Bot:DecodeUser(message)
 	assert(message)
 
 	local userId = message:match("<@!?(%d+)>")
-	if (userId) then
-		return self.Client:getClient(userId)
+	if (not userId) then
+		return nil, "Invalid user id"
 	end
 
-	return nil
+	local user = self.Client:getClient(userId)
+	if (not user) then
+		return nil, "Invalid user (maybe this account was deleted?)"
+	end
+
+	return user
 end
 
 function Bot:GenerateMessageLink(message)
