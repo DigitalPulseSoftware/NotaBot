@@ -44,7 +44,7 @@ function Module:OnLoaded()
 		end)
 	end)
 
-	Bot:RegisterCommand({
+	self:RegisterCommand({
 		Name = "resetstats",
 		Args = {},
 		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
@@ -57,14 +57,14 @@ function Module:OnLoaded()
 		end
 	})
 
-	Bot:RegisterCommand({
+	self:RegisterCommand({
 		Name = "serverstats",
 		Args = {
-			{Name = "date", Type = Bot.ConfigType.String}
+			{Name = "date", Type = Bot.ConfigType.String, Optional = true}
 		},
 
 		Help = "Prints stats",
-		Func = function (commandMessage)
+		Func = function (commandMessage, date)
 			local stats
 			if (date) then
 				if (not date:match("^%d%d%d%d%-%d%d%-%d%d$")) then
@@ -117,9 +117,6 @@ function Module:OnUnload()
 	if (self.Clock) then
 		self.Clock:stop()
 	end
-
-	bot:UnregisterCommand("resetstats")
-	bot:UnregisterCommand("serverstats")
 end
 
 function Module:LoadStats(guild, filepath)
@@ -154,7 +151,11 @@ function Module:PrintStats(channel, stats)
 		local reactionData = mostAddedReaction[i]
 
 		local emojiData = bot:GetEmojiData(guild, reactionData.name)
-		addedReactionList = addedReactionList .. string.format("%s %s\n", reactionData.count, emojiData.MentionString or "<bot error>")
+		if (not emojiData) then
+			self:LogError("Most added reaction %s is not found", reactionData.name)
+		end
+
+		addedReactionList = addedReactionList .. string.format("%s %s\n", reactionData.count, emojiData and emojiData.MentionString or string.format("<bot error on %s>", reactionData.name))
 	end
 
 	local mostActiveChannels = {}
@@ -349,13 +350,19 @@ function Module:OnReactionAdd(reaction, userId)
 		return
 	end
 
+	local emojiData = bot:GetEmojiData(reaction.message.guild, reaction.emojiName)
+	if (not emojiData) then
+		self:LogWarning(reaction.message.guild, "Emoji %s was used but not found in guild", reactionIdorName)
+		return
+	end
+
 	local data = self:GetPersistentData(reaction.message.guild)
 	data.Stats.ReactionAdded = data.Stats.ReactionAdded + 1
 
 	local channelStats = self:GetChannelStats(reaction.message.guild, reaction.message.channel.id)
 	channelStats.ReactionCount = channelStats.ReactionCount + 1
 
-	local reactionStats = self:GetReactionStats(reaction.message.guild, reaction.emojiName)
+	local reactionStats = self:GetReactionStats(reaction.message.guild, emojiData.Name)
 	reactionStats.ReactionCount = reactionStats.ReactionCount + 1
 
 	local userStats = self:GetUserStats(reaction.message.guild, userId)

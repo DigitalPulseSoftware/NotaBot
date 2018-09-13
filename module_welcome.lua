@@ -82,7 +82,7 @@ function Module:OnUserBan(user, guild)
 		local message = config.BanMessage
 		if (channel and message) then
 			message = message:gsub("{user}", user.tag)
-			
+
 			channel:send(message)
 		end
 	end

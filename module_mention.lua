@@ -24,7 +24,7 @@ function Module:OnEnable(guild)
 	local config = self:GetConfig(guild)
 	local mentionEmoji = bot:GetEmojiData(guild, config.Emoji)
 	if (not mentionEmoji) then
-		return false, "Emoji \"" .. config.Emoji .. "\" not found"
+		return false, "Emoji \"" .. config.Emoji .. "\" not found (check your configuration)"
 	end
 
 	return true

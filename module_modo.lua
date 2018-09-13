@@ -92,12 +92,12 @@ function Module:OnEnable(guild)
 
 	local mentionEmoji = bot:GetEmojiData(guild, config.Trigger)
 	if (not mentionEmoji) then
-		return false, "Emoji \"" + config.Trigger + "\" not found"
+		return false, "Emoji \"" + config.Trigger + "\" not found (check your configuration)"
 	end
 
 	local alertChannel = guild:getChannel(config.AlertChannel)
 	if (not alertChannel) then
-		return false, "Alert channel not found"
+		return false, "Alert channel not found (check your configuration)"
 	end
 
 	local data = self:GetPersistentData(guild)
@@ -205,30 +205,38 @@ function Module:HandleEmojiAdd(userId, message)
 
 		local reporterCount = #reporters
 		if (config.MuteThreshold > 0 and reporterCount >= config.MuteThreshold and not reportedMessage.MuteApplied) then
-			reportedMessage.MuteApplied = true
-
 			-- Auto-mute
 			if (self:Mute(guild, reportedMessage.ReportedUserId)) then
+				local messageLink = alertMessage and bot:GenerateMessageLink(alertMessage) or "<error>"
+
 				local durationStr = util.FormatTime(config.MuteDuration, 2)
 				local reportedUser = client:getUser(reportedMessage.ReportedUserId)
-				alertChannel:send(string.format("%s has been auto-muted for %s\n<%s>", reportedUser.mentionString, durationStr, bot:GenerateMessageLink(alertMessage)))
-				message.channel:send(string.format("%s has been auto-muted for %s due to reporting", reportedUser.mentionString, durationStr, bot:GenerateMessageLink(alertMessage)))
+				alertChannel:send(string.format("%s has been auto-muted for %s\n<%s>", reportedUser.mentionString, durationStr, messageLink))
+				message.channel:send(string.format("%s has been auto-muted for %s due to reporting", reportedUser.mentionString, durationStr, messageLink))
 			else
 				alertChannel:send(string.format("Failed to mute %s", member.user.fullname))
 			end
+
+			reportedMessage.MuteApplied = true
 		end
 
 		if (config.ModeratorPingThreshold > 0 and reporterCount >= config.ModeratorPingThreshold and not reportedMessage.ModeratorPinged) then
-			reportedMessage.ModeratorPinged = true
-
 			-- Ping moderators
 			local moderatorRole = guild:getRole(config.ModeratorRole)
 			if (moderatorRole) then
-				alertChannel:send(string.format("A message has been reported %d times %s\n<%s>", reporterCount, moderatorRole.mentionString, bot:GenerateMessageLink(alertMessage)))
+				alertChannel:send(string.format("A message has been reported %d times %s\n<%s>", reporterCount, moderatorRole.mentionString, alertMessage and bot:GenerateMessageLink(alertMessage) or "<error>"))
 			end
+
+			reportedMessage.ModeratorPinged = true
 		end
 	else
 		local reporterUser = client:getUser(userId)
+
+		local content = message.cleanContent
+		if (#content > 1024) then
+			content = content:sub(1, 1024) .. "...<truncated>"
+		end
+
 		local embedContent = {
 			title = "One user reported a message",
 			fields = {
@@ -248,7 +256,7 @@ function Module:HandleEmojiAdd(userId, message)
 				},
 				{
 					name = "Message content",
-					value = message.cleanContent or "<empty>"
+					value = content or "<empty>"
 				},
 				{
 					name = "Message Link",
