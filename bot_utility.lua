@@ -6,6 +6,12 @@ local fs = require("coro-fs")
 local json = require("json")
 local path = require("path")
 
+local discordSubdomains = {
+	[""] = true, -- no subdomain
+	["ptb."] = true, -- public test stable
+	["canary."] = true -- canary
+}
+
 function Bot:DecodeChannel(guild, message)
 	assert(guild)
 	assert(message)
@@ -62,6 +68,32 @@ function Bot:DecodeMember(guild, message)
 	end
 
 	return member
+end
+
+function Bot:DecodeMessage(message)
+	assert(message)
+
+	local domain, guildId, channelId, messageId = message:match("^https?://([%w%.]*)discordapp.com/channels/(%d+)/(%d+)/(%d+)$")
+	if (not domain or not discordSubdomains[domain]) then
+		return nil, "Invalid link"
+	end
+
+	local guild = self.Client:getGuild(guildId)
+	if (not guild) then
+		return nil, "Unavailable guild"
+	end
+
+	local channel = guild:getChannel(channelId)
+	if (not channel) then
+		return nil, "Unavailable channel"
+	end
+
+	local message = channel:getMessage(messageId)
+	if (not message) then
+		return nil, "Message not found"
+	end
+
+	return message
 end
 
 function Bot:DecodeUser(message)
