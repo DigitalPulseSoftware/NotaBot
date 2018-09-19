@@ -755,7 +755,10 @@ Bot:RegisterCommand({
 					return valueToString(value, guild)
 				end
 			else
-				assert(configTable.Optional)
+				if (not configTable.Optional) then
+					error("Config " .. configTable.Name .. " has no value but is not optional")
+				end
+
 				return "<None>"
 			end
 		end
