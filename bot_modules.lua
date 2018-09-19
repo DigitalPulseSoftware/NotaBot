@@ -436,6 +436,7 @@ function Bot:LoadModule(moduleTable)
 			["Global"] = {"boolean", false, false},
 			["Optional"] = {"boolean", false, false},
 			["Name"] = {"string", true},
+			["Sensitive"] = {"boolean", false, false},
 			["Type"] = {"number", true}
 		}
 
@@ -763,8 +764,14 @@ Bot:RegisterCommand({
 			end
 		end
 
-		local GenerateField = function (configTable, value, wasModified)
-			local valueStr = StringifyConfigValue(configTable, value)
+		local GenerateField = function (configTable, value, allowSensitive, wasModified)
+			local valueStr
+			if (not configTable.Sensitive or allowSensitive) then
+				valueStr = StringifyConfigValue(configTable, value)
+			else
+				valueStr = "*<sensitive>*"
+			end
+
 			local fieldType = Bot.ConfigTypeString[configTable.Type]
 			if (configTable.Array) then
 				fieldType = fieldType .. " array"
@@ -817,7 +824,25 @@ Bot:RegisterCommand({
 					title = "Configuration for " .. moduleTable.Name .. " module",
 					description = string.format("%s\n\nConfiguration list:", enabledText, moduleTable.Name),
 					fields = fields,
-					footer = {text = string.format("Use `!config %s add/remove/reset/set ConfigName <value>` to change configuration settings.", moduleTable.Name)}
+					footer = {text = string.format("Use `!config %s add/remove/reset/set/show ConfigName <value>` to change configuration settings.", moduleTable.Name)}
+				}
+			})
+		elseif (action == "show") then
+			local configTable = GetConfigByKey(key)
+			if (not configTable or (configTable.Global and message.member.id ~= Config.OwnerUserId)) then
+				message:reply(string.format("Module %s has no config key \"%s\"", moduleTable.Name, key))
+				return
+			end
+
+			local config = configTable.Global and globalConfig or guildConfig
+
+			message:reply({
+				embed = {
+					title = "Configuration of " .. moduleTable.Name .. " module",
+					fields = {
+						GenerateField(configTable, config[configTable.Name], true)
+					},
+					timestamp = discordia.Date():toISO('T', 'Z')
 				}
 			})
 		elseif (action == "add" or action == "remove" or action == "reset" or action == "set") then
@@ -920,13 +945,13 @@ Bot:RegisterCommand({
 				embed = {
 					title = "Configuration update for " .. moduleTable.Name .. " module",
 					fields = {
-						GenerateField(configTable, config[configTable.Name], wasModified)
+						GenerateField(configTable, config[configTable.Name], false, wasModified)
 					},
 					timestamp = discordia.Date():toISO('T', 'Z')
 				}
 			})
 		else
-			message:reply("Invalid action \"" .. action .. "\" (valid actions are *add*, *remove*, *reset* or *set*)")
+			message:reply("Invalid action \"" .. action .. "\" (valid actions are *add*, *remove*, *reset*, *set* or *show*)")
 		end
 	end
 })
