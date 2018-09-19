@@ -222,10 +222,22 @@ env.Config = Config
 env.discordia = discordia
 env.require = require
 
-loadfile("bot_emoji.lua", "t", env)()
-loadfile("bot_utility.lua", "t", env)()
-loadfile("bot_commands.lua", "t", env)()
-loadfile("bot_modules.lua", "t", env)()
+local function loadbotfile(file)
+	local f, err = loadfile(file, "t", env)
+	if (not f) then
+		error(file .. " failed to compile: " .. err)
+	end
+
+	local success, err = pcall(f)
+	if (not success) then
+		error(file .. " failed to execute: " .. err)
+	end
+end
+
+loadbotfile("bot_emoji.lua")
+loadbotfile("bot_utility.lua")
+loadbotfile("bot_commands.lua")
+loadbotfile("bot_modules.lua")
 
 Bot:RegisterCommand({
 	Name = "exec",
