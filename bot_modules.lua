@@ -81,6 +81,17 @@ local botModuleEvents = {
 	["unload"] = true
 }
 
+local ConfigMetatable = {}
+function ConfigMetatable:__index(key)
+	print(debug.traceback())
+	error("Invalid config key " .. tostring(key) .. " for reading")
+end
+
+function ConfigMetatable:__newindex(key, value)
+	print(debug.traceback())
+	error("Invalid config key " .. tostring(key) .. " for writing")
+end
+
 local ModuleMetatable = {}
 ModuleMetatable["__index"] = ModuleMetatable
 
@@ -141,9 +152,9 @@ function ModuleMetatable:_PrepareConfig(context, config, values, global)
 		if (reset) then
 			local default = configTable.Default
 			if (type(default) == "table") then
-				values[configTable.Name] = table.deepcopy(default)
+				rawset(values, configTable.Name, table.deepcopy(default))
 			else
-				values[configTable.Name] = default
+				rawset(values, configTable.Name, default)
 			end
 		end
 	end
@@ -154,10 +165,14 @@ function ModuleMetatable:_PrepareGlobalConfig()
 		self.GlobalConfig = {}
 	end
 
+	setmetatable(self.GlobalConfig, ConfigMetatable)
+
 	return self:_PrepareConfig("Global config", self._GlobalConfig, self.GlobalConfig, true)
 end
 
 function ModuleMetatable:_PrepareGuildConfig(guildId, guildConfig)
+	setmetatable(guildConfig, ConfigMetatable)
+
 	return self:_PrepareConfig("Guild " .. guildId, self._GuildConfig, guildConfig, false)
 end
 
@@ -248,7 +263,9 @@ function ModuleMetatable:GetGuildData(guildId, noCreate)
 	local guildData = self._Guilds[guildId]
 	if (not guildData and not noCreate) then
 		guildData = {}
-		guildData.Config = {}
+		guildData.Config = {
+			_Enabled = false
+		}
 		guildData.Data = {}
 		guildData.PersistentData = {}
 		guildData._Ready = false
