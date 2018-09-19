@@ -73,6 +73,14 @@ local discordiaEvents = {
 	["webhooksUpdate"] = function (channel) return channel.guild end
 }
 
+local botModuleEvents = {
+	["disable"] = true,
+	["enable"] = true,
+	["loaded"] = true,
+	["ready"] = true,
+	["unload"] = true
+}
+
 local ModuleMetatable = {}
 ModuleMetatable["__index"] = ModuleMetatable
 
@@ -434,7 +442,7 @@ function Bot:LoadModule(moduleTable)
 	for key,func in pairs(moduleTable) do
 		if (key:startswith("On") and type(func) == "function") then
 			local eventName = key:sub(3, 3):lower() .. key:sub(4)
-			if (eventName ~= "loaded" and eventName ~= "unload" and eventName ~= "enable" and eventName ~= "disable" and eventName ~= "ready") then
+			if (not botModuleEvents[eventName]) then
 				if (not discordiaEvents[eventName]) then
 					return false, "Module tried to bind hook \"" .. eventName .. "\" which doesn't exist"
 				end
