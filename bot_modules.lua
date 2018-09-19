@@ -127,28 +127,38 @@ local validateConfigType = function (configTable, value)
 	end
 end
 
-function ModuleMetatable:_PrepareConfig(guildId, guildConfig)
-	local moduleConfig = self._Config
-
-	for optionIndex, configTable in pairs(moduleConfig) do
+function ModuleMetatable:_PrepareConfig(context, config, values, global)
+	for optionIndex, configTable in pairs(config) do
 		local reset = false
-		local guildConfigValue = guildConfig[configTable.Name]
-		if (guildConfigValue == nil) then
+		local value = rawget(values, configTable.Name)
+		if (value == nil) then
 			reset = true
-		elseif (not validateConfigType(configTable, guildConfigValue)) then
-			self:LogWarning("Guild %s has invalid value for option %s, resetting...", guildId, configTable.Name)
+		elseif (not validateConfigType(configTable, value)) then
+			self:LogWarning("%s has invalid value for option %s, resetting...", context, configTable.Name)
 			reset = true
 		end
 
 		if (reset) then
 			local default = configTable.Default
 			if (type(default) == "table") then
-				guildConfig[configTable.Name] = table.deepcopy(default)
+				values[configTable.Name] = table.deepcopy(default)
 			else
-				guildConfig[configTable.Name] = default
+				values[configTable.Name] = default
 			end
 		end
 	end
+end
+
+function ModuleMetatable:_PrepareGlobalConfig()
+	if (not self.GlobalConfig) then
+		self.GlobalConfig = {}
+	end
+
+	return self:_PrepareConfig("Global config", self._GlobalConfig, self.GlobalConfig, true)
+end
+
+function ModuleMetatable:_PrepareGuildConfig(guildId, guildConfig)
+	return self:_PrepareConfig("Guild " .. guildId, self._GuildConfig, guildConfig, false)
 end
 
 function ModuleMetatable:DisableForGuild(guild, dontSave)
@@ -167,7 +177,7 @@ function ModuleMetatable:DisableForGuild(guild, dontSave)
 		local config = self:GetConfig(guild)
 		config._Enabled = false
 		if (not dontSave) then
-			self:SaveConfig(guild)
+			self:SaveGuildConfig(guild)
 		end
 
 		self:LogInfo(guild, "Module disabled")
@@ -201,7 +211,7 @@ function ModuleMetatable:EnableForGuild(guild, ignoreCheck, dontSave)
 	guildData.Config._Enabled = true
 
 	if (not dontSave) then
-		self:SaveConfig(guild)
+		self:SaveGuildConfig(guild)
 	end
 
 	self:LogInfo(guild, "Module enabled (%.3fs)", stopwatch.milliseconds / 1000)
@@ -243,7 +253,7 @@ function ModuleMetatable:GetGuildData(guildId, noCreate)
 		guildData.PersistentData = {}
 		guildData._Ready = false
 
-		self:_PrepareConfig(guildId, guildData.Config)
+		self:_PrepareGuildConfig(guildId, guildData.Config)
 
 		self._Guilds[guildId] = guildData
 	end
@@ -298,11 +308,19 @@ function ModuleMetatable:RegisterCommand(values)
 end
 
 function ModuleMetatable:Save(guild)
-	self:SaveConfig(guild)
+	self:SaveGuildConfig(guild)
 	self:SavePersistentData(guild)
 end
 
-function ModuleMetatable:SaveConfig(guild)
+function ModuleMetatable:SaveGlobalConfig()
+	local filepath = string.format("data/module_%s/global_config.json", self.Name)
+	local success, err = Bot:SerializeToFile(filepath, self.GlobalConfig, true)
+	if (not success) then
+		self:LogWarning(guild, "Failed to save global config: %s", err)
+	end
+end
+
+function ModuleMetatable:SaveGuildConfig(guild)
 	local save = function (guildId, guildConfig)
 		local filepath = string.format("data/module_%s/guild_%s/config.json", self.Name, guildId)
 		local success, err = Bot:SerializeToFile(filepath, guildConfig, true)
@@ -379,7 +397,8 @@ function Bot:LoadModule(moduleTable)
 	local stopwatch = discordia.Stopwatch()
 
 	-- Load config
-	local config
+	local guildConfig = {}
+	local globalConfig = {}
 	if (moduleTable.GetConfigTable) then
 		local success, ret = self:CallModuleFunction(moduleTable, "GetConfigTable")
 		if (not success) then
@@ -393,6 +412,7 @@ function Bot:LoadModule(moduleTable)
 
 		-- Validate config
 		local validConfigOptions = {
+			-- Field = {type, mandatory, default}
 			["Array"] = {"boolean", false, false},
 			["Default"] = {"any", false},
 			["Description"] = {"string", true},
@@ -431,11 +451,16 @@ function Bot:LoadModule(moduleTable)
 			if (not configTable.Default and not configTable.Optional) then
 				return false, string.format("Option #%s is not optional and has no default value", optionIndex)
 			end
+
+			if (configTable.Global) then
+				table.insert(globalConfig, configTable)
+			else
+				table.insert(guildConfig, configTable)
+			end
 		end
-	else
-		config = {}
 	end
-	moduleTable._Config = config
+	moduleTable._GlobalConfig = globalConfig
+	moduleTable._GuildConfig = guildConfig
 
 	-- Parse events
 	local moduleEvents = {}
@@ -461,8 +486,10 @@ function Bot:LoadModule(moduleTable)
 	-- Load module persistent data from disk
 	self:LoadModuleData(moduleTable)
 
+	moduleTable:_PrepareGlobalConfig()
+
 	moduleTable:ForEachGuild(function (guildId, config, data, persistentData)
-		moduleTable:_PrepareConfig(guildId, config)
+		moduleTable:_PrepareGuildConfig(guildId, config)
 	end, true, true)
 
 	-- Loading finished, call callback
@@ -540,6 +567,16 @@ function Bot:LoadModuleData(moduleTable)
 						guildData.PersistentData = persistentData
 					else
 						self.Client:error("Failed to load persistent data of guild %s (%s module): %s", guildId, moduleTable.Name, err)
+					end
+				end
+			elseif (entry.type == "file") then
+				if (entry.name == "global_config.json") then
+					local config, err = self:UnserializeFromFile(dataFolder .. "/" .. entry.name)
+					if (config) then
+						moduleTable.GlobalConfig = config
+						self.Client:info("Global config of module %s has been loaded", moduleTable.Name)
+					else
+						self.Client:error("Failed to load global config module %s: %s", moduleTable.Name, err)
 					end
 				end
 			end
@@ -683,8 +720,9 @@ Bot:RegisterCommand({
 
 		action = action and action:lower() or "list"
 
+		local globalConfig = moduleTable.GlobalConfig
 		local guild = message.guild
-		local config = moduleTable:GetConfig(guild)
+		local guildConfig = moduleTable:GetConfig(guild)
 
 		local StringifyConfigValue = function (configTable, value)
 			if (value ~= nil) then
@@ -705,20 +743,44 @@ Bot:RegisterCommand({
 			end
 		end
 
+		local GenerateField = function (configTable, value, wasModified)
+			local valueStr = StringifyConfigValue(configTable, value)
+			local fieldType = Bot.ConfigTypeString[configTable.Type]
+			if (configTable.Array) then
+				fieldType = fieldType .. " array"
+			end
+
+			return {
+				name = string.format("%s:gear: %s", configTable.Global and ":globe_with_meridians: " or "", configTable.Name),
+				value = string.format("**Description:** %s\n**Value (%s):** %s", configTable.Description, fieldType, valueStr)
+			}
+		end
+
+		local GetConfigByKey = function (key)
+			for k,configData in pairs(moduleTable._GuildConfig) do
+				if (configData.Name == key) then
+					return configData
+				end
+			end
+
+			for k,configData in pairs(moduleTable._GlobalConfig) do
+				if (configData.Name == key) then
+					return configData
+				end
+			end
+		end
+
 		if (action == "list") then
 			local fields = {}
 			local globalFields = {}
-			for k,configTable in pairs(moduleTable._Config) do
-				local valueStr = StringifyConfigValue(configTable, config[configTable.Name])
-				local fieldType = Bot.ConfigTypeString[configTable.Type]
-				if (configTable.Array) then
-					fieldType = fieldType .. " array"
-				end
+			for k,configTable in pairs(moduleTable._GuildConfig) do
+				table.insert(fields, GenerateField(configTable, guildConfig[configTable.Name]))
+			end
 
-				table.insert(configTable.Global and globalFields or fields, {
-					name = ":gear: " .. configTable.Name,
-					value = string.format("**Description:** %s\n**Value (%s):** %s", configTable.Description, fieldType, valueStr)
-				})
+			if (message.member.id == Config.OwnerUserId) then
+				for k,configTable in pairs(moduleTable._GlobalConfig) do
+					table.insert(fields, GenerateField(configTable, moduleTable.GlobalConfig[configTable.Name]))
+				end
 			end
 
 			local enabledText
@@ -728,13 +790,6 @@ Bot:RegisterCommand({
 				enabledText = ":white_check_mark: Module **enabled** (use `!disable " .. moduleTable.Name .. "` to disable it)"
 			else
 				enabledText = ":x: Module **disabled** (use `!enable " .. moduleTable.Name .. "` to enable it)"
-			end
-
-			if (message.member.id == Config.OwnerUserId) then
-				for _, field in pairs(globalFields) do
-					field.name = ":globe_with_meridians: " .. field.name
-					table.insert(fields, field)
-				end
 			end
 
 			message:reply({
@@ -751,14 +806,7 @@ Bot:RegisterCommand({
 				return
 			end
 
-			local configTable
-			for k,configData in pairs(moduleTable._Config) do
-				if (configData.Name == key) then
-					configTable = configData
-					break
-				end
-			end
-
+			local configTable = GetConfigByKey(key)
 			if (not configTable) then
 				message:reply(string.format("Module %s has no config key \"%s\"", moduleTable.Name, key))
 				return
@@ -800,6 +848,8 @@ Bot:RegisterCommand({
 
 			local wasModified = false
 
+			local config = configTable.Global and globalConfig or guildConfig
+
 			if (action == "add") then
 				assert(configTable.Array)
 				-- Insert value (if not present)
@@ -839,29 +889,24 @@ Bot:RegisterCommand({
 			end
 
 			if (wasModified) then
-				moduleTable:SaveConfig(guild)
-			end
-
-			local valueStr =  StringifyConfigValue(configTable, config[configTable.Name])
-			local fieldType = Bot.ConfigTypeString[configTable.Type]
-			if (configTable.Array) then
-				fieldType = fieldType .. " array"
+				if (configTable.Global) then
+					moduleTable:SaveGlobalConfig()
+				else
+					moduleTable:SaveGuildConfig(guild)
+				end
 			end
 
 			message:reply({
 				embed = {
 					title = "Configuration update for " .. moduleTable.Name .. " module",
 					fields = {
-						{
-							name = ":gear: " .. configTable.Name,
-							value = string.format("**Description:** %s\n**New value (%s):** %s%s", configTable.Description, fieldType, valueStr, wasModified and "" or " (nothing changed)")
-						}
+						GenerateField(configTable, config[configTable.Name], wasModified)
 					},
 					timestamp = discordia.Date():toISO('T', 'Z')
 				}
 			})
 		else
-			message:reply("Invalid action \"" .. action .. "\" (valid actions are *add*, *remove* or *set*)")
+			message:reply("Invalid action \"" .. action .. "\" (valid actions are *add*, *remove*, *reset* or *set*)")
 		end
 	end
 })
