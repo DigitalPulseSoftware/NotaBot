@@ -82,11 +82,6 @@ local botModuleEvents = {
 }
 
 local ConfigMetatable = {}
-function ConfigMetatable:__index(key)
-	print(debug.traceback())
-	error("Invalid config key " .. tostring(key) .. " for reading")
-end
-
 function ConfigMetatable:__newindex(key, value)
 	print(debug.traceback())
 	error("Invalid config key " .. tostring(key) .. " for writing")
@@ -809,12 +804,12 @@ Bot:RegisterCommand({
 			local fields = {}
 			local globalFields = {}
 			for k,configTable in pairs(moduleTable._GuildConfig) do
-				table.insert(fields, GenerateField(configTable, guildConfig[configTable.Name]))
+				table.insert(fields, GenerateField(configTable, rawget(guildConfig, configTable.Name)))
 			end
 
 			if (message.member.id == Config.OwnerUserId) then
 				for k,configTable in pairs(moduleTable._GlobalConfig) do
-					table.insert(fields, GenerateField(configTable, moduleTable.GlobalConfig[configTable.Name]))
+					table.insert(fields, GenerateField(configTable, rawget(moduleTable.GlobalConfig, configTable.Name)))
 				end
 			end
 
@@ -848,7 +843,7 @@ Bot:RegisterCommand({
 				embed = {
 					title = "Configuration of " .. moduleTable.Name .. " module",
 					fields = {
-						GenerateField(configTable, config[configTable.Name], true)
+						GenerateField(configTable, rawget(config, configTable.Name), true)
 					},
 					timestamp = discordia.Date():toISO('T', 'Z')
 				}
@@ -907,7 +902,14 @@ Bot:RegisterCommand({
 				assert(configTable.Array)
 				-- Insert value (if not present)
 				local found = false
-				local values = config[configTable.Name]
+				local values = rawget(config, configTable.Name)
+				if (not values) then
+					assert(configTable.Optional)
+
+					values = {}
+					rawset(config, configTable.Name, values)
+				end
+
 				for _, value in pairs(values) do
 					if (value == newValue) then
 						found = true
@@ -922,20 +924,24 @@ Bot:RegisterCommand({
 			elseif (action == "remove") then
 				assert(configTable.Array)
 				-- Remove value (if present)
-				local values = config[configTable.Name]
-				for i = 1, #values do
-					if (values[i] == newValue) then
-						table.remove(values, i)
-						wasModified = true
-						break
+				local values = rawget(config, configTable.Name)
+				if (values) then
+					for i = 1, #values do
+						if (values[i] == newValue) then
+							table.remove(values, i)
+							wasModified = true
+							break
+						end
 					end
+				else
+					assert(configTable.Optional)
 				end
 			elseif (action == "reset" or action == "set") then
 				-- Replace value
 				if (configTable.Array and action ~= "reset") then
-					config[configTable.Name] = {newValue}
+					rawset(config, configTable.Name, {newValue})
 				else
-					config[configTable.Name] = newValue
+					rawset(config, configTable.Name, newValue)
 				end
 
 				wasModified = true
