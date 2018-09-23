@@ -191,7 +191,19 @@ Bot.ConfigTypeParser = {
 }
 
 client:onSync("ready", function ()
-	print('Logged in as '.. client.user.username)
+	print("Logged in as " .. client.user.username)
+end)
+
+client:on("guildAvailable", function (guild)
+	print("Guild " .. guild.name)
+end)
+
+client:on("guildCreate", function (guild)
+	client:info("Bot was added to guild %s", guild.name)
+end)
+
+client:on("guildDelete", function (guild)
+	client:info("Bot was removed from guild %s", guild.name)
 end)
 
 function Bot:Save()
