@@ -183,7 +183,7 @@ function ModuleMetatable:DisableForGuild(guild, dontSave)
 
 	local success
 	if (self.OnDisable) then
-		success, err = bot:CallModuleFunction(self, "OnDisable", guild)
+		success, err = Bot:CallModuleFunction(self, "OnDisable", guild)
 	else
 		success = true
 	end
