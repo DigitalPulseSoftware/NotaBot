@@ -1595,3 +1595,7 @@ end
 Bot.Client:on('emojisUpdate', function (guild)
 	emojiGuildsCache[guild.id] = nil
 end)
+
+Bot.Client:on("guildDelete", function (guild)
+	emojiGuildsCache[guild.id] = nil
+end)
