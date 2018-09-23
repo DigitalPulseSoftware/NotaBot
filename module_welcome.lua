@@ -26,6 +26,12 @@ function Module:GetConfigTable()
 			Optional = true
 		},
 		{
+			Name = "JoinRole",
+			Description = "Gives a role to new members",
+			Type = bot.ConfigType.Role,
+			Optional = true
+		},
+		{
 			Name = "LeaveMessage",
 			Description = "Message to be posted when a user leaves the server (`{user}` will be replaced by the user name)",
 			Type = bot.ConfigType.String,
@@ -50,7 +56,8 @@ function Module:GetConfigTable()
 end
 
 function Module:OnMemberJoin(member)
-	local config = self:GetConfig(member.guild)
+	local guild = member.guild
+	local config = self:GetConfig(guild)
 	if (config.WelcomeChannel) then
 		local channel = client:getChannel(config.WelcomeChannel)
 		local message = config.JoinMessage
@@ -58,6 +65,18 @@ function Module:OnMemberJoin(member)
 			message = message:gsub("{user}", member.user.mentionString)
 			
 			channel:send(message)
+		end
+
+		if (config.JoinRole) then
+			local role = guild:getRole(config.JoinRole)
+			if (role) then
+				local success, err = member:addRole(role)
+				if (not success) then
+					self:LogError(guild, "Failed to add role %s to member %s: %s", role.name, member.user.tag)
+				end
+			else
+				self:LogError(guild, "Invalid role %s", config.JoinRole)
+			end
 		end
 	end
 end
