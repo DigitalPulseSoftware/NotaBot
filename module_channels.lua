@@ -14,7 +14,7 @@ Module.Name = "channels"
 function Module:GetConfigTable()
 	return {
 		{
-			Name = "ChannelConfig",
+			Name = "ReactionActions",
 			Description = "Map explaining which role to add/remove from which reaction on which message, use the !channelconfig command to setup this",
 			Type = bot.ConfigType.Custom,
 			Default = {}
@@ -253,7 +253,7 @@ function Module:OnLoaded()
 			end
 
 			if (success) then
-				self:SaveConfig()
+				self:SaveGuildConfig(guild)
 				commandMessage:reply(string.format("Configuration of module %s has been saved, use the `!reload %s` command to activate it", self.Name, self.Name))
 			end
 		end
@@ -425,7 +425,7 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 		if (role) then
 			self:LogInfo(guild, "Adding %s%s to %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
 			if (not member:addRole(roleId)) then
-				self:LogWarning(guild, "Failed to add role % to %s", role.name, member.tag)
+				self:LogWarning(guild, "Failed to add role %s to %s", role.name, member.tag)
 			end
 		else
 			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
