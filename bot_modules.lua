@@ -393,6 +393,10 @@ end
 function Bot:DisableModule(moduleName, guild)
 	local moduleTable = self.Modules[moduleName]
 	if (moduleTable) then
+		if (not moduleTable:IsEnabledForGuild(guild)) then
+			return false, "Module is already disabled on this server"
+		end
+
 		return moduleTable:DisableForGuild(guild)
 	end
 	
@@ -402,6 +406,10 @@ end
 function Bot:EnableModule(moduleName, guild)
 	local moduleTable = self.Modules[moduleName]
 	if (moduleTable) then
+		if (moduleTable:IsEnabledForGuild(guild)) then
+			return false, "Module is already enabled on this server"
+		end
+
 		return moduleTable:EnableForGuild(guild)
 	end
 	
