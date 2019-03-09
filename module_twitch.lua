@@ -22,50 +22,6 @@ local sha256 = require('sha256')
 local querystring = require('querystring')
 local twitchAPI = require('./twitchapi.lua')
 
-function tprint (tbl, indent)
-  if not indent then indent = 0 end
-  for k, v in pairs(tbl) do
-    formatting = string.rep("  ", indent) .. k .. ": "
-    if type(v) == "table" then
-      print(formatting)
-      tprint(v, indent+1)
-    elseif type(v) == 'boolean' then
-      print(formatting .. tostring(v))		
-    else
-      print(formatting .. v)
-    end
-  end
-end
-
-local notifConfigs = {
-	["179422453"] = {
-		{
-			TitlePattern = "Burger",
-			Channel = "476875417224085524",
-			Message = "<@&490500340811169793>",
-		},
-		{
-			TitlePattern = "Utopia",
-			Channel = "476875417224085524",
-			Message = "<@&490500340811169793>"
-		},
-		{
-			TitlePattern = "Nazara",
-			Channel = "476875417224085524",
-			Message = "<@&490500428631638047>",
-		},
-		{
-			TitlePattern = "Bot",
-			Channel = "476875417224085524",
-			Message = "<@&490500709171855360>"
-		},
-		{
-			Channel = "476875417224085524",
-			Mssage  = "<@&490500779661066265>"
-		}
-	}
-}
-
 function Module:GetConfigTable()
 	return {
 		{
@@ -87,6 +43,13 @@ function Module:GetConfigTable()
 			Description = "Port on which internal server listens",
 			Type = bot.ConfigType.Integer,
 			Default = 14793
+		},
+		{
+			Global = true,
+			Name = "SilenceDuration",
+			Description = "Duration during which a stream won't trigger other notifications after a notification",
+			Type = bot.ConfigType.Duration,
+			Default = 30 * 60
 		},
 		{
 			Global = true,
@@ -118,7 +81,7 @@ function Module:OnLoaded()
 		for channelId, channelData in pairs(self.WatchedChannels) do
 			if (channelData.RenewTime <= now and not channelData.Subscribing) then
 				if (not table.empty(channelData.Guilds)) then
-					channelData.RenewTime = now + 60 -- Retry in one minute if twitch didn't answer or subscribing failed
+					channelData.RenewTime = now + 2*60 -- Retry in two minutes if twitch didn't answer or subscribing failed
 					wrap(function () bot:CallModuleFunction(self, "SubscribeToTwitch", channelId) end)()
 				else
 					self.WatchedChannels[channelId] = nil
@@ -198,6 +161,7 @@ function Module:OnEnable(guild)
 		if (not watchedData) then
 			watchedData = {
 				Guilds = {},
+				LastAlert = 0,
 				RenewTime = os.time(),
 				Subscribed = false,
 				Subscribing = false,
@@ -260,6 +224,7 @@ function Module:CreateServer(host, port, onConnect)
 			write("")
 			if not head.keepAlive then break end
 		end
+		write() --FIXME: This should be done by coro-net
  	end)
 end
 
@@ -319,7 +284,7 @@ function Module:SetupServer()
 		local headerSignature
 		for _, keyvalue in ipairs(head) do
 			local key, value = unpack(keyvalue)
-			if (key == "X-Hub-Signature") then
+			if (key:lower() == "x-hub-signature") then
 				headerSignature = value
 				break
 			end
@@ -344,8 +309,9 @@ function Module:SetupServer()
 
 		if (not hasSignature) then
 			-- Decode path
-			if (head.path:startswith("/?")) then
-				local parameters = querystring.parse(head.path:sub(3))
+			local query = head.path:match("^[^?]*%??(.*)")
+			if (query) then
+				local parameters = querystring.parse(query)
 
 				local mode = parameters["hub.mode"]
 				local twitchTopic = parameters["hub.topic"]
@@ -380,6 +346,10 @@ function Module:SetupServer()
 					end
 
 					self:LogInfo("Twitch server: Subscribed to %s for %s", channelId, subscribeTime)
+
+					if (channelData.Subscribed) then
+						self:LogWarning("Double subscription to %s detected", channelId)
+					end
 
 					channelData.RenewTime = os.time() + subscribeTime
 					channelData.Subscribed = true
@@ -433,6 +403,18 @@ function Module:HandleChannelUp(channelData)
 		return
 	end
 
+	local now = os.time()
+	if (now - watchedData.LastAlert < self.GlobalConfig.SilenceDuration) then
+		self:LogInfo("Dismissed alert event because last one occured %s ago", util.FormatTime(now - watchedData.LastAlert))
+		return
+	end
+
+	local startDate = discordia.Date.parseISO(channelData.started_at)
+	if (watchedData.LastAlert > startDate) then
+		self:LogInfo("Dismissed alert event because last one occured while the stream was active (%s ago)", util.FormatTime(now - watchedData.LastAlert))
+		return
+	end
+
 	local profileData, err = self.API:GetUserById(userId)
 	if (not profileData) then
 		self:LogError("Failed to query user %s info: %s", userId, msg)
@@ -443,6 +425,8 @@ function Module:HandleChannelUp(channelData)
 	if (not gameData) then
 		self:LogError("Failed to query game info about game %s: %s", channelData.game_id, err)
 	end
+
+	watchedData.LastAlert = now
 
 	local title = channelData.title
 	for guildId, guildPatterns in pairs(watchedData.Guilds) do
@@ -487,6 +471,26 @@ function Module:HandleChannelUp(channelData)
 							end
 						end
 
+						local fields = {nil, nil, nil}
+						if (gameData) then
+							table.insert(fields, {
+								name = "Game",
+								value = gameName
+							})
+						end
+
+						if (channelData.viewer_count > 0) then
+							table.insert(fields, {
+								name = "Viewers",
+								value = channelData.viewer_count
+							})
+						end
+
+						table.insert(fields, {
+							name = "Started",
+							value = util.FormatTime(now - startDate, 1) .. " ago"
+						})
+
 						channel:send({
 							content = message,
 							embed = {
@@ -500,16 +504,7 @@ function Module:HandleChannelUp(channelData)
 								thumbnail = {
 									url = profileData.profile_image_url
 								},
-								fields = {
-									{
-										name = "Game",
-										value = gameName
-									},
-									{
-										name = "Viewers",
-										value = channelData.viewer_count
-									}
-								},
+								fields = fields,
 								image = {
 									url = thumbnail
 								},
