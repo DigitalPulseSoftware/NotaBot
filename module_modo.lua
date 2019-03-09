@@ -70,11 +70,11 @@ function Module:OnLoaded()
 		local now = os.time()
 		self:ForEachGuild(function (guildId, config, data, persistentData)
 			local guild = client:getGuild(guildId)
-			assert(guild)
-
-			for userId,endTime in pairs(persistentData.MutedUsers) do
-				if (now >= endTime) then
-					self:Unmute(guild, userId)
+			if (guild) then
+				for userId,endTime in pairs(persistentData.MutedUsers) do
+					if (now >= endTime) then
+						self:Unmute(guild, userId)
+					end
 				end
 			end
 		end)
@@ -92,7 +92,7 @@ function Module:OnEnable(guild)
 
 	local mentionEmoji = bot:GetEmojiData(guild, config.Trigger)
 	if (not mentionEmoji) then
-		return false, "Emoji \"" + config.Trigger + "\" not found (check your configuration)"
+		return false, "Emoji \"" .. config.Trigger .. "\" not found (check your configuration)"
 	end
 
 	local alertChannel = guild:getChannel(config.AlertChannel)
@@ -321,11 +321,12 @@ end
 
 function Module:Unmute(guild, userId)
 	local config = self:GetConfig(guild)
+
+	local data = self:GetPersistentData(guild)
+	data.MutedUsers[userId] = nil
+
 	local member = guild:getMember(userId)
 	if (member) then
-		local data = self:GetPersistentData(guild)
-
-		data.MutedUsers[userId] = nil
 		if (member:removeRole(config.MuteRole)) then
 			return true
 		else

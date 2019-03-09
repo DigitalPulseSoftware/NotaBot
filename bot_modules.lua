@@ -607,7 +607,10 @@ end
 
 function Bot:MakeModuleReady(moduleTable)
 	moduleTable:ForEachGuild(function (guildId, config, data, persistentData)
-		moduleTable:EnableForGuild(self.Client:getGuild(guildId), true, true)
+		local guild = self.Client:getGuild(guildId)
+		if (guild) then
+			moduleTable:EnableForGuild(guild, true, true)
+		end
 	end, false, true)
 
 	for eventName,eventData in pairs(moduleTable._Events) do

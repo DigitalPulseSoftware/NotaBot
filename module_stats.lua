@@ -29,16 +29,16 @@ function Module:OnLoaded()
 	self.Clock:on("day", function ()
 		self:ForEachGuild(function (guildId, config, data, persistentData)
 			local guild = client:getGuild(guildId)
-			assert(guild)
+			if (guild) then
+				local stats = persistentData.Stats
+				self:SaveStats(self:GetStatsFilename(guild, stats.Date), stats)
+				persistentData.Stats = self:ResetStats(guild)
 
-			local stats = persistentData.Stats
-			self:SaveStats(self:GetStatsFilename(guild, stats.Date), stats)
-			persistentData.Stats = self:ResetStats(guild)
-
-			if (config.LogChannel) then
-				local channel = guild:getChannel(config.LogChannel)
-				if (channel) then
-					self:PrintStats(channel, stats)
+				if (config.LogChannel) then
+					local channel = guild:getChannel(config.LogChannel)
+					if (channel) then
+						coroutine.wrap(function() self:PrintStats(channel, stats) end)()
+					end
 				end
 			end
 		end)
@@ -250,7 +250,7 @@ function Module:SaveStats(filename, stats)
 
 	local success, err = outputFile:write(json.encode(stats))
 	if (not success) then
-		self:LogError("Failed to open %s", err)
+		self:LogError("Failed to write %s: %s", filename, err)
 		return
 	end
 
