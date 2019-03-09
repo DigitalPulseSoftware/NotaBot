@@ -44,49 +44,50 @@ function Module:OnLoaded()
 						local message = channel:getMessage(messageId)
 						if (message and (not configMessage or configMessage.id == message.id)) then
 							local fields = {}
-							for k,reactionInfo in pairs(reactionTable) do
-								local roleActions = self:GetReactionActions(guild, channelId, messageId, reactionInfo.reaction, true)
-								assert(roleActions)
+							for emoji,actions in pairs(reactionTable) do
+								local actionStr = ""
 
-								local addedRoles = {}
-								for _, roleId in pairs(roleActions.Add) do
-									local role = guild:getRole(roleId)
-									if (role) then
-										table.insert(addedRoles, role.mentionString)
-									else
-										table.insert(addedRoles, "<invalid role " .. roleId .. ">") 
+								if (actions.AddRoles) then
+									local addedRoles = {}
+									for _, roleId in pairs(actions.AddRoles) do
+										local role = guild:getRole(roleId)
+										if (role) then
+											table.insert(addedRoles, role.mentionString)
+										else
+											table.insert(addedRoles, "<invalid role " .. roleId .. ">") 
+										end
+									end
+
+									if (#addedRoles > 0) then
+										actionStr = string.format("%s**Adds role%s** %s\n", actionStr, #addedRoles > 1 and "s" or "", table.concat(addedRoles, ", "))
 									end
 								end
 
-								local removedRoles = {}
-								for _, roleId in pairs(roleActions.Remove) do
-									local role = guild:getRole(roleId)
-									if (role) then
-										table.insert(removedRoles, role.mentionString)
-									else
-										table.insert(removedRoles, "<invalid role " .. roleId .. ">") 
+								if (actions.RemoveRoles) then
+									local removedRoles = {}
+									for _, roleId in pairs(actions.RemoveRoles) do
+										local role = guild:getRole(roleId)
+										if (role) then
+											table.insert(removedRoles, role.mentionString)
+										else
+											table.insert(removedRoles, "<invalid role " .. roleId .. ">") 
+										end
+									end
+
+									if (#removedRoles > 0) then
+										actionStr = string.format("%s**Removes role%s** %s\n", actionStr, #removedRoles > 1 and "s" or "", table.concat(removedRoles, ", "))
 									end
 								end
 
-								local actions = ""
-
-								if (#addedRoles > 0) then
-									actions = string.format("%s**Adds role%s** %s\n", actions, #addedRoles > 1 and "s" or "", table.concat(addedRoles, ", "))
+								if (actions.SendMessage) then
+									actionStr = string.format("%s**Sends private message:**\n\"%s\"\n", actionStr, roleActions.SendMessage)
 								end
 
-								if (#removedRoles > 0) then
-									actions = string.format("%s**Removes role%s** %s\n", actions, #removedRoles > 1 and "s" or "", table.concat(removedRoles, ", "))
-								end
-
-								if (roleActions.Message) then
-									actions = string.format("%s**Sends private message:**\n\"%s\"\n", actions, roleActions.Message)
-								end
-
-								local emoji = bot:GetEmojiData(guild, reactionInfo.reaction)
+								local emoji = bot:GetEmojiData(guild, emoji)
 
 								table.insert(fields, {
 									name = string.format("- %s:", emoji and emoji.MentionString or "<invalid emoji>"),
-									value = actions
+									value = actionStr
 								})
 							end
 
@@ -178,9 +179,11 @@ function Module:OnLoaded()
 						end
 					end
 
-					for key, role in pairs(reactionActions.RemoveRoles) do
-						if (role == roleValue) then
-							table.remove(reactionActions.RemoveRoles, key)
+					if (reactionActions.RemoveRoles) then
+						for key, role in pairs(reactionActions.RemoveRoles) do
+							if (role == roleValue) then
+								table.remove(reactionActions.RemoveRoles, key)
+							end
 						end
 					end
 
@@ -212,9 +215,11 @@ function Module:OnLoaded()
 						end
 					end
 
-					for key, role in pairs(reactionActions.AddRoles) do
-						if (role == roleValue) then
-							table.remove(reactionActions.AddRoles, key)
+					if (reactionActions.AddRoles) then
+						for key, role in pairs(reactionActions.AddRoles) do
+							if (role == roleValue) then
+								table.remove(reactionActions.AddRoles, key)
+							end
 						end
 					end
 
@@ -393,7 +398,7 @@ function Module:OnEnable(guild)
 								self:LogWarning(guild, "Failed to add reaction %s on message %s (channel: %s)", emoji.Name, message.id, message.channel.id)
 							end
 						else
-							self:LogError(guild, "Emoji \"%s\" does not exist", reactionInfo.reaction)
+							self:LogError(guild, "Emoji \"%s\" does not exist", reaction.emojiName)
 						end
 					end
 				else
