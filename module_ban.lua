@@ -173,7 +173,7 @@ function Module:RegisterBan(guild, userId, bannedByUser, duration, reason)
 		BannedAt = now:toSeconds(),
 		BannedBy = bannedByUser.id,
 		ExpirationTime = expiration,
-		Reason = #reason > 0 and reason
+		Reason = #reason > 0 and reason or nil
 	}
 
 	self:SavePersistentData(guild)
@@ -223,7 +223,7 @@ function Module:SyncBans(guild)
 	for _, ban in pairs(guild:getBans()) do
 		local user = ban.user
 		if (not bannedUsers[user.id]) then
-			self:LogInfo(guild, "Found banned user %s in guild which is not logged (ban reason: %s)", user.tag, ban.reason)
+			self:LogInfo(guild, "Found banned user %s in guild which is not logged (ban reason: %s)", user.tag, ban.reason or "<none>")
 
 			missingBanData[user.id] = true
 
@@ -305,25 +305,28 @@ function Module:OnUserBan(user, guild)
 		-- Try to recover some ban information from the guild audit logs
 		local query = {}
 		query.type = enums.actionType.memberBanAdd
-		query.limit = 5
+		query.limit = 20
 
-		local auditLogs = {}
-		for k,log in pairs(guild:getAuditLogs(query)) do
-			table.insert(auditLogs, log)
-		end
+		local guildAuditLogs = guild:getAuditLogs(query)
+		if (guildAuditLogs) then
+			local auditLogs = {}
+			for k,log in pairs(guildAuditLogs) do
+				table.insert(auditLogs, log)
+			end
 
-		table.sort(auditLogs, function (a, b) return a.createdAt > b.createdAt end)
+			table.sort(auditLogs, function (a, b) return a.createdAt > b.createdAt end)
 
-		for k, log in pairs(auditLogs) do
-			if (log.targetId == user.id) then
-				local bannedBy = log:getMember()
-				local date = discordia.Date.fromSnowflake(log.id)
+			for k, log in pairs(auditLogs) do
+				if (log.targetId == user.id) then
+					local bannedBy = log:getMember()
+					local date = discordia.Date.fromSnowflake(log.id)
 
-				self:RegisterBan(guild, user.id, bannedBy.user, 0, log.reason or "")
-				self:LogInfo(guild, "Registered manual ban of %s by %s at %s (reason: %s)", log:getTarget().tag, bannedBy.tag, date:toHeader(), log.reason or "<no reason>")
+					self:RegisterBan(guild, user.id, bannedBy.user, 0, log.reason or "")
+					self:LogInfo(guild, "Registered manual ban of %s by %s at %s (reason: %s)", log:getTarget().tag, bannedBy.tag, date:toHeader(), log.reason or "<no reason>")
 
-				self:SavePersistentData(guild)
-				return
+					self:SavePersistentData(guild)
+					return
+				end
 			end
 		end
 
