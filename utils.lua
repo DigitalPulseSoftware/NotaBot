@@ -77,13 +77,19 @@ do
 end
 
 function string.ConvertToTime(str)
+	local seconds = tonumber(str)
+	if (seconds) then
+		return seconds
+	end
+
+	seconds = 0
+
 	local units = timeUnits
-	local seconds = 0
 	local valid = false
 	for unit, timeUnit in string.gmatch(str, "([%d-]+)%s*(%a+)") do
 		unit = tonumber(unit)
 		if (not unit) then
-			return -- Invalide
+			return -- Not valid
 		end
 
 		for k,v in pairs(units) do
@@ -160,6 +166,10 @@ function string.Explode(separator, str, withpattern)
 	ret[ #ret + 1 ] = string_sub( str, current_pos )
 
 	return ret
+end
+
+function string.UpperizeFirst(str)
+	return string.upper(str:sub(1,1)) .. str:sub(2)
 end
 
 function table.empty(tab)
