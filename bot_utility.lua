@@ -73,7 +73,7 @@ end
 function Bot:DecodeMessage(message)
 	assert(message)
 
-	local domain, guildId, channelId, messageId = message:match("^https?://([%w%.]*)discordapp.com/channels/(%d+)/(%d+)/(%d+)$")
+	local domain, guildId, channelId, messageId = message:match("https?://([%w%.]*)discordapp.com/channels/(%d+)/(%d+)/(%d+)")
 	if (not domain or not discordSubdomains[domain]) then
 		return nil, "Invalid link"
 	end
