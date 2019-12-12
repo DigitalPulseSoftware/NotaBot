@@ -216,7 +216,7 @@ function Module:CreateServer(host, port, onConnect)
 					break
 				end
 			end
-		
+
 			local body = table.concat(parts)
 			local head, body = onConnect(head, body, socket)
 			write(head)
@@ -460,7 +460,7 @@ function Module:HandleChannelUp(channelData)
 						message = message:gsub("{(%w+)}", fields)
 
 						local channelUrl = "https://www.twitch.tv/" .. profileData.login
-						local thumbnail = channelData.thumbnail_url
+						local thumbnail = channelData.thumbnail_url .. "?" .. os.time() -- Prevent cache
 						thumbnail = thumbnail:gsub("{width}", 320)
 						thumbnail = thumbnail:gsub("{height}", 180)
 
@@ -560,7 +560,7 @@ function Module:SubscribeToTwitch(channelId)
 	channelData.WaitingForConfirm = true
 
 	local succeeded, ret, err = pcall(function () self.API:SubscribeToStreamUpDown(channelId, self.GlobalConfig.CallbackEndpoint, self.GlobalConfig.SubscribeDuration, self.Secret) end)
-		
+
 	channelData.Subscribing = false
 
 	if (not succeeded) then

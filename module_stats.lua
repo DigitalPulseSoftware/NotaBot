@@ -13,6 +13,79 @@ local path = require("path")
 
 Module.Name = "stats"
 
+local dayPerMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
+local function DayPerMonth(month, year)
+	if (month == 2) then
+		if ((year % 4 == 0 and year % 100 ~= 0) or year % 400 == 0) then
+			return 29
+		else
+			return 28
+		end
+	else
+		return dayPerMonth[month]
+	end
+end
+
+local function numcmp(left, right)
+	if (left == right) then
+		return 0
+	elseif (left < right) then
+		return -1
+	else
+		return 1
+	end
+end
+
+local function CompareDates(day1, month1, year1, day2, month2, year2)
+	if (year1 == year2) then
+		if (month1 == month2) then
+			return numcmp(day1, day2)
+		else
+			return numcmp(month1, month2)
+		end
+	else
+		return numcmp(year1, year2)
+	end
+end
+
+local AccumulateArray
+AccumulateArray = function(dstArray, srcArray)
+	for k,v in pairs(srcArray) do
+		if (type(v) == "number") then
+			local refValue = dstArray[k]
+			if (refValue == nil) then
+				dstArray[k] = v
+			else
+				assert(type(refValue) == "number")
+				dstArray[k] = refValue + v
+			end
+		else
+			assert(type(v) == "table")
+			local refValue = dstArray[k]
+			if (refValue == nil) then
+				refValue = {}
+				dstArray[k] = refValue
+			end
+
+			AccumulateArray(refValue, v)
+		end
+	end
+end
+
+local function AccumulateStats(stats, dateStats)
+	stats.MemberLeft = stats.MemberLeft + dateStats.MemberLeft
+	stats.MemberJoined = stats.MemberJoined + dateStats.MemberJoined
+	stats.MessageCount = stats.MessageCount + dateStats.MessageCount
+	stats.ReactionAdded = stats.ReactionAdded + dateStats.ReactionAdded
+	stats.ReactionRemoved = stats.ReactionRemoved + dateStats.ReactionRemoved
+	stats.MemberCount = dateStats.MemberCount
+	table.insert(stats.MemberCountHistory, dateStats.MemberCount)
+
+	AccumulateArray(stats.Channels, dateStats.Channels)
+	AccumulateArray(stats.Reactions, dateStats.Reactions)
+	AccumulateArray(stats.Users, dateStats.Users)
+end
+
 function Module:GetConfigTable()
 	return {
 		{
@@ -32,7 +105,7 @@ function Module:OnLoaded()
 			if (guild) then
 				local stats = persistentData.Stats
 				self:SaveStats(self:GetStatsFilename(guild, stats.Date), stats)
-				persistentData.Stats = self:ResetStats(guild)
+				persistentData.Stats = self:BuildStats(guild)
 
 				if (config.LogChannel) then
 					local channel = guild:getChannel(config.LogChannel)
@@ -52,7 +125,7 @@ function Module:OnLoaded()
 		Help = "Resets stats of the day",
 		Func = function (commandMessage)
 			local data = self:GetPersistentData(commandMessage.guild)
-			data.Stats = self:ResetStats()
+			data.Stats = self:BuildStats()
 			commandMessage:reply("Stats reset successfully")
 		end
 	})
@@ -60,29 +133,98 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "serverstats",
 		Args = {
-			{Name = "date", Type = Bot.ConfigType.String, Optional = true}
+			{Name = "date/from", Type = Bot.ConfigType.String, Optional = true},
+			{Name = "to", Type = Bot.ConfigType.String, Optional = true}
 		},
 
 		Help = "Prints stats",
-		Func = function (commandMessage, date)
-			local stats
-			if (date) then
-				if (not date:match("^%d%d%d%d%-%d%d%-%d%d$")) then
+		Func = function (commandMessage, from, to)
+			if (from and to and from ~= to) then
+				local fromY, fromM, fromD = from:match("^(%d%d%d%d)-(%d%d)-(%d%d)$")
+				if (not fromY) then
+					commandMessage:reply("Invalid date format for `from` parameter, please write it as YYYY-MM-DD")
+					return
+				end
+
+				local toY, toM, toD = to:match("^(%d%d%d%d)-(%d%d)-(%d%d)$")
+				if (not toY) then
+					commandMessage:reply("Invalid date format for `to` parameter, please write it as YYYY-MM-DD")
+					return
+				end
+
+				if (CompareDates(fromD, fromM, fromY, toD, toM, toY) >= 0) then
+					commandMessage:reply("`from` date must be earlier than `to` date")
+					return
+				end
+
+				commandMessage.channel:broadcastTyping()
+
+				-- Check available dates
+				local guildStatsFolder = self:GetStatsFolder(commandMessage.guild)
+
+				local availableStats = {}
+				for file in fs.scandir(guildStatsFolder) do
+					if (file.type == "file") then
+						local year, month, day = file.name:match("^stats_(%d%d%d%d)-(%d%d)-(%d%d).json$")
+						if (year) then
+							table.insert(availableStats, { d = day, m = month, y = year })
+						end
+					end
+				end
+
+				local compareDateFunc = function (left, right)
+					return CompareDates(left.d, left.m, left.y, right.d, right.m, right.y)
+				end
+
+				table.sort(availableStats, function (left, right) return compareDateFunc(left, right) < 0 end)
+
+				local fromDate = { d = fromD, m = fromM, y = fromY }
+				if (compareDateFunc(fromDate, availableStats[1]) < 0) then
+					fromDate = availableStats[1]
+				end
+
+				local toDate = { d = toD, m = toM, y = toY }
+				if (compareDateFunc(toDate, availableStats[#availableStats]) > 0) then
+					toDate = availableStats[#availableStats]
+				end
+
+				local _, firstIndex = table.binsearch(availableStats, fromDate, compareDateFunc)
+				local _, lastIndex = table.binsearch(availableStats, toDate, compareDateFunc)
+
+				local accumulatedStats = self:BuildStats(commandMessage.guild)
+				accumulatedStats.MemberCount = nil
+				accumulatedStats.MemberCountHistory = {}
+
+				for i = firstIndex, lastIndex do
+					local v = availableStats[i]
+					local fileName = string.format("%s/stats_%s-%s-%s.json", guildStatsFolder, v.y, v.m, v.d)
+					local stats, err = self:LoadStats(commandMessage.guild, fileName)
+					if (not stats) then
+						commandMessage:reply("Failed to load some stats")
+						return
+					end
+
+					AccumulateStats(accumulatedStats, stats)
+				end
+
+				self:PrintStats(commandMessage.channel, accumulatedStats, string.format("%s-%s-%s", fromDate.d, fromDate.m, fromDate.y), string.format("%s-%s-%s", toDate.d, toDate.m, toDate.y), lastIndex - firstIndex + 1)
+			elseif (from) then
+				if (not from:match("^%d%d%d%d%-%d%d%-%d%d$")) then
 					commandMessage:reply("Invalid date format, please write it as YYYY-MM-DD")
 					return
 				end
 
-				stats = self:LoadStats(commandMessage.guild, self:GetStatsFilename(commandMessage.guild, date))
+				stats = self:LoadStats(commandMessage.guild, self:GetStatsFilename(commandMessage.guild, from))
 				if (not stats) then
 					commandMessage:reply("We have no stats for that date")
 					return
 				end
+
+				self:PrintStats(commandMessage.channel, stats)
 			else
 				local data = self:GetPersistentData(commandMessage.guild)
-				stats = data.Stats
+				self:PrintStats(commandMessage.channel, data.Stats)
 			end
-
-			self:PrintStats(commandMessage.channel, stats)
 		end
 	})
 
@@ -93,14 +235,14 @@ function Module:OnEnable(guild)
 	local data = self:GetPersistentData(guild)
 	if (not data.Stats) then
 		self:LogInfo(guild, "No previous stats found, resetting...")
-		data.Stats = self:ResetStats(guild)
+		data.Stats = self:BuildStats(guild)
 	else
 		local currentDate = os.date("%Y-%m-%d")
 		local statsDate = os.date("%Y-%m-%d", data.Stats.Date)
 		if (currentDate ~= statsDate) then
 			self:LogInfo(guild, "Previous stats data has been found but date does not match (%s), saving and resetting", statsDate)
 			self:SaveStats(self:GetStatsFilename(guild, data.Stats.Date), data.Stats)
-			data.Stats = self:ResetStats(guild)
+			data.Stats = self:BuildStats(guild)
 		else
 			self:LogInfo(guild, "Previous stats data has been found and date does match, continuing...")
 		end
@@ -130,12 +272,53 @@ function Module:LoadStats(guild, filepath)
 end
 
 function Module:GetStatsFilename(guild, time)
-	return string.format("stats/guild_%s/stats_%s.json", guild.id, (type(time) == "number") and os.date("%Y-%m-%d", time) or time)
+	return string.format("%s/stats_%s.json", self:GetStatsFolder(guild), (type(time) == "number") and os.date("%Y-%m-%d", time) or time)
 end
 
-function Module:PrintStats(channel, stats)	
+function Module:GetStatsFolder(guild)
+	return string.format("stats/guild_%s", guild.id)
+end
+
+function Module:PrintStats(channel, stats, fromDate, toDate, dayCount)
 	local guild = channel.guild
-	
+
+	local memberCount
+	local valueFunc
+	if (dayCount) then
+		local memberCountHistory = stats.MemberCountHistory
+		if (#memberCountHistory > 0) then
+			local firstMemberCount = memberCountHistory[1]
+			local lastMemberCount = memberCountHistory[#memberCountHistory]
+			if (lastMemberCount > firstMemberCount) then
+				memberCount = string.format("%u (+ %u)", lastMemberCount, lastMemberCount - firstMemberCount)
+			elseif (lastMemberCount < firstMemberCount) then
+				memberCount = string.format("%u (- %u)", lastMemberCount, firstMemberCount - lastMemberCount)
+			else
+				memberCount = string.format("%u (=)", lastMemberCount)
+			end
+		end
+
+		valueFunc = function (value, msg)
+			if (value) then
+				return string.format("%s (%s avg.)", value, math.floor(value / dayCount))
+			else
+				return msg or 0
+			end
+		end
+	else
+		valueFunc = function (value, msg)
+			if (value) then
+				return tostring(value)
+			else
+				return msg or 0
+			end
+		end
+	end
+
+	if (not memberCount) then
+		memberCount = stats.MemberCount or "<No logs>"
+	end
+
 	local mostAddedReaction = {}
 	for reactionName, reactionStats in pairs(stats.Reactions) do
 		table.insert(mostAddedReaction, { name = reactionName, count = reactionStats.ReactionCount })
@@ -155,7 +338,7 @@ function Module:PrintStats(channel, stats)
 			self:LogError("Most added reaction %s is not found", reactionData.name)
 		end
 
-		addedReactionList = addedReactionList .. string.format("%s %s\n", reactionData.count, emojiData and emojiData.MentionString or string.format("<bot error on %s>", reactionData.name))
+		addedReactionList = addedReactionList .. string.format("%s %s\n", valueFunc(reactionData.count), emojiData and emojiData.MentionString or string.format("<bot error on %s>", reactionData.name))
 	end
 
 	local mostActiveChannels = {}
@@ -172,21 +355,21 @@ function Module:PrintStats(channel, stats)
 
 		local channelData = mostActiveChannels[i]
 		local channel = guild:getChannel(channelData.id)
-		activeChannelList = activeChannelList .. string.format("%d m. in %s\n", channelData.messageCount, channel and channel.mentionString or "<deleted channel>")
+		activeChannelList = activeChannelList .. string.format("%s: %s m.\n", channel and channel.mentionString or "<deleted channel>", valueFunc(channelData.messageCount))
 	end
 
 	local fields = {
 		{
-			name = "Member count", value = stats.MemberCount or "<Not logged>", inline = true
+			name = "Member count", value = memberCount, inline = true
 		},
 		{
-			name = "New members", value = stats.MemberJoined, inline = true
+			name = "New members", value = valueFunc(stats.MemberJoined), inline = true
 		},
 		{
-			name = "Lost members", value = stats.MemberLeft, inline = true
+			name = "Lost members", value = valueFunc(stats.MemberLeft), inline = true
 		},
 		{
-			name = "Messages posted", value = stats.MessageCount, inline = true
+			name = "Messages posted", value = valueFunc(stats.MessageCount), inline = true
 		},
 		{
 			name = "Active members", value = table.count(stats.Users), inline = true
@@ -195,19 +378,24 @@ function Module:PrintStats(channel, stats)
 			name = "Active channels", value = table.count(stats.Channels), inline = true
 		},
 		{
-			name = "Total reactions added", value = stats.ReactionAdded, inline = true
+			name = "Total reactions added", value = valueFunc(stats.ReactionAdded), inline = true
 		},
 		{
-			name = "Most added reactions", value = #addedReactionList > 0 and addedReactionList or "<None>", inline = true
+			name = "Most added reactions", value = #addedReactionList > 0 and addedReactionList, "<None>", inline = true
 		},
 		{
-			name = "Most active channels", value = #activeChannelList > 0 and activeChannelList or "<None>", inline = true
+			name = "Most active channels", value = #activeChannelList > 0 and activeChannelList, "<None>", inline = true
 		}
 	}
 
-	local resetTime = os.difftime(os.time(), stats.Date)
-	local title = string.format("Server stats - %s, started %s ago", os.date("%d-%m-%Y", stats.Date), util.FormatTime(resetTime, 2))
-	
+	local title
+	if (not fromDate) then
+		local resetTime = os.difftime(os.time(), stats.Date)
+		title = string.format("Server stats - %s, started %s ago", os.date("%d-%m-%Y", stats.Date), util.FormatTime(resetTime, 2))
+	else
+		title = string.format("Server stats - from %s to %s", fromDate, toDate)
+	end
+
 	channel:send({
 		embed = {
 			title = title,
@@ -217,7 +405,7 @@ function Module:PrintStats(channel, stats)
 	})
 end
 
-function Module:ResetStats(guild)
+function Module:BuildStats(guild)
 	local stats = {}
 	stats.Date = os.time()
 	stats.Channels = {}
@@ -315,11 +503,11 @@ function Module:OnMessageCreate(message)
 
 	local data = self:GetPersistentData(message.guild)
 	data.Stats.MessageCount = data.Stats.MessageCount + 1
-	
+
 	-- Channels
 	local channelStats = self:GetChannelStats(message.guild, message.channel.id)
 	channelStats.MessageCount = channelStats.MessageCount + 1
-	
+
 	-- Members
 	local userStats = self:GetUserStats(message.guild, message.author.id)
 	userStats.MessageCount = userStats.MessageCount + 1
@@ -352,7 +540,6 @@ function Module:OnReactionAdd(reaction, userId)
 
 	local emojiData = bot:GetEmojiData(reaction.message.guild, reaction.emojiName)
 	if (not emojiData) then
-		self:LogWarning(reaction.message.guild, "Emoji %s was used but not found in guild", reactionIdorName)
 		return
 	end
 
@@ -376,7 +563,6 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 
 	local emojiData = bot:GetEmojiData(channel.guild, reactionIdorName)
 	if (not emojiData) then
-		self:LogWarning(channel.guild, "Emoji %s was used but not found in guild", reactionIdorName)
 		return
 	end
 
@@ -412,7 +598,6 @@ function Module:OnReactionRemoveUncached(channel, messageId, reactionIdorName, u
 
 	local emojiData = bot:GetEmojiData(channel.guild, reactionIdorName)
 	if (not emojiData) then
-		self:LogWarning(channel.guild, "Emoji %s was used but not found in guild", reactionIdorName)
 		return
 	end
 

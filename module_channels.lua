@@ -348,25 +348,41 @@ function Module:OnEnable(guild)
 	for channelId,messageTable in pairs(config.ReactionActions) do
 		for messageId,reactionTable in pairs(messageTable) do
 			for reaction, actions in pairs(reactionTable) do
-				local roleActions = self:GetReactionActions(guild, channelId, messageId, reaction)
+				local hasActions = false
 
 				if (actions.AddRoles) then
 					for _,roleId in pairs(actions.AddRoles) do
 						ProcessRole(channelId, messageId, reaction, roleId, false)
+						hasActions = true
 					end
 				end
 
 				if (actions.RemoveRoles) then
 					for _,roleId in pairs(actions.RemoveRoles) do
 						ProcessRole(channelId, messageId, reaction, roleId, true)
+						hasActions = true
 					end
 				end
 
 				if (actions.SendMessage) then
 					local roleActions = self:GetReactionActions(guild, channelId, messageId, reaction)
 					roleActions.Message = actions.SendMessage
+
+					hasActions = true
+				end
+
+				if (not hasActions) then
+					reactionTable[reaction] = nil
 				end
 			end
+
+			if (next(reactionTable) == nil) then
+				messageTable[messageId] = nil
+			end
+		end
+
+		if (next(messageTable) == nil) then
+			config.ReactionActions[channelId] = nil
 		end
 	end
 

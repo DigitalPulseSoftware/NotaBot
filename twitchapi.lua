@@ -35,7 +35,7 @@ function tprint (tbl, indent)
       print(formatting)
       tprint(v, indent+1)
     elseif type(v) == 'boolean' then
-      print(formatting .. tostring(v))		
+      print(formatting .. tostring(v))
     else
       print(formatting .. v)
     end
@@ -61,20 +61,20 @@ function TwitchApi:Commit(method, url, headers, body, retries)
 	end
 
 	for i, v in ipairs(res) do
-		res[v[1]] = v[2]
+		res[string.lower(v[1])] = v[2]
 		res[i] = nil
 	end
 
-	local reset = res["Ratelimit-Reset"]
-	local remaining = res["Ratelimit-Remaining"]
+	local reset = res["ratelimit-reset"]
+	local remaining = res["ratelimit-remaining"]
 
 	local delay = 0 -- ?
 	if (reset and remaining == "0") then
-		local dt = os.difftime(reset, self._discordia.Date.parseHeader(res["Date"]))
+		local dt = os.difftime(reset, self._discordia.Date.parseHeader(res["date"]))
 		delay = max(dt * 1000, delay)
 	end
 
-	local contentType = res["Content-Type"]
+	local contentType = res["content-type"]
 	local data = (contentType and contentType:find("application/json")) and decode(msg) or msg
 
 	if (res.code < 300) then
@@ -240,7 +240,7 @@ return setmetatable({}, {
 	__newindex = function (o, key, val)
 		error("Writing is prohibited")
 	end,
-	__tostring = function () 
+	__tostring = function ()
 		return "TwitchApi"
 	end
 })

@@ -98,16 +98,16 @@ function string.ConvertToTime(str)
 				seconds = seconds + unit * v.Seconds
 			end
 		end
-		
+
 		if (not valid) then
 			return
 		end
 	end
-	
+
 	if (not valid) then
 		return
 	end
-	
+
 	return seconds
 end
 
@@ -223,4 +223,28 @@ function util.FormatTime(seconds, depth)
 	end
 
 	return table.NiceConcat(txt)
+end
+
+function table.binsearch( tbl, value, comp )
+	local comp = comp or function (a, b)
+		if (a == b) then return 0 end
+		if (a < b) then return -1 end
+		if (a > b) then return 1 end
+	end
+
+	local iStart,iEnd,iMid = 1,#tbl,0
+	while iStart <= iEnd do
+		iMid = math.floor( (iStart+iEnd)/2 )
+		local r = comp( value, tbl[iMid] )
+
+		if r == 0 then
+			return tbl[iMid], iMid
+		elseif r < 0 then
+			iEnd = iMid - 1
+		else
+			iStart = iMid + 1
+		end
+	end
+
+	return nil, iStart, iEnd
 end

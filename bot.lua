@@ -3,7 +3,7 @@
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
 local discordia = require('discordia')
-local client = discordia.Client()
+local client = discordia.Client({ cacheAllMembers = true })
 local enums = discordia.enums
 local wrap = coroutine.wrap
 
