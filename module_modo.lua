@@ -106,12 +106,16 @@ function Module:OnEnable(guild)
 
 	self:LogInfo(guild, "Checking mute role permission on all channels...")
 
-	for _, channel in pairs(guild.textChannels) do
-		self:CheckTextMutePermissions(channel)
-	end
+	if (muteRole) then
+		for _, channel in pairs(guild.textChannels) do
+			self:CheckTextMutePermissions(channel)
+		end
 
-	for _, channel in pairs(guild.voiceChannels) do
-		self:CheckVoiceMutePermissions(channel)
+		for _, channel in pairs(guild.voiceChannels) do
+			self:CheckVoiceMutePermissions(channel)
+		end
+	else
+		self:LogWarning(guild, "No mute role has been set")
 	end
 
 	return true
@@ -206,15 +210,17 @@ function Module:HandleEmojiAdd(userId, message)
 		local reporterCount = #reporters
 		if (config.MuteThreshold > 0 and reporterCount >= config.MuteThreshold and not reportedMessage.MuteApplied) then
 			-- Auto-mute
-			if (self:Mute(guild, reportedMessage.ReportedUserId)) then
-				local messageLink = alertMessage and bot:GenerateMessageLink(alertMessage) or "<error>"
+			if (config.muteRole) then
+				if (self:Mute(guild, reportedMessage.ReportedUserId)) then
+					local messageLink = alertMessage and bot:GenerateMessageLink(alertMessage) or "<error>"
 
-				local durationStr = util.FormatTime(config.MuteDuration, 2)
-				local reportedUser = client:getUser(reportedMessage.ReportedUserId)
-				alertChannel:send(string.format("%s has been auto-muted for %s\n<%s>", reportedUser.mentionString, durationStr, messageLink))
-				message.channel:send(string.format("%s has been auto-muted for %s due to reporting", reportedUser.mentionString, durationStr, messageLink))
-			else
-				alertChannel:send(string.format("Failed to mute %s", member.user.fullname))
+					local durationStr = util.FormatTime(config.MuteDuration, 2)
+					local reportedUser = client:getUser(reportedMessage.ReportedUserId)
+					alertChannel:send(string.format("%s has been auto-muted for %s\n<%s>", reportedUser.mentionString, durationStr, messageLink))
+					message.channel:send(string.format("%s has been auto-muted for %s due to reporting", reportedUser.mentionString, durationStr, messageLink))
+				else
+					alertChannel:send(string.format("Failed to mute %s", member.user.fullname))
+				end
 			end
 
 			reportedMessage.MuteApplied = true
