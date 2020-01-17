@@ -584,7 +584,7 @@ function Bot:LoadModuleData(moduleTable)
 					end
 
 					local persistentData, err = self:UnserializeFromFile(dataFolder .. "/" .. entry.name .. "/persistentdata.json")
-					if (config) then
+					if (persistentData) then
 						guildData.PersistentData = persistentData
 					else
 						self.Client:error("Failed to load persistent data of guild %s (%s module): %s", guildId, moduleTable.Name, err)
