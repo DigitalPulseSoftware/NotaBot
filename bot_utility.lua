@@ -97,7 +97,6 @@ function Bot:DecodeMessage(message)
 end
 
 function Bot:DecodeUser(message)
-	assert(guild)
 	assert(message)
 
 	local userId = message:match("<@!?(%d+)>")
@@ -105,7 +104,7 @@ function Bot:DecodeUser(message)
 		return nil, "Invalid user id"
 	end
 
-	local user = self.Client:getClient(userId)
+	local user = self.Client:getUser(userId)
 	if (not user) then
 		return nil, "Invalid user (maybe this account was deleted?)"
 	end
