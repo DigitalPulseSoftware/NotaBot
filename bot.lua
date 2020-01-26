@@ -80,11 +80,11 @@ Bot.ConfigTypeToString = {
 		return emojiData and emojiData.MentionString or "<Invalid emoji>"
 	end,
 	[Bot.ConfigType.Integer] = tostring,
-	[Bot.ConfigType.Member] = tostring,
-	[Bot.ConfigType.Message] = function (value, guild)
+	[Bot.ConfigType.Member] = function (value, guild)
 		local member = guild:getMember(value)
 		return member and member.user.mentionString or "<Invalid member>"
 	end,
+	[Bot.ConfigType.Message] = tostring,
 	[Bot.ConfigType.Number] = function (value) return type(value) == "number" end,
 	[Bot.ConfigType.Role] = function (value, guild)
 		local role = guild:getRole(value)
