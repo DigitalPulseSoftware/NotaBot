@@ -40,15 +40,16 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "ban",
 		Args = {
-			{Name = "target", Type = Bot.ConfigType.Member},
+			{Name = "target", Type = Bot.ConfigType.User},
 			{Name = "duration", Type = Bot.ConfigType.Duration, Optional = true},
 			{Name = "reason", Type = Bot.ConfigType.String, Optional = true},
 		},
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
 		Help = "Bans a member",
-		Func = function (commandMessage, targetMember, duration, reason)
-			local config = self:GetConfig(commandMessage.guild)
+		Func = function (commandMessage, targetUser, duration, reason)
+			local guild = commandMessage.guild
+			local config = self:GetConfig(guild)
 
 			-- Duration
 			if (not duration) then
@@ -61,7 +62,7 @@ function Module:OnLoaded()
 			reason = reason or ""
 
 			if (config.SendPrivateMessage) then
-				local privateChannel = targetMember.user:getPrivateChannel()
+				local privateChannel = targetUser:getPrivateChannel()
 				if (privateChannel) then
 					local durationText
 					if (duration > 0) then
@@ -75,18 +76,74 @@ function Module:OnLoaded()
 			end
 
 			local data = self:GetData(commandMessage.guild)
-			data.BanInProgress[targetMember.user.id] = true
-			if (targetMember:ban(reason, 0)) then
-				commandMessage:reply(string.format("%s has banned %s (%s)%s", commandMessage.member.name, targetMember.user.tag, duration > 0 and ("for " .. durationStr) or "permanent", #reason > 0 and (" for the reason: " .. reason) or ""))
+			data.BanInProgress[targetUser.id] = true
+			if (guild:banUser(targetUser, reason, 0)) then
+				commandMessage:reply(string.format("%s has banned %s (%s)%s", commandMessage.member.name, targetUser.tag, duration > 0 and ("for " .. durationStr) or "permanent", #reason > 0 and (" for the reason: " .. reason) or ""))
 
-				self:RegisterBan(commandMessage.guild, targetMember.user.id, commandMessage.author, duration, reason)
+				self:RegisterBan(commandMessage.guild, targetUser.id, commandMessage.author, duration, reason)
 			else
-				data.BanInProgress[targetMember.user.id] = nil
-				commandMessage:reply(string.format("Failed to ban %s", targetMember.user.tag))
+				data.BanInProgress[targetUser.id] = nil
+				commandMessage:reply(string.format("Failed to ban %s", targetUser.tag))
 			end
 		end
 	})
 
+	self:RegisterCommand({
+		Name = "unban",
+		Args = {
+			{Name = "target", Type = Bot.ConfigType.User},
+			{Name = "reason", Type = Bot.ConfigType.String, Optional = true},
+		},
+		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+
+		Help = "Unbans a member",
+		Func = function (commandMessage, targetUser, reason)
+			local guild = commandMessage.guild
+			local config = self:GetConfig(guild)
+
+			-- Reason
+			reason = reason or ""
+
+			if (config.SendPrivateMessage) then
+				local privateChannel = targetUser:getPrivateChannel()
+				if (privateChannel) then
+					privateChannel:send(string.format("You have been unbanned from **%s** by %s (%s)", commandMessage.guild.name, commandMessage.member.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given"))
+				end
+			end
+
+			local data = self:GetData(commandMessage.guild)
+			if (guild:unbanUser(targetUser, reason)) then
+				commandMessage:reply(string.format("%s has unbanned %s (%s)%s", commandMessage.member.name, targetUser.tag, duration > 0 and ("for " .. durationStr) or "permanent", #reason > 0 and (" for the reason: " .. reason) or ""))
+			else
+				commandMessage:reply(string.format("Failed to unban %s", targetUser.tag))
+			end
+		end
+	})
+
+	self:RegisterCommand({
+		Name = "updatebanduration",
+		Args = {
+			{Name = "target", Type = Bot.ConfigType.User},
+			{Name = "new_duration", Type = Bot.ConfigType.Duration},
+		},
+		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+
+		Help = "Updates the ban duration ",
+		Func = function (commandMessage, targetUser, newDuration)
+			local guild = commandMessage.guild
+
+			local durationStr = util.FormatTime(newDuration, 3)
+
+			if (self:UpdateBanDuration(guild, targetUser.id, newDuration)) then
+				commandMessage:reply(string.format("%s has updated %s ban duration (%s)", 
+					commandMessage.member.name,
+					targetUser.tag,
+					newDuration > 0 and ("unbanned in " .. durationStr) or "banned permanently"))
+			else
+				commandMessage:reply(string.format("%s is not banned", targetUser.tag))
+			end
+		end
+	})
 	return true
 end
 
@@ -119,22 +176,22 @@ function Module:OnReady()
 				local guild = client:getGuild(guildId)
 				assert(guild)
 
-				if (not data.UnbanTable) then
-					local guildData = self:GetGuildData(guild.id)
-					print(guildData._Ready)
-					self:LogError("Wtf, Unban table nil on guild %s", guild.name)
-				end
+				local bannedUsers = persistentData.BannedUsers
 
 				local unbanData = data.UnbanTable[1]
 				if (unbanData and now >= unbanData.Time) then
 					-- Double check ban info
-					local banData = persistentData.BannedUsers[unbanData.UserId]
+					local userId = unbanData.UserId
+					local banData = bannedUsers[userId]
 					if (banData and banData.ExpirationTime and now >= banData.ExpirationTime) then
 						local user = client:getUser(unbanData.UserId)
-						self:LogInfo(guild, "Unbanning %s (duration expired)", user and user.tag or unbanData.UserId)
+						if (user) then
+							self:LogInfo(guild, "Unbanning %s (duration expired)", user and user.tag or unbanData.UserId)
 
-						guild:unbanUser(unbanData.UserId, "Ban duration expired")
-						-- No need to remove from ban logs, this will be done via unban event
+							guild:unbanUser(unbanData.UserId, "Ban duration expired")
+						end
+
+						bannedUsers[userId] = nil
 					end
 
 					table.remove(data.UnbanTable, 1)
@@ -208,10 +265,31 @@ function Module:UpdateBanData(guild, userId, bannedByUserId, banDate, duration, 
 	end
 end
 
+function Module:UpdateBanDuration(guild, userId, duration)
+	local bannedUsers = self:GetBannedUsersTable(guild)
+	if (not bannedUsers[userId]) then
+		return false
+	end
+
+	local expiration
+	if (duration > 0) then
+		local now = discordia.Date()
+		local expirationDate = now + discordia.Time.fromSeconds(duration)
+		expiration = expirationDate:toSeconds()
+
+		self:RegisterBanExpiration(guild, userId, expiration)
+	end
+
+	local banData = bannedUsers[userId]
+	banData.ExpirationTime = expiration
+
+	return true
+end
+
 function Module:RegisterBanExpiration(guild, userId, expirationTime)
 	local data = self:GetData(guild)
-	table.insert(data.UnbanTable, {Time = expirationTime, UserId = userId})
-	table.sort(data.UnbanTable, function (a, b) return a.Time < b.Time end)
+	table.insert(data.UnbanTable, { Time = expirationTime, UserId = userId })
+	table.sort(data.UnbanTable, function (a, b)	return a.Time < b.Time end)
 end
 
 function Module:SyncBans(guild)
