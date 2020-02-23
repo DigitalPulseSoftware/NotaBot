@@ -248,3 +248,13 @@ function table.binsearch( tbl, value, comp )
 
 	return nil, iStart, iEnd
 end
+
+function table.length( tbl )
+	local count = 0
+
+	for _ in pairs(tbl) do
+		count = count + 1
+	end
+	
+	return count
+end
