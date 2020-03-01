@@ -82,6 +82,8 @@ function Module:OnEnable(guild)
 		self:LogInfo(guild, "Previous purge data data has been found, continuing...")
 	end
 
+	self:AddMissingMembersToList(guild);
+
 	return true
 end
 
@@ -171,6 +173,17 @@ function Module:PurgeRoles(guild, userList)
 	end
 
 	self:LogInfo(guild, "Role purge ended !")
+end
+
+function Module:AddMissingMembersToList(guild)
+	local persistentData = self:GetPersistentData(guild)
+	local purgeData = persistentData.Purge
+
+	for userId, userData in pairs(guild.members) do
+		if purgeData[userId] == nil then
+			purgeData[userId] = os.time()
+		end
+	end
 end
 
 function Module:OnMessageCreate(message)
