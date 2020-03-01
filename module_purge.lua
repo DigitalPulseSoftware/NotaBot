@@ -14,26 +14,14 @@ local path = require("path")
 Module.Name = "purge"
 
 function Module:OnLoaded()
-	self.Clock = discordia.Clock()
-	self.Clock:on("day", function ()
-		self:ForEachGuild(function (guildId, config, data, persistentData)
-			local guild = client:getGuild(guildId)
-			if (guild) then
-				local purgeData = persistentData.Purge
-				self:SavePurgeData(self:GetPurgeFilename(guild), purgeData)
-				persistentData.Purge = {}
-			end
-		end)
-	end)
-
 	self:RegisterCommand({
-		Name = "dryPurgeRoles",
+		Name = "drypurge",
 		Args = {
 			{Name = "time", Type = bot.ConfigType.Duration}
 		},
 		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
 
-		Help = "Count inactive people. Use: !dryPurgeRoles 30d to count inactive people for 30 days or more.",
+		Help = "Count inactive people. Use: !drypurgeroles 30d to count inactive people for 30 days or more.",
 		Func = function (commandMessage, time)
 			local durationStr = util.FormatTime(time, 3)
 
@@ -42,53 +30,53 @@ function Module:OnLoaded()
 			if table.empty(userList) then
 				commandMessage:reply("No user enought inactive to be purged")
 			else 
-				commandMessage:reply("Purging peoples inactive for " .. durationStr .. " on Discord will remove all roles on (or kick) ".. table.length(userList) .." peoples. Are you sure ? (type !purgeRoles " .. time .. " to apply purge by roles, or !purgeKick " .. time .. " to kick all inactives peoples.)")
+				commandMessage:reply("Purging peoples inactive for " .. durationStr .. " on Discord will remove all roles on (or kick) ".. table.length(userList) .." members. Are you sure ? (type !purgeroles " .. time .. " to apply purge by roles, or !purgekick " .. time .. " to kick all inactives members.)")
 			end
 		end
 	})
 
 	self:RegisterCommand({
-		Name = "purgeRoles",
+		Name = "purgeroles",
 		Args = {
 			{Name = "time", Type = bot.ConfigType.Duration}
 		},
 		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
 
-		Help = "Clear roles on inactive people to make them avaiable to purge. Use: !purgeRoles 30d to remove all roles on people inactive for 30 days or more.",
+		Help = "Clear roles on inactive people to make them avaiable to purge. Use: !purgeroles 30d to remove all roles on members inactive for 30 days or more.",
 		Func = function (commandMessage, time)
 			local durationStr = util.FormatTime(time, 3)
 
 			local userList = self:BuildInactiveUsersList(commandMessage.guild, time)
 
-			if table.empty(userList) then
-				commandMessage:reply("No user enought inactive to be purged")
+			if #userList == 0 then
+				commandMessage:reply("No member to purge")
 			else 
 				self:PurgeRoles(commandMessage.guild, userList)
 
-				commandMessage:reply("Purged peoples inactive for " .. durationStr .. " on Discord, removed all roles on ".. table.length(userList) .." peoples.")
+				commandMessage:reply("Purged peoples inactive for " .. durationStr .. " on Discord, removed all roles on ".. #userList .." members.")
 			end
 		end
 	})
 
 	self:RegisterCommand({
-		Name = "purgeKick",
+		Name = "purgekick",
 		Args = {
 			{Name = "time", Type = bot.ConfigType.Duration}
 		},
 		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
 
-		Help = "Kick inactive people. Use: !purgeKick 30d to kick all inactive people for 30 days or more.",
+		Help = "Kick inactive people. Use: !purgekick 30d to kick all inactive people for 30 days or more.",
 		Func = function (commandMessage, time)
 			local durationStr = util.FormatTime(time, 3)
 
 			local userList = self:BuildInactiveUsersList(commandMessage.guild, time)
 
-			if table.empty(userList) then
-				commandMessage:reply("No user enought inactive to be purged")
+			if #userList == 0 then
+				commandMessage:reply("No member to purge")
 			else 
 				self:PurgeKick(commandMessage.guild, userList, durationStr)
 
-				commandMessage:reply("Purged peoples inactive for " .. durationStr .. " on Discord, kicked ".. table.length(userList) .." peoples.")
+				commandMessage:reply("Purged peoples inactive for " .. durationStr .. " on this server, kicked ".. #userList .." members.")
 			end
 		end
 	})
@@ -105,57 +93,9 @@ function Module:OnEnable(guild)
 		self:LogInfo(guild, "Previous purge data data has been found, continuing...")
 	end
 
-	self:AddMissingMembersToList(guild);
+	self:AddMissingMembersToList(guild)
 
 	return true
-end
-
-function Module:OnReady()
-	self.Clock:start()
-end
-
-function Module:OnUnload()
-	if (self.Clock) then
-		self.Clock:stop()
-	end
-end
-
-function Module:GetPurgeFilename(guild)
-	return string.format("purge/%s.json", guild.id)
-end
-
-function Module:LoadPurgeData(guild, filepath)
-	local purgeData, err = bot:UnserializeFromFile(filepath)
-	if (not purgeData) then
-		self:LogError(guild, "Failed to load purge data: %s", err)
-		return
-	end
-
-	return purgeData
-end
-
-function Module:SavePurgeData(filename, purgeData)
-	filename = filename
-
-	local dirname = path.dirname(filename)
-	if (dirname ~= "." and not fs.mkdirp(dirname)) then
-		self:LogError("Failed to create directory %s", dirname)
-		return
-	end
-
-	local outputFile = io.open(filename, "w+")
-	if (not outputFile) then
-		self:LogError("Failed to open %s", filename)
-		return
-	end
-
-	local success, err = outputFile:write(json.encode(purgeData))
-	if (not success) then
-		self:LogError("Failed to write %s: %s", filename, err)
-		return
-	end
-
-	outputFile:close()
 end
 
 function Module:BuildInactiveUsersList(guild, time)
@@ -164,11 +104,11 @@ function Module:BuildInactiveUsersList(guild, time)
 	local persistentData = self:GetPersistentData(guild)
 	local purgeData = persistentData.Purge
 
-	for userId, userData in pairs(guild.members) do
+	local allowedInactiveTime = os.time() - time
+	for userId, user in pairs(guild.members) do
 		if purgeData[userId] ~= nil then
-			if purgeData[userId] + time < os.time() then
-				self:LogInfo(guild, "Inactive User: %s", userData.name)
-				userList[userId] = true
+			if purgeData[userId] < allowedInactiveTime then
+				table.insert(userList, user)
 			end
 		end
 	end
@@ -177,20 +117,18 @@ function Module:BuildInactiveUsersList(guild, time)
 end
 
 function Module:PurgeRoles(guild, userList)
-	if table.empty(userList) then
+	if #userList == 0 then
 		return
 	end
 
 	self:LogInfo(guild, "Begining role purge")
 
-	for _, user in pairs(guild.members) do
-		if userList[user.id] then
-			self:LogInfo(guild, "Purging roles for %s", user.name)
+	for _, user in pairs(userList) do
+		self:LogInfo(guild, "Purging roles for %s", user.name)
 
-			for _, role in pairs(user.roles) do
-				if not role.managed then -- You can't remove managed roles, they are for example unique bot roles, discord will send a 403 if you try
-					user:removeRole(role.id)
-				end
+		for _, role in pairs(user.roles) do
+			if not role.managed then -- You can't remove managed roles, they are for example unique bot roles, discord will send a 403 if you try
+				user:removeRole(role.id)
 			end
 		end
 	end
@@ -203,17 +141,19 @@ function Module:PurgeKick(guild, userList)
 		return
 	end
 
+	local kickPrivateMessage = string.format("You've been kicked by an automatic measure from **%s** because of an inactivity of **%s** or more.", guild.name, durationStr)
+
 	self:LogInfo(guild, "Begining purge")
 
-	for _, user in pairs(guild.members) do
-		if userList[user.id] then
-			self:LogInfo(guild, "Kicking %s", user.name)
+	for _, user in pairs(userList) do
+		self:LogInfo(guild, "Kicking %s", user.name)
 
-			local kickPrivateMessage = string.format('You\'ve been kicked by an automatic measure from **%s** because of an inactivity of **%s** or more.', guild.name, durationStr)
-			user:getPrivateChannel():send(kickPrivateMessage);
-			
-			user:kick('Inactive');
+		local privateChannel = user:getPrivateChannel()
+		if (privateChannel) then
+			privateChannel:send(kickPrivateMessage)
 		end
+
+		user:kick("Inactive")
 	end
 
 	self:LogInfo(guild, "Purge ended !")
