@@ -42,7 +42,7 @@ function Module:OnLoaded()
 			if table.empty(userList) then
 				commandMessage:reply("No user enought inactive to be purged")
 			else 
-				commandMessage:reply("Purging peoples inactive for " .. durationStr .. " on Discord will remove all roles on ".. table.length(userList) .." peoples. Are you sure ? (type !purgeRoles " .. time .. " to apply purge)")
+				commandMessage:reply("Purging peoples inactive for " .. durationStr .. " on Discord will remove all roles on (or kick) ".. table.length(userList) .." peoples. Are you sure ? (type !purgeRoles " .. time .. " to apply purge by roles, or !purgeKick " .. time .. " to kick all inactives peoples.)")
 			end
 		end
 	})
@@ -70,6 +70,29 @@ function Module:OnLoaded()
 		end
 	})
 
+	self:RegisterCommand({
+		Name = "purgeKick",
+		Args = {
+			{Name = "time", Type = bot.ConfigType.Duration}
+		},
+		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+
+		Help = "Kick inactive people. Use: !purgeKick 30d to kick all inactive people for 30 days or more.",
+		Func = function (commandMessage, time)
+			local durationStr = util.FormatTime(time, 3)
+
+			local userList = self:BuildInactiveUsersList(commandMessage.guild, time)
+
+			if table.empty(userList) then
+				commandMessage:reply("No user enought inactive to be purged")
+			else 
+				self:PurgeKick(commandMessage.guild, userList, durationStr)
+
+				commandMessage:reply("Purged peoples inactive for " .. durationStr .. " on Discord, kicked ".. table.length(userList) .." peoples.")
+			end
+		end
+	})
+
 	return true
 end
 
@@ -81,6 +104,8 @@ function Module:OnEnable(guild)
 	else
 		self:LogInfo(guild, "Previous purge data data has been found, continuing...")
 	end
+
+	self:AddMissingMembersToList(guild);
 
 	return true
 end
@@ -171,6 +196,38 @@ function Module:PurgeRoles(guild, userList)
 	end
 
 	self:LogInfo(guild, "Role purge ended !")
+end
+
+function Module:PurgeKick(guild, userList)
+	if table.empty(userList) then
+		return
+	end
+
+	self:LogInfo(guild, "Begining purge")
+
+	for _, user in pairs(guild.members) do
+		if userList[user.id] then
+			self:LogInfo(guild, "Kicking %s", user.name)
+
+			local kickPrivateMessage = string.format('You\'ve been kicked by an automatic measure from **%s** because of an inactivity of **%s** or more.', guild.name, durationStr)
+			user:getPrivateChannel():send(kickPrivateMessage);
+			
+			user:kick('Inactive');
+		end
+	end
+
+	self:LogInfo(guild, "Purge ended !")
+end
+
+function Module:AddMissingMembersToList(guild)
+	local persistentData = self:GetPersistentData(guild)
+	local purgeData = persistentData.Purge
+
+	for userId, userData in pairs(guild.members) do
+		if purgeData[userId] == nil then
+			purgeData[userId] = os.time()
+		end
+	end
 end
 
 function Module:OnMessageCreate(message)
