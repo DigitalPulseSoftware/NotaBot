@@ -60,8 +60,16 @@ function Module:GetConfigTable()
 		},
 		{
 			Global = true,
-			Name = "TwitchToken",
-			Description = "Twitch application token",
+			Name = "TwitchClientId",
+			Description = "Twitch application client id",
+			Type = bot.ConfigType.String,
+			Default = "",
+			Sensitive = true
+		},
+		{
+			Global = true,
+			Name = "TwitchClientSecret",
+			Description = "Twitch application secret",
 			Type = bot.ConfigType.String,
 			Default = "",
 			Sensitive = true
@@ -71,7 +79,7 @@ end
 
 function Module:OnLoaded()
 	-- Regenerate secret
-	self.API = twitchAPI(discordia, client, self.GlobalConfig.TwitchToken)
+	self.API = twitchAPI(discordia, client, self.GlobalConfig.TwitchClientId, self.GlobalConfig.TwitchClientSecret)
 	self.Secret = self:GenerateSecret(128)
 	self.WatchedChannels = {}
 

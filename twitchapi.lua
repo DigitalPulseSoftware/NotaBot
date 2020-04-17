@@ -45,15 +45,66 @@ end
 local TwitchApi = {}
 TwitchApi.__index = TwitchApi
 
-function TwitchApi:__init(discordia, client, token)
+function TwitchApi:__init(discordia, client, appId, appSecret)
 	self._client = client
 	self._discordia = discordia
-	self._token = token
+	self._clientId = appId
+	self._clientSecret = appSecret
 	self._isRequesting = false
 	self._waitingCoroutines = {}
 end
 
-function TwitchApi:Commit(method, url, headers, body, retries)
+function TwitchApi:Authenticate()
+	local parameters = {
+		client_id = self._clientId,
+		client_secret = self._clientSecret,
+		grant_type = "client_credentials",
+		assertion = token
+	}
+
+	local success, headerOrErr, body = pcall(http.request, "POST", "https://id.twitch.tv/oauth2/token", {{"Content-Type", "application/x-www-form-urlencoded"}}, querystring.stringify(parameters))
+	if (not success) then
+		print("Failed to request Twitch Token (is network down?): " .. headerOrErr)
+		return false, "NetworkError"
+	end
+
+	if (headerOrErr.code < 200 or headerOrErr.code > 299) then
+		p(body)
+		print("Failed to request Twitch Token (are credentials still valid?) (code " .. headerOrErr.code .. ")")
+		return false, body
+	end
+
+	local tokenData = assert(json.decode(body))
+
+	self.token = {
+		accessToken = tokenData.access_token,
+		expirationTime = os.time() + tonumber(tokenData.expires_in),
+		tokenType = tokenData.token_type
+	}
+
+	-- Twitch, vous êtes des baltringues nucléaires
+	self.token.tokenType = self.token.tokenType:sub(1, 1):upper() .. self.token.tokenType:sub(2)
+
+	return true
+end
+
+function TwitchApi:Commit(method, url, headers, body, retries, forceAuth)
+	if (forceAuth or not self.token or os.time() > self.token.expirationTime) then
+		local success, err = self:Authenticate()
+		if (not success) then
+			error("Twitch authentication failed: " .. err)
+		end
+	end
+
+	headers = headers or {}
+	-- Discard authorization header if any
+	for k, header in pairs(headers) do
+		if (header[1]:lower() == "authorization") then
+			headers[k] = nil
+		end
+	end
+	insert(headers, {"Authorization", self.token.tokenType .. " " .. self.token.accessToken})
+
 	local success, res, msg = pcall(request, method, url, headers, body)
 	if (not success) then
 		client:error("Request failed : %s %s", method, url)
@@ -88,12 +139,16 @@ function TwitchApi:Commit(method, url, headers, body, retries)
 		elseif (res.code >= 500) then -- Server error
 			delay = delay + random(2000)
 			retry = retries < maxRetries
+		elseif (res.code == 401) then -- Token error
+			delay = 100
+			retry = retries < maxRetries
+			forceAuth = true
 		end
 
 		if (retry) then
 			self._client:warning("%i - %s : retrying after %i ms : %s %s", res.code, res.reason, delay, method, url)
 			sleep(delay)
-			return self:Commit(method, url, headers, body, retries + 1)
+			return self:Commit(method, url, headers, body, retries + 1, forceAuth)
 		end
 
 		self._client:error('%i - %s : %s %s', res.code, res.reason, method, url)
@@ -103,7 +158,6 @@ end
 
 function TwitchApi:Request(method, endpoint, parameters, headers)
 	headers = headers or {}
-	insert(headers, {"Client-ID", self._token})
 
 	local body
 	if (parameters and not table.empty(parameters)) then
