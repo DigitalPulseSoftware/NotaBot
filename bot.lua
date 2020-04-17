@@ -49,11 +49,12 @@ Bot.Events = {}
 Bot.Modules = {}
 Bot.ConfigType = enums.enum {
 	Boolean  = 0,
-	Channel  = 1,
-	Custom   = 2,
-	Duration = 3,
-	Emoji    = 4,
-	Integer  = 5,
+	Category = 1,
+	Channel  = 2,
+	Custom   = 3,
+	Duration = 4,
+	Emoji    = 5,
+	Integer  = 6,
 	Member   = 7,
 	Message  = 8,
 	Number   = 9,
@@ -69,6 +70,10 @@ end
 
 Bot.ConfigTypeToString = {
 	[Bot.ConfigType.Boolean] = tostring,
+	[Bot.ConfigType.Category] = function (value, guild)
+		local channel = guild:getChannel(value)
+		return channel and channel.mentionString or "<Invalid category>"
+	end,
 	[Bot.ConfigType.Channel] = function (value, guild)
 		local channel = guild:getChannel(value)
 		return channel and channel.mentionString or "<Invalid channel>"
@@ -104,6 +109,18 @@ Bot.ConfigTypeParameter = {
 		elseif (value == "no" or value == "0" or value == "false") then
 			return false
 		end
+	end,
+	[Bot.ConfigType.Category] = function (value, guild)
+		local channel, err = Bot:DecodeChannel(guild, value)
+		if (not channel) then
+			return nil, err
+		end
+
+		if (channel.type ~= enums.channelType.category) then
+			return nil, "expected category"
+		end
+
+		return category
 	end,
 	[Bot.ConfigType.Channel] = function (value, guild)
 		return Bot:DecodeChannel(guild, value)
@@ -148,6 +165,18 @@ Bot.ConfigTypeParser = {
 		elseif (value == "no" or value == "0" or value == "false") then
 			return false
 		end
+	end,
+	[Bot.ConfigType.Category] = function (value, guild)
+		local channel, err = Bot:DecodeChannel(guild, value)
+		if (not channel) then
+			return nil, err
+		end
+
+		if (channel.type ~= enums.channelType.category) then
+			return nil, "expected category"
+		end
+
+		return channel and channel.id
 	end,
 	[Bot.ConfigType.Channel] = function (value, guild)
 		local channel = Bot:DecodeChannel(guild, value)

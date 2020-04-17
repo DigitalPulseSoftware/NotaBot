@@ -101,6 +101,7 @@ end
 
 local configTypeValidation = {
 	[Bot.ConfigType.Boolean] = function (value) return type(value) == "boolean" end,
+	[Bot.ConfigType.Category] = validateSnowflake,
 	[Bot.ConfigType.Channel] = validateSnowflake,
 	[Bot.ConfigType.Custom] = function (value) return true end,
 	[Bot.ConfigType.Duration] = function (value) return type(value) == "number" end,
