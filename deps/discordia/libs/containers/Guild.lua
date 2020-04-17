@@ -511,7 +511,7 @@ function Guild:getBan(id)
 	id = Resolver.userId(id)
 	local data, err = self.client._api:getGuildBan(self._id, id)
 	if data then
-		return Ban(data, self._parent)
+		return Ban(data, self)
 	else
 		return nil, err
 	end
@@ -722,7 +722,7 @@ end
 Only partnered guilds may have this.]=]
 function get.splashURL(self)
 	local splash = self._splash
-	return splash and format('https://cdn.discordapp.com/splashs/%s/%s.png', self._id, splash)
+	return splash and format('https://cdn.discordapp.com/splashes/%s/%s.png', self._id, splash)
 end
 
 --[=[@p banner string/nil The hash for the guild's custom banner, if one is set.]=]
