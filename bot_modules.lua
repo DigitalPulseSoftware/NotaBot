@@ -275,6 +275,14 @@ function ModuleMetatable:GetGuildData(guildId, noCreate)
 end
 
 function ModuleMetatable:GetPersistentData(guild, noCreate)
+	if (not guild) then
+		if (not self.GlobalPersistentData) then
+			self.GlobalPersistentData = {}
+		end
+
+		return self.GlobalPersistentData
+	end
+	
 	local guildData = self:GetGuildData(guild.id, noCreate)
 	if (not guildData) then
 		return nil
@@ -333,6 +341,18 @@ function ModuleMetatable:SaveGlobalConfig()
 	end
 end
 
+function ModuleMetatable:SaveGlobalPersistentData()
+	if (not self.GlobalPersistentData) then
+		return
+	end
+
+	local filepath = string.format("data/module_%s/global_data.json", self.Name)
+	local success, err = Bot:SerializeToFile(filepath, self.GlobalPersistentData, true)
+	if (not success) then
+		self:LogWarning(guild, "Failed to save global data: %s", err)
+	end
+end
+
 function ModuleMetatable:SaveGuildConfig(guild)
 	local save = function (guildId, guildConfig)
 		local filepath = string.format("data/module_%s/guild_%s/config.json", self.Name, guildId)
@@ -369,6 +389,7 @@ function ModuleMetatable:SavePersistentData(guild)
 			save(guild.id, guildData)
 		end
 	else
+		self:SaveGlobalPersistentData()
 		self:ForEachGuild(function (guildId, config, data, persistentData)
 			save(guildId, persistentData)
 		end)
@@ -607,11 +628,8 @@ function Bot:LoadModuleData(moduleTable)
 end
 
 function Bot:MakeModuleReady(moduleTable)
-	moduleTable:ForEachGuild(function (guildId, config, data, persistentData)
-		local guild = self.Client:getGuild(guildId)
-		if (guild) then
-			moduleTable:EnableForGuild(guild, true, true)
-		end
+	moduleTable:ForEachGuild(function (guildId, config, data, persistentData, guild)
+		moduleTable:EnableForGuild(guild, true, true)
 	end, false, true)
 
 	for eventName,eventData in pairs(moduleTable._Events) do
