@@ -230,8 +230,9 @@ end
 
 function ModuleMetatable:ForEachGuild(callback, evenDisabled, evenNonReady)
 	for guildId, data in pairs(self._Guilds) do
-		if ((evenNonReady or data._Ready) and (evenDisabled or data.Config._Enabled)) then
-			callback(guildId, data.Config, data.Data, data.PersistentData)
+		local guild = Bot.Client:getGuild(guildId)
+		if (guild and (evenNonReady or data._Ready) and (evenDisabled or data.Config._Enabled)) then
+			callback(guildId, data.Config, data.Data, data.PersistentData, guild)
 		end
 	end
 end
