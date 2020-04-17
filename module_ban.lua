@@ -50,6 +50,7 @@ function Module:OnLoaded()
 		Func = function (commandMessage, targetUser, duration, reason)
 			local guild = commandMessage.guild
 			local config = self:GetConfig(guild)
+			local bannedBy = commandMessage.member
 
 			-- Duration
 			if (not duration) then
@@ -61,6 +62,16 @@ function Module:OnLoaded()
 			-- Reason
 			reason = reason or ""
 
+			local targetMember = guild:getMember(targetUser)
+			if (targetMember) then
+				local bannedByRole = bannedBy.highestRole
+				local targetRole = targetMember.highestRole
+				if (targetRole.position > bannedByRole.position) then
+					commandMessage:reply("You cannot ban that user due to your lower permissions.")
+					return
+				end
+			end
+
 			if (config.SendPrivateMessage) then
 				local privateChannel = targetUser:getPrivateChannel()
 				if (privateChannel) then
@@ -71,14 +82,14 @@ function Module:OnLoaded()
 						durationText = ""
 					end
 
-					privateChannel:send(string.format("You have been banned from **%s** by %s (%s)\n%s", commandMessage.guild.name, commandMessage.member.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given", durationText))
+					privateChannel:send(string.format("You have been banned from **%s** by %s (%s)\n%s", commandMessage.guild.name, bannedBy.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given", durationText))
 				end
 			end
 
 			local data = self:GetData(commandMessage.guild)
 			data.BanInProgress[targetUser.id] = true
 			if (guild:banUser(targetUser, reason, 0)) then
-				commandMessage:reply(string.format("%s has banned %s (%s)%s", commandMessage.member.name, targetUser.tag, duration > 0 and ("for " .. durationStr) or "permanent", #reason > 0 and (" for the reason: " .. reason) or ""))
+				commandMessage:reply(string.format("%s has banned %s (%s)%s", bannedBy.name, targetUser.tag, duration > 0 and ("for " .. durationStr) or "permanent", #reason > 0 and (" for the reason: " .. reason) or ""))
 
 				self:RegisterBan(commandMessage.guild, targetUser.id, commandMessage.author, duration, reason)
 			else
