@@ -112,7 +112,7 @@ function Module:OnMessageCreate(message)
 
 	local config = self:GetConfig(message.guild)
 	if (config.AutoQuote) then
-		local quotedMessage = bot:DecodeMessage(message.content)
+		local quotedMessage = bot:DecodeMessage(message.content, true)
 		if (quotedMessage) then
 			if (not self:CheckReadPermission(message.author, quotedMessage)) then
 				return

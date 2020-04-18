@@ -70,12 +70,16 @@ function Bot:DecodeMember(guild, message)
 	return member
 end
 
-function Bot:DecodeMessage(message)
+function Bot:DecodeMessage(message, ignoreEscaped)
 	assert(message)
 
-	local domain, guildId, channelId, messageId = message:match("https?://([%w%.]*)discordapp.com/channels/(%d+)/(%d+)/(%d+)")
-	if (not domain or not discordSubdomains[domain]) then
+	local e1, domain, guildId, channelId, messageId, e2 = message:match("(<?)https?://([%w%.]*)discordapp.com/channels/(%d+)/(%d+)/(%d+)(>?)")
+	if (not e1 or not discordSubdomains[domain]) then
 		return nil, "Invalid link"
+	end
+
+	if (ignoreEscaped and e1 == "<" and e2 == ">") then
+		return nil, "Escaped link"
 	end
 
 	local guild = self.Client:getGuild(guildId)
