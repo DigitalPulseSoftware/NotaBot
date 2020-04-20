@@ -217,9 +217,6 @@ function Module:OnLoaded()
 							name = author.tag,
 							icon_url = author.avatarURL
 						},
-						thumbnail = {
-							url = author.avatarURL
-						},
 						description = reason,
 						timestamp = commandMessage.timestamp
 					}
@@ -334,9 +331,6 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 						author = {
 							name = author.tag,
 							icon_url = author.avatarURL
-						},
-						thumbnail = {
-							url = author.avatarURL
 						},
 						description = reason,
 						timestamp = discordia.Date():toISO('T', 'Z')
