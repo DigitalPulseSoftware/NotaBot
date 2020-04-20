@@ -16,6 +16,12 @@ function Module:GetConfigTable()
 			Description = "Should quote messages when an user posts a message link (when not using quote command)",
 			Type = bot.ConfigType.Boolean,
 			Default = true
+		},
+		{
+			Name = "BigAvatar",
+			Description = "Should quote messages include big avatars",
+			Type = bot.ConfigType.Boolean,
+			Default = true
 		}
 	}
 end
@@ -82,6 +88,8 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink)
 		content = content:sub(1, 1800) .. "... <truncated>"
 	end
 
+	local config = self:GetConfig(message.guild)
+
 	triggeringMessage:reply({
 		content = includesLink and "Message link: " .. Bot:GenerateMessageLink(message) or nil,
 		embed = {
@@ -89,9 +97,9 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink)
 				name = author.tag,
 				icon_url = author.avatarURL
 			},
-			thumbnail = {
+			thumbnail = config.BigAvatar and {
 				url = author.avatarURL
-			},
+			} or nil,
 			description = content,
 			footer = {
 				text = string.format("Quoted by %s | in #%s at %s", triggeringMessage.author.tag, message.channel.name, message.guild.name)
