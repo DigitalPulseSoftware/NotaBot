@@ -7,6 +7,35 @@ local discordia = Discordia
 local bot = Bot
 local enums = discordia.enums
 
+local json = require("json")
+
+local fileTypes = {
+	aac = "sound",
+	avi = "video",
+	apng = "image",
+	bmp = "image",
+	flac = "video",
+	gif = "image",
+	ico = "image",
+	jpg = "image",
+	jpeg = "image",
+	ogg = "sound",
+	m4a = "sound",
+	mkv = "video",
+	mov = "video",
+	mp1 = "sound",
+	mp2 = "sound",
+	mp3 = "sound",
+	mp4 = "video",
+	png = "image",
+	tif = "image",
+	wav = "sound",
+	webm = "video",
+	webp = "image",
+	wma = "sound",
+	wmv = "video"
+}
+
 Module.Name = "quote"
 
 function Module:GetConfigTable()
@@ -84,28 +113,115 @@ end
 function Module:QuoteMessage(triggeringMessage, message, includesLink)
 	local author = message.author
 	local content = message.content
-	if (#content > 1800) then
-		content = content:sub(1, 1800) .. "... <truncated>"
-	end
 
 	local config = self:GetConfig(message.guild)
 
+	local thumbnail = config.BigAvatar and author.avatarURL or nil
+	local imageUrl = nil
+
+	local maxContentSize = 1800
+
+	local decorateEmbed = function(embed)
+		-- Replace footer and timestamp
+		embed.footer = {
+			text = string.format("Quoted by %s | in #%s at %s", triggeringMessage.author.tag, message.channel.name, message.guild.name)
+		}
+		embed.timestamp = message.timestamp
+
+		return embed
+	end
+
+	-- Quoting an embed? Copy it
+	if (#content == 0 and (not message.attachments or #message.attachments == 0)) then
+		triggeringMessage:reply({
+			content = includesLink and "Message link: " .. Bot:GenerateMessageLink(message) or nil,
+			embed = decorateEmbed(message.embed)
+		})
+		return
+	end
+
+	local fields
+	if (message.attachments) then
+		local images = {}
+		local files = {}
+		local sounds = {}
+		local videos = {}
+
+		-- Sort into differents types
+		for _, attachment in pairs(message.attachments) do
+			local ext = attachment.url:match("//.-/.+%.(.*)$")
+			local fileType = fileTypes[ext]
+			local t = files
+			if (fileType) then
+				if (fileType == "image") then
+					t = images
+				elseif (fileType == "sound") then
+					t = sounds
+				elseif (fileType == "video") then
+					t = videos
+				end
+			end
+
+			table.insert(t, attachment)
+		end
+
+		-- Special shortcut for one image attachment
+		if (#message.attachments == 1 and #images == 1) then
+			imageUrl = images[1].url
+		else
+			fields = {}
+			local function LinkList(title, attachments)
+				if (#attachments == 0) then
+					return
+				end
+
+				local desc = {}
+				for _, attachment in pairs(attachments) do
+					table.insert(desc, "[" .. attachment.filename .. "](" .. attachment.url .. ")")
+				end
+
+				table.insert(fields, {
+					name = title,
+					value = table.concat(desc, "\n"),
+					inline = true
+				})
+			end
+
+			LinkList("Images 🖼️", images)
+			LinkList("Sounds 🎵", sounds)
+			LinkList("Videos 🎥", videos)
+			LinkList("Files 🖥️", files)
+
+			if (#images > 0) then
+				imageUrl = images[1].url
+			end
+		end
+	end
+
+	if (fields) then
+		maxContentSize = maxContentSize - #json.encode(fields)
+	end
+
+	if (#content > maxContentSize) then
+		content = content:sub(1, maxContentSize) .. "... <truncated>"
+	end
+
 	triggeringMessage:reply({
 		content = includesLink and "Message link: " .. Bot:GenerateMessageLink(message) or nil,
-		embed = {
+		embed = decorateEmbed({
 			author = {
 				name = author.tag,
 				icon_url = author.avatarURL
 			},
-			thumbnail = config.BigAvatar and {
-				url = author.avatarURL
+			image = imageUrl and {
+				url = imageUrl
+			} or nil,
+			thumbnail = thumbnail and {
+				url = thumbnail
 			} or nil,
 			description = content,
-			footer = {
-				text = string.format("Quoted by %s | in #%s at %s", triggeringMessage.author.tag, message.channel.name, message.guild.name)
-			},
-			timestamp = message.timestamp
-		}
+			fields = fields
+		})
 	})
 end
 
