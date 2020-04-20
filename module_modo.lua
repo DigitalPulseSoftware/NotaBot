@@ -106,7 +106,7 @@ function Module:OnEnable(guild)
 
 	self:LogInfo(guild, "Checking mute role permission on all channels...")
 
-	if (muteRole) then
+	if (config.MuteRole) then
 		for _, channel in pairs(guild.textChannels) do
 			self:CheckTextMutePermissions(channel)
 		end
@@ -211,15 +211,15 @@ function Module:HandleEmojiAdd(userId, message)
 		if (config.MuteThreshold > 0 and reporterCount >= config.MuteThreshold and not reportedMessage.MuteApplied) then
 			-- Auto-mute
 			if (config.muteRole) then
+				local reportedUser = client:getUser(reportedMessage.ReportedUserId)
 				if (self:Mute(guild, reportedMessage.ReportedUserId)) then
 					local messageLink = alertMessage and bot:GenerateMessageLink(alertMessage) or "<error>"
 
 					local durationStr = util.FormatTime(config.MuteDuration, 2)
-					local reportedUser = client:getUser(reportedMessage.ReportedUserId)
 					alertChannel:send(string.format("%s has been auto-muted for %s\n<%s>", reportedUser.mentionString, durationStr, messageLink))
 					message.channel:send(string.format("%s has been auto-muted for %s due to reporting", reportedUser.mentionString, durationStr, messageLink))
 				else
-					alertChannel:send(string.format("Failed to mute %s", member.user.fullname))
+					alertChannel:send(string.format("Failed to mute %s", reportedUser.mentionString))
 				end
 			end
 

@@ -136,7 +136,7 @@ function Module:PurgeRoles(guild, userList)
 	self:LogInfo(guild, "Role purge ended !")
 end
 
-function Module:PurgeKick(guild, userList)
+function Module:PurgeKick(guild, userList, durationStr)
 	if table.empty(userList) then
 		return
 	end

@@ -338,7 +338,7 @@ function ModuleMetatable:SaveGlobalConfig()
 	local filepath = string.format("data/module_%s/global_config.json", self.Name)
 	local success, err = Bot:SerializeToFile(filepath, self.GlobalConfig, true)
 	if (not success) then
-		self:LogWarning(guild, "Failed to save global config: %s", err)
+		self:LogWarning(nil, "Failed to save global config: %s", err)
 	end
 end
 
@@ -350,7 +350,7 @@ function ModuleMetatable:SaveGlobalPersistentData()
 	local filepath = string.format("data/module_%s/global_data.json", self.Name)
 	local success, err = Bot:SerializeToFile(filepath, self.GlobalPersistentData, true)
 	if (not success) then
-		self:LogWarning(guild, "Failed to save global data: %s", err)
+		self:LogWarning(nil, "Failed to save global data: %s", err)
 	end
 end
 

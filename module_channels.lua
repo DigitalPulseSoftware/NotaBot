@@ -80,7 +80,7 @@ function Module:OnLoaded()
 								end
 
 								if (actions.SendMessage) then
-									actionStr = string.format("%s**Sends private message:**\n\"%s\"\n", actionStr, roleActions.SendMessage)
+									actionStr = string.format("%s**Sends private message:**\n\"%s\"\n", actionStr, actions.SendMessage)
 								end
 
 								local emoji = bot:GetEmojiData(guild, emoji)
@@ -470,10 +470,10 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 		if (privateChannel) then
 			local message = privateChannel:send(string.format("[From %s]\n%s", guild.name, roleActions.Message))
 			if (not message) then
-				self:LogWarning(guild, "Failed to send reaction message to %s (maybe user disabled private messages from this server?)", targetMember.user.tag)
+				self:LogWarning(guild, "Failed to send reaction message to %s (maybe user disabled private messages from this server?)", member.user.tag)
 			end
 		else
-			self:LogWarning(guild, "Failed to get private channel with %s", targetMember.user.tag)
+			self:LogWarning(guild, "Failed to get private channel with %s", member.user.tag)
 		end
 	end
 end

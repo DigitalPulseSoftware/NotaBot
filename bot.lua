@@ -120,7 +120,7 @@ Bot.ConfigTypeParameter = {
 			return nil, "expected category"
 		end
 
-		return category
+		return channel
 	end,
 	[Bot.ConfigType.Channel] = function (value, guild)
 		return Bot:DecodeChannel(guild, value)

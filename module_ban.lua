@@ -124,7 +124,7 @@ function Module:OnLoaded()
 
 			local data = self:GetData(commandMessage.guild)
 			if (guild:unbanUser(targetUser, reason)) then
-				commandMessage:reply(string.format("%s has unbanned %s (%s)%s", commandMessage.member.name, targetUser.tag, duration > 0 and ("for " .. durationStr) or "permanent", #reason > 0 and (" for the reason: " .. reason) or ""))
+				commandMessage:reply(string.format("%s has unbanned %s%s", commandMessage.member.name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
 			else
 				commandMessage:reply(string.format("Failed to unban %s", targetUser.tag))
 			end

@@ -325,7 +325,7 @@ function Module:SetupServer()
 				local twitchTopic = parameters["hub.topic"]
 				local token = parameters["hub.challenge"]
 				if (not mode or not twitchTopic or not token) then
-					self:LogError("Twitch server: Invalid parameters (mode=%s, topic=%s, challenge=%s)", tostring(mode), tostring(topic), tostring(challenge))
+					self:LogError("Twitch server: Invalid parameters (mode=%s, topic=%s, challenge=%s)", tostring(mode), tostring(twitchTopic), tostring(token))
 					return Forbidden()
 				end
 
@@ -425,7 +425,7 @@ function Module:HandleChannelUp(channelData)
 
 	local profileData, err = self.API:GetUserById(userId)
 	if (not profileData) then
-		self:LogError("Failed to query user %s info: %s", userId, msg)
+		self:LogError("Failed to query user %s info: %s", userId, err)
 		return
 	end
 

@@ -366,11 +366,11 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 				local permissions = channel:getPermissionOverwriteFor(ticketMember)
 
 				if (not permissions or not permissions:setPermissions(enums.permission.readMessages, enums.permission.sendMessages)) then				commandMessage:reply("Failed to create the channel, this is likely a bug.")
-					channel:sendf("Failed to deny send messages permission to %s.", commandMessage.member)
+					channel:sendf("Failed to deny send messages permission to %s.", ticketMember.mentionString)
 				end
 
 				if (not permissions or not permissions:denyPermissions(enums.permission.sendMessages)) then
-					channel:sendf("Failed to deny send messages permission to %s.", commandMessage.member)
+					channel:sendf("Failed to deny send messages permission to %s.", ticketMember.mentionString)
 				end
 			end
 
