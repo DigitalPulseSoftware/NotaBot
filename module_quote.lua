@@ -114,7 +114,7 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink)
 	local author = message.author
 	local content = message.content
 
-	local config = self:GetConfig(message.guild)
+	local config = self:GetConfig(triggeringMessage.guild)
 
 	local thumbnail = config.BigAvatar and author.avatarURL or nil
 	local imageUrl = nil
