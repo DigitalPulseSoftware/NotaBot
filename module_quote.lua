@@ -123,6 +123,10 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink)
 
 	local decorateEmbed = function(embed)
 		-- Replace footer and timestamp
+		embed.author = {
+			name = author.tag,
+			icon_url = author.avatarURL
+		}
 		embed.footer = {
 			text = string.format("Quoted by %s | in #%s at %s", triggeringMessage.author.tag, message.channel.name, message.guild.name)
 		}
@@ -209,10 +213,6 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink)
 	triggeringMessage:reply({
 		content = includesLink and "Message link: " .. Bot:GenerateMessageLink(message) or nil,
 		embed = decorateEmbed({
-			author = {
-				name = author.tag,
-				icon_url = author.avatarURL
-			},
 			image = imageUrl and {
 				url = imageUrl
 			} or nil,
