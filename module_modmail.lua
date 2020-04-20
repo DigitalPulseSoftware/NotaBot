@@ -32,6 +32,27 @@ function Module:GetConfigTable()
 			Optional = true
 		},
 		{
+			Array = true,
+			Name = "TicketHandlingRoles",
+			Description = "Roles allowed to close tickets (and force open them for members)",
+			Type = bot.ConfigType.Role,
+			Optional = true
+		},
+		{
+			Array = true,
+			Name = "ForbiddenRoles",
+			Description = "Roles that aren't allowed to open a ticket",
+			Type = bot.ConfigType.Role,
+			Optional = true
+		},
+		{
+			Array = true,
+			Name = "AllowedRoles",
+			Description = "Roles allowed to open tickets for them (if empty, everyone)",
+			Type = bot.ConfigType.Role,
+			Default = {}
+		},
+		{
 			Name = "MaxConcurrentChannels",
 			Description = "How many concurrents (active) channels can be created",
 			Type = bot.ConfigType.Integer,
@@ -48,7 +69,7 @@ end
 
 function Module:OnLoaded()
 	self.Clock = discordia.Clock()
-	self.Clock:on("sec", function ()
+	self.Clock:on("min", function ()
 		local now = os.time()
 		self:ForEachGuild(function (guildId, config, data, persistentData)
 			local guild = client:getGuild(guildId)
@@ -74,24 +95,73 @@ function Module:OnLoaded()
 
 	self:RegisterCommand({
 		Name = "newticket",
-		Args = {},
+		Args = {
+			{Name = "member", Type = Bot.ConfigType.Member, Optional = true},
+			{Name = "message", Type = Bot.ConfigType.String, Optional = true},
+		},
 
 		Help = "Allows you to contact the server staff in private",
 		Silent = true,
-		Func = function (commandMessage, configMessage)
+		Func = function (commandMessage, member, reason)
 			local guild = commandMessage.guild
+			local commandMember = commandMessage.member
 			local config = self:GetConfig(guild)
 			local data = self:GetPersistentData(guild)
 
-			local user = commandMessage.author
+			for _, roleId in pairs(config.ForbiddenRoles) do
+				if (commandMember:hasRole(roleId)) then
+					commandMessage:reply("You do not have the permission to open a ticket on this server")
+					return
+				end
+			end
 
-			if (data.activeChannels[user.id]) then
-				commandMessage:reply(string.format("You already have an active ticket on this server %s", user.mentionString))
+			local targetMember
+			if (member and member ~= commandMessage.member) then
+				local authorized = false
+				for _, roleId in pairs(config.TicketHandlingRoles) do
+					if (commandMember:hasRole(roleId)) then
+						authorized = true
+						break
+					end
+				end
+
+				if (not authorized) then
+					commandMessage:reply("You do not have the permission to open a ticket for someone else")
+					return
+				end
+
+				targetMember = member
+			else
+				if (#config.AllowedRoles > 0) then
+					local authorized = false
+					for _, roleId in pairs(config.AllowedRoles) do
+						if (commandMember:hasRole(roleId)) then
+							authorized = true
+							break
+						end
+					end
+
+					if (not authorized) then
+						commandMessage:reply("You do not have the permission to open a ticket")
+						return
+					end
+				end
+
+				targetMember = commandMember
+			end
+
+			if (data.activeChannels[targetMember.user.id]) then
+				if (targetMember == commandMember) then
+					commandMessage:reply(string.format("You already have an active ticket on this server, %s.", targetMember.user.mentionString))
+				else
+					commandMessage:reply(string.format("%s already has an active ticket on this server.", targetMember.user.tag, targetMember.user.mentionString))
+				end
+
 				return
 			end
 
 			if (config.MaxConcurrentChannels > 0 and table.count(data.activeChannels) > config.MaxConcurrentChannels) then
-				commandMessage:reply(string.format("Sorry %s, but there are actually too many tickets open at the same time, please retry in a moment", commandMessage.author.mentionString))
+				commandMessage:reply(string.format("Sorry %s, but there are actually too many tickets open at the same time, please retry in a moment", commandMember.user.mentionString))
 				return
 			end
 
@@ -101,13 +171,13 @@ function Module:OnLoaded()
 				return
 			end
 
-			local newChannel = modmailCategory:createTextChannel(string.format("%s-%s", user.username:sub(1, 8), user.discriminator))
+			local newChannel = modmailCategory:createTextChannel(string.format("%s-%s", targetMember.user.username:sub(1, 8), targetMember.user.discriminator))
 			if (not newChannel) then
 				commandMessage:reply("Failed to create the channel, this is likely a bug.")
 				return
 			end
 
-			local permissions = newChannel:getPermissionOverwriteFor(commandMessage.member)
+			local permissions = newChannel:getPermissionOverwriteFor(targetMember)
 			if (not permissions) then
 				commandMessage:reply("Failed to create the channel, this is likely a bug.")
 				return
@@ -123,13 +193,56 @@ function Module:OnLoaded()
 				channelId = newChannel.id
 			}
 
-			data.activeChannels[user.id] = activeChannelData
+			data.activeChannels[targetMember.user.id] = activeChannelData
 
-			local message = newChannel:send(string.format("Hello %s, use this private channel to communicate with **%s** staff.\n\nStaff can react on this message with 👋 to close the ticket", user.mentionString, guild.name))
+			local message
+			if (targetMember == commandMember) then
+				message = string.format("Hello %s, use this private channel to communicate with **%s** staff.\n\nStaff can react on this message with 👋 to close the ticket", targetMember.user.mentionString, guild.name)
+			else
+				message = string.format("Hello %s, **%s** staff wants to communicate with you.\n\nStaff can react on this message with 👋 to close the ticket", targetMember.user.mentionString, guild.name)
+			end
+
+			local message = newChannel:send(message)
 			message:addReaction("👋")
 			message:pin()
 
 			activeChannelData.topMessageId = message.id
+
+			if (reason and #reason > 0) then
+				local author = commandMessage.author
+				newChannel:send({
+					content = "Ticket message:",
+					embed = {
+						author = {
+							name = author.tag,
+							icon_url = author.avatarURL
+						},
+						thumbnail = {
+							url = author.avatarURL
+						},
+						description = reason,
+						timestamp = commandMessage.timestamp
+					}
+				})
+			end
+		end
+	})
+
+	self:RegisterCommand({
+		Name = "closeticket",
+		Args = {
+			{Name = "reason", Type = Bot.ConfigType.String, Optional = true},
+		},
+
+		Help = "When used in a ticket channel, close it",
+		Silent = true,
+		Func = function (commandMessage, reason)
+			local ret = self:HandleTicketClose(commandMessage.member, commandMessage, reason, false)
+			if (ret == nil) then
+				commandMessage:reply(string.format("You must type this in an active ticket channel, %s.", commandMessage.member.user.mentionString))
+			elseif (ret == false) then
+				commandMessage:reply(string.format("You are not authorized to do that %s.", commandMessage.member.user.mentionString))
+			end
 		end
 	})
 
@@ -162,7 +275,7 @@ end
 
 function Module:HandleEmojiAdd(userId, message, reactionName)
 	if (userId == client.user.id) then
-		-- Ignore self
+		-- Ignore bot own reaction
 		return
 	end
 
@@ -170,26 +283,68 @@ function Module:HandleEmojiAdd(userId, message, reactionName)
 		return
 	end
 
-	local user = client:getUser(userId)
-	if (not user) then
+	local guild = message.guild
+	local member = guild:getMember(userId)
+	if (not member) then
 		return
 	end
 
+	self:HandleTicketClose(member, message, nil, true)
+end
+
+function Module:HandleTicketClose(member, message, reason, reactionClose)
 	local guild = message.guild
+	local config = self:GetConfig(guild)
+
+	local authorized = false
+	for _, roleId in pairs(config.TicketHandlingRoles) do
+		if (member:hasRole(roleId)) then
+			authorized = true
+			break
+		end
+	end
+
+	if (not authorized) then
+		return false
+	end
+
 	local data = self:GetPersistentData(guild)
 
 	for userId, channelData in pairs(data.activeChannels) do
-		if (channelData.topMessageId == message.id) then
-			if (user.id == userId) then
-				return
-			end
+		local channelTest = false
+		if (reactionClose) then
+			channelTest = (channelData.topMessageId == message.id)
+		else
+			channelTest = (channelData.channelId == message.channel.id)
+		end
 
+		if (channelTest) then
 			local archiveData = channelData
 
 			local config = self:GetConfig(guild)
 
 			local channel = guild:getChannel(channelData.channelId)
-			channel:sendf("%s has closed the ticket, this channel will automatically be deleted in about %s", user.mentionString, util.FormatTime(config.DeleteDuration, 2))
+			local closeMessage = string.format("%s has closed the ticket, this channel will automatically be deleted in about %s", member.user.mentionString, util.FormatTime(config.DeleteDuration, 2))
+
+			if (reason and #reason > 0) then
+				local author = member.user
+				channel:send({
+					content = closeMessage,
+					embed = {
+						author = {
+							name = author.tag,
+							icon_url = author.avatarURL
+						},
+						thumbnail = {
+							url = author.avatarURL
+						},
+						description = reason,
+						timestamp = discordia.Date():toISO('T', 'Z')
+					}
+				})
+			else
+				channel:send(closeMessage)
+			end
 
 			channel:setName(channel.name .. "✅")
 
@@ -219,7 +374,7 @@ function Module:HandleEmojiAdd(userId, message, reactionName)
 				end
 			end
 
-			return
+			return true
 		end
 	end
 end
