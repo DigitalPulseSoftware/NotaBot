@@ -100,6 +100,26 @@ function Bot:DecodeMessage(message, ignoreEscaped)
 	return message
 end
 
+function Bot:DecodeRole(guild, message)
+	assert(guild)
+	assert(message)
+
+	local roleId = message:match("<@&(%d+)>")
+	if (not roleId) then
+		roleId = message:match("(%d+)")
+		if (not roleId) then
+			return nil, "Invalid role"
+		end
+	end
+
+	local role = guild:getRole(roleId)
+	if (not role) then
+		return nil, "This role is not part of this guild"
+	end
+
+	return role
+end
+
 function Bot:DecodeUser(message)
 	assert(message)
 

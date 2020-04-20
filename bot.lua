@@ -148,7 +148,7 @@ Bot.ConfigTypeParameter = {
 		return tonumber(value)
 	end,
 	[Bot.ConfigType.Role] = function (value, guild)
-		return guild:getRole(value)
+		return Bot:DecodeRole(guild, value)
 	end,
 	[Bot.ConfigType.String] = function (value, guild)
 		return value
@@ -207,7 +207,7 @@ Bot.ConfigTypeParser = {
 		return tonumber(value)
 	end,
 	[Bot.ConfigType.Role] = function (value, guild)
-		local role = guild:getRole(value)
+		local role = Bot:DecodeRole(guild, value)
 		return role and role.id
 	end,
 	[Bot.ConfigType.String] = function (value, guild)
