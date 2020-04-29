@@ -8,7 +8,7 @@ do
 	local daySecond = 24 * hourSecond
 	local weekSecond = 7 * daySecond
 	local monthSecond = 30 * daySecond -- Prendre 4 semaines n'aurait fait que 28 jours
-	local yearSecond = 12 * monthSecond
+	local yearSecond = 365 * daySecond -- Prendre 12 mois n'aurait fait que 360 jours
 	local centurySecond = 100 * yearSecond
 	local millenniumSecond = 10 * centurySecond
 
