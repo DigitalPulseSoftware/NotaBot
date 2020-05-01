@@ -171,7 +171,12 @@ function Module:OnLoaded()
 				return
 			end
 
-			local newChannel = modmailCategory:createTextChannel(string.format("%s-%s", targetMember.user.username:sub(1, 8), targetMember.user.discriminator))
+			local filteredUsername = targetMember.user.username:gsub("[^%w]", ""):sub(1, 8)
+			if (#filteredUsername == 0) then
+				filteredUsername = "empty"
+			end
+
+			local newChannel = modmailCategory:createTextChannel(string.format("%s-%s", filteredUsername, targetMember.user.discriminator))
 			if (not newChannel) then
 				commandMessage:reply("Failed to create the channel, this is likely a bug.")
 				return
