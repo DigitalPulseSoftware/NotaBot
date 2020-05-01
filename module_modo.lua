@@ -136,7 +136,10 @@ end
 function Module:CheckTextMutePermissions(channel)
 	local config = self:GetConfig(channel.guild)
 	local mutedRole = channel.guild:getRole(config.MuteRole)
-	assert(mutedRole)
+	if (not mutedRole) then
+		self:LogError(channel.guild, "Invalid muted role")
+		return
+	end
 
 	local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	assert(permissions)
@@ -148,7 +151,10 @@ end
 function Module:CheckVoiceMutePermissions(channel)
 	local config = self:GetConfig(channel.guild)
 	local mutedRole = channel.guild:getRole(config.MuteRole)
-	assert(mutedRole)
+	if (not mutedRole) then
+		self:LogError(channel.guild, "Invalid muted role")
+		return
+	end
 
 	local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	assert(permissions)
