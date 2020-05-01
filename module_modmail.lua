@@ -36,14 +36,14 @@ function Module:GetConfigTable()
 			Name = "TicketHandlingRoles",
 			Description = "Roles allowed to close tickets (and force open them for members)",
 			Type = bot.ConfigType.Role,
-			Optional = true
+			Default = {}
 		},
 		{
 			Array = true,
 			Name = "ForbiddenRoles",
 			Description = "Roles that aren't allowed to open a ticket",
 			Type = bot.ConfigType.Role,
-			Optional = true
+			Default = {}
 		},
 		{
 			Array = true,
