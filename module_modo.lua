@@ -245,8 +245,8 @@ function Module:HandleEmojiAdd(userId, message)
 		local reporterUser = client:getUser(userId)
 
 		local content = message.cleanContent
-		if (#content > 1024) then
-			content = content:sub(1, 1024) .. "...<truncated>"
+		if (#content > 800) then
+			content = content:sub(1, 800) .. "...<truncated>"
 		end
 
 		local embedContent = {
