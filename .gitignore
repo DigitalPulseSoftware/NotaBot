@@ -4,6 +4,7 @@ gateway.json
 lit
 luvi
 luvit
+data/
 stats.json
 stats/*.json
 
