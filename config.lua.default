@@ -1,5 +1,6 @@
 Guild = "" -- Guild ID where Not a Bot works on
 Token = "" -- Bot token
+OwnerUserId = ""
 
 -- Module which will be loaded at bot start
 AutoloadModules = {
