@@ -177,7 +177,7 @@ function ModuleMetatable:DisableForGuild(guild, dontSave)
 		return true
 	end
 
-	local success
+	local success, err
 	if (self.OnDisable) then
 		success, err = Bot:CallModuleFunction(self, "OnDisable", guild)
 	else
@@ -354,6 +354,20 @@ function ModuleMetatable:SaveGlobalPersistentData()
 	end
 end
 
+
+function ModuleMetatable:LoadGuildConfig(guild)
+	local guildData = self:GetGuildData(guild)
+
+	local config, err = self:UnserializeFromFile(string.format("data/module_%s/guild_%s/config.json", self.Name, guild.id))
+	if (config) then
+		guildData.Config = config
+		return true
+	else
+		self:LogError(guild, "Failed to load config: %s", err)
+		return false, err
+	end
+end
+
 function ModuleMetatable:SaveGuildConfig(guild)
 	local save = function (guildId, guildConfig)
 		local filepath = string.format("data/module_%s/guild_%s/config.json", self.Name, guildId)
@@ -451,7 +465,7 @@ function Bot:LoadModule(moduleTable)
 		if (type(ret) ~= "table") then
 			return false, "Invalid config"
 		end
-		config = ret
+		local config = ret
 
 		-- Validate config
 		local validConfigOptions = {
@@ -772,7 +786,7 @@ Bot:RegisterCommand({
 			if (value ~= nil) then
 				local valueToString = Bot.ConfigTypeToString[configTable.Type]
 				if (configTable.Array) then
-					valueStr = {}
+					local valueStr = {}
 					for _, value in pairs(value) do
 						table.insert(valueStr, valueToString(value, guild))
 					end
@@ -1099,6 +1113,30 @@ Bot:RegisterCommand({
 			message:reply("Module **" .. moduleName .. "** unloaded.")
 		else
 			message:reply("Module **" .. moduleName .. "** not found.")
+		end
+	end
+})
+
+Bot:RegisterCommand({
+	Name = "reloadconfig",
+	Args = {
+		{Name = "modulename", Type = Bot.ConfigType.String}
+	},
+	PrivilegeCheck = function (member) return member.id == Config.OwnerUserId end,
+
+	Help = "(Re)loads a module's config from file on a guild",
+	Func = function (message, moduleName)
+		local moduleTable = Bot.Modules[moduleName]
+		if (not moduleTable) then
+			message:reply("Module **" .. moduleName .. "** doesn't exist")
+			return
+		end
+
+		local success, err = moduleTable:LoadGuildConfig(message.guild)
+		if (success) then
+			message:reply("Module **" .. moduleName .. "** configuration reloaded")
+		else
+			message:reply("Failed to reload **" .. moduleName .. "** configuration: " .. err)
 		end
 	end
 })
