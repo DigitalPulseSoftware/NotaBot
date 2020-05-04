@@ -207,6 +207,19 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink)
 		maxContentSize = maxContentSize - #json.encode(fields)
 	end
 
+	-- Fix emoji (if guild is the same)
+	if (message.guild == triggeringMessage.guild) then
+		local guild = message.guild
+		content = content:gsub(":(.-):", function (emoji)
+			local emojiData = bot:GetEmojiData(guild, emoji)
+			if (emojiData) then
+				return emojiData.MentionString
+			else
+				return ":" .. emoji .. ":"
+			end
+		end)
+	end
+
 	if (#content > maxContentSize) then
 		content = content:sub(1, maxContentSize) .. "... <truncated>"
 	end
