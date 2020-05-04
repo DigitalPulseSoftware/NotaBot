@@ -1470,16 +1470,40 @@ function Bot:GetEmojiData(guild, emojiIdOrName)
 			emojiData.MentionString = emojiId
 		else
 			-- Not a discord emoji, check in guild
-			for k,emoji in pairs(guild.emojis) do
-				if (emojiIdOrName == emoji.id or emojiIdOrName == emoji.name) then
-					emojiData = {}
-					emojiData.Custom = true
-					emojiData.Emoji = emoji
-					emojiData.Id = emoji.id
-					emojiData.Name = emoji.name
-					emojiData.MentionString = emoji.mentionString
-					emojiData.FromGuild = guild
-					break
+			if (guild) then
+				for _,emoji in pairs(guild.emojis) do
+					if (emojiIdOrName == emoji.id or emojiIdOrName == emoji.name) then
+						emojiData = {}
+						emojiData.Custom = true
+						emojiData.Emoji = emoji
+						emojiData.Id = emoji.id
+						emojiData.Name = emoji.name
+						emojiData.MentionString = emoji.mentionString
+						emojiData.FromGuild = guild
+						break
+					end
+				end
+			else
+				for _, guild in pairs(Bot.Client.guilds) do
+					local b = false
+					for _,emoji in pairs(guild.emojis) do
+						if (emojiIdOrName == emoji.id) then
+							emojiData = {}
+							emojiData.Custom = true
+							emojiData.Emoji = emoji
+							emojiData.Id = emoji.id
+							emojiData.Name = emoji.name
+							emojiData.MentionString = emoji.mentionString
+							emojiData.FromGuild = guild
+
+							b = true
+							break
+						end
+					end
+
+					if (b) then
+						break
+					end
 				end
 			end
 		end
