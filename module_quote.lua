@@ -207,6 +207,45 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink)
 		maxContentSize = maxContentSize - #json.encode(fields)
 	end
 
+	-- Fix emojis
+	local guild = triggeringMessage.guild
+	content = content:gsub("(<a?:([%w_]+):(%d+)>)", function (mention, emojiName, emojiId)
+		-- Bot are allowed to use emojis from every servers they are on
+		local emojiData = bot:GetEmojiData(nil, emojiId)
+
+		local canUse = false
+		if (emojiData) then
+			if (emojiData.Custom) then
+				local emoji = emojiData.Emoji
+				local guild = emojiData.FromGuild
+
+				-- Check if bot has permissions to use this emoji (on the guild it comes from)
+				local botMember = guild:getMember(client.user) -- Should never make a HTTP request
+				local found = true
+				for _, role in pairs(emoji.roles) do
+					found = false -- Set false if we enter the loop
+
+					if (botMember:hasRole(role)) then
+						found = true
+						break
+					end
+				end
+
+				canUse = found
+			else
+				canUse = true
+			end
+		else
+			canUse = false
+		end
+
+		if (canUse) then
+			return mention
+		else
+			return ":" .. emojiName .. ":"
+		end			
+	end)
+
 	if (#content > maxContentSize) then
 		content = content:sub(1, maxContentSize) .. "... <truncated>"
 	end
