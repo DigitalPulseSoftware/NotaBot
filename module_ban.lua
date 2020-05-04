@@ -348,8 +348,14 @@ function Module:SyncBans(guild)
 		query.limit = 100
 
 		for i = 1, 10 do -- Limit
+			local guildAuditLogs, err = guild:getAuditLogs(query)
+			if (not guildAuditLogs) then
+				self:LogWarning(guild, "Failed to get audit logs")
+				return
+			end
+
 			local auditLogs = {}
-			for k,log in pairs(guild:getAuditLogs(query)) do
+			for k,log in pairs(guildAuditLogs) do
 				table.insert(auditLogs, log)
 			end
 
