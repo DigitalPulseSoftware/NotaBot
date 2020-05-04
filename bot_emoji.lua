@@ -1417,7 +1417,12 @@ Bot.EmojiCodeToName = emojiCodeToName
 
 local emojiGlobalCache = {}
 local emojiGuildsCache = {}
+local emojiGlobalGuildCache = {}
 function Bot:GetEmojiData(guild, emojiIdOrName)
+	if (not guild) then
+		assert(emojiIdOrName:match("^%d+$"), "When searching in global emoji cache, id must be used")
+	end
+
 	local emojiData
 
 	-- Check in global cache first
@@ -1427,12 +1432,16 @@ function Bot:GetEmojiData(guild, emojiIdOrName)
 	end
 
 	-- Not in global cache, search in guild cache
-	local emojiGuildCache = emojiGuildsCache[guild.id]
-	if (emojiGuildCache) then
-		emojiData = emojiGuildCache[emojiIdOrName]
+	if (guild) then
+		local emojiGuildCache = emojiGuildsCache[guild.id]
+		if (emojiGuildCache) then
+			emojiData = emojiGuildCache[emojiIdOrName]
+		else
+			emojiGuildCache = {}
+			emojiGuildsCache[guild.id] = emojiGuildCache
+		end
 	else
-		emojiGuildCache = {}
-		emojiGuildsCache[guild.id] = emojiGuildCache
+		emojiData = emojiGlobalGuildCache[emojiIdOrName]
 	end
 
 	if (emojiData) then
@@ -1482,8 +1491,14 @@ function Bot:GetEmojiData(guild, emojiIdOrName)
 
 	-- Register new emoji
 	if (emojiData.Custom) then
-		emojiGuildCache[emojiData.Id] = emojiData
-		emojiGuildCache[emojiData.Name] = emojiData
+		if (guild) then
+			local emojiGuildCache = emojiGuildsCache[guild.id]
+	
+			emojiGuildCache[emojiData.Id] = emojiData
+			emojiGuildCache[emojiData.Name] = emojiData
+		else
+			emojiGlobalGuildCache[emojiData.Id] = emojiData
+		end
 	else
 		emojiGlobalCache[emojiData.Id] = emojiData
 		emojiGlobalCache[emojiData.Name] = emojiData
@@ -1494,8 +1509,10 @@ end
 
 Bot.Client:on('emojisUpdate', function (guild)
 	emojiGuildsCache[guild.id] = nil
+	emojiGlobalGuildCache = {}
 end)
 
 Bot.Client:on("guildDelete", function (guild)
 	emojiGuildsCache[guild.id] = nil
+	emojiGlobalGuildCache = {}
 end)
