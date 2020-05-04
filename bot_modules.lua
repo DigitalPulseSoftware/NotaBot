@@ -358,7 +358,7 @@ end
 function ModuleMetatable:LoadGuildConfig(guild)
 	local guildData = self:GetGuildData(guild.id)
 
-	local config, err = self:UnserializeFromFile(string.format("data/module_%s/guild_%s/config.json", self.Name, guild.id))
+	local config, err = Bot:UnserializeFromFile(string.format("data/module_%s/guild_%s/config.json", self.Name, guild.id))
 	if (config) then
 		guildData.Config = config
 		return true
