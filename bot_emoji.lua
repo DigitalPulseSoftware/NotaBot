@@ -1476,7 +1476,6 @@ function Bot:GetEmojiData(guild, emojiIdOrName)
 	end
 
 	if (not emojiData) then
-		self.Client:warning("Failed to find emoji \"%s\" in %s", emojiIdOrName, guild.name)
 		-- Not a valid emoji
 		return nil
 	end
