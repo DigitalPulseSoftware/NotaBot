@@ -1478,6 +1478,7 @@ function Bot:GetEmojiData(guild, emojiIdOrName)
 					emojiData.Id = emoji.id
 					emojiData.Name = emoji.name
 					emojiData.MentionString = emoji.mentionString
+					emojiData.FromGuild = guild
 					break
 				end
 			end
