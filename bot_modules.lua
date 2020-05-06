@@ -360,6 +360,8 @@ function ModuleMetatable:LoadGuildConfig(guild)
 
 	local config, err = Bot:UnserializeFromFile(string.format("data/module_%s/guild_%s/config.json", self.Name, guild.id))
 	if (config) then
+		self:_PrepareGuildConfig(guild.id, config)
+
 		guildData.Config = config
 		return true
 	else

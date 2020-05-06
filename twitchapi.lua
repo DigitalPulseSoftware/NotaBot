@@ -27,10 +27,10 @@ local endpoints = {
 }
 
 
-function tprint (tbl, indent)
+local function tprint (tbl, indent)
   if not indent then indent = 0 end
   for k, v in pairs(tbl) do
-    formatting = string.rep("  ", indent) .. k .. ": "
+    local formatting = string.rep("  ", indent) .. k .. ": "
     if type(v) == "table" then
       print(formatting)
       tprint(v, indent+1)
@@ -58,8 +58,7 @@ function TwitchApi:Authenticate()
 	local parameters = {
 		client_id = self._clientId,
 		client_secret = self._clientSecret,
-		grant_type = "client_credentials",
-		assertion = token
+		grant_type = "client_credentials"
 	}
 
 	local success, headerOrErr, body = pcall(http.request, "POST", "https://id.twitch.tv/oauth2/token", {{"Content-Type", "application/x-www-form-urlencoded"}}, querystring.stringify(parameters))
@@ -107,7 +106,7 @@ function TwitchApi:Commit(method, url, headers, body, retries, forceAuth)
 
 	local success, res, msg = pcall(request, method, url, headers, body)
 	if (not success) then
-		client:error("Request failed : %s %s", method, url)
+		self._client:error("Request failed : %s %s", method, url)
 		return nil, res, 100
 	end
 

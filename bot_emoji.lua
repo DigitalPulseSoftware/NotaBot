@@ -1485,7 +1485,6 @@ function Bot:GetEmojiData(guild, emojiIdOrName)
 				end
 			else
 				for _, guild in pairs(Bot.Client.guilds) do
-					local b = false
 					for _,emoji in pairs(guild.emojis) do
 						if (emojiIdOrName == emoji.id) then
 							emojiData = {}
@@ -1495,13 +1494,11 @@ function Bot:GetEmojiData(guild, emojiIdOrName)
 							emojiData.Name = emoji.name
 							emojiData.MentionString = emoji.mentionString
 							emojiData.FromGuild = guild
-
-							b = true
 							break
 						end
 					end
 
-					if (b) then
+					if (emojiData) then
 						break
 					end
 				end

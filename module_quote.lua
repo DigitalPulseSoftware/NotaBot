@@ -137,7 +137,7 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink)
 	end
 
 	-- Quoting an embed? Copy it
-	if (#content == 0 and (not message.attachments or #message.attachments == 0)) then
+	if (#content == 0 and (not message.attachments or #message.attachments == 0) and message.embed) then
 		triggeringMessage:reply({
 			content = includesLink and "Message link: " .. Bot:GenerateMessageLink(message) or nil,
 			embed = decorateEmbed(message.embed)
