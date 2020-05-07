@@ -1,1396 +1,11172 @@
 return {
-	["100"] = "\xF0\x9F\x92\xAF",
-	["1234"] = "\xF0\x9F\x94\xA2",
-	["8ball"] = "\xF0\x9F\x8E\xB1",
-	["end"] = "\xF0\x9F\x94\x9A",
-	["repeat"] = "\xF0\x9F\x94\x81",
-	a = "\xF0\x9F\x85\xB0",
-	ab = "\xF0\x9F\x86\x8E",
-	abc = "\xF0\x9F\x94\xA4",
-	abcd = "\xF0\x9F\x94\xA1",
-	aerial_tramway = "\xF0\x9F\x9A\xA1",
-	airplane = "\xE2\x9C\x88",
-	airplane_arriving = "\xF0\x9F\x9B\xAC",
-	airplane_departure = "\xF0\x9F\x9B\xAB",
-	airplane_small = "\xF0\x9F\x9B\xA9",
-	alarm_clock = "\xE2\x8F\xB0",
-	alembic = "\xE2\x9A\x97",
-	alien = "\xF0\x9F\x91\xBD",
-	ambulance = "\xF0\x9F\x9A\x91",
-	amphora = "\xF0\x9F\x8F\xBA",
-	anchor = "\xE2\x9A\x93",
-	angel = "\xF0\x9F\x91\xBC",
-	anger = "\xF0\x9F\x92\xA2",
-	anger_right = "\xF0\x9F\x97\xAF",
-	angry = "\xF0\x9F\x98\xA0",
-	anguished = "\xF0\x9F\x98\xA7",
-	ant = "\xF0\x9F\x90\x9C",
-	apple = "\xF0\x9F\x8D\x8E",
-	aquarius = "\xE2\x99\x92",
-	aries = "\xE2\x99\x88",
-	arrow_backward = "\xE2\x97\x80",
-	arrow_double_down = "\xE2\x8F\xAC",
-	arrow_double_up = "\xE2\x8F\xAB",
-	arrow_down = "\xE2\xAC\x87",
-	arrow_down_small = "\xF0\x9F\x94\xBD",
-	arrow_forward = "\xE2\x96\xB6",
-	arrow_heading_down = "\xE2\xA4\xB5",
-	arrow_heading_up = "\xE2\xA4\xB4",
-	arrow_left = "\xE2\xAC\x85",
-	arrow_lower_left = "\xE2\x86\x99",
-	arrow_lower_right = "\xE2\x86\x98",
-	arrow_right = "\xE2\x9E\xA1",
-	arrow_right_hook = "\xE2\x86\xAA",
-	arrow_up = "\xE2\xAC\x86",
-	arrow_up_down = "\xE2\x86\x95",
-	arrow_up_small = "\xF0\x9F\x94\xBC",
-	arrow_upper_left = "\xE2\x86\x96",
-	arrow_upper_right = "\xE2\x86\x97",
-	arrows_clockwise = "\xF0\x9F\x94\x83",
-	arrows_counterclockwise = "\xF0\x9F\x94\x84",
-	art = "\xF0\x9F\x8E\xA8",
-	articulated_lorry = "\xF0\x9F\x9A\x9B",
-	asterisk = "\x2A\xE2\x83\xA3",
-	astonished = "\xF0\x9F\x98\xB2",
-	athletic_shoe = "\xF0\x9F\x91\x9F",
-	atm = "\xF0\x9F\x8F\xA7",
-	atom = "\xE2\x9A\x9B",
-	avocado = "\xF0\x9F\xA5\x91",
-	b = "\xF0\x9F\x85\xB1",
-	baby = "\xF0\x9F\x91\xB6",
-	baby_bottle = "\xF0\x9F\x8D\xBC",
-	baby_chick = "\xF0\x9F\x90\xA4",
-	baby_symbol = "\xF0\x9F\x9A\xBC",
-	back = "\xF0\x9F\x94\x99",
-	bacon = "\xF0\x9F\xA5\x93",
-	badminton = "\xF0\x9F\x8F\xB8",
-	baggage_claim = "\xF0\x9F\x9B\x84",
-	balloon = "\xF0\x9F\x8E\x88",
-	ballot_box = "\xF0\x9F\x97\xB3",
-	ballot_box_with_check = "\xE2\x98\x91",
-	bamboo = "\xF0\x9F\x8E\x8D",
-	banana = "\xF0\x9F\x8D\x8C",
-	bangbang = "\xE2\x80\xBC",
-	bank = "\xF0\x9F\x8F\xA6",
-	bar_chart = "\xF0\x9F\x93\x8A",
-	barber = "\xF0\x9F\x92\x88",
-	baseball = "\xE2\x9A\xBE",
-	basketball = "\xF0\x9F\x8F\x80",
-	basketball_player = "\xE2\x9B\xB9",
-	bat = "\xF0\x9F\xA6\x87",
-	bath = "\xF0\x9F\x9B\x80",
-	bathtub = "\xF0\x9F\x9B\x81",
-	battery = "\xF0\x9F\x94\x8B",
-	beach = "\xF0\x9F\x8F\x96",
-	beach_umbrella = "\xE2\x9B\xB1",
-	bear = "\xF0\x9F\x90\xBB",
-	bed = "\xF0\x9F\x9B\x8F",
-	bee = "\xF0\x9F\x90\x9D",
-	beer = "\xF0\x9F\x8D\xBA",
-	beers = "\xF0\x9F\x8D\xBB",
-	beetle = "\xF0\x9F\x90\x9E",
-	beginner = "\xF0\x9F\x94\xB0",
-	bell = "\xF0\x9F\x94\x94",
-	bellhop = "\xF0\x9F\x9B\x8E",
-	bento = "\xF0\x9F\x8D\xB1",
-	bicyclist = "\xF0\x9F\x9A\xB4",
-	bike = "\xF0\x9F\x9A\xB2",
-	bikini = "\xF0\x9F\x91\x99",
-	biohazard = "\xE2\x98\xA3",
-	bird = "\xF0\x9F\x90\xA6",
-	birthday = "\xF0\x9F\x8E\x82",
-	black_circle = "\xE2\x9A\xAB",
-	black_heart = "\xF0\x9F\x96\xA4",
-	black_joker = "\xF0\x9F\x83\x8F",
-	black_large_square = "\xE2\xAC\x9B",
-	black_medium_small_square = "\xE2\x97\xBE",
-	black_medium_square = "\xE2\x97\xBC",
-	black_nib = "\xE2\x9C\x92",
-	black_small_square = "\xE2\x96\xAA",
-	black_square_button = "\xF0\x9F\x94\xB2",
-	blossom = "\xF0\x9F\x8C\xBC",
-	blowfish = "\xF0\x9F\x90\xA1",
-	blue_book = "\xF0\x9F\x93\x98",
-	blue_car = "\xF0\x9F\x9A\x99",
-	blue_heart = "\xF0\x9F\x92\x99",
-	blush = "\xF0\x9F\x98\x8A",
-	boar = "\xF0\x9F\x90\x97",
-	bomb = "\xF0\x9F\x92\xA3",
-	book = "\xF0\x9F\x93\x96",
-	bookmark = "\xF0\x9F\x94\x96",
-	bookmark_tabs = "\xF0\x9F\x93\x91",
-	books = "\xF0\x9F\x93\x9A",
-	boom = "\xF0\x9F\x92\xA5",
-	boot = "\xF0\x9F\x91\xA2",
-	bouquet = "\xF0\x9F\x92\x90",
-	bow = "\xF0\x9F\x99\x87",
-	bow_and_arrow = "\xF0\x9F\x8F\xB9",
-	bowling = "\xF0\x9F\x8E\xB3",
-	boxing_glove = "\xF0\x9F\xA5\x8A",
-	boy = "\xF0\x9F\x91\xA6",
-	bread = "\xF0\x9F\x8D\x9E",
-	bride_with_veil = "\xF0\x9F\x91\xB0",
-	bridge_at_night = "\xF0\x9F\x8C\x89",
-	briefcase = "\xF0\x9F\x92\xBC",
-	broken_heart = "\xF0\x9F\x92\x94",
-	bug = "\xF0\x9F\x90\x9B",
-	bulb = "\xF0\x9F\x92\xA1",
-	bullettrain_front = "\xF0\x9F\x9A\x85",
-	bullettrain_side = "\xF0\x9F\x9A\x84",
-	burrito = "\xF0\x9F\x8C\xAF",
-	bus = "\xF0\x9F\x9A\x8C",
-	busstop = "\xF0\x9F\x9A\x8F",
-	bust_in_silhouette = "\xF0\x9F\x91\xA4",
-	busts_in_silhouette = "\xF0\x9F\x91\xA5",
-	butterfly = "\xF0\x9F\xA6\x8B",
-	cactus = "\xF0\x9F\x8C\xB5",
-	cake = "\xF0\x9F\x8D\xB0",
-	calendar = "\xF0\x9F\x93\x86",
-	calendar_spiral = "\xF0\x9F\x97\x93",
-	call_me = "\xF0\x9F\xA4\x99",
-	calling = "\xF0\x9F\x93\xB2",
-	camel = "\xF0\x9F\x90\xAB",
-	camera = "\xF0\x9F\x93\xB7",
-	camera_with_flash = "\xF0\x9F\x93\xB8",
-	camping = "\xF0\x9F\x8F\x95",
-	cancer = "\xE2\x99\x8B",
-	candle = "\xF0\x9F\x95\xAF",
-	candy = "\xF0\x9F\x8D\xAC",
-	canoe = "\xF0\x9F\x9B\xB6",
-	capital_abcd = "\xF0\x9F\x94\xA0",
-	capricorn = "\xE2\x99\x91",
-	card_box = "\xF0\x9F\x97\x83",
-	card_index = "\xF0\x9F\x93\x87",
-	carousel_horse = "\xF0\x9F\x8E\xA0",
-	carrot = "\xF0\x9F\xA5\x95",
-	cartwheel = "\xF0\x9F\xA4\xB8",
-	cat = "\xF0\x9F\x90\xB1",
-	cat2 = "\xF0\x9F\x90\x88",
-	cd = "\xF0\x9F\x92\xBF",
-	chains = "\xE2\x9B\x93",
-	champagne = "\xF0\x9F\x8D\xBE",
-	champagne_glass = "\xF0\x9F\xA5\x82",
-	chart = "\xF0\x9F\x92\xB9",
-	chart_with_downwards_trend = "\xF0\x9F\x93\x89",
-	chart_with_upwards_trend = "\xF0\x9F\x93\x88",
-	checkered_flag = "\xF0\x9F\x8F\x81",
-	cheese = "\xF0\x9F\xA7\x80",
-	cherries = "\xF0\x9F\x8D\x92",
-	cherry_blossom = "\xF0\x9F\x8C\xB8",
-	chestnut = "\xF0\x9F\x8C\xB0",
-	chicken = "\xF0\x9F\x90\x94",
-	child = "\xF0\x9F\xA7\x92",
-	children_crossing = "\xF0\x9F\x9A\xB8",
-	chipmunk = "\xF0\x9F\x90\xBF",
-	chocolate_bar = "\xF0\x9F\x8D\xAB",
-	christmas_tree = "\xF0\x9F\x8E\x84",
-	church = "\xE2\x9B\xAA",
-	cinema = "\xF0\x9F\x8E\xA6",
-	circus_tent = "\xF0\x9F\x8E\xAA",
-	city_dusk = "\xF0\x9F\x8C\x86",
-	city_sunset = "\xF0\x9F\x8C\x87",
-	cityscape = "\xF0\x9F\x8F\x99",
-	cl = "\xF0\x9F\x86\x91",
-	clap = "\xF0\x9F\x91\x8F",
-	clapper = "\xF0\x9F\x8E\xAC",
-	classical_building = { "\xF0\x9F\x8F\x9B\xEF\xB8\x8F", "\xF0\x9F\x8F\x9B" },
-	clipboard = "\xF0\x9F\x93\x8B",
-	clock = "\xF0\x9F\x95\xB0",
-	clock1 = "\xF0\x9F\x95\x90",
-	clock10 = "\xF0\x9F\x95\x99",
-	clock1030 = "\xF0\x9F\x95\xA5",
-	clock11 = "\xF0\x9F\x95\x9A",
-	clock1130 = "\xF0\x9F\x95\xA6",
-	clock12 = "\xF0\x9F\x95\x9B",
-	clock1230 = "\xF0\x9F\x95\xA7",
-	clock130 = "\xF0\x9F\x95\x9C",
-	clock2 = "\xF0\x9F\x95\x91",
-	clock230 = "\xF0\x9F\x95\x9D",
-	clock3 = "\xF0\x9F\x95\x92",
-	clock330 = "\xF0\x9F\x95\x9E",
-	clock4 = "\xF0\x9F\x95\x93",
-	clock430 = "\xF0\x9F\x95\x9F",
-	clock5 = "\xF0\x9F\x95\x94",
-	clock530 = "\xF0\x9F\x95\xA0",
-	clock6 = "\xF0\x9F\x95\x95",
-	clock630 = "\xF0\x9F\x95\xA1",
-	clock7 = "\xF0\x9F\x95\x96",
-	clock730 = "\xF0\x9F\x95\xA2",
-	clock8 = "\xF0\x9F\x95\x97",
-	clock830 = "\xF0\x9F\x95\xA3",
-	clock9 = "\xF0\x9F\x95\x98",
-	clock930 = "\xF0\x9F\x95\xA4",
-	closed_book = "\xF0\x9F\x93\x95",
-	closed_lock_with_key = "\xF0\x9F\x94\x90",
-	closed_umbrella = "\xF0\x9F\x8C\x82",
-	cloud = "\xE2\x98\x81",
-	cloud_lightning = "\xF0\x9F\x8C\xA9",
-	cloud_rain = "\xF0\x9F\x8C\xA7",
-	cloud_snow = "\xF0\x9F\x8C\xA8",
-	cloud_tornado = "\xF0\x9F\x8C\xAA",
-	clown = "\xF0\x9F\xA4\xA1",
-	clubs = "\xE2\x99\xA3",
-	cocktail = "\xF0\x9F\x8D\xB8",
-	coffee = "\xE2\x98\x95",
-	coffin = "\xE2\x9A\xB0",
-	cold_sweat = "\xF0\x9F\x98\xB0",
-	comet = "\xE2\x98\x84",
-	compression = "\xF0\x9F\x97\x9C",
-	computer = "\xF0\x9F\x92\xBB",
-	confetti_ball = "\xF0\x9F\x8E\x8A",
-	confounded = "\xF0\x9F\x98\x96",
-	confused = "\xF0\x9F\x98\x95",
-	congratulations = "\xE3\x8A\x97",
-	construction = "\xF0\x9F\x9A\xA7",
-	construction_site = "\xF0\x9F\x8F\x97",
-	construction_worker = "\xF0\x9F\x91\xB7",
-	control_knobs = "\xF0\x9F\x8E\x9B",
-	convenience_store = "\xF0\x9F\x8F\xAA",
-	cookie = "\xF0\x9F\x8D\xAA",
-	cooking = "\xF0\x9F\x8D\xB3",
-	cool = "\xF0\x9F\x86\x92",
-	cop = "\xF0\x9F\x91\xAE",
-	copyright = "\xC2\xA9",
-	corn = "\xF0\x9F\x8C\xBD",
-	couch = "\xF0\x9F\x9B\x8B",
-	couple = "\xF0\x9F\x91\xAB",
-	couple_mm = "\xF0\x9F\x91\xA8\xE2\x80\x8D\xE2\x9D\xA4\xEF\xB8\x8F\xE2\x80\x8D\xF0\x9F\x91\xA8",
-	couple_with_heart = "\xF0\x9F\x92\x91",
-	couple_ww = "\xF0\x9F\x91\xA9\xE2\x80\x8D\xE2\x9D\xA4\xEF\xB8\x8F\xE2\x80\x8D\xF0\x9F\x91\xA9",
-	couplekiss = "\xF0\x9F\x92\x8F",
-	cow = "\xF0\x9F\x90\xAE",
-	cow2 = "\xF0\x9F\x90\x84",
-	cowboy = "\xF0\x9F\xA4\xA0",
-	crab = "\xF0\x9F\xA6\x80",
-	crayon = "\xF0\x9F\x96\x8D",
-	credit_card = "\xF0\x9F\x92\xB3",
-	crescent_moon = "\xF0\x9F\x8C\x99",
-	cricket = "\xF0\x9F\x8F\x8F",
-	crocodile = "\xF0\x9F\x90\x8A",
-	croissant = "\xF0\x9F\xA5\x90",
-	cross = "\xE2\x9C\x9D",
-	crossed_flags = "\xF0\x9F\x8E\x8C",
-	crossed_swords = "\xE2\x9A\x94",
-	crown = "\xF0\x9F\x91\x91",
-	cruise_ship = "\xF0\x9F\x9B\xB3",
-	cry = "\xF0\x9F\x98\xA2",
-	crying_cat_face = "\xF0\x9F\x98\xBF",
-	crystal_ball = "\xF0\x9F\x94\xAE",
-	cucumber = "\xF0\x9F\xA5\x92",
-	cupid = "\xF0\x9F\x92\x98",
-	curly_loop = "\xE2\x9E\xB0",
-	currency_exchange = "\xF0\x9F\x92\xB1",
-	curry = "\xF0\x9F\x8D\x9B",
-	custard = "\xF0\x9F\x8D\xAE",
-	customs = "\xF0\x9F\x9B\x83",
-	cyclone = "\xF0\x9F\x8C\x80",
-	dagger = "\xF0\x9F\x97\xA1",
-	dancer = "\xF0\x9F\x92\x83",
-	dancers = "\xF0\x9F\x91\xAF",
-	dango = "\xF0\x9F\x8D\xA1",
-	dark_sunglasses = "\xF0\x9F\x95\xB6",
-	dart = "\xF0\x9F\x8E\xAF",
-	dash = "\xF0\x9F\x92\xA8",
-	date = "\xF0\x9F\x93\x85",
-	deciduous_tree = "\xF0\x9F\x8C\xB3",
-	deer = "\xF0\x9F\xA6\x8C",
-	department_store = "\xF0\x9F\x8F\xAC",
-	desert = "\xF0\x9F\x8F\x9C",
-	desktop = { "\xF0\x9F\x96\xA5\xEF\xB8\x8F", "\xF0\x9F\x96\xA5" },
-	diamond_shape_with_a_dot_inside = "\xF0\x9F\x92\xA0",
-	diamonds = "\xE2\x99\xA6",
-	disappointed = "\xF0\x9F\x98\x9E",
-	disappointed_relieved = "\xF0\x9F\x98\xA5",
-	dividers = "\xF0\x9F\x97\x82",
-	dizzy = "\xF0\x9F\x92\xAB",
-	dizzy_face = "\xF0\x9F\x98\xB5",
-	do_not_litter = "\xF0\x9F\x9A\xAF",
-	dog = "\xF0\x9F\x90\xB6",
-	dog2 = "\xF0\x9F\x90\x95",
-	dollar = "\xF0\x9F\x92\xB5",
-	dolls = "\xF0\x9F\x8E\x8E",
-	dolphin = "\xF0\x9F\x90\xAC",
-	door = "\xF0\x9F\x9A\xAA",
-	doughnut = "\xF0\x9F\x8D\xA9",
-	dove = "\xF0\x9F\x95\x8A",
-	dragon = "\xF0\x9F\x90\x89",
-	dragon_face = "\xF0\x9F\x90\xB2",
-	dress = "\xF0\x9F\x91\x97",
-	dromedary_camel = "\xF0\x9F\x90\xAA",
-	drooling_face = "\xF0\x9F\xA4\xA4",
-	droplet = "\xF0\x9F\x92\xA7",
-	drum = "\xF0\x9F\xA5\x81",
-	duck = "\xF0\x9F\xA6\x86",
-	dvd = "\xF0\x9F\x93\x80",
-	e_mail = "\xF0\x9F\x93\xA7",
-	eagle = "\xF0\x9F\xA6\x85",
-	ear = "\xF0\x9F\x91\x82",
-	ear_of_rice = "\xF0\x9F\x8C\xBE",
-	earth_africa = "\xF0\x9F\x8C\x8D",
-	earth_americas = "\xF0\x9F\x8C\x8E",
-	earth_asia = "\xF0\x9F\x8C\x8F",
-	egg = "\xF0\x9F\xA5\x9A",
-	eggplant = "\xF0\x9F\x8D\x86",
-	eight = { "\x38\xEF\xB8\x8F\xE2\x83\xA3", "\x38\xE2\x83\xA3" },
-	eight_pointed_black_star = "\xE2\x9C\xB4",
-	eight_spoked_asterisk = "\xE2\x9C\xB3",
-	eject = "\xE2\x8F\x8F",
-	electric_plug = "\xF0\x9F\x94\x8C",
-	elephant = "\xF0\x9F\x90\x98",
-	envelope = "\xE2\x9C\x89",
-	envelope_with_arrow = "\xF0\x9F\x93\xA9",
-	euro = "\xF0\x9F\x92\xB6",
-	european_castle = "\xF0\x9F\x8F\xB0",
-	european_post_office = "\xF0\x9F\x8F\xA4",
-	evergreen_tree = "\xF0\x9F\x8C\xB2",
-	exclamation = "\xE2\x9D\x97",
-	expressionless = "\xF0\x9F\x98\x91",
-	eye = "\xF0\x9F\x91\x81",
-	eye_in_speech_bubble = "\xF0\x9F\x91\x81\xE2\x80\x8D\xF0\x9F\x97\xA8",
-	eyeglasses = "\xF0\x9F\x91\x93",
-	eyes = "\xF0\x9F\x91\x80",
-	face_palm = "\xF0\x9F\xA4\xA6",
-	factory = "\xF0\x9F\x8F\xAD",
-	fallen_leaf = "\xF0\x9F\x8D\x82",
-	family = "\xF0\x9F\x91\xAA",
-	family_mmb = "\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA6",
-	family_mmbb = "\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA6\xE2\x80\x8D\xF0\x9F\x91\xA6",
-	family_mmg = "\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA7",
-	family_mmgb = "\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA6",
-	family_mmgg = "\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA7",
-	family_mwbb = "\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA6\xE2\x80\x8D\xF0\x9F\x91\xA6",
-	family_mwg = "\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7",
-	family_mwgb = "\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA6",
-	family_mwgg = "\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA7",
-	family_wwb = "\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA6",
-	family_wwbb = "\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA6\xE2\x80\x8D\xF0\x9F\x91\xA6",
-	family_wwg = "\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7",
-	family_wwgb = "\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA6",
-	family_wwgg = "\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA7",
-	fast_forward = "\xE2\x8F\xA9",
-	fax = "\xF0\x9F\x93\xA0",
-	fearful = "\xF0\x9F\x98\xA8",
-	feet = "\xF0\x9F\x90\xBE",
-	fencer = "\xF0\x9F\xA4\xBA",
-	ferris_wheel = "\xF0\x9F\x8E\xA1",
-	ferry = "\xE2\x9B\xB4",
-	field_hockey = "\xF0\x9F\x8F\x91",
-	file_cabinet = "\xF0\x9F\x97\x84",
-	file_folder = "\xF0\x9F\x93\x81",
-	film_frames = "\xF0\x9F\x8E\x9E",
-	fingers_crossed = "\xF0\x9F\xA4\x9E",
-	fire = "\xF0\x9F\x94\xA5",
-	fire_engine = "\xF0\x9F\x9A\x92",
-	fireworks = "\xF0\x9F\x8E\x86",
-	first_place = "\xF0\x9F\xA5\x87",
-	first_quarter_moon = "\xF0\x9F\x8C\x93",
-	first_quarter_moon_with_face = "\xF0\x9F\x8C\x9B",
-	fish = "\xF0\x9F\x90\x9F",
-	fish_cake = "\xF0\x9F\x8D\xA5",
-	fishing_pole_and_fish = "\xF0\x9F\x8E\xA3",
-	fist = "\xE2\x9C\x8A",
-	five = { "\x35\xEF\xB8\x8F\xE2\x83\xA3", "\x35\xE2\x83\xA3" },
-	flag_ac = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xA8",
-	flag_ad = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xA9",
-	flag_ae = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xAA",
-	flag_af = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xAB",
-	flag_ag = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xAC",
-	flag_ai = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xAE",
-	flag_al = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xB1",
-	flag_am = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xB2",
-	flag_ao = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xB4",
-	flag_aq = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xB6",
-	flag_ar = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xB7",
-	flag_as = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xB8",
-	flag_at = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xB9",
-	flag_au = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xBA",
-	flag_aw = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xBC",
-	flag_ax = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xBD",
-	flag_az = "\xF0\x9F\x87\xA6\xF0\x9F\x87\xBF",
-	flag_ba = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xA6",
-	flag_bb = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xA7",
-	flag_bd = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xA9",
-	flag_be = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xAA",
-	flag_bf = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xAB",
-	flag_bg = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xAC",
-	flag_bh = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xAD",
-	flag_bi = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xAE",
-	flag_bj = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xAF",
-	flag_bl = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xB1",
-	flag_black = "\xF0\x9F\x8F\xB4",
-	flag_bm = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xB2",
-	flag_bn = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xB3",
-	flag_bo = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xB4",
-	flag_bq = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xB6",
-	flag_br = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xB7",
-	flag_bs = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xB8",
-	flag_bt = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xB9",
-	flag_bv = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xBB",
-	flag_bw = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xBC",
-	flag_by = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xBE",
-	flag_bz = "\xF0\x9F\x87\xA7\xF0\x9F\x87\xBF",
-	flag_ca = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xA6",
-	flag_cc = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xA8",
-	flag_cd = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xA9",
-	flag_cf = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xAB",
-	flag_cg = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xAC",
-	flag_ch = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xAD",
-	flag_ci = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xAE",
-	flag_ck = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xB0",
-	flag_cl = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xB1",
-	flag_cm = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xB2",
-	flag_cn = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xB3",
-	flag_co = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xB4",
-	flag_cp = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xB5",
-	flag_cr = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xB7",
-	flag_cu = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xBA",
-	flag_cv = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xBB",
-	flag_cw = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xBC",
-	flag_cx = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xBD",
-	flag_cy = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xBE",
-	flag_cz = "\xF0\x9F\x87\xA8\xF0\x9F\x87\xBF",
-	flag_de = "\xF0\x9F\x87\xA9\xF0\x9F\x87\xAA",
-	flag_dg = "\xF0\x9F\x87\xA9\xF0\x9F\x87\xAC",
-	flag_dj = "\xF0\x9F\x87\xA9\xF0\x9F\x87\xAF",
-	flag_dk = "\xF0\x9F\x87\xA9\xF0\x9F\x87\xB0",
-	flag_dm = "\xF0\x9F\x87\xA9\xF0\x9F\x87\xB2",
-	flag_do = "\xF0\x9F\x87\xA9\xF0\x9F\x87\xB4",
-	flag_dz = "\xF0\x9F\x87\xA9\xF0\x9F\x87\xBF",
-	flag_ea = "\xF0\x9F\x87\xAA\xF0\x9F\x87\xA6",
-	flag_ec = "\xF0\x9F\x87\xAA\xF0\x9F\x87\xA8",
-	flag_ee = "\xF0\x9F\x87\xAA\xF0\x9F\x87\xAA",
-	flag_eg = "\xF0\x9F\x87\xAA\xF0\x9F\x87\xAC",
-	flag_eh = "\xF0\x9F\x87\xAA\xF0\x9F\x87\xAD",
-	flag_er = "\xF0\x9F\x87\xAA\xF0\x9F\x87\xB7",
-	flag_es = "\xF0\x9F\x87\xAA\xF0\x9F\x87\xB8",
-	flag_et = "\xF0\x9F\x87\xAA\xF0\x9F\x87\xB9",
-	flag_eu = "\xF0\x9F\x87\xAA\xF0\x9F\x87\xBA",
-	flag_fi = "\xF0\x9F\x87\xAB\xF0\x9F\x87\xAE",
-	flag_fj = "\xF0\x9F\x87\xAB\xF0\x9F\x87\xAF",
-	flag_fk = "\xF0\x9F\x87\xAB\xF0\x9F\x87\xB0",
-	flag_fm = "\xF0\x9F\x87\xAB\xF0\x9F\x87\xB2",
-	flag_fo = "\xF0\x9F\x87\xAB\xF0\x9F\x87\xB4",
-	flag_fr = "\xF0\x9F\x87\xAB\xF0\x9F\x87\xB7",
-	flag_ga = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xA6",
-	flag_gb = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xA7",
-	flag_gd = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xA9",
-	flag_ge = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xAA",
-	flag_gf = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xAB",
-	flag_gg = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xAC",
-	flag_gh = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xAD",
-	flag_gi = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xAE",
-	flag_gl = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xB1",
-	flag_gm = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xB2",
-	flag_gn = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xB3",
-	flag_gp = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xB5",
-	flag_gq = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xB6",
-	flag_gr = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xB7",
-	flag_gs = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xB8",
-	flag_gt = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xB9",
-	flag_gu = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xBA",
-	flag_gw = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xBC",
-	flag_gy = "\xF0\x9F\x87\xAC\xF0\x9F\x87\xBE",
-	flag_hk = "\xF0\x9F\x87\xAD\xF0\x9F\x87\xB0",
-	flag_hm = "\xF0\x9F\x87\xAD\xF0\x9F\x87\xB2",
-	flag_hn = "\xF0\x9F\x87\xAD\xF0\x9F\x87\xB3",
-	flag_hr = "\xF0\x9F\x87\xAD\xF0\x9F\x87\xB7",
-	flag_ht = "\xF0\x9F\x87\xAD\xF0\x9F\x87\xB9",
-	flag_hu = "\xF0\x9F\x87\xAD\xF0\x9F\x87\xBA",
-	flag_ic = "\xF0\x9F\x87\xAE\xF0\x9F\x87\xA8",
-	flag_id = "\xF0\x9F\x87\xAE\xF0\x9F\x87\xA9",
-	flag_ie = "\xF0\x9F\x87\xAE\xF0\x9F\x87\xAA",
-	flag_il = "\xF0\x9F\x87\xAE\xF0\x9F\x87\xB1",
-	flag_im = "\xF0\x9F\x87\xAE\xF0\x9F\x87\xB2",
-	flag_in = "\xF0\x9F\x87\xAE\xF0\x9F\x87\xB3",
-	flag_io = "\xF0\x9F\x87\xAE\xF0\x9F\x87\xB4",
-	flag_iq = "\xF0\x9F\x87\xAE\xF0\x9F\x87\xB6",
-	flag_ir = "\xF0\x9F\x87\xAE\xF0\x9F\x87\xB7",
-	flag_is = "\xF0\x9F\x87\xAE\xF0\x9F\x87\xB8",
-	flag_it = "\xF0\x9F\x87\xAE\xF0\x9F\x87\xB9",
-	flag_je = "\xF0\x9F\x87\xAF\xF0\x9F\x87\xAA",
-	flag_jm = "\xF0\x9F\x87\xAF\xF0\x9F\x87\xB2",
-	flag_jo = "\xF0\x9F\x87\xAF\xF0\x9F\x87\xB4",
-	flag_jp = "\xF0\x9F\x87\xAF\xF0\x9F\x87\xB5",
-	flag_ke = "\xF0\x9F\x87\xB0\xF0\x9F\x87\xAA",
-	flag_kg = "\xF0\x9F\x87\xB0\xF0\x9F\x87\xAC",
-	flag_kh = "\xF0\x9F\x87\xB0\xF0\x9F\x87\xAD",
-	flag_ki = "\xF0\x9F\x87\xB0\xF0\x9F\x87\xAE",
-	flag_km = "\xF0\x9F\x87\xB0\xF0\x9F\x87\xB2",
-	flag_kn = "\xF0\x9F\x87\xB0\xF0\x9F\x87\xB3",
-	flag_kp = "\xF0\x9F\x87\xB0\xF0\x9F\x87\xB5",
-	flag_kr = "\xF0\x9F\x87\xB0\xF0\x9F\x87\xB7",
-	flag_kw = "\xF0\x9F\x87\xB0\xF0\x9F\x87\xBC",
-	flag_ky = "\xF0\x9F\x87\xB0\xF0\x9F\x87\xBE",
-	flag_kz = "\xF0\x9F\x87\xB0\xF0\x9F\x87\xBF",
-	flag_la = "\xF0\x9F\x87\xB1\xF0\x9F\x87\xA6",
-	flag_lb = "\xF0\x9F\x87\xB1\xF0\x9F\x87\xA7",
-	flag_lc = "\xF0\x9F\x87\xB1\xF0\x9F\x87\xA8",
-	flag_li = "\xF0\x9F\x87\xB1\xF0\x9F\x87\xAE",
-	flag_lk = "\xF0\x9F\x87\xB1\xF0\x9F\x87\xB0",
-	flag_lr = "\xF0\x9F\x87\xB1\xF0\x9F\x87\xB7",
-	flag_ls = "\xF0\x9F\x87\xB1\xF0\x9F\x87\xB8",
-	flag_lt = "\xF0\x9F\x87\xB1\xF0\x9F\x87\xB9",
-	flag_lu = "\xF0\x9F\x87\xB1\xF0\x9F\x87\xBA",
-	flag_lv = "\xF0\x9F\x87\xB1\xF0\x9F\x87\xBB",
-	flag_ly = "\xF0\x9F\x87\xB1\xF0\x9F\x87\xBE",
-	flag_ma = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xA6",
-	flag_mc = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xA8",
-	flag_md = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xA9",
-	flag_me = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xAA",
-	flag_mf = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xAB",
-	flag_mg = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xAC",
-	flag_mh = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xAD",
-	flag_mk = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xB0",
-	flag_ml = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xB1",
-	flag_mm = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xB2",
-	flag_mn = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xB3",
-	flag_mo = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xB4",
-	flag_mp = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xB5",
-	flag_mq = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xB6",
-	flag_mr = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xB7",
-	flag_ms = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xB8",
-	flag_mt = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xB9",
-	flag_mu = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xBA",
-	flag_mv = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xBB",
-	flag_mw = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xBC",
-	flag_mx = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xBD",
-	flag_my = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xBE",
-	flag_mz = "\xF0\x9F\x87\xB2\xF0\x9F\x87\xBF",
-	flag_na = "\xF0\x9F\x87\xB3\xF0\x9F\x87\xA6",
-	flag_nc = "\xF0\x9F\x87\xB3\xF0\x9F\x87\xA8",
-	flag_ne = "\xF0\x9F\x87\xB3\xF0\x9F\x87\xAA",
-	flag_nf = "\xF0\x9F\x87\xB3\xF0\x9F\x87\xAB",
-	flag_ng = "\xF0\x9F\x87\xB3\xF0\x9F\x87\xAC",
-	flag_ni = "\xF0\x9F\x87\xB3\xF0\x9F\x87\xAE",
-	flag_nl = "\xF0\x9F\x87\xB3\xF0\x9F\x87\xB1",
-	flag_no = "\xF0\x9F\x87\xB3\xF0\x9F\x87\xB4",
-	flag_np = "\xF0\x9F\x87\xB3\xF0\x9F\x87\xB5",
-	flag_nr = "\xF0\x9F\x87\xB3\xF0\x9F\x87\xB7",
-	flag_nu = "\xF0\x9F\x87\xB3\xF0\x9F\x87\xBA",
-	flag_nz = "\xF0\x9F\x87\xB3\xF0\x9F\x87\xBF",
-	flag_om = "\xF0\x9F\x87\xB4\xF0\x9F\x87\xB2",
-	flag_pa = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xA6",
-	flag_pe = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xAA",
-	flag_pf = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xAB",
-	flag_pg = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xAC",
-	flag_ph = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xAD",
-	flag_pk = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xB0",
-	flag_pl = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xB1",
-	flag_pm = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xB2",
-	flag_pn = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xB3",
-	flag_pr = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xB7",
-	flag_ps = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xB8",
-	flag_pt = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xB9",
-	flag_pw = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xBC",
-	flag_py = "\xF0\x9F\x87\xB5\xF0\x9F\x87\xBE",
-	flag_qa = "\xF0\x9F\x87\xB6\xF0\x9F\x87\xA6",
-	flag_re = "\xF0\x9F\x87\xB7\xF0\x9F\x87\xAA",
-	flag_ro = "\xF0\x9F\x87\xB7\xF0\x9F\x87\xB4",
-	flag_rs = "\xF0\x9F\x87\xB7\xF0\x9F\x87\xB8",
-	flag_ru = "\xF0\x9F\x87\xB7\xF0\x9F\x87\xBA",
-	flag_rw = "\xF0\x9F\x87\xB7\xF0\x9F\x87\xBC",
-	flag_sa = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xA6",
-	flag_sb = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xA7",
-	flag_sc = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xA8",
-	flag_sd = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xA9",
-	flag_se = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xAA",
-	flag_sg = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xAC",
-	flag_sh = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xAD",
-	flag_si = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xAE",
-	flag_sj = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xAF",
-	flag_sk = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xB0",
-	flag_sl = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xB1",
-	flag_sm = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xB2",
-	flag_sn = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xB3",
-	flag_so = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xB4",
-	flag_sr = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xB7",
-	flag_ss = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xB8",
-	flag_st = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xB9",
-	flag_sv = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xBB",
-	flag_sx = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xBD",
-	flag_sy = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xBE",
-	flag_sz = "\xF0\x9F\x87\xB8\xF0\x9F\x87\xBF",
-	flag_ta = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xA6",
-	flag_tc = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xA8",
-	flag_td = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xA9",
-	flag_tf = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xAB",
-	flag_tg = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xAC",
-	flag_th = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xAD",
-	flag_tj = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xAF",
-	flag_tk = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xB0",
-	flag_tl = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xB1",
-	flag_tm = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xB2",
-	flag_tn = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xB3",
-	flag_to = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xB4",
-	flag_tr = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xB7",
-	flag_tt = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xB9",
-	flag_tv = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xBB",
-	flag_tw = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xBC",
-	flag_tz = "\xF0\x9F\x87\xB9\xF0\x9F\x87\xBF",
-	flag_ua = "\xF0\x9F\x87\xBA\xF0\x9F\x87\xA6",
-	flag_ug = "\xF0\x9F\x87\xBA\xF0\x9F\x87\xAC",
-	flag_um = "\xF0\x9F\x87\xBA\xF0\x9F\x87\xB2",
-	flag_us = "\xF0\x9F\x87\xBA\xF0\x9F\x87\xB8",
-	flag_uy = "\xF0\x9F\x87\xBA\xF0\x9F\x87\xBE",
-	flag_uz = "\xF0\x9F\x87\xBA\xF0\x9F\x87\xBF",
-	flag_va = "\xF0\x9F\x87\xBB\xF0\x9F\x87\xA6",
-	flag_vc = "\xF0\x9F\x87\xBB\xF0\x9F\x87\xA8",
-	flag_ve = "\xF0\x9F\x87\xBB\xF0\x9F\x87\xAA",
-	flag_vg = "\xF0\x9F\x87\xBB\xF0\x9F\x87\xAC",
-	flag_vi = "\xF0\x9F\x87\xBB\xF0\x9F\x87\xAE",
-	flag_vn = "\xF0\x9F\x87\xBB\xF0\x9F\x87\xB3",
-	flag_vu = "\xF0\x9F\x87\xBB\xF0\x9F\x87\xBA",
-	flag_wf = "\xF0\x9F\x87\xBC\xF0\x9F\x87\xAB",
-	flag_white = "\xF0\x9F\x8F\xB3",
-	flag_ws = "\xF0\x9F\x87\xBC\xF0\x9F\x87\xB8",
-	flag_xk = "\xF0\x9F\x87\xBD\xF0\x9F\x87\xB0",
-	flag_ye = "\xF0\x9F\x87\xBE\xF0\x9F\x87\xAA",
-	flag_yt = "\xF0\x9F\x87\xBE\xF0\x9F\x87\xB9",
-	flag_za = "\xF0\x9F\x87\xBF\xF0\x9F\x87\xA6",
-	flag_zm = "\xF0\x9F\x87\xBF\xF0\x9F\x87\xB2",
-	flag_zw = "\xF0\x9F\x87\xBF\xF0\x9F\x87\xBC",
-	flags = "\xF0\x9F\x8E\x8F",
-	flashlight = "\xF0\x9F\x94\xA6",
-	fleur_de_lis = "\xE2\x9A\x9C",
-	floppy_disk = "\xF0\x9F\x92\xBE",
-	flower_playing_cards = "\xF0\x9F\x8E\xB4",
-	flushed = "\xF0\x9F\x98\xB3",
-	fog = "\xF0\x9F\x8C\xAB",
-	foggy = "\xF0\x9F\x8C\x81",
-	football = "\xF0\x9F\x8F\x88",
-	footprints = "\xF0\x9F\x91\xA3",
-	fork_and_knife = "\xF0\x9F\x8D\xB4",
-	fork_knife_plate = "\xF0\x9F\x8D\xBD",
-	fountain = "\xE2\x9B\xB2",
-	four = { "\x34\xEF\xB8\x8F\xE2\x83\xA3", "\x34\xE2\x83\xA3"},
-	four_leaf_clover = "\xF0\x9F\x8D\x80",
-	fox = "\xF0\x9F\xA6\x8A",
-	frame_photo = "\xF0\x9F\x96\xBC",
-	free = "\xF0\x9F\x86\x93",
-	french_bread = "\xF0\x9F\xA5\x96",
-	fried_shrimp = "\xF0\x9F\x8D\xA4",
-	fries = "\xF0\x9F\x8D\x9F",
-	frog = "\xF0\x9F\x90\xB8",
-	frowning = "\xF0\x9F\x98\xA6",
-	frowning2 = "\xE2\x98\xB9",
-	fuelpump = "\xE2\x9B\xBD",
-	full_moon = "\xF0\x9F\x8C\x95",
-	full_moon_with_face = "\xF0\x9F\x8C\x9D",
-	game_die = "\xF0\x9F\x8E\xB2",
-	gay_pride_flag = "\xF0\x9F\x8F\xB3\xEF\xB8\x8F\xE2\x80\x8D\xF0\x9F\x8C\x88",
-	gear = "\xE2\x9A\x99",
-	gem = "\xF0\x9F\x92\x8E",
-	gemini = "\xE2\x99\x8A",
-	ghost = "\xF0\x9F\x91\xBB",
-	gift = "\xF0\x9F\x8E\x81",
-	gift_heart = "\xF0\x9F\x92\x9D",
-	girl = "\xF0\x9F\x91\xA7",
-	globe_with_meridians = "\xF0\x9F\x8C\x90",
-	goal = "\xF0\x9F\xA5\x85",
-	goat = "\xF0\x9F\x90\x90",
-	golf = "\xE2\x9B\xB3",
-	golfer = "\xF0\x9F\x8F\x8C",
-	gorilla = "\xF0\x9F\xA6\x8D",
-	grapes = "\xF0\x9F\x8D\x87",
-	green_apple = "\xF0\x9F\x8D\x8F",
-	green_book = "\xF0\x9F\x93\x97",
-	green_heart = "\xF0\x9F\x92\x9A",
-	grey_exclamation = "\xE2\x9D\x95",
-	grey_question = "\xE2\x9D\x94",
-	grimacing = "\xF0\x9F\x98\xAC",
-	grin = "\xF0\x9F\x98\x81",
-	grinning = "\xF0\x9F\x98\x80",
-	guardsman = "\xF0\x9F\x92\x82",
-	guitar = "\xF0\x9F\x8E\xB8",
-	gun = "\xF0\x9F\x94\xAB",
-	haircut = "\xF0\x9F\x92\x87",
-	hamburger = "\xF0\x9F\x8D\x94",
-	hammer = "\xF0\x9F\x94\xA8",
-	hammer_pick = "\xE2\x9A\x92",
-	hamster = "\xF0\x9F\x90\xB9",
-	hand_splayed = "\xF0\x9F\x96\x90",
-	handbag = "\xF0\x9F\x91\x9C",
-	handball = "\xF0\x9F\xA4\xBE",
-	handshake = "\xF0\x9F\xA4\x9D",
-	hash = "\x23\xE2\x83\xA3",
-	hatched_chick = "\xF0\x9F\x90\xA5",
-	hatching_chick = "\xF0\x9F\x90\xA3",
-	head_bandage = "\xF0\x9F\xA4\x95",
-	headphones = "\xF0\x9F\x8E\xA7",
-	hear_no_evil = "\xF0\x9F\x99\x89",
-	heart = "\xE2\x9D\xA4",
-	heart_decoration = "\xF0\x9F\x92\x9F",
-	heart_exclamation = "\xE2\x9D\xA3",
-	heart_eyes = "\xF0\x9F\x98\x8D",
-	heart_eyes_cat = "\xF0\x9F\x98\xBB",
-	heartbeat = "\xF0\x9F\x92\x93",
-	heartpulse = "\xF0\x9F\x92\x97",
-	hearts = "\xE2\x99\xA5",
-	heavy_check_mark = "\xE2\x9C\x94",
-	heavy_division_sign = "\xE2\x9E\x97",
-	heavy_dollar_sign = "\xF0\x9F\x92\xB2",
-	heavy_minus_sign = "\xE2\x9E\x96",
-	heavy_multiplication_x = "\xE2\x9C\x96",
-	heavy_plus_sign = "\xE2\x9E\x95",
-	helicopter = "\xF0\x9F\x9A\x81",
-	helmet_with_cross = "\xE2\x9B\x91",
-	herb = "\xF0\x9F\x8C\xBF",
-	hibiscus = "\xF0\x9F\x8C\xBA",
-	high_brightness = "\xF0\x9F\x94\x86",
-	high_heel = "\xF0\x9F\x91\xA0",
-	hockey = "\xF0\x9F\x8F\x92",
-	hole = "\xF0\x9F\x95\xB3",
-	homes = "\xF0\x9F\x8F\x98",
-	honey_pot = "\xF0\x9F\x8D\xAF",
-	horse = "\xF0\x9F\x90\xB4",
-	horse_racing = "\xF0\x9F\x8F\x87",
-	hospital = "\xF0\x9F\x8F\xA5",
-	hot_pepper = "\xF0\x9F\x8C\xB6",
-	hotdog = "\xF0\x9F\x8C\xAD",
-	hotel = "\xF0\x9F\x8F\xA8",
-	hotsprings = "\xE2\x99\xA8",
-	hourglass = "\xE2\x8C\x9B",
-	hourglass_flowing_sand = "\xE2\x8F\xB3",
-	house = "\xF0\x9F\x8F\xA0",
-	house_abandoned = "\xF0\x9F\x8F\x9A",
-	house_with_garden = "\xF0\x9F\x8F\xA1",
-	hugging = "\xF0\x9F\xA4\x97",
-	hushed = "\xF0\x9F\x98\xAF",
-	ice_cream = "\xF0\x9F\x8D\xA8",
-	ice_skate = "\xE2\x9B\xB8",
-	icecream = "\xF0\x9F\x8D\xA6",
-	id = "\xF0\x9F\x86\x94",
-	ideograph_advantage = "\xF0\x9F\x89\x90",
-	imp = "\xF0\x9F\x91\xBF",
-	inbox_tray = "\xF0\x9F\x93\xA5",
-	incoming_envelope = "\xF0\x9F\x93\xA8",
-	information_desk_person = "\xF0\x9F\x92\x81",
-	information_source = "\xE2\x84\xB9",
-	innocent = "\xF0\x9F\x98\x87",
-	interrobang = "\xE2\x81\x89",
-	iphone = "\xF0\x9F\x93\xB1",
-	island = "\xF0\x9F\x8F\x9D",
-	izakaya_lantern = "\xF0\x9F\x8F\xAE",
-	jack_o_lantern = "\xF0\x9F\x8E\x83",
-	japan = "\xF0\x9F\x97\xBE",
-	japanese_castle = "\xF0\x9F\x8F\xAF",
-	japanese_goblin = "\xF0\x9F\x91\xBA",
-	japanese_ogre = "\xF0\x9F\x91\xB9",
-	jeans = "\xF0\x9F\x91\x96",
-	joy = "\xF0\x9F\x98\x82",
-	joy_cat = "\xF0\x9F\x98\xB9",
-	joystick = "\xF0\x9F\x95\xB9",
-	juggling = "\xF0\x9F\xA4\xB9",
-	kaaba = "\xF0\x9F\x95\x8B",
-	key = "\xF0\x9F\x94\x91",
-	key2 = "\xF0\x9F\x97\x9D",
-	keyboard = { "\xE2\x8C\xA8\xEF\xB8\x8F", "\xE2\x8C\xA8" },
-	keycap_ten = "\xF0\x9F\x94\x9F",
-	kimono = "\xF0\x9F\x91\x98",
-	kiss = "\xF0\x9F\x92\x8B",
-	kiss_mm = "\xF0\x9F\x91\xA8\xE2\x80\x8D\xE2\x9D\xA4\xEF\xB8\x8F\xE2\x80\x8D\xF0\x9F\x92\x8B\xE2\x80\x8D\xF0\x9F\x91\xA8",
-	kiss_ww = "\xF0\x9F\x91\xA9\xE2\x80\x8D\xE2\x9D\xA4\xEF\xB8\x8F\xE2\x80\x8D\xF0\x9F\x92\x8B\xE2\x80\x8D\xF0\x9F\x91\xA9",
-	kissing = "\xF0\x9F\x98\x97",
-	kissing_cat = "\xF0\x9F\x98\xBD",
-	kissing_closed_eyes = "\xF0\x9F\x98\x9A",
-	kissing_heart = "\xF0\x9F\x98\x98",
-	kissing_smiling_eyes = "\xF0\x9F\x98\x99",
-	kiwi = "\xF0\x9F\xA5\x9D",
-	knife = "\xF0\x9F\x94\xAA",
-	koala = "\xF0\x9F\x90\xA8",
-	koko = "\xF0\x9F\x88\x81",
-	label = "\xF0\x9F\x8F\xB7",
-	large_blue_circle = "\xF0\x9F\x94\xB5",
-	large_blue_diamond = "\xF0\x9F\x94\xB7",
-	large_orange_diamond = "\xF0\x9F\x94\xB6",
-	last_quarter_moon = "\xF0\x9F\x8C\x97",
-	last_quarter_moon_with_face = "\xF0\x9F\x8C\x9C",
-	laughing = "\xF0\x9F\x98\x86",
-	leaves = "\xF0\x9F\x8D\x83",
-	ledger = "\xF0\x9F\x93\x92",
-	left_facing_fist = "\xF0\x9F\xA4\x9B",
-	left_luggage = "\xF0\x9F\x9B\x85",
-	left_right_arrow = "\xE2\x86\x94",
-	leftwards_arrow_with_hook = "\xE2\x86\xA9",
-	lemon = "\xF0\x9F\x8D\x8B",
-	leo = "\xE2\x99\x8C",
-	leopard = "\xF0\x9F\x90\x86",
-	level_slider = "\xF0\x9F\x8E\x9A",
-	levitate = "\xF0\x9F\x95\xB4",
-	libra = "\xE2\x99\x8E",
-	lifter = "\xF0\x9F\x8F\x8B",
-	light_rail = "\xF0\x9F\x9A\x88",
-	link = "\xF0\x9F\x94\x97",
-	lion_face = "\xF0\x9F\xA6\x81",
-	lips = "\xF0\x9F\x91\x84",
-	lipstick = "\xF0\x9F\x92\x84",
-	lizard = "\xF0\x9F\xA6\x8E",
-	lock = "\xF0\x9F\x94\x92",
-	lock_with_ink_pen = "\xF0\x9F\x94\x8F",
-	lollipop = "\xF0\x9F\x8D\xAD",
-	loop = "\xE2\x9E\xBF",
-	loud_sound = "\xF0\x9F\x94\x8A",
-	loudspeaker = "\xF0\x9F\x93\xA2",
-	love_hotel = "\xF0\x9F\x8F\xA9",
-	love_letter = "\xF0\x9F\x92\x8C",
-	low_brightness = "\xF0\x9F\x94\x85",
-	lying_face = "\xF0\x9F\xA4\xA5",
-	m = "\xE2\x93\x82",
-	mag = "\xF0\x9F\x94\x8D",
-	mag_right = "\xF0\x9F\x94\x8E",
-	mahjong = "\xF0\x9F\x80\x84",
-	mailbox = "\xF0\x9F\x93\xAB",
-	mailbox_closed = "\xF0\x9F\x93\xAA",
-	mailbox_with_mail = "\xF0\x9F\x93\xAC",
-	mailbox_with_no_mail = "\xF0\x9F\x93\xAD",
-	man = "\xF0\x9F\x91\xA8",
-	man_dancing = "\xF0\x9F\x95\xBA",
-	man_in_tuxedo = "\xF0\x9F\xA4\xB5",
-	man_with_gua_pi_mao = "\xF0\x9F\x91\xB2",
-	man_with_turban = "\xF0\x9F\x91\xB3",
-	mans_shoe = "\xF0\x9F\x91\x9E",
-	map = "\xF0\x9F\x97\xBA",
-	maple_leaf = "\xF0\x9F\x8D\x81",
-	martial_arts_uniform = "\xF0\x9F\xA5\x8B",
-	mask = "\xF0\x9F\x98\xB7",
-	massage = "\xF0\x9F\x92\x86",
-	meat_on_bone = "\xF0\x9F\x8D\x96",
-	medal = "\xF0\x9F\x8F\x85",
-	mega = "\xF0\x9F\x93\xA3",
-	melon = "\xF0\x9F\x8D\x88",
-	menorah = "\xF0\x9F\x95\x8E",
-	mens = "\xF0\x9F\x9A\xB9",
-	metal = "\xF0\x9F\xA4\x98",
-	metro = "\xF0\x9F\x9A\x87",
-	microphone = "\xF0\x9F\x8E\xA4",
-	microphone2 = "\xF0\x9F\x8E\x99",
-	microscope = "\xF0\x9F\x94\xAC",
-	middle_finger = "\xF0\x9F\x96\x95",
-	military_medal = "\xF0\x9F\x8E\x96",
-	milk = "\xF0\x9F\xA5\x9B",
-	milky_way = "\xF0\x9F\x8C\x8C",
-	minibus = "\xF0\x9F\x9A\x90",
-	minidisc = "\xF0\x9F\x92\xBD",
-	mobile_phone_off = "\xF0\x9F\x93\xB4",
-	money_mouth = "\xF0\x9F\xA4\x91",
-	money_with_wings = "\xF0\x9F\x92\xB8",
-	moneybag = "\xF0\x9F\x92\xB0",
-	monkey = "\xF0\x9F\x90\x92",
-	monkey_face = "\xF0\x9F\x90\xB5",
-	monorail = "\xF0\x9F\x9A\x9D",
-	mortar_board = "\xF0\x9F\x8E\x93",
-	mosque = "\xF0\x9F\x95\x8C",
-	motor_scooter = "\xF0\x9F\x9B\xB5",
-	motorboat = "\xF0\x9F\x9B\xA5",
-	motorcycle = "\xF0\x9F\x8F\x8D",
-	motorway = "\xF0\x9F\x9B\xA3",
-	mount_fuji = "\xF0\x9F\x97\xBB",
-	mountain = "\xE2\x9B\xB0",
-	mountain_bicyclist = "\xF0\x9F\x9A\xB5",
-	mountain_cableway = "\xF0\x9F\x9A\xA0",
-	mountain_railway = "\xF0\x9F\x9A\x9E",
-	mountain_snow = "\xF0\x9F\x8F\x94",
-	mouse = "\xF0\x9F\x90\xAD",
-	mouse_three_button = "\xF0\x9F\x96\xB1",
-	mouse2 = "\xF0\x9F\x90\x81",
-	movie_camera = "\xF0\x9F\x8E\xA5",
-	moyai = "\xF0\x9F\x97\xBF",
-	mrs_claus = "\xF0\x9F\xA4\xB6",
-	muscle = "\xF0\x9F\x92\xAA",
-	mushroom = "\xF0\x9F\x8D\x84",
-	musical_keyboard = "\xF0\x9F\x8E\xB9",
-	musical_note = "\xF0\x9F\x8E\xB5",
-	musical_score = "\xF0\x9F\x8E\xBC",
-	mute = "\xF0\x9F\x94\x87",
-	nail_care = "\xF0\x9F\x92\x85",
-	name_badge = "\xF0\x9F\x93\x9B",
-	nauseated_face = "\xF0\x9F\xA4\xA2",
-	necktie = "\xF0\x9F\x91\x94",
-	negative_squared_cross_mark = "\xE2\x9D\x8E",
-	nerd = "\xF0\x9F\xA4\x93",
-	neutral_face = "\xF0\x9F\x98\x90",
-	new = "\xF0\x9F\x86\x95",
-	new_moon = "\xF0\x9F\x8C\x91",
-	new_moon_with_face = "\xF0\x9F\x8C\x9A",
-	newspaper = "\xF0\x9F\x93\xB0",
-	newspaper2 = "\xF0\x9F\x97\x9E",
-	ng = "\xF0\x9F\x86\x96",
-	night_with_stars = "\xF0\x9F\x8C\x83",
-	nine = { "\x39\xEF\xB8\x8F\xE2\x83\xA3" , "\x39\xE2\x83\xA3" },
-	no_bell = "\xF0\x9F\x94\x95",
-	no_bicycles = "\xF0\x9F\x9A\xB3",
-	no_entry = "\xE2\x9B\x94",
-	no_entry_sign = "\xF0\x9F\x9A\xAB",
-	no_good = "\xF0\x9F\x99\x85",
-	no_mobile_phones = "\xF0\x9F\x93\xB5",
-	no_mouth = "\xF0\x9F\x98\xB6",
-	no_pedestrians = "\xF0\x9F\x9A\xB7",
-	no_smoking = "\xF0\x9F\x9A\xAD",
-	non_potable_water = "\xF0\x9F\x9A\xB1",
-	nose = "\xF0\x9F\x91\x83",
-	not_a_bot = "\xF0\x9F\xA4\x96",
-	notebook = "\xF0\x9F\x93\x93",
-	notebook_with_decorative_cover = "\xF0\x9F\x93\x94",
-	notepad_spiral = "\xF0\x9F\x97\x92",
-	notes = "\xF0\x9F\x8E\xB6",
-	nut_and_bolt = "\xF0\x9F\x94\xA9",
-	o = "\xE2\xAD\x95",
-	o2 = "\xF0\x9F\x85\xBE",
-	ocean = "\xF0\x9F\x8C\x8A",
-	octagonal_sign = "\xF0\x9F\x9B\x91",
-	octopus = "\xF0\x9F\x90\x99",
-	oden = "\xF0\x9F\x8D\xA2",
-	office = "\xF0\x9F\x8F\xA2",
-	oil = "\xF0\x9F\x9B\xA2",
-	ok = "\xF0\x9F\x86\x97",
-	ok_hand = "\xF0\x9F\x91\x8C",
-	ok_woman = "\xF0\x9F\x99\x86",
-	older_man = "\xF0\x9F\x91\xB4",
-	older_woman = "\xF0\x9F\x91\xB5",
-	om_symbol = "\xF0\x9F\x95\x89",
-	on = "\xF0\x9F\x94\x9B",
-	oncoming_automobile = "\xF0\x9F\x9A\x98",
-	oncoming_bus = "\xF0\x9F\x9A\x8D",
-	oncoming_police_car = "\xF0\x9F\x9A\x94",
-	oncoming_taxi = "\xF0\x9F\x9A\x96",
-	one = { "\x31\xEF\xB8\x8F\xE2\x83\xA3", "\x31\xE2\x83\xA3" },
-	open_file_folder = "\xF0\x9F\x93\x82",
-	open_hands = "\xF0\x9F\x91\x90",
-	open_mouth = "\xF0\x9F\x98\xAE",
-	ophiuchus = "\xE2\x9B\x8E",
-	orange_book = "\xF0\x9F\x93\x99",
-	orthodox_cross = "\xE2\x98\xA6",
-	outbox_tray = "\xF0\x9F\x93\xA4",
-	owl = "\xF0\x9F\xA6\x89",
-	ox = "\xF0\x9F\x90\x82",
-	package = "\xF0\x9F\x93\xA6",
-	page_facing_up = "\xF0\x9F\x93\x84",
-	page_with_curl = "\xF0\x9F\x93\x83",
-	pager = "\xF0\x9F\x93\x9F",
-	paintbrush = "\xF0\x9F\x96\x8C",
-	palm_tree = "\xF0\x9F\x8C\xB4",
-	pancakes = "\xF0\x9F\xA5\x9E",
-	panda_face = "\xF0\x9F\x90\xBC",
-	paperclip = "\xF0\x9F\x93\x8E",
-	paperclips = "\xF0\x9F\x96\x87",
-	park = "\xF0\x9F\x8F\x9E",
-	parking = "\xF0\x9F\x85\xBF",
-	part_alternation_mark = "\xE3\x80\xBD",
-	partly_sunny = "\xE2\x9B\x85",
-	passport_control = "\xF0\x9F\x9B\x82",
-	pause_button = "\xE2\x8F\xB8",
-	peace = "\xE2\x98\xAE",
-	peach = "\xF0\x9F\x8D\x91",
-	peanuts = "\xF0\x9F\xA5\x9C",
-	pear = "\xF0\x9F\x8D\x90",
-	pen_ballpoint = "\xF0\x9F\x96\x8A",
-	pen_fountain = "\xF0\x9F\x96\x8B",
-	pencil = "\xF0\x9F\x93\x9D",
-	pencil2 = "\xE2\x9C\x8F",
-	penguin = "\xF0\x9F\x90\xA7",
-	pensive = "\xF0\x9F\x98\x94",
-	performing_arts = "\xF0\x9F\x8E\xAD",
-	persevere = "\xF0\x9F\x98\xA3",
-	person_frowning = "\xF0\x9F\x99\x8D",
-	person_with_blond_hair = "\xF0\x9F\x91\xB1",
-	person_with_pouting_face = "\xF0\x9F\x99\x8E",
-	pick = "\xE2\x9B\x8F",
-	pig = "\xF0\x9F\x90\xB7",
-	pig_nose = "\xF0\x9F\x90\xBD",
-	pig2 = "\xF0\x9F\x90\x96",
-	pill = "\xF0\x9F\x92\x8A",
-	pineapple = "\xF0\x9F\x8D\x8D",
-	ping_pong = "\xF0\x9F\x8F\x93",
-	pisces = "\xE2\x99\x93",
-	pizza = "\xF0\x9F\x8D\x95",
-	place_of_worship = "\xF0\x9F\x9B\x90",
-	play_pause = "\xE2\x8F\xAF",
-	point_down = "\xF0\x9F\x91\x87",
-	point_left = "\xF0\x9F\x91\x88",
-	point_right = "\xF0\x9F\x91\x89",
-	point_up = { "\xE2\x98\x9D\xEF\xB8\x8F", "\xE2\x98\x9D" },
-	point_up_2 = "\xF0\x9F\x91\x86",
-	police_car = "\xF0\x9F\x9A\x93",
-	poodle = "\xF0\x9F\x90\xA9",
-	poop = "\xF0\x9F\x92\xA9",
-	popcorn = "\xF0\x9F\x8D\xBF",
-	post_office = "\xF0\x9F\x8F\xA3",
-	postal_horn = "\xF0\x9F\x93\xAF",
-	postbox = "\xF0\x9F\x93\xAE",
-	potable_water = "\xF0\x9F\x9A\xB0",
-	potato = "\xF0\x9F\xA5\x94",
-	pouch = "\xF0\x9F\x91\x9D",
-	poultry_leg = "\xF0\x9F\x8D\x97",
-	pound = "\xF0\x9F\x92\xB7",
-	pouting_cat = "\xF0\x9F\x98\xBE",
-	pray = "\xF0\x9F\x99\x8F",
-	prayer_beads = "\xF0\x9F\x93\xBF",
-	pregnant_woman = "\xF0\x9F\xA4\xB0",
-	prince = "\xF0\x9F\xA4\xB4",
-	princess = "\xF0\x9F\x91\xB8",
-	printer = "\xF0\x9F\x96\xA8",
-	projector = "\xF0\x9F\x93\xBD",
-	punch = "\xF0\x9F\x91\x8A",
-	purple_heart = "\xF0\x9F\x92\x9C",
-	purse = "\xF0\x9F\x91\x9B",
-	pushpin = "\xF0\x9F\x93\x8C",
-	put_litter_in_its_place = "\xF0\x9F\x9A\xAE",
-	question = "\xE2\x9D\x93",
-	rabbit = "\xF0\x9F\x90\xB0",
-	rabbit2 = "\xF0\x9F\x90\x87",
-	race_car = "\xF0\x9F\x8F\x8E",
-	racehorse = "\xF0\x9F\x90\x8E",
-	radio = "\xF0\x9F\x93\xBB",
-	radio_button = "\xF0\x9F\x94\x98",
-	radioactive = "\xE2\x98\xA2",
-	rage = "\xF0\x9F\x98\xA1",
-	railway_car = "\xF0\x9F\x9A\x83",
-	railway_track = "\xF0\x9F\x9B\xA4",
-	rainbow = "\xF0\x9F\x8C\x88",
-	raised_back_of_hand = "\xF0\x9F\xA4\x9A",
-	raised_hand = "\xE2\x9C\x8B",
-	raised_hands = "\xF0\x9F\x99\x8C",
-	raising_hand = "\xF0\x9F\x99\x8B",
-	ram = "\xF0\x9F\x90\x8F",
-	ramen = "\xF0\x9F\x8D\x9C",
-	rat = "\xF0\x9F\x90\x80",
-	record_button = "\xE2\x8F\xBA",
-	recycle = "\xE2\x99\xBB",
-	red_car = "\xF0\x9F\x9A\x97",
-	red_circle = "\xF0\x9F\x94\xB4",
-	regional_indicator_a = "\xF0\x9F\x87\xA6",
-	regional_indicator_b = "\xF0\x9F\x87\xA7",
-	regional_indicator_c = "\xF0\x9F\x87\xA8",
-	regional_indicator_d = "\xF0\x9F\x87\xA9",
-	regional_indicator_e = "\xF0\x9F\x87\xAA",
-	regional_indicator_f = "\xF0\x9F\x87\xAB",
-	regional_indicator_g = "\xF0\x9F\x87\xAC",
-	regional_indicator_h = "\xF0\x9F\x87\xAD",
-	regional_indicator_i = "\xF0\x9F\x87\xAE",
-	regional_indicator_j = "\xF0\x9F\x87\xAF",
-	regional_indicator_k = "\xF0\x9F\x87\xB0",
-	regional_indicator_l = "\xF0\x9F\x87\xB1",
-	regional_indicator_m = "\xF0\x9F\x87\xB2",
-	regional_indicator_n = "\xF0\x9F\x87\xB3",
-	regional_indicator_o = "\xF0\x9F\x87\xB4",
-	regional_indicator_p = "\xF0\x9F\x87\xB5",
-	regional_indicator_q = "\xF0\x9F\x87\xB6",
-	regional_indicator_r = "\xF0\x9F\x87\xB7",
-	regional_indicator_s = "\xF0\x9F\x87\xB8",
-	regional_indicator_t = "\xF0\x9F\x87\xB9",
-	regional_indicator_u = "\xF0\x9F\x87\xBA",
-	regional_indicator_v = "\xF0\x9F\x87\xBB",
-	regional_indicator_w = "\xF0\x9F\x87\xBC",
-	regional_indicator_x = "\xF0\x9F\x87\xBD",
-	regional_indicator_y = "\xF0\x9F\x87\xBE",
-	regional_indicator_z = "\xF0\x9F\x87\xBF",
-	registered = "\xC2\xAE",
-	relaxed = { "\xE2\x98\xBA\xEF\xB8\x8F", "\xE2\x98\xBA" },
-	relieved = "\xF0\x9F\x98\x8C",
-	reminder_ribbon = "\xF0\x9F\x8E\x97",
-	repeat_one = "\xF0\x9F\x94\x82",
-	restroom = "\xF0\x9F\x9A\xBB",
-	revolving_hearts = "\xF0\x9F\x92\x9E",
-	rewind = "\xE2\x8F\xAA",
-	rhino = "\xF0\x9F\xA6\x8F",
-	ribbon = "\xF0\x9F\x8E\x80",
-	rice = "\xF0\x9F\x8D\x9A",
-	rice_ball = "\xF0\x9F\x8D\x99",
-	rice_cracker = "\xF0\x9F\x8D\x98",
-	rice_scene = "\xF0\x9F\x8E\x91",
-	right_facing_fist = "\xF0\x9F\xA4\x9C",
-	ring = "\xF0\x9F\x92\x8D",
-	robot = "\xF0\x9F\xA4\x96",
-	rocket = "\xF0\x9F\x9A\x80",
-	rofl = "\xF0\x9F\xA4\xA3",
-	roller_coaster = "\xF0\x9F\x8E\xA2",
-	rolling_eyes = "\xF0\x9F\x99\x84",
-	rooster = "\xF0\x9F\x90\x93",
-	rose = "\xF0\x9F\x8C\xB9",
-	rosette = "\xF0\x9F\x8F\xB5",
-	rotating_light = "\xF0\x9F\x9A\xA8",
-	round_pushpin = "\xF0\x9F\x93\x8D",
-	rowboat = "\xF0\x9F\x9A\xA3",
-	rugby_football = "\xF0\x9F\x8F\x89",
-	runner = "\xF0\x9F\x8F\x83",
-	running_shirt_with_sash = "\xF0\x9F\x8E\xBD",
-	sa = "\xF0\x9F\x88\x82",
-	sagittarius = "\xE2\x99\x90",
-	sailboat = "\xE2\x9B\xB5",
-	sake = "\xF0\x9F\x8D\xB6",
-	salad = "\xF0\x9F\xA5\x97",
-	sandal = "\xF0\x9F\x91\xA1",
-	santa = "\xF0\x9F\x8E\x85",
-	satellite = "\xF0\x9F\x93\xA1",
-	satellite_orbital = "\xF0\x9F\x9B\xB0",
-	saxophone = "\xF0\x9F\x8E\xB7",
-	scales = "\xE2\x9A\x96",
-	school = "\xF0\x9F\x8F\xAB",
-	school_satchel = "\xF0\x9F\x8E\x92",
-	scissors = "\xE2\x9C\x82",
-	scooter = "\xF0\x9F\x9B\xB4",
-	scorpion = "\xF0\x9F\xA6\x82",
-	scorpius = "\xE2\x99\x8F",
-	scream = "\xF0\x9F\x98\xB1",
-	scream_cat = "\xF0\x9F\x99\x80",
-	scroll = "\xF0\x9F\x93\x9C",
-	seat = "\xF0\x9F\x92\xBA",
-	second_place = "\xF0\x9F\xA5\x88",
-	secret = "\xE3\x8A\x99",
-	see_no_evil = "\xF0\x9F\x99\x88",
-	seedling = "\xF0\x9F\x8C\xB1",
-	selfie = "\xF0\x9F\xA4\xB3",
-	seven = { "\x37\xEF\xB8\x8F\xE2\x83\xA3", "\x37\xE2\x83\xA3" },
-	shallow_pan_of_food = "\xF0\x9F\xA5\x98",
-	shamrock = "\xE2\x98\x98",
-	shark = "\xF0\x9F\xA6\x88",
-	shaved_ice = "\xF0\x9F\x8D\xA7",
-	sheep = "\xF0\x9F\x90\x91",
-	shell = "\xF0\x9F\x90\x9A",
-	shield = "\xF0\x9F\x9B\xA1",
-	shinto_shrine = "\xE2\x9B\xA9",
-	ship = "\xF0\x9F\x9A\xA2",
-	shirt = "\xF0\x9F\x91\x95",
-	shopping_bags = "\xF0\x9F\x9B\x8D",
-	shopping_cart = "\xF0\x9F\x9B\x92",
-	shower = "\xF0\x9F\x9A\xBF",
-	shrimp = "\xF0\x9F\xA6\x90",
-	shrug = "\xF0\x9F\xA4\xB7",
-	signal_strength = "\xF0\x9F\x93\xB6",
-	six = { "\x36\xEF\xB8\x8F\xE2\x83\xA3", "\x36\xE2\x83\xA3" },
-	six_pointed_star = "\xF0\x9F\x94\xAF",
-	ski = "\xF0\x9F\x8E\xBF",
-	skier = "\xE2\x9B\xB7",
-	skull = "\xF0\x9F\x92\x80",
-	skull_crossbones = "\xE2\x98\xA0",
-	sleeping = "\xF0\x9F\x98\xB4",
-	sleeping_accommodation = "\xF0\x9F\x9B\x8C",
-	sleepy = "\xF0\x9F\x98\xAA",
-	slight_frown = "\xF0\x9F\x99\x81",
-	slight_smile = "\xF0\x9F\x99\x82",
-	slot_machine = "\xF0\x9F\x8E\xB0",
-	small_blue_diamond = "\xF0\x9F\x94\xB9",
-	small_orange_diamond = "\xF0\x9F\x94\xB8",
-	small_red_triangle = "\xF0\x9F\x94\xBA",
-	small_red_triangle_down = "\xF0\x9F\x94\xBB",
-	smile = "\xF0\x9F\x98\x84",
-	smile_cat = "\xF0\x9F\x98\xB8",
-	smiley = "\xF0\x9F\x98\x83",
-	smiley_cat = "\xF0\x9F\x98\xBA",
-	smiling_imp = "\xF0\x9F\x98\x88",
-	smirk = "\xF0\x9F\x98\x8F",
-	smirk_cat = "\xF0\x9F\x98\xBC",
-	smoking = "\xF0\x9F\x9A\xAC",
-	snail = "\xF0\x9F\x90\x8C",
-	snake = "\xF0\x9F\x90\x8D",
-	sneezing_face = "\xF0\x9F\xA4\xA7",
-	snowboarder = "\xF0\x9F\x8F\x82",
-	snowflake = "\xE2\x9D\x84",
-	snowman = "\xE2\x9B\x84",
-	snowman2 = "\xE2\x98\x83",
-	sob = "\xF0\x9F\x98\xAD",
-	soccer = "\xE2\x9A\xBD",
-	soon = "\xF0\x9F\x94\x9C",
-	sos = "\xF0\x9F\x86\x98",
-	sound = "\xF0\x9F\x94\x89",
-	space_invader = "\xF0\x9F\x91\xBE",
-	spades = "\xE2\x99\xA0",
-	spaghetti = "\xF0\x9F\x8D\x9D",
-	sparkle = "\xE2\x9D\x87",
-	sparkler = "\xF0\x9F\x8E\x87",
-	sparkles = "\xE2\x9C\xA8",
-	sparkling_heart = "\xF0\x9F\x92\x96",
-	speak_no_evil = "\xF0\x9F\x99\x8A",
-	speaker = "\xF0\x9F\x94\x88",
-	speaking_head = { "\xF0\x9F\x97\xA3\xEF\xB8\x8F", "\xF0\x9F\x97\xA3" },
-	speech_balloon = "\xF0\x9F\x92\xAC",
-	speech_left = "\xF0\x9F\x97\xA8",
-	speedboat = "\xF0\x9F\x9A\xA4",
-	spider = "\xF0\x9F\x95\xB7",
-	spider_web = "\xF0\x9F\x95\xB8",
-	spoon = "\xF0\x9F\xA5\x84",
-	spy = "\xF0\x9F\x95\xB5",
-	squid = "\xF0\x9F\xA6\x91",
-	stadium = "\xF0\x9F\x8F\x9F",
-	star = "\xE2\xAD\x90",
-	star_and_crescent = "\xE2\x98\xAA",
-	star_of_david = "\xE2\x9C\xA1",
-	star2 = "\xF0\x9F\x8C\x9F",
-	stars = "\xF0\x9F\x8C\xA0",
-	station = "\xF0\x9F\x9A\x89",
-	statue_of_liberty = "\xF0\x9F\x97\xBD",
-	steam_locomotive = "\xF0\x9F\x9A\x82",
-	stew = "\xF0\x9F\x8D\xB2",
-	stop_button = "\xE2\x8F\xB9",
-	stopwatch = "\xE2\x8F\xB1",
-	straight_ruler = "\xF0\x9F\x93\x8F",
-	strawberry = "\xF0\x9F\x8D\x93",
-	stuck_out_tongue = "\xF0\x9F\x98\x9B",
-	stuck_out_tongue_closed_eyes = "\xF0\x9F\x98\x9D",
-	stuck_out_tongue_winking_eye = "\xF0\x9F\x98\x9C",
-	stuffed_flatbread = "\xF0\x9F\xA5\x99",
-	sun_with_face = "\xF0\x9F\x8C\x9E",
-	sunflower = "\xF0\x9F\x8C\xBB",
-	sunglasses = "\xF0\x9F\x98\x8E",
-	sunny = "\xE2\x98\x80",
-	sunrise = "\xF0\x9F\x8C\x85",
-	sunrise_over_mountains = "\xF0\x9F\x8C\x84",
-	surfer = "\xF0\x9F\x8F\x84",
-	sushi = "\xF0\x9F\x8D\xA3",
-	suspension_railway = "\xF0\x9F\x9A\x9F",
-	sweat = "\xF0\x9F\x98\x93",
-	sweat_drops = "\xF0\x9F\x92\xA6",
-	sweat_smile = "\xF0\x9F\x98\x85",
-	sweet_potato = "\xF0\x9F\x8D\xA0",
-	swimmer = "\xF0\x9F\x8F\x8A",
-	symbols = "\xF0\x9F\x94\xA3",
-	synagogue = "\xF0\x9F\x95\x8D",
-	syringe = "\xF0\x9F\x92\x89",
-	taco = "\xF0\x9F\x8C\xAE",
-	tada = "\xF0\x9F\x8E\x89",
-	tanabata_tree = "\xF0\x9F\x8E\x8B",
-	tangerine = "\xF0\x9F\x8D\x8A",
-	taurus = "\xE2\x99\x89",
-	taxi = "\xF0\x9F\x9A\x95",
-	tea = "\xF0\x9F\x8D\xB5",
-	telephone = "\xE2\x98\x8E",
-	telephone_receiver = "\xF0\x9F\x93\x9E",
-	telescope = "\xF0\x9F\x94\xAD",
-	tennis = "\xF0\x9F\x8E\xBE",
-	tent = "\xE2\x9B\xBA",
-	thermometer = "\xF0\x9F\x8C\xA1",
-	thermometer_face = "\xF0\x9F\xA4\x92",
-	thinking = "\xF0\x9F\xA4\x94",
-	third_place = "\xF0\x9F\xA5\x89",
-	thought_balloon = "\xF0\x9F\x92\xAD",
-	three = { "\x33\xEF\xB8\x8F\xE2\x83\xA3", "\x33\xE2\x83\xA3" },
-	thumbsdown = "\xF0\x9F\x91\x8E",
-	thumbsup = "\xF0\x9F\x91\x8D",
-	thunder_cloud_rain = "\xE2\x9B\x88",
-	ticket = "\xF0\x9F\x8E\xAB",
-	tickets = "\xF0\x9F\x8E\x9F",
-	tiger = "\xF0\x9F\x90\xAF",
-	tiger2 = "\xF0\x9F\x90\x85",
-	timer = "\xE2\x8F\xB2",
-	tired_face = "\xF0\x9F\x98\xAB",
-	tm = "\xE2\x84\xA2",
-	toilet = "\xF0\x9F\x9A\xBD",
-	tokyo_tower = "\xF0\x9F\x97\xBC",
-	tomato = "\xF0\x9F\x8D\x85",
-	tongue = "\xF0\x9F\x91\x85",
-	tools = { "\xF0\x9F\x9B\xA0\xEF\xB8\x8F", "\xF0\x9F\x9B\xA0" },
-	top = "\xF0\x9F\x94\x9D",
-	tophat = "\xF0\x9F\x8E\xA9",
-	track_next = "\xE2\x8F\xAD",
-	track_previous = "\xE2\x8F\xAE",
-	trackball = "\xF0\x9F\x96\xB2",
-	tractor = "\xF0\x9F\x9A\x9C",
-	train = "\xF0\x9F\x9A\x8B",
-	train2 = "\xF0\x9F\x9A\x86",
-	tram = "\xF0\x9F\x9A\x8A",
-	triangular_flag_on_post = "\xF0\x9F\x9A\xA9",
-	triangular_ruler = "\xF0\x9F\x93\x90",
-	trident = "\xF0\x9F\x94\xB1",
-	triumph = "\xF0\x9F\x98\xA4",
-	trolleybus = "\xF0\x9F\x9A\x8E",
-	trophy = "\xF0\x9F\x8F\x86",
-	tropical_drink = "\xF0\x9F\x8D\xB9",
-	tropical_fish = "\xF0\x9F\x90\xA0",
-	truck = "\xF0\x9F\x9A\x9A",
-	trumpet = "\xF0\x9F\x8E\xBA",
-	tulip = "\xF0\x9F\x8C\xB7",
-	tumbler_glass = "\xF0\x9F\xA5\x83",
-	turkey = "\xF0\x9F\xA6\x83",
-	turtle = "\xF0\x9F\x90\xA2",
-	tv = "\xF0\x9F\x93\xBA",
-	twisted_rightwards_arrows = "\xF0\x9F\x94\x80",
-	two = { "\x32\xEF\xB8\x8F\xE2\x83\xA3", "\x32\xE2\x83\xA3" },
-	two_hearts = "\xF0\x9F\x92\x95",
-	two_men_holding_hands = "\xF0\x9F\x91\xAC",
-	two_women_holding_hands = "\xF0\x9F\x91\xAD",
-	u5272 = "\xF0\x9F\x88\xB9",
-	u5408 = "\xF0\x9F\x88\xB4",
-	u55b6 = "\xF0\x9F\x88\xBA",
-	u6307 = "\xF0\x9F\x88\xAF",
-	u6708 = "\xF0\x9F\x88\xB7",
-	u6709 = "\xF0\x9F\x88\xB6",
-	u6e80 = "\xF0\x9F\x88\xB5",
-	u7121 = "\xF0\x9F\x88\x9A",
-	u7533 = "\xF0\x9F\x88\xB8",
-	u7981 = "\xF0\x9F\x88\xB2",
-	u7a7a = "\xF0\x9F\x88\xB3",
-	umbrella = "\xE2\x98\x94",
-	umbrella2 = "\xE2\x98\x82",
-	unamused = "\xF0\x9F\x98\x92",
-	underage = "\xF0\x9F\x94\x9E",
-	unicorn = "\xF0\x9F\xA6\x84",
-	unlock = "\xF0\x9F\x94\x93",
-	up = "\xF0\x9F\x86\x99",
-	upside_down = "\xF0\x9F\x99\x83",
-	urn = "\xE2\x9A\xB1",
-	v = "\xE2\x9C\x8C",
-	vertical_traffic_light = "\xF0\x9F\x9A\xA6",
-	vhs = "\xF0\x9F\x93\xBC",
-	vibration_mode = "\xF0\x9F\x93\xB3",
-	video_camera = "\xF0\x9F\x93\xB9",
-	video_game = "\xF0\x9F\x8E\xAE",
-	violin = "\xF0\x9F\x8E\xBB",
-	virgo = "\xE2\x99\x8D",
-	volcano = "\xF0\x9F\x8C\x8B",
-	volleyball = "\xF0\x9F\x8F\x90",
-	vs = "\xF0\x9F\x86\x9A",
-	vulcan = "\xF0\x9F\x96\x96",
-	walking = "\xF0\x9F\x9A\xB6",
-	waning_crescent_moon = "\xF0\x9F\x8C\x98",
-	waning_gibbous_moon = "\xF0\x9F\x8C\x96",
-	warning = "\xE2\x9A\xA0",
-	wastebasket = "\xF0\x9F\x97\x91",
-	watch = "\xE2\x8C\x9A",
-	water_buffalo = "\xF0\x9F\x90\x83",
-	water_polo = "\xF0\x9F\xA4\xBD",
-	watermelon = "\xF0\x9F\x8D\x89",
-	wave = "\xF0\x9F\x91\x8B",
-	wavy_dash = "\xE3\x80\xB0",
-	waxing_crescent_moon = "\xF0\x9F\x8C\x92",
-	waxing_gibbous_moon = "\xF0\x9F\x8C\x94",
-	wc = "\xF0\x9F\x9A\xBE",
-	weary = "\xF0\x9F\x98\xA9",
-	wedding = "\xF0\x9F\x92\x92",
-	whale = "\xF0\x9F\x90\xB3",
-	whale2 = "\xF0\x9F\x90\x8B",
-	wheel_of_dharma = "\xE2\x98\xB8",
-	wheelchair = "\xE2\x99\xBF",
-	white_check_mark = "\xE2\x9C\x85",
-	white_circle = "\xE2\x9A\xAA",
-	white_flower = "\xF0\x9F\x92\xAE",
-	white_large_square = "\xE2\xAC\x9C",
-	white_medium_small_square = "\xE2\x97\xBD",
-	white_medium_square = "\xE2\x97\xBB",
-	white_small_square = "\xE2\x96\xAB",
-	white_square_button = "\xF0\x9F\x94\xB3",
-	white_sun_cloud = "\xF0\x9F\x8C\xA5",
-	white_sun_rain_cloud = "\xF0\x9F\x8C\xA6",
-	white_sun_small_cloud = "\xF0\x9F\x8C\xA4",
-	wilted_rose = "\xF0\x9F\xA5\x80",
-	wind_blowing_face = "\xF0\x9F\x8C\xAC",
-	wind_chime = "\xF0\x9F\x8E\x90",
-	wine_glass = "\xF0\x9F\x8D\xB7",
-	wink = "\xF0\x9F\x98\x89",
-	wolf = "\xF0\x9F\x90\xBA",
-	woman = "\xF0\x9F\x91\xA9",
-	womans_clothes = "\xF0\x9F\x91\x9A",
-	womans_hat = "\xF0\x9F\x91\x92",
-	womens = "\xF0\x9F\x9A\xBA",
-	worried = "\xF0\x9F\x98\x9F",
-	wrestlers = "\xF0\x9F\xA4\xBC",
-	writing_hand = "\xE2\x9C\x8D",
-	x = "\xE2\x9D\x8C",
-	yellow_heart = "\xF0\x9F\x92\x9B",
-	yen = "\xF0\x9F\x92\xB4",
-	yin_yang = "\xE2\x98\xAF",
-	yum = "\xF0\x9F\x98\x8B",
-	zap = "\xE2\x9A\xA1",
-	zero = { "\x30\xEF\xB8\x8F\xE2\x83\xA3", "\x30\xE2\x83\xA3" },
-	zipper_mouth = "\xF0\x9F\xA4\x90",
-	zzz = "\xF0\x9F\x92\xA4",
+	["100"] = {
+		names = {
+			"100",
+		},
+		codes = {
+			"💯",
+		},
+	},
+	["1234"] = {
+		names = {
+			"1234",
+		},
+		codes = {
+			"🔢",
+		},
+	},
+	["8ball"] = {
+		names = {
+			"8ball",
+		},
+		codes = {
+			"🎱",
+		},
+	},
+	["a"] = {
+		names = {
+			"a",
+		},
+		codes = {
+			"🅰",
+		},
+	},
+	["ab"] = {
+		names = {
+			"ab",
+		},
+		codes = {
+			"🆎",
+		},
+	},
+	["abc"] = {
+		names = {
+			"abc",
+		},
+		codes = {
+			"🔤",
+		},
+	},
+	["abcd"] = {
+		names = {
+			"abcd",
+		},
+		codes = {
+			"🔡",
+		},
+	},
+	["aerial_tramway"] = {
+		names = {
+			"aerial_tramway",
+		},
+		codes = {
+			"🚡",
+		},
+	},
+	["airplane"] = {
+		names = {
+			"airplane",
+		},
+		codes = {
+			"✈",
+		},
+	},
+	["airplane_arriving"] = {
+		names = {
+			"airplane_arriving",
+		},
+		codes = {
+			"🛬",
+		},
+	},
+	["airplane_departure"] = {
+		names = {
+			"airplane_departure",
+		},
+		codes = {
+			"🛫",
+		},
+	},
+	["airplane_small"] = {
+		names = {
+			"airplane_small",
+		},
+		codes = {
+			"🛩",
+		},
+	},
+	["alarm_clock"] = {
+		names = {
+			"alarm_clock",
+		},
+		codes = {
+			"⏰",
+		},
+	},
+	["alembic"] = {
+		names = {
+			"alembic",
+		},
+		codes = {
+			"⚗",
+		},
+	},
+	["alien"] = {
+		names = {
+			"alien",
+		},
+		codes = {
+			"👽",
+		},
+	},
+	["ambulance"] = {
+		names = {
+			"ambulance",
+		},
+		codes = {
+			"🚑",
+		},
+	},
+	["amphora"] = {
+		names = {
+			"amphora",
+		},
+		codes = {
+			"🏺",
+		},
+	},
+	["anchor"] = {
+		names = {
+			"anchor",
+		},
+		codes = {
+			"⚓",
+		},
+	},
+	["angel"] = {
+		names = {
+			"angel",
+		},
+		codes = {
+			"👼",
+		},
+	},
+	["anger"] = {
+		names = {
+			"anger",
+		},
+		codes = {
+			"💢",
+		},
+	},
+	["anger_right"] = {
+		names = {
+			"anger_right",
+		},
+		codes = {
+			"🗯",
+		},
+	},
+	["angry"] = {
+		names = {
+			"angry",
+		},
+		codes = {
+			"😠",
+		},
+	},
+	["anguished"] = {
+		names = {
+			"anguished",
+		},
+		codes = {
+			"😧",
+		},
+	},
+	["ant"] = {
+		names = {
+			"ant",
+		},
+		codes = {
+			"🐜",
+		},
+	},
+	["apple"] = {
+		names = {
+			"apple",
+		},
+		codes = {
+			"🍎",
+		},
+	},
+	["aquarius"] = {
+		names = {
+			"aquarius",
+		},
+		codes = {
+			"♒",
+		},
+	},
+	["aries"] = {
+		names = {
+			"aries",
+		},
+		codes = {
+			"♈",
+		},
+	},
+	["arrow_backward"] = {
+		names = {
+			"arrow_backward",
+		},
+		codes = {
+			"◀",
+		},
+	},
+	["arrow_double_down"] = {
+		names = {
+			"arrow_double_down",
+		},
+		codes = {
+			"⏬",
+		},
+	},
+	["arrow_double_up"] = {
+		names = {
+			"arrow_double_up",
+		},
+		codes = {
+			"⏫",
+		},
+	},
+	["arrow_down"] = {
+		names = {
+			"arrow_down",
+		},
+		codes = {
+			"⬇",
+		},
+	},
+	["arrow_down_small"] = {
+		names = {
+			"arrow_down_small",
+		},
+		codes = {
+			"🔽",
+		},
+	},
+	["arrow_forward"] = {
+		names = {
+			"arrow_forward",
+		},
+		codes = {
+			"▶",
+		},
+	},
+	["arrow_heading_down"] = {
+		names = {
+			"arrow_heading_down",
+		},
+		codes = {
+			"⤵",
+		},
+	},
+	["arrow_heading_up"] = {
+		names = {
+			"arrow_heading_up",
+		},
+		codes = {
+			"⤴",
+		},
+	},
+	["arrow_left"] = {
+		names = {
+			"arrow_left",
+		},
+		codes = {
+			"⬅",
+		},
+	},
+	["arrow_lower_left"] = {
+		names = {
+			"arrow_lower_left",
+		},
+		codes = {
+			"↙",
+		},
+	},
+	["arrow_lower_right"] = {
+		names = {
+			"arrow_lower_right",
+		},
+		codes = {
+			"↘",
+		},
+	},
+	["arrow_right"] = {
+		names = {
+			"arrow_right",
+		},
+		codes = {
+			"➡",
+		},
+	},
+	["arrow_right_hook"] = {
+		names = {
+			"arrow_right_hook",
+		},
+		codes = {
+			"↪",
+		},
+	},
+	["arrow_up"] = {
+		names = {
+			"arrow_up",
+		},
+		codes = {
+			"⬆",
+		},
+	},
+	["arrow_up_down"] = {
+		names = {
+			"arrow_up_down",
+		},
+		codes = {
+			"↕",
+		},
+	},
+	["arrow_up_small"] = {
+		names = {
+			"arrow_up_small",
+		},
+		codes = {
+			"🔼",
+		},
+	},
+	["arrow_upper_left"] = {
+		names = {
+			"arrow_upper_left",
+		},
+		codes = {
+			"↖",
+		},
+	},
+	["arrow_upper_right"] = {
+		names = {
+			"arrow_upper_right",
+		},
+		codes = {
+			"↗",
+		},
+	},
+	["arrows_clockwise"] = {
+		names = {
+			"arrows_clockwise",
+		},
+		codes = {
+			"🔃",
+		},
+	},
+	["arrows_counterclockwise"] = {
+		names = {
+			"arrows_counterclockwise",
+		},
+		codes = {
+			"🔄",
+		},
+	},
+	["art"] = {
+		names = {
+			"art",
+		},
+		codes = {
+			"🎨",
+		},
+	},
+	["articulated_lorry"] = {
+		names = {
+			"articulated_lorry",
+		},
+		codes = {
+			"🚛",
+		},
+	},
+	["asterisk"] = {
+		names = {
+			"asterisk",
+		},
+		codes = {
+			"*⃣",
+		},
+	},
+	["astonished"] = {
+		names = {
+			"astonished",
+		},
+		codes = {
+			"😲",
+		},
+	},
+	["athletic_shoe"] = {
+		names = {
+			"athletic_shoe",
+		},
+		codes = {
+			"👟",
+		},
+	},
+	["atm"] = {
+		names = {
+			"atm",
+		},
+		codes = {
+			"🏧",
+		},
+	},
+	["atom"] = {
+		names = {
+			"atom",
+		},
+		codes = {
+			"⚛",
+		},
+	},
+	["avocado"] = {
+		names = {
+			"avocado",
+		},
+		codes = {
+			"🥑",
+		},
+	},
+	["b"] = {
+		names = {
+			"b",
+		},
+		codes = {
+			"🅱",
+		},
+	},
+	["baby"] = {
+		names = {
+			"baby",
+		},
+		codes = {
+			"👶",
+		},
+	},
+	["baby_bottle"] = {
+		names = {
+			"baby_bottle",
+		},
+		codes = {
+			"🍼",
+		},
+	},
+	["baby_chick"] = {
+		names = {
+			"baby_chick",
+		},
+		codes = {
+			"🐤",
+		},
+	},
+	["baby_symbol"] = {
+		names = {
+			"baby_symbol",
+		},
+		codes = {
+			"🚼",
+		},
+	},
+	["back"] = {
+		names = {
+			"back",
+		},
+		codes = {
+			"🔙",
+		},
+	},
+	["bacon"] = {
+		names = {
+			"bacon",
+		},
+		codes = {
+			"🥓",
+		},
+	},
+	["badminton"] = {
+		names = {
+			"badminton",
+		},
+		codes = {
+			"🏸",
+		},
+	},
+	["baggage_claim"] = {
+		names = {
+			"baggage_claim",
+		},
+		codes = {
+			"🛄",
+		},
+	},
+	["balloon"] = {
+		names = {
+			"balloon",
+		},
+		codes = {
+			"🎈",
+		},
+	},
+	["ballot_box"] = {
+		names = {
+			"ballot_box",
+		},
+		codes = {
+			"🗳",
+		},
+	},
+	["ballot_box_with_check"] = {
+		names = {
+			"ballot_box_with_check",
+		},
+		codes = {
+			"☑",
+		},
+	},
+	["bamboo"] = {
+		names = {
+			"bamboo",
+		},
+		codes = {
+			"🎍",
+		},
+	},
+	["banana"] = {
+		names = {
+			"banana",
+		},
+		codes = {
+			"🍌",
+		},
+	},
+	["bangbang"] = {
+		names = {
+			"bangbang",
+		},
+		codes = {
+			"‼",
+		},
+	},
+	["bank"] = {
+		names = {
+			"bank",
+		},
+		codes = {
+			"🏦",
+		},
+	},
+	["bar_chart"] = {
+		names = {
+			"bar_chart",
+		},
+		codes = {
+			"📊",
+		},
+	},
+	["barber"] = {
+		names = {
+			"barber",
+		},
+		codes = {
+			"💈",
+		},
+	},
+	["baseball"] = {
+		names = {
+			"baseball",
+		},
+		codes = {
+			"⚾",
+		},
+	},
+	["basketball"] = {
+		names = {
+			"basketball",
+		},
+		codes = {
+			"🏀",
+		},
+	},
+	["basketball_player"] = {
+		names = {
+			"basketball_player",
+		},
+		codes = {
+			"⛹",
+		},
+	},
+	["bat"] = {
+		names = {
+			"bat",
+		},
+		codes = {
+			"🦇",
+		},
+	},
+	["bath"] = {
+		names = {
+			"bath",
+		},
+		codes = {
+			"🛀",
+		},
+	},
+	["bathtub"] = {
+		names = {
+			"bathtub",
+		},
+		codes = {
+			"🛁",
+		},
+	},
+	["battery"] = {
+		names = {
+			"battery",
+		},
+		codes = {
+			"🔋",
+		},
+	},
+	["beach"] = {
+		names = {
+			"beach",
+		},
+		codes = {
+			"🏖",
+		},
+	},
+	["beach_umbrella"] = {
+		names = {
+			"beach_umbrella",
+		},
+		codes = {
+			"⛱",
+		},
+	},
+	["bear"] = {
+		names = {
+			"bear",
+		},
+		codes = {
+			"🐻",
+		},
+	},
+	["bed"] = {
+		names = {
+			"bed",
+		},
+		codes = {
+			"🛏",
+		},
+	},
+	["bee"] = {
+		names = {
+			"bee",
+		},
+		codes = {
+			"🐝",
+		},
+	},
+	["beer"] = {
+		names = {
+			"beer",
+		},
+		codes = {
+			"🍺",
+		},
+	},
+	["beers"] = {
+		names = {
+			"beers",
+		},
+		codes = {
+			"🍻",
+		},
+	},
+	["beetle"] = {
+		names = {
+			"beetle",
+		},
+		codes = {
+			"🐞",
+		},
+	},
+	["beginner"] = {
+		names = {
+			"beginner",
+		},
+		codes = {
+			"🔰",
+		},
+	},
+	["bell"] = {
+		names = {
+			"bell",
+		},
+		codes = {
+			"🔔",
+		},
+	},
+	["bellhop"] = {
+		names = {
+			"bellhop",
+		},
+		codes = {
+			"🛎",
+		},
+	},
+	["bento"] = {
+		names = {
+			"bento",
+		},
+		codes = {
+			"🍱",
+		},
+	},
+	["bicyclist"] = {
+		names = {
+			"bicyclist",
+		},
+		codes = {
+			"🚴",
+		},
+	},
+	["bike"] = {
+		names = {
+			"bike",
+		},
+		codes = {
+			"🚲",
+		},
+	},
+	["bikini"] = {
+		names = {
+			"bikini",
+		},
+		codes = {
+			"👙",
+		},
+	},
+	["biohazard"] = {
+		names = {
+			"biohazard",
+		},
+		codes = {
+			"☣",
+		},
+	},
+	["bird"] = {
+		names = {
+			"bird",
+		},
+		codes = {
+			"🐦",
+		},
+	},
+	["birthday"] = {
+		names = {
+			"birthday",
+		},
+		codes = {
+			"🎂",
+		},
+	},
+	["black_circle"] = {
+		names = {
+			"black_circle",
+		},
+		codes = {
+			"⚫",
+		},
+	},
+	["black_heart"] = {
+		names = {
+			"black_heart",
+		},
+		codes = {
+			"🖤",
+		},
+	},
+	["black_joker"] = {
+		names = {
+			"black_joker",
+		},
+		codes = {
+			"🃏",
+		},
+	},
+	["black_large_square"] = {
+		names = {
+			"black_large_square",
+		},
+		codes = {
+			"⬛",
+		},
+	},
+	["black_medium_small_square"] = {
+		names = {
+			"black_medium_small_square",
+		},
+		codes = {
+			"◾",
+		},
+	},
+	["black_medium_square"] = {
+		names = {
+			"black_medium_square",
+		},
+		codes = {
+			"◼",
+		},
+	},
+	["black_nib"] = {
+		names = {
+			"black_nib",
+		},
+		codes = {
+			"✒",
+		},
+	},
+	["black_small_square"] = {
+		names = {
+			"black_small_square",
+		},
+		codes = {
+			"▪",
+		},
+	},
+	["black_square_button"] = {
+		names = {
+			"black_square_button",
+		},
+		codes = {
+			"🔲",
+		},
+	},
+	["blossom"] = {
+		names = {
+			"blossom",
+		},
+		codes = {
+			"🌼",
+		},
+	},
+	["blowfish"] = {
+		names = {
+			"blowfish",
+		},
+		codes = {
+			"🐡",
+		},
+	},
+	["blue_book"] = {
+		names = {
+			"blue_book",
+		},
+		codes = {
+			"📘",
+		},
+	},
+	["blue_car"] = {
+		names = {
+			"blue_car",
+		},
+		codes = {
+			"🚙",
+		},
+	},
+	["blue_heart"] = {
+		names = {
+			"blue_heart",
+		},
+		codes = {
+			"💙",
+		},
+	},
+	["blush"] = {
+		names = {
+			"blush",
+		},
+		codes = {
+			"😊",
+		},
+	},
+	["boar"] = {
+		names = {
+			"boar",
+		},
+		codes = {
+			"🐗",
+		},
+	},
+	["bomb"] = {
+		names = {
+			"bomb",
+		},
+		codes = {
+			"💣",
+		},
+	},
+	["book"] = {
+		names = {
+			"book",
+		},
+		codes = {
+			"📖",
+		},
+	},
+	["bookmark"] = {
+		names = {
+			"bookmark",
+		},
+		codes = {
+			"🔖",
+		},
+	},
+	["bookmark_tabs"] = {
+		names = {
+			"bookmark_tabs",
+		},
+		codes = {
+			"📑",
+		},
+	},
+	["books"] = {
+		names = {
+			"books",
+		},
+		codes = {
+			"📚",
+		},
+	},
+	["boom"] = {
+		names = {
+			"boom",
+		},
+		codes = {
+			"💥",
+		},
+	},
+	["boot"] = {
+		names = {
+			"boot",
+		},
+		codes = {
+			"👢",
+		},
+	},
+	["bouquet"] = {
+		names = {
+			"bouquet",
+		},
+		codes = {
+			"💐",
+		},
+	},
+	["bow"] = {
+		names = {
+			"bow",
+		},
+		codes = {
+			"🙇",
+		},
+	},
+	["bow_and_arrow"] = {
+		names = {
+			"bow_and_arrow",
+		},
+		codes = {
+			"🏹",
+		},
+	},
+	["bowling"] = {
+		names = {
+			"bowling",
+		},
+		codes = {
+			"🎳",
+		},
+	},
+	["boxing_glove"] = {
+		names = {
+			"boxing_glove",
+		},
+		codes = {
+			"🥊",
+		},
+	},
+	["boy"] = {
+		names = {
+			"boy",
+		},
+		codes = {
+			"👦",
+		},
+	},
+	["bread"] = {
+		names = {
+			"bread",
+		},
+		codes = {
+			"🍞",
+		},
+	},
+	["bride_with_veil"] = {
+		names = {
+			"bride_with_veil",
+		},
+		codes = {
+			"👰",
+		},
+	},
+	["bridge_at_night"] = {
+		names = {
+			"bridge_at_night",
+		},
+		codes = {
+			"🌉",
+		},
+	},
+	["briefcase"] = {
+		names = {
+			"briefcase",
+		},
+		codes = {
+			"💼",
+		},
+	},
+	["broken_heart"] = {
+		names = {
+			"broken_heart",
+		},
+		codes = {
+			"💔",
+		},
+	},
+	["bug"] = {
+		names = {
+			"bug",
+		},
+		codes = {
+			"🐛",
+		},
+	},
+	["bulb"] = {
+		names = {
+			"bulb",
+		},
+		codes = {
+			"💡",
+		},
+	},
+	["bullettrain_front"] = {
+		names = {
+			"bullettrain_front",
+		},
+		codes = {
+			"🚅",
+		},
+	},
+	["bullettrain_side"] = {
+		names = {
+			"bullettrain_side",
+		},
+		codes = {
+			"🚄",
+		},
+	},
+	["burrito"] = {
+		names = {
+			"burrito",
+		},
+		codes = {
+			"🌯",
+		},
+	},
+	["bus"] = {
+		names = {
+			"bus",
+		},
+		codes = {
+			"🚌",
+		},
+	},
+	["busstop"] = {
+		names = {
+			"busstop",
+		},
+		codes = {
+			"🚏",
+		},
+	},
+	["bust_in_silhouette"] = {
+		names = {
+			"bust_in_silhouette",
+		},
+		codes = {
+			"👤",
+		},
+	},
+	["busts_in_silhouette"] = {
+		names = {
+			"busts_in_silhouette",
+		},
+		codes = {
+			"👥",
+		},
+	},
+	["butterfly"] = {
+		names = {
+			"butterfly",
+		},
+		codes = {
+			"🦋",
+		},
+	},
+	["cactus"] = {
+		names = {
+			"cactus",
+		},
+		codes = {
+			"🌵",
+		},
+	},
+	["cake"] = {
+		names = {
+			"cake",
+		},
+		codes = {
+			"🍰",
+		},
+	},
+	["calendar"] = {
+		names = {
+			"calendar",
+		},
+		codes = {
+			"📆",
+		},
+	},
+	["calendar_spiral"] = {
+		names = {
+			"calendar_spiral",
+		},
+		codes = {
+			"🗓",
+		},
+	},
+	["call_me"] = {
+		names = {
+			"call_me",
+		},
+		codes = {
+			"🤙",
+		},
+	},
+	["calling"] = {
+		names = {
+			"calling",
+		},
+		codes = {
+			"📲",
+		},
+	},
+	["camel"] = {
+		names = {
+			"camel",
+		},
+		codes = {
+			"🐫",
+		},
+	},
+	["camera"] = {
+		names = {
+			"camera",
+		},
+		codes = {
+			"📷",
+		},
+	},
+	["camera_with_flash"] = {
+		names = {
+			"camera_with_flash",
+		},
+		codes = {
+			"📸",
+		},
+	},
+	["camping"] = {
+		names = {
+			"camping",
+		},
+		codes = {
+			"🏕",
+		},
+	},
+	["cancer"] = {
+		names = {
+			"cancer",
+		},
+		codes = {
+			"♋",
+		},
+	},
+	["candle"] = {
+		names = {
+			"candle",
+		},
+		codes = {
+			"🕯",
+		},
+	},
+	["candy"] = {
+		names = {
+			"candy",
+		},
+		codes = {
+			"🍬",
+		},
+	},
+	["canoe"] = {
+		names = {
+			"canoe",
+		},
+		codes = {
+			"🛶",
+		},
+	},
+	["capital_abcd"] = {
+		names = {
+			"capital_abcd",
+		},
+		codes = {
+			"🔠",
+		},
+	},
+	["capricorn"] = {
+		names = {
+			"capricorn",
+		},
+		codes = {
+			"♑",
+		},
+	},
+	["card_box"] = {
+		names = {
+			"card_box",
+		},
+		codes = {
+			"🗃",
+		},
+	},
+	["card_index"] = {
+		names = {
+			"card_index",
+		},
+		codes = {
+			"📇",
+		},
+	},
+	["carousel_horse"] = {
+		names = {
+			"carousel_horse",
+		},
+		codes = {
+			"🎠",
+		},
+	},
+	["carrot"] = {
+		names = {
+			"carrot",
+		},
+		codes = {
+			"🥕",
+		},
+	},
+	["cartwheel"] = {
+		names = {
+			"cartwheel",
+		},
+		codes = {
+			"🤸",
+		},
+	},
+	["cat"] = {
+		names = {
+			"cat",
+		},
+		codes = {
+			"🐱",
+		},
+	},
+	["cat2"] = {
+		names = {
+			"cat2",
+		},
+		codes = {
+			"🐈",
+		},
+	},
+	["cd"] = {
+		names = {
+			"cd",
+		},
+		codes = {
+			"💿",
+		},
+	},
+	["chains"] = {
+		names = {
+			"chains",
+		},
+		codes = {
+			"⛓",
+		},
+	},
+	["champagne"] = {
+		names = {
+			"champagne",
+		},
+		codes = {
+			"🍾",
+		},
+	},
+	["champagne_glass"] = {
+		names = {
+			"champagne_glass",
+		},
+		codes = {
+			"🥂",
+		},
+	},
+	["chart"] = {
+		names = {
+			"chart",
+		},
+		codes = {
+			"💹",
+		},
+	},
+	["chart_with_downwards_trend"] = {
+		names = {
+			"chart_with_downwards_trend",
+		},
+		codes = {
+			"📉",
+		},
+	},
+	["chart_with_upwards_trend"] = {
+		names = {
+			"chart_with_upwards_trend",
+		},
+		codes = {
+			"📈",
+		},
+	},
+	["checkered_flag"] = {
+		names = {
+			"checkered_flag",
+		},
+		codes = {
+			"🏁",
+		},
+	},
+	["cheese"] = {
+		names = {
+			"cheese",
+		},
+		codes = {
+			"🧀",
+		},
+	},
+	["cherries"] = {
+		names = {
+			"cherries",
+		},
+		codes = {
+			"🍒",
+		},
+	},
+	["cherry_blossom"] = {
+		names = {
+			"cherry_blossom",
+		},
+		codes = {
+			"🌸",
+		},
+	},
+	["chestnut"] = {
+		names = {
+			"chestnut",
+		},
+		codes = {
+			"🌰",
+		},
+	},
+	["chicken"] = {
+		names = {
+			"chicken",
+		},
+		codes = {
+			"🐔",
+		},
+	},
+	["child"] = {
+		names = {
+			"child",
+		},
+		codes = {
+			"🧒",
+		},
+	},
+	["children_crossing"] = {
+		names = {
+			"children_crossing",
+		},
+		codes = {
+			"🚸",
+		},
+	},
+	["chipmunk"] = {
+		names = {
+			"chipmunk",
+		},
+		codes = {
+			"🐿",
+		},
+	},
+	["chocolate_bar"] = {
+		names = {
+			"chocolate_bar",
+		},
+		codes = {
+			"🍫",
+		},
+	},
+	["christmas_tree"] = {
+		names = {
+			"christmas_tree",
+		},
+		codes = {
+			"🎄",
+		},
+	},
+	["church"] = {
+		names = {
+			"church",
+		},
+		codes = {
+			"⛪",
+		},
+	},
+	["cinema"] = {
+		names = {
+			"cinema",
+		},
+		codes = {
+			"🎦",
+		},
+	},
+	["circus_tent"] = {
+		names = {
+			"circus_tent",
+		},
+		codes = {
+			"🎪",
+		},
+	},
+	["city_dusk"] = {
+		names = {
+			"city_dusk",
+		},
+		codes = {
+			"🌆",
+		},
+	},
+	["city_sunset"] = {
+		names = {
+			"city_sunset",
+		},
+		codes = {
+			"🌇",
+		},
+	},
+	["cityscape"] = {
+		names = {
+			"cityscape",
+		},
+		codes = {
+			"🏙",
+		},
+	},
+	["cl"] = {
+		names = {
+			"cl",
+		},
+		codes = {
+			"🆑",
+		},
+	},
+	["clap"] = {
+		names = {
+			"clap",
+		},
+		codes = {
+			"👏",
+		},
+	},
+	["clapper"] = {
+		names = {
+			"clapper",
+		},
+		codes = {
+			"🎬",
+		},
+	},
+	["classical_building"] = {
+		names = {
+			"classical_building",
+		},
+		codes = {
+			"🏛️",
+			"🏛",
+		},
+	},
+	["clipboard"] = {
+		names = {
+			"clipboard",
+		},
+		codes = {
+			"📋",
+		},
+	},
+	["clock"] = {
+		names = {
+			"clock",
+		},
+		codes = {
+			"🕰",
+		},
+	},
+	["clock1"] = {
+		names = {
+			"clock1",
+		},
+		codes = {
+			"🕐",
+		},
+	},
+	["clock10"] = {
+		names = {
+			"clock10",
+		},
+		codes = {
+			"🕙",
+		},
+	},
+	["clock1030"] = {
+		names = {
+			"clock1030",
+		},
+		codes = {
+			"🕥",
+		},
+	},
+	["clock11"] = {
+		names = {
+			"clock11",
+		},
+		codes = {
+			"🕚",
+		},
+	},
+	["clock1130"] = {
+		names = {
+			"clock1130",
+		},
+		codes = {
+			"🕦",
+		},
+	},
+	["clock12"] = {
+		names = {
+			"clock12",
+		},
+		codes = {
+			"🕛",
+		},
+	},
+	["clock1230"] = {
+		names = {
+			"clock1230",
+		},
+		codes = {
+			"🕧",
+		},
+	},
+	["clock130"] = {
+		names = {
+			"clock130",
+		},
+		codes = {
+			"🕜",
+		},
+	},
+	["clock2"] = {
+		names = {
+			"clock2",
+		},
+		codes = {
+			"🕑",
+		},
+	},
+	["clock230"] = {
+		names = {
+			"clock230",
+		},
+		codes = {
+			"🕝",
+		},
+	},
+	["clock3"] = {
+		names = {
+			"clock3",
+		},
+		codes = {
+			"🕒",
+		},
+	},
+	["clock330"] = {
+		names = {
+			"clock330",
+		},
+		codes = {
+			"🕞",
+		},
+	},
+	["clock4"] = {
+		names = {
+			"clock4",
+		},
+		codes = {
+			"🕓",
+		},
+	},
+	["clock430"] = {
+		names = {
+			"clock430",
+		},
+		codes = {
+			"🕟",
+		},
+	},
+	["clock5"] = {
+		names = {
+			"clock5",
+		},
+		codes = {
+			"🕔",
+		},
+	},
+	["clock530"] = {
+		names = {
+			"clock530",
+		},
+		codes = {
+			"🕠",
+		},
+	},
+	["clock6"] = {
+		names = {
+			"clock6",
+		},
+		codes = {
+			"🕕",
+		},
+	},
+	["clock630"] = {
+		names = {
+			"clock630",
+		},
+		codes = {
+			"🕡",
+		},
+	},
+	["clock7"] = {
+		names = {
+			"clock7",
+		},
+		codes = {
+			"🕖",
+		},
+	},
+	["clock730"] = {
+		names = {
+			"clock730",
+		},
+		codes = {
+			"🕢",
+		},
+	},
+	["clock8"] = {
+		names = {
+			"clock8",
+		},
+		codes = {
+			"🕗",
+		},
+	},
+	["clock830"] = {
+		names = {
+			"clock830",
+		},
+		codes = {
+			"🕣",
+		},
+	},
+	["clock9"] = {
+		names = {
+			"clock9",
+		},
+		codes = {
+			"🕘",
+		},
+	},
+	["clock930"] = {
+		names = {
+			"clock930",
+		},
+		codes = {
+			"🕤",
+		},
+	},
+	["closed_book"] = {
+		names = {
+			"closed_book",
+		},
+		codes = {
+			"📕",
+		},
+	},
+	["closed_lock_with_key"] = {
+		names = {
+			"closed_lock_with_key",
+		},
+		codes = {
+			"🔐",
+		},
+	},
+	["closed_umbrella"] = {
+		names = {
+			"closed_umbrella",
+		},
+		codes = {
+			"🌂",
+		},
+	},
+	["cloud"] = {
+		names = {
+			"cloud",
+		},
+		codes = {
+			"☁",
+		},
+	},
+	["cloud_lightning"] = {
+		names = {
+			"cloud_lightning",
+		},
+		codes = {
+			"🌩",
+		},
+	},
+	["cloud_rain"] = {
+		names = {
+			"cloud_rain",
+		},
+		codes = {
+			"🌧",
+		},
+	},
+	["cloud_snow"] = {
+		names = {
+			"cloud_snow",
+		},
+		codes = {
+			"🌨",
+		},
+	},
+	["cloud_tornado"] = {
+		names = {
+			"cloud_tornado",
+		},
+		codes = {
+			"🌪",
+		},
+	},
+	["clown"] = {
+		names = {
+			"clown",
+		},
+		codes = {
+			"🤡",
+		},
+	},
+	["clubs"] = {
+		names = {
+			"clubs",
+		},
+		codes = {
+			"♣",
+		},
+	},
+	["cocktail"] = {
+		names = {
+			"cocktail",
+		},
+		codes = {
+			"🍸",
+		},
+	},
+	["coffee"] = {
+		names = {
+			"coffee",
+		},
+		codes = {
+			"☕",
+		},
+	},
+	["coffin"] = {
+		names = {
+			"coffin",
+		},
+		codes = {
+			"⚰",
+		},
+	},
+	["cold_sweat"] = {
+		names = {
+			"cold_sweat",
+		},
+		codes = {
+			"😰",
+		},
+	},
+	["comet"] = {
+		names = {
+			"comet",
+		},
+		codes = {
+			"☄",
+		},
+	},
+	["compression"] = {
+		names = {
+			"compression",
+		},
+		codes = {
+			"🗜",
+		},
+	},
+	["computer"] = {
+		names = {
+			"computer",
+		},
+		codes = {
+			"💻",
+		},
+	},
+	["confetti_ball"] = {
+		names = {
+			"confetti_ball",
+		},
+		codes = {
+			"🎊",
+		},
+	},
+	["confounded"] = {
+		names = {
+			"confounded",
+		},
+		codes = {
+			"😖",
+		},
+	},
+	["confused"] = {
+		names = {
+			"confused",
+		},
+		codes = {
+			"😕",
+		},
+	},
+	["congratulations"] = {
+		names = {
+			"congratulations",
+		},
+		codes = {
+			"㊗",
+		},
+	},
+	["construction"] = {
+		names = {
+			"construction",
+		},
+		codes = {
+			"🚧",
+		},
+	},
+	["construction_site"] = {
+		names = {
+			"construction_site",
+		},
+		codes = {
+			"🏗",
+		},
+	},
+	["construction_worker"] = {
+		names = {
+			"construction_worker",
+		},
+		codes = {
+			"👷",
+		},
+	},
+	["control_knobs"] = {
+		names = {
+			"control_knobs",
+		},
+		codes = {
+			"🎛",
+		},
+	},
+	["convenience_store"] = {
+		names = {
+			"convenience_store",
+		},
+		codes = {
+			"🏪",
+		},
+	},
+	["cookie"] = {
+		names = {
+			"cookie",
+		},
+		codes = {
+			"🍪",
+		},
+	},
+	["cooking"] = {
+		names = {
+			"cooking",
+		},
+		codes = {
+			"🍳",
+		},
+	},
+	["cool"] = {
+		names = {
+			"cool",
+		},
+		codes = {
+			"🆒",
+		},
+	},
+	["cop"] = {
+		names = {
+			"cop",
+		},
+		codes = {
+			"👮",
+		},
+	},
+	["copyright"] = {
+		names = {
+			"copyright",
+		},
+		codes = {
+			"©",
+		},
+	},
+	["corn"] = {
+		names = {
+			"corn",
+		},
+		codes = {
+			"🌽",
+		},
+	},
+	["couch"] = {
+		names = {
+			"couch",
+		},
+		codes = {
+			"🛋",
+		},
+	},
+	["couple"] = {
+		names = {
+			"couple",
+		},
+		codes = {
+			"👫",
+		},
+	},
+	["couple_mm"] = {
+		names = {
+			"couple_mm",
+		},
+		codes = {
+			"👨‍❤️‍👨",
+		},
+	},
+	["couple_with_heart"] = {
+		names = {
+			"couple_with_heart",
+		},
+		codes = {
+			"💑",
+		},
+	},
+	["couple_ww"] = {
+		names = {
+			"couple_ww",
+		},
+		codes = {
+			"👩‍❤️‍👩",
+		},
+	},
+	["couplekiss"] = {
+		names = {
+			"couplekiss",
+		},
+		codes = {
+			"💏",
+		},
+	},
+	["cow"] = {
+		names = {
+			"cow",
+		},
+		codes = {
+			"🐮",
+		},
+	},
+	["cow2"] = {
+		names = {
+			"cow2",
+		},
+		codes = {
+			"🐄",
+		},
+	},
+	["cowboy"] = {
+		names = {
+			"cowboy",
+		},
+		codes = {
+			"🤠",
+		},
+	},
+	["crab"] = {
+		names = {
+			"crab",
+		},
+		codes = {
+			"🦀",
+		},
+	},
+	["crayon"] = {
+		names = {
+			"crayon",
+		},
+		codes = {
+			"🖍",
+		},
+	},
+	["credit_card"] = {
+		names = {
+			"credit_card",
+		},
+		codes = {
+			"💳",
+		},
+	},
+	["crescent_moon"] = {
+		names = {
+			"crescent_moon",
+		},
+		codes = {
+			"🌙",
+		},
+	},
+	["cricket"] = {
+		names = {
+			"cricket",
+		},
+		codes = {
+			"🏏",
+		},
+	},
+	["crocodile"] = {
+		names = {
+			"crocodile",
+		},
+		codes = {
+			"🐊",
+		},
+	},
+	["croissant"] = {
+		names = {
+			"croissant",
+		},
+		codes = {
+			"🥐",
+		},
+	},
+	["cross"] = {
+		names = {
+			"cross",
+		},
+		codes = {
+			"✝",
+		},
+	},
+	["crossed_flags"] = {
+		names = {
+			"crossed_flags",
+		},
+		codes = {
+			"🎌",
+		},
+	},
+	["crossed_swords"] = {
+		names = {
+			"crossed_swords",
+		},
+		codes = {
+			"⚔",
+		},
+	},
+	["crown"] = {
+		names = {
+			"crown",
+		},
+		codes = {
+			"👑",
+		},
+	},
+	["cruise_ship"] = {
+		names = {
+			"cruise_ship",
+		},
+		codes = {
+			"🛳",
+		},
+	},
+	["cry"] = {
+		names = {
+			"cry",
+		},
+		codes = {
+			"😢",
+		},
+	},
+	["crying_cat_face"] = {
+		names = {
+			"crying_cat_face",
+		},
+		codes = {
+			"😿",
+		},
+	},
+	["crystal_ball"] = {
+		names = {
+			"crystal_ball",
+		},
+		codes = {
+			"🔮",
+		},
+	},
+	["cucumber"] = {
+		names = {
+			"cucumber",
+		},
+		codes = {
+			"🥒",
+		},
+	},
+	["cupid"] = {
+		names = {
+			"cupid",
+		},
+		codes = {
+			"💘",
+		},
+	},
+	["curly_loop"] = {
+		names = {
+			"curly_loop",
+		},
+		codes = {
+			"➰",
+		},
+	},
+	["currency_exchange"] = {
+		names = {
+			"currency_exchange",
+		},
+		codes = {
+			"💱",
+		},
+	},
+	["curry"] = {
+		names = {
+			"curry",
+		},
+		codes = {
+			"🍛",
+		},
+	},
+	["custard"] = {
+		names = {
+			"custard",
+		},
+		codes = {
+			"🍮",
+		},
+	},
+	["customs"] = {
+		names = {
+			"customs",
+		},
+		codes = {
+			"🛃",
+		},
+	},
+	["cyclone"] = {
+		names = {
+			"cyclone",
+		},
+		codes = {
+			"🌀",
+		},
+	},
+	["dagger"] = {
+		names = {
+			"dagger",
+		},
+		codes = {
+			"🗡",
+		},
+	},
+	["dancer"] = {
+		names = {
+			"dancer",
+		},
+		codes = {
+			"💃",
+		},
+	},
+	["dancers"] = {
+		names = {
+			"dancers",
+		},
+		codes = {
+			"👯",
+		},
+	},
+	["dango"] = {
+		names = {
+			"dango",
+		},
+		codes = {
+			"🍡",
+		},
+	},
+	["dark_sunglasses"] = {
+		names = {
+			"dark_sunglasses",
+		},
+		codes = {
+			"🕶",
+		},
+	},
+	["dart"] = {
+		names = {
+			"dart",
+		},
+		codes = {
+			"🎯",
+		},
+	},
+	["dash"] = {
+		names = {
+			"dash",
+		},
+		codes = {
+			"💨",
+		},
+	},
+	["date"] = {
+		names = {
+			"date",
+		},
+		codes = {
+			"📅",
+		},
+	},
+	["deciduous_tree"] = {
+		names = {
+			"deciduous_tree",
+		},
+		codes = {
+			"🌳",
+		},
+	},
+	["deer"] = {
+		names = {
+			"deer",
+		},
+		codes = {
+			"🦌",
+		},
+	},
+	["department_store"] = {
+		names = {
+			"department_store",
+		},
+		codes = {
+			"🏬",
+		},
+	},
+	["desert"] = {
+		names = {
+			"desert",
+		},
+		codes = {
+			"🏜",
+		},
+	},
+	["desktop"] = {
+		names = {
+			"desktop",
+		},
+		codes = {
+			"🖥️",
+			"🖥",
+		},
+	},
+	["diamond_shape_with_a_dot_inside"] = {
+		names = {
+			"diamond_shape_with_a_dot_inside",
+		},
+		codes = {
+			"💠",
+		},
+	},
+	["diamonds"] = {
+		names = {
+			"diamonds",
+		},
+		codes = {
+			"♦",
+		},
+	},
+	["disappointed"] = {
+		names = {
+			"disappointed",
+		},
+		codes = {
+			"😞",
+		},
+	},
+	["disappointed_relieved"] = {
+		names = {
+			"disappointed_relieved",
+		},
+		codes = {
+			"😥",
+		},
+	},
+	["dividers"] = {
+		names = {
+			"dividers",
+		},
+		codes = {
+			"🗂",
+		},
+	},
+	["dizzy"] = {
+		names = {
+			"dizzy",
+		},
+		codes = {
+			"💫",
+		},
+	},
+	["dizzy_face"] = {
+		names = {
+			"dizzy_face",
+		},
+		codes = {
+			"😵",
+		},
+	},
+	["do_not_litter"] = {
+		names = {
+			"do_not_litter",
+		},
+		codes = {
+			"🚯",
+		},
+	},
+	["dog"] = {
+		names = {
+			"dog",
+		},
+		codes = {
+			"🐶",
+		},
+	},
+	["dog2"] = {
+		names = {
+			"dog2",
+		},
+		codes = {
+			"🐕",
+		},
+	},
+	["dollar"] = {
+		names = {
+			"dollar",
+		},
+		codes = {
+			"💵",
+		},
+	},
+	["dolls"] = {
+		names = {
+			"dolls",
+		},
+		codes = {
+			"🎎",
+		},
+	},
+	["dolphin"] = {
+		names = {
+			"dolphin",
+		},
+		codes = {
+			"🐬",
+		},
+	},
+	["door"] = {
+		names = {
+			"door",
+		},
+		codes = {
+			"🚪",
+		},
+	},
+	["doughnut"] = {
+		names = {
+			"doughnut",
+		},
+		codes = {
+			"🍩",
+		},
+	},
+	["dove"] = {
+		names = {
+			"dove",
+		},
+		codes = {
+			"🕊",
+		},
+	},
+	["dragon"] = {
+		names = {
+			"dragon",
+		},
+		codes = {
+			"🐉",
+		},
+	},
+	["dragon_face"] = {
+		names = {
+			"dragon_face",
+		},
+		codes = {
+			"🐲",
+		},
+	},
+	["dress"] = {
+		names = {
+			"dress",
+		},
+		codes = {
+			"👗",
+		},
+	},
+	["dromedary_camel"] = {
+		names = {
+			"dromedary_camel",
+		},
+		codes = {
+			"🐪",
+		},
+	},
+	["drooling_face"] = {
+		names = {
+			"drooling_face",
+		},
+		codes = {
+			"🤤",
+		},
+	},
+	["droplet"] = {
+		names = {
+			"droplet",
+		},
+		codes = {
+			"💧",
+		},
+	},
+	["drum"] = {
+		names = {
+			"drum",
+		},
+		codes = {
+			"🥁",
+		},
+	},
+	["duck"] = {
+		names = {
+			"duck",
+		},
+		codes = {
+			"🦆",
+		},
+	},
+	["dvd"] = {
+		names = {
+			"dvd",
+		},
+		codes = {
+			"📀",
+		},
+	},
+	["e_mail"] = {
+		names = {
+			"e_mail",
+		},
+		codes = {
+			"📧",
+		},
+	},
+	["eagle"] = {
+		names = {
+			"eagle",
+		},
+		codes = {
+			"🦅",
+		},
+	},
+	["ear"] = {
+		names = {
+			"ear",
+		},
+		codes = {
+			"👂",
+		},
+	},
+	["ear_of_rice"] = {
+		names = {
+			"ear_of_rice",
+		},
+		codes = {
+			"🌾",
+		},
+	},
+	["earth_africa"] = {
+		names = {
+			"earth_africa",
+		},
+		codes = {
+			"🌍",
+		},
+	},
+	["earth_americas"] = {
+		names = {
+			"earth_americas",
+		},
+		codes = {
+			"🌎",
+		},
+	},
+	["earth_asia"] = {
+		names = {
+			"earth_asia",
+		},
+		codes = {
+			"🌏",
+		},
+	},
+	["egg"] = {
+		names = {
+			"egg",
+		},
+		codes = {
+			"🥚",
+		},
+	},
+	["eggplant"] = {
+		names = {
+			"eggplant",
+		},
+		codes = {
+			"🍆",
+		},
+	},
+	["eight"] = {
+		names = {
+			"eight",
+		},
+		codes = {
+			"8️⃣",
+			"8⃣",
+		},
+	},
+	["eight_pointed_black_star"] = {
+		names = {
+			"eight_pointed_black_star",
+		},
+		codes = {
+			"✴",
+		},
+	},
+	["eight_spoked_asterisk"] = {
+		names = {
+			"eight_spoked_asterisk",
+		},
+		codes = {
+			"✳",
+		},
+	},
+	["eject"] = {
+		names = {
+			"eject",
+		},
+		codes = {
+			"⏏",
+		},
+	},
+	["electric_plug"] = {
+		names = {
+			"electric_plug",
+		},
+		codes = {
+			"🔌",
+		},
+	},
+	["elephant"] = {
+		names = {
+			"elephant",
+		},
+		codes = {
+			"🐘",
+		},
+	},
+	["end"] = {
+		names = {
+			"end",
+		},
+		codes = {
+			"🔚",
+		},
+	},
+	["envelope"] = {
+		names = {
+			"envelope",
+		},
+		codes = {
+			"✉",
+		},
+	},
+	["envelope_with_arrow"] = {
+		names = {
+			"envelope_with_arrow",
+		},
+		codes = {
+			"📩",
+		},
+	},
+	["euro"] = {
+		names = {
+			"euro",
+		},
+		codes = {
+			"💶",
+		},
+	},
+	["european_castle"] = {
+		names = {
+			"european_castle",
+		},
+		codes = {
+			"🏰",
+		},
+	},
+	["european_post_office"] = {
+		names = {
+			"european_post_office",
+		},
+		codes = {
+			"🏤",
+		},
+	},
+	["evergreen_tree"] = {
+		names = {
+			"evergreen_tree",
+		},
+		codes = {
+			"🌲",
+		},
+	},
+	["exclamation"] = {
+		names = {
+			"exclamation",
+		},
+		codes = {
+			"❗",
+		},
+	},
+	["expressionless"] = {
+		names = {
+			"expressionless",
+		},
+		codes = {
+			"😑",
+		},
+	},
+	["eye"] = {
+		names = {
+			"eye",
+		},
+		codes = {
+			"👁",
+		},
+	},
+	["eye_in_speech_bubble"] = {
+		names = {
+			"eye_in_speech_bubble",
+		},
+		codes = {
+			"👁‍🗨",
+		},
+	},
+	["eyeglasses"] = {
+		names = {
+			"eyeglasses",
+		},
+		codes = {
+			"👓",
+		},
+	},
+	["eyes"] = {
+		names = {
+			"eyes",
+		},
+		codes = {
+			"👀",
+		},
+	},
+	["face_palm"] = {
+		names = {
+			"face_palm",
+		},
+		codes = {
+			"🤦",
+		},
+	},
+	["factory"] = {
+		names = {
+			"factory",
+		},
+		codes = {
+			"🏭",
+		},
+	},
+	["fallen_leaf"] = {
+		names = {
+			"fallen_leaf",
+		},
+		codes = {
+			"🍂",
+		},
+	},
+	["family"] = {
+		names = {
+			"family",
+		},
+		codes = {
+			"👪",
+		},
+	},
+	["family_mmb"] = {
+		names = {
+			"family_mmb",
+		},
+		codes = {
+			"👨‍👨‍👦",
+		},
+	},
+	["family_mmbb"] = {
+		names = {
+			"family_mmbb",
+		},
+		codes = {
+			"👨‍👨‍👦‍👦",
+		},
+	},
+	["family_mmg"] = {
+		names = {
+			"family_mmg",
+		},
+		codes = {
+			"👨‍👨‍👧",
+		},
+	},
+	["family_mmgb"] = {
+		names = {
+			"family_mmgb",
+		},
+		codes = {
+			"👨‍👨‍👧‍👦",
+		},
+	},
+	["family_mmgg"] = {
+		names = {
+			"family_mmgg",
+		},
+		codes = {
+			"👨‍👨‍👧‍👧",
+		},
+	},
+	["family_mwbb"] = {
+		names = {
+			"family_mwbb",
+		},
+		codes = {
+			"👨‍👩‍👦‍👦",
+		},
+	},
+	["family_mwg"] = {
+		names = {
+			"family_mwg",
+		},
+		codes = {
+			"👨‍👩‍👧",
+		},
+	},
+	["family_mwgb"] = {
+		names = {
+			"family_mwgb",
+		},
+		codes = {
+			"👨‍👩‍👧‍👦",
+		},
+	},
+	["family_mwgg"] = {
+		names = {
+			"family_mwgg",
+		},
+		codes = {
+			"👨‍👩‍👧‍👧",
+		},
+	},
+	["family_wwb"] = {
+		names = {
+			"family_wwb",
+		},
+		codes = {
+			"👩‍👩‍👦",
+		},
+	},
+	["family_wwbb"] = {
+		names = {
+			"family_wwbb",
+		},
+		codes = {
+			"👩‍👩‍👦‍👦",
+		},
+	},
+	["family_wwg"] = {
+		names = {
+			"family_wwg",
+		},
+		codes = {
+			"👩‍👩‍👧",
+		},
+	},
+	["family_wwgb"] = {
+		names = {
+			"family_wwgb",
+		},
+		codes = {
+			"👩‍👩‍👧‍👦",
+		},
+	},
+	["family_wwgg"] = {
+		names = {
+			"family_wwgg",
+		},
+		codes = {
+			"👩‍👩‍👧‍👧",
+		},
+	},
+	["fast_forward"] = {
+		names = {
+			"fast_forward",
+		},
+		codes = {
+			"⏩",
+		},
+	},
+	["fax"] = {
+		names = {
+			"fax",
+		},
+		codes = {
+			"📠",
+		},
+	},
+	["fearful"] = {
+		names = {
+			"fearful",
+		},
+		codes = {
+			"😨",
+		},
+	},
+	["feet"] = {
+		names = {
+			"feet",
+		},
+		codes = {
+			"🐾",
+		},
+	},
+	["fencer"] = {
+		names = {
+			"fencer",
+		},
+		codes = {
+			"🤺",
+		},
+	},
+	["ferris_wheel"] = {
+		names = {
+			"ferris_wheel",
+		},
+		codes = {
+			"🎡",
+		},
+	},
+	["ferry"] = {
+		names = {
+			"ferry",
+		},
+		codes = {
+			"⛴",
+		},
+	},
+	["field_hockey"] = {
+		names = {
+			"field_hockey",
+		},
+		codes = {
+			"🏑",
+		},
+	},
+	["file_cabinet"] = {
+		names = {
+			"file_cabinet",
+		},
+		codes = {
+			"🗄",
+		},
+	},
+	["file_folder"] = {
+		names = {
+			"file_folder",
+		},
+		codes = {
+			"📁",
+		},
+	},
+	["film_frames"] = {
+		names = {
+			"film_frames",
+		},
+		codes = {
+			"🎞",
+		},
+	},
+	["fingers_crossed"] = {
+		names = {
+			"fingers_crossed",
+		},
+		codes = {
+			"🤞",
+		},
+	},
+	["fire"] = {
+		names = {
+			"fire",
+		},
+		codes = {
+			"🔥",
+		},
+	},
+	["fire_engine"] = {
+		names = {
+			"fire_engine",
+		},
+		codes = {
+			"🚒",
+		},
+	},
+	["fireworks"] = {
+		names = {
+			"fireworks",
+		},
+		codes = {
+			"🎆",
+		},
+	},
+	["first_place"] = {
+		names = {
+			"first_place",
+		},
+		codes = {
+			"🥇",
+		},
+	},
+	["first_quarter_moon"] = {
+		names = {
+			"first_quarter_moon",
+		},
+		codes = {
+			"🌓",
+		},
+	},
+	["first_quarter_moon_with_face"] = {
+		names = {
+			"first_quarter_moon_with_face",
+		},
+		codes = {
+			"🌛",
+		},
+	},
+	["fish"] = {
+		names = {
+			"fish",
+		},
+		codes = {
+			"🐟",
+		},
+	},
+	["fish_cake"] = {
+		names = {
+			"fish_cake",
+		},
+		codes = {
+			"🍥",
+		},
+	},
+	["fishing_pole_and_fish"] = {
+		names = {
+			"fishing_pole_and_fish",
+		},
+		codes = {
+			"🎣",
+		},
+	},
+	["fist"] = {
+		names = {
+			"fist",
+		},
+		codes = {
+			"✊",
+		},
+	},
+	["five"] = {
+		names = {
+			"five",
+		},
+		codes = {
+			"5️⃣",
+			"5⃣",
+		},
+	},
+	["flag_ac"] = {
+		names = {
+			"flag_ac",
+		},
+		codes = {
+			"🇦🇨",
+		},
+	},
+	["flag_ad"] = {
+		names = {
+			"flag_ad",
+		},
+		codes = {
+			"🇦🇩",
+		},
+	},
+	["flag_ae"] = {
+		names = {
+			"flag_ae",
+		},
+		codes = {
+			"🇦🇪",
+		},
+	},
+	["flag_af"] = {
+		names = {
+			"flag_af",
+		},
+		codes = {
+			"🇦🇫",
+		},
+	},
+	["flag_ag"] = {
+		names = {
+			"flag_ag",
+		},
+		codes = {
+			"🇦🇬",
+		},
+	},
+	["flag_ai"] = {
+		names = {
+			"flag_ai",
+		},
+		codes = {
+			"🇦🇮",
+		},
+	},
+	["flag_al"] = {
+		names = {
+			"flag_al",
+		},
+		codes = {
+			"🇦🇱",
+		},
+	},
+	["flag_am"] = {
+		names = {
+			"flag_am",
+		},
+		codes = {
+			"🇦🇲",
+		},
+	},
+	["flag_ao"] = {
+		names = {
+			"flag_ao",
+		},
+		codes = {
+			"🇦🇴",
+		},
+	},
+	["flag_aq"] = {
+		names = {
+			"flag_aq",
+		},
+		codes = {
+			"🇦🇶",
+		},
+	},
+	["flag_ar"] = {
+		names = {
+			"flag_ar",
+		},
+		codes = {
+			"🇦🇷",
+		},
+	},
+	["flag_as"] = {
+		names = {
+			"flag_as",
+		},
+		codes = {
+			"🇦🇸",
+		},
+	},
+	["flag_at"] = {
+		names = {
+			"flag_at",
+		},
+		codes = {
+			"🇦🇹",
+		},
+	},
+	["flag_au"] = {
+		names = {
+			"flag_au",
+		},
+		codes = {
+			"🇦🇺",
+		},
+	},
+	["flag_aw"] = {
+		names = {
+			"flag_aw",
+		},
+		codes = {
+			"🇦🇼",
+		},
+	},
+	["flag_ax"] = {
+		names = {
+			"flag_ax",
+		},
+		codes = {
+			"🇦🇽",
+		},
+	},
+	["flag_az"] = {
+		names = {
+			"flag_az",
+		},
+		codes = {
+			"🇦🇿",
+		},
+	},
+	["flag_ba"] = {
+		names = {
+			"flag_ba",
+		},
+		codes = {
+			"🇧🇦",
+		},
+	},
+	["flag_bb"] = {
+		names = {
+			"flag_bb",
+		},
+		codes = {
+			"🇧🇧",
+		},
+	},
+	["flag_bd"] = {
+		names = {
+			"flag_bd",
+		},
+		codes = {
+			"🇧🇩",
+		},
+	},
+	["flag_be"] = {
+		names = {
+			"flag_be",
+		},
+		codes = {
+			"🇧🇪",
+		},
+	},
+	["flag_bf"] = {
+		names = {
+			"flag_bf",
+		},
+		codes = {
+			"🇧🇫",
+		},
+	},
+	["flag_bg"] = {
+		names = {
+			"flag_bg",
+		},
+		codes = {
+			"🇧🇬",
+		},
+	},
+	["flag_bh"] = {
+		names = {
+			"flag_bh",
+		},
+		codes = {
+			"🇧🇭",
+		},
+	},
+	["flag_bi"] = {
+		names = {
+			"flag_bi",
+		},
+		codes = {
+			"🇧🇮",
+		},
+	},
+	["flag_bj"] = {
+		names = {
+			"flag_bj",
+		},
+		codes = {
+			"🇧🇯",
+		},
+	},
+	["flag_bl"] = {
+		names = {
+			"flag_bl",
+		},
+		codes = {
+			"🇧🇱",
+		},
+	},
+	["flag_black"] = {
+		names = {
+			"flag_black",
+		},
+		codes = {
+			"🏴",
+		},
+	},
+	["flag_bm"] = {
+		names = {
+			"flag_bm",
+		},
+		codes = {
+			"🇧🇲",
+		},
+	},
+	["flag_bn"] = {
+		names = {
+			"flag_bn",
+		},
+		codes = {
+			"🇧🇳",
+		},
+	},
+	["flag_bo"] = {
+		names = {
+			"flag_bo",
+		},
+		codes = {
+			"🇧🇴",
+		},
+	},
+	["flag_bq"] = {
+		names = {
+			"flag_bq",
+		},
+		codes = {
+			"🇧🇶",
+		},
+	},
+	["flag_br"] = {
+		names = {
+			"flag_br",
+		},
+		codes = {
+			"🇧🇷",
+		},
+	},
+	["flag_bs"] = {
+		names = {
+			"flag_bs",
+		},
+		codes = {
+			"🇧🇸",
+		},
+	},
+	["flag_bt"] = {
+		names = {
+			"flag_bt",
+		},
+		codes = {
+			"🇧🇹",
+		},
+	},
+	["flag_bv"] = {
+		names = {
+			"flag_bv",
+		},
+		codes = {
+			"🇧🇻",
+		},
+	},
+	["flag_bw"] = {
+		names = {
+			"flag_bw",
+		},
+		codes = {
+			"🇧🇼",
+		},
+	},
+	["flag_by"] = {
+		names = {
+			"flag_by",
+		},
+		codes = {
+			"🇧🇾",
+		},
+	},
+	["flag_bz"] = {
+		names = {
+			"flag_bz",
+		},
+		codes = {
+			"🇧🇿",
+		},
+	},
+	["flag_ca"] = {
+		names = {
+			"flag_ca",
+		},
+		codes = {
+			"🇨🇦",
+		},
+	},
+	["flag_cc"] = {
+		names = {
+			"flag_cc",
+		},
+		codes = {
+			"🇨🇨",
+		},
+	},
+	["flag_cd"] = {
+		names = {
+			"flag_cd",
+		},
+		codes = {
+			"🇨🇩",
+		},
+	},
+	["flag_cf"] = {
+		names = {
+			"flag_cf",
+		},
+		codes = {
+			"🇨🇫",
+		},
+	},
+	["flag_cg"] = {
+		names = {
+			"flag_cg",
+		},
+		codes = {
+			"🇨🇬",
+		},
+	},
+	["flag_ch"] = {
+		names = {
+			"flag_ch",
+		},
+		codes = {
+			"🇨🇭",
+		},
+	},
+	["flag_ci"] = {
+		names = {
+			"flag_ci",
+		},
+		codes = {
+			"🇨🇮",
+		},
+	},
+	["flag_ck"] = {
+		names = {
+			"flag_ck",
+		},
+		codes = {
+			"🇨🇰",
+		},
+	},
+	["flag_cl"] = {
+		names = {
+			"flag_cl",
+		},
+		codes = {
+			"🇨🇱",
+		},
+	},
+	["flag_cm"] = {
+		names = {
+			"flag_cm",
+		},
+		codes = {
+			"🇨🇲",
+		},
+	},
+	["flag_cn"] = {
+		names = {
+			"flag_cn",
+		},
+		codes = {
+			"🇨🇳",
+		},
+	},
+	["flag_co"] = {
+		names = {
+			"flag_co",
+		},
+		codes = {
+			"🇨🇴",
+		},
+	},
+	["flag_cp"] = {
+		names = {
+			"flag_cp",
+		},
+		codes = {
+			"🇨🇵",
+		},
+	},
+	["flag_cr"] = {
+		names = {
+			"flag_cr",
+		},
+		codes = {
+			"🇨🇷",
+		},
+	},
+	["flag_cu"] = {
+		names = {
+			"flag_cu",
+		},
+		codes = {
+			"🇨🇺",
+		},
+	},
+	["flag_cv"] = {
+		names = {
+			"flag_cv",
+		},
+		codes = {
+			"🇨🇻",
+		},
+	},
+	["flag_cw"] = {
+		names = {
+			"flag_cw",
+		},
+		codes = {
+			"🇨🇼",
+		},
+	},
+	["flag_cx"] = {
+		names = {
+			"flag_cx",
+		},
+		codes = {
+			"🇨🇽",
+		},
+	},
+	["flag_cy"] = {
+		names = {
+			"flag_cy",
+		},
+		codes = {
+			"🇨🇾",
+		},
+	},
+	["flag_cz"] = {
+		names = {
+			"flag_cz",
+		},
+		codes = {
+			"🇨🇿",
+		},
+	},
+	["flag_de"] = {
+		names = {
+			"flag_de",
+		},
+		codes = {
+			"🇩🇪",
+		},
+	},
+	["flag_dg"] = {
+		names = {
+			"flag_dg",
+		},
+		codes = {
+			"🇩🇬",
+		},
+	},
+	["flag_dj"] = {
+		names = {
+			"flag_dj",
+		},
+		codes = {
+			"🇩🇯",
+		},
+	},
+	["flag_dk"] = {
+		names = {
+			"flag_dk",
+		},
+		codes = {
+			"🇩🇰",
+		},
+	},
+	["flag_dm"] = {
+		names = {
+			"flag_dm",
+		},
+		codes = {
+			"🇩🇲",
+		},
+	},
+	["flag_do"] = {
+		names = {
+			"flag_do",
+		},
+		codes = {
+			"🇩🇴",
+		},
+	},
+	["flag_dz"] = {
+		names = {
+			"flag_dz",
+		},
+		codes = {
+			"🇩🇿",
+		},
+	},
+	["flag_ea"] = {
+		names = {
+			"flag_ea",
+		},
+		codes = {
+			"🇪🇦",
+		},
+	},
+	["flag_ec"] = {
+		names = {
+			"flag_ec",
+		},
+		codes = {
+			"🇪🇨",
+		},
+	},
+	["flag_ee"] = {
+		names = {
+			"flag_ee",
+		},
+		codes = {
+			"🇪🇪",
+		},
+	},
+	["flag_eg"] = {
+		names = {
+			"flag_eg",
+		},
+		codes = {
+			"🇪🇬",
+		},
+	},
+	["flag_eh"] = {
+		names = {
+			"flag_eh",
+		},
+		codes = {
+			"🇪🇭",
+		},
+	},
+	["flag_er"] = {
+		names = {
+			"flag_er",
+		},
+		codes = {
+			"🇪🇷",
+		},
+	},
+	["flag_es"] = {
+		names = {
+			"flag_es",
+		},
+		codes = {
+			"🇪🇸",
+		},
+	},
+	["flag_et"] = {
+		names = {
+			"flag_et",
+		},
+		codes = {
+			"🇪🇹",
+		},
+	},
+	["flag_eu"] = {
+		names = {
+			"flag_eu",
+		},
+		codes = {
+			"🇪🇺",
+		},
+	},
+	["flag_fi"] = {
+		names = {
+			"flag_fi",
+		},
+		codes = {
+			"🇫🇮",
+		},
+	},
+	["flag_fj"] = {
+		names = {
+			"flag_fj",
+		},
+		codes = {
+			"🇫🇯",
+		},
+	},
+	["flag_fk"] = {
+		names = {
+			"flag_fk",
+		},
+		codes = {
+			"🇫🇰",
+		},
+	},
+	["flag_fm"] = {
+		names = {
+			"flag_fm",
+		},
+		codes = {
+			"🇫🇲",
+		},
+	},
+	["flag_fo"] = {
+		names = {
+			"flag_fo",
+		},
+		codes = {
+			"🇫🇴",
+		},
+	},
+	["flag_fr"] = {
+		names = {
+			"flag_fr",
+		},
+		codes = {
+			"🇫🇷",
+		},
+	},
+	["flag_ga"] = {
+		names = {
+			"flag_ga",
+		},
+		codes = {
+			"🇬🇦",
+		},
+	},
+	["flag_gb"] = {
+		names = {
+			"flag_gb",
+		},
+		codes = {
+			"🇬🇧",
+		},
+	},
+	["flag_gd"] = {
+		names = {
+			"flag_gd",
+		},
+		codes = {
+			"🇬🇩",
+		},
+	},
+	["flag_ge"] = {
+		names = {
+			"flag_ge",
+		},
+		codes = {
+			"🇬🇪",
+		},
+	},
+	["flag_gf"] = {
+		names = {
+			"flag_gf",
+		},
+		codes = {
+			"🇬🇫",
+		},
+	},
+	["flag_gg"] = {
+		names = {
+			"flag_gg",
+		},
+		codes = {
+			"🇬🇬",
+		},
+	},
+	["flag_gh"] = {
+		names = {
+			"flag_gh",
+		},
+		codes = {
+			"🇬🇭",
+		},
+	},
+	["flag_gi"] = {
+		names = {
+			"flag_gi",
+		},
+		codes = {
+			"🇬🇮",
+		},
+	},
+	["flag_gl"] = {
+		names = {
+			"flag_gl",
+		},
+		codes = {
+			"🇬🇱",
+		},
+	},
+	["flag_gm"] = {
+		names = {
+			"flag_gm",
+		},
+		codes = {
+			"🇬🇲",
+		},
+	},
+	["flag_gn"] = {
+		names = {
+			"flag_gn",
+		},
+		codes = {
+			"🇬🇳",
+		},
+	},
+	["flag_gp"] = {
+		names = {
+			"flag_gp",
+		},
+		codes = {
+			"🇬🇵",
+		},
+	},
+	["flag_gq"] = {
+		names = {
+			"flag_gq",
+		},
+		codes = {
+			"🇬🇶",
+		},
+	},
+	["flag_gr"] = {
+		names = {
+			"flag_gr",
+		},
+		codes = {
+			"🇬🇷",
+		},
+	},
+	["flag_gs"] = {
+		names = {
+			"flag_gs",
+		},
+		codes = {
+			"🇬🇸",
+		},
+	},
+	["flag_gt"] = {
+		names = {
+			"flag_gt",
+		},
+		codes = {
+			"🇬🇹",
+		},
+	},
+	["flag_gu"] = {
+		names = {
+			"flag_gu",
+		},
+		codes = {
+			"🇬🇺",
+		},
+	},
+	["flag_gw"] = {
+		names = {
+			"flag_gw",
+		},
+		codes = {
+			"🇬🇼",
+		},
+	},
+	["flag_gy"] = {
+		names = {
+			"flag_gy",
+		},
+		codes = {
+			"🇬🇾",
+		},
+	},
+	["flag_hk"] = {
+		names = {
+			"flag_hk",
+		},
+		codes = {
+			"🇭🇰",
+		},
+	},
+	["flag_hm"] = {
+		names = {
+			"flag_hm",
+		},
+		codes = {
+			"🇭🇲",
+		},
+	},
+	["flag_hn"] = {
+		names = {
+			"flag_hn",
+		},
+		codes = {
+			"🇭🇳",
+		},
+	},
+	["flag_hr"] = {
+		names = {
+			"flag_hr",
+		},
+		codes = {
+			"🇭🇷",
+		},
+	},
+	["flag_ht"] = {
+		names = {
+			"flag_ht",
+		},
+		codes = {
+			"🇭🇹",
+		},
+	},
+	["flag_hu"] = {
+		names = {
+			"flag_hu",
+		},
+		codes = {
+			"🇭🇺",
+		},
+	},
+	["flag_ic"] = {
+		names = {
+			"flag_ic",
+		},
+		codes = {
+			"🇮🇨",
+		},
+	},
+	["flag_id"] = {
+		names = {
+			"flag_id",
+		},
+		codes = {
+			"🇮🇩",
+		},
+	},
+	["flag_ie"] = {
+		names = {
+			"flag_ie",
+		},
+		codes = {
+			"🇮🇪",
+		},
+	},
+	["flag_il"] = {
+		names = {
+			"flag_il",
+		},
+		codes = {
+			"🇮🇱",
+		},
+	},
+	["flag_im"] = {
+		names = {
+			"flag_im",
+		},
+		codes = {
+			"🇮🇲",
+		},
+	},
+	["flag_in"] = {
+		names = {
+			"flag_in",
+		},
+		codes = {
+			"🇮🇳",
+		},
+	},
+	["flag_io"] = {
+		names = {
+			"flag_io",
+		},
+		codes = {
+			"🇮🇴",
+		},
+	},
+	["flag_iq"] = {
+		names = {
+			"flag_iq",
+		},
+		codes = {
+			"🇮🇶",
+		},
+	},
+	["flag_ir"] = {
+		names = {
+			"flag_ir",
+		},
+		codes = {
+			"🇮🇷",
+		},
+	},
+	["flag_is"] = {
+		names = {
+			"flag_is",
+		},
+		codes = {
+			"🇮🇸",
+		},
+	},
+	["flag_it"] = {
+		names = {
+			"flag_it",
+		},
+		codes = {
+			"🇮🇹",
+		},
+	},
+	["flag_je"] = {
+		names = {
+			"flag_je",
+		},
+		codes = {
+			"🇯🇪",
+		},
+	},
+	["flag_jm"] = {
+		names = {
+			"flag_jm",
+		},
+		codes = {
+			"🇯🇲",
+		},
+	},
+	["flag_jo"] = {
+		names = {
+			"flag_jo",
+		},
+		codes = {
+			"🇯🇴",
+		},
+	},
+	["flag_jp"] = {
+		names = {
+			"flag_jp",
+		},
+		codes = {
+			"🇯🇵",
+		},
+	},
+	["flag_ke"] = {
+		names = {
+			"flag_ke",
+		},
+		codes = {
+			"🇰🇪",
+		},
+	},
+	["flag_kg"] = {
+		names = {
+			"flag_kg",
+		},
+		codes = {
+			"🇰🇬",
+		},
+	},
+	["flag_kh"] = {
+		names = {
+			"flag_kh",
+		},
+		codes = {
+			"🇰🇭",
+		},
+	},
+	["flag_ki"] = {
+		names = {
+			"flag_ki",
+		},
+		codes = {
+			"🇰🇮",
+		},
+	},
+	["flag_km"] = {
+		names = {
+			"flag_km",
+		},
+		codes = {
+			"🇰🇲",
+		},
+	},
+	["flag_kn"] = {
+		names = {
+			"flag_kn",
+		},
+		codes = {
+			"🇰🇳",
+		},
+	},
+	["flag_kp"] = {
+		names = {
+			"flag_kp",
+		},
+		codes = {
+			"🇰🇵",
+		},
+	},
+	["flag_kr"] = {
+		names = {
+			"flag_kr",
+		},
+		codes = {
+			"🇰🇷",
+		},
+	},
+	["flag_kw"] = {
+		names = {
+			"flag_kw",
+		},
+		codes = {
+			"🇰🇼",
+		},
+	},
+	["flag_ky"] = {
+		names = {
+			"flag_ky",
+		},
+		codes = {
+			"🇰🇾",
+		},
+	},
+	["flag_kz"] = {
+		names = {
+			"flag_kz",
+		},
+		codes = {
+			"🇰🇿",
+		},
+	},
+	["flag_la"] = {
+		names = {
+			"flag_la",
+		},
+		codes = {
+			"🇱🇦",
+		},
+	},
+	["flag_lb"] = {
+		names = {
+			"flag_lb",
+		},
+		codes = {
+			"🇱🇧",
+		},
+	},
+	["flag_lc"] = {
+		names = {
+			"flag_lc",
+		},
+		codes = {
+			"🇱🇨",
+		},
+	},
+	["flag_li"] = {
+		names = {
+			"flag_li",
+		},
+		codes = {
+			"🇱🇮",
+		},
+	},
+	["flag_lk"] = {
+		names = {
+			"flag_lk",
+		},
+		codes = {
+			"🇱🇰",
+		},
+	},
+	["flag_lr"] = {
+		names = {
+			"flag_lr",
+		},
+		codes = {
+			"🇱🇷",
+		},
+	},
+	["flag_ls"] = {
+		names = {
+			"flag_ls",
+		},
+		codes = {
+			"🇱🇸",
+		},
+	},
+	["flag_lt"] = {
+		names = {
+			"flag_lt",
+		},
+		codes = {
+			"🇱🇹",
+		},
+	},
+	["flag_lu"] = {
+		names = {
+			"flag_lu",
+		},
+		codes = {
+			"🇱🇺",
+		},
+	},
+	["flag_lv"] = {
+		names = {
+			"flag_lv",
+		},
+		codes = {
+			"🇱🇻",
+		},
+	},
+	["flag_ly"] = {
+		names = {
+			"flag_ly",
+		},
+		codes = {
+			"🇱🇾",
+		},
+	},
+	["flag_ma"] = {
+		names = {
+			"flag_ma",
+		},
+		codes = {
+			"🇲🇦",
+		},
+	},
+	["flag_mc"] = {
+		names = {
+			"flag_mc",
+		},
+		codes = {
+			"🇲🇨",
+		},
+	},
+	["flag_md"] = {
+		names = {
+			"flag_md",
+		},
+		codes = {
+			"🇲🇩",
+		},
+	},
+	["flag_me"] = {
+		names = {
+			"flag_me",
+		},
+		codes = {
+			"🇲🇪",
+		},
+	},
+	["flag_mf"] = {
+		names = {
+			"flag_mf",
+		},
+		codes = {
+			"🇲🇫",
+		},
+	},
+	["flag_mg"] = {
+		names = {
+			"flag_mg",
+		},
+		codes = {
+			"🇲🇬",
+		},
+	},
+	["flag_mh"] = {
+		names = {
+			"flag_mh",
+		},
+		codes = {
+			"🇲🇭",
+		},
+	},
+	["flag_mk"] = {
+		names = {
+			"flag_mk",
+		},
+		codes = {
+			"🇲🇰",
+		},
+	},
+	["flag_ml"] = {
+		names = {
+			"flag_ml",
+		},
+		codes = {
+			"🇲🇱",
+		},
+	},
+	["flag_mm"] = {
+		names = {
+			"flag_mm",
+		},
+		codes = {
+			"🇲🇲",
+		},
+	},
+	["flag_mn"] = {
+		names = {
+			"flag_mn",
+		},
+		codes = {
+			"🇲🇳",
+		},
+	},
+	["flag_mo"] = {
+		names = {
+			"flag_mo",
+		},
+		codes = {
+			"🇲🇴",
+		},
+	},
+	["flag_mp"] = {
+		names = {
+			"flag_mp",
+		},
+		codes = {
+			"🇲🇵",
+		},
+	},
+	["flag_mq"] = {
+		names = {
+			"flag_mq",
+		},
+		codes = {
+			"🇲🇶",
+		},
+	},
+	["flag_mr"] = {
+		names = {
+			"flag_mr",
+		},
+		codes = {
+			"🇲🇷",
+		},
+	},
+	["flag_ms"] = {
+		names = {
+			"flag_ms",
+		},
+		codes = {
+			"🇲🇸",
+		},
+	},
+	["flag_mt"] = {
+		names = {
+			"flag_mt",
+		},
+		codes = {
+			"🇲🇹",
+		},
+	},
+	["flag_mu"] = {
+		names = {
+			"flag_mu",
+		},
+		codes = {
+			"🇲🇺",
+		},
+	},
+	["flag_mv"] = {
+		names = {
+			"flag_mv",
+		},
+		codes = {
+			"🇲🇻",
+		},
+	},
+	["flag_mw"] = {
+		names = {
+			"flag_mw",
+		},
+		codes = {
+			"🇲🇼",
+		},
+	},
+	["flag_mx"] = {
+		names = {
+			"flag_mx",
+		},
+		codes = {
+			"🇲🇽",
+		},
+	},
+	["flag_my"] = {
+		names = {
+			"flag_my",
+		},
+		codes = {
+			"🇲🇾",
+		},
+	},
+	["flag_mz"] = {
+		names = {
+			"flag_mz",
+		},
+		codes = {
+			"🇲🇿",
+		},
+	},
+	["flag_na"] = {
+		names = {
+			"flag_na",
+		},
+		codes = {
+			"🇳🇦",
+		},
+	},
+	["flag_nc"] = {
+		names = {
+			"flag_nc",
+		},
+		codes = {
+			"🇳🇨",
+		},
+	},
+	["flag_ne"] = {
+		names = {
+			"flag_ne",
+		},
+		codes = {
+			"🇳🇪",
+		},
+	},
+	["flag_nf"] = {
+		names = {
+			"flag_nf",
+		},
+		codes = {
+			"🇳🇫",
+		},
+	},
+	["flag_ng"] = {
+		names = {
+			"flag_ng",
+		},
+		codes = {
+			"🇳🇬",
+		},
+	},
+	["flag_ni"] = {
+		names = {
+			"flag_ni",
+		},
+		codes = {
+			"🇳🇮",
+		},
+	},
+	["flag_nl"] = {
+		names = {
+			"flag_nl",
+		},
+		codes = {
+			"🇳🇱",
+		},
+	},
+	["flag_no"] = {
+		names = {
+			"flag_no",
+		},
+		codes = {
+			"🇳🇴",
+		},
+	},
+	["flag_np"] = {
+		names = {
+			"flag_np",
+		},
+		codes = {
+			"🇳🇵",
+		},
+	},
+	["flag_nr"] = {
+		names = {
+			"flag_nr",
+		},
+		codes = {
+			"🇳🇷",
+		},
+	},
+	["flag_nu"] = {
+		names = {
+			"flag_nu",
+		},
+		codes = {
+			"🇳🇺",
+		},
+	},
+	["flag_nz"] = {
+		names = {
+			"flag_nz",
+		},
+		codes = {
+			"🇳🇿",
+		},
+	},
+	["flag_om"] = {
+		names = {
+			"flag_om",
+		},
+		codes = {
+			"🇴🇲",
+		},
+	},
+	["flag_pa"] = {
+		names = {
+			"flag_pa",
+		},
+		codes = {
+			"🇵🇦",
+		},
+	},
+	["flag_pe"] = {
+		names = {
+			"flag_pe",
+		},
+		codes = {
+			"🇵🇪",
+		},
+	},
+	["flag_pf"] = {
+		names = {
+			"flag_pf",
+		},
+		codes = {
+			"🇵🇫",
+		},
+	},
+	["flag_pg"] = {
+		names = {
+			"flag_pg",
+		},
+		codes = {
+			"🇵🇬",
+		},
+	},
+	["flag_ph"] = {
+		names = {
+			"flag_ph",
+		},
+		codes = {
+			"🇵🇭",
+		},
+	},
+	["flag_pk"] = {
+		names = {
+			"flag_pk",
+		},
+		codes = {
+			"🇵🇰",
+		},
+	},
+	["flag_pl"] = {
+		names = {
+			"flag_pl",
+		},
+		codes = {
+			"🇵🇱",
+		},
+	},
+	["flag_pm"] = {
+		names = {
+			"flag_pm",
+		},
+		codes = {
+			"🇵🇲",
+		},
+	},
+	["flag_pn"] = {
+		names = {
+			"flag_pn",
+		},
+		codes = {
+			"🇵🇳",
+		},
+	},
+	["flag_pr"] = {
+		names = {
+			"flag_pr",
+		},
+		codes = {
+			"🇵🇷",
+		},
+	},
+	["flag_ps"] = {
+		names = {
+			"flag_ps",
+		},
+		codes = {
+			"🇵🇸",
+		},
+	},
+	["flag_pt"] = {
+		names = {
+			"flag_pt",
+		},
+		codes = {
+			"🇵🇹",
+		},
+	},
+	["flag_pw"] = {
+		names = {
+			"flag_pw",
+		},
+		codes = {
+			"🇵🇼",
+		},
+	},
+	["flag_py"] = {
+		names = {
+			"flag_py",
+		},
+		codes = {
+			"🇵🇾",
+		},
+	},
+	["flag_qa"] = {
+		names = {
+			"flag_qa",
+		},
+		codes = {
+			"🇶🇦",
+		},
+	},
+	["flag_re"] = {
+		names = {
+			"flag_re",
+		},
+		codes = {
+			"🇷🇪",
+		},
+	},
+	["flag_ro"] = {
+		names = {
+			"flag_ro",
+		},
+		codes = {
+			"🇷🇴",
+		},
+	},
+	["flag_rs"] = {
+		names = {
+			"flag_rs",
+		},
+		codes = {
+			"🇷🇸",
+		},
+	},
+	["flag_ru"] = {
+		names = {
+			"flag_ru",
+		},
+		codes = {
+			"🇷🇺",
+		},
+	},
+	["flag_rw"] = {
+		names = {
+			"flag_rw",
+		},
+		codes = {
+			"🇷🇼",
+		},
+	},
+	["flag_sa"] = {
+		names = {
+			"flag_sa",
+		},
+		codes = {
+			"🇸🇦",
+		},
+	},
+	["flag_sb"] = {
+		names = {
+			"flag_sb",
+		},
+		codes = {
+			"🇸🇧",
+		},
+	},
+	["flag_sc"] = {
+		names = {
+			"flag_sc",
+		},
+		codes = {
+			"🇸🇨",
+		},
+	},
+	["flag_sd"] = {
+		names = {
+			"flag_sd",
+		},
+		codes = {
+			"🇸🇩",
+		},
+	},
+	["flag_se"] = {
+		names = {
+			"flag_se",
+		},
+		codes = {
+			"🇸🇪",
+		},
+	},
+	["flag_sg"] = {
+		names = {
+			"flag_sg",
+		},
+		codes = {
+			"🇸🇬",
+		},
+	},
+	["flag_sh"] = {
+		names = {
+			"flag_sh",
+		},
+		codes = {
+			"🇸🇭",
+		},
+	},
+	["flag_si"] = {
+		names = {
+			"flag_si",
+		},
+		codes = {
+			"🇸🇮",
+		},
+	},
+	["flag_sj"] = {
+		names = {
+			"flag_sj",
+		},
+		codes = {
+			"🇸🇯",
+		},
+	},
+	["flag_sk"] = {
+		names = {
+			"flag_sk",
+		},
+		codes = {
+			"🇸🇰",
+		},
+	},
+	["flag_sl"] = {
+		names = {
+			"flag_sl",
+		},
+		codes = {
+			"🇸🇱",
+		},
+	},
+	["flag_sm"] = {
+		names = {
+			"flag_sm",
+		},
+		codes = {
+			"🇸🇲",
+		},
+	},
+	["flag_sn"] = {
+		names = {
+			"flag_sn",
+		},
+		codes = {
+			"🇸🇳",
+		},
+	},
+	["flag_so"] = {
+		names = {
+			"flag_so",
+		},
+		codes = {
+			"🇸🇴",
+		},
+	},
+	["flag_sr"] = {
+		names = {
+			"flag_sr",
+		},
+		codes = {
+			"🇸🇷",
+		},
+	},
+	["flag_ss"] = {
+		names = {
+			"flag_ss",
+		},
+		codes = {
+			"🇸🇸",
+		},
+	},
+	["flag_st"] = {
+		names = {
+			"flag_st",
+		},
+		codes = {
+			"🇸🇹",
+		},
+	},
+	["flag_sv"] = {
+		names = {
+			"flag_sv",
+		},
+		codes = {
+			"🇸🇻",
+		},
+	},
+	["flag_sx"] = {
+		names = {
+			"flag_sx",
+		},
+		codes = {
+			"🇸🇽",
+		},
+	},
+	["flag_sy"] = {
+		names = {
+			"flag_sy",
+		},
+		codes = {
+			"🇸🇾",
+		},
+	},
+	["flag_sz"] = {
+		names = {
+			"flag_sz",
+		},
+		codes = {
+			"🇸🇿",
+		},
+	},
+	["flag_ta"] = {
+		names = {
+			"flag_ta",
+		},
+		codes = {
+			"🇹🇦",
+		},
+	},
+	["flag_tc"] = {
+		names = {
+			"flag_tc",
+		},
+		codes = {
+			"🇹🇨",
+		},
+	},
+	["flag_td"] = {
+		names = {
+			"flag_td",
+		},
+		codes = {
+			"🇹🇩",
+		},
+	},
+	["flag_tf"] = {
+		names = {
+			"flag_tf",
+		},
+		codes = {
+			"🇹🇫",
+		},
+	},
+	["flag_tg"] = {
+		names = {
+			"flag_tg",
+		},
+		codes = {
+			"🇹🇬",
+		},
+	},
+	["flag_th"] = {
+		names = {
+			"flag_th",
+		},
+		codes = {
+			"🇹🇭",
+		},
+	},
+	["flag_tj"] = {
+		names = {
+			"flag_tj",
+		},
+		codes = {
+			"🇹🇯",
+		},
+	},
+	["flag_tk"] = {
+		names = {
+			"flag_tk",
+		},
+		codes = {
+			"🇹🇰",
+		},
+	},
+	["flag_tl"] = {
+		names = {
+			"flag_tl",
+		},
+		codes = {
+			"🇹🇱",
+		},
+	},
+	["flag_tm"] = {
+		names = {
+			"flag_tm",
+		},
+		codes = {
+			"🇹🇲",
+		},
+	},
+	["flag_tn"] = {
+		names = {
+			"flag_tn",
+		},
+		codes = {
+			"🇹🇳",
+		},
+	},
+	["flag_to"] = {
+		names = {
+			"flag_to",
+		},
+		codes = {
+			"🇹🇴",
+		},
+	},
+	["flag_tr"] = {
+		names = {
+			"flag_tr",
+		},
+		codes = {
+			"🇹🇷",
+		},
+	},
+	["flag_tt"] = {
+		names = {
+			"flag_tt",
+		},
+		codes = {
+			"🇹🇹",
+		},
+	},
+	["flag_tv"] = {
+		names = {
+			"flag_tv",
+		},
+		codes = {
+			"🇹🇻",
+		},
+	},
+	["flag_tw"] = {
+		names = {
+			"flag_tw",
+		},
+		codes = {
+			"🇹🇼",
+		},
+	},
+	["flag_tz"] = {
+		names = {
+			"flag_tz",
+		},
+		codes = {
+			"🇹🇿",
+		},
+	},
+	["flag_ua"] = {
+		names = {
+			"flag_ua",
+		},
+		codes = {
+			"🇺🇦",
+		},
+	},
+	["flag_ug"] = {
+		names = {
+			"flag_ug",
+		},
+		codes = {
+			"🇺🇬",
+		},
+	},
+	["flag_um"] = {
+		names = {
+			"flag_um",
+		},
+		codes = {
+			"🇺🇲",
+		},
+	},
+	["flag_us"] = {
+		names = {
+			"flag_us",
+		},
+		codes = {
+			"🇺🇸",
+		},
+	},
+	["flag_uy"] = {
+		names = {
+			"flag_uy",
+		},
+		codes = {
+			"🇺🇾",
+		},
+	},
+	["flag_uz"] = {
+		names = {
+			"flag_uz",
+		},
+		codes = {
+			"🇺🇿",
+		},
+	},
+	["flag_va"] = {
+		names = {
+			"flag_va",
+		},
+		codes = {
+			"🇻🇦",
+		},
+	},
+	["flag_vc"] = {
+		names = {
+			"flag_vc",
+		},
+		codes = {
+			"🇻🇨",
+		},
+	},
+	["flag_ve"] = {
+		names = {
+			"flag_ve",
+		},
+		codes = {
+			"🇻🇪",
+		},
+	},
+	["flag_vg"] = {
+		names = {
+			"flag_vg",
+		},
+		codes = {
+			"🇻🇬",
+		},
+	},
+	["flag_vi"] = {
+		names = {
+			"flag_vi",
+		},
+		codes = {
+			"🇻🇮",
+		},
+	},
+	["flag_vn"] = {
+		names = {
+			"flag_vn",
+		},
+		codes = {
+			"🇻🇳",
+		},
+	},
+	["flag_vu"] = {
+		names = {
+			"flag_vu",
+		},
+		codes = {
+			"🇻🇺",
+		},
+	},
+	["flag_wf"] = {
+		names = {
+			"flag_wf",
+		},
+		codes = {
+			"🇼🇫",
+		},
+	},
+	["flag_white"] = {
+		names = {
+			"flag_white",
+		},
+		codes = {
+			"🏳",
+		},
+	},
+	["flag_ws"] = {
+		names = {
+			"flag_ws",
+		},
+		codes = {
+			"🇼🇸",
+		},
+	},
+	["flag_xk"] = {
+		names = {
+			"flag_xk",
+		},
+		codes = {
+			"🇽🇰",
+		},
+	},
+	["flag_ye"] = {
+		names = {
+			"flag_ye",
+		},
+		codes = {
+			"🇾🇪",
+		},
+	},
+	["flag_yt"] = {
+		names = {
+			"flag_yt",
+		},
+		codes = {
+			"🇾🇹",
+		},
+	},
+	["flag_za"] = {
+		names = {
+			"flag_za",
+		},
+		codes = {
+			"🇿🇦",
+		},
+	},
+	["flag_zm"] = {
+		names = {
+			"flag_zm",
+		},
+		codes = {
+			"🇿🇲",
+		},
+	},
+	["flag_zw"] = {
+		names = {
+			"flag_zw",
+		},
+		codes = {
+			"🇿🇼",
+		},
+	},
+	["flags"] = {
+		names = {
+			"flags",
+		},
+		codes = {
+			"🎏",
+		},
+	},
+	["flashlight"] = {
+		names = {
+			"flashlight",
+		},
+		codes = {
+			"🔦",
+		},
+	},
+	["fleur_de_lis"] = {
+		names = {
+			"fleur_de_lis",
+		},
+		codes = {
+			"⚜",
+		},
+	},
+	["floppy_disk"] = {
+		names = {
+			"floppy_disk",
+		},
+		codes = {
+			"💾",
+		},
+	},
+	["flower_playing_cards"] = {
+		names = {
+			"flower_playing_cards",
+		},
+		codes = {
+			"🎴",
+		},
+	},
+	["flushed"] = {
+		names = {
+			"flushed",
+		},
+		codes = {
+			"😳",
+		},
+	},
+	["fog"] = {
+		names = {
+			"fog",
+		},
+		codes = {
+			"🌫",
+		},
+	},
+	["foggy"] = {
+		names = {
+			"foggy",
+		},
+		codes = {
+			"🌁",
+		},
+	},
+	["football"] = {
+		names = {
+			"football",
+		},
+		codes = {
+			"🏈",
+		},
+	},
+	["footprints"] = {
+		names = {
+			"footprints",
+		},
+		codes = {
+			"👣",
+		},
+	},
+	["fork_and_knife"] = {
+		names = {
+			"fork_and_knife",
+		},
+		codes = {
+			"🍴",
+		},
+	},
+	["fork_knife_plate"] = {
+		names = {
+			"fork_knife_plate",
+		},
+		codes = {
+			"🍽",
+		},
+	},
+	["fountain"] = {
+		names = {
+			"fountain",
+		},
+		codes = {
+			"⛲",
+		},
+	},
+	["four"] = {
+		names = {
+			"four",
+		},
+		codes = {
+			"4️⃣",
+			"4⃣",
+		},
+	},
+	["four_leaf_clover"] = {
+		names = {
+			"four_leaf_clover",
+		},
+		codes = {
+			"🍀",
+		},
+	},
+	["fox"] = {
+		names = {
+			"fox",
+		},
+		codes = {
+			"🦊",
+		},
+	},
+	["frame_photo"] = {
+		names = {
+			"frame_photo",
+		},
+		codes = {
+			"🖼",
+		},
+	},
+	["free"] = {
+		names = {
+			"free",
+		},
+		codes = {
+			"🆓",
+		},
+	},
+	["french_bread"] = {
+		names = {
+			"french_bread",
+		},
+		codes = {
+			"🥖",
+		},
+	},
+	["fried_shrimp"] = {
+		names = {
+			"fried_shrimp",
+		},
+		codes = {
+			"🍤",
+		},
+	},
+	["fries"] = {
+		names = {
+			"fries",
+		},
+		codes = {
+			"🍟",
+		},
+	},
+	["frog"] = {
+		names = {
+			"frog",
+		},
+		codes = {
+			"🐸",
+		},
+	},
+	["frowning"] = {
+		names = {
+			"frowning",
+		},
+		codes = {
+			"😦",
+		},
+	},
+	["frowning2"] = {
+		names = {
+			"frowning2",
+		},
+		codes = {
+			"☹",
+		},
+	},
+	["fuelpump"] = {
+		names = {
+			"fuelpump",
+		},
+		codes = {
+			"⛽",
+		},
+	},
+	["full_moon"] = {
+		names = {
+			"full_moon",
+		},
+		codes = {
+			"🌕",
+		},
+	},
+	["full_moon_with_face"] = {
+		names = {
+			"full_moon_with_face",
+		},
+		codes = {
+			"🌝",
+		},
+	},
+	["game_die"] = {
+		names = {
+			"game_die",
+		},
+		codes = {
+			"🎲",
+		},
+	},
+	["gay_pride_flag"] = {
+		names = {
+			"gay_pride_flag",
+		},
+		codes = {
+			"🏳️‍🌈",
+		},
+	},
+	["gear"] = {
+		names = {
+			"gear",
+		},
+		codes = {
+			"⚙",
+		},
+	},
+	["gem"] = {
+		names = {
+			"gem",
+		},
+		codes = {
+			"💎",
+		},
+	},
+	["gemini"] = {
+		names = {
+			"gemini",
+		},
+		codes = {
+			"♊",
+		},
+	},
+	["ghost"] = {
+		names = {
+			"ghost",
+		},
+		codes = {
+			"👻",
+		},
+	},
+	["gift"] = {
+		names = {
+			"gift",
+		},
+		codes = {
+			"🎁",
+		},
+	},
+	["gift_heart"] = {
+		names = {
+			"gift_heart",
+		},
+		codes = {
+			"💝",
+		},
+	},
+	["girl"] = {
+		names = {
+			"girl",
+		},
+		codes = {
+			"👧",
+		},
+	},
+	["globe_with_meridians"] = {
+		names = {
+			"globe_with_meridians",
+		},
+		codes = {
+			"🌐",
+		},
+	},
+	["goal"] = {
+		names = {
+			"goal",
+		},
+		codes = {
+			"🥅",
+		},
+	},
+	["goat"] = {
+		names = {
+			"goat",
+		},
+		codes = {
+			"🐐",
+		},
+	},
+	["golf"] = {
+		names = {
+			"golf",
+		},
+		codes = {
+			"⛳",
+		},
+	},
+	["golfer"] = {
+		names = {
+			"golfer",
+		},
+		codes = {
+			"🏌",
+		},
+	},
+	["gorilla"] = {
+		names = {
+			"gorilla",
+		},
+		codes = {
+			"🦍",
+		},
+	},
+	["grapes"] = {
+		names = {
+			"grapes",
+		},
+		codes = {
+			"🍇",
+		},
+	},
+	["green_apple"] = {
+		names = {
+			"green_apple",
+		},
+		codes = {
+			"🍏",
+		},
+	},
+	["green_book"] = {
+		names = {
+			"green_book",
+		},
+		codes = {
+			"📗",
+		},
+	},
+	["green_heart"] = {
+		names = {
+			"green_heart",
+		},
+		codes = {
+			"💚",
+		},
+	},
+	["grey_exclamation"] = {
+		names = {
+			"grey_exclamation",
+		},
+		codes = {
+			"❕",
+		},
+	},
+	["grey_question"] = {
+		names = {
+			"grey_question",
+		},
+		codes = {
+			"❔",
+		},
+	},
+	["grimacing"] = {
+		names = {
+			"grimacing",
+		},
+		codes = {
+			"😬",
+		},
+	},
+	["grin"] = {
+		names = {
+			"grin",
+		},
+		codes = {
+			"😁",
+		},
+	},
+	["grinning"] = {
+		names = {
+			"grinning",
+		},
+		codes = {
+			"😀",
+		},
+	},
+	["guardsman"] = {
+		names = {
+			"guardsman",
+		},
+		codes = {
+			"💂",
+		},
+	},
+	["guitar"] = {
+		names = {
+			"guitar",
+		},
+		codes = {
+			"🎸",
+		},
+	},
+	["gun"] = {
+		names = {
+			"gun",
+		},
+		codes = {
+			"🔫",
+		},
+	},
+	["haircut"] = {
+		names = {
+			"haircut",
+		},
+		codes = {
+			"💇",
+		},
+	},
+	["hamburger"] = {
+		names = {
+			"hamburger",
+		},
+		codes = {
+			"🍔",
+		},
+	},
+	["hammer"] = {
+		names = {
+			"hammer",
+		},
+		codes = {
+			"🔨",
+		},
+	},
+	["hammer_pick"] = {
+		names = {
+			"hammer_pick",
+		},
+		codes = {
+			"⚒",
+		},
+	},
+	["hamster"] = {
+		names = {
+			"hamster",
+		},
+		codes = {
+			"🐹",
+		},
+	},
+	["hand_splayed"] = {
+		names = {
+			"hand_splayed",
+		},
+		codes = {
+			"🖐",
+		},
+	},
+	["handbag"] = {
+		names = {
+			"handbag",
+		},
+		codes = {
+			"👜",
+		},
+	},
+	["handball"] = {
+		names = {
+			"handball",
+		},
+		codes = {
+			"🤾",
+		},
+	},
+	["handshake"] = {
+		names = {
+			"handshake",
+		},
+		codes = {
+			"🤝",
+		},
+	},
+	["hash"] = {
+		names = {
+			"hash",
+		},
+		codes = {
+			"#⃣",
+		},
+	},
+	["hatched_chick"] = {
+		names = {
+			"hatched_chick",
+		},
+		codes = {
+			"🐥",
+		},
+	},
+	["hatching_chick"] = {
+		names = {
+			"hatching_chick",
+		},
+		codes = {
+			"🐣",
+		},
+	},
+	["head_bandage"] = {
+		names = {
+			"head_bandage",
+		},
+		codes = {
+			"🤕",
+		},
+	},
+	["headphones"] = {
+		names = {
+			"headphones",
+		},
+		codes = {
+			"🎧",
+		},
+	},
+	["hear_no_evil"] = {
+		names = {
+			"hear_no_evil",
+		},
+		codes = {
+			"🙉",
+		},
+	},
+	["heart"] = {
+		names = {
+			"heart",
+		},
+		codes = {
+			"❤",
+		},
+	},
+	["heart_decoration"] = {
+		names = {
+			"heart_decoration",
+		},
+		codes = {
+			"💟",
+		},
+	},
+	["heart_exclamation"] = {
+		names = {
+			"heart_exclamation",
+		},
+		codes = {
+			"❣",
+		},
+	},
+	["heart_eyes"] = {
+		names = {
+			"heart_eyes",
+		},
+		codes = {
+			"😍",
+		},
+	},
+	["heart_eyes_cat"] = {
+		names = {
+			"heart_eyes_cat",
+		},
+		codes = {
+			"😻",
+		},
+	},
+	["heartbeat"] = {
+		names = {
+			"heartbeat",
+		},
+		codes = {
+			"💓",
+		},
+	},
+	["heartpulse"] = {
+		names = {
+			"heartpulse",
+		},
+		codes = {
+			"💗",
+		},
+	},
+	["hearts"] = {
+		names = {
+			"hearts",
+		},
+		codes = {
+			"♥",
+		},
+	},
+	["heavy_check_mark"] = {
+		names = {
+			"heavy_check_mark",
+		},
+		codes = {
+			"✔",
+		},
+	},
+	["heavy_division_sign"] = {
+		names = {
+			"heavy_division_sign",
+		},
+		codes = {
+			"➗",
+		},
+	},
+	["heavy_dollar_sign"] = {
+		names = {
+			"heavy_dollar_sign",
+		},
+		codes = {
+			"💲",
+		},
+	},
+	["heavy_minus_sign"] = {
+		names = {
+			"heavy_minus_sign",
+		},
+		codes = {
+			"➖",
+		},
+	},
+	["heavy_multiplication_x"] = {
+		names = {
+			"heavy_multiplication_x",
+		},
+		codes = {
+			"✖",
+		},
+	},
+	["heavy_plus_sign"] = {
+		names = {
+			"heavy_plus_sign",
+		},
+		codes = {
+			"➕",
+		},
+	},
+	["helicopter"] = {
+		names = {
+			"helicopter",
+		},
+		codes = {
+			"🚁",
+		},
+	},
+	["helmet_with_cross"] = {
+		names = {
+			"helmet_with_cross",
+		},
+		codes = {
+			"⛑",
+		},
+	},
+	["herb"] = {
+		names = {
+			"herb",
+		},
+		codes = {
+			"🌿",
+		},
+	},
+	["hibiscus"] = {
+		names = {
+			"hibiscus",
+		},
+		codes = {
+			"🌺",
+		},
+	},
+	["high_brightness"] = {
+		names = {
+			"high_brightness",
+		},
+		codes = {
+			"🔆",
+		},
+	},
+	["high_heel"] = {
+		names = {
+			"high_heel",
+		},
+		codes = {
+			"👠",
+		},
+	},
+	["hockey"] = {
+		names = {
+			"hockey",
+		},
+		codes = {
+			"🏒",
+		},
+	},
+	["hole"] = {
+		names = {
+			"hole",
+		},
+		codes = {
+			"🕳",
+		},
+	},
+	["homes"] = {
+		names = {
+			"homes",
+		},
+		codes = {
+			"🏘",
+		},
+	},
+	["honey_pot"] = {
+		names = {
+			"honey_pot",
+		},
+		codes = {
+			"🍯",
+		},
+	},
+	["horse"] = {
+		names = {
+			"horse",
+		},
+		codes = {
+			"🐴",
+		},
+	},
+	["horse_racing"] = {
+		names = {
+			"horse_racing",
+		},
+		codes = {
+			"🏇",
+		},
+	},
+	["hospital"] = {
+		names = {
+			"hospital",
+		},
+		codes = {
+			"🏥",
+		},
+	},
+	["hot_pepper"] = {
+		names = {
+			"hot_pepper",
+		},
+		codes = {
+			"🌶",
+		},
+	},
+	["hotdog"] = {
+		names = {
+			"hotdog",
+		},
+		codes = {
+			"🌭",
+		},
+	},
+	["hotel"] = {
+		names = {
+			"hotel",
+		},
+		codes = {
+			"🏨",
+		},
+	},
+	["hotsprings"] = {
+		names = {
+			"hotsprings",
+		},
+		codes = {
+			"♨",
+		},
+	},
+	["hourglass"] = {
+		names = {
+			"hourglass",
+		},
+		codes = {
+			"⌛",
+		},
+	},
+	["hourglass_flowing_sand"] = {
+		names = {
+			"hourglass_flowing_sand",
+		},
+		codes = {
+			"⏳",
+		},
+	},
+	["house"] = {
+		names = {
+			"house",
+		},
+		codes = {
+			"🏠",
+		},
+	},
+	["house_abandoned"] = {
+		names = {
+			"house_abandoned",
+		},
+		codes = {
+			"🏚",
+		},
+	},
+	["house_with_garden"] = {
+		names = {
+			"house_with_garden",
+		},
+		codes = {
+			"🏡",
+		},
+	},
+	["hugging"] = {
+		names = {
+			"hugging",
+		},
+		codes = {
+			"🤗",
+		},
+	},
+	["hushed"] = {
+		names = {
+			"hushed",
+		},
+		codes = {
+			"😯",
+		},
+	},
+	["ice_cream"] = {
+		names = {
+			"ice_cream",
+		},
+		codes = {
+			"🍨",
+		},
+	},
+	["ice_skate"] = {
+		names = {
+			"ice_skate",
+		},
+		codes = {
+			"⛸",
+		},
+	},
+	["icecream"] = {
+		names = {
+			"icecream",
+		},
+		codes = {
+			"🍦",
+		},
+	},
+	["id"] = {
+		names = {
+			"id",
+		},
+		codes = {
+			"🆔",
+		},
+	},
+	["ideograph_advantage"] = {
+		names = {
+			"ideograph_advantage",
+		},
+		codes = {
+			"🉐",
+		},
+	},
+	["imp"] = {
+		names = {
+			"imp",
+		},
+		codes = {
+			"👿",
+		},
+	},
+	["inbox_tray"] = {
+		names = {
+			"inbox_tray",
+		},
+		codes = {
+			"📥",
+		},
+	},
+	["incoming_envelope"] = {
+		names = {
+			"incoming_envelope",
+		},
+		codes = {
+			"📨",
+		},
+	},
+	["information_desk_person"] = {
+		names = {
+			"information_desk_person",
+		},
+		codes = {
+			"💁",
+		},
+	},
+	["information_source"] = {
+		names = {
+			"information_source",
+		},
+		codes = {
+			"ℹ",
+		},
+	},
+	["innocent"] = {
+		names = {
+			"innocent",
+		},
+		codes = {
+			"😇",
+		},
+	},
+	["interrobang"] = {
+		names = {
+			"interrobang",
+		},
+		codes = {
+			"⁉",
+		},
+	},
+	["iphone"] = {
+		names = {
+			"iphone",
+		},
+		codes = {
+			"📱",
+		},
+	},
+	["island"] = {
+		names = {
+			"island",
+		},
+		codes = {
+			"🏝",
+		},
+	},
+	["izakaya_lantern"] = {
+		names = {
+			"izakaya_lantern",
+		},
+		codes = {
+			"🏮",
+		},
+	},
+	["jack_o_lantern"] = {
+		names = {
+			"jack_o_lantern",
+		},
+		codes = {
+			"🎃",
+		},
+	},
+	["japan"] = {
+		names = {
+			"japan",
+		},
+		codes = {
+			"🗾",
+		},
+	},
+	["japanese_castle"] = {
+		names = {
+			"japanese_castle",
+		},
+		codes = {
+			"🏯",
+		},
+	},
+	["japanese_goblin"] = {
+		names = {
+			"japanese_goblin",
+		},
+		codes = {
+			"👺",
+		},
+	},
+	["japanese_ogre"] = {
+		names = {
+			"japanese_ogre",
+		},
+		codes = {
+			"👹",
+		},
+	},
+	["jeans"] = {
+		names = {
+			"jeans",
+		},
+		codes = {
+			"👖",
+		},
+	},
+	["joy"] = {
+		names = {
+			"joy",
+		},
+		codes = {
+			"😂",
+		},
+	},
+	["joy_cat"] = {
+		names = {
+			"joy_cat",
+		},
+		codes = {
+			"😹",
+		},
+	},
+	["joystick"] = {
+		names = {
+			"joystick",
+		},
+		codes = {
+			"🕹",
+		},
+	},
+	["juggling"] = {
+		names = {
+			"juggling",
+		},
+		codes = {
+			"🤹",
+		},
+	},
+	["kaaba"] = {
+		names = {
+			"kaaba",
+		},
+		codes = {
+			"🕋",
+		},
+	},
+	["key"] = {
+		names = {
+			"key",
+		},
+		codes = {
+			"🔑",
+		},
+	},
+	["key2"] = {
+		names = {
+			"key2",
+		},
+		codes = {
+			"🗝",
+		},
+	},
+	["keyboard"] = {
+		names = {
+			"keyboard",
+		},
+		codes = {
+			"⌨️",
+			"⌨",
+		},
+	},
+	["keycap_ten"] = {
+		names = {
+			"keycap_ten",
+		},
+		codes = {
+			"🔟",
+		},
+	},
+	["kimono"] = {
+		names = {
+			"kimono",
+		},
+		codes = {
+			"👘",
+		},
+	},
+	["kiss"] = {
+		names = {
+			"kiss",
+		},
+		codes = {
+			"💋",
+		},
+	},
+	["kiss_mm"] = {
+		names = {
+			"kiss_mm",
+		},
+		codes = {
+			"👨‍❤️‍💋‍👨",
+		},
+	},
+	["kiss_ww"] = {
+		names = {
+			"kiss_ww",
+		},
+		codes = {
+			"👩‍❤️‍💋‍👩",
+		},
+	},
+	["kissing"] = {
+		names = {
+			"kissing",
+		},
+		codes = {
+			"😗",
+		},
+	},
+	["kissing_cat"] = {
+		names = {
+			"kissing_cat",
+		},
+		codes = {
+			"😽",
+		},
+	},
+	["kissing_closed_eyes"] = {
+		names = {
+			"kissing_closed_eyes",
+		},
+		codes = {
+			"😚",
+		},
+	},
+	["kissing_heart"] = {
+		names = {
+			"kissing_heart",
+		},
+		codes = {
+			"😘",
+		},
+	},
+	["kissing_smiling_eyes"] = {
+		names = {
+			"kissing_smiling_eyes",
+		},
+		codes = {
+			"😙",
+		},
+	},
+	["kiwi"] = {
+		names = {
+			"kiwi",
+		},
+		codes = {
+			"🥝",
+		},
+	},
+	["knife"] = {
+		names = {
+			"knife",
+		},
+		codes = {
+			"🔪",
+		},
+	},
+	["koala"] = {
+		names = {
+			"koala",
+		},
+		codes = {
+			"🐨",
+		},
+	},
+	["koko"] = {
+		names = {
+			"koko",
+		},
+		codes = {
+			"🈁",
+		},
+	},
+	["label"] = {
+		names = {
+			"label",
+		},
+		codes = {
+			"🏷",
+		},
+	},
+	["large_blue_circle"] = {
+		names = {
+			"large_blue_circle",
+		},
+		codes = {
+			"🔵",
+		},
+	},
+	["large_blue_diamond"] = {
+		names = {
+			"large_blue_diamond",
+		},
+		codes = {
+			"🔷",
+		},
+	},
+	["large_orange_diamond"] = {
+		names = {
+			"large_orange_diamond",
+		},
+		codes = {
+			"🔶",
+		},
+	},
+	["last_quarter_moon"] = {
+		names = {
+			"last_quarter_moon",
+		},
+		codes = {
+			"🌗",
+		},
+	},
+	["last_quarter_moon_with_face"] = {
+		names = {
+			"last_quarter_moon_with_face",
+		},
+		codes = {
+			"🌜",
+		},
+	},
+	["laughing"] = {
+		names = {
+			"laughing",
+		},
+		codes = {
+			"😆",
+		},
+	},
+	["leaves"] = {
+		names = {
+			"leaves",
+		},
+		codes = {
+			"🍃",
+		},
+	},
+	["ledger"] = {
+		names = {
+			"ledger",
+		},
+		codes = {
+			"📒",
+		},
+	},
+	["left_facing_fist"] = {
+		names = {
+			"left_facing_fist",
+		},
+		codes = {
+			"🤛",
+		},
+	},
+	["left_luggage"] = {
+		names = {
+			"left_luggage",
+		},
+		codes = {
+			"🛅",
+		},
+	},
+	["left_right_arrow"] = {
+		names = {
+			"left_right_arrow",
+		},
+		codes = {
+			"↔",
+		},
+	},
+	["leftwards_arrow_with_hook"] = {
+		names = {
+			"leftwards_arrow_with_hook",
+		},
+		codes = {
+			"↩",
+		},
+	},
+	["lemon"] = {
+		names = {
+			"lemon",
+		},
+		codes = {
+			"🍋",
+		},
+	},
+	["leo"] = {
+		names = {
+			"leo",
+		},
+		codes = {
+			"♌",
+		},
+	},
+	["leopard"] = {
+		names = {
+			"leopard",
+		},
+		codes = {
+			"🐆",
+		},
+	},
+	["level_slider"] = {
+		names = {
+			"level_slider",
+		},
+		codes = {
+			"🎚",
+		},
+	},
+	["levitate"] = {
+		names = {
+			"levitate",
+		},
+		codes = {
+			"🕴",
+		},
+	},
+	["libra"] = {
+		names = {
+			"libra",
+		},
+		codes = {
+			"♎",
+		},
+	},
+	["lifter"] = {
+		names = {
+			"lifter",
+		},
+		codes = {
+			"🏋",
+		},
+	},
+	["light_rail"] = {
+		names = {
+			"light_rail",
+		},
+		codes = {
+			"🚈",
+		},
+	},
+	["link"] = {
+		names = {
+			"link",
+		},
+		codes = {
+			"🔗",
+		},
+	},
+	["lion_face"] = {
+		names = {
+			"lion_face",
+		},
+		codes = {
+			"🦁",
+		},
+	},
+	["lips"] = {
+		names = {
+			"lips",
+		},
+		codes = {
+			"👄",
+		},
+	},
+	["lipstick"] = {
+		names = {
+			"lipstick",
+		},
+		codes = {
+			"💄",
+		},
+	},
+	["lizard"] = {
+		names = {
+			"lizard",
+		},
+		codes = {
+			"🦎",
+		},
+	},
+	["lock"] = {
+		names = {
+			"lock",
+		},
+		codes = {
+			"🔒",
+		},
+	},
+	["lock_with_ink_pen"] = {
+		names = {
+			"lock_with_ink_pen",
+		},
+		codes = {
+			"🔏",
+		},
+	},
+	["lollipop"] = {
+		names = {
+			"lollipop",
+		},
+		codes = {
+			"🍭",
+		},
+	},
+	["loop"] = {
+		names = {
+			"loop",
+		},
+		codes = {
+			"➿",
+		},
+	},
+	["loud_sound"] = {
+		names = {
+			"loud_sound",
+		},
+		codes = {
+			"🔊",
+		},
+	},
+	["loudspeaker"] = {
+		names = {
+			"loudspeaker",
+		},
+		codes = {
+			"📢",
+		},
+	},
+	["love_hotel"] = {
+		names = {
+			"love_hotel",
+		},
+		codes = {
+			"🏩",
+		},
+	},
+	["love_letter"] = {
+		names = {
+			"love_letter",
+		},
+		codes = {
+			"💌",
+		},
+	},
+	["low_brightness"] = {
+		names = {
+			"low_brightness",
+		},
+		codes = {
+			"🔅",
+		},
+	},
+	["lying_face"] = {
+		names = {
+			"lying_face",
+		},
+		codes = {
+			"🤥",
+		},
+	},
+	["m"] = {
+		names = {
+			"m",
+		},
+		codes = {
+			"Ⓜ",
+		},
+	},
+	["mag"] = {
+		names = {
+			"mag",
+		},
+		codes = {
+			"🔍",
+		},
+	},
+	["mag_right"] = {
+		names = {
+			"mag_right",
+		},
+		codes = {
+			"🔎",
+		},
+	},
+	["mahjong"] = {
+		names = {
+			"mahjong",
+		},
+		codes = {
+			"🀄",
+		},
+	},
+	["mailbox"] = {
+		names = {
+			"mailbox",
+		},
+		codes = {
+			"📫",
+		},
+	},
+	["mailbox_closed"] = {
+		names = {
+			"mailbox_closed",
+		},
+		codes = {
+			"📪",
+		},
+	},
+	["mailbox_with_mail"] = {
+		names = {
+			"mailbox_with_mail",
+		},
+		codes = {
+			"📬",
+		},
+	},
+	["mailbox_with_no_mail"] = {
+		names = {
+			"mailbox_with_no_mail",
+		},
+		codes = {
+			"📭",
+		},
+	},
+	["man"] = {
+		names = {
+			"man",
+		},
+		codes = {
+			"👨",
+		},
+	},
+	["man_dancing"] = {
+		names = {
+			"man_dancing",
+		},
+		codes = {
+			"🕺",
+		},
+	},
+	["man_in_tuxedo"] = {
+		names = {
+			"man_in_tuxedo",
+		},
+		codes = {
+			"🤵",
+		},
+	},
+	["man_with_gua_pi_mao"] = {
+		names = {
+			"man_with_gua_pi_mao",
+		},
+		codes = {
+			"👲",
+		},
+	},
+	["man_with_turban"] = {
+		names = {
+			"man_with_turban",
+		},
+		codes = {
+			"👳",
+		},
+	},
+	["mans_shoe"] = {
+		names = {
+			"mans_shoe",
+		},
+		codes = {
+			"👞",
+		},
+	},
+	["map"] = {
+		names = {
+			"map",
+		},
+		codes = {
+			"🗺",
+		},
+	},
+	["maple_leaf"] = {
+		names = {
+			"maple_leaf",
+		},
+		codes = {
+			"🍁",
+		},
+	},
+	["martial_arts_uniform"] = {
+		names = {
+			"martial_arts_uniform",
+		},
+		codes = {
+			"🥋",
+		},
+	},
+	["mask"] = {
+		names = {
+			"mask",
+		},
+		codes = {
+			"😷",
+		},
+	},
+	["massage"] = {
+		names = {
+			"massage",
+		},
+		codes = {
+			"💆",
+		},
+	},
+	["meat_on_bone"] = {
+		names = {
+			"meat_on_bone",
+		},
+		codes = {
+			"🍖",
+		},
+	},
+	["medal"] = {
+		names = {
+			"medal",
+		},
+		codes = {
+			"🏅",
+		},
+	},
+	["mega"] = {
+		names = {
+			"mega",
+		},
+		codes = {
+			"📣",
+		},
+	},
+	["melon"] = {
+		names = {
+			"melon",
+		},
+		codes = {
+			"🍈",
+		},
+	},
+	["menorah"] = {
+		names = {
+			"menorah",
+		},
+		codes = {
+			"🕎",
+		},
+	},
+	["mens"] = {
+		names = {
+			"mens",
+		},
+		codes = {
+			"🚹",
+		},
+	},
+	["metal"] = {
+		names = {
+			"metal",
+		},
+		codes = {
+			"🤘",
+		},
+	},
+	["metro"] = {
+		names = {
+			"metro",
+		},
+		codes = {
+			"🚇",
+		},
+	},
+	["microphone"] = {
+		names = {
+			"microphone",
+		},
+		codes = {
+			"🎤",
+		},
+	},
+	["microphone2"] = {
+		names = {
+			"microphone2",
+		},
+		codes = {
+			"🎙",
+		},
+	},
+	["microscope"] = {
+		names = {
+			"microscope",
+		},
+		codes = {
+			"🔬",
+		},
+	},
+	["middle_finger"] = {
+		names = {
+			"middle_finger",
+		},
+		codes = {
+			"🖕",
+		},
+	},
+	["military_medal"] = {
+		names = {
+			"military_medal",
+		},
+		codes = {
+			"🎖",
+		},
+	},
+	["milk"] = {
+		names = {
+			"milk",
+		},
+		codes = {
+			"🥛",
+		},
+	},
+	["milky_way"] = {
+		names = {
+			"milky_way",
+		},
+		codes = {
+			"🌌",
+		},
+	},
+	["minibus"] = {
+		names = {
+			"minibus",
+		},
+		codes = {
+			"🚐",
+		},
+	},
+	["minidisc"] = {
+		names = {
+			"minidisc",
+		},
+		codes = {
+			"💽",
+		},
+	},
+	["mobile_phone_off"] = {
+		names = {
+			"mobile_phone_off",
+		},
+		codes = {
+			"📴",
+		},
+	},
+	["money_mouth"] = {
+		names = {
+			"money_mouth",
+		},
+		codes = {
+			"🤑",
+		},
+	},
+	["money_with_wings"] = {
+		names = {
+			"money_with_wings",
+		},
+		codes = {
+			"💸",
+		},
+	},
+	["moneybag"] = {
+		names = {
+			"moneybag",
+		},
+		codes = {
+			"💰",
+		},
+	},
+	["monkey"] = {
+		names = {
+			"monkey",
+		},
+		codes = {
+			"🐒",
+		},
+	},
+	["monkey_face"] = {
+		names = {
+			"monkey_face",
+		},
+		codes = {
+			"🐵",
+		},
+	},
+	["monorail"] = {
+		names = {
+			"monorail",
+		},
+		codes = {
+			"🚝",
+		},
+	},
+	["mortar_board"] = {
+		names = {
+			"mortar_board",
+		},
+		codes = {
+			"🎓",
+		},
+	},
+	["mosque"] = {
+		names = {
+			"mosque",
+		},
+		codes = {
+			"🕌",
+		},
+	},
+	["motor_scooter"] = {
+		names = {
+			"motor_scooter",
+		},
+		codes = {
+			"🛵",
+		},
+	},
+	["motorboat"] = {
+		names = {
+			"motorboat",
+		},
+		codes = {
+			"🛥",
+		},
+	},
+	["motorcycle"] = {
+		names = {
+			"motorcycle",
+		},
+		codes = {
+			"🏍",
+		},
+	},
+	["motorway"] = {
+		names = {
+			"motorway",
+		},
+		codes = {
+			"🛣",
+		},
+	},
+	["mount_fuji"] = {
+		names = {
+			"mount_fuji",
+		},
+		codes = {
+			"🗻",
+		},
+	},
+	["mountain"] = {
+		names = {
+			"mountain",
+		},
+		codes = {
+			"⛰",
+		},
+	},
+	["mountain_bicyclist"] = {
+		names = {
+			"mountain_bicyclist",
+		},
+		codes = {
+			"🚵",
+		},
+	},
+	["mountain_cableway"] = {
+		names = {
+			"mountain_cableway",
+		},
+		codes = {
+			"🚠",
+		},
+	},
+	["mountain_railway"] = {
+		names = {
+			"mountain_railway",
+		},
+		codes = {
+			"🚞",
+		},
+	},
+	["mountain_snow"] = {
+		names = {
+			"mountain_snow",
+		},
+		codes = {
+			"🏔",
+		},
+	},
+	["mouse"] = {
+		names = {
+			"mouse",
+		},
+		codes = {
+			"🐭",
+		},
+	},
+	["mouse2"] = {
+		names = {
+			"mouse2",
+		},
+		codes = {
+			"🐁",
+		},
+	},
+	["mouse_three_button"] = {
+		names = {
+			"mouse_three_button",
+		},
+		codes = {
+			"🖱",
+		},
+	},
+	["movie_camera"] = {
+		names = {
+			"movie_camera",
+		},
+		codes = {
+			"🎥",
+		},
+	},
+	["moyai"] = {
+		names = {
+			"moyai",
+		},
+		codes = {
+			"🗿",
+		},
+	},
+	["mrs_claus"] = {
+		names = {
+			"mrs_claus",
+		},
+		codes = {
+			"🤶",
+		},
+	},
+	["muscle"] = {
+		names = {
+			"muscle",
+		},
+		codes = {
+			"💪",
+		},
+	},
+	["mushroom"] = {
+		names = {
+			"mushroom",
+		},
+		codes = {
+			"🍄",
+		},
+	},
+	["musical_keyboard"] = {
+		names = {
+			"musical_keyboard",
+		},
+		codes = {
+			"🎹",
+		},
+	},
+	["musical_note"] = {
+		names = {
+			"musical_note",
+		},
+		codes = {
+			"🎵",
+		},
+	},
+	["musical_score"] = {
+		names = {
+			"musical_score",
+		},
+		codes = {
+			"🎼",
+		},
+	},
+	["mute"] = {
+		names = {
+			"mute",
+		},
+		codes = {
+			"🔇",
+		},
+	},
+	["nail_care"] = {
+		names = {
+			"nail_care",
+		},
+		codes = {
+			"💅",
+		},
+	},
+	["name_badge"] = {
+		names = {
+			"name_badge",
+		},
+		codes = {
+			"📛",
+		},
+	},
+	["nauseated_face"] = {
+		names = {
+			"nauseated_face",
+		},
+		codes = {
+			"🤢",
+		},
+	},
+	["necktie"] = {
+		names = {
+			"necktie",
+		},
+		codes = {
+			"👔",
+		},
+	},
+	["negative_squared_cross_mark"] = {
+		names = {
+			"negative_squared_cross_mark",
+		},
+		codes = {
+			"❎",
+		},
+	},
+	["nerd"] = {
+		names = {
+			"nerd",
+		},
+		codes = {
+			"🤓",
+		},
+	},
+	["neutral_face"] = {
+		names = {
+			"neutral_face",
+		},
+		codes = {
+			"😐",
+		},
+	},
+	["new"] = {
+		names = {
+			"new",
+		},
+		codes = {
+			"🆕",
+		},
+	},
+	["new_moon"] = {
+		names = {
+			"new_moon",
+		},
+		codes = {
+			"🌑",
+		},
+	},
+	["new_moon_with_face"] = {
+		names = {
+			"new_moon_with_face",
+		},
+		codes = {
+			"🌚",
+		},
+	},
+	["newspaper"] = {
+		names = {
+			"newspaper",
+		},
+		codes = {
+			"📰",
+		},
+	},
+	["newspaper2"] = {
+		names = {
+			"newspaper2",
+		},
+		codes = {
+			"🗞",
+		},
+	},
+	["ng"] = {
+		names = {
+			"ng",
+		},
+		codes = {
+			"🆖",
+		},
+	},
+	["night_with_stars"] = {
+		names = {
+			"night_with_stars",
+		},
+		codes = {
+			"🌃",
+		},
+	},
+	["nine"] = {
+		names = {
+			"nine",
+		},
+		codes = {
+			"9️⃣",
+			"9⃣",
+		},
+	},
+	["no_bell"] = {
+		names = {
+			"no_bell",
+		},
+		codes = {
+			"🔕",
+		},
+	},
+	["no_bicycles"] = {
+		names = {
+			"no_bicycles",
+		},
+		codes = {
+			"🚳",
+		},
+	},
+	["no_entry"] = {
+		names = {
+			"no_entry",
+		},
+		codes = {
+			"⛔",
+		},
+	},
+	["no_entry_sign"] = {
+		names = {
+			"no_entry_sign",
+		},
+		codes = {
+			"🚫",
+		},
+	},
+	["no_good"] = {
+		names = {
+			"no_good",
+		},
+		codes = {
+			"🙅",
+		},
+	},
+	["no_mobile_phones"] = {
+		names = {
+			"no_mobile_phones",
+		},
+		codes = {
+			"📵",
+		},
+	},
+	["no_mouth"] = {
+		names = {
+			"no_mouth",
+		},
+		codes = {
+			"😶",
+		},
+	},
+	["no_pedestrians"] = {
+		names = {
+			"no_pedestrians",
+		},
+		codes = {
+			"🚷",
+		},
+	},
+	["no_smoking"] = {
+		names = {
+			"no_smoking",
+		},
+		codes = {
+			"🚭",
+		},
+	},
+	["non_potable_water"] = {
+		names = {
+			"non_potable_water",
+		},
+		codes = {
+			"🚱",
+		},
+	},
+	["nose"] = {
+		names = {
+			"nose",
+		},
+		codes = {
+			"👃",
+		},
+	},
+	["not_a_bot"] = {
+		names = {
+			"not_a_bot",
+		},
+		codes = {
+			"🤖",
+		},
+	},
+	["notebook"] = {
+		names = {
+			"notebook",
+		},
+		codes = {
+			"📓",
+		},
+	},
+	["notebook_with_decorative_cover"] = {
+		names = {
+			"notebook_with_decorative_cover",
+		},
+		codes = {
+			"📔",
+		},
+	},
+	["notepad_spiral"] = {
+		names = {
+			"notepad_spiral",
+		},
+		codes = {
+			"🗒",
+		},
+	},
+	["notes"] = {
+		names = {
+			"notes",
+		},
+		codes = {
+			"🎶",
+		},
+	},
+	["nut_and_bolt"] = {
+		names = {
+			"nut_and_bolt",
+		},
+		codes = {
+			"🔩",
+		},
+	},
+	["o"] = {
+		names = {
+			"o",
+		},
+		codes = {
+			"⭕",
+		},
+	},
+	["o2"] = {
+		names = {
+			"o2",
+		},
+		codes = {
+			"🅾",
+		},
+	},
+	["ocean"] = {
+		names = {
+			"ocean",
+		},
+		codes = {
+			"🌊",
+		},
+	},
+	["octagonal_sign"] = {
+		names = {
+			"octagonal_sign",
+		},
+		codes = {
+			"🛑",
+		},
+	},
+	["octopus"] = {
+		names = {
+			"octopus",
+		},
+		codes = {
+			"🐙",
+		},
+	},
+	["oden"] = {
+		names = {
+			"oden",
+		},
+		codes = {
+			"🍢",
+		},
+	},
+	["office"] = {
+		names = {
+			"office",
+		},
+		codes = {
+			"🏢",
+		},
+	},
+	["oil"] = {
+		names = {
+			"oil",
+		},
+		codes = {
+			"🛢",
+		},
+	},
+	["ok"] = {
+		names = {
+			"ok",
+		},
+		codes = {
+			"🆗",
+		},
+	},
+	["ok_hand"] = {
+		names = {
+			"ok_hand",
+		},
+		codes = {
+			"👌",
+		},
+	},
+	["ok_woman"] = {
+		names = {
+			"ok_woman",
+		},
+		codes = {
+			"🙆",
+		},
+	},
+	["older_man"] = {
+		names = {
+			"older_man",
+		},
+		codes = {
+			"👴",
+		},
+	},
+	["older_woman"] = {
+		names = {
+			"older_woman",
+		},
+		codes = {
+			"👵",
+		},
+	},
+	["om_symbol"] = {
+		names = {
+			"om_symbol",
+		},
+		codes = {
+			"🕉",
+		},
+	},
+	["on"] = {
+		names = {
+			"on",
+		},
+		codes = {
+			"🔛",
+		},
+	},
+	["oncoming_automobile"] = {
+		names = {
+			"oncoming_automobile",
+		},
+		codes = {
+			"🚘",
+		},
+	},
+	["oncoming_bus"] = {
+		names = {
+			"oncoming_bus",
+		},
+		codes = {
+			"🚍",
+		},
+	},
+	["oncoming_police_car"] = {
+		names = {
+			"oncoming_police_car",
+		},
+		codes = {
+			"🚔",
+		},
+	},
+	["oncoming_taxi"] = {
+		names = {
+			"oncoming_taxi",
+		},
+		codes = {
+			"🚖",
+		},
+	},
+	["one"] = {
+		names = {
+			"one",
+		},
+		codes = {
+			"1️⃣",
+			"1⃣",
+		},
+	},
+	["open_file_folder"] = {
+		names = {
+			"open_file_folder",
+		},
+		codes = {
+			"📂",
+		},
+	},
+	["open_hands"] = {
+		names = {
+			"open_hands",
+		},
+		codes = {
+			"👐",
+		},
+	},
+	["open_mouth"] = {
+		names = {
+			"open_mouth",
+		},
+		codes = {
+			"😮",
+		},
+	},
+	["ophiuchus"] = {
+		names = {
+			"ophiuchus",
+		},
+		codes = {
+			"⛎",
+		},
+	},
+	["orange_book"] = {
+		names = {
+			"orange_book",
+		},
+		codes = {
+			"📙",
+		},
+	},
+	["orthodox_cross"] = {
+		names = {
+			"orthodox_cross",
+		},
+		codes = {
+			"☦",
+		},
+	},
+	["outbox_tray"] = {
+		names = {
+			"outbox_tray",
+		},
+		codes = {
+			"📤",
+		},
+	},
+	["owl"] = {
+		names = {
+			"owl",
+		},
+		codes = {
+			"🦉",
+		},
+	},
+	["ox"] = {
+		names = {
+			"ox",
+		},
+		codes = {
+			"🐂",
+		},
+	},
+	["package"] = {
+		names = {
+			"package",
+		},
+		codes = {
+			"📦",
+		},
+	},
+	["page_facing_up"] = {
+		names = {
+			"page_facing_up",
+		},
+		codes = {
+			"📄",
+		},
+	},
+	["page_with_curl"] = {
+		names = {
+			"page_with_curl",
+		},
+		codes = {
+			"📃",
+		},
+	},
+	["pager"] = {
+		names = {
+			"pager",
+		},
+		codes = {
+			"📟",
+		},
+	},
+	["paintbrush"] = {
+		names = {
+			"paintbrush",
+		},
+		codes = {
+			"🖌",
+		},
+	},
+	["palm_tree"] = {
+		names = {
+			"palm_tree",
+		},
+		codes = {
+			"🌴",
+		},
+	},
+	["pancakes"] = {
+		names = {
+			"pancakes",
+		},
+		codes = {
+			"🥞",
+		},
+	},
+	["panda_face"] = {
+		names = {
+			"panda_face",
+		},
+		codes = {
+			"🐼",
+		},
+	},
+	["paperclip"] = {
+		names = {
+			"paperclip",
+		},
+		codes = {
+			"📎",
+		},
+	},
+	["paperclips"] = {
+		names = {
+			"paperclips",
+		},
+		codes = {
+			"🖇",
+		},
+	},
+	["park"] = {
+		names = {
+			"park",
+		},
+		codes = {
+			"🏞",
+		},
+	},
+	["parking"] = {
+		names = {
+			"parking",
+		},
+		codes = {
+			"🅿",
+		},
+	},
+	["part_alternation_mark"] = {
+		names = {
+			"part_alternation_mark",
+		},
+		codes = {
+			"〽",
+		},
+	},
+	["partly_sunny"] = {
+		names = {
+			"partly_sunny",
+		},
+		codes = {
+			"⛅",
+		},
+	},
+	["passport_control"] = {
+		names = {
+			"passport_control",
+		},
+		codes = {
+			"🛂",
+		},
+	},
+	["pause_button"] = {
+		names = {
+			"pause_button",
+		},
+		codes = {
+			"⏸",
+		},
+	},
+	["peace"] = {
+		names = {
+			"peace",
+		},
+		codes = {
+			"☮",
+		},
+	},
+	["peach"] = {
+		names = {
+			"peach",
+		},
+		codes = {
+			"🍑",
+		},
+	},
+	["peanuts"] = {
+		names = {
+			"peanuts",
+		},
+		codes = {
+			"🥜",
+		},
+	},
+	["pear"] = {
+		names = {
+			"pear",
+		},
+		codes = {
+			"🍐",
+		},
+	},
+	["pen_ballpoint"] = {
+		names = {
+			"pen_ballpoint",
+		},
+		codes = {
+			"🖊",
+		},
+	},
+	["pen_fountain"] = {
+		names = {
+			"pen_fountain",
+		},
+		codes = {
+			"🖋",
+		},
+	},
+	["pencil"] = {
+		names = {
+			"pencil",
+		},
+		codes = {
+			"📝",
+		},
+	},
+	["pencil2"] = {
+		names = {
+			"pencil2",
+		},
+		codes = {
+			"✏",
+		},
+	},
+	["penguin"] = {
+		names = {
+			"penguin",
+		},
+		codes = {
+			"🐧",
+		},
+	},
+	["pensive"] = {
+		names = {
+			"pensive",
+		},
+		codes = {
+			"😔",
+		},
+	},
+	["performing_arts"] = {
+		names = {
+			"performing_arts",
+		},
+		codes = {
+			"🎭",
+		},
+	},
+	["persevere"] = {
+		names = {
+			"persevere",
+		},
+		codes = {
+			"😣",
+		},
+	},
+	["person_frowning"] = {
+		names = {
+			"person_frowning",
+		},
+		codes = {
+			"🙍",
+		},
+	},
+	["person_with_blond_hair"] = {
+		names = {
+			"person_with_blond_hair",
+		},
+		codes = {
+			"👱",
+		},
+	},
+	["person_with_pouting_face"] = {
+		names = {
+			"person_with_pouting_face",
+		},
+		codes = {
+			"🙎",
+		},
+	},
+	["pick"] = {
+		names = {
+			"pick",
+		},
+		codes = {
+			"⛏",
+		},
+	},
+	["pig"] = {
+		names = {
+			"pig",
+		},
+		codes = {
+			"🐷",
+		},
+	},
+	["pig2"] = {
+		names = {
+			"pig2",
+		},
+		codes = {
+			"🐖",
+		},
+	},
+	["pig_nose"] = {
+		names = {
+			"pig_nose",
+		},
+		codes = {
+			"🐽",
+		},
+	},
+	["pill"] = {
+		names = {
+			"pill",
+		},
+		codes = {
+			"💊",
+		},
+	},
+	["pineapple"] = {
+		names = {
+			"pineapple",
+		},
+		codes = {
+			"🍍",
+		},
+	},
+	["ping_pong"] = {
+		names = {
+			"ping_pong",
+		},
+		codes = {
+			"🏓",
+		},
+	},
+	["pisces"] = {
+		names = {
+			"pisces",
+		},
+		codes = {
+			"♓",
+		},
+	},
+	["pizza"] = {
+		names = {
+			"pizza",
+		},
+		codes = {
+			"🍕",
+		},
+	},
+	["place_of_worship"] = {
+		names = {
+			"place_of_worship",
+		},
+		codes = {
+			"🛐",
+		},
+	},
+	["play_pause"] = {
+		names = {
+			"play_pause",
+		},
+		codes = {
+			"⏯",
+		},
+	},
+	["point_down"] = {
+		names = {
+			"point_down",
+		},
+		codes = {
+			"👇",
+		},
+	},
+	["point_left"] = {
+		names = {
+			"point_left",
+		},
+		codes = {
+			"👈",
+		},
+	},
+	["point_right"] = {
+		names = {
+			"point_right",
+		},
+		codes = {
+			"👉",
+		},
+	},
+	["point_up"] = {
+		names = {
+			"point_up",
+		},
+		codes = {
+			"☝️",
+			"☝",
+		},
+	},
+	["point_up_2"] = {
+		names = {
+			"point_up_2",
+		},
+		codes = {
+			"👆",
+		},
+	},
+	["police_car"] = {
+		names = {
+			"police_car",
+		},
+		codes = {
+			"🚓",
+		},
+	},
+	["poodle"] = {
+		names = {
+			"poodle",
+		},
+		codes = {
+			"🐩",
+		},
+	},
+	["poop"] = {
+		names = {
+			"poop",
+		},
+		codes = {
+			"💩",
+		},
+	},
+	["popcorn"] = {
+		names = {
+			"popcorn",
+		},
+		codes = {
+			"🍿",
+		},
+	},
+	["post_office"] = {
+		names = {
+			"post_office",
+		},
+		codes = {
+			"🏣",
+		},
+	},
+	["postal_horn"] = {
+		names = {
+			"postal_horn",
+		},
+		codes = {
+			"📯",
+		},
+	},
+	["postbox"] = {
+		names = {
+			"postbox",
+		},
+		codes = {
+			"📮",
+		},
+	},
+	["potable_water"] = {
+		names = {
+			"potable_water",
+		},
+		codes = {
+			"🚰",
+		},
+	},
+	["potato"] = {
+		names = {
+			"potato",
+		},
+		codes = {
+			"🥔",
+		},
+	},
+	["pouch"] = {
+		names = {
+			"pouch",
+		},
+		codes = {
+			"👝",
+		},
+	},
+	["poultry_leg"] = {
+		names = {
+			"poultry_leg",
+		},
+		codes = {
+			"🍗",
+		},
+	},
+	["pound"] = {
+		names = {
+			"pound",
+		},
+		codes = {
+			"💷",
+		},
+	},
+	["pouting_cat"] = {
+		names = {
+			"pouting_cat",
+		},
+		codes = {
+			"😾",
+		},
+	},
+	["pray"] = {
+		names = {
+			"pray",
+		},
+		codes = {
+			"🙏",
+		},
+	},
+	["prayer_beads"] = {
+		names = {
+			"prayer_beads",
+		},
+		codes = {
+			"📿",
+		},
+	},
+	["pregnant_woman"] = {
+		names = {
+			"pregnant_woman",
+		},
+		codes = {
+			"🤰",
+		},
+	},
+	["prince"] = {
+		names = {
+			"prince",
+		},
+		codes = {
+			"🤴",
+		},
+	},
+	["princess"] = {
+		names = {
+			"princess",
+		},
+		codes = {
+			"👸",
+		},
+	},
+	["printer"] = {
+		names = {
+			"printer",
+		},
+		codes = {
+			"🖨",
+		},
+	},
+	["projector"] = {
+		names = {
+			"projector",
+		},
+		codes = {
+			"📽",
+		},
+	},
+	["punch"] = {
+		names = {
+			"punch",
+		},
+		codes = {
+			"👊",
+		},
+	},
+	["purple_heart"] = {
+		names = {
+			"purple_heart",
+		},
+		codes = {
+			"💜",
+		},
+	},
+	["purse"] = {
+		names = {
+			"purse",
+		},
+		codes = {
+			"👛",
+		},
+	},
+	["pushpin"] = {
+		names = {
+			"pushpin",
+		},
+		codes = {
+			"📌",
+		},
+	},
+	["put_litter_in_its_place"] = {
+		names = {
+			"put_litter_in_its_place",
+		},
+		codes = {
+			"🚮",
+		},
+	},
+	["question"] = {
+		names = {
+			"question",
+		},
+		codes = {
+			"❓",
+		},
+	},
+	["rabbit"] = {
+		names = {
+			"rabbit",
+		},
+		codes = {
+			"🐰",
+		},
+	},
+	["rabbit2"] = {
+		names = {
+			"rabbit2",
+		},
+		codes = {
+			"🐇",
+		},
+	},
+	["race_car"] = {
+		names = {
+			"race_car",
+		},
+		codes = {
+			"🏎",
+		},
+	},
+	["racehorse"] = {
+		names = {
+			"racehorse",
+		},
+		codes = {
+			"🐎",
+		},
+	},
+	["radio"] = {
+		names = {
+			"radio",
+		},
+		codes = {
+			"📻",
+		},
+	},
+	["radio_button"] = {
+		names = {
+			"radio_button",
+		},
+		codes = {
+			"🔘",
+		},
+	},
+	["radioactive"] = {
+		names = {
+			"radioactive",
+		},
+		codes = {
+			"☢",
+		},
+	},
+	["rage"] = {
+		names = {
+			"rage",
+		},
+		codes = {
+			"😡",
+		},
+	},
+	["railway_car"] = {
+		names = {
+			"railway_car",
+		},
+		codes = {
+			"🚃",
+		},
+	},
+	["railway_track"] = {
+		names = {
+			"railway_track",
+		},
+		codes = {
+			"🛤",
+		},
+	},
+	["rainbow"] = {
+		names = {
+			"rainbow",
+		},
+		codes = {
+			"🌈",
+		},
+	},
+	["raised_back_of_hand"] = {
+		names = {
+			"raised_back_of_hand",
+		},
+		codes = {
+			"🤚",
+		},
+	},
+	["raised_hand"] = {
+		names = {
+			"raised_hand",
+		},
+		codes = {
+			"✋",
+		},
+	},
+	["raised_hands"] = {
+		names = {
+			"raised_hands",
+		},
+		codes = {
+			"🙌",
+		},
+	},
+	["raising_hand"] = {
+		names = {
+			"raising_hand",
+		},
+		codes = {
+			"🙋",
+		},
+	},
+	["ram"] = {
+		names = {
+			"ram",
+		},
+		codes = {
+			"🐏",
+		},
+	},
+	["ramen"] = {
+		names = {
+			"ramen",
+		},
+		codes = {
+			"🍜",
+		},
+	},
+	["rat"] = {
+		names = {
+			"rat",
+		},
+		codes = {
+			"🐀",
+		},
+	},
+	["record_button"] = {
+		names = {
+			"record_button",
+		},
+		codes = {
+			"⏺",
+		},
+	},
+	["recycle"] = {
+		names = {
+			"recycle",
+		},
+		codes = {
+			"♻",
+		},
+	},
+	["red_car"] = {
+		names = {
+			"red_car",
+		},
+		codes = {
+			"🚗",
+		},
+	},
+	["red_circle"] = {
+		names = {
+			"red_circle",
+		},
+		codes = {
+			"🔴",
+		},
+	},
+	["regional_indicator_a"] = {
+		names = {
+			"regional_indicator_a",
+		},
+		codes = {
+			"🇦",
+		},
+	},
+	["regional_indicator_b"] = {
+		names = {
+			"regional_indicator_b",
+		},
+		codes = {
+			"🇧",
+		},
+	},
+	["regional_indicator_c"] = {
+		names = {
+			"regional_indicator_c",
+		},
+		codes = {
+			"🇨",
+		},
+	},
+	["regional_indicator_d"] = {
+		names = {
+			"regional_indicator_d",
+		},
+		codes = {
+			"🇩",
+		},
+	},
+	["regional_indicator_e"] = {
+		names = {
+			"regional_indicator_e",
+		},
+		codes = {
+			"🇪",
+		},
+	},
+	["regional_indicator_f"] = {
+		names = {
+			"regional_indicator_f",
+		},
+		codes = {
+			"🇫",
+		},
+	},
+	["regional_indicator_g"] = {
+		names = {
+			"regional_indicator_g",
+		},
+		codes = {
+			"🇬",
+		},
+	},
+	["regional_indicator_h"] = {
+		names = {
+			"regional_indicator_h",
+		},
+		codes = {
+			"🇭",
+		},
+	},
+	["regional_indicator_i"] = {
+		names = {
+			"regional_indicator_i",
+		},
+		codes = {
+			"🇮",
+		},
+	},
+	["regional_indicator_j"] = {
+		names = {
+			"regional_indicator_j",
+		},
+		codes = {
+			"🇯",
+		},
+	},
+	["regional_indicator_k"] = {
+		names = {
+			"regional_indicator_k",
+		},
+		codes = {
+			"🇰",
+		},
+	},
+	["regional_indicator_l"] = {
+		names = {
+			"regional_indicator_l",
+		},
+		codes = {
+			"🇱",
+		},
+	},
+	["regional_indicator_m"] = {
+		names = {
+			"regional_indicator_m",
+		},
+		codes = {
+			"🇲",
+		},
+	},
+	["regional_indicator_n"] = {
+		names = {
+			"regional_indicator_n",
+		},
+		codes = {
+			"🇳",
+		},
+	},
+	["regional_indicator_o"] = {
+		names = {
+			"regional_indicator_o",
+		},
+		codes = {
+			"🇴",
+		},
+	},
+	["regional_indicator_p"] = {
+		names = {
+			"regional_indicator_p",
+		},
+		codes = {
+			"🇵",
+		},
+	},
+	["regional_indicator_q"] = {
+		names = {
+			"regional_indicator_q",
+		},
+		codes = {
+			"🇶",
+		},
+	},
+	["regional_indicator_r"] = {
+		names = {
+			"regional_indicator_r",
+		},
+		codes = {
+			"🇷",
+		},
+	},
+	["regional_indicator_s"] = {
+		names = {
+			"regional_indicator_s",
+		},
+		codes = {
+			"🇸",
+		},
+	},
+	["regional_indicator_t"] = {
+		names = {
+			"regional_indicator_t",
+		},
+		codes = {
+			"🇹",
+		},
+	},
+	["regional_indicator_u"] = {
+		names = {
+			"regional_indicator_u",
+		},
+		codes = {
+			"🇺",
+		},
+	},
+	["regional_indicator_v"] = {
+		names = {
+			"regional_indicator_v",
+		},
+		codes = {
+			"🇻",
+		},
+	},
+	["regional_indicator_w"] = {
+		names = {
+			"regional_indicator_w",
+		},
+		codes = {
+			"🇼",
+		},
+	},
+	["regional_indicator_x"] = {
+		names = {
+			"regional_indicator_x",
+		},
+		codes = {
+			"🇽",
+		},
+	},
+	["regional_indicator_y"] = {
+		names = {
+			"regional_indicator_y",
+		},
+		codes = {
+			"🇾",
+		},
+	},
+	["regional_indicator_z"] = {
+		names = {
+			"regional_indicator_z",
+		},
+		codes = {
+			"🇿",
+		},
+	},
+	["registered"] = {
+		names = {
+			"registered",
+		},
+		codes = {
+			"®",
+		},
+	},
+	["relaxed"] = {
+		names = {
+			"relaxed",
+		},
+		codes = {
+			"☺️",
+			"☺",
+		},
+	},
+	["relieved"] = {
+		names = {
+			"relieved",
+		},
+		codes = {
+			"😌",
+		},
+	},
+	["reminder_ribbon"] = {
+		names = {
+			"reminder_ribbon",
+		},
+		codes = {
+			"🎗",
+		},
+	},
+	["repeat"] = {
+		names = {
+			"repeat",
+		},
+		codes = {
+			"🔁",
+		},
+	},
+	["repeat_one"] = {
+		names = {
+			"repeat_one",
+		},
+		codes = {
+			"🔂",
+		},
+	},
+	["restroom"] = {
+		names = {
+			"restroom",
+		},
+		codes = {
+			"🚻",
+		},
+	},
+	["revolving_hearts"] = {
+		names = {
+			"revolving_hearts",
+		},
+		codes = {
+			"💞",
+		},
+	},
+	["rewind"] = {
+		names = {
+			"rewind",
+		},
+		codes = {
+			"⏪",
+		},
+	},
+	["rhino"] = {
+		names = {
+			"rhino",
+		},
+		codes = {
+			"🦏",
+		},
+	},
+	["ribbon"] = {
+		names = {
+			"ribbon",
+		},
+		codes = {
+			"🎀",
+		},
+	},
+	["rice"] = {
+		names = {
+			"rice",
+		},
+		codes = {
+			"🍚",
+		},
+	},
+	["rice_ball"] = {
+		names = {
+			"rice_ball",
+		},
+		codes = {
+			"🍙",
+		},
+	},
+	["rice_cracker"] = {
+		names = {
+			"rice_cracker",
+		},
+		codes = {
+			"🍘",
+		},
+	},
+	["rice_scene"] = {
+		names = {
+			"rice_scene",
+		},
+		codes = {
+			"🎑",
+		},
+	},
+	["right_facing_fist"] = {
+		names = {
+			"right_facing_fist",
+		},
+		codes = {
+			"🤜",
+		},
+	},
+	["ring"] = {
+		names = {
+			"ring",
+		},
+		codes = {
+			"💍",
+		},
+	},
+	["robot"] = {
+		names = {
+			"robot",
+		},
+		codes = {
+			"🤖",
+		},
+	},
+	["rocket"] = {
+		names = {
+			"rocket",
+		},
+		codes = {
+			"🚀",
+		},
+	},
+	["rofl"] = {
+		names = {
+			"rofl",
+		},
+		codes = {
+			"🤣",
+		},
+	},
+	["roller_coaster"] = {
+		names = {
+			"roller_coaster",
+		},
+		codes = {
+			"🎢",
+		},
+	},
+	["rolling_eyes"] = {
+		names = {
+			"rolling_eyes",
+		},
+		codes = {
+			"🙄",
+		},
+	},
+	["rooster"] = {
+		names = {
+			"rooster",
+		},
+		codes = {
+			"🐓",
+		},
+	},
+	["rose"] = {
+		names = {
+			"rose",
+		},
+		codes = {
+			"🌹",
+		},
+	},
+	["rosette"] = {
+		names = {
+			"rosette",
+		},
+		codes = {
+			"🏵",
+		},
+	},
+	["rotating_light"] = {
+		names = {
+			"rotating_light",
+		},
+		codes = {
+			"🚨",
+		},
+	},
+	["round_pushpin"] = {
+		names = {
+			"round_pushpin",
+		},
+		codes = {
+			"📍",
+		},
+	},
+	["rowboat"] = {
+		names = {
+			"rowboat",
+		},
+		codes = {
+			"🚣",
+		},
+	},
+	["rugby_football"] = {
+		names = {
+			"rugby_football",
+		},
+		codes = {
+			"🏉",
+		},
+	},
+	["runner"] = {
+		names = {
+			"runner",
+		},
+		codes = {
+			"🏃",
+		},
+	},
+	["running_shirt_with_sash"] = {
+		names = {
+			"running_shirt_with_sash",
+		},
+		codes = {
+			"🎽",
+		},
+	},
+	["sa"] = {
+		names = {
+			"sa",
+		},
+		codes = {
+			"🈂",
+		},
+	},
+	["sagittarius"] = {
+		names = {
+			"sagittarius",
+		},
+		codes = {
+			"♐",
+		},
+	},
+	["sailboat"] = {
+		names = {
+			"sailboat",
+		},
+		codes = {
+			"⛵",
+		},
+	},
+	["sake"] = {
+		names = {
+			"sake",
+		},
+		codes = {
+			"🍶",
+		},
+	},
+	["salad"] = {
+		names = {
+			"salad",
+		},
+		codes = {
+			"🥗",
+		},
+	},
+	["sandal"] = {
+		names = {
+			"sandal",
+		},
+		codes = {
+			"👡",
+		},
+	},
+	["santa"] = {
+		names = {
+			"santa",
+		},
+		codes = {
+			"🎅",
+		},
+	},
+	["satellite"] = {
+		names = {
+			"satellite",
+		},
+		codes = {
+			"📡",
+		},
+	},
+	["satellite_orbital"] = {
+		names = {
+			"satellite_orbital",
+		},
+		codes = {
+			"🛰",
+		},
+	},
+	["saxophone"] = {
+		names = {
+			"saxophone",
+		},
+		codes = {
+			"🎷",
+		},
+	},
+	["scales"] = {
+		names = {
+			"scales",
+		},
+		codes = {
+			"⚖",
+		},
+	},
+	["school"] = {
+		names = {
+			"school",
+		},
+		codes = {
+			"🏫",
+		},
+	},
+	["school_satchel"] = {
+		names = {
+			"school_satchel",
+		},
+		codes = {
+			"🎒",
+		},
+	},
+	["scissors"] = {
+		names = {
+			"scissors",
+		},
+		codes = {
+			"✂",
+		},
+	},
+	["scooter"] = {
+		names = {
+			"scooter",
+		},
+		codes = {
+			"🛴",
+		},
+	},
+	["scorpion"] = {
+		names = {
+			"scorpion",
+		},
+		codes = {
+			"🦂",
+		},
+	},
+	["scorpius"] = {
+		names = {
+			"scorpius",
+		},
+		codes = {
+			"♏",
+		},
+	},
+	["scream"] = {
+		names = {
+			"scream",
+		},
+		codes = {
+			"😱",
+		},
+	},
+	["scream_cat"] = {
+		names = {
+			"scream_cat",
+		},
+		codes = {
+			"🙀",
+		},
+	},
+	["scroll"] = {
+		names = {
+			"scroll",
+		},
+		codes = {
+			"📜",
+		},
+	},
+	["seat"] = {
+		names = {
+			"seat",
+		},
+		codes = {
+			"💺",
+		},
+	},
+	["second_place"] = {
+		names = {
+			"second_place",
+		},
+		codes = {
+			"🥈",
+		},
+	},
+	["secret"] = {
+		names = {
+			"secret",
+		},
+		codes = {
+			"㊙",
+		},
+	},
+	["see_no_evil"] = {
+		names = {
+			"see_no_evil",
+		},
+		codes = {
+			"🙈",
+		},
+	},
+	["seedling"] = {
+		names = {
+			"seedling",
+		},
+		codes = {
+			"🌱",
+		},
+	},
+	["selfie"] = {
+		names = {
+			"selfie",
+		},
+		codes = {
+			"🤳",
+		},
+	},
+	["seven"] = {
+		names = {
+			"seven",
+		},
+		codes = {
+			"7️⃣",
+			"7⃣",
+		},
+	},
+	["shallow_pan_of_food"] = {
+		names = {
+			"shallow_pan_of_food",
+		},
+		codes = {
+			"🥘",
+		},
+	},
+	["shamrock"] = {
+		names = {
+			"shamrock",
+		},
+		codes = {
+			"☘",
+		},
+	},
+	["shark"] = {
+		names = {
+			"shark",
+		},
+		codes = {
+			"🦈",
+		},
+	},
+	["shaved_ice"] = {
+		names = {
+			"shaved_ice",
+		},
+		codes = {
+			"🍧",
+		},
+	},
+	["sheep"] = {
+		names = {
+			"sheep",
+		},
+		codes = {
+			"🐑",
+		},
+	},
+	["shell"] = {
+		names = {
+			"shell",
+		},
+		codes = {
+			"🐚",
+		},
+	},
+	["shield"] = {
+		names = {
+			"shield",
+		},
+		codes = {
+			"🛡",
+		},
+	},
+	["shinto_shrine"] = {
+		names = {
+			"shinto_shrine",
+		},
+		codes = {
+			"⛩",
+		},
+	},
+	["ship"] = {
+		names = {
+			"ship",
+		},
+		codes = {
+			"🚢",
+		},
+	},
+	["shirt"] = {
+		names = {
+			"shirt",
+		},
+		codes = {
+			"👕",
+		},
+	},
+	["shopping_bags"] = {
+		names = {
+			"shopping_bags",
+		},
+		codes = {
+			"🛍",
+		},
+	},
+	["shopping_cart"] = {
+		names = {
+			"shopping_cart",
+		},
+		codes = {
+			"🛒",
+		},
+	},
+	["shower"] = {
+		names = {
+			"shower",
+		},
+		codes = {
+			"🚿",
+		},
+	},
+	["shrimp"] = {
+		names = {
+			"shrimp",
+		},
+		codes = {
+			"🦐",
+		},
+	},
+	["shrug"] = {
+		names = {
+			"shrug",
+		},
+		codes = {
+			"🤷",
+		},
+	},
+	["signal_strength"] = {
+		names = {
+			"signal_strength",
+		},
+		codes = {
+			"📶",
+		},
+	},
+	["six"] = {
+		names = {
+			"six",
+		},
+		codes = {
+			"6️⃣",
+			"6⃣",
+		},
+	},
+	["six_pointed_star"] = {
+		names = {
+			"six_pointed_star",
+		},
+		codes = {
+			"🔯",
+		},
+	},
+	["ski"] = {
+		names = {
+			"ski",
+		},
+		codes = {
+			"🎿",
+		},
+	},
+	["skier"] = {
+		names = {
+			"skier",
+		},
+		codes = {
+			"⛷",
+		},
+	},
+	["skull"] = {
+		names = {
+			"skull",
+		},
+		codes = {
+			"💀",
+		},
+	},
+	["skull_crossbones"] = {
+		names = {
+			"skull_crossbones",
+		},
+		codes = {
+			"☠",
+		},
+	},
+	["sleeping"] = {
+		names = {
+			"sleeping",
+		},
+		codes = {
+			"😴",
+		},
+	},
+	["sleeping_accommodation"] = {
+		names = {
+			"sleeping_accommodation",
+		},
+		codes = {
+			"🛌",
+		},
+	},
+	["sleepy"] = {
+		names = {
+			"sleepy",
+		},
+		codes = {
+			"😪",
+		},
+	},
+	["slight_frown"] = {
+		names = {
+			"slight_frown",
+		},
+		codes = {
+			"🙁",
+		},
+	},
+	["slight_smile"] = {
+		names = {
+			"slight_smile",
+		},
+		codes = {
+			"🙂",
+		},
+	},
+	["slot_machine"] = {
+		names = {
+			"slot_machine",
+		},
+		codes = {
+			"🎰",
+		},
+	},
+	["small_blue_diamond"] = {
+		names = {
+			"small_blue_diamond",
+		},
+		codes = {
+			"🔹",
+		},
+	},
+	["small_orange_diamond"] = {
+		names = {
+			"small_orange_diamond",
+		},
+		codes = {
+			"🔸",
+		},
+	},
+	["small_red_triangle"] = {
+		names = {
+			"small_red_triangle",
+		},
+		codes = {
+			"🔺",
+		},
+	},
+	["small_red_triangle_down"] = {
+		names = {
+			"small_red_triangle_down",
+		},
+		codes = {
+			"🔻",
+		},
+	},
+	["smile"] = {
+		names = {
+			"smile",
+		},
+		codes = {
+			"😄",
+		},
+	},
+	["smile_cat"] = {
+		names = {
+			"smile_cat",
+		},
+		codes = {
+			"😸",
+		},
+	},
+	["smiley"] = {
+		names = {
+			"smiley",
+		},
+		codes = {
+			"😃",
+		},
+	},
+	["smiley_cat"] = {
+		names = {
+			"smiley_cat",
+		},
+		codes = {
+			"😺",
+		},
+	},
+	["smiling_imp"] = {
+		names = {
+			"smiling_imp",
+		},
+		codes = {
+			"😈",
+		},
+	},
+	["smirk"] = {
+		names = {
+			"smirk",
+		},
+		codes = {
+			"😏",
+		},
+	},
+	["smirk_cat"] = {
+		names = {
+			"smirk_cat",
+		},
+		codes = {
+			"😼",
+		},
+	},
+	["smoking"] = {
+		names = {
+			"smoking",
+		},
+		codes = {
+			"🚬",
+		},
+	},
+	["snail"] = {
+		names = {
+			"snail",
+		},
+		codes = {
+			"🐌",
+		},
+	},
+	["snake"] = {
+		names = {
+			"snake",
+		},
+		codes = {
+			"🐍",
+		},
+	},
+	["sneezing_face"] = {
+		names = {
+			"sneezing_face",
+		},
+		codes = {
+			"🤧",
+		},
+	},
+	["snowboarder"] = {
+		names = {
+			"snowboarder",
+		},
+		codes = {
+			"🏂",
+		},
+	},
+	["snowflake"] = {
+		names = {
+			"snowflake",
+		},
+		codes = {
+			"❄",
+		},
+	},
+	["snowman"] = {
+		names = {
+			"snowman",
+		},
+		codes = {
+			"⛄",
+		},
+	},
+	["snowman2"] = {
+		names = {
+			"snowman2",
+		},
+		codes = {
+			"☃",
+		},
+	},
+	["sob"] = {
+		names = {
+			"sob",
+		},
+		codes = {
+			"😭",
+		},
+	},
+	["soccer"] = {
+		names = {
+			"soccer",
+		},
+		codes = {
+			"⚽",
+		},
+	},
+	["soon"] = {
+		names = {
+			"soon",
+		},
+		codes = {
+			"🔜",
+		},
+	},
+	["sos"] = {
+		names = {
+			"sos",
+		},
+		codes = {
+			"🆘",
+		},
+	},
+	["sound"] = {
+		names = {
+			"sound",
+		},
+		codes = {
+			"🔉",
+		},
+	},
+	["space_invader"] = {
+		names = {
+			"space_invader",
+		},
+		codes = {
+			"👾",
+		},
+	},
+	["spades"] = {
+		names = {
+			"spades",
+		},
+		codes = {
+			"♠",
+		},
+	},
+	["spaghetti"] = {
+		names = {
+			"spaghetti",
+		},
+		codes = {
+			"🍝",
+		},
+	},
+	["sparkle"] = {
+		names = {
+			"sparkle",
+		},
+		codes = {
+			"❇",
+		},
+	},
+	["sparkler"] = {
+		names = {
+			"sparkler",
+		},
+		codes = {
+			"🎇",
+		},
+	},
+	["sparkles"] = {
+		names = {
+			"sparkles",
+		},
+		codes = {
+			"✨",
+		},
+	},
+	["sparkling_heart"] = {
+		names = {
+			"sparkling_heart",
+		},
+		codes = {
+			"💖",
+		},
+	},
+	["speak_no_evil"] = {
+		names = {
+			"speak_no_evil",
+		},
+		codes = {
+			"🙊",
+		},
+	},
+	["speaker"] = {
+		names = {
+			"speaker",
+		},
+		codes = {
+			"🔈",
+		},
+	},
+	["speaking_head"] = {
+		names = {
+			"speaking_head",
+		},
+		codes = {
+			"🗣️",
+			"🗣",
+		},
+	},
+	["speech_balloon"] = {
+		names = {
+			"speech_balloon",
+		},
+		codes = {
+			"💬",
+		},
+	},
+	["speech_left"] = {
+		names = {
+			"speech_left",
+		},
+		codes = {
+			"🗨",
+		},
+	},
+	["speedboat"] = {
+		names = {
+			"speedboat",
+		},
+		codes = {
+			"🚤",
+		},
+	},
+	["spider"] = {
+		names = {
+			"spider",
+		},
+		codes = {
+			"🕷",
+		},
+	},
+	["spider_web"] = {
+		names = {
+			"spider_web",
+		},
+		codes = {
+			"🕸",
+		},
+	},
+	["spoon"] = {
+		names = {
+			"spoon",
+		},
+		codes = {
+			"🥄",
+		},
+	},
+	["spy"] = {
+		names = {
+			"spy",
+		},
+		codes = {
+			"🕵",
+		},
+	},
+	["squid"] = {
+		names = {
+			"squid",
+		},
+		codes = {
+			"🦑",
+		},
+	},
+	["stadium"] = {
+		names = {
+			"stadium",
+		},
+		codes = {
+			"🏟",
+		},
+	},
+	["star"] = {
+		names = {
+			"star",
+		},
+		codes = {
+			"⭐",
+		},
+	},
+	["star2"] = {
+		names = {
+			"star2",
+		},
+		codes = {
+			"🌟",
+		},
+	},
+	["star_and_crescent"] = {
+		names = {
+			"star_and_crescent",
+		},
+		codes = {
+			"☪",
+		},
+	},
+	["star_of_david"] = {
+		names = {
+			"star_of_david",
+		},
+		codes = {
+			"✡",
+		},
+	},
+	["stars"] = {
+		names = {
+			"stars",
+		},
+		codes = {
+			"🌠",
+		},
+	},
+	["station"] = {
+		names = {
+			"station",
+		},
+		codes = {
+			"🚉",
+		},
+	},
+	["statue_of_liberty"] = {
+		names = {
+			"statue_of_liberty",
+		},
+		codes = {
+			"🗽",
+		},
+	},
+	["steam_locomotive"] = {
+		names = {
+			"steam_locomotive",
+		},
+		codes = {
+			"🚂",
+		},
+	},
+	["stew"] = {
+		names = {
+			"stew",
+		},
+		codes = {
+			"🍲",
+		},
+	},
+	["stop_button"] = {
+		names = {
+			"stop_button",
+		},
+		codes = {
+			"⏹",
+		},
+	},
+	["stopwatch"] = {
+		names = {
+			"stopwatch",
+		},
+		codes = {
+			"⏱",
+		},
+	},
+	["straight_ruler"] = {
+		names = {
+			"straight_ruler",
+		},
+		codes = {
+			"📏",
+		},
+	},
+	["strawberry"] = {
+		names = {
+			"strawberry",
+		},
+		codes = {
+			"🍓",
+		},
+	},
+	["stuck_out_tongue"] = {
+		names = {
+			"stuck_out_tongue",
+		},
+		codes = {
+			"😛",
+		},
+	},
+	["stuck_out_tongue_closed_eyes"] = {
+		names = {
+			"stuck_out_tongue_closed_eyes",
+		},
+		codes = {
+			"😝",
+		},
+	},
+	["stuck_out_tongue_winking_eye"] = {
+		names = {
+			"stuck_out_tongue_winking_eye",
+		},
+		codes = {
+			"😜",
+		},
+	},
+	["stuffed_flatbread"] = {
+		names = {
+			"stuffed_flatbread",
+		},
+		codes = {
+			"🥙",
+		},
+	},
+	["sun_with_face"] = {
+		names = {
+			"sun_with_face",
+		},
+		codes = {
+			"🌞",
+		},
+	},
+	["sunflower"] = {
+		names = {
+			"sunflower",
+		},
+		codes = {
+			"🌻",
+		},
+	},
+	["sunglasses"] = {
+		names = {
+			"sunglasses",
+		},
+		codes = {
+			"😎",
+		},
+	},
+	["sunny"] = {
+		names = {
+			"sunny",
+		},
+		codes = {
+			"☀",
+		},
+	},
+	["sunrise"] = {
+		names = {
+			"sunrise",
+		},
+		codes = {
+			"🌅",
+		},
+	},
+	["sunrise_over_mountains"] = {
+		names = {
+			"sunrise_over_mountains",
+		},
+		codes = {
+			"🌄",
+		},
+	},
+	["surfer"] = {
+		names = {
+			"surfer",
+		},
+		codes = {
+			"🏄",
+		},
+	},
+	["sushi"] = {
+		names = {
+			"sushi",
+		},
+		codes = {
+			"🍣",
+		},
+	},
+	["suspension_railway"] = {
+		names = {
+			"suspension_railway",
+		},
+		codes = {
+			"🚟",
+		},
+	},
+	["sweat"] = {
+		names = {
+			"sweat",
+		},
+		codes = {
+			"😓",
+		},
+	},
+	["sweat_drops"] = {
+		names = {
+			"sweat_drops",
+		},
+		codes = {
+			"💦",
+		},
+	},
+	["sweat_smile"] = {
+		names = {
+			"sweat_smile",
+		},
+		codes = {
+			"😅",
+		},
+	},
+	["sweet_potato"] = {
+		names = {
+			"sweet_potato",
+		},
+		codes = {
+			"🍠",
+		},
+	},
+	["swimmer"] = {
+		names = {
+			"swimmer",
+		},
+		codes = {
+			"🏊",
+		},
+	},
+	["symbols"] = {
+		names = {
+			"symbols",
+		},
+		codes = {
+			"🔣",
+		},
+	},
+	["synagogue"] = {
+		names = {
+			"synagogue",
+		},
+		codes = {
+			"🕍",
+		},
+	},
+	["syringe"] = {
+		names = {
+			"syringe",
+		},
+		codes = {
+			"💉",
+		},
+	},
+	["taco"] = {
+		names = {
+			"taco",
+		},
+		codes = {
+			"🌮",
+		},
+	},
+	["tada"] = {
+		names = {
+			"tada",
+		},
+		codes = {
+			"🎉",
+		},
+	},
+	["tanabata_tree"] = {
+		names = {
+			"tanabata_tree",
+		},
+		codes = {
+			"🎋",
+		},
+	},
+	["tangerine"] = {
+		names = {
+			"tangerine",
+		},
+		codes = {
+			"🍊",
+		},
+	},
+	["taurus"] = {
+		names = {
+			"taurus",
+		},
+		codes = {
+			"♉",
+		},
+	},
+	["taxi"] = {
+		names = {
+			"taxi",
+		},
+		codes = {
+			"🚕",
+		},
+	},
+	["tea"] = {
+		names = {
+			"tea",
+		},
+		codes = {
+			"🍵",
+		},
+	},
+	["telephone"] = {
+		names = {
+			"telephone",
+		},
+		codes = {
+			"☎",
+		},
+	},
+	["telephone_receiver"] = {
+		names = {
+			"telephone_receiver",
+		},
+		codes = {
+			"📞",
+		},
+	},
+	["telescope"] = {
+		names = {
+			"telescope",
+		},
+		codes = {
+			"🔭",
+		},
+	},
+	["tennis"] = {
+		names = {
+			"tennis",
+		},
+		codes = {
+			"🎾",
+		},
+	},
+	["tent"] = {
+		names = {
+			"tent",
+		},
+		codes = {
+			"⛺",
+		},
+	},
+	["thermometer"] = {
+		names = {
+			"thermometer",
+		},
+		codes = {
+			"🌡",
+		},
+	},
+	["thermometer_face"] = {
+		names = {
+			"thermometer_face",
+		},
+		codes = {
+			"🤒",
+		},
+	},
+	["thinking"] = {
+		names = {
+			"thinking",
+		},
+		codes = {
+			"🤔",
+		},
+	},
+	["third_place"] = {
+		names = {
+			"third_place",
+		},
+		codes = {
+			"🥉",
+		},
+	},
+	["thought_balloon"] = {
+		names = {
+			"thought_balloon",
+		},
+		codes = {
+			"💭",
+		},
+	},
+	["three"] = {
+		names = {
+			"three",
+		},
+		codes = {
+			"3️⃣",
+			"3⃣",
+		},
+	},
+	["thumbsdown"] = {
+		names = {
+			"thumbsdown",
+		},
+		codes = {
+			"👎",
+		},
+	},
+	["thumbsup"] = {
+		names = {
+			"thumbsup",
+		},
+		codes = {
+			"👍",
+		},
+	},
+	["thunder_cloud_rain"] = {
+		names = {
+			"thunder_cloud_rain",
+		},
+		codes = {
+			"⛈",
+		},
+	},
+	["ticket"] = {
+		names = {
+			"ticket",
+		},
+		codes = {
+			"🎫",
+		},
+	},
+	["tickets"] = {
+		names = {
+			"tickets",
+		},
+		codes = {
+			"🎟",
+		},
+	},
+	["tiger"] = {
+		names = {
+			"tiger",
+		},
+		codes = {
+			"🐯",
+		},
+	},
+	["tiger2"] = {
+		names = {
+			"tiger2",
+		},
+		codes = {
+			"🐅",
+		},
+	},
+	["timer"] = {
+		names = {
+			"timer",
+		},
+		codes = {
+			"⏲",
+		},
+	},
+	["tired_face"] = {
+		names = {
+			"tired_face",
+		},
+		codes = {
+			"😫",
+		},
+	},
+	["tm"] = {
+		names = {
+			"tm",
+		},
+		codes = {
+			"™",
+		},
+	},
+	["toilet"] = {
+		names = {
+			"toilet",
+		},
+		codes = {
+			"🚽",
+		},
+	},
+	["tokyo_tower"] = {
+		names = {
+			"tokyo_tower",
+		},
+		codes = {
+			"🗼",
+		},
+	},
+	["tomato"] = {
+		names = {
+			"tomato",
+		},
+		codes = {
+			"🍅",
+		},
+	},
+	["tongue"] = {
+		names = {
+			"tongue",
+		},
+		codes = {
+			"👅",
+		},
+	},
+	["tools"] = {
+		names = {
+			"tools",
+		},
+		codes = {
+			"🛠️",
+			"🛠",
+		},
+	},
+	["top"] = {
+		names = {
+			"top",
+		},
+		codes = {
+			"🔝",
+		},
+	},
+	["tophat"] = {
+		names = {
+			"tophat",
+		},
+		codes = {
+			"🎩",
+		},
+	},
+	["track_next"] = {
+		names = {
+			"track_next",
+		},
+		codes = {
+			"⏭",
+		},
+	},
+	["track_previous"] = {
+		names = {
+			"track_previous",
+		},
+		codes = {
+			"⏮",
+		},
+	},
+	["trackball"] = {
+		names = {
+			"trackball",
+		},
+		codes = {
+			"🖲",
+		},
+	},
+	["tractor"] = {
+		names = {
+			"tractor",
+		},
+		codes = {
+			"🚜",
+		},
+	},
+	["train"] = {
+		names = {
+			"train",
+		},
+		codes = {
+			"🚋",
+		},
+	},
+	["train2"] = {
+		names = {
+			"train2",
+		},
+		codes = {
+			"🚆",
+		},
+	},
+	["tram"] = {
+		names = {
+			"tram",
+		},
+		codes = {
+			"🚊",
+		},
+	},
+	["triangular_flag_on_post"] = {
+		names = {
+			"triangular_flag_on_post",
+		},
+		codes = {
+			"🚩",
+		},
+	},
+	["triangular_ruler"] = {
+		names = {
+			"triangular_ruler",
+		},
+		codes = {
+			"📐",
+		},
+	},
+	["trident"] = {
+		names = {
+			"trident",
+		},
+		codes = {
+			"🔱",
+		},
+	},
+	["triumph"] = {
+		names = {
+			"triumph",
+		},
+		codes = {
+			"😤",
+		},
+	},
+	["trolleybus"] = {
+		names = {
+			"trolleybus",
+		},
+		codes = {
+			"🚎",
+		},
+	},
+	["trophy"] = {
+		names = {
+			"trophy",
+		},
+		codes = {
+			"🏆",
+		},
+	},
+	["tropical_drink"] = {
+		names = {
+			"tropical_drink",
+		},
+		codes = {
+			"🍹",
+		},
+	},
+	["tropical_fish"] = {
+		names = {
+			"tropical_fish",
+		},
+		codes = {
+			"🐠",
+		},
+	},
+	["truck"] = {
+		names = {
+			"truck",
+		},
+		codes = {
+			"🚚",
+		},
+	},
+	["trumpet"] = {
+		names = {
+			"trumpet",
+		},
+		codes = {
+			"🎺",
+		},
+	},
+	["tulip"] = {
+		names = {
+			"tulip",
+		},
+		codes = {
+			"🌷",
+		},
+	},
+	["tumbler_glass"] = {
+		names = {
+			"tumbler_glass",
+		},
+		codes = {
+			"🥃",
+		},
+	},
+	["turkey"] = {
+		names = {
+			"turkey",
+		},
+		codes = {
+			"🦃",
+		},
+	},
+	["turtle"] = {
+		names = {
+			"turtle",
+		},
+		codes = {
+			"🐢",
+		},
+	},
+	["tv"] = {
+		names = {
+			"tv",
+		},
+		codes = {
+			"📺",
+		},
+	},
+	["twisted_rightwards_arrows"] = {
+		names = {
+			"twisted_rightwards_arrows",
+		},
+		codes = {
+			"🔀",
+		},
+	},
+	["two"] = {
+		names = {
+			"two",
+		},
+		codes = {
+			"2️⃣",
+			"2⃣",
+		},
+	},
+	["two_hearts"] = {
+		names = {
+			"two_hearts",
+		},
+		codes = {
+			"💕",
+		},
+	},
+	["two_men_holding_hands"] = {
+		names = {
+			"two_men_holding_hands",
+		},
+		codes = {
+			"👬",
+		},
+	},
+	["two_women_holding_hands"] = {
+		names = {
+			"two_women_holding_hands",
+		},
+		codes = {
+			"👭",
+		},
+	},
+	["u5272"] = {
+		names = {
+			"u5272",
+		},
+		codes = {
+			"🈹",
+		},
+	},
+	["u5408"] = {
+		names = {
+			"u5408",
+		},
+		codes = {
+			"🈴",
+		},
+	},
+	["u55b6"] = {
+		names = {
+			"u55b6",
+		},
+		codes = {
+			"🈺",
+		},
+	},
+	["u6307"] = {
+		names = {
+			"u6307",
+		},
+		codes = {
+			"🈯",
+		},
+	},
+	["u6708"] = {
+		names = {
+			"u6708",
+		},
+		codes = {
+			"🈷",
+		},
+	},
+	["u6709"] = {
+		names = {
+			"u6709",
+		},
+		codes = {
+			"🈶",
+		},
+	},
+	["u6e80"] = {
+		names = {
+			"u6e80",
+		},
+		codes = {
+			"🈵",
+		},
+	},
+	["u7121"] = {
+		names = {
+			"u7121",
+		},
+		codes = {
+			"🈚",
+		},
+	},
+	["u7533"] = {
+		names = {
+			"u7533",
+		},
+		codes = {
+			"🈸",
+		},
+	},
+	["u7981"] = {
+		names = {
+			"u7981",
+		},
+		codes = {
+			"🈲",
+		},
+	},
+	["u7a7a"] = {
+		names = {
+			"u7a7a",
+		},
+		codes = {
+			"🈳",
+		},
+	},
+	["umbrella"] = {
+		names = {
+			"umbrella",
+		},
+		codes = {
+			"☔",
+		},
+	},
+	["umbrella2"] = {
+		names = {
+			"umbrella2",
+		},
+		codes = {
+			"☂",
+		},
+	},
+	["unamused"] = {
+		names = {
+			"unamused",
+		},
+		codes = {
+			"😒",
+		},
+	},
+	["underage"] = {
+		names = {
+			"underage",
+		},
+		codes = {
+			"🔞",
+		},
+	},
+	["unicorn"] = {
+		names = {
+			"unicorn",
+		},
+		codes = {
+			"🦄",
+		},
+	},
+	["unlock"] = {
+		names = {
+			"unlock",
+		},
+		codes = {
+			"🔓",
+		},
+	},
+	["up"] = {
+		names = {
+			"up",
+		},
+		codes = {
+			"🆙",
+		},
+	},
+	["upside_down"] = {
+		names = {
+			"upside_down",
+		},
+		codes = {
+			"🙃",
+		},
+	},
+	["urn"] = {
+		names = {
+			"urn",
+		},
+		codes = {
+			"⚱",
+		},
+	},
+	["v"] = {
+		names = {
+			"v",
+		},
+		codes = {
+			"✌",
+		},
+	},
+	["vertical_traffic_light"] = {
+		names = {
+			"vertical_traffic_light",
+		},
+		codes = {
+			"🚦",
+		},
+	},
+	["vhs"] = {
+		names = {
+			"vhs",
+		},
+		codes = {
+			"📼",
+		},
+	},
+	["vibration_mode"] = {
+		names = {
+			"vibration_mode",
+		},
+		codes = {
+			"📳",
+		},
+	},
+	["video_camera"] = {
+		names = {
+			"video_camera",
+		},
+		codes = {
+			"📹",
+		},
+	},
+	["video_game"] = {
+		names = {
+			"video_game",
+		},
+		codes = {
+			"🎮",
+		},
+	},
+	["violin"] = {
+		names = {
+			"violin",
+		},
+		codes = {
+			"🎻",
+		},
+	},
+	["virgo"] = {
+		names = {
+			"virgo",
+		},
+		codes = {
+			"♍",
+		},
+	},
+	["volcano"] = {
+		names = {
+			"volcano",
+		},
+		codes = {
+			"🌋",
+		},
+	},
+	["volleyball"] = {
+		names = {
+			"volleyball",
+		},
+		codes = {
+			"🏐",
+		},
+	},
+	["vs"] = {
+		names = {
+			"vs",
+		},
+		codes = {
+			"🆚",
+		},
+	},
+	["vulcan"] = {
+		names = {
+			"vulcan",
+		},
+		codes = {
+			"🖖",
+		},
+	},
+	["walking"] = {
+		names = {
+			"walking",
+		},
+		codes = {
+			"🚶",
+		},
+	},
+	["waning_crescent_moon"] = {
+		names = {
+			"waning_crescent_moon",
+		},
+		codes = {
+			"🌘",
+		},
+	},
+	["waning_gibbous_moon"] = {
+		names = {
+			"waning_gibbous_moon",
+		},
+		codes = {
+			"🌖",
+		},
+	},
+	["warning"] = {
+		names = {
+			"warning",
+		},
+		codes = {
+			"⚠",
+		},
+	},
+	["wastebasket"] = {
+		names = {
+			"wastebasket",
+		},
+		codes = {
+			"🗑",
+		},
+	},
+	["watch"] = {
+		names = {
+			"watch",
+		},
+		codes = {
+			"⌚",
+		},
+	},
+	["water_buffalo"] = {
+		names = {
+			"water_buffalo",
+		},
+		codes = {
+			"🐃",
+		},
+	},
+	["water_polo"] = {
+		names = {
+			"water_polo",
+		},
+		codes = {
+			"🤽",
+		},
+	},
+	["watermelon"] = {
+		names = {
+			"watermelon",
+		},
+		codes = {
+			"🍉",
+		},
+	},
+	["wave"] = {
+		names = {
+			"wave",
+		},
+		codes = {
+			"👋",
+		},
+	},
+	["wavy_dash"] = {
+		names = {
+			"wavy_dash",
+		},
+		codes = {
+			"〰",
+		},
+	},
+	["waxing_crescent_moon"] = {
+		names = {
+			"waxing_crescent_moon",
+		},
+		codes = {
+			"🌒",
+		},
+	},
+	["waxing_gibbous_moon"] = {
+		names = {
+			"waxing_gibbous_moon",
+		},
+		codes = {
+			"🌔",
+		},
+	},
+	["wc"] = {
+		names = {
+			"wc",
+		},
+		codes = {
+			"🚾",
+		},
+	},
+	["weary"] = {
+		names = {
+			"weary",
+		},
+		codes = {
+			"😩",
+		},
+	},
+	["wedding"] = {
+		names = {
+			"wedding",
+		},
+		codes = {
+			"💒",
+		},
+	},
+	["whale"] = {
+		names = {
+			"whale",
+		},
+		codes = {
+			"🐳",
+		},
+	},
+	["whale2"] = {
+		names = {
+			"whale2",
+		},
+		codes = {
+			"🐋",
+		},
+	},
+	["wheel_of_dharma"] = {
+		names = {
+			"wheel_of_dharma",
+		},
+		codes = {
+			"☸",
+		},
+	},
+	["wheelchair"] = {
+		names = {
+			"wheelchair",
+		},
+		codes = {
+			"♿",
+		},
+	},
+	["white_check_mark"] = {
+		names = {
+			"white_check_mark",
+		},
+		codes = {
+			"✅",
+		},
+	},
+	["white_circle"] = {
+		names = {
+			"white_circle",
+		},
+		codes = {
+			"⚪",
+		},
+	},
+	["white_flower"] = {
+		names = {
+			"white_flower",
+		},
+		codes = {
+			"💮",
+		},
+	},
+	["white_large_square"] = {
+		names = {
+			"white_large_square",
+		},
+		codes = {
+			"⬜",
+		},
+	},
+	["white_medium_small_square"] = {
+		names = {
+			"white_medium_small_square",
+		},
+		codes = {
+			"◽",
+		},
+	},
+	["white_medium_square"] = {
+		names = {
+			"white_medium_square",
+		},
+		codes = {
+			"◻",
+		},
+	},
+	["white_small_square"] = {
+		names = {
+			"white_small_square",
+		},
+		codes = {
+			"▫",
+		},
+	},
+	["white_square_button"] = {
+		names = {
+			"white_square_button",
+		},
+		codes = {
+			"🔳",
+		},
+	},
+	["white_sun_cloud"] = {
+		names = {
+			"white_sun_cloud",
+		},
+		codes = {
+			"🌥",
+		},
+	},
+	["white_sun_rain_cloud"] = {
+		names = {
+			"white_sun_rain_cloud",
+		},
+		codes = {
+			"🌦",
+		},
+	},
+	["white_sun_small_cloud"] = {
+		names = {
+			"white_sun_small_cloud",
+		},
+		codes = {
+			"🌤",
+		},
+	},
+	["wilted_rose"] = {
+		names = {
+			"wilted_rose",
+		},
+		codes = {
+			"🥀",
+		},
+	},
+	["wind_blowing_face"] = {
+		names = {
+			"wind_blowing_face",
+		},
+		codes = {
+			"🌬",
+		},
+	},
+	["wind_chime"] = {
+		names = {
+			"wind_chime",
+		},
+		codes = {
+			"🎐",
+		},
+	},
+	["wine_glass"] = {
+		names = {
+			"wine_glass",
+		},
+		codes = {
+			"🍷",
+		},
+	},
+	["wink"] = {
+		names = {
+			"wink",
+		},
+		codes = {
+			"😉",
+		},
+	},
+	["wolf"] = {
+		names = {
+			"wolf",
+		},
+		codes = {
+			"🐺",
+		},
+	},
+	["woman"] = {
+		names = {
+			"woman",
+		},
+		codes = {
+			"👩",
+		},
+	},
+	["womans_clothes"] = {
+		names = {
+			"womans_clothes",
+		},
+		codes = {
+			"👚",
+		},
+	},
+	["womans_hat"] = {
+		names = {
+			"womans_hat",
+		},
+		codes = {
+			"👒",
+		},
+	},
+	["womens"] = {
+		names = {
+			"womens",
+		},
+		codes = {
+			"🚺",
+		},
+	},
+	["worried"] = {
+		names = {
+			"worried",
+		},
+		codes = {
+			"😟",
+		},
+	},
+	["wrestlers"] = {
+		names = {
+			"wrestlers",
+		},
+		codes = {
+			"🤼",
+		},
+	},
+	["writing_hand"] = {
+		names = {
+			"writing_hand",
+		},
+		codes = {
+			"✍",
+		},
+	},
+	["x"] = {
+		names = {
+			"x",
+		},
+		codes = {
+			"❌",
+		},
+	},
+	["yellow_heart"] = {
+		names = {
+			"yellow_heart",
+		},
+		codes = {
+			"💛",
+		},
+	},
+	["yen"] = {
+		names = {
+			"yen",
+		},
+		codes = {
+			"💴",
+		},
+	},
+	["yin_yang"] = {
+		names = {
+			"yin_yang",
+		},
+		codes = {
+			"☯",
+		},
+	},
+	["yum"] = {
+		names = {
+			"yum",
+		},
+		codes = {
+			"😋",
+		},
+	},
+	["zap"] = {
+		names = {
+			"zap",
+		},
+		codes = {
+			"⚡",
+		},
+	},
+	["zero"] = {
+		names = {
+			"zero",
+		},
+		codes = {
+			"0️⃣",
+			"0⃣",
+		},
+	},
+	["zipper_mouth"] = {
+		names = {
+			"zipper_mouth",
+		},
+		codes = {
+			"🤐",
+		},
+	},
+	["zzz"] = {
+		names = {
+			"zzz",
+		},
+		codes = {
+			"💤",
+		},
+	},
+
 }
