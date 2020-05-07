@@ -4,7 +4,7 @@ return {
 			"100",
 		},
 		codes = {
-			"💯",
+			"\xF0\x9F\x92\xAF", -- 💯
 		},
 	},
 	["1234"] = {
@@ -12,7 +12,7 @@ return {
 			"1234",
 		},
 		codes = {
-			"🔢",
+			"\xF0\x9F\x94\xA2", -- 🔢
 		},
 	},
 	["8ball"] = {
@@ -20,7 +20,7 @@ return {
 			"8ball",
 		},
 		codes = {
-			"🎱",
+			"\xF0\x9F\x8E\xB1", -- 🎱
 		},
 	},
 	["a"] = {
@@ -28,7 +28,7 @@ return {
 			"a",
 		},
 		codes = {
-			"🅰",
+			"\xF0\x9F\x85\xB0", -- 🅰
 		},
 	},
 	["ab"] = {
@@ -36,7 +36,7 @@ return {
 			"ab",
 		},
 		codes = {
-			"🆎",
+			"\xF0\x9F\x86\x8E", -- 🆎
 		},
 	},
 	["abc"] = {
@@ -44,7 +44,7 @@ return {
 			"abc",
 		},
 		codes = {
-			"🔤",
+			"\xF0\x9F\x94\xA4", -- 🔤
 		},
 	},
 	["abcd"] = {
@@ -52,7 +52,7 @@ return {
 			"abcd",
 		},
 		codes = {
-			"🔡",
+			"\xF0\x9F\x94\xA1", -- 🔡
 		},
 	},
 	["aerial_tramway"] = {
@@ -60,7 +60,7 @@ return {
 			"aerial_tramway",
 		},
 		codes = {
-			"🚡",
+			"\xF0\x9F\x9A\xA1", -- 🚡
 		},
 	},
 	["airplane"] = {
@@ -68,7 +68,7 @@ return {
 			"airplane",
 		},
 		codes = {
-			"✈",
+			"\xE2\x9C\x88", -- ✈
 		},
 	},
 	["airplane_arriving"] = {
@@ -76,7 +76,7 @@ return {
 			"airplane_arriving",
 		},
 		codes = {
-			"🛬",
+			"\xF0\x9F\x9B\xAC", -- 🛬
 		},
 	},
 	["airplane_departure"] = {
@@ -84,7 +84,7 @@ return {
 			"airplane_departure",
 		},
 		codes = {
-			"🛫",
+			"\xF0\x9F\x9B\xAB", -- 🛫
 		},
 	},
 	["airplane_small"] = {
@@ -92,7 +92,7 @@ return {
 			"airplane_small",
 		},
 		codes = {
-			"🛩",
+			"\xF0\x9F\x9B\xA9", -- 🛩
 		},
 	},
 	["alarm_clock"] = {
@@ -100,7 +100,7 @@ return {
 			"alarm_clock",
 		},
 		codes = {
-			"⏰",
+			"\xE2\x8F\xB0", -- ⏰
 		},
 	},
 	["alembic"] = {
@@ -108,7 +108,7 @@ return {
 			"alembic",
 		},
 		codes = {
-			"⚗",
+			"\xE2\x9A\x97", -- ⚗
 		},
 	},
 	["alien"] = {
@@ -116,7 +116,7 @@ return {
 			"alien",
 		},
 		codes = {
-			"👽",
+			"\xF0\x9F\x91\xBD", -- 👽
 		},
 	},
 	["ambulance"] = {
@@ -124,7 +124,7 @@ return {
 			"ambulance",
 		},
 		codes = {
-			"🚑",
+			"\xF0\x9F\x9A\x91", -- 🚑
 		},
 	},
 	["amphora"] = {
@@ -132,7 +132,7 @@ return {
 			"amphora",
 		},
 		codes = {
-			"🏺",
+			"\xF0\x9F\x8F\xBA", -- 🏺
 		},
 	},
 	["anchor"] = {
@@ -140,7 +140,7 @@ return {
 			"anchor",
 		},
 		codes = {
-			"⚓",
+			"\xE2\x9A\x93", -- ⚓
 		},
 	},
 	["angel"] = {
@@ -148,7 +148,7 @@ return {
 			"angel",
 		},
 		codes = {
-			"👼",
+			"\xF0\x9F\x91\xBC", -- 👼
 		},
 	},
 	["anger"] = {
@@ -156,7 +156,7 @@ return {
 			"anger",
 		},
 		codes = {
-			"💢",
+			"\xF0\x9F\x92\xA2", -- 💢
 		},
 	},
 	["anger_right"] = {
@@ -164,7 +164,7 @@ return {
 			"anger_right",
 		},
 		codes = {
-			"🗯",
+			"\xF0\x9F\x97\xAF", -- 🗯
 		},
 	},
 	["angry"] = {
@@ -172,7 +172,7 @@ return {
 			"angry",
 		},
 		codes = {
-			"😠",
+			"\xF0\x9F\x98\xA0", -- 😠
 		},
 	},
 	["anguished"] = {
@@ -180,7 +180,7 @@ return {
 			"anguished",
 		},
 		codes = {
-			"😧",
+			"\xF0\x9F\x98\xA7", -- 😧
 		},
 	},
 	["ant"] = {
@@ -188,7 +188,7 @@ return {
 			"ant",
 		},
 		codes = {
-			"🐜",
+			"\xF0\x9F\x90\x9C", -- 🐜
 		},
 	},
 	["apple"] = {
@@ -196,7 +196,7 @@ return {
 			"apple",
 		},
 		codes = {
-			"🍎",
+			"\xF0\x9F\x8D\x8E", -- 🍎
 		},
 	},
 	["aquarius"] = {
@@ -204,7 +204,7 @@ return {
 			"aquarius",
 		},
 		codes = {
-			"♒",
+			"\xE2\x99\x92", -- ♒
 		},
 	},
 	["aries"] = {
@@ -212,7 +212,7 @@ return {
 			"aries",
 		},
 		codes = {
-			"♈",
+			"\xE2\x99\x88", -- ♈
 		},
 	},
 	["arrow_backward"] = {
@@ -220,7 +220,7 @@ return {
 			"arrow_backward",
 		},
 		codes = {
-			"◀",
+			"\xE2\x97\x80", -- ◀
 		},
 	},
 	["arrow_double_down"] = {
@@ -228,7 +228,7 @@ return {
 			"arrow_double_down",
 		},
 		codes = {
-			"⏬",
+			"\xE2\x8F\xAC", -- ⏬
 		},
 	},
 	["arrow_double_up"] = {
@@ -236,7 +236,7 @@ return {
 			"arrow_double_up",
 		},
 		codes = {
-			"⏫",
+			"\xE2\x8F\xAB", -- ⏫
 		},
 	},
 	["arrow_down"] = {
@@ -244,7 +244,7 @@ return {
 			"arrow_down",
 		},
 		codes = {
-			"⬇",
+			"\xE2\xAC\x87", -- ⬇
 		},
 	},
 	["arrow_down_small"] = {
@@ -252,7 +252,7 @@ return {
 			"arrow_down_small",
 		},
 		codes = {
-			"🔽",
+			"\xF0\x9F\x94\xBD", -- 🔽
 		},
 	},
 	["arrow_forward"] = {
@@ -260,7 +260,7 @@ return {
 			"arrow_forward",
 		},
 		codes = {
-			"▶",
+			"\xE2\x96\xB6", -- ▶
 		},
 	},
 	["arrow_heading_down"] = {
@@ -268,7 +268,7 @@ return {
 			"arrow_heading_down",
 		},
 		codes = {
-			"⤵",
+			"\xE2\xA4\xB5", -- ⤵
 		},
 	},
 	["arrow_heading_up"] = {
@@ -276,7 +276,7 @@ return {
 			"arrow_heading_up",
 		},
 		codes = {
-			"⤴",
+			"\xE2\xA4\xB4", -- ⤴
 		},
 	},
 	["arrow_left"] = {
@@ -284,7 +284,7 @@ return {
 			"arrow_left",
 		},
 		codes = {
-			"⬅",
+			"\xE2\xAC\x85", -- ⬅
 		},
 	},
 	["arrow_lower_left"] = {
@@ -292,7 +292,7 @@ return {
 			"arrow_lower_left",
 		},
 		codes = {
-			"↙",
+			"\xE2\x86\x99", -- ↙
 		},
 	},
 	["arrow_lower_right"] = {
@@ -300,7 +300,7 @@ return {
 			"arrow_lower_right",
 		},
 		codes = {
-			"↘",
+			"\xE2\x86\x98", -- ↘
 		},
 	},
 	["arrow_right"] = {
@@ -308,7 +308,7 @@ return {
 			"arrow_right",
 		},
 		codes = {
-			"➡",
+			"\xE2\x9E\xA1", -- ➡
 		},
 	},
 	["arrow_right_hook"] = {
@@ -316,7 +316,7 @@ return {
 			"arrow_right_hook",
 		},
 		codes = {
-			"↪",
+			"\xE2\x86\xAA", -- ↪
 		},
 	},
 	["arrow_up"] = {
@@ -324,7 +324,7 @@ return {
 			"arrow_up",
 		},
 		codes = {
-			"⬆",
+			"\xE2\xAC\x86", -- ⬆
 		},
 	},
 	["arrow_up_down"] = {
@@ -332,7 +332,7 @@ return {
 			"arrow_up_down",
 		},
 		codes = {
-			"↕",
+			"\xE2\x86\x95", -- ↕
 		},
 	},
 	["arrow_up_small"] = {
@@ -340,7 +340,7 @@ return {
 			"arrow_up_small",
 		},
 		codes = {
-			"🔼",
+			"\xF0\x9F\x94\xBC", -- 🔼
 		},
 	},
 	["arrow_upper_left"] = {
@@ -348,7 +348,7 @@ return {
 			"arrow_upper_left",
 		},
 		codes = {
-			"↖",
+			"\xE2\x86\x96", -- ↖
 		},
 	},
 	["arrow_upper_right"] = {
@@ -356,7 +356,7 @@ return {
 			"arrow_upper_right",
 		},
 		codes = {
-			"↗",
+			"\xE2\x86\x97", -- ↗
 		},
 	},
 	["arrows_clockwise"] = {
@@ -364,7 +364,7 @@ return {
 			"arrows_clockwise",
 		},
 		codes = {
-			"🔃",
+			"\xF0\x9F\x94\x83", -- 🔃
 		},
 	},
 	["arrows_counterclockwise"] = {
@@ -372,7 +372,7 @@ return {
 			"arrows_counterclockwise",
 		},
 		codes = {
-			"🔄",
+			"\xF0\x9F\x94\x84", -- 🔄
 		},
 	},
 	["art"] = {
@@ -380,7 +380,7 @@ return {
 			"art",
 		},
 		codes = {
-			"🎨",
+			"\xF0\x9F\x8E\xA8", -- 🎨
 		},
 	},
 	["articulated_lorry"] = {
@@ -388,7 +388,7 @@ return {
 			"articulated_lorry",
 		},
 		codes = {
-			"🚛",
+			"\xF0\x9F\x9A\x9B", -- 🚛
 		},
 	},
 	["asterisk"] = {
@@ -396,7 +396,7 @@ return {
 			"asterisk",
 		},
 		codes = {
-			"*⃣",
+			"\x2A\xE2\x83\xA3", -- *⃣
 		},
 	},
 	["astonished"] = {
@@ -404,7 +404,7 @@ return {
 			"astonished",
 		},
 		codes = {
-			"😲",
+			"\xF0\x9F\x98\xB2", -- 😲
 		},
 	},
 	["athletic_shoe"] = {
@@ -412,7 +412,7 @@ return {
 			"athletic_shoe",
 		},
 		codes = {
-			"👟",
+			"\xF0\x9F\x91\x9F", -- 👟
 		},
 	},
 	["atm"] = {
@@ -420,7 +420,7 @@ return {
 			"atm",
 		},
 		codes = {
-			"🏧",
+			"\xF0\x9F\x8F\xA7", -- 🏧
 		},
 	},
 	["atom"] = {
@@ -428,7 +428,7 @@ return {
 			"atom",
 		},
 		codes = {
-			"⚛",
+			"\xE2\x9A\x9B", -- ⚛
 		},
 	},
 	["avocado"] = {
@@ -436,7 +436,7 @@ return {
 			"avocado",
 		},
 		codes = {
-			"🥑",
+			"\xF0\x9F\xA5\x91", -- 🥑
 		},
 	},
 	["b"] = {
@@ -444,7 +444,7 @@ return {
 			"b",
 		},
 		codes = {
-			"🅱",
+			"\xF0\x9F\x85\xB1", -- 🅱
 		},
 	},
 	["baby"] = {
@@ -452,7 +452,7 @@ return {
 			"baby",
 		},
 		codes = {
-			"👶",
+			"\xF0\x9F\x91\xB6", -- 👶
 		},
 	},
 	["baby_bottle"] = {
@@ -460,7 +460,7 @@ return {
 			"baby_bottle",
 		},
 		codes = {
-			"🍼",
+			"\xF0\x9F\x8D\xBC", -- 🍼
 		},
 	},
 	["baby_chick"] = {
@@ -468,7 +468,7 @@ return {
 			"baby_chick",
 		},
 		codes = {
-			"🐤",
+			"\xF0\x9F\x90\xA4", -- 🐤
 		},
 	},
 	["baby_symbol"] = {
@@ -476,7 +476,7 @@ return {
 			"baby_symbol",
 		},
 		codes = {
-			"🚼",
+			"\xF0\x9F\x9A\xBC", -- 🚼
 		},
 	},
 	["back"] = {
@@ -484,7 +484,7 @@ return {
 			"back",
 		},
 		codes = {
-			"🔙",
+			"\xF0\x9F\x94\x99", -- 🔙
 		},
 	},
 	["bacon"] = {
@@ -492,7 +492,7 @@ return {
 			"bacon",
 		},
 		codes = {
-			"🥓",
+			"\xF0\x9F\xA5\x93", -- 🥓
 		},
 	},
 	["badminton"] = {
@@ -500,7 +500,7 @@ return {
 			"badminton",
 		},
 		codes = {
-			"🏸",
+			"\xF0\x9F\x8F\xB8", -- 🏸
 		},
 	},
 	["baggage_claim"] = {
@@ -508,7 +508,7 @@ return {
 			"baggage_claim",
 		},
 		codes = {
-			"🛄",
+			"\xF0\x9F\x9B\x84", -- 🛄
 		},
 	},
 	["balloon"] = {
@@ -516,7 +516,7 @@ return {
 			"balloon",
 		},
 		codes = {
-			"🎈",
+			"\xF0\x9F\x8E\x88", -- 🎈
 		},
 	},
 	["ballot_box"] = {
@@ -524,7 +524,7 @@ return {
 			"ballot_box",
 		},
 		codes = {
-			"🗳",
+			"\xF0\x9F\x97\xB3", -- 🗳
 		},
 	},
 	["ballot_box_with_check"] = {
@@ -532,7 +532,7 @@ return {
 			"ballot_box_with_check",
 		},
 		codes = {
-			"☑",
+			"\xE2\x98\x91", -- ☑
 		},
 	},
 	["bamboo"] = {
@@ -540,7 +540,7 @@ return {
 			"bamboo",
 		},
 		codes = {
-			"🎍",
+			"\xF0\x9F\x8E\x8D", -- 🎍
 		},
 	},
 	["banana"] = {
@@ -548,7 +548,7 @@ return {
 			"banana",
 		},
 		codes = {
-			"🍌",
+			"\xF0\x9F\x8D\x8C", -- 🍌
 		},
 	},
 	["bangbang"] = {
@@ -556,7 +556,7 @@ return {
 			"bangbang",
 		},
 		codes = {
-			"‼",
+			"\xE2\x80\xBC", -- ‼
 		},
 	},
 	["bank"] = {
@@ -564,7 +564,7 @@ return {
 			"bank",
 		},
 		codes = {
-			"🏦",
+			"\xF0\x9F\x8F\xA6", -- 🏦
 		},
 	},
 	["bar_chart"] = {
@@ -572,7 +572,7 @@ return {
 			"bar_chart",
 		},
 		codes = {
-			"📊",
+			"\xF0\x9F\x93\x8A", -- 📊
 		},
 	},
 	["barber"] = {
@@ -580,7 +580,7 @@ return {
 			"barber",
 		},
 		codes = {
-			"💈",
+			"\xF0\x9F\x92\x88", -- 💈
 		},
 	},
 	["baseball"] = {
@@ -588,7 +588,7 @@ return {
 			"baseball",
 		},
 		codes = {
-			"⚾",
+			"\xE2\x9A\xBE", -- ⚾
 		},
 	},
 	["basketball"] = {
@@ -596,7 +596,7 @@ return {
 			"basketball",
 		},
 		codes = {
-			"🏀",
+			"\xF0\x9F\x8F\x80", -- 🏀
 		},
 	},
 	["basketball_player"] = {
@@ -604,7 +604,7 @@ return {
 			"basketball_player",
 		},
 		codes = {
-			"⛹",
+			"\xE2\x9B\xB9", -- ⛹
 		},
 	},
 	["bat"] = {
@@ -612,7 +612,7 @@ return {
 			"bat",
 		},
 		codes = {
-			"🦇",
+			"\xF0\x9F\xA6\x87", -- 🦇
 		},
 	},
 	["bath"] = {
@@ -620,7 +620,7 @@ return {
 			"bath",
 		},
 		codes = {
-			"🛀",
+			"\xF0\x9F\x9B\x80", -- 🛀
 		},
 	},
 	["bathtub"] = {
@@ -628,7 +628,7 @@ return {
 			"bathtub",
 		},
 		codes = {
-			"🛁",
+			"\xF0\x9F\x9B\x81", -- 🛁
 		},
 	},
 	["battery"] = {
@@ -636,7 +636,7 @@ return {
 			"battery",
 		},
 		codes = {
-			"🔋",
+			"\xF0\x9F\x94\x8B", -- 🔋
 		},
 	},
 	["beach"] = {
@@ -644,7 +644,7 @@ return {
 			"beach",
 		},
 		codes = {
-			"🏖",
+			"\xF0\x9F\x8F\x96", -- 🏖
 		},
 	},
 	["beach_umbrella"] = {
@@ -652,7 +652,7 @@ return {
 			"beach_umbrella",
 		},
 		codes = {
-			"⛱",
+			"\xE2\x9B\xB1", -- ⛱
 		},
 	},
 	["bear"] = {
@@ -660,7 +660,7 @@ return {
 			"bear",
 		},
 		codes = {
-			"🐻",
+			"\xF0\x9F\x90\xBB", -- 🐻
 		},
 	},
 	["bed"] = {
@@ -668,7 +668,7 @@ return {
 			"bed",
 		},
 		codes = {
-			"🛏",
+			"\xF0\x9F\x9B\x8F", -- 🛏
 		},
 	},
 	["bee"] = {
@@ -676,7 +676,7 @@ return {
 			"bee",
 		},
 		codes = {
-			"🐝",
+			"\xF0\x9F\x90\x9D", -- 🐝
 		},
 	},
 	["beer"] = {
@@ -684,7 +684,7 @@ return {
 			"beer",
 		},
 		codes = {
-			"🍺",
+			"\xF0\x9F\x8D\xBA", -- 🍺
 		},
 	},
 	["beers"] = {
@@ -692,7 +692,7 @@ return {
 			"beers",
 		},
 		codes = {
-			"🍻",
+			"\xF0\x9F\x8D\xBB", -- 🍻
 		},
 	},
 	["beetle"] = {
@@ -700,7 +700,7 @@ return {
 			"beetle",
 		},
 		codes = {
-			"🐞",
+			"\xF0\x9F\x90\x9E", -- 🐞
 		},
 	},
 	["beginner"] = {
@@ -708,7 +708,7 @@ return {
 			"beginner",
 		},
 		codes = {
-			"🔰",
+			"\xF0\x9F\x94\xB0", -- 🔰
 		},
 	},
 	["bell"] = {
@@ -716,7 +716,7 @@ return {
 			"bell",
 		},
 		codes = {
-			"🔔",
+			"\xF0\x9F\x94\x94", -- 🔔
 		},
 	},
 	["bellhop"] = {
@@ -724,7 +724,7 @@ return {
 			"bellhop",
 		},
 		codes = {
-			"🛎",
+			"\xF0\x9F\x9B\x8E", -- 🛎
 		},
 	},
 	["bento"] = {
@@ -732,7 +732,7 @@ return {
 			"bento",
 		},
 		codes = {
-			"🍱",
+			"\xF0\x9F\x8D\xB1", -- 🍱
 		},
 	},
 	["bicyclist"] = {
@@ -740,7 +740,7 @@ return {
 			"bicyclist",
 		},
 		codes = {
-			"🚴",
+			"\xF0\x9F\x9A\xB4", -- 🚴
 		},
 	},
 	["bike"] = {
@@ -748,7 +748,7 @@ return {
 			"bike",
 		},
 		codes = {
-			"🚲",
+			"\xF0\x9F\x9A\xB2", -- 🚲
 		},
 	},
 	["bikini"] = {
@@ -756,7 +756,7 @@ return {
 			"bikini",
 		},
 		codes = {
-			"👙",
+			"\xF0\x9F\x91\x99", -- 👙
 		},
 	},
 	["biohazard"] = {
@@ -764,7 +764,7 @@ return {
 			"biohazard",
 		},
 		codes = {
-			"☣",
+			"\xE2\x98\xA3", -- ☣
 		},
 	},
 	["bird"] = {
@@ -772,7 +772,7 @@ return {
 			"bird",
 		},
 		codes = {
-			"🐦",
+			"\xF0\x9F\x90\xA6", -- 🐦
 		},
 	},
 	["birthday"] = {
@@ -780,7 +780,7 @@ return {
 			"birthday",
 		},
 		codes = {
-			"🎂",
+			"\xF0\x9F\x8E\x82", -- 🎂
 		},
 	},
 	["black_circle"] = {
@@ -788,7 +788,7 @@ return {
 			"black_circle",
 		},
 		codes = {
-			"⚫",
+			"\xE2\x9A\xAB", -- ⚫
 		},
 	},
 	["black_heart"] = {
@@ -796,7 +796,7 @@ return {
 			"black_heart",
 		},
 		codes = {
-			"🖤",
+			"\xF0\x9F\x96\xA4", -- 🖤
 		},
 	},
 	["black_joker"] = {
@@ -804,7 +804,7 @@ return {
 			"black_joker",
 		},
 		codes = {
-			"🃏",
+			"\xF0\x9F\x83\x8F", -- 🃏
 		},
 	},
 	["black_large_square"] = {
@@ -812,7 +812,7 @@ return {
 			"black_large_square",
 		},
 		codes = {
-			"⬛",
+			"\xE2\xAC\x9B", -- ⬛
 		},
 	},
 	["black_medium_small_square"] = {
@@ -820,7 +820,7 @@ return {
 			"black_medium_small_square",
 		},
 		codes = {
-			"◾",
+			"\xE2\x97\xBE", -- ◾
 		},
 	},
 	["black_medium_square"] = {
@@ -828,7 +828,7 @@ return {
 			"black_medium_square",
 		},
 		codes = {
-			"◼",
+			"\xE2\x97\xBC", -- ◼
 		},
 	},
 	["black_nib"] = {
@@ -836,7 +836,7 @@ return {
 			"black_nib",
 		},
 		codes = {
-			"✒",
+			"\xE2\x9C\x92", -- ✒
 		},
 	},
 	["black_small_square"] = {
@@ -844,7 +844,7 @@ return {
 			"black_small_square",
 		},
 		codes = {
-			"▪",
+			"\xE2\x96\xAA", -- ▪
 		},
 	},
 	["black_square_button"] = {
@@ -852,7 +852,7 @@ return {
 			"black_square_button",
 		},
 		codes = {
-			"🔲",
+			"\xF0\x9F\x94\xB2", -- 🔲
 		},
 	},
 	["blossom"] = {
@@ -860,7 +860,7 @@ return {
 			"blossom",
 		},
 		codes = {
-			"🌼",
+			"\xF0\x9F\x8C\xBC", -- 🌼
 		},
 	},
 	["blowfish"] = {
@@ -868,7 +868,7 @@ return {
 			"blowfish",
 		},
 		codes = {
-			"🐡",
+			"\xF0\x9F\x90\xA1", -- 🐡
 		},
 	},
 	["blue_book"] = {
@@ -876,7 +876,7 @@ return {
 			"blue_book",
 		},
 		codes = {
-			"📘",
+			"\xF0\x9F\x93\x98", -- 📘
 		},
 	},
 	["blue_car"] = {
@@ -884,7 +884,7 @@ return {
 			"blue_car",
 		},
 		codes = {
-			"🚙",
+			"\xF0\x9F\x9A\x99", -- 🚙
 		},
 	},
 	["blue_heart"] = {
@@ -892,7 +892,7 @@ return {
 			"blue_heart",
 		},
 		codes = {
-			"💙",
+			"\xF0\x9F\x92\x99", -- 💙
 		},
 	},
 	["blush"] = {
@@ -900,7 +900,7 @@ return {
 			"blush",
 		},
 		codes = {
-			"😊",
+			"\xF0\x9F\x98\x8A", -- 😊
 		},
 	},
 	["boar"] = {
@@ -908,7 +908,7 @@ return {
 			"boar",
 		},
 		codes = {
-			"🐗",
+			"\xF0\x9F\x90\x97", -- 🐗
 		},
 	},
 	["bomb"] = {
@@ -916,7 +916,7 @@ return {
 			"bomb",
 		},
 		codes = {
-			"💣",
+			"\xF0\x9F\x92\xA3", -- 💣
 		},
 	},
 	["book"] = {
@@ -924,7 +924,7 @@ return {
 			"book",
 		},
 		codes = {
-			"📖",
+			"\xF0\x9F\x93\x96", -- 📖
 		},
 	},
 	["bookmark"] = {
@@ -932,7 +932,7 @@ return {
 			"bookmark",
 		},
 		codes = {
-			"🔖",
+			"\xF0\x9F\x94\x96", -- 🔖
 		},
 	},
 	["bookmark_tabs"] = {
@@ -940,7 +940,7 @@ return {
 			"bookmark_tabs",
 		},
 		codes = {
-			"📑",
+			"\xF0\x9F\x93\x91", -- 📑
 		},
 	},
 	["books"] = {
@@ -948,7 +948,7 @@ return {
 			"books",
 		},
 		codes = {
-			"📚",
+			"\xF0\x9F\x93\x9A", -- 📚
 		},
 	},
 	["boom"] = {
@@ -956,7 +956,7 @@ return {
 			"boom",
 		},
 		codes = {
-			"💥",
+			"\xF0\x9F\x92\xA5", -- 💥
 		},
 	},
 	["boot"] = {
@@ -964,7 +964,7 @@ return {
 			"boot",
 		},
 		codes = {
-			"👢",
+			"\xF0\x9F\x91\xA2", -- 👢
 		},
 	},
 	["bouquet"] = {
@@ -972,7 +972,7 @@ return {
 			"bouquet",
 		},
 		codes = {
-			"💐",
+			"\xF0\x9F\x92\x90", -- 💐
 		},
 	},
 	["bow"] = {
@@ -980,7 +980,7 @@ return {
 			"bow",
 		},
 		codes = {
-			"🙇",
+			"\xF0\x9F\x99\x87", -- 🙇
 		},
 	},
 	["bow_and_arrow"] = {
@@ -988,7 +988,7 @@ return {
 			"bow_and_arrow",
 		},
 		codes = {
-			"🏹",
+			"\xF0\x9F\x8F\xB9", -- 🏹
 		},
 	},
 	["bowling"] = {
@@ -996,7 +996,7 @@ return {
 			"bowling",
 		},
 		codes = {
-			"🎳",
+			"\xF0\x9F\x8E\xB3", -- 🎳
 		},
 	},
 	["boxing_glove"] = {
@@ -1004,7 +1004,7 @@ return {
 			"boxing_glove",
 		},
 		codes = {
-			"🥊",
+			"\xF0\x9F\xA5\x8A", -- 🥊
 		},
 	},
 	["boy"] = {
@@ -1012,7 +1012,7 @@ return {
 			"boy",
 		},
 		codes = {
-			"👦",
+			"\xF0\x9F\x91\xA6", -- 👦
 		},
 	},
 	["bread"] = {
@@ -1020,7 +1020,7 @@ return {
 			"bread",
 		},
 		codes = {
-			"🍞",
+			"\xF0\x9F\x8D\x9E", -- 🍞
 		},
 	},
 	["bride_with_veil"] = {
@@ -1028,7 +1028,7 @@ return {
 			"bride_with_veil",
 		},
 		codes = {
-			"👰",
+			"\xF0\x9F\x91\xB0", -- 👰
 		},
 	},
 	["bridge_at_night"] = {
@@ -1036,7 +1036,7 @@ return {
 			"bridge_at_night",
 		},
 		codes = {
-			"🌉",
+			"\xF0\x9F\x8C\x89", -- 🌉
 		},
 	},
 	["briefcase"] = {
@@ -1044,7 +1044,7 @@ return {
 			"briefcase",
 		},
 		codes = {
-			"💼",
+			"\xF0\x9F\x92\xBC", -- 💼
 		},
 	},
 	["broken_heart"] = {
@@ -1052,7 +1052,7 @@ return {
 			"broken_heart",
 		},
 		codes = {
-			"💔",
+			"\xF0\x9F\x92\x94", -- 💔
 		},
 	},
 	["bug"] = {
@@ -1060,7 +1060,7 @@ return {
 			"bug",
 		},
 		codes = {
-			"🐛",
+			"\xF0\x9F\x90\x9B", -- 🐛
 		},
 	},
 	["bulb"] = {
@@ -1068,7 +1068,7 @@ return {
 			"bulb",
 		},
 		codes = {
-			"💡",
+			"\xF0\x9F\x92\xA1", -- 💡
 		},
 	},
 	["bullettrain_front"] = {
@@ -1076,7 +1076,7 @@ return {
 			"bullettrain_front",
 		},
 		codes = {
-			"🚅",
+			"\xF0\x9F\x9A\x85", -- 🚅
 		},
 	},
 	["bullettrain_side"] = {
@@ -1084,7 +1084,7 @@ return {
 			"bullettrain_side",
 		},
 		codes = {
-			"🚄",
+			"\xF0\x9F\x9A\x84", -- 🚄
 		},
 	},
 	["burrito"] = {
@@ -1092,7 +1092,7 @@ return {
 			"burrito",
 		},
 		codes = {
-			"🌯",
+			"\xF0\x9F\x8C\xAF", -- 🌯
 		},
 	},
 	["bus"] = {
@@ -1100,7 +1100,7 @@ return {
 			"bus",
 		},
 		codes = {
-			"🚌",
+			"\xF0\x9F\x9A\x8C", -- 🚌
 		},
 	},
 	["busstop"] = {
@@ -1108,7 +1108,7 @@ return {
 			"busstop",
 		},
 		codes = {
-			"🚏",
+			"\xF0\x9F\x9A\x8F", -- 🚏
 		},
 	},
 	["bust_in_silhouette"] = {
@@ -1116,7 +1116,7 @@ return {
 			"bust_in_silhouette",
 		},
 		codes = {
-			"👤",
+			"\xF0\x9F\x91\xA4", -- 👤
 		},
 	},
 	["busts_in_silhouette"] = {
@@ -1124,7 +1124,7 @@ return {
 			"busts_in_silhouette",
 		},
 		codes = {
-			"👥",
+			"\xF0\x9F\x91\xA5", -- 👥
 		},
 	},
 	["butterfly"] = {
@@ -1132,7 +1132,7 @@ return {
 			"butterfly",
 		},
 		codes = {
-			"🦋",
+			"\xF0\x9F\xA6\x8B", -- 🦋
 		},
 	},
 	["cactus"] = {
@@ -1140,7 +1140,7 @@ return {
 			"cactus",
 		},
 		codes = {
-			"🌵",
+			"\xF0\x9F\x8C\xB5", -- 🌵
 		},
 	},
 	["cake"] = {
@@ -1148,7 +1148,7 @@ return {
 			"cake",
 		},
 		codes = {
-			"🍰",
+			"\xF0\x9F\x8D\xB0", -- 🍰
 		},
 	},
 	["calendar"] = {
@@ -1156,7 +1156,7 @@ return {
 			"calendar",
 		},
 		codes = {
-			"📆",
+			"\xF0\x9F\x93\x86", -- 📆
 		},
 	},
 	["calendar_spiral"] = {
@@ -1164,7 +1164,7 @@ return {
 			"calendar_spiral",
 		},
 		codes = {
-			"🗓",
+			"\xF0\x9F\x97\x93", -- 🗓
 		},
 	},
 	["call_me"] = {
@@ -1172,7 +1172,7 @@ return {
 			"call_me",
 		},
 		codes = {
-			"🤙",
+			"\xF0\x9F\xA4\x99", -- 🤙
 		},
 	},
 	["calling"] = {
@@ -1180,7 +1180,7 @@ return {
 			"calling",
 		},
 		codes = {
-			"📲",
+			"\xF0\x9F\x93\xB2", -- 📲
 		},
 	},
 	["camel"] = {
@@ -1188,7 +1188,7 @@ return {
 			"camel",
 		},
 		codes = {
-			"🐫",
+			"\xF0\x9F\x90\xAB", -- 🐫
 		},
 	},
 	["camera"] = {
@@ -1196,7 +1196,7 @@ return {
 			"camera",
 		},
 		codes = {
-			"📷",
+			"\xF0\x9F\x93\xB7", -- 📷
 		},
 	},
 	["camera_with_flash"] = {
@@ -1204,7 +1204,7 @@ return {
 			"camera_with_flash",
 		},
 		codes = {
-			"📸",
+			"\xF0\x9F\x93\xB8", -- 📸
 		},
 	},
 	["camping"] = {
@@ -1212,7 +1212,7 @@ return {
 			"camping",
 		},
 		codes = {
-			"🏕",
+			"\xF0\x9F\x8F\x95", -- 🏕
 		},
 	},
 	["cancer"] = {
@@ -1220,7 +1220,7 @@ return {
 			"cancer",
 		},
 		codes = {
-			"♋",
+			"\xE2\x99\x8B", -- ♋
 		},
 	},
 	["candle"] = {
@@ -1228,7 +1228,7 @@ return {
 			"candle",
 		},
 		codes = {
-			"🕯",
+			"\xF0\x9F\x95\xAF", -- 🕯
 		},
 	},
 	["candy"] = {
@@ -1236,7 +1236,7 @@ return {
 			"candy",
 		},
 		codes = {
-			"🍬",
+			"\xF0\x9F\x8D\xAC", -- 🍬
 		},
 	},
 	["canoe"] = {
@@ -1244,7 +1244,7 @@ return {
 			"canoe",
 		},
 		codes = {
-			"🛶",
+			"\xF0\x9F\x9B\xB6", -- 🛶
 		},
 	},
 	["capital_abcd"] = {
@@ -1252,7 +1252,7 @@ return {
 			"capital_abcd",
 		},
 		codes = {
-			"🔠",
+			"\xF0\x9F\x94\xA0", -- 🔠
 		},
 	},
 	["capricorn"] = {
@@ -1260,7 +1260,7 @@ return {
 			"capricorn",
 		},
 		codes = {
-			"♑",
+			"\xE2\x99\x91", -- ♑
 		},
 	},
 	["card_box"] = {
@@ -1268,7 +1268,7 @@ return {
 			"card_box",
 		},
 		codes = {
-			"🗃",
+			"\xF0\x9F\x97\x83", -- 🗃
 		},
 	},
 	["card_index"] = {
@@ -1276,7 +1276,7 @@ return {
 			"card_index",
 		},
 		codes = {
-			"📇",
+			"\xF0\x9F\x93\x87", -- 📇
 		},
 	},
 	["carousel_horse"] = {
@@ -1284,7 +1284,7 @@ return {
 			"carousel_horse",
 		},
 		codes = {
-			"🎠",
+			"\xF0\x9F\x8E\xA0", -- 🎠
 		},
 	},
 	["carrot"] = {
@@ -1292,7 +1292,7 @@ return {
 			"carrot",
 		},
 		codes = {
-			"🥕",
+			"\xF0\x9F\xA5\x95", -- 🥕
 		},
 	},
 	["cartwheel"] = {
@@ -1300,7 +1300,7 @@ return {
 			"cartwheel",
 		},
 		codes = {
-			"🤸",
+			"\xF0\x9F\xA4\xB8", -- 🤸
 		},
 	},
 	["cat"] = {
@@ -1308,7 +1308,7 @@ return {
 			"cat",
 		},
 		codes = {
-			"🐱",
+			"\xF0\x9F\x90\xB1", -- 🐱
 		},
 	},
 	["cat2"] = {
@@ -1316,7 +1316,7 @@ return {
 			"cat2",
 		},
 		codes = {
-			"🐈",
+			"\xF0\x9F\x90\x88", -- 🐈
 		},
 	},
 	["cd"] = {
@@ -1324,7 +1324,7 @@ return {
 			"cd",
 		},
 		codes = {
-			"💿",
+			"\xF0\x9F\x92\xBF", -- 💿
 		},
 	},
 	["chains"] = {
@@ -1332,7 +1332,7 @@ return {
 			"chains",
 		},
 		codes = {
-			"⛓",
+			"\xE2\x9B\x93", -- ⛓
 		},
 	},
 	["champagne"] = {
@@ -1340,7 +1340,7 @@ return {
 			"champagne",
 		},
 		codes = {
-			"🍾",
+			"\xF0\x9F\x8D\xBE", -- 🍾
 		},
 	},
 	["champagne_glass"] = {
@@ -1348,7 +1348,7 @@ return {
 			"champagne_glass",
 		},
 		codes = {
-			"🥂",
+			"\xF0\x9F\xA5\x82", -- 🥂
 		},
 	},
 	["chart"] = {
@@ -1356,7 +1356,7 @@ return {
 			"chart",
 		},
 		codes = {
-			"💹",
+			"\xF0\x9F\x92\xB9", -- 💹
 		},
 	},
 	["chart_with_downwards_trend"] = {
@@ -1364,7 +1364,7 @@ return {
 			"chart_with_downwards_trend",
 		},
 		codes = {
-			"📉",
+			"\xF0\x9F\x93\x89", -- 📉
 		},
 	},
 	["chart_with_upwards_trend"] = {
@@ -1372,7 +1372,7 @@ return {
 			"chart_with_upwards_trend",
 		},
 		codes = {
-			"📈",
+			"\xF0\x9F\x93\x88", -- 📈
 		},
 	},
 	["checkered_flag"] = {
@@ -1380,7 +1380,7 @@ return {
 			"checkered_flag",
 		},
 		codes = {
-			"🏁",
+			"\xF0\x9F\x8F\x81", -- 🏁
 		},
 	},
 	["cheese"] = {
@@ -1388,7 +1388,7 @@ return {
 			"cheese",
 		},
 		codes = {
-			"🧀",
+			"\xF0\x9F\xA7\x80", -- 🧀
 		},
 	},
 	["cherries"] = {
@@ -1396,7 +1396,7 @@ return {
 			"cherries",
 		},
 		codes = {
-			"🍒",
+			"\xF0\x9F\x8D\x92", -- 🍒
 		},
 	},
 	["cherry_blossom"] = {
@@ -1404,7 +1404,7 @@ return {
 			"cherry_blossom",
 		},
 		codes = {
-			"🌸",
+			"\xF0\x9F\x8C\xB8", -- 🌸
 		},
 	},
 	["chestnut"] = {
@@ -1412,7 +1412,7 @@ return {
 			"chestnut",
 		},
 		codes = {
-			"🌰",
+			"\xF0\x9F\x8C\xB0", -- 🌰
 		},
 	},
 	["chicken"] = {
@@ -1420,7 +1420,7 @@ return {
 			"chicken",
 		},
 		codes = {
-			"🐔",
+			"\xF0\x9F\x90\x94", -- 🐔
 		},
 	},
 	["child"] = {
@@ -1428,7 +1428,7 @@ return {
 			"child",
 		},
 		codes = {
-			"🧒",
+			"\xF0\x9F\xA7\x92", -- 🧒
 		},
 	},
 	["children_crossing"] = {
@@ -1436,7 +1436,7 @@ return {
 			"children_crossing",
 		},
 		codes = {
-			"🚸",
+			"\xF0\x9F\x9A\xB8", -- 🚸
 		},
 	},
 	["chipmunk"] = {
@@ -1444,7 +1444,7 @@ return {
 			"chipmunk",
 		},
 		codes = {
-			"🐿",
+			"\xF0\x9F\x90\xBF", -- 🐿
 		},
 	},
 	["chocolate_bar"] = {
@@ -1452,7 +1452,7 @@ return {
 			"chocolate_bar",
 		},
 		codes = {
-			"🍫",
+			"\xF0\x9F\x8D\xAB", -- 🍫
 		},
 	},
 	["christmas_tree"] = {
@@ -1460,7 +1460,7 @@ return {
 			"christmas_tree",
 		},
 		codes = {
-			"🎄",
+			"\xF0\x9F\x8E\x84", -- 🎄
 		},
 	},
 	["church"] = {
@@ -1468,7 +1468,7 @@ return {
 			"church",
 		},
 		codes = {
-			"⛪",
+			"\xE2\x9B\xAA", -- ⛪
 		},
 	},
 	["cinema"] = {
@@ -1476,7 +1476,7 @@ return {
 			"cinema",
 		},
 		codes = {
-			"🎦",
+			"\xF0\x9F\x8E\xA6", -- 🎦
 		},
 	},
 	["circus_tent"] = {
@@ -1484,7 +1484,7 @@ return {
 			"circus_tent",
 		},
 		codes = {
-			"🎪",
+			"\xF0\x9F\x8E\xAA", -- 🎪
 		},
 	},
 	["city_dusk"] = {
@@ -1492,7 +1492,7 @@ return {
 			"city_dusk",
 		},
 		codes = {
-			"🌆",
+			"\xF0\x9F\x8C\x86", -- 🌆
 		},
 	},
 	["city_sunset"] = {
@@ -1500,7 +1500,7 @@ return {
 			"city_sunset",
 		},
 		codes = {
-			"🌇",
+			"\xF0\x9F\x8C\x87", -- 🌇
 		},
 	},
 	["cityscape"] = {
@@ -1508,7 +1508,7 @@ return {
 			"cityscape",
 		},
 		codes = {
-			"🏙",
+			"\xF0\x9F\x8F\x99", -- 🏙
 		},
 	},
 	["cl"] = {
@@ -1516,7 +1516,7 @@ return {
 			"cl",
 		},
 		codes = {
-			"🆑",
+			"\xF0\x9F\x86\x91", -- 🆑
 		},
 	},
 	["clap"] = {
@@ -1524,7 +1524,7 @@ return {
 			"clap",
 		},
 		codes = {
-			"👏",
+			"\xF0\x9F\x91\x8F", -- 👏
 		},
 	},
 	["clapper"] = {
@@ -1532,7 +1532,7 @@ return {
 			"clapper",
 		},
 		codes = {
-			"🎬",
+			"\xF0\x9F\x8E\xAC", -- 🎬
 		},
 	},
 	["classical_building"] = {
@@ -1540,8 +1540,8 @@ return {
 			"classical_building",
 		},
 		codes = {
-			"🏛️",
-			"🏛",
+			"\xF0\x9F\x8F\x9B\xEF\xB8\x8F", -- 🏛️
+			"\xF0\x9F\x8F\x9B", -- 🏛
 		},
 	},
 	["clipboard"] = {
@@ -1549,7 +1549,7 @@ return {
 			"clipboard",
 		},
 		codes = {
-			"📋",
+			"\xF0\x9F\x93\x8B", -- 📋
 		},
 	},
 	["clock"] = {
@@ -1557,7 +1557,7 @@ return {
 			"clock",
 		},
 		codes = {
-			"🕰",
+			"\xF0\x9F\x95\xB0", -- 🕰
 		},
 	},
 	["clock1"] = {
@@ -1565,7 +1565,7 @@ return {
 			"clock1",
 		},
 		codes = {
-			"🕐",
+			"\xF0\x9F\x95\x90", -- 🕐
 		},
 	},
 	["clock10"] = {
@@ -1573,7 +1573,7 @@ return {
 			"clock10",
 		},
 		codes = {
-			"🕙",
+			"\xF0\x9F\x95\x99", -- 🕙
 		},
 	},
 	["clock1030"] = {
@@ -1581,7 +1581,7 @@ return {
 			"clock1030",
 		},
 		codes = {
-			"🕥",
+			"\xF0\x9F\x95\xA5", -- 🕥
 		},
 	},
 	["clock11"] = {
@@ -1589,7 +1589,7 @@ return {
 			"clock11",
 		},
 		codes = {
-			"🕚",
+			"\xF0\x9F\x95\x9A", -- 🕚
 		},
 	},
 	["clock1130"] = {
@@ -1597,7 +1597,7 @@ return {
 			"clock1130",
 		},
 		codes = {
-			"🕦",
+			"\xF0\x9F\x95\xA6", -- 🕦
 		},
 	},
 	["clock12"] = {
@@ -1605,7 +1605,7 @@ return {
 			"clock12",
 		},
 		codes = {
-			"🕛",
+			"\xF0\x9F\x95\x9B", -- 🕛
 		},
 	},
 	["clock1230"] = {
@@ -1613,7 +1613,7 @@ return {
 			"clock1230",
 		},
 		codes = {
-			"🕧",
+			"\xF0\x9F\x95\xA7", -- 🕧
 		},
 	},
 	["clock130"] = {
@@ -1621,7 +1621,7 @@ return {
 			"clock130",
 		},
 		codes = {
-			"🕜",
+			"\xF0\x9F\x95\x9C", -- 🕜
 		},
 	},
 	["clock2"] = {
@@ -1629,7 +1629,7 @@ return {
 			"clock2",
 		},
 		codes = {
-			"🕑",
+			"\xF0\x9F\x95\x91", -- 🕑
 		},
 	},
 	["clock230"] = {
@@ -1637,7 +1637,7 @@ return {
 			"clock230",
 		},
 		codes = {
-			"🕝",
+			"\xF0\x9F\x95\x9D", -- 🕝
 		},
 	},
 	["clock3"] = {
@@ -1645,7 +1645,7 @@ return {
 			"clock3",
 		},
 		codes = {
-			"🕒",
+			"\xF0\x9F\x95\x92", -- 🕒
 		},
 	},
 	["clock330"] = {
@@ -1653,7 +1653,7 @@ return {
 			"clock330",
 		},
 		codes = {
-			"🕞",
+			"\xF0\x9F\x95\x9E", -- 🕞
 		},
 	},
 	["clock4"] = {
@@ -1661,7 +1661,7 @@ return {
 			"clock4",
 		},
 		codes = {
-			"🕓",
+			"\xF0\x9F\x95\x93", -- 🕓
 		},
 	},
 	["clock430"] = {
@@ -1669,7 +1669,7 @@ return {
 			"clock430",
 		},
 		codes = {
-			"🕟",
+			"\xF0\x9F\x95\x9F", -- 🕟
 		},
 	},
 	["clock5"] = {
@@ -1677,7 +1677,7 @@ return {
 			"clock5",
 		},
 		codes = {
-			"🕔",
+			"\xF0\x9F\x95\x94", -- 🕔
 		},
 	},
 	["clock530"] = {
@@ -1685,7 +1685,7 @@ return {
 			"clock530",
 		},
 		codes = {
-			"🕠",
+			"\xF0\x9F\x95\xA0", -- 🕠
 		},
 	},
 	["clock6"] = {
@@ -1693,7 +1693,7 @@ return {
 			"clock6",
 		},
 		codes = {
-			"🕕",
+			"\xF0\x9F\x95\x95", -- 🕕
 		},
 	},
 	["clock630"] = {
@@ -1701,7 +1701,7 @@ return {
 			"clock630",
 		},
 		codes = {
-			"🕡",
+			"\xF0\x9F\x95\xA1", -- 🕡
 		},
 	},
 	["clock7"] = {
@@ -1709,7 +1709,7 @@ return {
 			"clock7",
 		},
 		codes = {
-			"🕖",
+			"\xF0\x9F\x95\x96", -- 🕖
 		},
 	},
 	["clock730"] = {
@@ -1717,7 +1717,7 @@ return {
 			"clock730",
 		},
 		codes = {
-			"🕢",
+			"\xF0\x9F\x95\xA2", -- 🕢
 		},
 	},
 	["clock8"] = {
@@ -1725,7 +1725,7 @@ return {
 			"clock8",
 		},
 		codes = {
-			"🕗",
+			"\xF0\x9F\x95\x97", -- 🕗
 		},
 	},
 	["clock830"] = {
@@ -1733,7 +1733,7 @@ return {
 			"clock830",
 		},
 		codes = {
-			"🕣",
+			"\xF0\x9F\x95\xA3", -- 🕣
 		},
 	},
 	["clock9"] = {
@@ -1741,7 +1741,7 @@ return {
 			"clock9",
 		},
 		codes = {
-			"🕘",
+			"\xF0\x9F\x95\x98", -- 🕘
 		},
 	},
 	["clock930"] = {
@@ -1749,7 +1749,7 @@ return {
 			"clock930",
 		},
 		codes = {
-			"🕤",
+			"\xF0\x9F\x95\xA4", -- 🕤
 		},
 	},
 	["closed_book"] = {
@@ -1757,7 +1757,7 @@ return {
 			"closed_book",
 		},
 		codes = {
-			"📕",
+			"\xF0\x9F\x93\x95", -- 📕
 		},
 	},
 	["closed_lock_with_key"] = {
@@ -1765,7 +1765,7 @@ return {
 			"closed_lock_with_key",
 		},
 		codes = {
-			"🔐",
+			"\xF0\x9F\x94\x90", -- 🔐
 		},
 	},
 	["closed_umbrella"] = {
@@ -1773,7 +1773,7 @@ return {
 			"closed_umbrella",
 		},
 		codes = {
-			"🌂",
+			"\xF0\x9F\x8C\x82", -- 🌂
 		},
 	},
 	["cloud"] = {
@@ -1781,7 +1781,7 @@ return {
 			"cloud",
 		},
 		codes = {
-			"☁",
+			"\xE2\x98\x81", -- ☁
 		},
 	},
 	["cloud_lightning"] = {
@@ -1789,7 +1789,7 @@ return {
 			"cloud_lightning",
 		},
 		codes = {
-			"🌩",
+			"\xF0\x9F\x8C\xA9", -- 🌩
 		},
 	},
 	["cloud_rain"] = {
@@ -1797,7 +1797,7 @@ return {
 			"cloud_rain",
 		},
 		codes = {
-			"🌧",
+			"\xF0\x9F\x8C\xA7", -- 🌧
 		},
 	},
 	["cloud_snow"] = {
@@ -1805,7 +1805,7 @@ return {
 			"cloud_snow",
 		},
 		codes = {
-			"🌨",
+			"\xF0\x9F\x8C\xA8", -- 🌨
 		},
 	},
 	["cloud_tornado"] = {
@@ -1813,7 +1813,7 @@ return {
 			"cloud_tornado",
 		},
 		codes = {
-			"🌪",
+			"\xF0\x9F\x8C\xAA", -- 🌪
 		},
 	},
 	["clown"] = {
@@ -1821,7 +1821,7 @@ return {
 			"clown",
 		},
 		codes = {
-			"🤡",
+			"\xF0\x9F\xA4\xA1", -- 🤡
 		},
 	},
 	["clubs"] = {
@@ -1829,7 +1829,7 @@ return {
 			"clubs",
 		},
 		codes = {
-			"♣",
+			"\xE2\x99\xA3", -- ♣
 		},
 	},
 	["cocktail"] = {
@@ -1837,7 +1837,7 @@ return {
 			"cocktail",
 		},
 		codes = {
-			"🍸",
+			"\xF0\x9F\x8D\xB8", -- 🍸
 		},
 	},
 	["coffee"] = {
@@ -1845,7 +1845,7 @@ return {
 			"coffee",
 		},
 		codes = {
-			"☕",
+			"\xE2\x98\x95", -- ☕
 		},
 	},
 	["coffin"] = {
@@ -1853,7 +1853,7 @@ return {
 			"coffin",
 		},
 		codes = {
-			"⚰",
+			"\xE2\x9A\xB0", -- ⚰
 		},
 	},
 	["cold_sweat"] = {
@@ -1861,7 +1861,7 @@ return {
 			"cold_sweat",
 		},
 		codes = {
-			"😰",
+			"\xF0\x9F\x98\xB0", -- 😰
 		},
 	},
 	["comet"] = {
@@ -1869,7 +1869,7 @@ return {
 			"comet",
 		},
 		codes = {
-			"☄",
+			"\xE2\x98\x84", -- ☄
 		},
 	},
 	["compression"] = {
@@ -1877,7 +1877,7 @@ return {
 			"compression",
 		},
 		codes = {
-			"🗜",
+			"\xF0\x9F\x97\x9C", -- 🗜
 		},
 	},
 	["computer"] = {
@@ -1885,7 +1885,7 @@ return {
 			"computer",
 		},
 		codes = {
-			"💻",
+			"\xF0\x9F\x92\xBB", -- 💻
 		},
 	},
 	["confetti_ball"] = {
@@ -1893,7 +1893,7 @@ return {
 			"confetti_ball",
 		},
 		codes = {
-			"🎊",
+			"\xF0\x9F\x8E\x8A", -- 🎊
 		},
 	},
 	["confounded"] = {
@@ -1901,7 +1901,7 @@ return {
 			"confounded",
 		},
 		codes = {
-			"😖",
+			"\xF0\x9F\x98\x96", -- 😖
 		},
 	},
 	["confused"] = {
@@ -1909,7 +1909,7 @@ return {
 			"confused",
 		},
 		codes = {
-			"😕",
+			"\xF0\x9F\x98\x95", -- 😕
 		},
 	},
 	["congratulations"] = {
@@ -1917,7 +1917,7 @@ return {
 			"congratulations",
 		},
 		codes = {
-			"㊗",
+			"\xE3\x8A\x97", -- ㊗
 		},
 	},
 	["construction"] = {
@@ -1925,7 +1925,7 @@ return {
 			"construction",
 		},
 		codes = {
-			"🚧",
+			"\xF0\x9F\x9A\xA7", -- 🚧
 		},
 	},
 	["construction_site"] = {
@@ -1933,7 +1933,7 @@ return {
 			"construction_site",
 		},
 		codes = {
-			"🏗",
+			"\xF0\x9F\x8F\x97", -- 🏗
 		},
 	},
 	["construction_worker"] = {
@@ -1941,7 +1941,7 @@ return {
 			"construction_worker",
 		},
 		codes = {
-			"👷",
+			"\xF0\x9F\x91\xB7", -- 👷
 		},
 	},
 	["control_knobs"] = {
@@ -1949,7 +1949,7 @@ return {
 			"control_knobs",
 		},
 		codes = {
-			"🎛",
+			"\xF0\x9F\x8E\x9B", -- 🎛
 		},
 	},
 	["convenience_store"] = {
@@ -1957,7 +1957,7 @@ return {
 			"convenience_store",
 		},
 		codes = {
-			"🏪",
+			"\xF0\x9F\x8F\xAA", -- 🏪
 		},
 	},
 	["cookie"] = {
@@ -1965,7 +1965,7 @@ return {
 			"cookie",
 		},
 		codes = {
-			"🍪",
+			"\xF0\x9F\x8D\xAA", -- 🍪
 		},
 	},
 	["cooking"] = {
@@ -1973,7 +1973,7 @@ return {
 			"cooking",
 		},
 		codes = {
-			"🍳",
+			"\xF0\x9F\x8D\xB3", -- 🍳
 		},
 	},
 	["cool"] = {
@@ -1981,7 +1981,7 @@ return {
 			"cool",
 		},
 		codes = {
-			"🆒",
+			"\xF0\x9F\x86\x92", -- 🆒
 		},
 	},
 	["cop"] = {
@@ -1989,7 +1989,7 @@ return {
 			"cop",
 		},
 		codes = {
-			"👮",
+			"\xF0\x9F\x91\xAE", -- 👮
 		},
 	},
 	["copyright"] = {
@@ -1997,7 +1997,7 @@ return {
 			"copyright",
 		},
 		codes = {
-			"©",
+			"\xC2\xA9", -- ©
 		},
 	},
 	["corn"] = {
@@ -2005,7 +2005,7 @@ return {
 			"corn",
 		},
 		codes = {
-			"🌽",
+			"\xF0\x9F\x8C\xBD", -- 🌽
 		},
 	},
 	["couch"] = {
@@ -2013,7 +2013,7 @@ return {
 			"couch",
 		},
 		codes = {
-			"🛋",
+			"\xF0\x9F\x9B\x8B", -- 🛋
 		},
 	},
 	["couple"] = {
@@ -2021,7 +2021,7 @@ return {
 			"couple",
 		},
 		codes = {
-			"👫",
+			"\xF0\x9F\x91\xAB", -- 👫
 		},
 	},
 	["couple_mm"] = {
@@ -2029,7 +2029,7 @@ return {
 			"couple_mm",
 		},
 		codes = {
-			"👨‍❤️‍👨",
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xE2\x9D\xA4\xEF\xB8\x8F\xE2\x80\x8D\xF0\x9F\x91\xA8", -- 👨‍❤️‍👨
 		},
 	},
 	["couple_with_heart"] = {
@@ -2037,7 +2037,7 @@ return {
 			"couple_with_heart",
 		},
 		codes = {
-			"💑",
+			"\xF0\x9F\x92\x91", -- 💑
 		},
 	},
 	["couple_ww"] = {
@@ -2045,7 +2045,7 @@ return {
 			"couple_ww",
 		},
 		codes = {
-			"👩‍❤️‍👩",
+			"\xF0\x9F\x91\xA9\xE2\x80\x8D\xE2\x9D\xA4\xEF\xB8\x8F\xE2\x80\x8D\xF0\x9F\x91\xA9", -- 👩‍❤️‍👩
 		},
 	},
 	["couplekiss"] = {
@@ -2053,7 +2053,7 @@ return {
 			"couplekiss",
 		},
 		codes = {
-			"💏",
+			"\xF0\x9F\x92\x8F", -- 💏
 		},
 	},
 	["cow"] = {
@@ -2061,7 +2061,7 @@ return {
 			"cow",
 		},
 		codes = {
-			"🐮",
+			"\xF0\x9F\x90\xAE", -- 🐮
 		},
 	},
 	["cow2"] = {
@@ -2069,7 +2069,7 @@ return {
 			"cow2",
 		},
 		codes = {
-			"🐄",
+			"\xF0\x9F\x90\x84", -- 🐄
 		},
 	},
 	["cowboy"] = {
@@ -2077,7 +2077,7 @@ return {
 			"cowboy",
 		},
 		codes = {
-			"🤠",
+			"\xF0\x9F\xA4\xA0", -- 🤠
 		},
 	},
 	["crab"] = {
@@ -2085,7 +2085,7 @@ return {
 			"crab",
 		},
 		codes = {
-			"🦀",
+			"\xF0\x9F\xA6\x80", -- 🦀
 		},
 	},
 	["crayon"] = {
@@ -2093,7 +2093,7 @@ return {
 			"crayon",
 		},
 		codes = {
-			"🖍",
+			"\xF0\x9F\x96\x8D", -- 🖍
 		},
 	},
 	["credit_card"] = {
@@ -2101,7 +2101,7 @@ return {
 			"credit_card",
 		},
 		codes = {
-			"💳",
+			"\xF0\x9F\x92\xB3", -- 💳
 		},
 	},
 	["crescent_moon"] = {
@@ -2109,7 +2109,7 @@ return {
 			"crescent_moon",
 		},
 		codes = {
-			"🌙",
+			"\xF0\x9F\x8C\x99", -- 🌙
 		},
 	},
 	["cricket"] = {
@@ -2117,7 +2117,7 @@ return {
 			"cricket",
 		},
 		codes = {
-			"🏏",
+			"\xF0\x9F\x8F\x8F", -- 🏏
 		},
 	},
 	["crocodile"] = {
@@ -2125,7 +2125,7 @@ return {
 			"crocodile",
 		},
 		codes = {
-			"🐊",
+			"\xF0\x9F\x90\x8A", -- 🐊
 		},
 	},
 	["croissant"] = {
@@ -2133,7 +2133,7 @@ return {
 			"croissant",
 		},
 		codes = {
-			"🥐",
+			"\xF0\x9F\xA5\x90", -- 🥐
 		},
 	},
 	["cross"] = {
@@ -2141,7 +2141,7 @@ return {
 			"cross",
 		},
 		codes = {
-			"✝",
+			"\xE2\x9C\x9D", -- ✝
 		},
 	},
 	["crossed_flags"] = {
@@ -2149,7 +2149,7 @@ return {
 			"crossed_flags",
 		},
 		codes = {
-			"🎌",
+			"\xF0\x9F\x8E\x8C", -- 🎌
 		},
 	},
 	["crossed_swords"] = {
@@ -2157,7 +2157,7 @@ return {
 			"crossed_swords",
 		},
 		codes = {
-			"⚔",
+			"\xE2\x9A\x94", -- ⚔
 		},
 	},
 	["crown"] = {
@@ -2165,7 +2165,7 @@ return {
 			"crown",
 		},
 		codes = {
-			"👑",
+			"\xF0\x9F\x91\x91", -- 👑
 		},
 	},
 	["cruise_ship"] = {
@@ -2173,7 +2173,7 @@ return {
 			"cruise_ship",
 		},
 		codes = {
-			"🛳",
+			"\xF0\x9F\x9B\xB3", -- 🛳
 		},
 	},
 	["cry"] = {
@@ -2181,7 +2181,7 @@ return {
 			"cry",
 		},
 		codes = {
-			"😢",
+			"\xF0\x9F\x98\xA2", -- 😢
 		},
 	},
 	["crying_cat_face"] = {
@@ -2189,7 +2189,7 @@ return {
 			"crying_cat_face",
 		},
 		codes = {
-			"😿",
+			"\xF0\x9F\x98\xBF", -- 😿
 		},
 	},
 	["crystal_ball"] = {
@@ -2197,7 +2197,7 @@ return {
 			"crystal_ball",
 		},
 		codes = {
-			"🔮",
+			"\xF0\x9F\x94\xAE", -- 🔮
 		},
 	},
 	["cucumber"] = {
@@ -2205,7 +2205,7 @@ return {
 			"cucumber",
 		},
 		codes = {
-			"🥒",
+			"\xF0\x9F\xA5\x92", -- 🥒
 		},
 	},
 	["cupid"] = {
@@ -2213,7 +2213,7 @@ return {
 			"cupid",
 		},
 		codes = {
-			"💘",
+			"\xF0\x9F\x92\x98", -- 💘
 		},
 	},
 	["curly_loop"] = {
@@ -2221,7 +2221,7 @@ return {
 			"curly_loop",
 		},
 		codes = {
-			"➰",
+			"\xE2\x9E\xB0", -- ➰
 		},
 	},
 	["currency_exchange"] = {
@@ -2229,7 +2229,7 @@ return {
 			"currency_exchange",
 		},
 		codes = {
-			"💱",
+			"\xF0\x9F\x92\xB1", -- 💱
 		},
 	},
 	["curry"] = {
@@ -2237,7 +2237,7 @@ return {
 			"curry",
 		},
 		codes = {
-			"🍛",
+			"\xF0\x9F\x8D\x9B", -- 🍛
 		},
 	},
 	["custard"] = {
@@ -2245,7 +2245,7 @@ return {
 			"custard",
 		},
 		codes = {
-			"🍮",
+			"\xF0\x9F\x8D\xAE", -- 🍮
 		},
 	},
 	["customs"] = {
@@ -2253,7 +2253,7 @@ return {
 			"customs",
 		},
 		codes = {
-			"🛃",
+			"\xF0\x9F\x9B\x83", -- 🛃
 		},
 	},
 	["cyclone"] = {
@@ -2261,7 +2261,7 @@ return {
 			"cyclone",
 		},
 		codes = {
-			"🌀",
+			"\xF0\x9F\x8C\x80", -- 🌀
 		},
 	},
 	["dagger"] = {
@@ -2269,7 +2269,7 @@ return {
 			"dagger",
 		},
 		codes = {
-			"🗡",
+			"\xF0\x9F\x97\xA1", -- 🗡
 		},
 	},
 	["dancer"] = {
@@ -2277,7 +2277,7 @@ return {
 			"dancer",
 		},
 		codes = {
-			"💃",
+			"\xF0\x9F\x92\x83", -- 💃
 		},
 	},
 	["dancers"] = {
@@ -2285,7 +2285,7 @@ return {
 			"dancers",
 		},
 		codes = {
-			"👯",
+			"\xF0\x9F\x91\xAF", -- 👯
 		},
 	},
 	["dango"] = {
@@ -2293,7 +2293,7 @@ return {
 			"dango",
 		},
 		codes = {
-			"🍡",
+			"\xF0\x9F\x8D\xA1", -- 🍡
 		},
 	},
 	["dark_sunglasses"] = {
@@ -2301,7 +2301,7 @@ return {
 			"dark_sunglasses",
 		},
 		codes = {
-			"🕶",
+			"\xF0\x9F\x95\xB6", -- 🕶
 		},
 	},
 	["dart"] = {
@@ -2309,7 +2309,7 @@ return {
 			"dart",
 		},
 		codes = {
-			"🎯",
+			"\xF0\x9F\x8E\xAF", -- 🎯
 		},
 	},
 	["dash"] = {
@@ -2317,7 +2317,7 @@ return {
 			"dash",
 		},
 		codes = {
-			"💨",
+			"\xF0\x9F\x92\xA8", -- 💨
 		},
 	},
 	["date"] = {
@@ -2325,7 +2325,7 @@ return {
 			"date",
 		},
 		codes = {
-			"📅",
+			"\xF0\x9F\x93\x85", -- 📅
 		},
 	},
 	["deciduous_tree"] = {
@@ -2333,7 +2333,7 @@ return {
 			"deciduous_tree",
 		},
 		codes = {
-			"🌳",
+			"\xF0\x9F\x8C\xB3", -- 🌳
 		},
 	},
 	["deer"] = {
@@ -2341,7 +2341,7 @@ return {
 			"deer",
 		},
 		codes = {
-			"🦌",
+			"\xF0\x9F\xA6\x8C", -- 🦌
 		},
 	},
 	["department_store"] = {
@@ -2349,7 +2349,7 @@ return {
 			"department_store",
 		},
 		codes = {
-			"🏬",
+			"\xF0\x9F\x8F\xAC", -- 🏬
 		},
 	},
 	["desert"] = {
@@ -2357,7 +2357,7 @@ return {
 			"desert",
 		},
 		codes = {
-			"🏜",
+			"\xF0\x9F\x8F\x9C", -- 🏜
 		},
 	},
 	["desktop"] = {
@@ -2365,8 +2365,8 @@ return {
 			"desktop",
 		},
 		codes = {
-			"🖥️",
-			"🖥",
+			"\xF0\x9F\x96\xA5\xEF\xB8\x8F", -- 🖥️
+			"\xF0\x9F\x96\xA5", -- 🖥
 		},
 	},
 	["diamond_shape_with_a_dot_inside"] = {
@@ -2374,7 +2374,7 @@ return {
 			"diamond_shape_with_a_dot_inside",
 		},
 		codes = {
-			"💠",
+			"\xF0\x9F\x92\xA0", -- 💠
 		},
 	},
 	["diamonds"] = {
@@ -2382,7 +2382,7 @@ return {
 			"diamonds",
 		},
 		codes = {
-			"♦",
+			"\xE2\x99\xA6", -- ♦
 		},
 	},
 	["disappointed"] = {
@@ -2390,7 +2390,7 @@ return {
 			"disappointed",
 		},
 		codes = {
-			"😞",
+			"\xF0\x9F\x98\x9E", -- 😞
 		},
 	},
 	["disappointed_relieved"] = {
@@ -2398,7 +2398,7 @@ return {
 			"disappointed_relieved",
 		},
 		codes = {
-			"😥",
+			"\xF0\x9F\x98\xA5", -- 😥
 		},
 	},
 	["dividers"] = {
@@ -2406,7 +2406,7 @@ return {
 			"dividers",
 		},
 		codes = {
-			"🗂",
+			"\xF0\x9F\x97\x82", -- 🗂
 		},
 	},
 	["dizzy"] = {
@@ -2414,7 +2414,7 @@ return {
 			"dizzy",
 		},
 		codes = {
-			"💫",
+			"\xF0\x9F\x92\xAB", -- 💫
 		},
 	},
 	["dizzy_face"] = {
@@ -2422,7 +2422,7 @@ return {
 			"dizzy_face",
 		},
 		codes = {
-			"😵",
+			"\xF0\x9F\x98\xB5", -- 😵
 		},
 	},
 	["do_not_litter"] = {
@@ -2430,7 +2430,7 @@ return {
 			"do_not_litter",
 		},
 		codes = {
-			"🚯",
+			"\xF0\x9F\x9A\xAF", -- 🚯
 		},
 	},
 	["dog"] = {
@@ -2438,7 +2438,7 @@ return {
 			"dog",
 		},
 		codes = {
-			"🐶",
+			"\xF0\x9F\x90\xB6", -- 🐶
 		},
 	},
 	["dog2"] = {
@@ -2446,7 +2446,7 @@ return {
 			"dog2",
 		},
 		codes = {
-			"🐕",
+			"\xF0\x9F\x90\x95", -- 🐕
 		},
 	},
 	["dollar"] = {
@@ -2454,7 +2454,7 @@ return {
 			"dollar",
 		},
 		codes = {
-			"💵",
+			"\xF0\x9F\x92\xB5", -- 💵
 		},
 	},
 	["dolls"] = {
@@ -2462,7 +2462,7 @@ return {
 			"dolls",
 		},
 		codes = {
-			"🎎",
+			"\xF0\x9F\x8E\x8E", -- 🎎
 		},
 	},
 	["dolphin"] = {
@@ -2470,7 +2470,7 @@ return {
 			"dolphin",
 		},
 		codes = {
-			"🐬",
+			"\xF0\x9F\x90\xAC", -- 🐬
 		},
 	},
 	["door"] = {
@@ -2478,7 +2478,7 @@ return {
 			"door",
 		},
 		codes = {
-			"🚪",
+			"\xF0\x9F\x9A\xAA", -- 🚪
 		},
 	},
 	["doughnut"] = {
@@ -2486,7 +2486,7 @@ return {
 			"doughnut",
 		},
 		codes = {
-			"🍩",
+			"\xF0\x9F\x8D\xA9", -- 🍩
 		},
 	},
 	["dove"] = {
@@ -2494,7 +2494,7 @@ return {
 			"dove",
 		},
 		codes = {
-			"🕊",
+			"\xF0\x9F\x95\x8A", -- 🕊
 		},
 	},
 	["dragon"] = {
@@ -2502,7 +2502,7 @@ return {
 			"dragon",
 		},
 		codes = {
-			"🐉",
+			"\xF0\x9F\x90\x89", -- 🐉
 		},
 	},
 	["dragon_face"] = {
@@ -2510,7 +2510,7 @@ return {
 			"dragon_face",
 		},
 		codes = {
-			"🐲",
+			"\xF0\x9F\x90\xB2", -- 🐲
 		},
 	},
 	["dress"] = {
@@ -2518,7 +2518,7 @@ return {
 			"dress",
 		},
 		codes = {
-			"👗",
+			"\xF0\x9F\x91\x97", -- 👗
 		},
 	},
 	["dromedary_camel"] = {
@@ -2526,7 +2526,7 @@ return {
 			"dromedary_camel",
 		},
 		codes = {
-			"🐪",
+			"\xF0\x9F\x90\xAA", -- 🐪
 		},
 	},
 	["drooling_face"] = {
@@ -2534,7 +2534,7 @@ return {
 			"drooling_face",
 		},
 		codes = {
-			"🤤",
+			"\xF0\x9F\xA4\xA4", -- 🤤
 		},
 	},
 	["droplet"] = {
@@ -2542,7 +2542,7 @@ return {
 			"droplet",
 		},
 		codes = {
-			"💧",
+			"\xF0\x9F\x92\xA7", -- 💧
 		},
 	},
 	["drum"] = {
@@ -2550,7 +2550,7 @@ return {
 			"drum",
 		},
 		codes = {
-			"🥁",
+			"\xF0\x9F\xA5\x81", -- 🥁
 		},
 	},
 	["duck"] = {
@@ -2558,7 +2558,7 @@ return {
 			"duck",
 		},
 		codes = {
-			"🦆",
+			"\xF0\x9F\xA6\x86", -- 🦆
 		},
 	},
 	["dvd"] = {
@@ -2566,7 +2566,7 @@ return {
 			"dvd",
 		},
 		codes = {
-			"📀",
+			"\xF0\x9F\x93\x80", -- 📀
 		},
 	},
 	["e_mail"] = {
@@ -2574,7 +2574,7 @@ return {
 			"e_mail",
 		},
 		codes = {
-			"📧",
+			"\xF0\x9F\x93\xA7", -- 📧
 		},
 	},
 	["eagle"] = {
@@ -2582,7 +2582,7 @@ return {
 			"eagle",
 		},
 		codes = {
-			"🦅",
+			"\xF0\x9F\xA6\x85", -- 🦅
 		},
 	},
 	["ear"] = {
@@ -2590,7 +2590,7 @@ return {
 			"ear",
 		},
 		codes = {
-			"👂",
+			"\xF0\x9F\x91\x82", -- 👂
 		},
 	},
 	["ear_of_rice"] = {
@@ -2598,7 +2598,7 @@ return {
 			"ear_of_rice",
 		},
 		codes = {
-			"🌾",
+			"\xF0\x9F\x8C\xBE", -- 🌾
 		},
 	},
 	["earth_africa"] = {
@@ -2606,7 +2606,7 @@ return {
 			"earth_africa",
 		},
 		codes = {
-			"🌍",
+			"\xF0\x9F\x8C\x8D", -- 🌍
 		},
 	},
 	["earth_americas"] = {
@@ -2614,7 +2614,7 @@ return {
 			"earth_americas",
 		},
 		codes = {
-			"🌎",
+			"\xF0\x9F\x8C\x8E", -- 🌎
 		},
 	},
 	["earth_asia"] = {
@@ -2622,7 +2622,7 @@ return {
 			"earth_asia",
 		},
 		codes = {
-			"🌏",
+			"\xF0\x9F\x8C\x8F", -- 🌏
 		},
 	},
 	["egg"] = {
@@ -2630,7 +2630,7 @@ return {
 			"egg",
 		},
 		codes = {
-			"🥚",
+			"\xF0\x9F\xA5\x9A", -- 🥚
 		},
 	},
 	["eggplant"] = {
@@ -2638,7 +2638,7 @@ return {
 			"eggplant",
 		},
 		codes = {
-			"🍆",
+			"\xF0\x9F\x8D\x86", -- 🍆
 		},
 	},
 	["eight"] = {
@@ -2646,8 +2646,8 @@ return {
 			"eight",
 		},
 		codes = {
-			"8️⃣",
-			"8⃣",
+			"\x38\xEF\xB8\x8F\xE2\x83\xA3", -- 8️⃣
+			"\x38\xE2\x83\xA3", -- 8⃣
 		},
 	},
 	["eight_pointed_black_star"] = {
@@ -2655,7 +2655,7 @@ return {
 			"eight_pointed_black_star",
 		},
 		codes = {
-			"✴",
+			"\xE2\x9C\xB4", -- ✴
 		},
 	},
 	["eight_spoked_asterisk"] = {
@@ -2663,7 +2663,7 @@ return {
 			"eight_spoked_asterisk",
 		},
 		codes = {
-			"✳",
+			"\xE2\x9C\xB3", -- ✳
 		},
 	},
 	["eject"] = {
@@ -2671,7 +2671,7 @@ return {
 			"eject",
 		},
 		codes = {
-			"⏏",
+			"\xE2\x8F\x8F", -- ⏏
 		},
 	},
 	["electric_plug"] = {
@@ -2679,7 +2679,7 @@ return {
 			"electric_plug",
 		},
 		codes = {
-			"🔌",
+			"\xF0\x9F\x94\x8C", -- 🔌
 		},
 	},
 	["elephant"] = {
@@ -2687,7 +2687,7 @@ return {
 			"elephant",
 		},
 		codes = {
-			"🐘",
+			"\xF0\x9F\x90\x98", -- 🐘
 		},
 	},
 	["end"] = {
@@ -2695,7 +2695,7 @@ return {
 			"end",
 		},
 		codes = {
-			"🔚",
+			"\xF0\x9F\x94\x9A", -- 🔚
 		},
 	},
 	["envelope"] = {
@@ -2703,7 +2703,7 @@ return {
 			"envelope",
 		},
 		codes = {
-			"✉",
+			"\xE2\x9C\x89", -- ✉
 		},
 	},
 	["envelope_with_arrow"] = {
@@ -2711,7 +2711,7 @@ return {
 			"envelope_with_arrow",
 		},
 		codes = {
-			"📩",
+			"\xF0\x9F\x93\xA9", -- 📩
 		},
 	},
 	["euro"] = {
@@ -2719,7 +2719,7 @@ return {
 			"euro",
 		},
 		codes = {
-			"💶",
+			"\xF0\x9F\x92\xB6", -- 💶
 		},
 	},
 	["european_castle"] = {
@@ -2727,7 +2727,7 @@ return {
 			"european_castle",
 		},
 		codes = {
-			"🏰",
+			"\xF0\x9F\x8F\xB0", -- 🏰
 		},
 	},
 	["european_post_office"] = {
@@ -2735,7 +2735,7 @@ return {
 			"european_post_office",
 		},
 		codes = {
-			"🏤",
+			"\xF0\x9F\x8F\xA4", -- 🏤
 		},
 	},
 	["evergreen_tree"] = {
@@ -2743,7 +2743,7 @@ return {
 			"evergreen_tree",
 		},
 		codes = {
-			"🌲",
+			"\xF0\x9F\x8C\xB2", -- 🌲
 		},
 	},
 	["exclamation"] = {
@@ -2751,7 +2751,7 @@ return {
 			"exclamation",
 		},
 		codes = {
-			"❗",
+			"\xE2\x9D\x97", -- ❗
 		},
 	},
 	["expressionless"] = {
@@ -2759,7 +2759,7 @@ return {
 			"expressionless",
 		},
 		codes = {
-			"😑",
+			"\xF0\x9F\x98\x91", -- 😑
 		},
 	},
 	["eye"] = {
@@ -2767,7 +2767,7 @@ return {
 			"eye",
 		},
 		codes = {
-			"👁",
+			"\xF0\x9F\x91\x81", -- 👁
 		},
 	},
 	["eye_in_speech_bubble"] = {
@@ -2775,7 +2775,7 @@ return {
 			"eye_in_speech_bubble",
 		},
 		codes = {
-			"👁‍🗨",
+			"\xF0\x9F\x91\x81\xE2\x80\x8D\xF0\x9F\x97\xA8", -- 👁‍🗨
 		},
 	},
 	["eyeglasses"] = {
@@ -2783,7 +2783,7 @@ return {
 			"eyeglasses",
 		},
 		codes = {
-			"👓",
+			"\xF0\x9F\x91\x93", -- 👓
 		},
 	},
 	["eyes"] = {
@@ -2791,7 +2791,7 @@ return {
 			"eyes",
 		},
 		codes = {
-			"👀",
+			"\xF0\x9F\x91\x80", -- 👀
 		},
 	},
 	["face_palm"] = {
@@ -2799,7 +2799,7 @@ return {
 			"face_palm",
 		},
 		codes = {
-			"🤦",
+			"\xF0\x9F\xA4\xA6", -- 🤦
 		},
 	},
 	["factory"] = {
@@ -2807,7 +2807,7 @@ return {
 			"factory",
 		},
 		codes = {
-			"🏭",
+			"\xF0\x9F\x8F\xAD", -- 🏭
 		},
 	},
 	["fallen_leaf"] = {
@@ -2815,7 +2815,7 @@ return {
 			"fallen_leaf",
 		},
 		codes = {
-			"🍂",
+			"\xF0\x9F\x8D\x82", -- 🍂
 		},
 	},
 	["family"] = {
@@ -2823,7 +2823,7 @@ return {
 			"family",
 		},
 		codes = {
-			"👪",
+			"\xF0\x9F\x91\xAA", -- 👪
 		},
 	},
 	["family_mmb"] = {
@@ -2831,7 +2831,7 @@ return {
 			"family_mmb",
 		},
 		codes = {
-			"👨‍👨‍👦",
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA6", -- 👨‍👨‍👦
 		},
 	},
 	["family_mmbb"] = {
@@ -2839,7 +2839,7 @@ return {
 			"family_mmbb",
 		},
 		codes = {
-			"👨‍👨‍👦‍👦",
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA6\xE2\x80\x8D\xF0\x9F\x91\xA6", -- 👨‍👨‍👦‍👦
 		},
 	},
 	["family_mmg"] = {
@@ -2847,7 +2847,7 @@ return {
 			"family_mmg",
 		},
 		codes = {
-			"👨‍👨‍👧",
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA7", -- 👨‍👨‍👧
 		},
 	},
 	["family_mmgb"] = {
@@ -2855,7 +2855,7 @@ return {
 			"family_mmgb",
 		},
 		codes = {
-			"👨‍👨‍👧‍👦",
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA6", -- 👨‍👨‍👧‍👦
 		},
 	},
 	["family_mmgg"] = {
@@ -2863,7 +2863,7 @@ return {
 			"family_mmgg",
 		},
 		codes = {
-			"👨‍👨‍👧‍👧",
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA7", -- 👨‍👨‍👧‍👧
 		},
 	},
 	["family_mwbb"] = {
@@ -2871,7 +2871,7 @@ return {
 			"family_mwbb",
 		},
 		codes = {
-			"👨‍👩‍👦‍👦",
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA6\xE2\x80\x8D\xF0\x9F\x91\xA6", -- 👨‍👩‍👦‍👦
 		},
 	},
 	["family_mwg"] = {
@@ -2879,7 +2879,7 @@ return {
 			"family_mwg",
 		},
 		codes = {
-			"👨‍👩‍👧",
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7", -- 👨‍👩‍👧
 		},
 	},
 	["family_mwgb"] = {
@@ -2887,7 +2887,7 @@ return {
 			"family_mwgb",
 		},
 		codes = {
-			"👨‍👩‍👧‍👦",
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA6", -- 👨‍👩‍👧‍👦
 		},
 	},
 	["family_mwgg"] = {
@@ -2895,7 +2895,7 @@ return {
 			"family_mwgg",
 		},
 		codes = {
-			"👨‍👩‍👧‍👧",
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA7", -- 👨‍👩‍👧‍👧
 		},
 	},
 	["family_wwb"] = {
@@ -2903,7 +2903,7 @@ return {
 			"family_wwb",
 		},
 		codes = {
-			"👩‍👩‍👦",
+			"\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA6", -- 👩‍👩‍👦
 		},
 	},
 	["family_wwbb"] = {
@@ -2911,7 +2911,7 @@ return {
 			"family_wwbb",
 		},
 		codes = {
-			"👩‍👩‍👦‍👦",
+			"\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA6\xE2\x80\x8D\xF0\x9F\x91\xA6", -- 👩‍👩‍👦‍👦
 		},
 	},
 	["family_wwg"] = {
@@ -2919,7 +2919,7 @@ return {
 			"family_wwg",
 		},
 		codes = {
-			"👩‍👩‍👧",
+			"\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7", -- 👩‍👩‍👧
 		},
 	},
 	["family_wwgb"] = {
@@ -2927,7 +2927,7 @@ return {
 			"family_wwgb",
 		},
 		codes = {
-			"👩‍👩‍👧‍👦",
+			"\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA6", -- 👩‍👩‍👧‍👦
 		},
 	},
 	["family_wwgg"] = {
@@ -2935,7 +2935,7 @@ return {
 			"family_wwgg",
 		},
 		codes = {
-			"👩‍👩‍👧‍👧",
+			"\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\x91\xA7\xE2\x80\x8D\xF0\x9F\x91\xA7", -- 👩‍👩‍👧‍👧
 		},
 	},
 	["fast_forward"] = {
@@ -2943,7 +2943,7 @@ return {
 			"fast_forward",
 		},
 		codes = {
-			"⏩",
+			"\xE2\x8F\xA9", -- ⏩
 		},
 	},
 	["fax"] = {
@@ -2951,7 +2951,7 @@ return {
 			"fax",
 		},
 		codes = {
-			"📠",
+			"\xF0\x9F\x93\xA0", -- 📠
 		},
 	},
 	["fearful"] = {
@@ -2959,7 +2959,7 @@ return {
 			"fearful",
 		},
 		codes = {
-			"😨",
+			"\xF0\x9F\x98\xA8", -- 😨
 		},
 	},
 	["feet"] = {
@@ -2967,7 +2967,7 @@ return {
 			"feet",
 		},
 		codes = {
-			"🐾",
+			"\xF0\x9F\x90\xBE", -- 🐾
 		},
 	},
 	["fencer"] = {
@@ -2975,7 +2975,7 @@ return {
 			"fencer",
 		},
 		codes = {
-			"🤺",
+			"\xF0\x9F\xA4\xBA", -- 🤺
 		},
 	},
 	["ferris_wheel"] = {
@@ -2983,7 +2983,7 @@ return {
 			"ferris_wheel",
 		},
 		codes = {
-			"🎡",
+			"\xF0\x9F\x8E\xA1", -- 🎡
 		},
 	},
 	["ferry"] = {
@@ -2991,7 +2991,7 @@ return {
 			"ferry",
 		},
 		codes = {
-			"⛴",
+			"\xE2\x9B\xB4", -- ⛴
 		},
 	},
 	["field_hockey"] = {
@@ -2999,7 +2999,7 @@ return {
 			"field_hockey",
 		},
 		codes = {
-			"🏑",
+			"\xF0\x9F\x8F\x91", -- 🏑
 		},
 	},
 	["file_cabinet"] = {
@@ -3007,7 +3007,7 @@ return {
 			"file_cabinet",
 		},
 		codes = {
-			"🗄",
+			"\xF0\x9F\x97\x84", -- 🗄
 		},
 	},
 	["file_folder"] = {
@@ -3015,7 +3015,7 @@ return {
 			"file_folder",
 		},
 		codes = {
-			"📁",
+			"\xF0\x9F\x93\x81", -- 📁
 		},
 	},
 	["film_frames"] = {
@@ -3023,7 +3023,7 @@ return {
 			"film_frames",
 		},
 		codes = {
-			"🎞",
+			"\xF0\x9F\x8E\x9E", -- 🎞
 		},
 	},
 	["fingers_crossed"] = {
@@ -3031,7 +3031,7 @@ return {
 			"fingers_crossed",
 		},
 		codes = {
-			"🤞",
+			"\xF0\x9F\xA4\x9E", -- 🤞
 		},
 	},
 	["fire"] = {
@@ -3039,7 +3039,7 @@ return {
 			"fire",
 		},
 		codes = {
-			"🔥",
+			"\xF0\x9F\x94\xA5", -- 🔥
 		},
 	},
 	["fire_engine"] = {
@@ -3047,7 +3047,7 @@ return {
 			"fire_engine",
 		},
 		codes = {
-			"🚒",
+			"\xF0\x9F\x9A\x92", -- 🚒
 		},
 	},
 	["fireworks"] = {
@@ -3055,7 +3055,7 @@ return {
 			"fireworks",
 		},
 		codes = {
-			"🎆",
+			"\xF0\x9F\x8E\x86", -- 🎆
 		},
 	},
 	["first_place"] = {
@@ -3063,7 +3063,7 @@ return {
 			"first_place",
 		},
 		codes = {
-			"🥇",
+			"\xF0\x9F\xA5\x87", -- 🥇
 		},
 	},
 	["first_quarter_moon"] = {
@@ -3071,7 +3071,7 @@ return {
 			"first_quarter_moon",
 		},
 		codes = {
-			"🌓",
+			"\xF0\x9F\x8C\x93", -- 🌓
 		},
 	},
 	["first_quarter_moon_with_face"] = {
@@ -3079,7 +3079,7 @@ return {
 			"first_quarter_moon_with_face",
 		},
 		codes = {
-			"🌛",
+			"\xF0\x9F\x8C\x9B", -- 🌛
 		},
 	},
 	["fish"] = {
@@ -3087,7 +3087,7 @@ return {
 			"fish",
 		},
 		codes = {
-			"🐟",
+			"\xF0\x9F\x90\x9F", -- 🐟
 		},
 	},
 	["fish_cake"] = {
@@ -3095,7 +3095,7 @@ return {
 			"fish_cake",
 		},
 		codes = {
-			"🍥",
+			"\xF0\x9F\x8D\xA5", -- 🍥
 		},
 	},
 	["fishing_pole_and_fish"] = {
@@ -3103,7 +3103,7 @@ return {
 			"fishing_pole_and_fish",
 		},
 		codes = {
-			"🎣",
+			"\xF0\x9F\x8E\xA3", -- 🎣
 		},
 	},
 	["fist"] = {
@@ -3111,7 +3111,7 @@ return {
 			"fist",
 		},
 		codes = {
-			"✊",
+			"\xE2\x9C\x8A", -- ✊
 		},
 	},
 	["five"] = {
@@ -3119,8 +3119,8 @@ return {
 			"five",
 		},
 		codes = {
-			"5️⃣",
-			"5⃣",
+			"\x35\xEF\xB8\x8F\xE2\x83\xA3", -- 5️⃣
+			"\x35\xE2\x83\xA3", -- 5⃣
 		},
 	},
 	["flag_ac"] = {
@@ -3128,7 +3128,7 @@ return {
 			"flag_ac",
 		},
 		codes = {
-			"🇦🇨",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xA8", -- 🇦🇨
 		},
 	},
 	["flag_ad"] = {
@@ -3136,7 +3136,7 @@ return {
 			"flag_ad",
 		},
 		codes = {
-			"🇦🇩",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xA9", -- 🇦🇩
 		},
 	},
 	["flag_ae"] = {
@@ -3144,7 +3144,7 @@ return {
 			"flag_ae",
 		},
 		codes = {
-			"🇦🇪",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xAA", -- 🇦🇪
 		},
 	},
 	["flag_af"] = {
@@ -3152,7 +3152,7 @@ return {
 			"flag_af",
 		},
 		codes = {
-			"🇦🇫",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xAB", -- 🇦🇫
 		},
 	},
 	["flag_ag"] = {
@@ -3160,7 +3160,7 @@ return {
 			"flag_ag",
 		},
 		codes = {
-			"🇦🇬",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xAC", -- 🇦🇬
 		},
 	},
 	["flag_ai"] = {
@@ -3168,7 +3168,7 @@ return {
 			"flag_ai",
 		},
 		codes = {
-			"🇦🇮",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xAE", -- 🇦🇮
 		},
 	},
 	["flag_al"] = {
@@ -3176,7 +3176,7 @@ return {
 			"flag_al",
 		},
 		codes = {
-			"🇦🇱",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xB1", -- 🇦🇱
 		},
 	},
 	["flag_am"] = {
@@ -3184,7 +3184,7 @@ return {
 			"flag_am",
 		},
 		codes = {
-			"🇦🇲",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xB2", -- 🇦🇲
 		},
 	},
 	["flag_ao"] = {
@@ -3192,7 +3192,7 @@ return {
 			"flag_ao",
 		},
 		codes = {
-			"🇦🇴",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xB4", -- 🇦🇴
 		},
 	},
 	["flag_aq"] = {
@@ -3200,7 +3200,7 @@ return {
 			"flag_aq",
 		},
 		codes = {
-			"🇦🇶",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xB6", -- 🇦🇶
 		},
 	},
 	["flag_ar"] = {
@@ -3208,7 +3208,7 @@ return {
 			"flag_ar",
 		},
 		codes = {
-			"🇦🇷",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xB7", -- 🇦🇷
 		},
 	},
 	["flag_as"] = {
@@ -3216,7 +3216,7 @@ return {
 			"flag_as",
 		},
 		codes = {
-			"🇦🇸",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xB8", -- 🇦🇸
 		},
 	},
 	["flag_at"] = {
@@ -3224,7 +3224,7 @@ return {
 			"flag_at",
 		},
 		codes = {
-			"🇦🇹",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xB9", -- 🇦🇹
 		},
 	},
 	["flag_au"] = {
@@ -3232,7 +3232,7 @@ return {
 			"flag_au",
 		},
 		codes = {
-			"🇦🇺",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xBA", -- 🇦🇺
 		},
 	},
 	["flag_aw"] = {
@@ -3240,7 +3240,7 @@ return {
 			"flag_aw",
 		},
 		codes = {
-			"🇦🇼",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xBC", -- 🇦🇼
 		},
 	},
 	["flag_ax"] = {
@@ -3248,7 +3248,7 @@ return {
 			"flag_ax",
 		},
 		codes = {
-			"🇦🇽",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xBD", -- 🇦🇽
 		},
 	},
 	["flag_az"] = {
@@ -3256,7 +3256,7 @@ return {
 			"flag_az",
 		},
 		codes = {
-			"🇦🇿",
+			"\xF0\x9F\x87\xA6\xF0\x9F\x87\xBF", -- 🇦🇿
 		},
 	},
 	["flag_ba"] = {
@@ -3264,7 +3264,7 @@ return {
 			"flag_ba",
 		},
 		codes = {
-			"🇧🇦",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xA6", -- 🇧🇦
 		},
 	},
 	["flag_bb"] = {
@@ -3272,7 +3272,7 @@ return {
 			"flag_bb",
 		},
 		codes = {
-			"🇧🇧",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xA7", -- 🇧🇧
 		},
 	},
 	["flag_bd"] = {
@@ -3280,7 +3280,7 @@ return {
 			"flag_bd",
 		},
 		codes = {
-			"🇧🇩",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xA9", -- 🇧🇩
 		},
 	},
 	["flag_be"] = {
@@ -3288,7 +3288,7 @@ return {
 			"flag_be",
 		},
 		codes = {
-			"🇧🇪",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xAA", -- 🇧🇪
 		},
 	},
 	["flag_bf"] = {
@@ -3296,7 +3296,7 @@ return {
 			"flag_bf",
 		},
 		codes = {
-			"🇧🇫",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xAB", -- 🇧🇫
 		},
 	},
 	["flag_bg"] = {
@@ -3304,7 +3304,7 @@ return {
 			"flag_bg",
 		},
 		codes = {
-			"🇧🇬",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xAC", -- 🇧🇬
 		},
 	},
 	["flag_bh"] = {
@@ -3312,7 +3312,7 @@ return {
 			"flag_bh",
 		},
 		codes = {
-			"🇧🇭",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xAD", -- 🇧🇭
 		},
 	},
 	["flag_bi"] = {
@@ -3320,7 +3320,7 @@ return {
 			"flag_bi",
 		},
 		codes = {
-			"🇧🇮",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xAE", -- 🇧🇮
 		},
 	},
 	["flag_bj"] = {
@@ -3328,7 +3328,7 @@ return {
 			"flag_bj",
 		},
 		codes = {
-			"🇧🇯",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xAF", -- 🇧🇯
 		},
 	},
 	["flag_bl"] = {
@@ -3336,7 +3336,7 @@ return {
 			"flag_bl",
 		},
 		codes = {
-			"🇧🇱",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xB1", -- 🇧🇱
 		},
 	},
 	["flag_black"] = {
@@ -3344,7 +3344,7 @@ return {
 			"flag_black",
 		},
 		codes = {
-			"🏴",
+			"\xF0\x9F\x8F\xB4", -- 🏴
 		},
 	},
 	["flag_bm"] = {
@@ -3352,7 +3352,7 @@ return {
 			"flag_bm",
 		},
 		codes = {
-			"🇧🇲",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xB2", -- 🇧🇲
 		},
 	},
 	["flag_bn"] = {
@@ -3360,7 +3360,7 @@ return {
 			"flag_bn",
 		},
 		codes = {
-			"🇧🇳",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xB3", -- 🇧🇳
 		},
 	},
 	["flag_bo"] = {
@@ -3368,7 +3368,7 @@ return {
 			"flag_bo",
 		},
 		codes = {
-			"🇧🇴",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xB4", -- 🇧🇴
 		},
 	},
 	["flag_bq"] = {
@@ -3376,7 +3376,7 @@ return {
 			"flag_bq",
 		},
 		codes = {
-			"🇧🇶",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xB6", -- 🇧🇶
 		},
 	},
 	["flag_br"] = {
@@ -3384,7 +3384,7 @@ return {
 			"flag_br",
 		},
 		codes = {
-			"🇧🇷",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xB7", -- 🇧🇷
 		},
 	},
 	["flag_bs"] = {
@@ -3392,7 +3392,7 @@ return {
 			"flag_bs",
 		},
 		codes = {
-			"🇧🇸",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xB8", -- 🇧🇸
 		},
 	},
 	["flag_bt"] = {
@@ -3400,7 +3400,7 @@ return {
 			"flag_bt",
 		},
 		codes = {
-			"🇧🇹",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xB9", -- 🇧🇹
 		},
 	},
 	["flag_bv"] = {
@@ -3408,7 +3408,7 @@ return {
 			"flag_bv",
 		},
 		codes = {
-			"🇧🇻",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xBB", -- 🇧🇻
 		},
 	},
 	["flag_bw"] = {
@@ -3416,7 +3416,7 @@ return {
 			"flag_bw",
 		},
 		codes = {
-			"🇧🇼",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xBC", -- 🇧🇼
 		},
 	},
 	["flag_by"] = {
@@ -3424,7 +3424,7 @@ return {
 			"flag_by",
 		},
 		codes = {
-			"🇧🇾",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xBE", -- 🇧🇾
 		},
 	},
 	["flag_bz"] = {
@@ -3432,7 +3432,7 @@ return {
 			"flag_bz",
 		},
 		codes = {
-			"🇧🇿",
+			"\xF0\x9F\x87\xA7\xF0\x9F\x87\xBF", -- 🇧🇿
 		},
 	},
 	["flag_ca"] = {
@@ -3440,7 +3440,7 @@ return {
 			"flag_ca",
 		},
 		codes = {
-			"🇨🇦",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xA6", -- 🇨🇦
 		},
 	},
 	["flag_cc"] = {
@@ -3448,7 +3448,7 @@ return {
 			"flag_cc",
 		},
 		codes = {
-			"🇨🇨",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xA8", -- 🇨🇨
 		},
 	},
 	["flag_cd"] = {
@@ -3456,7 +3456,7 @@ return {
 			"flag_cd",
 		},
 		codes = {
-			"🇨🇩",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xA9", -- 🇨🇩
 		},
 	},
 	["flag_cf"] = {
@@ -3464,7 +3464,7 @@ return {
 			"flag_cf",
 		},
 		codes = {
-			"🇨🇫",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xAB", -- 🇨🇫
 		},
 	},
 	["flag_cg"] = {
@@ -3472,7 +3472,7 @@ return {
 			"flag_cg",
 		},
 		codes = {
-			"🇨🇬",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xAC", -- 🇨🇬
 		},
 	},
 	["flag_ch"] = {
@@ -3480,7 +3480,7 @@ return {
 			"flag_ch",
 		},
 		codes = {
-			"🇨🇭",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xAD", -- 🇨🇭
 		},
 	},
 	["flag_ci"] = {
@@ -3488,7 +3488,7 @@ return {
 			"flag_ci",
 		},
 		codes = {
-			"🇨🇮",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xAE", -- 🇨🇮
 		},
 	},
 	["flag_ck"] = {
@@ -3496,7 +3496,7 @@ return {
 			"flag_ck",
 		},
 		codes = {
-			"🇨🇰",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xB0", -- 🇨🇰
 		},
 	},
 	["flag_cl"] = {
@@ -3504,7 +3504,7 @@ return {
 			"flag_cl",
 		},
 		codes = {
-			"🇨🇱",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xB1", -- 🇨🇱
 		},
 	},
 	["flag_cm"] = {
@@ -3512,7 +3512,7 @@ return {
 			"flag_cm",
 		},
 		codes = {
-			"🇨🇲",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xB2", -- 🇨🇲
 		},
 	},
 	["flag_cn"] = {
@@ -3520,7 +3520,7 @@ return {
 			"flag_cn",
 		},
 		codes = {
-			"🇨🇳",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xB3", -- 🇨🇳
 		},
 	},
 	["flag_co"] = {
@@ -3528,7 +3528,7 @@ return {
 			"flag_co",
 		},
 		codes = {
-			"🇨🇴",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xB4", -- 🇨🇴
 		},
 	},
 	["flag_cp"] = {
@@ -3536,7 +3536,7 @@ return {
 			"flag_cp",
 		},
 		codes = {
-			"🇨🇵",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xB5", -- 🇨🇵
 		},
 	},
 	["flag_cr"] = {
@@ -3544,7 +3544,7 @@ return {
 			"flag_cr",
 		},
 		codes = {
-			"🇨🇷",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xB7", -- 🇨🇷
 		},
 	},
 	["flag_cu"] = {
@@ -3552,7 +3552,7 @@ return {
 			"flag_cu",
 		},
 		codes = {
-			"🇨🇺",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xBA", -- 🇨🇺
 		},
 	},
 	["flag_cv"] = {
@@ -3560,7 +3560,7 @@ return {
 			"flag_cv",
 		},
 		codes = {
-			"🇨🇻",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xBB", -- 🇨🇻
 		},
 	},
 	["flag_cw"] = {
@@ -3568,7 +3568,7 @@ return {
 			"flag_cw",
 		},
 		codes = {
-			"🇨🇼",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xBC", -- 🇨🇼
 		},
 	},
 	["flag_cx"] = {
@@ -3576,7 +3576,7 @@ return {
 			"flag_cx",
 		},
 		codes = {
-			"🇨🇽",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xBD", -- 🇨🇽
 		},
 	},
 	["flag_cy"] = {
@@ -3584,7 +3584,7 @@ return {
 			"flag_cy",
 		},
 		codes = {
-			"🇨🇾",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xBE", -- 🇨🇾
 		},
 	},
 	["flag_cz"] = {
@@ -3592,7 +3592,7 @@ return {
 			"flag_cz",
 		},
 		codes = {
-			"🇨🇿",
+			"\xF0\x9F\x87\xA8\xF0\x9F\x87\xBF", -- 🇨🇿
 		},
 	},
 	["flag_de"] = {
@@ -3600,7 +3600,7 @@ return {
 			"flag_de",
 		},
 		codes = {
-			"🇩🇪",
+			"\xF0\x9F\x87\xA9\xF0\x9F\x87\xAA", -- 🇩🇪
 		},
 	},
 	["flag_dg"] = {
@@ -3608,7 +3608,7 @@ return {
 			"flag_dg",
 		},
 		codes = {
-			"🇩🇬",
+			"\xF0\x9F\x87\xA9\xF0\x9F\x87\xAC", -- 🇩🇬
 		},
 	},
 	["flag_dj"] = {
@@ -3616,7 +3616,7 @@ return {
 			"flag_dj",
 		},
 		codes = {
-			"🇩🇯",
+			"\xF0\x9F\x87\xA9\xF0\x9F\x87\xAF", -- 🇩🇯
 		},
 	},
 	["flag_dk"] = {
@@ -3624,7 +3624,7 @@ return {
 			"flag_dk",
 		},
 		codes = {
-			"🇩🇰",
+			"\xF0\x9F\x87\xA9\xF0\x9F\x87\xB0", -- 🇩🇰
 		},
 	},
 	["flag_dm"] = {
@@ -3632,7 +3632,7 @@ return {
 			"flag_dm",
 		},
 		codes = {
-			"🇩🇲",
+			"\xF0\x9F\x87\xA9\xF0\x9F\x87\xB2", -- 🇩🇲
 		},
 	},
 	["flag_do"] = {
@@ -3640,7 +3640,7 @@ return {
 			"flag_do",
 		},
 		codes = {
-			"🇩🇴",
+			"\xF0\x9F\x87\xA9\xF0\x9F\x87\xB4", -- 🇩🇴
 		},
 	},
 	["flag_dz"] = {
@@ -3648,7 +3648,7 @@ return {
 			"flag_dz",
 		},
 		codes = {
-			"🇩🇿",
+			"\xF0\x9F\x87\xA9\xF0\x9F\x87\xBF", -- 🇩🇿
 		},
 	},
 	["flag_ea"] = {
@@ -3656,7 +3656,7 @@ return {
 			"flag_ea",
 		},
 		codes = {
-			"🇪🇦",
+			"\xF0\x9F\x87\xAA\xF0\x9F\x87\xA6", -- 🇪🇦
 		},
 	},
 	["flag_ec"] = {
@@ -3664,7 +3664,7 @@ return {
 			"flag_ec",
 		},
 		codes = {
-			"🇪🇨",
+			"\xF0\x9F\x87\xAA\xF0\x9F\x87\xA8", -- 🇪🇨
 		},
 	},
 	["flag_ee"] = {
@@ -3672,7 +3672,7 @@ return {
 			"flag_ee",
 		},
 		codes = {
-			"🇪🇪",
+			"\xF0\x9F\x87\xAA\xF0\x9F\x87\xAA", -- 🇪🇪
 		},
 	},
 	["flag_eg"] = {
@@ -3680,7 +3680,7 @@ return {
 			"flag_eg",
 		},
 		codes = {
-			"🇪🇬",
+			"\xF0\x9F\x87\xAA\xF0\x9F\x87\xAC", -- 🇪🇬
 		},
 	},
 	["flag_eh"] = {
@@ -3688,7 +3688,7 @@ return {
 			"flag_eh",
 		},
 		codes = {
-			"🇪🇭",
+			"\xF0\x9F\x87\xAA\xF0\x9F\x87\xAD", -- 🇪🇭
 		},
 	},
 	["flag_er"] = {
@@ -3696,7 +3696,7 @@ return {
 			"flag_er",
 		},
 		codes = {
-			"🇪🇷",
+			"\xF0\x9F\x87\xAA\xF0\x9F\x87\xB7", -- 🇪🇷
 		},
 	},
 	["flag_es"] = {
@@ -3704,7 +3704,7 @@ return {
 			"flag_es",
 		},
 		codes = {
-			"🇪🇸",
+			"\xF0\x9F\x87\xAA\xF0\x9F\x87\xB8", -- 🇪🇸
 		},
 	},
 	["flag_et"] = {
@@ -3712,7 +3712,7 @@ return {
 			"flag_et",
 		},
 		codes = {
-			"🇪🇹",
+			"\xF0\x9F\x87\xAA\xF0\x9F\x87\xB9", -- 🇪🇹
 		},
 	},
 	["flag_eu"] = {
@@ -3720,7 +3720,7 @@ return {
 			"flag_eu",
 		},
 		codes = {
-			"🇪🇺",
+			"\xF0\x9F\x87\xAA\xF0\x9F\x87\xBA", -- 🇪🇺
 		},
 	},
 	["flag_fi"] = {
@@ -3728,7 +3728,7 @@ return {
 			"flag_fi",
 		},
 		codes = {
-			"🇫🇮",
+			"\xF0\x9F\x87\xAB\xF0\x9F\x87\xAE", -- 🇫🇮
 		},
 	},
 	["flag_fj"] = {
@@ -3736,7 +3736,7 @@ return {
 			"flag_fj",
 		},
 		codes = {
-			"🇫🇯",
+			"\xF0\x9F\x87\xAB\xF0\x9F\x87\xAF", -- 🇫🇯
 		},
 	},
 	["flag_fk"] = {
@@ -3744,7 +3744,7 @@ return {
 			"flag_fk",
 		},
 		codes = {
-			"🇫🇰",
+			"\xF0\x9F\x87\xAB\xF0\x9F\x87\xB0", -- 🇫🇰
 		},
 	},
 	["flag_fm"] = {
@@ -3752,7 +3752,7 @@ return {
 			"flag_fm",
 		},
 		codes = {
-			"🇫🇲",
+			"\xF0\x9F\x87\xAB\xF0\x9F\x87\xB2", -- 🇫🇲
 		},
 	},
 	["flag_fo"] = {
@@ -3760,7 +3760,7 @@ return {
 			"flag_fo",
 		},
 		codes = {
-			"🇫🇴",
+			"\xF0\x9F\x87\xAB\xF0\x9F\x87\xB4", -- 🇫🇴
 		},
 	},
 	["flag_fr"] = {
@@ -3768,7 +3768,7 @@ return {
 			"flag_fr",
 		},
 		codes = {
-			"🇫🇷",
+			"\xF0\x9F\x87\xAB\xF0\x9F\x87\xB7", -- 🇫🇷
 		},
 	},
 	["flag_ga"] = {
@@ -3776,7 +3776,7 @@ return {
 			"flag_ga",
 		},
 		codes = {
-			"🇬🇦",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xA6", -- 🇬🇦
 		},
 	},
 	["flag_gb"] = {
@@ -3784,7 +3784,7 @@ return {
 			"flag_gb",
 		},
 		codes = {
-			"🇬🇧",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xA7", -- 🇬🇧
 		},
 	},
 	["flag_gd"] = {
@@ -3792,7 +3792,7 @@ return {
 			"flag_gd",
 		},
 		codes = {
-			"🇬🇩",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xA9", -- 🇬🇩
 		},
 	},
 	["flag_ge"] = {
@@ -3800,7 +3800,7 @@ return {
 			"flag_ge",
 		},
 		codes = {
-			"🇬🇪",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xAA", -- 🇬🇪
 		},
 	},
 	["flag_gf"] = {
@@ -3808,7 +3808,7 @@ return {
 			"flag_gf",
 		},
 		codes = {
-			"🇬🇫",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xAB", -- 🇬🇫
 		},
 	},
 	["flag_gg"] = {
@@ -3816,7 +3816,7 @@ return {
 			"flag_gg",
 		},
 		codes = {
-			"🇬🇬",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xAC", -- 🇬🇬
 		},
 	},
 	["flag_gh"] = {
@@ -3824,7 +3824,7 @@ return {
 			"flag_gh",
 		},
 		codes = {
-			"🇬🇭",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xAD", -- 🇬🇭
 		},
 	},
 	["flag_gi"] = {
@@ -3832,7 +3832,7 @@ return {
 			"flag_gi",
 		},
 		codes = {
-			"🇬🇮",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xAE", -- 🇬🇮
 		},
 	},
 	["flag_gl"] = {
@@ -3840,7 +3840,7 @@ return {
 			"flag_gl",
 		},
 		codes = {
-			"🇬🇱",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xB1", -- 🇬🇱
 		},
 	},
 	["flag_gm"] = {
@@ -3848,7 +3848,7 @@ return {
 			"flag_gm",
 		},
 		codes = {
-			"🇬🇲",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xB2", -- 🇬🇲
 		},
 	},
 	["flag_gn"] = {
@@ -3856,7 +3856,7 @@ return {
 			"flag_gn",
 		},
 		codes = {
-			"🇬🇳",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xB3", -- 🇬🇳
 		},
 	},
 	["flag_gp"] = {
@@ -3864,7 +3864,7 @@ return {
 			"flag_gp",
 		},
 		codes = {
-			"🇬🇵",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xB5", -- 🇬🇵
 		},
 	},
 	["flag_gq"] = {
@@ -3872,7 +3872,7 @@ return {
 			"flag_gq",
 		},
 		codes = {
-			"🇬🇶",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xB6", -- 🇬🇶
 		},
 	},
 	["flag_gr"] = {
@@ -3880,7 +3880,7 @@ return {
 			"flag_gr",
 		},
 		codes = {
-			"🇬🇷",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xB7", -- 🇬🇷
 		},
 	},
 	["flag_gs"] = {
@@ -3888,7 +3888,7 @@ return {
 			"flag_gs",
 		},
 		codes = {
-			"🇬🇸",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xB8", -- 🇬🇸
 		},
 	},
 	["flag_gt"] = {
@@ -3896,7 +3896,7 @@ return {
 			"flag_gt",
 		},
 		codes = {
-			"🇬🇹",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xB9", -- 🇬🇹
 		},
 	},
 	["flag_gu"] = {
@@ -3904,7 +3904,7 @@ return {
 			"flag_gu",
 		},
 		codes = {
-			"🇬🇺",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xBA", -- 🇬🇺
 		},
 	},
 	["flag_gw"] = {
@@ -3912,7 +3912,7 @@ return {
 			"flag_gw",
 		},
 		codes = {
-			"🇬🇼",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xBC", -- 🇬🇼
 		},
 	},
 	["flag_gy"] = {
@@ -3920,7 +3920,7 @@ return {
 			"flag_gy",
 		},
 		codes = {
-			"🇬🇾",
+			"\xF0\x9F\x87\xAC\xF0\x9F\x87\xBE", -- 🇬🇾
 		},
 	},
 	["flag_hk"] = {
@@ -3928,7 +3928,7 @@ return {
 			"flag_hk",
 		},
 		codes = {
-			"🇭🇰",
+			"\xF0\x9F\x87\xAD\xF0\x9F\x87\xB0", -- 🇭🇰
 		},
 	},
 	["flag_hm"] = {
@@ -3936,7 +3936,7 @@ return {
 			"flag_hm",
 		},
 		codes = {
-			"🇭🇲",
+			"\xF0\x9F\x87\xAD\xF0\x9F\x87\xB2", -- 🇭🇲
 		},
 	},
 	["flag_hn"] = {
@@ -3944,7 +3944,7 @@ return {
 			"flag_hn",
 		},
 		codes = {
-			"🇭🇳",
+			"\xF0\x9F\x87\xAD\xF0\x9F\x87\xB3", -- 🇭🇳
 		},
 	},
 	["flag_hr"] = {
@@ -3952,7 +3952,7 @@ return {
 			"flag_hr",
 		},
 		codes = {
-			"🇭🇷",
+			"\xF0\x9F\x87\xAD\xF0\x9F\x87\xB7", -- 🇭🇷
 		},
 	},
 	["flag_ht"] = {
@@ -3960,7 +3960,7 @@ return {
 			"flag_ht",
 		},
 		codes = {
-			"🇭🇹",
+			"\xF0\x9F\x87\xAD\xF0\x9F\x87\xB9", -- 🇭🇹
 		},
 	},
 	["flag_hu"] = {
@@ -3968,7 +3968,7 @@ return {
 			"flag_hu",
 		},
 		codes = {
-			"🇭🇺",
+			"\xF0\x9F\x87\xAD\xF0\x9F\x87\xBA", -- 🇭🇺
 		},
 	},
 	["flag_ic"] = {
@@ -3976,7 +3976,7 @@ return {
 			"flag_ic",
 		},
 		codes = {
-			"🇮🇨",
+			"\xF0\x9F\x87\xAE\xF0\x9F\x87\xA8", -- 🇮🇨
 		},
 	},
 	["flag_id"] = {
@@ -3984,7 +3984,7 @@ return {
 			"flag_id",
 		},
 		codes = {
-			"🇮🇩",
+			"\xF0\x9F\x87\xAE\xF0\x9F\x87\xA9", -- 🇮🇩
 		},
 	},
 	["flag_ie"] = {
@@ -3992,7 +3992,7 @@ return {
 			"flag_ie",
 		},
 		codes = {
-			"🇮🇪",
+			"\xF0\x9F\x87\xAE\xF0\x9F\x87\xAA", -- 🇮🇪
 		},
 	},
 	["flag_il"] = {
@@ -4000,7 +4000,7 @@ return {
 			"flag_il",
 		},
 		codes = {
-			"🇮🇱",
+			"\xF0\x9F\x87\xAE\xF0\x9F\x87\xB1", -- 🇮🇱
 		},
 	},
 	["flag_im"] = {
@@ -4008,7 +4008,7 @@ return {
 			"flag_im",
 		},
 		codes = {
-			"🇮🇲",
+			"\xF0\x9F\x87\xAE\xF0\x9F\x87\xB2", -- 🇮🇲
 		},
 	},
 	["flag_in"] = {
@@ -4016,7 +4016,7 @@ return {
 			"flag_in",
 		},
 		codes = {
-			"🇮🇳",
+			"\xF0\x9F\x87\xAE\xF0\x9F\x87\xB3", -- 🇮🇳
 		},
 	},
 	["flag_io"] = {
@@ -4024,7 +4024,7 @@ return {
 			"flag_io",
 		},
 		codes = {
-			"🇮🇴",
+			"\xF0\x9F\x87\xAE\xF0\x9F\x87\xB4", -- 🇮🇴
 		},
 	},
 	["flag_iq"] = {
@@ -4032,7 +4032,7 @@ return {
 			"flag_iq",
 		},
 		codes = {
-			"🇮🇶",
+			"\xF0\x9F\x87\xAE\xF0\x9F\x87\xB6", -- 🇮🇶
 		},
 	},
 	["flag_ir"] = {
@@ -4040,7 +4040,7 @@ return {
 			"flag_ir",
 		},
 		codes = {
-			"🇮🇷",
+			"\xF0\x9F\x87\xAE\xF0\x9F\x87\xB7", -- 🇮🇷
 		},
 	},
 	["flag_is"] = {
@@ -4048,7 +4048,7 @@ return {
 			"flag_is",
 		},
 		codes = {
-			"🇮🇸",
+			"\xF0\x9F\x87\xAE\xF0\x9F\x87\xB8", -- 🇮🇸
 		},
 	},
 	["flag_it"] = {
@@ -4056,7 +4056,7 @@ return {
 			"flag_it",
 		},
 		codes = {
-			"🇮🇹",
+			"\xF0\x9F\x87\xAE\xF0\x9F\x87\xB9", -- 🇮🇹
 		},
 	},
 	["flag_je"] = {
@@ -4064,7 +4064,7 @@ return {
 			"flag_je",
 		},
 		codes = {
-			"🇯🇪",
+			"\xF0\x9F\x87\xAF\xF0\x9F\x87\xAA", -- 🇯🇪
 		},
 	},
 	["flag_jm"] = {
@@ -4072,7 +4072,7 @@ return {
 			"flag_jm",
 		},
 		codes = {
-			"🇯🇲",
+			"\xF0\x9F\x87\xAF\xF0\x9F\x87\xB2", -- 🇯🇲
 		},
 	},
 	["flag_jo"] = {
@@ -4080,7 +4080,7 @@ return {
 			"flag_jo",
 		},
 		codes = {
-			"🇯🇴",
+			"\xF0\x9F\x87\xAF\xF0\x9F\x87\xB4", -- 🇯🇴
 		},
 	},
 	["flag_jp"] = {
@@ -4088,7 +4088,7 @@ return {
 			"flag_jp",
 		},
 		codes = {
-			"🇯🇵",
+			"\xF0\x9F\x87\xAF\xF0\x9F\x87\xB5", -- 🇯🇵
 		},
 	},
 	["flag_ke"] = {
@@ -4096,7 +4096,7 @@ return {
 			"flag_ke",
 		},
 		codes = {
-			"🇰🇪",
+			"\xF0\x9F\x87\xB0\xF0\x9F\x87\xAA", -- 🇰🇪
 		},
 	},
 	["flag_kg"] = {
@@ -4104,7 +4104,7 @@ return {
 			"flag_kg",
 		},
 		codes = {
-			"🇰🇬",
+			"\xF0\x9F\x87\xB0\xF0\x9F\x87\xAC", -- 🇰🇬
 		},
 	},
 	["flag_kh"] = {
@@ -4112,7 +4112,7 @@ return {
 			"flag_kh",
 		},
 		codes = {
-			"🇰🇭",
+			"\xF0\x9F\x87\xB0\xF0\x9F\x87\xAD", -- 🇰🇭
 		},
 	},
 	["flag_ki"] = {
@@ -4120,7 +4120,7 @@ return {
 			"flag_ki",
 		},
 		codes = {
-			"🇰🇮",
+			"\xF0\x9F\x87\xB0\xF0\x9F\x87\xAE", -- 🇰🇮
 		},
 	},
 	["flag_km"] = {
@@ -4128,7 +4128,7 @@ return {
 			"flag_km",
 		},
 		codes = {
-			"🇰🇲",
+			"\xF0\x9F\x87\xB0\xF0\x9F\x87\xB2", -- 🇰🇲
 		},
 	},
 	["flag_kn"] = {
@@ -4136,7 +4136,7 @@ return {
 			"flag_kn",
 		},
 		codes = {
-			"🇰🇳",
+			"\xF0\x9F\x87\xB0\xF0\x9F\x87\xB3", -- 🇰🇳
 		},
 	},
 	["flag_kp"] = {
@@ -4144,7 +4144,7 @@ return {
 			"flag_kp",
 		},
 		codes = {
-			"🇰🇵",
+			"\xF0\x9F\x87\xB0\xF0\x9F\x87\xB5", -- 🇰🇵
 		},
 	},
 	["flag_kr"] = {
@@ -4152,7 +4152,7 @@ return {
 			"flag_kr",
 		},
 		codes = {
-			"🇰🇷",
+			"\xF0\x9F\x87\xB0\xF0\x9F\x87\xB7", -- 🇰🇷
 		},
 	},
 	["flag_kw"] = {
@@ -4160,7 +4160,7 @@ return {
 			"flag_kw",
 		},
 		codes = {
-			"🇰🇼",
+			"\xF0\x9F\x87\xB0\xF0\x9F\x87\xBC", -- 🇰🇼
 		},
 	},
 	["flag_ky"] = {
@@ -4168,7 +4168,7 @@ return {
 			"flag_ky",
 		},
 		codes = {
-			"🇰🇾",
+			"\xF0\x9F\x87\xB0\xF0\x9F\x87\xBE", -- 🇰🇾
 		},
 	},
 	["flag_kz"] = {
@@ -4176,7 +4176,7 @@ return {
 			"flag_kz",
 		},
 		codes = {
-			"🇰🇿",
+			"\xF0\x9F\x87\xB0\xF0\x9F\x87\xBF", -- 🇰🇿
 		},
 	},
 	["flag_la"] = {
@@ -4184,7 +4184,7 @@ return {
 			"flag_la",
 		},
 		codes = {
-			"🇱🇦",
+			"\xF0\x9F\x87\xB1\xF0\x9F\x87\xA6", -- 🇱🇦
 		},
 	},
 	["flag_lb"] = {
@@ -4192,7 +4192,7 @@ return {
 			"flag_lb",
 		},
 		codes = {
-			"🇱🇧",
+			"\xF0\x9F\x87\xB1\xF0\x9F\x87\xA7", -- 🇱🇧
 		},
 	},
 	["flag_lc"] = {
@@ -4200,7 +4200,7 @@ return {
 			"flag_lc",
 		},
 		codes = {
-			"🇱🇨",
+			"\xF0\x9F\x87\xB1\xF0\x9F\x87\xA8", -- 🇱🇨
 		},
 	},
 	["flag_li"] = {
@@ -4208,7 +4208,7 @@ return {
 			"flag_li",
 		},
 		codes = {
-			"🇱🇮",
+			"\xF0\x9F\x87\xB1\xF0\x9F\x87\xAE", -- 🇱🇮
 		},
 	},
 	["flag_lk"] = {
@@ -4216,7 +4216,7 @@ return {
 			"flag_lk",
 		},
 		codes = {
-			"🇱🇰",
+			"\xF0\x9F\x87\xB1\xF0\x9F\x87\xB0", -- 🇱🇰
 		},
 	},
 	["flag_lr"] = {
@@ -4224,7 +4224,7 @@ return {
 			"flag_lr",
 		},
 		codes = {
-			"🇱🇷",
+			"\xF0\x9F\x87\xB1\xF0\x9F\x87\xB7", -- 🇱🇷
 		},
 	},
 	["flag_ls"] = {
@@ -4232,7 +4232,7 @@ return {
 			"flag_ls",
 		},
 		codes = {
-			"🇱🇸",
+			"\xF0\x9F\x87\xB1\xF0\x9F\x87\xB8", -- 🇱🇸
 		},
 	},
 	["flag_lt"] = {
@@ -4240,7 +4240,7 @@ return {
 			"flag_lt",
 		},
 		codes = {
-			"🇱🇹",
+			"\xF0\x9F\x87\xB1\xF0\x9F\x87\xB9", -- 🇱🇹
 		},
 	},
 	["flag_lu"] = {
@@ -4248,7 +4248,7 @@ return {
 			"flag_lu",
 		},
 		codes = {
-			"🇱🇺",
+			"\xF0\x9F\x87\xB1\xF0\x9F\x87\xBA", -- 🇱🇺
 		},
 	},
 	["flag_lv"] = {
@@ -4256,7 +4256,7 @@ return {
 			"flag_lv",
 		},
 		codes = {
-			"🇱🇻",
+			"\xF0\x9F\x87\xB1\xF0\x9F\x87\xBB", -- 🇱🇻
 		},
 	},
 	["flag_ly"] = {
@@ -4264,7 +4264,7 @@ return {
 			"flag_ly",
 		},
 		codes = {
-			"🇱🇾",
+			"\xF0\x9F\x87\xB1\xF0\x9F\x87\xBE", -- 🇱🇾
 		},
 	},
 	["flag_ma"] = {
@@ -4272,7 +4272,7 @@ return {
 			"flag_ma",
 		},
 		codes = {
-			"🇲🇦",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xA6", -- 🇲🇦
 		},
 	},
 	["flag_mc"] = {
@@ -4280,7 +4280,7 @@ return {
 			"flag_mc",
 		},
 		codes = {
-			"🇲🇨",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xA8", -- 🇲🇨
 		},
 	},
 	["flag_md"] = {
@@ -4288,7 +4288,7 @@ return {
 			"flag_md",
 		},
 		codes = {
-			"🇲🇩",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xA9", -- 🇲🇩
 		},
 	},
 	["flag_me"] = {
@@ -4296,7 +4296,7 @@ return {
 			"flag_me",
 		},
 		codes = {
-			"🇲🇪",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xAA", -- 🇲🇪
 		},
 	},
 	["flag_mf"] = {
@@ -4304,7 +4304,7 @@ return {
 			"flag_mf",
 		},
 		codes = {
-			"🇲🇫",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xAB", -- 🇲🇫
 		},
 	},
 	["flag_mg"] = {
@@ -4312,7 +4312,7 @@ return {
 			"flag_mg",
 		},
 		codes = {
-			"🇲🇬",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xAC", -- 🇲🇬
 		},
 	},
 	["flag_mh"] = {
@@ -4320,7 +4320,7 @@ return {
 			"flag_mh",
 		},
 		codes = {
-			"🇲🇭",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xAD", -- 🇲🇭
 		},
 	},
 	["flag_mk"] = {
@@ -4328,7 +4328,7 @@ return {
 			"flag_mk",
 		},
 		codes = {
-			"🇲🇰",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xB0", -- 🇲🇰
 		},
 	},
 	["flag_ml"] = {
@@ -4336,7 +4336,7 @@ return {
 			"flag_ml",
 		},
 		codes = {
-			"🇲🇱",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xB1", -- 🇲🇱
 		},
 	},
 	["flag_mm"] = {
@@ -4344,7 +4344,7 @@ return {
 			"flag_mm",
 		},
 		codes = {
-			"🇲🇲",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xB2", -- 🇲🇲
 		},
 	},
 	["flag_mn"] = {
@@ -4352,7 +4352,7 @@ return {
 			"flag_mn",
 		},
 		codes = {
-			"🇲🇳",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xB3", -- 🇲🇳
 		},
 	},
 	["flag_mo"] = {
@@ -4360,7 +4360,7 @@ return {
 			"flag_mo",
 		},
 		codes = {
-			"🇲🇴",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xB4", -- 🇲🇴
 		},
 	},
 	["flag_mp"] = {
@@ -4368,7 +4368,7 @@ return {
 			"flag_mp",
 		},
 		codes = {
-			"🇲🇵",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xB5", -- 🇲🇵
 		},
 	},
 	["flag_mq"] = {
@@ -4376,7 +4376,7 @@ return {
 			"flag_mq",
 		},
 		codes = {
-			"🇲🇶",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xB6", -- 🇲🇶
 		},
 	},
 	["flag_mr"] = {
@@ -4384,7 +4384,7 @@ return {
 			"flag_mr",
 		},
 		codes = {
-			"🇲🇷",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xB7", -- 🇲🇷
 		},
 	},
 	["flag_ms"] = {
@@ -4392,7 +4392,7 @@ return {
 			"flag_ms",
 		},
 		codes = {
-			"🇲🇸",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xB8", -- 🇲🇸
 		},
 	},
 	["flag_mt"] = {
@@ -4400,7 +4400,7 @@ return {
 			"flag_mt",
 		},
 		codes = {
-			"🇲🇹",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xB9", -- 🇲🇹
 		},
 	},
 	["flag_mu"] = {
@@ -4408,7 +4408,7 @@ return {
 			"flag_mu",
 		},
 		codes = {
-			"🇲🇺",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xBA", -- 🇲🇺
 		},
 	},
 	["flag_mv"] = {
@@ -4416,7 +4416,7 @@ return {
 			"flag_mv",
 		},
 		codes = {
-			"🇲🇻",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xBB", -- 🇲🇻
 		},
 	},
 	["flag_mw"] = {
@@ -4424,7 +4424,7 @@ return {
 			"flag_mw",
 		},
 		codes = {
-			"🇲🇼",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xBC", -- 🇲🇼
 		},
 	},
 	["flag_mx"] = {
@@ -4432,7 +4432,7 @@ return {
 			"flag_mx",
 		},
 		codes = {
-			"🇲🇽",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xBD", -- 🇲🇽
 		},
 	},
 	["flag_my"] = {
@@ -4440,7 +4440,7 @@ return {
 			"flag_my",
 		},
 		codes = {
-			"🇲🇾",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xBE", -- 🇲🇾
 		},
 	},
 	["flag_mz"] = {
@@ -4448,7 +4448,7 @@ return {
 			"flag_mz",
 		},
 		codes = {
-			"🇲🇿",
+			"\xF0\x9F\x87\xB2\xF0\x9F\x87\xBF", -- 🇲🇿
 		},
 	},
 	["flag_na"] = {
@@ -4456,7 +4456,7 @@ return {
 			"flag_na",
 		},
 		codes = {
-			"🇳🇦",
+			"\xF0\x9F\x87\xB3\xF0\x9F\x87\xA6", -- 🇳🇦
 		},
 	},
 	["flag_nc"] = {
@@ -4464,7 +4464,7 @@ return {
 			"flag_nc",
 		},
 		codes = {
-			"🇳🇨",
+			"\xF0\x9F\x87\xB3\xF0\x9F\x87\xA8", -- 🇳🇨
 		},
 	},
 	["flag_ne"] = {
@@ -4472,7 +4472,7 @@ return {
 			"flag_ne",
 		},
 		codes = {
-			"🇳🇪",
+			"\xF0\x9F\x87\xB3\xF0\x9F\x87\xAA", -- 🇳🇪
 		},
 	},
 	["flag_nf"] = {
@@ -4480,7 +4480,7 @@ return {
 			"flag_nf",
 		},
 		codes = {
-			"🇳🇫",
+			"\xF0\x9F\x87\xB3\xF0\x9F\x87\xAB", -- 🇳🇫
 		},
 	},
 	["flag_ng"] = {
@@ -4488,7 +4488,7 @@ return {
 			"flag_ng",
 		},
 		codes = {
-			"🇳🇬",
+			"\xF0\x9F\x87\xB3\xF0\x9F\x87\xAC", -- 🇳🇬
 		},
 	},
 	["flag_ni"] = {
@@ -4496,7 +4496,7 @@ return {
 			"flag_ni",
 		},
 		codes = {
-			"🇳🇮",
+			"\xF0\x9F\x87\xB3\xF0\x9F\x87\xAE", -- 🇳🇮
 		},
 	},
 	["flag_nl"] = {
@@ -4504,7 +4504,7 @@ return {
 			"flag_nl",
 		},
 		codes = {
-			"🇳🇱",
+			"\xF0\x9F\x87\xB3\xF0\x9F\x87\xB1", -- 🇳🇱
 		},
 	},
 	["flag_no"] = {
@@ -4512,7 +4512,7 @@ return {
 			"flag_no",
 		},
 		codes = {
-			"🇳🇴",
+			"\xF0\x9F\x87\xB3\xF0\x9F\x87\xB4", -- 🇳🇴
 		},
 	},
 	["flag_np"] = {
@@ -4520,7 +4520,7 @@ return {
 			"flag_np",
 		},
 		codes = {
-			"🇳🇵",
+			"\xF0\x9F\x87\xB3\xF0\x9F\x87\xB5", -- 🇳🇵
 		},
 	},
 	["flag_nr"] = {
@@ -4528,7 +4528,7 @@ return {
 			"flag_nr",
 		},
 		codes = {
-			"🇳🇷",
+			"\xF0\x9F\x87\xB3\xF0\x9F\x87\xB7", -- 🇳🇷
 		},
 	},
 	["flag_nu"] = {
@@ -4536,7 +4536,7 @@ return {
 			"flag_nu",
 		},
 		codes = {
-			"🇳🇺",
+			"\xF0\x9F\x87\xB3\xF0\x9F\x87\xBA", -- 🇳🇺
 		},
 	},
 	["flag_nz"] = {
@@ -4544,7 +4544,7 @@ return {
 			"flag_nz",
 		},
 		codes = {
-			"🇳🇿",
+			"\xF0\x9F\x87\xB3\xF0\x9F\x87\xBF", -- 🇳🇿
 		},
 	},
 	["flag_om"] = {
@@ -4552,7 +4552,7 @@ return {
 			"flag_om",
 		},
 		codes = {
-			"🇴🇲",
+			"\xF0\x9F\x87\xB4\xF0\x9F\x87\xB2", -- 🇴🇲
 		},
 	},
 	["flag_pa"] = {
@@ -4560,7 +4560,7 @@ return {
 			"flag_pa",
 		},
 		codes = {
-			"🇵🇦",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xA6", -- 🇵🇦
 		},
 	},
 	["flag_pe"] = {
@@ -4568,7 +4568,7 @@ return {
 			"flag_pe",
 		},
 		codes = {
-			"🇵🇪",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xAA", -- 🇵🇪
 		},
 	},
 	["flag_pf"] = {
@@ -4576,7 +4576,7 @@ return {
 			"flag_pf",
 		},
 		codes = {
-			"🇵🇫",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xAB", -- 🇵🇫
 		},
 	},
 	["flag_pg"] = {
@@ -4584,7 +4584,7 @@ return {
 			"flag_pg",
 		},
 		codes = {
-			"🇵🇬",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xAC", -- 🇵🇬
 		},
 	},
 	["flag_ph"] = {
@@ -4592,7 +4592,7 @@ return {
 			"flag_ph",
 		},
 		codes = {
-			"🇵🇭",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xAD", -- 🇵🇭
 		},
 	},
 	["flag_pk"] = {
@@ -4600,7 +4600,7 @@ return {
 			"flag_pk",
 		},
 		codes = {
-			"🇵🇰",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xB0", -- 🇵🇰
 		},
 	},
 	["flag_pl"] = {
@@ -4608,7 +4608,7 @@ return {
 			"flag_pl",
 		},
 		codes = {
-			"🇵🇱",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xB1", -- 🇵🇱
 		},
 	},
 	["flag_pm"] = {
@@ -4616,7 +4616,7 @@ return {
 			"flag_pm",
 		},
 		codes = {
-			"🇵🇲",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xB2", -- 🇵🇲
 		},
 	},
 	["flag_pn"] = {
@@ -4624,7 +4624,7 @@ return {
 			"flag_pn",
 		},
 		codes = {
-			"🇵🇳",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xB3", -- 🇵🇳
 		},
 	},
 	["flag_pr"] = {
@@ -4632,7 +4632,7 @@ return {
 			"flag_pr",
 		},
 		codes = {
-			"🇵🇷",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xB7", -- 🇵🇷
 		},
 	},
 	["flag_ps"] = {
@@ -4640,7 +4640,7 @@ return {
 			"flag_ps",
 		},
 		codes = {
-			"🇵🇸",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xB8", -- 🇵🇸
 		},
 	},
 	["flag_pt"] = {
@@ -4648,7 +4648,7 @@ return {
 			"flag_pt",
 		},
 		codes = {
-			"🇵🇹",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xB9", -- 🇵🇹
 		},
 	},
 	["flag_pw"] = {
@@ -4656,7 +4656,7 @@ return {
 			"flag_pw",
 		},
 		codes = {
-			"🇵🇼",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xBC", -- 🇵🇼
 		},
 	},
 	["flag_py"] = {
@@ -4664,7 +4664,7 @@ return {
 			"flag_py",
 		},
 		codes = {
-			"🇵🇾",
+			"\xF0\x9F\x87\xB5\xF0\x9F\x87\xBE", -- 🇵🇾
 		},
 	},
 	["flag_qa"] = {
@@ -4672,7 +4672,7 @@ return {
 			"flag_qa",
 		},
 		codes = {
-			"🇶🇦",
+			"\xF0\x9F\x87\xB6\xF0\x9F\x87\xA6", -- 🇶🇦
 		},
 	},
 	["flag_re"] = {
@@ -4680,7 +4680,7 @@ return {
 			"flag_re",
 		},
 		codes = {
-			"🇷🇪",
+			"\xF0\x9F\x87\xB7\xF0\x9F\x87\xAA", -- 🇷🇪
 		},
 	},
 	["flag_ro"] = {
@@ -4688,7 +4688,7 @@ return {
 			"flag_ro",
 		},
 		codes = {
-			"🇷🇴",
+			"\xF0\x9F\x87\xB7\xF0\x9F\x87\xB4", -- 🇷🇴
 		},
 	},
 	["flag_rs"] = {
@@ -4696,7 +4696,7 @@ return {
 			"flag_rs",
 		},
 		codes = {
-			"🇷🇸",
+			"\xF0\x9F\x87\xB7\xF0\x9F\x87\xB8", -- 🇷🇸
 		},
 	},
 	["flag_ru"] = {
@@ -4704,7 +4704,7 @@ return {
 			"flag_ru",
 		},
 		codes = {
-			"🇷🇺",
+			"\xF0\x9F\x87\xB7\xF0\x9F\x87\xBA", -- 🇷🇺
 		},
 	},
 	["flag_rw"] = {
@@ -4712,7 +4712,7 @@ return {
 			"flag_rw",
 		},
 		codes = {
-			"🇷🇼",
+			"\xF0\x9F\x87\xB7\xF0\x9F\x87\xBC", -- 🇷🇼
 		},
 	},
 	["flag_sa"] = {
@@ -4720,7 +4720,7 @@ return {
 			"flag_sa",
 		},
 		codes = {
-			"🇸🇦",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xA6", -- 🇸🇦
 		},
 	},
 	["flag_sb"] = {
@@ -4728,7 +4728,7 @@ return {
 			"flag_sb",
 		},
 		codes = {
-			"🇸🇧",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xA7", -- 🇸🇧
 		},
 	},
 	["flag_sc"] = {
@@ -4736,7 +4736,7 @@ return {
 			"flag_sc",
 		},
 		codes = {
-			"🇸🇨",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xA8", -- 🇸🇨
 		},
 	},
 	["flag_sd"] = {
@@ -4744,7 +4744,7 @@ return {
 			"flag_sd",
 		},
 		codes = {
-			"🇸🇩",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xA9", -- 🇸🇩
 		},
 	},
 	["flag_se"] = {
@@ -4752,7 +4752,7 @@ return {
 			"flag_se",
 		},
 		codes = {
-			"🇸🇪",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xAA", -- 🇸🇪
 		},
 	},
 	["flag_sg"] = {
@@ -4760,7 +4760,7 @@ return {
 			"flag_sg",
 		},
 		codes = {
-			"🇸🇬",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xAC", -- 🇸🇬
 		},
 	},
 	["flag_sh"] = {
@@ -4768,7 +4768,7 @@ return {
 			"flag_sh",
 		},
 		codes = {
-			"🇸🇭",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xAD", -- 🇸🇭
 		},
 	},
 	["flag_si"] = {
@@ -4776,7 +4776,7 @@ return {
 			"flag_si",
 		},
 		codes = {
-			"🇸🇮",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xAE", -- 🇸🇮
 		},
 	},
 	["flag_sj"] = {
@@ -4784,7 +4784,7 @@ return {
 			"flag_sj",
 		},
 		codes = {
-			"🇸🇯",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xAF", -- 🇸🇯
 		},
 	},
 	["flag_sk"] = {
@@ -4792,7 +4792,7 @@ return {
 			"flag_sk",
 		},
 		codes = {
-			"🇸🇰",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xB0", -- 🇸🇰
 		},
 	},
 	["flag_sl"] = {
@@ -4800,7 +4800,7 @@ return {
 			"flag_sl",
 		},
 		codes = {
-			"🇸🇱",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xB1", -- 🇸🇱
 		},
 	},
 	["flag_sm"] = {
@@ -4808,7 +4808,7 @@ return {
 			"flag_sm",
 		},
 		codes = {
-			"🇸🇲",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xB2", -- 🇸🇲
 		},
 	},
 	["flag_sn"] = {
@@ -4816,7 +4816,7 @@ return {
 			"flag_sn",
 		},
 		codes = {
-			"🇸🇳",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xB3", -- 🇸🇳
 		},
 	},
 	["flag_so"] = {
@@ -4824,7 +4824,7 @@ return {
 			"flag_so",
 		},
 		codes = {
-			"🇸🇴",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xB4", -- 🇸🇴
 		},
 	},
 	["flag_sr"] = {
@@ -4832,7 +4832,7 @@ return {
 			"flag_sr",
 		},
 		codes = {
-			"🇸🇷",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xB7", -- 🇸🇷
 		},
 	},
 	["flag_ss"] = {
@@ -4840,7 +4840,7 @@ return {
 			"flag_ss",
 		},
 		codes = {
-			"🇸🇸",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xB8", -- 🇸🇸
 		},
 	},
 	["flag_st"] = {
@@ -4848,7 +4848,7 @@ return {
 			"flag_st",
 		},
 		codes = {
-			"🇸🇹",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xB9", -- 🇸🇹
 		},
 	},
 	["flag_sv"] = {
@@ -4856,7 +4856,7 @@ return {
 			"flag_sv",
 		},
 		codes = {
-			"🇸🇻",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xBB", -- 🇸🇻
 		},
 	},
 	["flag_sx"] = {
@@ -4864,7 +4864,7 @@ return {
 			"flag_sx",
 		},
 		codes = {
-			"🇸🇽",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xBD", -- 🇸🇽
 		},
 	},
 	["flag_sy"] = {
@@ -4872,7 +4872,7 @@ return {
 			"flag_sy",
 		},
 		codes = {
-			"🇸🇾",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xBE", -- 🇸🇾
 		},
 	},
 	["flag_sz"] = {
@@ -4880,7 +4880,7 @@ return {
 			"flag_sz",
 		},
 		codes = {
-			"🇸🇿",
+			"\xF0\x9F\x87\xB8\xF0\x9F\x87\xBF", -- 🇸🇿
 		},
 	},
 	["flag_ta"] = {
@@ -4888,7 +4888,7 @@ return {
 			"flag_ta",
 		},
 		codes = {
-			"🇹🇦",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xA6", -- 🇹🇦
 		},
 	},
 	["flag_tc"] = {
@@ -4896,7 +4896,7 @@ return {
 			"flag_tc",
 		},
 		codes = {
-			"🇹🇨",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xA8", -- 🇹🇨
 		},
 	},
 	["flag_td"] = {
@@ -4904,7 +4904,7 @@ return {
 			"flag_td",
 		},
 		codes = {
-			"🇹🇩",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xA9", -- 🇹🇩
 		},
 	},
 	["flag_tf"] = {
@@ -4912,7 +4912,7 @@ return {
 			"flag_tf",
 		},
 		codes = {
-			"🇹🇫",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xAB", -- 🇹🇫
 		},
 	},
 	["flag_tg"] = {
@@ -4920,7 +4920,7 @@ return {
 			"flag_tg",
 		},
 		codes = {
-			"🇹🇬",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xAC", -- 🇹🇬
 		},
 	},
 	["flag_th"] = {
@@ -4928,7 +4928,7 @@ return {
 			"flag_th",
 		},
 		codes = {
-			"🇹🇭",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xAD", -- 🇹🇭
 		},
 	},
 	["flag_tj"] = {
@@ -4936,7 +4936,7 @@ return {
 			"flag_tj",
 		},
 		codes = {
-			"🇹🇯",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xAF", -- 🇹🇯
 		},
 	},
 	["flag_tk"] = {
@@ -4944,7 +4944,7 @@ return {
 			"flag_tk",
 		},
 		codes = {
-			"🇹🇰",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xB0", -- 🇹🇰
 		},
 	},
 	["flag_tl"] = {
@@ -4952,7 +4952,7 @@ return {
 			"flag_tl",
 		},
 		codes = {
-			"🇹🇱",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xB1", -- 🇹🇱
 		},
 	},
 	["flag_tm"] = {
@@ -4960,7 +4960,7 @@ return {
 			"flag_tm",
 		},
 		codes = {
-			"🇹🇲",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xB2", -- 🇹🇲
 		},
 	},
 	["flag_tn"] = {
@@ -4968,7 +4968,7 @@ return {
 			"flag_tn",
 		},
 		codes = {
-			"🇹🇳",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xB3", -- 🇹🇳
 		},
 	},
 	["flag_to"] = {
@@ -4976,7 +4976,7 @@ return {
 			"flag_to",
 		},
 		codes = {
-			"🇹🇴",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xB4", -- 🇹🇴
 		},
 	},
 	["flag_tr"] = {
@@ -4984,7 +4984,7 @@ return {
 			"flag_tr",
 		},
 		codes = {
-			"🇹🇷",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xB7", -- 🇹🇷
 		},
 	},
 	["flag_tt"] = {
@@ -4992,7 +4992,7 @@ return {
 			"flag_tt",
 		},
 		codes = {
-			"🇹🇹",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xB9", -- 🇹🇹
 		},
 	},
 	["flag_tv"] = {
@@ -5000,7 +5000,7 @@ return {
 			"flag_tv",
 		},
 		codes = {
-			"🇹🇻",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xBB", -- 🇹🇻
 		},
 	},
 	["flag_tw"] = {
@@ -5008,7 +5008,7 @@ return {
 			"flag_tw",
 		},
 		codes = {
-			"🇹🇼",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xBC", -- 🇹🇼
 		},
 	},
 	["flag_tz"] = {
@@ -5016,7 +5016,7 @@ return {
 			"flag_tz",
 		},
 		codes = {
-			"🇹🇿",
+			"\xF0\x9F\x87\xB9\xF0\x9F\x87\xBF", -- 🇹🇿
 		},
 	},
 	["flag_ua"] = {
@@ -5024,7 +5024,7 @@ return {
 			"flag_ua",
 		},
 		codes = {
-			"🇺🇦",
+			"\xF0\x9F\x87\xBA\xF0\x9F\x87\xA6", -- 🇺🇦
 		},
 	},
 	["flag_ug"] = {
@@ -5032,7 +5032,7 @@ return {
 			"flag_ug",
 		},
 		codes = {
-			"🇺🇬",
+			"\xF0\x9F\x87\xBA\xF0\x9F\x87\xAC", -- 🇺🇬
 		},
 	},
 	["flag_um"] = {
@@ -5040,7 +5040,7 @@ return {
 			"flag_um",
 		},
 		codes = {
-			"🇺🇲",
+			"\xF0\x9F\x87\xBA\xF0\x9F\x87\xB2", -- 🇺🇲
 		},
 	},
 	["flag_us"] = {
@@ -5048,7 +5048,7 @@ return {
 			"flag_us",
 		},
 		codes = {
-			"🇺🇸",
+			"\xF0\x9F\x87\xBA\xF0\x9F\x87\xB8", -- 🇺🇸
 		},
 	},
 	["flag_uy"] = {
@@ -5056,7 +5056,7 @@ return {
 			"flag_uy",
 		},
 		codes = {
-			"🇺🇾",
+			"\xF0\x9F\x87\xBA\xF0\x9F\x87\xBE", -- 🇺🇾
 		},
 	},
 	["flag_uz"] = {
@@ -5064,7 +5064,7 @@ return {
 			"flag_uz",
 		},
 		codes = {
-			"🇺🇿",
+			"\xF0\x9F\x87\xBA\xF0\x9F\x87\xBF", -- 🇺🇿
 		},
 	},
 	["flag_va"] = {
@@ -5072,7 +5072,7 @@ return {
 			"flag_va",
 		},
 		codes = {
-			"🇻🇦",
+			"\xF0\x9F\x87\xBB\xF0\x9F\x87\xA6", -- 🇻🇦
 		},
 	},
 	["flag_vc"] = {
@@ -5080,7 +5080,7 @@ return {
 			"flag_vc",
 		},
 		codes = {
-			"🇻🇨",
+			"\xF0\x9F\x87\xBB\xF0\x9F\x87\xA8", -- 🇻🇨
 		},
 	},
 	["flag_ve"] = {
@@ -5088,7 +5088,7 @@ return {
 			"flag_ve",
 		},
 		codes = {
-			"🇻🇪",
+			"\xF0\x9F\x87\xBB\xF0\x9F\x87\xAA", -- 🇻🇪
 		},
 	},
 	["flag_vg"] = {
@@ -5096,7 +5096,7 @@ return {
 			"flag_vg",
 		},
 		codes = {
-			"🇻🇬",
+			"\xF0\x9F\x87\xBB\xF0\x9F\x87\xAC", -- 🇻🇬
 		},
 	},
 	["flag_vi"] = {
@@ -5104,7 +5104,7 @@ return {
 			"flag_vi",
 		},
 		codes = {
-			"🇻🇮",
+			"\xF0\x9F\x87\xBB\xF0\x9F\x87\xAE", -- 🇻🇮
 		},
 	},
 	["flag_vn"] = {
@@ -5112,7 +5112,7 @@ return {
 			"flag_vn",
 		},
 		codes = {
-			"🇻🇳",
+			"\xF0\x9F\x87\xBB\xF0\x9F\x87\xB3", -- 🇻🇳
 		},
 	},
 	["flag_vu"] = {
@@ -5120,7 +5120,7 @@ return {
 			"flag_vu",
 		},
 		codes = {
-			"🇻🇺",
+			"\xF0\x9F\x87\xBB\xF0\x9F\x87\xBA", -- 🇻🇺
 		},
 	},
 	["flag_wf"] = {
@@ -5128,7 +5128,7 @@ return {
 			"flag_wf",
 		},
 		codes = {
-			"🇼🇫",
+			"\xF0\x9F\x87\xBC\xF0\x9F\x87\xAB", -- 🇼🇫
 		},
 	},
 	["flag_white"] = {
@@ -5136,7 +5136,7 @@ return {
 			"flag_white",
 		},
 		codes = {
-			"🏳",
+			"\xF0\x9F\x8F\xB3", -- 🏳
 		},
 	},
 	["flag_ws"] = {
@@ -5144,7 +5144,7 @@ return {
 			"flag_ws",
 		},
 		codes = {
-			"🇼🇸",
+			"\xF0\x9F\x87\xBC\xF0\x9F\x87\xB8", -- 🇼🇸
 		},
 	},
 	["flag_xk"] = {
@@ -5152,7 +5152,7 @@ return {
 			"flag_xk",
 		},
 		codes = {
-			"🇽🇰",
+			"\xF0\x9F\x87\xBD\xF0\x9F\x87\xB0", -- 🇽🇰
 		},
 	},
 	["flag_ye"] = {
@@ -5160,7 +5160,7 @@ return {
 			"flag_ye",
 		},
 		codes = {
-			"🇾🇪",
+			"\xF0\x9F\x87\xBE\xF0\x9F\x87\xAA", -- 🇾🇪
 		},
 	},
 	["flag_yt"] = {
@@ -5168,7 +5168,7 @@ return {
 			"flag_yt",
 		},
 		codes = {
-			"🇾🇹",
+			"\xF0\x9F\x87\xBE\xF0\x9F\x87\xB9", -- 🇾🇹
 		},
 	},
 	["flag_za"] = {
@@ -5176,7 +5176,7 @@ return {
 			"flag_za",
 		},
 		codes = {
-			"🇿🇦",
+			"\xF0\x9F\x87\xBF\xF0\x9F\x87\xA6", -- 🇿🇦
 		},
 	},
 	["flag_zm"] = {
@@ -5184,7 +5184,7 @@ return {
 			"flag_zm",
 		},
 		codes = {
-			"🇿🇲",
+			"\xF0\x9F\x87\xBF\xF0\x9F\x87\xB2", -- 🇿🇲
 		},
 	},
 	["flag_zw"] = {
@@ -5192,7 +5192,7 @@ return {
 			"flag_zw",
 		},
 		codes = {
-			"🇿🇼",
+			"\xF0\x9F\x87\xBF\xF0\x9F\x87\xBC", -- 🇿🇼
 		},
 	},
 	["flags"] = {
@@ -5200,7 +5200,7 @@ return {
 			"flags",
 		},
 		codes = {
-			"🎏",
+			"\xF0\x9F\x8E\x8F", -- 🎏
 		},
 	},
 	["flashlight"] = {
@@ -5208,7 +5208,7 @@ return {
 			"flashlight",
 		},
 		codes = {
-			"🔦",
+			"\xF0\x9F\x94\xA6", -- 🔦
 		},
 	},
 	["fleur_de_lis"] = {
@@ -5216,7 +5216,7 @@ return {
 			"fleur_de_lis",
 		},
 		codes = {
-			"⚜",
+			"\xE2\x9A\x9C", -- ⚜
 		},
 	},
 	["floppy_disk"] = {
@@ -5224,7 +5224,7 @@ return {
 			"floppy_disk",
 		},
 		codes = {
-			"💾",
+			"\xF0\x9F\x92\xBE", -- 💾
 		},
 	},
 	["flower_playing_cards"] = {
@@ -5232,7 +5232,7 @@ return {
 			"flower_playing_cards",
 		},
 		codes = {
-			"🎴",
+			"\xF0\x9F\x8E\xB4", -- 🎴
 		},
 	},
 	["flushed"] = {
@@ -5240,7 +5240,7 @@ return {
 			"flushed",
 		},
 		codes = {
-			"😳",
+			"\xF0\x9F\x98\xB3", -- 😳
 		},
 	},
 	["fog"] = {
@@ -5248,7 +5248,7 @@ return {
 			"fog",
 		},
 		codes = {
-			"🌫",
+			"\xF0\x9F\x8C\xAB", -- 🌫
 		},
 	},
 	["foggy"] = {
@@ -5256,7 +5256,7 @@ return {
 			"foggy",
 		},
 		codes = {
-			"🌁",
+			"\xF0\x9F\x8C\x81", -- 🌁
 		},
 	},
 	["football"] = {
@@ -5264,7 +5264,7 @@ return {
 			"football",
 		},
 		codes = {
-			"🏈",
+			"\xF0\x9F\x8F\x88", -- 🏈
 		},
 	},
 	["footprints"] = {
@@ -5272,7 +5272,7 @@ return {
 			"footprints",
 		},
 		codes = {
-			"👣",
+			"\xF0\x9F\x91\xA3", -- 👣
 		},
 	},
 	["fork_and_knife"] = {
@@ -5280,7 +5280,7 @@ return {
 			"fork_and_knife",
 		},
 		codes = {
-			"🍴",
+			"\xF0\x9F\x8D\xB4", -- 🍴
 		},
 	},
 	["fork_knife_plate"] = {
@@ -5288,7 +5288,7 @@ return {
 			"fork_knife_plate",
 		},
 		codes = {
-			"🍽",
+			"\xF0\x9F\x8D\xBD", -- 🍽
 		},
 	},
 	["fountain"] = {
@@ -5296,7 +5296,7 @@ return {
 			"fountain",
 		},
 		codes = {
-			"⛲",
+			"\xE2\x9B\xB2", -- ⛲
 		},
 	},
 	["four"] = {
@@ -5304,8 +5304,8 @@ return {
 			"four",
 		},
 		codes = {
-			"4️⃣",
-			"4⃣",
+			"\x34\xEF\xB8\x8F\xE2\x83\xA3", -- 4️⃣
+			"\x34\xE2\x83\xA3", -- 4⃣
 		},
 	},
 	["four_leaf_clover"] = {
@@ -5313,7 +5313,7 @@ return {
 			"four_leaf_clover",
 		},
 		codes = {
-			"🍀",
+			"\xF0\x9F\x8D\x80", -- 🍀
 		},
 	},
 	["fox"] = {
@@ -5321,7 +5321,7 @@ return {
 			"fox",
 		},
 		codes = {
-			"🦊",
+			"\xF0\x9F\xA6\x8A", -- 🦊
 		},
 	},
 	["frame_photo"] = {
@@ -5329,7 +5329,7 @@ return {
 			"frame_photo",
 		},
 		codes = {
-			"🖼",
+			"\xF0\x9F\x96\xBC", -- 🖼
 		},
 	},
 	["free"] = {
@@ -5337,7 +5337,7 @@ return {
 			"free",
 		},
 		codes = {
-			"🆓",
+			"\xF0\x9F\x86\x93", -- 🆓
 		},
 	},
 	["french_bread"] = {
@@ -5345,7 +5345,7 @@ return {
 			"french_bread",
 		},
 		codes = {
-			"🥖",
+			"\xF0\x9F\xA5\x96", -- 🥖
 		},
 	},
 	["fried_shrimp"] = {
@@ -5353,7 +5353,7 @@ return {
 			"fried_shrimp",
 		},
 		codes = {
-			"🍤",
+			"\xF0\x9F\x8D\xA4", -- 🍤
 		},
 	},
 	["fries"] = {
@@ -5361,7 +5361,7 @@ return {
 			"fries",
 		},
 		codes = {
-			"🍟",
+			"\xF0\x9F\x8D\x9F", -- 🍟
 		},
 	},
 	["frog"] = {
@@ -5369,7 +5369,7 @@ return {
 			"frog",
 		},
 		codes = {
-			"🐸",
+			"\xF0\x9F\x90\xB8", -- 🐸
 		},
 	},
 	["frowning"] = {
@@ -5377,7 +5377,7 @@ return {
 			"frowning",
 		},
 		codes = {
-			"😦",
+			"\xF0\x9F\x98\xA6", -- 😦
 		},
 	},
 	["frowning2"] = {
@@ -5385,7 +5385,7 @@ return {
 			"frowning2",
 		},
 		codes = {
-			"☹",
+			"\xE2\x98\xB9", -- ☹
 		},
 	},
 	["fuelpump"] = {
@@ -5393,7 +5393,7 @@ return {
 			"fuelpump",
 		},
 		codes = {
-			"⛽",
+			"\xE2\x9B\xBD", -- ⛽
 		},
 	},
 	["full_moon"] = {
@@ -5401,7 +5401,7 @@ return {
 			"full_moon",
 		},
 		codes = {
-			"🌕",
+			"\xF0\x9F\x8C\x95", -- 🌕
 		},
 	},
 	["full_moon_with_face"] = {
@@ -5409,7 +5409,7 @@ return {
 			"full_moon_with_face",
 		},
 		codes = {
-			"🌝",
+			"\xF0\x9F\x8C\x9D", -- 🌝
 		},
 	},
 	["game_die"] = {
@@ -5417,7 +5417,7 @@ return {
 			"game_die",
 		},
 		codes = {
-			"🎲",
+			"\xF0\x9F\x8E\xB2", -- 🎲
 		},
 	},
 	["gay_pride_flag"] = {
@@ -5425,7 +5425,7 @@ return {
 			"gay_pride_flag",
 		},
 		codes = {
-			"🏳️‍🌈",
+			"\xF0\x9F\x8F\xB3\xEF\xB8\x8F\xE2\x80\x8D\xF0\x9F\x8C\x88", -- 🏳️‍🌈
 		},
 	},
 	["gear"] = {
@@ -5433,7 +5433,7 @@ return {
 			"gear",
 		},
 		codes = {
-			"⚙",
+			"\xE2\x9A\x99", -- ⚙
 		},
 	},
 	["gem"] = {
@@ -5441,7 +5441,7 @@ return {
 			"gem",
 		},
 		codes = {
-			"💎",
+			"\xF0\x9F\x92\x8E", -- 💎
 		},
 	},
 	["gemini"] = {
@@ -5449,7 +5449,7 @@ return {
 			"gemini",
 		},
 		codes = {
-			"♊",
+			"\xE2\x99\x8A", -- ♊
 		},
 	},
 	["ghost"] = {
@@ -5457,7 +5457,7 @@ return {
 			"ghost",
 		},
 		codes = {
-			"👻",
+			"\xF0\x9F\x91\xBB", -- 👻
 		},
 	},
 	["gift"] = {
@@ -5465,7 +5465,7 @@ return {
 			"gift",
 		},
 		codes = {
-			"🎁",
+			"\xF0\x9F\x8E\x81", -- 🎁
 		},
 	},
 	["gift_heart"] = {
@@ -5473,7 +5473,7 @@ return {
 			"gift_heart",
 		},
 		codes = {
-			"💝",
+			"\xF0\x9F\x92\x9D", -- 💝
 		},
 	},
 	["girl"] = {
@@ -5481,7 +5481,7 @@ return {
 			"girl",
 		},
 		codes = {
-			"👧",
+			"\xF0\x9F\x91\xA7", -- 👧
 		},
 	},
 	["globe_with_meridians"] = {
@@ -5489,7 +5489,7 @@ return {
 			"globe_with_meridians",
 		},
 		codes = {
-			"🌐",
+			"\xF0\x9F\x8C\x90", -- 🌐
 		},
 	},
 	["goal"] = {
@@ -5497,7 +5497,7 @@ return {
 			"goal",
 		},
 		codes = {
-			"🥅",
+			"\xF0\x9F\xA5\x85", -- 🥅
 		},
 	},
 	["goat"] = {
@@ -5505,7 +5505,7 @@ return {
 			"goat",
 		},
 		codes = {
-			"🐐",
+			"\xF0\x9F\x90\x90", -- 🐐
 		},
 	},
 	["golf"] = {
@@ -5513,7 +5513,7 @@ return {
 			"golf",
 		},
 		codes = {
-			"⛳",
+			"\xE2\x9B\xB3", -- ⛳
 		},
 	},
 	["golfer"] = {
@@ -5521,7 +5521,7 @@ return {
 			"golfer",
 		},
 		codes = {
-			"🏌",
+			"\xF0\x9F\x8F\x8C", -- 🏌
 		},
 	},
 	["gorilla"] = {
@@ -5529,7 +5529,7 @@ return {
 			"gorilla",
 		},
 		codes = {
-			"🦍",
+			"\xF0\x9F\xA6\x8D", -- 🦍
 		},
 	},
 	["grapes"] = {
@@ -5537,7 +5537,7 @@ return {
 			"grapes",
 		},
 		codes = {
-			"🍇",
+			"\xF0\x9F\x8D\x87", -- 🍇
 		},
 	},
 	["green_apple"] = {
@@ -5545,7 +5545,7 @@ return {
 			"green_apple",
 		},
 		codes = {
-			"🍏",
+			"\xF0\x9F\x8D\x8F", -- 🍏
 		},
 	},
 	["green_book"] = {
@@ -5553,7 +5553,7 @@ return {
 			"green_book",
 		},
 		codes = {
-			"📗",
+			"\xF0\x9F\x93\x97", -- 📗
 		},
 	},
 	["green_heart"] = {
@@ -5561,7 +5561,7 @@ return {
 			"green_heart",
 		},
 		codes = {
-			"💚",
+			"\xF0\x9F\x92\x9A", -- 💚
 		},
 	},
 	["grey_exclamation"] = {
@@ -5569,7 +5569,7 @@ return {
 			"grey_exclamation",
 		},
 		codes = {
-			"❕",
+			"\xE2\x9D\x95", -- ❕
 		},
 	},
 	["grey_question"] = {
@@ -5577,7 +5577,7 @@ return {
 			"grey_question",
 		},
 		codes = {
-			"❔",
+			"\xE2\x9D\x94", -- ❔
 		},
 	},
 	["grimacing"] = {
@@ -5585,7 +5585,7 @@ return {
 			"grimacing",
 		},
 		codes = {
-			"😬",
+			"\xF0\x9F\x98\xAC", -- 😬
 		},
 	},
 	["grin"] = {
@@ -5593,7 +5593,7 @@ return {
 			"grin",
 		},
 		codes = {
-			"😁",
+			"\xF0\x9F\x98\x81", -- 😁
 		},
 	},
 	["grinning"] = {
@@ -5601,7 +5601,7 @@ return {
 			"grinning",
 		},
 		codes = {
-			"😀",
+			"\xF0\x9F\x98\x80", -- 😀
 		},
 	},
 	["guardsman"] = {
@@ -5609,7 +5609,7 @@ return {
 			"guardsman",
 		},
 		codes = {
-			"💂",
+			"\xF0\x9F\x92\x82", -- 💂
 		},
 	},
 	["guitar"] = {
@@ -5617,7 +5617,7 @@ return {
 			"guitar",
 		},
 		codes = {
-			"🎸",
+			"\xF0\x9F\x8E\xB8", -- 🎸
 		},
 	},
 	["gun"] = {
@@ -5625,7 +5625,7 @@ return {
 			"gun",
 		},
 		codes = {
-			"🔫",
+			"\xF0\x9F\x94\xAB", -- 🔫
 		},
 	},
 	["haircut"] = {
@@ -5633,7 +5633,7 @@ return {
 			"haircut",
 		},
 		codes = {
-			"💇",
+			"\xF0\x9F\x92\x87", -- 💇
 		},
 	},
 	["hamburger"] = {
@@ -5641,7 +5641,7 @@ return {
 			"hamburger",
 		},
 		codes = {
-			"🍔",
+			"\xF0\x9F\x8D\x94", -- 🍔
 		},
 	},
 	["hammer"] = {
@@ -5649,7 +5649,7 @@ return {
 			"hammer",
 		},
 		codes = {
-			"🔨",
+			"\xF0\x9F\x94\xA8", -- 🔨
 		},
 	},
 	["hammer_pick"] = {
@@ -5657,7 +5657,7 @@ return {
 			"hammer_pick",
 		},
 		codes = {
-			"⚒",
+			"\xE2\x9A\x92", -- ⚒
 		},
 	},
 	["hamster"] = {
@@ -5665,7 +5665,7 @@ return {
 			"hamster",
 		},
 		codes = {
-			"🐹",
+			"\xF0\x9F\x90\xB9", -- 🐹
 		},
 	},
 	["hand_splayed"] = {
@@ -5673,7 +5673,7 @@ return {
 			"hand_splayed",
 		},
 		codes = {
-			"🖐",
+			"\xF0\x9F\x96\x90", -- 🖐
 		},
 	},
 	["handbag"] = {
@@ -5681,7 +5681,7 @@ return {
 			"handbag",
 		},
 		codes = {
-			"👜",
+			"\xF0\x9F\x91\x9C", -- 👜
 		},
 	},
 	["handball"] = {
@@ -5689,7 +5689,7 @@ return {
 			"handball",
 		},
 		codes = {
-			"🤾",
+			"\xF0\x9F\xA4\xBE", -- 🤾
 		},
 	},
 	["handshake"] = {
@@ -5697,7 +5697,7 @@ return {
 			"handshake",
 		},
 		codes = {
-			"🤝",
+			"\xF0\x9F\xA4\x9D", -- 🤝
 		},
 	},
 	["hash"] = {
@@ -5705,7 +5705,7 @@ return {
 			"hash",
 		},
 		codes = {
-			"#⃣",
+			"\x23\xE2\x83\xA3", -- #⃣
 		},
 	},
 	["hatched_chick"] = {
@@ -5713,7 +5713,7 @@ return {
 			"hatched_chick",
 		},
 		codes = {
-			"🐥",
+			"\xF0\x9F\x90\xA5", -- 🐥
 		},
 	},
 	["hatching_chick"] = {
@@ -5721,7 +5721,7 @@ return {
 			"hatching_chick",
 		},
 		codes = {
-			"🐣",
+			"\xF0\x9F\x90\xA3", -- 🐣
 		},
 	},
 	["head_bandage"] = {
@@ -5729,7 +5729,7 @@ return {
 			"head_bandage",
 		},
 		codes = {
-			"🤕",
+			"\xF0\x9F\xA4\x95", -- 🤕
 		},
 	},
 	["headphones"] = {
@@ -5737,7 +5737,7 @@ return {
 			"headphones",
 		},
 		codes = {
-			"🎧",
+			"\xF0\x9F\x8E\xA7", -- 🎧
 		},
 	},
 	["hear_no_evil"] = {
@@ -5745,7 +5745,7 @@ return {
 			"hear_no_evil",
 		},
 		codes = {
-			"🙉",
+			"\xF0\x9F\x99\x89", -- 🙉
 		},
 	},
 	["heart"] = {
@@ -5753,7 +5753,7 @@ return {
 			"heart",
 		},
 		codes = {
-			"❤",
+			"\xE2\x9D\xA4", -- ❤
 		},
 	},
 	["heart_decoration"] = {
@@ -5761,7 +5761,7 @@ return {
 			"heart_decoration",
 		},
 		codes = {
-			"💟",
+			"\xF0\x9F\x92\x9F", -- 💟
 		},
 	},
 	["heart_exclamation"] = {
@@ -5769,7 +5769,7 @@ return {
 			"heart_exclamation",
 		},
 		codes = {
-			"❣",
+			"\xE2\x9D\xA3", -- ❣
 		},
 	},
 	["heart_eyes"] = {
@@ -5777,7 +5777,7 @@ return {
 			"heart_eyes",
 		},
 		codes = {
-			"😍",
+			"\xF0\x9F\x98\x8D", -- 😍
 		},
 	},
 	["heart_eyes_cat"] = {
@@ -5785,7 +5785,7 @@ return {
 			"heart_eyes_cat",
 		},
 		codes = {
-			"😻",
+			"\xF0\x9F\x98\xBB", -- 😻
 		},
 	},
 	["heartbeat"] = {
@@ -5793,7 +5793,7 @@ return {
 			"heartbeat",
 		},
 		codes = {
-			"💓",
+			"\xF0\x9F\x92\x93", -- 💓
 		},
 	},
 	["heartpulse"] = {
@@ -5801,7 +5801,7 @@ return {
 			"heartpulse",
 		},
 		codes = {
-			"💗",
+			"\xF0\x9F\x92\x97", -- 💗
 		},
 	},
 	["hearts"] = {
@@ -5809,7 +5809,7 @@ return {
 			"hearts",
 		},
 		codes = {
-			"♥",
+			"\xE2\x99\xA5", -- ♥
 		},
 	},
 	["heavy_check_mark"] = {
@@ -5817,7 +5817,7 @@ return {
 			"heavy_check_mark",
 		},
 		codes = {
-			"✔",
+			"\xE2\x9C\x94", -- ✔
 		},
 	},
 	["heavy_division_sign"] = {
@@ -5825,7 +5825,7 @@ return {
 			"heavy_division_sign",
 		},
 		codes = {
-			"➗",
+			"\xE2\x9E\x97", -- ➗
 		},
 	},
 	["heavy_dollar_sign"] = {
@@ -5833,7 +5833,7 @@ return {
 			"heavy_dollar_sign",
 		},
 		codes = {
-			"💲",
+			"\xF0\x9F\x92\xB2", -- 💲
 		},
 	},
 	["heavy_minus_sign"] = {
@@ -5841,7 +5841,7 @@ return {
 			"heavy_minus_sign",
 		},
 		codes = {
-			"➖",
+			"\xE2\x9E\x96", -- ➖
 		},
 	},
 	["heavy_multiplication_x"] = {
@@ -5849,7 +5849,7 @@ return {
 			"heavy_multiplication_x",
 		},
 		codes = {
-			"✖",
+			"\xE2\x9C\x96", -- ✖
 		},
 	},
 	["heavy_plus_sign"] = {
@@ -5857,7 +5857,7 @@ return {
 			"heavy_plus_sign",
 		},
 		codes = {
-			"➕",
+			"\xE2\x9E\x95", -- ➕
 		},
 	},
 	["helicopter"] = {
@@ -5865,7 +5865,7 @@ return {
 			"helicopter",
 		},
 		codes = {
-			"🚁",
+			"\xF0\x9F\x9A\x81", -- 🚁
 		},
 	},
 	["helmet_with_cross"] = {
@@ -5873,7 +5873,7 @@ return {
 			"helmet_with_cross",
 		},
 		codes = {
-			"⛑",
+			"\xE2\x9B\x91", -- ⛑
 		},
 	},
 	["herb"] = {
@@ -5881,7 +5881,7 @@ return {
 			"herb",
 		},
 		codes = {
-			"🌿",
+			"\xF0\x9F\x8C\xBF", -- 🌿
 		},
 	},
 	["hibiscus"] = {
@@ -5889,7 +5889,7 @@ return {
 			"hibiscus",
 		},
 		codes = {
-			"🌺",
+			"\xF0\x9F\x8C\xBA", -- 🌺
 		},
 	},
 	["high_brightness"] = {
@@ -5897,7 +5897,7 @@ return {
 			"high_brightness",
 		},
 		codes = {
-			"🔆",
+			"\xF0\x9F\x94\x86", -- 🔆
 		},
 	},
 	["high_heel"] = {
@@ -5905,7 +5905,7 @@ return {
 			"high_heel",
 		},
 		codes = {
-			"👠",
+			"\xF0\x9F\x91\xA0", -- 👠
 		},
 	},
 	["hockey"] = {
@@ -5913,7 +5913,7 @@ return {
 			"hockey",
 		},
 		codes = {
-			"🏒",
+			"\xF0\x9F\x8F\x92", -- 🏒
 		},
 	},
 	["hole"] = {
@@ -5921,7 +5921,7 @@ return {
 			"hole",
 		},
 		codes = {
-			"🕳",
+			"\xF0\x9F\x95\xB3", -- 🕳
 		},
 	},
 	["homes"] = {
@@ -5929,7 +5929,7 @@ return {
 			"homes",
 		},
 		codes = {
-			"🏘",
+			"\xF0\x9F\x8F\x98", -- 🏘
 		},
 	},
 	["honey_pot"] = {
@@ -5937,7 +5937,7 @@ return {
 			"honey_pot",
 		},
 		codes = {
-			"🍯",
+			"\xF0\x9F\x8D\xAF", -- 🍯
 		},
 	},
 	["horse"] = {
@@ -5945,7 +5945,7 @@ return {
 			"horse",
 		},
 		codes = {
-			"🐴",
+			"\xF0\x9F\x90\xB4", -- 🐴
 		},
 	},
 	["horse_racing"] = {
@@ -5953,7 +5953,7 @@ return {
 			"horse_racing",
 		},
 		codes = {
-			"🏇",
+			"\xF0\x9F\x8F\x87", -- 🏇
 		},
 	},
 	["hospital"] = {
@@ -5961,7 +5961,7 @@ return {
 			"hospital",
 		},
 		codes = {
-			"🏥",
+			"\xF0\x9F\x8F\xA5", -- 🏥
 		},
 	},
 	["hot_pepper"] = {
@@ -5969,7 +5969,7 @@ return {
 			"hot_pepper",
 		},
 		codes = {
-			"🌶",
+			"\xF0\x9F\x8C\xB6", -- 🌶
 		},
 	},
 	["hotdog"] = {
@@ -5977,7 +5977,7 @@ return {
 			"hotdog",
 		},
 		codes = {
-			"🌭",
+			"\xF0\x9F\x8C\xAD", -- 🌭
 		},
 	},
 	["hotel"] = {
@@ -5985,7 +5985,7 @@ return {
 			"hotel",
 		},
 		codes = {
-			"🏨",
+			"\xF0\x9F\x8F\xA8", -- 🏨
 		},
 	},
 	["hotsprings"] = {
@@ -5993,7 +5993,7 @@ return {
 			"hotsprings",
 		},
 		codes = {
-			"♨",
+			"\xE2\x99\xA8", -- ♨
 		},
 	},
 	["hourglass"] = {
@@ -6001,7 +6001,7 @@ return {
 			"hourglass",
 		},
 		codes = {
-			"⌛",
+			"\xE2\x8C\x9B", -- ⌛
 		},
 	},
 	["hourglass_flowing_sand"] = {
@@ -6009,7 +6009,7 @@ return {
 			"hourglass_flowing_sand",
 		},
 		codes = {
-			"⏳",
+			"\xE2\x8F\xB3", -- ⏳
 		},
 	},
 	["house"] = {
@@ -6017,7 +6017,7 @@ return {
 			"house",
 		},
 		codes = {
-			"🏠",
+			"\xF0\x9F\x8F\xA0", -- 🏠
 		},
 	},
 	["house_abandoned"] = {
@@ -6025,7 +6025,7 @@ return {
 			"house_abandoned",
 		},
 		codes = {
-			"🏚",
+			"\xF0\x9F\x8F\x9A", -- 🏚
 		},
 	},
 	["house_with_garden"] = {
@@ -6033,7 +6033,7 @@ return {
 			"house_with_garden",
 		},
 		codes = {
-			"🏡",
+			"\xF0\x9F\x8F\xA1", -- 🏡
 		},
 	},
 	["hugging"] = {
@@ -6041,7 +6041,7 @@ return {
 			"hugging",
 		},
 		codes = {
-			"🤗",
+			"\xF0\x9F\xA4\x97", -- 🤗
 		},
 	},
 	["hushed"] = {
@@ -6049,7 +6049,7 @@ return {
 			"hushed",
 		},
 		codes = {
-			"😯",
+			"\xF0\x9F\x98\xAF", -- 😯
 		},
 	},
 	["ice_cream"] = {
@@ -6057,7 +6057,7 @@ return {
 			"ice_cream",
 		},
 		codes = {
-			"🍨",
+			"\xF0\x9F\x8D\xA8", -- 🍨
 		},
 	},
 	["ice_skate"] = {
@@ -6065,7 +6065,7 @@ return {
 			"ice_skate",
 		},
 		codes = {
-			"⛸",
+			"\xE2\x9B\xB8", -- ⛸
 		},
 	},
 	["icecream"] = {
@@ -6073,7 +6073,7 @@ return {
 			"icecream",
 		},
 		codes = {
-			"🍦",
+			"\xF0\x9F\x8D\xA6", -- 🍦
 		},
 	},
 	["id"] = {
@@ -6081,7 +6081,7 @@ return {
 			"id",
 		},
 		codes = {
-			"🆔",
+			"\xF0\x9F\x86\x94", -- 🆔
 		},
 	},
 	["ideograph_advantage"] = {
@@ -6089,7 +6089,7 @@ return {
 			"ideograph_advantage",
 		},
 		codes = {
-			"🉐",
+			"\xF0\x9F\x89\x90", -- 🉐
 		},
 	},
 	["imp"] = {
@@ -6097,7 +6097,7 @@ return {
 			"imp",
 		},
 		codes = {
-			"👿",
+			"\xF0\x9F\x91\xBF", -- 👿
 		},
 	},
 	["inbox_tray"] = {
@@ -6105,7 +6105,7 @@ return {
 			"inbox_tray",
 		},
 		codes = {
-			"📥",
+			"\xF0\x9F\x93\xA5", -- 📥
 		},
 	},
 	["incoming_envelope"] = {
@@ -6113,7 +6113,7 @@ return {
 			"incoming_envelope",
 		},
 		codes = {
-			"📨",
+			"\xF0\x9F\x93\xA8", -- 📨
 		},
 	},
 	["information_desk_person"] = {
@@ -6121,7 +6121,7 @@ return {
 			"information_desk_person",
 		},
 		codes = {
-			"💁",
+			"\xF0\x9F\x92\x81", -- 💁
 		},
 	},
 	["information_source"] = {
@@ -6129,7 +6129,7 @@ return {
 			"information_source",
 		},
 		codes = {
-			"ℹ",
+			"\xE2\x84\xB9", -- ℹ
 		},
 	},
 	["innocent"] = {
@@ -6137,7 +6137,7 @@ return {
 			"innocent",
 		},
 		codes = {
-			"😇",
+			"\xF0\x9F\x98\x87", -- 😇
 		},
 	},
 	["interrobang"] = {
@@ -6145,7 +6145,7 @@ return {
 			"interrobang",
 		},
 		codes = {
-			"⁉",
+			"\xE2\x81\x89", -- ⁉
 		},
 	},
 	["iphone"] = {
@@ -6153,7 +6153,7 @@ return {
 			"iphone",
 		},
 		codes = {
-			"📱",
+			"\xF0\x9F\x93\xB1", -- 📱
 		},
 	},
 	["island"] = {
@@ -6161,7 +6161,7 @@ return {
 			"island",
 		},
 		codes = {
-			"🏝",
+			"\xF0\x9F\x8F\x9D", -- 🏝
 		},
 	},
 	["izakaya_lantern"] = {
@@ -6169,7 +6169,7 @@ return {
 			"izakaya_lantern",
 		},
 		codes = {
-			"🏮",
+			"\xF0\x9F\x8F\xAE", -- 🏮
 		},
 	},
 	["jack_o_lantern"] = {
@@ -6177,7 +6177,7 @@ return {
 			"jack_o_lantern",
 		},
 		codes = {
-			"🎃",
+			"\xF0\x9F\x8E\x83", -- 🎃
 		},
 	},
 	["japan"] = {
@@ -6185,7 +6185,7 @@ return {
 			"japan",
 		},
 		codes = {
-			"🗾",
+			"\xF0\x9F\x97\xBE", -- 🗾
 		},
 	},
 	["japanese_castle"] = {
@@ -6193,7 +6193,7 @@ return {
 			"japanese_castle",
 		},
 		codes = {
-			"🏯",
+			"\xF0\x9F\x8F\xAF", -- 🏯
 		},
 	},
 	["japanese_goblin"] = {
@@ -6201,7 +6201,7 @@ return {
 			"japanese_goblin",
 		},
 		codes = {
-			"👺",
+			"\xF0\x9F\x91\xBA", -- 👺
 		},
 	},
 	["japanese_ogre"] = {
@@ -6209,7 +6209,7 @@ return {
 			"japanese_ogre",
 		},
 		codes = {
-			"👹",
+			"\xF0\x9F\x91\xB9", -- 👹
 		},
 	},
 	["jeans"] = {
@@ -6217,7 +6217,7 @@ return {
 			"jeans",
 		},
 		codes = {
-			"👖",
+			"\xF0\x9F\x91\x96", -- 👖
 		},
 	},
 	["joy"] = {
@@ -6225,7 +6225,7 @@ return {
 			"joy",
 		},
 		codes = {
-			"😂",
+			"\xF0\x9F\x98\x82", -- 😂
 		},
 	},
 	["joy_cat"] = {
@@ -6233,7 +6233,7 @@ return {
 			"joy_cat",
 		},
 		codes = {
-			"😹",
+			"\xF0\x9F\x98\xB9", -- 😹
 		},
 	},
 	["joystick"] = {
@@ -6241,7 +6241,7 @@ return {
 			"joystick",
 		},
 		codes = {
-			"🕹",
+			"\xF0\x9F\x95\xB9", -- 🕹
 		},
 	},
 	["juggling"] = {
@@ -6249,7 +6249,7 @@ return {
 			"juggling",
 		},
 		codes = {
-			"🤹",
+			"\xF0\x9F\xA4\xB9", -- 🤹
 		},
 	},
 	["kaaba"] = {
@@ -6257,7 +6257,7 @@ return {
 			"kaaba",
 		},
 		codes = {
-			"🕋",
+			"\xF0\x9F\x95\x8B", -- 🕋
 		},
 	},
 	["key"] = {
@@ -6265,7 +6265,7 @@ return {
 			"key",
 		},
 		codes = {
-			"🔑",
+			"\xF0\x9F\x94\x91", -- 🔑
 		},
 	},
 	["key2"] = {
@@ -6273,7 +6273,7 @@ return {
 			"key2",
 		},
 		codes = {
-			"🗝",
+			"\xF0\x9F\x97\x9D", -- 🗝
 		},
 	},
 	["keyboard"] = {
@@ -6281,8 +6281,8 @@ return {
 			"keyboard",
 		},
 		codes = {
-			"⌨️",
-			"⌨",
+			"\xE2\x8C\xA8\xEF\xB8\x8F", -- ⌨️
+			"\xE2\x8C\xA8", -- ⌨
 		},
 	},
 	["keycap_ten"] = {
@@ -6290,7 +6290,7 @@ return {
 			"keycap_ten",
 		},
 		codes = {
-			"🔟",
+			"\xF0\x9F\x94\x9F", -- 🔟
 		},
 	},
 	["kimono"] = {
@@ -6298,7 +6298,7 @@ return {
 			"kimono",
 		},
 		codes = {
-			"👘",
+			"\xF0\x9F\x91\x98", -- 👘
 		},
 	},
 	["kiss"] = {
@@ -6306,7 +6306,7 @@ return {
 			"kiss",
 		},
 		codes = {
-			"💋",
+			"\xF0\x9F\x92\x8B", -- 💋
 		},
 	},
 	["kiss_mm"] = {
@@ -6314,7 +6314,7 @@ return {
 			"kiss_mm",
 		},
 		codes = {
-			"👨‍❤️‍💋‍👨",
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xE2\x9D\xA4\xEF\xB8\x8F\xE2\x80\x8D\xF0\x9F\x92\x8B\xE2\x80\x8D\xF0\x9F\x91\xA8", -- 👨‍❤️‍💋‍👨
 		},
 	},
 	["kiss_ww"] = {
@@ -6322,7 +6322,7 @@ return {
 			"kiss_ww",
 		},
 		codes = {
-			"👩‍❤️‍💋‍👩",
+			"\xF0\x9F\x91\xA9\xE2\x80\x8D\xE2\x9D\xA4\xEF\xB8\x8F\xE2\x80\x8D\xF0\x9F\x92\x8B\xE2\x80\x8D\xF0\x9F\x91\xA9", -- 👩‍❤️‍💋‍👩
 		},
 	},
 	["kissing"] = {
@@ -6330,7 +6330,7 @@ return {
 			"kissing",
 		},
 		codes = {
-			"😗",
+			"\xF0\x9F\x98\x97", -- 😗
 		},
 	},
 	["kissing_cat"] = {
@@ -6338,7 +6338,7 @@ return {
 			"kissing_cat",
 		},
 		codes = {
-			"😽",
+			"\xF0\x9F\x98\xBD", -- 😽
 		},
 	},
 	["kissing_closed_eyes"] = {
@@ -6346,7 +6346,7 @@ return {
 			"kissing_closed_eyes",
 		},
 		codes = {
-			"😚",
+			"\xF0\x9F\x98\x9A", -- 😚
 		},
 	},
 	["kissing_heart"] = {
@@ -6354,7 +6354,7 @@ return {
 			"kissing_heart",
 		},
 		codes = {
-			"😘",
+			"\xF0\x9F\x98\x98", -- 😘
 		},
 	},
 	["kissing_smiling_eyes"] = {
@@ -6362,7 +6362,7 @@ return {
 			"kissing_smiling_eyes",
 		},
 		codes = {
-			"😙",
+			"\xF0\x9F\x98\x99", -- 😙
 		},
 	},
 	["kiwi"] = {
@@ -6370,7 +6370,7 @@ return {
 			"kiwi",
 		},
 		codes = {
-			"🥝",
+			"\xF0\x9F\xA5\x9D", -- 🥝
 		},
 	},
 	["knife"] = {
@@ -6378,7 +6378,7 @@ return {
 			"knife",
 		},
 		codes = {
-			"🔪",
+			"\xF0\x9F\x94\xAA", -- 🔪
 		},
 	},
 	["koala"] = {
@@ -6386,7 +6386,7 @@ return {
 			"koala",
 		},
 		codes = {
-			"🐨",
+			"\xF0\x9F\x90\xA8", -- 🐨
 		},
 	},
 	["koko"] = {
@@ -6394,7 +6394,7 @@ return {
 			"koko",
 		},
 		codes = {
-			"🈁",
+			"\xF0\x9F\x88\x81", -- 🈁
 		},
 	},
 	["label"] = {
@@ -6402,7 +6402,7 @@ return {
 			"label",
 		},
 		codes = {
-			"🏷",
+			"\xF0\x9F\x8F\xB7", -- 🏷
 		},
 	},
 	["large_blue_circle"] = {
@@ -6410,7 +6410,7 @@ return {
 			"large_blue_circle",
 		},
 		codes = {
-			"🔵",
+			"\xF0\x9F\x94\xB5", -- 🔵
 		},
 	},
 	["large_blue_diamond"] = {
@@ -6418,7 +6418,7 @@ return {
 			"large_blue_diamond",
 		},
 		codes = {
-			"🔷",
+			"\xF0\x9F\x94\xB7", -- 🔷
 		},
 	},
 	["large_orange_diamond"] = {
@@ -6426,7 +6426,7 @@ return {
 			"large_orange_diamond",
 		},
 		codes = {
-			"🔶",
+			"\xF0\x9F\x94\xB6", -- 🔶
 		},
 	},
 	["last_quarter_moon"] = {
@@ -6434,7 +6434,7 @@ return {
 			"last_quarter_moon",
 		},
 		codes = {
-			"🌗",
+			"\xF0\x9F\x8C\x97", -- 🌗
 		},
 	},
 	["last_quarter_moon_with_face"] = {
@@ -6442,7 +6442,7 @@ return {
 			"last_quarter_moon_with_face",
 		},
 		codes = {
-			"🌜",
+			"\xF0\x9F\x8C\x9C", -- 🌜
 		},
 	},
 	["laughing"] = {
@@ -6450,7 +6450,7 @@ return {
 			"laughing",
 		},
 		codes = {
-			"😆",
+			"\xF0\x9F\x98\x86", -- 😆
 		},
 	},
 	["leaves"] = {
@@ -6458,7 +6458,7 @@ return {
 			"leaves",
 		},
 		codes = {
-			"🍃",
+			"\xF0\x9F\x8D\x83", -- 🍃
 		},
 	},
 	["ledger"] = {
@@ -6466,7 +6466,7 @@ return {
 			"ledger",
 		},
 		codes = {
-			"📒",
+			"\xF0\x9F\x93\x92", -- 📒
 		},
 	},
 	["left_facing_fist"] = {
@@ -6474,7 +6474,7 @@ return {
 			"left_facing_fist",
 		},
 		codes = {
-			"🤛",
+			"\xF0\x9F\xA4\x9B", -- 🤛
 		},
 	},
 	["left_luggage"] = {
@@ -6482,7 +6482,7 @@ return {
 			"left_luggage",
 		},
 		codes = {
-			"🛅",
+			"\xF0\x9F\x9B\x85", -- 🛅
 		},
 	},
 	["left_right_arrow"] = {
@@ -6490,7 +6490,7 @@ return {
 			"left_right_arrow",
 		},
 		codes = {
-			"↔",
+			"\xE2\x86\x94", -- ↔
 		},
 	},
 	["leftwards_arrow_with_hook"] = {
@@ -6498,7 +6498,7 @@ return {
 			"leftwards_arrow_with_hook",
 		},
 		codes = {
-			"↩",
+			"\xE2\x86\xA9", -- ↩
 		},
 	},
 	["lemon"] = {
@@ -6506,7 +6506,7 @@ return {
 			"lemon",
 		},
 		codes = {
-			"🍋",
+			"\xF0\x9F\x8D\x8B", -- 🍋
 		},
 	},
 	["leo"] = {
@@ -6514,7 +6514,7 @@ return {
 			"leo",
 		},
 		codes = {
-			"♌",
+			"\xE2\x99\x8C", -- ♌
 		},
 	},
 	["leopard"] = {
@@ -6522,7 +6522,7 @@ return {
 			"leopard",
 		},
 		codes = {
-			"🐆",
+			"\xF0\x9F\x90\x86", -- 🐆
 		},
 	},
 	["level_slider"] = {
@@ -6530,7 +6530,7 @@ return {
 			"level_slider",
 		},
 		codes = {
-			"🎚",
+			"\xF0\x9F\x8E\x9A", -- 🎚
 		},
 	},
 	["levitate"] = {
@@ -6538,7 +6538,7 @@ return {
 			"levitate",
 		},
 		codes = {
-			"🕴",
+			"\xF0\x9F\x95\xB4", -- 🕴
 		},
 	},
 	["libra"] = {
@@ -6546,7 +6546,7 @@ return {
 			"libra",
 		},
 		codes = {
-			"♎",
+			"\xE2\x99\x8E", -- ♎
 		},
 	},
 	["lifter"] = {
@@ -6554,7 +6554,7 @@ return {
 			"lifter",
 		},
 		codes = {
-			"🏋",
+			"\xF0\x9F\x8F\x8B", -- 🏋
 		},
 	},
 	["light_rail"] = {
@@ -6562,7 +6562,7 @@ return {
 			"light_rail",
 		},
 		codes = {
-			"🚈",
+			"\xF0\x9F\x9A\x88", -- 🚈
 		},
 	},
 	["link"] = {
@@ -6570,7 +6570,7 @@ return {
 			"link",
 		},
 		codes = {
-			"🔗",
+			"\xF0\x9F\x94\x97", -- 🔗
 		},
 	},
 	["lion_face"] = {
@@ -6578,7 +6578,7 @@ return {
 			"lion_face",
 		},
 		codes = {
-			"🦁",
+			"\xF0\x9F\xA6\x81", -- 🦁
 		},
 	},
 	["lips"] = {
@@ -6586,7 +6586,7 @@ return {
 			"lips",
 		},
 		codes = {
-			"👄",
+			"\xF0\x9F\x91\x84", -- 👄
 		},
 	},
 	["lipstick"] = {
@@ -6594,7 +6594,7 @@ return {
 			"lipstick",
 		},
 		codes = {
-			"💄",
+			"\xF0\x9F\x92\x84", -- 💄
 		},
 	},
 	["lizard"] = {
@@ -6602,7 +6602,7 @@ return {
 			"lizard",
 		},
 		codes = {
-			"🦎",
+			"\xF0\x9F\xA6\x8E", -- 🦎
 		},
 	},
 	["lock"] = {
@@ -6610,7 +6610,7 @@ return {
 			"lock",
 		},
 		codes = {
-			"🔒",
+			"\xF0\x9F\x94\x92", -- 🔒
 		},
 	},
 	["lock_with_ink_pen"] = {
@@ -6618,7 +6618,7 @@ return {
 			"lock_with_ink_pen",
 		},
 		codes = {
-			"🔏",
+			"\xF0\x9F\x94\x8F", -- 🔏
 		},
 	},
 	["lollipop"] = {
@@ -6626,7 +6626,7 @@ return {
 			"lollipop",
 		},
 		codes = {
-			"🍭",
+			"\xF0\x9F\x8D\xAD", -- 🍭
 		},
 	},
 	["loop"] = {
@@ -6634,7 +6634,7 @@ return {
 			"loop",
 		},
 		codes = {
-			"➿",
+			"\xE2\x9E\xBF", -- ➿
 		},
 	},
 	["loud_sound"] = {
@@ -6642,7 +6642,7 @@ return {
 			"loud_sound",
 		},
 		codes = {
-			"🔊",
+			"\xF0\x9F\x94\x8A", -- 🔊
 		},
 	},
 	["loudspeaker"] = {
@@ -6650,7 +6650,7 @@ return {
 			"loudspeaker",
 		},
 		codes = {
-			"📢",
+			"\xF0\x9F\x93\xA2", -- 📢
 		},
 	},
 	["love_hotel"] = {
@@ -6658,7 +6658,7 @@ return {
 			"love_hotel",
 		},
 		codes = {
-			"🏩",
+			"\xF0\x9F\x8F\xA9", -- 🏩
 		},
 	},
 	["love_letter"] = {
@@ -6666,7 +6666,7 @@ return {
 			"love_letter",
 		},
 		codes = {
-			"💌",
+			"\xF0\x9F\x92\x8C", -- 💌
 		},
 	},
 	["low_brightness"] = {
@@ -6674,7 +6674,7 @@ return {
 			"low_brightness",
 		},
 		codes = {
-			"🔅",
+			"\xF0\x9F\x94\x85", -- 🔅
 		},
 	},
 	["lying_face"] = {
@@ -6682,7 +6682,7 @@ return {
 			"lying_face",
 		},
 		codes = {
-			"🤥",
+			"\xF0\x9F\xA4\xA5", -- 🤥
 		},
 	},
 	["m"] = {
@@ -6690,7 +6690,7 @@ return {
 			"m",
 		},
 		codes = {
-			"Ⓜ",
+			"\xE2\x93\x82", -- Ⓜ
 		},
 	},
 	["mag"] = {
@@ -6698,7 +6698,7 @@ return {
 			"mag",
 		},
 		codes = {
-			"🔍",
+			"\xF0\x9F\x94\x8D", -- 🔍
 		},
 	},
 	["mag_right"] = {
@@ -6706,7 +6706,7 @@ return {
 			"mag_right",
 		},
 		codes = {
-			"🔎",
+			"\xF0\x9F\x94\x8E", -- 🔎
 		},
 	},
 	["mahjong"] = {
@@ -6714,7 +6714,7 @@ return {
 			"mahjong",
 		},
 		codes = {
-			"🀄",
+			"\xF0\x9F\x80\x84", -- 🀄
 		},
 	},
 	["mailbox"] = {
@@ -6722,7 +6722,7 @@ return {
 			"mailbox",
 		},
 		codes = {
-			"📫",
+			"\xF0\x9F\x93\xAB", -- 📫
 		},
 	},
 	["mailbox_closed"] = {
@@ -6730,7 +6730,7 @@ return {
 			"mailbox_closed",
 		},
 		codes = {
-			"📪",
+			"\xF0\x9F\x93\xAA", -- 📪
 		},
 	},
 	["mailbox_with_mail"] = {
@@ -6738,7 +6738,7 @@ return {
 			"mailbox_with_mail",
 		},
 		codes = {
-			"📬",
+			"\xF0\x9F\x93\xAC", -- 📬
 		},
 	},
 	["mailbox_with_no_mail"] = {
@@ -6746,7 +6746,7 @@ return {
 			"mailbox_with_no_mail",
 		},
 		codes = {
-			"📭",
+			"\xF0\x9F\x93\xAD", -- 📭
 		},
 	},
 	["man"] = {
@@ -6754,7 +6754,7 @@ return {
 			"man",
 		},
 		codes = {
-			"👨",
+			"\xF0\x9F\x91\xA8", -- 👨
 		},
 	},
 	["man_dancing"] = {
@@ -6762,7 +6762,7 @@ return {
 			"man_dancing",
 		},
 		codes = {
-			"🕺",
+			"\xF0\x9F\x95\xBA", -- 🕺
 		},
 	},
 	["man_in_tuxedo"] = {
@@ -6770,7 +6770,7 @@ return {
 			"man_in_tuxedo",
 		},
 		codes = {
-			"🤵",
+			"\xF0\x9F\xA4\xB5", -- 🤵
 		},
 	},
 	["man_with_gua_pi_mao"] = {
@@ -6778,7 +6778,7 @@ return {
 			"man_with_gua_pi_mao",
 		},
 		codes = {
-			"👲",
+			"\xF0\x9F\x91\xB2", -- 👲
 		},
 	},
 	["man_with_turban"] = {
@@ -6786,7 +6786,7 @@ return {
 			"man_with_turban",
 		},
 		codes = {
-			"👳",
+			"\xF0\x9F\x91\xB3", -- 👳
 		},
 	},
 	["mans_shoe"] = {
@@ -6794,7 +6794,7 @@ return {
 			"mans_shoe",
 		},
 		codes = {
-			"👞",
+			"\xF0\x9F\x91\x9E", -- 👞
 		},
 	},
 	["map"] = {
@@ -6802,7 +6802,7 @@ return {
 			"map",
 		},
 		codes = {
-			"🗺",
+			"\xF0\x9F\x97\xBA", -- 🗺
 		},
 	},
 	["maple_leaf"] = {
@@ -6810,7 +6810,7 @@ return {
 			"maple_leaf",
 		},
 		codes = {
-			"🍁",
+			"\xF0\x9F\x8D\x81", -- 🍁
 		},
 	},
 	["martial_arts_uniform"] = {
@@ -6818,7 +6818,7 @@ return {
 			"martial_arts_uniform",
 		},
 		codes = {
-			"🥋",
+			"\xF0\x9F\xA5\x8B", -- 🥋
 		},
 	},
 	["mask"] = {
@@ -6826,7 +6826,7 @@ return {
 			"mask",
 		},
 		codes = {
-			"😷",
+			"\xF0\x9F\x98\xB7", -- 😷
 		},
 	},
 	["massage"] = {
@@ -6834,7 +6834,7 @@ return {
 			"massage",
 		},
 		codes = {
-			"💆",
+			"\xF0\x9F\x92\x86", -- 💆
 		},
 	},
 	["meat_on_bone"] = {
@@ -6842,7 +6842,7 @@ return {
 			"meat_on_bone",
 		},
 		codes = {
-			"🍖",
+			"\xF0\x9F\x8D\x96", -- 🍖
 		},
 	},
 	["medal"] = {
@@ -6850,7 +6850,7 @@ return {
 			"medal",
 		},
 		codes = {
-			"🏅",
+			"\xF0\x9F\x8F\x85", -- 🏅
 		},
 	},
 	["mega"] = {
@@ -6858,7 +6858,7 @@ return {
 			"mega",
 		},
 		codes = {
-			"📣",
+			"\xF0\x9F\x93\xA3", -- 📣
 		},
 	},
 	["melon"] = {
@@ -6866,7 +6866,7 @@ return {
 			"melon",
 		},
 		codes = {
-			"🍈",
+			"\xF0\x9F\x8D\x88", -- 🍈
 		},
 	},
 	["menorah"] = {
@@ -6874,7 +6874,7 @@ return {
 			"menorah",
 		},
 		codes = {
-			"🕎",
+			"\xF0\x9F\x95\x8E", -- 🕎
 		},
 	},
 	["mens"] = {
@@ -6882,7 +6882,7 @@ return {
 			"mens",
 		},
 		codes = {
-			"🚹",
+			"\xF0\x9F\x9A\xB9", -- 🚹
 		},
 	},
 	["metal"] = {
@@ -6890,7 +6890,7 @@ return {
 			"metal",
 		},
 		codes = {
-			"🤘",
+			"\xF0\x9F\xA4\x98", -- 🤘
 		},
 	},
 	["metro"] = {
@@ -6898,7 +6898,7 @@ return {
 			"metro",
 		},
 		codes = {
-			"🚇",
+			"\xF0\x9F\x9A\x87", -- 🚇
 		},
 	},
 	["microphone"] = {
@@ -6906,7 +6906,7 @@ return {
 			"microphone",
 		},
 		codes = {
-			"🎤",
+			"\xF0\x9F\x8E\xA4", -- 🎤
 		},
 	},
 	["microphone2"] = {
@@ -6914,7 +6914,7 @@ return {
 			"microphone2",
 		},
 		codes = {
-			"🎙",
+			"\xF0\x9F\x8E\x99", -- 🎙
 		},
 	},
 	["microscope"] = {
@@ -6922,7 +6922,7 @@ return {
 			"microscope",
 		},
 		codes = {
-			"🔬",
+			"\xF0\x9F\x94\xAC", -- 🔬
 		},
 	},
 	["middle_finger"] = {
@@ -6930,7 +6930,7 @@ return {
 			"middle_finger",
 		},
 		codes = {
-			"🖕",
+			"\xF0\x9F\x96\x95", -- 🖕
 		},
 	},
 	["military_medal"] = {
@@ -6938,7 +6938,7 @@ return {
 			"military_medal",
 		},
 		codes = {
-			"🎖",
+			"\xF0\x9F\x8E\x96", -- 🎖
 		},
 	},
 	["milk"] = {
@@ -6946,7 +6946,7 @@ return {
 			"milk",
 		},
 		codes = {
-			"🥛",
+			"\xF0\x9F\xA5\x9B", -- 🥛
 		},
 	},
 	["milky_way"] = {
@@ -6954,7 +6954,7 @@ return {
 			"milky_way",
 		},
 		codes = {
-			"🌌",
+			"\xF0\x9F\x8C\x8C", -- 🌌
 		},
 	},
 	["minibus"] = {
@@ -6962,7 +6962,7 @@ return {
 			"minibus",
 		},
 		codes = {
-			"🚐",
+			"\xF0\x9F\x9A\x90", -- 🚐
 		},
 	},
 	["minidisc"] = {
@@ -6970,7 +6970,7 @@ return {
 			"minidisc",
 		},
 		codes = {
-			"💽",
+			"\xF0\x9F\x92\xBD", -- 💽
 		},
 	},
 	["mobile_phone_off"] = {
@@ -6978,7 +6978,7 @@ return {
 			"mobile_phone_off",
 		},
 		codes = {
-			"📴",
+			"\xF0\x9F\x93\xB4", -- 📴
 		},
 	},
 	["money_mouth"] = {
@@ -6986,7 +6986,7 @@ return {
 			"money_mouth",
 		},
 		codes = {
-			"🤑",
+			"\xF0\x9F\xA4\x91", -- 🤑
 		},
 	},
 	["money_with_wings"] = {
@@ -6994,7 +6994,7 @@ return {
 			"money_with_wings",
 		},
 		codes = {
-			"💸",
+			"\xF0\x9F\x92\xB8", -- 💸
 		},
 	},
 	["moneybag"] = {
@@ -7002,7 +7002,7 @@ return {
 			"moneybag",
 		},
 		codes = {
-			"💰",
+			"\xF0\x9F\x92\xB0", -- 💰
 		},
 	},
 	["monkey"] = {
@@ -7010,7 +7010,7 @@ return {
 			"monkey",
 		},
 		codes = {
-			"🐒",
+			"\xF0\x9F\x90\x92", -- 🐒
 		},
 	},
 	["monkey_face"] = {
@@ -7018,7 +7018,7 @@ return {
 			"monkey_face",
 		},
 		codes = {
-			"🐵",
+			"\xF0\x9F\x90\xB5", -- 🐵
 		},
 	},
 	["monorail"] = {
@@ -7026,7 +7026,7 @@ return {
 			"monorail",
 		},
 		codes = {
-			"🚝",
+			"\xF0\x9F\x9A\x9D", -- 🚝
 		},
 	},
 	["mortar_board"] = {
@@ -7034,7 +7034,7 @@ return {
 			"mortar_board",
 		},
 		codes = {
-			"🎓",
+			"\xF0\x9F\x8E\x93", -- 🎓
 		},
 	},
 	["mosque"] = {
@@ -7042,7 +7042,7 @@ return {
 			"mosque",
 		},
 		codes = {
-			"🕌",
+			"\xF0\x9F\x95\x8C", -- 🕌
 		},
 	},
 	["motor_scooter"] = {
@@ -7050,7 +7050,7 @@ return {
 			"motor_scooter",
 		},
 		codes = {
-			"🛵",
+			"\xF0\x9F\x9B\xB5", -- 🛵
 		},
 	},
 	["motorboat"] = {
@@ -7058,7 +7058,7 @@ return {
 			"motorboat",
 		},
 		codes = {
-			"🛥",
+			"\xF0\x9F\x9B\xA5", -- 🛥
 		},
 	},
 	["motorcycle"] = {
@@ -7066,7 +7066,7 @@ return {
 			"motorcycle",
 		},
 		codes = {
-			"🏍",
+			"\xF0\x9F\x8F\x8D", -- 🏍
 		},
 	},
 	["motorway"] = {
@@ -7074,7 +7074,7 @@ return {
 			"motorway",
 		},
 		codes = {
-			"🛣",
+			"\xF0\x9F\x9B\xA3", -- 🛣
 		},
 	},
 	["mount_fuji"] = {
@@ -7082,7 +7082,7 @@ return {
 			"mount_fuji",
 		},
 		codes = {
-			"🗻",
+			"\xF0\x9F\x97\xBB", -- 🗻
 		},
 	},
 	["mountain"] = {
@@ -7090,7 +7090,7 @@ return {
 			"mountain",
 		},
 		codes = {
-			"⛰",
+			"\xE2\x9B\xB0", -- ⛰
 		},
 	},
 	["mountain_bicyclist"] = {
@@ -7098,7 +7098,7 @@ return {
 			"mountain_bicyclist",
 		},
 		codes = {
-			"🚵",
+			"\xF0\x9F\x9A\xB5", -- 🚵
 		},
 	},
 	["mountain_cableway"] = {
@@ -7106,7 +7106,7 @@ return {
 			"mountain_cableway",
 		},
 		codes = {
-			"🚠",
+			"\xF0\x9F\x9A\xA0", -- 🚠
 		},
 	},
 	["mountain_railway"] = {
@@ -7114,7 +7114,7 @@ return {
 			"mountain_railway",
 		},
 		codes = {
-			"🚞",
+			"\xF0\x9F\x9A\x9E", -- 🚞
 		},
 	},
 	["mountain_snow"] = {
@@ -7122,7 +7122,7 @@ return {
 			"mountain_snow",
 		},
 		codes = {
-			"🏔",
+			"\xF0\x9F\x8F\x94", -- 🏔
 		},
 	},
 	["mouse"] = {
@@ -7130,7 +7130,7 @@ return {
 			"mouse",
 		},
 		codes = {
-			"🐭",
+			"\xF0\x9F\x90\xAD", -- 🐭
 		},
 	},
 	["mouse2"] = {
@@ -7138,7 +7138,7 @@ return {
 			"mouse2",
 		},
 		codes = {
-			"🐁",
+			"\xF0\x9F\x90\x81", -- 🐁
 		},
 	},
 	["mouse_three_button"] = {
@@ -7146,7 +7146,7 @@ return {
 			"mouse_three_button",
 		},
 		codes = {
-			"🖱",
+			"\xF0\x9F\x96\xB1", -- 🖱
 		},
 	},
 	["movie_camera"] = {
@@ -7154,7 +7154,7 @@ return {
 			"movie_camera",
 		},
 		codes = {
-			"🎥",
+			"\xF0\x9F\x8E\xA5", -- 🎥
 		},
 	},
 	["moyai"] = {
@@ -7162,7 +7162,7 @@ return {
 			"moyai",
 		},
 		codes = {
-			"🗿",
+			"\xF0\x9F\x97\xBF", -- 🗿
 		},
 	},
 	["mrs_claus"] = {
@@ -7170,7 +7170,7 @@ return {
 			"mrs_claus",
 		},
 		codes = {
-			"🤶",
+			"\xF0\x9F\xA4\xB6", -- 🤶
 		},
 	},
 	["muscle"] = {
@@ -7178,7 +7178,7 @@ return {
 			"muscle",
 		},
 		codes = {
-			"💪",
+			"\xF0\x9F\x92\xAA", -- 💪
 		},
 	},
 	["mushroom"] = {
@@ -7186,7 +7186,7 @@ return {
 			"mushroom",
 		},
 		codes = {
-			"🍄",
+			"\xF0\x9F\x8D\x84", -- 🍄
 		},
 	},
 	["musical_keyboard"] = {
@@ -7194,7 +7194,7 @@ return {
 			"musical_keyboard",
 		},
 		codes = {
-			"🎹",
+			"\xF0\x9F\x8E\xB9", -- 🎹
 		},
 	},
 	["musical_note"] = {
@@ -7202,7 +7202,7 @@ return {
 			"musical_note",
 		},
 		codes = {
-			"🎵",
+			"\xF0\x9F\x8E\xB5", -- 🎵
 		},
 	},
 	["musical_score"] = {
@@ -7210,7 +7210,7 @@ return {
 			"musical_score",
 		},
 		codes = {
-			"🎼",
+			"\xF0\x9F\x8E\xBC", -- 🎼
 		},
 	},
 	["mute"] = {
@@ -7218,7 +7218,7 @@ return {
 			"mute",
 		},
 		codes = {
-			"🔇",
+			"\xF0\x9F\x94\x87", -- 🔇
 		},
 	},
 	["nail_care"] = {
@@ -7226,7 +7226,7 @@ return {
 			"nail_care",
 		},
 		codes = {
-			"💅",
+			"\xF0\x9F\x92\x85", -- 💅
 		},
 	},
 	["name_badge"] = {
@@ -7234,7 +7234,7 @@ return {
 			"name_badge",
 		},
 		codes = {
-			"📛",
+			"\xF0\x9F\x93\x9B", -- 📛
 		},
 	},
 	["nauseated_face"] = {
@@ -7242,7 +7242,7 @@ return {
 			"nauseated_face",
 		},
 		codes = {
-			"🤢",
+			"\xF0\x9F\xA4\xA2", -- 🤢
 		},
 	},
 	["necktie"] = {
@@ -7250,7 +7250,7 @@ return {
 			"necktie",
 		},
 		codes = {
-			"👔",
+			"\xF0\x9F\x91\x94", -- 👔
 		},
 	},
 	["negative_squared_cross_mark"] = {
@@ -7258,7 +7258,7 @@ return {
 			"negative_squared_cross_mark",
 		},
 		codes = {
-			"❎",
+			"\xE2\x9D\x8E", -- ❎
 		},
 	},
 	["nerd"] = {
@@ -7266,7 +7266,7 @@ return {
 			"nerd",
 		},
 		codes = {
-			"🤓",
+			"\xF0\x9F\xA4\x93", -- 🤓
 		},
 	},
 	["neutral_face"] = {
@@ -7274,7 +7274,7 @@ return {
 			"neutral_face",
 		},
 		codes = {
-			"😐",
+			"\xF0\x9F\x98\x90", -- 😐
 		},
 	},
 	["new"] = {
@@ -7282,7 +7282,7 @@ return {
 			"new",
 		},
 		codes = {
-			"🆕",
+			"\xF0\x9F\x86\x95", -- 🆕
 		},
 	},
 	["new_moon"] = {
@@ -7290,7 +7290,7 @@ return {
 			"new_moon",
 		},
 		codes = {
-			"🌑",
+			"\xF0\x9F\x8C\x91", -- 🌑
 		},
 	},
 	["new_moon_with_face"] = {
@@ -7298,7 +7298,7 @@ return {
 			"new_moon_with_face",
 		},
 		codes = {
-			"🌚",
+			"\xF0\x9F\x8C\x9A", -- 🌚
 		},
 	},
 	["newspaper"] = {
@@ -7306,7 +7306,7 @@ return {
 			"newspaper",
 		},
 		codes = {
-			"📰",
+			"\xF0\x9F\x93\xB0", -- 📰
 		},
 	},
 	["newspaper2"] = {
@@ -7314,7 +7314,7 @@ return {
 			"newspaper2",
 		},
 		codes = {
-			"🗞",
+			"\xF0\x9F\x97\x9E", -- 🗞
 		},
 	},
 	["ng"] = {
@@ -7322,7 +7322,7 @@ return {
 			"ng",
 		},
 		codes = {
-			"🆖",
+			"\xF0\x9F\x86\x96", -- 🆖
 		},
 	},
 	["night_with_stars"] = {
@@ -7330,7 +7330,7 @@ return {
 			"night_with_stars",
 		},
 		codes = {
-			"🌃",
+			"\xF0\x9F\x8C\x83", -- 🌃
 		},
 	},
 	["nine"] = {
@@ -7338,8 +7338,8 @@ return {
 			"nine",
 		},
 		codes = {
-			"9️⃣",
-			"9⃣",
+			"\x39\xEF\xB8\x8F\xE2\x83\xA3", -- 9️⃣
+			"\x39\xE2\x83\xA3", -- 9⃣
 		},
 	},
 	["no_bell"] = {
@@ -7347,7 +7347,7 @@ return {
 			"no_bell",
 		},
 		codes = {
-			"🔕",
+			"\xF0\x9F\x94\x95", -- 🔕
 		},
 	},
 	["no_bicycles"] = {
@@ -7355,7 +7355,7 @@ return {
 			"no_bicycles",
 		},
 		codes = {
-			"🚳",
+			"\xF0\x9F\x9A\xB3", -- 🚳
 		},
 	},
 	["no_entry"] = {
@@ -7363,7 +7363,7 @@ return {
 			"no_entry",
 		},
 		codes = {
-			"⛔",
+			"\xE2\x9B\x94", -- ⛔
 		},
 	},
 	["no_entry_sign"] = {
@@ -7371,7 +7371,7 @@ return {
 			"no_entry_sign",
 		},
 		codes = {
-			"🚫",
+			"\xF0\x9F\x9A\xAB", -- 🚫
 		},
 	},
 	["no_good"] = {
@@ -7379,7 +7379,7 @@ return {
 			"no_good",
 		},
 		codes = {
-			"🙅",
+			"\xF0\x9F\x99\x85", -- 🙅
 		},
 	},
 	["no_mobile_phones"] = {
@@ -7387,7 +7387,7 @@ return {
 			"no_mobile_phones",
 		},
 		codes = {
-			"📵",
+			"\xF0\x9F\x93\xB5", -- 📵
 		},
 	},
 	["no_mouth"] = {
@@ -7395,7 +7395,7 @@ return {
 			"no_mouth",
 		},
 		codes = {
-			"😶",
+			"\xF0\x9F\x98\xB6", -- 😶
 		},
 	},
 	["no_pedestrians"] = {
@@ -7403,7 +7403,7 @@ return {
 			"no_pedestrians",
 		},
 		codes = {
-			"🚷",
+			"\xF0\x9F\x9A\xB7", -- 🚷
 		},
 	},
 	["no_smoking"] = {
@@ -7411,7 +7411,7 @@ return {
 			"no_smoking",
 		},
 		codes = {
-			"🚭",
+			"\xF0\x9F\x9A\xAD", -- 🚭
 		},
 	},
 	["non_potable_water"] = {
@@ -7419,7 +7419,7 @@ return {
 			"non_potable_water",
 		},
 		codes = {
-			"🚱",
+			"\xF0\x9F\x9A\xB1", -- 🚱
 		},
 	},
 	["nose"] = {
@@ -7427,7 +7427,7 @@ return {
 			"nose",
 		},
 		codes = {
-			"👃",
+			"\xF0\x9F\x91\x83", -- 👃
 		},
 	},
 	["not_a_bot"] = {
@@ -7435,7 +7435,7 @@ return {
 			"not_a_bot",
 		},
 		codes = {
-			"🤖",
+			"\xF0\x9F\xA4\x96", -- 🤖
 		},
 	},
 	["notebook"] = {
@@ -7443,7 +7443,7 @@ return {
 			"notebook",
 		},
 		codes = {
-			"📓",
+			"\xF0\x9F\x93\x93", -- 📓
 		},
 	},
 	["notebook_with_decorative_cover"] = {
@@ -7451,7 +7451,7 @@ return {
 			"notebook_with_decorative_cover",
 		},
 		codes = {
-			"📔",
+			"\xF0\x9F\x93\x94", -- 📔
 		},
 	},
 	["notepad_spiral"] = {
@@ -7459,7 +7459,7 @@ return {
 			"notepad_spiral",
 		},
 		codes = {
-			"🗒",
+			"\xF0\x9F\x97\x92", -- 🗒
 		},
 	},
 	["notes"] = {
@@ -7467,7 +7467,7 @@ return {
 			"notes",
 		},
 		codes = {
-			"🎶",
+			"\xF0\x9F\x8E\xB6", -- 🎶
 		},
 	},
 	["nut_and_bolt"] = {
@@ -7475,7 +7475,7 @@ return {
 			"nut_and_bolt",
 		},
 		codes = {
-			"🔩",
+			"\xF0\x9F\x94\xA9", -- 🔩
 		},
 	},
 	["o"] = {
@@ -7483,7 +7483,7 @@ return {
 			"o",
 		},
 		codes = {
-			"⭕",
+			"\xE2\xAD\x95", -- ⭕
 		},
 	},
 	["o2"] = {
@@ -7491,7 +7491,7 @@ return {
 			"o2",
 		},
 		codes = {
-			"🅾",
+			"\xF0\x9F\x85\xBE", -- 🅾
 		},
 	},
 	["ocean"] = {
@@ -7499,7 +7499,7 @@ return {
 			"ocean",
 		},
 		codes = {
-			"🌊",
+			"\xF0\x9F\x8C\x8A", -- 🌊
 		},
 	},
 	["octagonal_sign"] = {
@@ -7507,7 +7507,7 @@ return {
 			"octagonal_sign",
 		},
 		codes = {
-			"🛑",
+			"\xF0\x9F\x9B\x91", -- 🛑
 		},
 	},
 	["octopus"] = {
@@ -7515,7 +7515,7 @@ return {
 			"octopus",
 		},
 		codes = {
-			"🐙",
+			"\xF0\x9F\x90\x99", -- 🐙
 		},
 	},
 	["oden"] = {
@@ -7523,7 +7523,7 @@ return {
 			"oden",
 		},
 		codes = {
-			"🍢",
+			"\xF0\x9F\x8D\xA2", -- 🍢
 		},
 	},
 	["office"] = {
@@ -7531,7 +7531,7 @@ return {
 			"office",
 		},
 		codes = {
-			"🏢",
+			"\xF0\x9F\x8F\xA2", -- 🏢
 		},
 	},
 	["oil"] = {
@@ -7539,7 +7539,7 @@ return {
 			"oil",
 		},
 		codes = {
-			"🛢",
+			"\xF0\x9F\x9B\xA2", -- 🛢
 		},
 	},
 	["ok"] = {
@@ -7547,7 +7547,7 @@ return {
 			"ok",
 		},
 		codes = {
-			"🆗",
+			"\xF0\x9F\x86\x97", -- 🆗
 		},
 	},
 	["ok_hand"] = {
@@ -7555,7 +7555,7 @@ return {
 			"ok_hand",
 		},
 		codes = {
-			"👌",
+			"\xF0\x9F\x91\x8C", -- 👌
 		},
 	},
 	["ok_woman"] = {
@@ -7563,7 +7563,7 @@ return {
 			"ok_woman",
 		},
 		codes = {
-			"🙆",
+			"\xF0\x9F\x99\x86", -- 🙆
 		},
 	},
 	["older_man"] = {
@@ -7571,7 +7571,7 @@ return {
 			"older_man",
 		},
 		codes = {
-			"👴",
+			"\xF0\x9F\x91\xB4", -- 👴
 		},
 	},
 	["older_woman"] = {
@@ -7579,7 +7579,7 @@ return {
 			"older_woman",
 		},
 		codes = {
-			"👵",
+			"\xF0\x9F\x91\xB5", -- 👵
 		},
 	},
 	["om_symbol"] = {
@@ -7587,7 +7587,7 @@ return {
 			"om_symbol",
 		},
 		codes = {
-			"🕉",
+			"\xF0\x9F\x95\x89", -- 🕉
 		},
 	},
 	["on"] = {
@@ -7595,7 +7595,7 @@ return {
 			"on",
 		},
 		codes = {
-			"🔛",
+			"\xF0\x9F\x94\x9B", -- 🔛
 		},
 	},
 	["oncoming_automobile"] = {
@@ -7603,7 +7603,7 @@ return {
 			"oncoming_automobile",
 		},
 		codes = {
-			"🚘",
+			"\xF0\x9F\x9A\x98", -- 🚘
 		},
 	},
 	["oncoming_bus"] = {
@@ -7611,7 +7611,7 @@ return {
 			"oncoming_bus",
 		},
 		codes = {
-			"🚍",
+			"\xF0\x9F\x9A\x8D", -- 🚍
 		},
 	},
 	["oncoming_police_car"] = {
@@ -7619,7 +7619,7 @@ return {
 			"oncoming_police_car",
 		},
 		codes = {
-			"🚔",
+			"\xF0\x9F\x9A\x94", -- 🚔
 		},
 	},
 	["oncoming_taxi"] = {
@@ -7627,7 +7627,7 @@ return {
 			"oncoming_taxi",
 		},
 		codes = {
-			"🚖",
+			"\xF0\x9F\x9A\x96", -- 🚖
 		},
 	},
 	["one"] = {
@@ -7635,8 +7635,8 @@ return {
 			"one",
 		},
 		codes = {
-			"1️⃣",
-			"1⃣",
+			"\x31\xEF\xB8\x8F\xE2\x83\xA3", -- 1️⃣
+			"\x31\xE2\x83\xA3", -- 1⃣
 		},
 	},
 	["open_file_folder"] = {
@@ -7644,7 +7644,7 @@ return {
 			"open_file_folder",
 		},
 		codes = {
-			"📂",
+			"\xF0\x9F\x93\x82", -- 📂
 		},
 	},
 	["open_hands"] = {
@@ -7652,7 +7652,7 @@ return {
 			"open_hands",
 		},
 		codes = {
-			"👐",
+			"\xF0\x9F\x91\x90", -- 👐
 		},
 	},
 	["open_mouth"] = {
@@ -7660,7 +7660,7 @@ return {
 			"open_mouth",
 		},
 		codes = {
-			"😮",
+			"\xF0\x9F\x98\xAE", -- 😮
 		},
 	},
 	["ophiuchus"] = {
@@ -7668,7 +7668,7 @@ return {
 			"ophiuchus",
 		},
 		codes = {
-			"⛎",
+			"\xE2\x9B\x8E", -- ⛎
 		},
 	},
 	["orange_book"] = {
@@ -7676,7 +7676,7 @@ return {
 			"orange_book",
 		},
 		codes = {
-			"📙",
+			"\xF0\x9F\x93\x99", -- 📙
 		},
 	},
 	["orthodox_cross"] = {
@@ -7684,7 +7684,7 @@ return {
 			"orthodox_cross",
 		},
 		codes = {
-			"☦",
+			"\xE2\x98\xA6", -- ☦
 		},
 	},
 	["outbox_tray"] = {
@@ -7692,7 +7692,7 @@ return {
 			"outbox_tray",
 		},
 		codes = {
-			"📤",
+			"\xF0\x9F\x93\xA4", -- 📤
 		},
 	},
 	["owl"] = {
@@ -7700,7 +7700,7 @@ return {
 			"owl",
 		},
 		codes = {
-			"🦉",
+			"\xF0\x9F\xA6\x89", -- 🦉
 		},
 	},
 	["ox"] = {
@@ -7708,7 +7708,7 @@ return {
 			"ox",
 		},
 		codes = {
-			"🐂",
+			"\xF0\x9F\x90\x82", -- 🐂
 		},
 	},
 	["package"] = {
@@ -7716,7 +7716,7 @@ return {
 			"package",
 		},
 		codes = {
-			"📦",
+			"\xF0\x9F\x93\xA6", -- 📦
 		},
 	},
 	["page_facing_up"] = {
@@ -7724,7 +7724,7 @@ return {
 			"page_facing_up",
 		},
 		codes = {
-			"📄",
+			"\xF0\x9F\x93\x84", -- 📄
 		},
 	},
 	["page_with_curl"] = {
@@ -7732,7 +7732,7 @@ return {
 			"page_with_curl",
 		},
 		codes = {
-			"📃",
+			"\xF0\x9F\x93\x83", -- 📃
 		},
 	},
 	["pager"] = {
@@ -7740,7 +7740,7 @@ return {
 			"pager",
 		},
 		codes = {
-			"📟",
+			"\xF0\x9F\x93\x9F", -- 📟
 		},
 	},
 	["paintbrush"] = {
@@ -7748,7 +7748,7 @@ return {
 			"paintbrush",
 		},
 		codes = {
-			"🖌",
+			"\xF0\x9F\x96\x8C", -- 🖌
 		},
 	},
 	["palm_tree"] = {
@@ -7756,7 +7756,7 @@ return {
 			"palm_tree",
 		},
 		codes = {
-			"🌴",
+			"\xF0\x9F\x8C\xB4", -- 🌴
 		},
 	},
 	["pancakes"] = {
@@ -7764,7 +7764,7 @@ return {
 			"pancakes",
 		},
 		codes = {
-			"🥞",
+			"\xF0\x9F\xA5\x9E", -- 🥞
 		},
 	},
 	["panda_face"] = {
@@ -7772,7 +7772,7 @@ return {
 			"panda_face",
 		},
 		codes = {
-			"🐼",
+			"\xF0\x9F\x90\xBC", -- 🐼
 		},
 	},
 	["paperclip"] = {
@@ -7780,7 +7780,7 @@ return {
 			"paperclip",
 		},
 		codes = {
-			"📎",
+			"\xF0\x9F\x93\x8E", -- 📎
 		},
 	},
 	["paperclips"] = {
@@ -7788,7 +7788,7 @@ return {
 			"paperclips",
 		},
 		codes = {
-			"🖇",
+			"\xF0\x9F\x96\x87", -- 🖇
 		},
 	},
 	["park"] = {
@@ -7796,7 +7796,7 @@ return {
 			"park",
 		},
 		codes = {
-			"🏞",
+			"\xF0\x9F\x8F\x9E", -- 🏞
 		},
 	},
 	["parking"] = {
@@ -7804,7 +7804,7 @@ return {
 			"parking",
 		},
 		codes = {
-			"🅿",
+			"\xF0\x9F\x85\xBF", -- 🅿
 		},
 	},
 	["part_alternation_mark"] = {
@@ -7812,7 +7812,7 @@ return {
 			"part_alternation_mark",
 		},
 		codes = {
-			"〽",
+			"\xE3\x80\xBD", -- 〽
 		},
 	},
 	["partly_sunny"] = {
@@ -7820,7 +7820,7 @@ return {
 			"partly_sunny",
 		},
 		codes = {
-			"⛅",
+			"\xE2\x9B\x85", -- ⛅
 		},
 	},
 	["passport_control"] = {
@@ -7828,7 +7828,7 @@ return {
 			"passport_control",
 		},
 		codes = {
-			"🛂",
+			"\xF0\x9F\x9B\x82", -- 🛂
 		},
 	},
 	["pause_button"] = {
@@ -7836,7 +7836,7 @@ return {
 			"pause_button",
 		},
 		codes = {
-			"⏸",
+			"\xE2\x8F\xB8", -- ⏸
 		},
 	},
 	["peace"] = {
@@ -7844,7 +7844,7 @@ return {
 			"peace",
 		},
 		codes = {
-			"☮",
+			"\xE2\x98\xAE", -- ☮
 		},
 	},
 	["peach"] = {
@@ -7852,7 +7852,7 @@ return {
 			"peach",
 		},
 		codes = {
-			"🍑",
+			"\xF0\x9F\x8D\x91", -- 🍑
 		},
 	},
 	["peanuts"] = {
@@ -7860,7 +7860,7 @@ return {
 			"peanuts",
 		},
 		codes = {
-			"🥜",
+			"\xF0\x9F\xA5\x9C", -- 🥜
 		},
 	},
 	["pear"] = {
@@ -7868,7 +7868,7 @@ return {
 			"pear",
 		},
 		codes = {
-			"🍐",
+			"\xF0\x9F\x8D\x90", -- 🍐
 		},
 	},
 	["pen_ballpoint"] = {
@@ -7876,7 +7876,7 @@ return {
 			"pen_ballpoint",
 		},
 		codes = {
-			"🖊",
+			"\xF0\x9F\x96\x8A", -- 🖊
 		},
 	},
 	["pen_fountain"] = {
@@ -7884,7 +7884,7 @@ return {
 			"pen_fountain",
 		},
 		codes = {
-			"🖋",
+			"\xF0\x9F\x96\x8B", -- 🖋
 		},
 	},
 	["pencil"] = {
@@ -7892,7 +7892,7 @@ return {
 			"pencil",
 		},
 		codes = {
-			"📝",
+			"\xF0\x9F\x93\x9D", -- 📝
 		},
 	},
 	["pencil2"] = {
@@ -7900,7 +7900,7 @@ return {
 			"pencil2",
 		},
 		codes = {
-			"✏",
+			"\xE2\x9C\x8F", -- ✏
 		},
 	},
 	["penguin"] = {
@@ -7908,7 +7908,7 @@ return {
 			"penguin",
 		},
 		codes = {
-			"🐧",
+			"\xF0\x9F\x90\xA7", -- 🐧
 		},
 	},
 	["pensive"] = {
@@ -7916,7 +7916,7 @@ return {
 			"pensive",
 		},
 		codes = {
-			"😔",
+			"\xF0\x9F\x98\x94", -- 😔
 		},
 	},
 	["performing_arts"] = {
@@ -7924,7 +7924,7 @@ return {
 			"performing_arts",
 		},
 		codes = {
-			"🎭",
+			"\xF0\x9F\x8E\xAD", -- 🎭
 		},
 	},
 	["persevere"] = {
@@ -7932,7 +7932,7 @@ return {
 			"persevere",
 		},
 		codes = {
-			"😣",
+			"\xF0\x9F\x98\xA3", -- 😣
 		},
 	},
 	["person_frowning"] = {
@@ -7940,7 +7940,7 @@ return {
 			"person_frowning",
 		},
 		codes = {
-			"🙍",
+			"\xF0\x9F\x99\x8D", -- 🙍
 		},
 	},
 	["person_with_blond_hair"] = {
@@ -7948,7 +7948,7 @@ return {
 			"person_with_blond_hair",
 		},
 		codes = {
-			"👱",
+			"\xF0\x9F\x91\xB1", -- 👱
 		},
 	},
 	["person_with_pouting_face"] = {
@@ -7956,7 +7956,7 @@ return {
 			"person_with_pouting_face",
 		},
 		codes = {
-			"🙎",
+			"\xF0\x9F\x99\x8E", -- 🙎
 		},
 	},
 	["pick"] = {
@@ -7964,7 +7964,7 @@ return {
 			"pick",
 		},
 		codes = {
-			"⛏",
+			"\xE2\x9B\x8F", -- ⛏
 		},
 	},
 	["pig"] = {
@@ -7972,7 +7972,7 @@ return {
 			"pig",
 		},
 		codes = {
-			"🐷",
+			"\xF0\x9F\x90\xB7", -- 🐷
 		},
 	},
 	["pig2"] = {
@@ -7980,7 +7980,7 @@ return {
 			"pig2",
 		},
 		codes = {
-			"🐖",
+			"\xF0\x9F\x90\x96", -- 🐖
 		},
 	},
 	["pig_nose"] = {
@@ -7988,7 +7988,7 @@ return {
 			"pig_nose",
 		},
 		codes = {
-			"🐽",
+			"\xF0\x9F\x90\xBD", -- 🐽
 		},
 	},
 	["pill"] = {
@@ -7996,7 +7996,7 @@ return {
 			"pill",
 		},
 		codes = {
-			"💊",
+			"\xF0\x9F\x92\x8A", -- 💊
 		},
 	},
 	["pineapple"] = {
@@ -8004,7 +8004,7 @@ return {
 			"pineapple",
 		},
 		codes = {
-			"🍍",
+			"\xF0\x9F\x8D\x8D", -- 🍍
 		},
 	},
 	["ping_pong"] = {
@@ -8012,7 +8012,7 @@ return {
 			"ping_pong",
 		},
 		codes = {
-			"🏓",
+			"\xF0\x9F\x8F\x93", -- 🏓
 		},
 	},
 	["pisces"] = {
@@ -8020,7 +8020,7 @@ return {
 			"pisces",
 		},
 		codes = {
-			"♓",
+			"\xE2\x99\x93", -- ♓
 		},
 	},
 	["pizza"] = {
@@ -8028,7 +8028,7 @@ return {
 			"pizza",
 		},
 		codes = {
-			"🍕",
+			"\xF0\x9F\x8D\x95", -- 🍕
 		},
 	},
 	["place_of_worship"] = {
@@ -8036,7 +8036,7 @@ return {
 			"place_of_worship",
 		},
 		codes = {
-			"🛐",
+			"\xF0\x9F\x9B\x90", -- 🛐
 		},
 	},
 	["play_pause"] = {
@@ -8044,7 +8044,7 @@ return {
 			"play_pause",
 		},
 		codes = {
-			"⏯",
+			"\xE2\x8F\xAF", -- ⏯
 		},
 	},
 	["point_down"] = {
@@ -8052,7 +8052,7 @@ return {
 			"point_down",
 		},
 		codes = {
-			"👇",
+			"\xF0\x9F\x91\x87", -- 👇
 		},
 	},
 	["point_left"] = {
@@ -8060,7 +8060,7 @@ return {
 			"point_left",
 		},
 		codes = {
-			"👈",
+			"\xF0\x9F\x91\x88", -- 👈
 		},
 	},
 	["point_right"] = {
@@ -8068,7 +8068,7 @@ return {
 			"point_right",
 		},
 		codes = {
-			"👉",
+			"\xF0\x9F\x91\x89", -- 👉
 		},
 	},
 	["point_up"] = {
@@ -8076,8 +8076,8 @@ return {
 			"point_up",
 		},
 		codes = {
-			"☝️",
-			"☝",
+			"\xE2\x98\x9D\xEF\xB8\x8F", -- ☝️
+			"\xE2\x98\x9D", -- ☝
 		},
 	},
 	["point_up_2"] = {
@@ -8085,7 +8085,7 @@ return {
 			"point_up_2",
 		},
 		codes = {
-			"👆",
+			"\xF0\x9F\x91\x86", -- 👆
 		},
 	},
 	["police_car"] = {
@@ -8093,7 +8093,7 @@ return {
 			"police_car",
 		},
 		codes = {
-			"🚓",
+			"\xF0\x9F\x9A\x93", -- 🚓
 		},
 	},
 	["poodle"] = {
@@ -8101,7 +8101,7 @@ return {
 			"poodle",
 		},
 		codes = {
-			"🐩",
+			"\xF0\x9F\x90\xA9", -- 🐩
 		},
 	},
 	["poop"] = {
@@ -8109,7 +8109,7 @@ return {
 			"poop",
 		},
 		codes = {
-			"💩",
+			"\xF0\x9F\x92\xA9", -- 💩
 		},
 	},
 	["popcorn"] = {
@@ -8117,7 +8117,7 @@ return {
 			"popcorn",
 		},
 		codes = {
-			"🍿",
+			"\xF0\x9F\x8D\xBF", -- 🍿
 		},
 	},
 	["post_office"] = {
@@ -8125,7 +8125,7 @@ return {
 			"post_office",
 		},
 		codes = {
-			"🏣",
+			"\xF0\x9F\x8F\xA3", -- 🏣
 		},
 	},
 	["postal_horn"] = {
@@ -8133,7 +8133,7 @@ return {
 			"postal_horn",
 		},
 		codes = {
-			"📯",
+			"\xF0\x9F\x93\xAF", -- 📯
 		},
 	},
 	["postbox"] = {
@@ -8141,7 +8141,7 @@ return {
 			"postbox",
 		},
 		codes = {
-			"📮",
+			"\xF0\x9F\x93\xAE", -- 📮
 		},
 	},
 	["potable_water"] = {
@@ -8149,7 +8149,7 @@ return {
 			"potable_water",
 		},
 		codes = {
-			"🚰",
+			"\xF0\x9F\x9A\xB0", -- 🚰
 		},
 	},
 	["potato"] = {
@@ -8157,7 +8157,7 @@ return {
 			"potato",
 		},
 		codes = {
-			"🥔",
+			"\xF0\x9F\xA5\x94", -- 🥔
 		},
 	},
 	["pouch"] = {
@@ -8165,7 +8165,7 @@ return {
 			"pouch",
 		},
 		codes = {
-			"👝",
+			"\xF0\x9F\x91\x9D", -- 👝
 		},
 	},
 	["poultry_leg"] = {
@@ -8173,7 +8173,7 @@ return {
 			"poultry_leg",
 		},
 		codes = {
-			"🍗",
+			"\xF0\x9F\x8D\x97", -- 🍗
 		},
 	},
 	["pound"] = {
@@ -8181,7 +8181,7 @@ return {
 			"pound",
 		},
 		codes = {
-			"💷",
+			"\xF0\x9F\x92\xB7", -- 💷
 		},
 	},
 	["pouting_cat"] = {
@@ -8189,7 +8189,7 @@ return {
 			"pouting_cat",
 		},
 		codes = {
-			"😾",
+			"\xF0\x9F\x98\xBE", -- 😾
 		},
 	},
 	["pray"] = {
@@ -8197,7 +8197,7 @@ return {
 			"pray",
 		},
 		codes = {
-			"🙏",
+			"\xF0\x9F\x99\x8F", -- 🙏
 		},
 	},
 	["prayer_beads"] = {
@@ -8205,7 +8205,7 @@ return {
 			"prayer_beads",
 		},
 		codes = {
-			"📿",
+			"\xF0\x9F\x93\xBF", -- 📿
 		},
 	},
 	["pregnant_woman"] = {
@@ -8213,7 +8213,7 @@ return {
 			"pregnant_woman",
 		},
 		codes = {
-			"🤰",
+			"\xF0\x9F\xA4\xB0", -- 🤰
 		},
 	},
 	["prince"] = {
@@ -8221,7 +8221,7 @@ return {
 			"prince",
 		},
 		codes = {
-			"🤴",
+			"\xF0\x9F\xA4\xB4", -- 🤴
 		},
 	},
 	["princess"] = {
@@ -8229,7 +8229,7 @@ return {
 			"princess",
 		},
 		codes = {
-			"👸",
+			"\xF0\x9F\x91\xB8", -- 👸
 		},
 	},
 	["printer"] = {
@@ -8237,7 +8237,7 @@ return {
 			"printer",
 		},
 		codes = {
-			"🖨",
+			"\xF0\x9F\x96\xA8", -- 🖨
 		},
 	},
 	["projector"] = {
@@ -8245,7 +8245,7 @@ return {
 			"projector",
 		},
 		codes = {
-			"📽",
+			"\xF0\x9F\x93\xBD", -- 📽
 		},
 	},
 	["punch"] = {
@@ -8253,7 +8253,7 @@ return {
 			"punch",
 		},
 		codes = {
-			"👊",
+			"\xF0\x9F\x91\x8A", -- 👊
 		},
 	},
 	["purple_heart"] = {
@@ -8261,7 +8261,7 @@ return {
 			"purple_heart",
 		},
 		codes = {
-			"💜",
+			"\xF0\x9F\x92\x9C", -- 💜
 		},
 	},
 	["purse"] = {
@@ -8269,7 +8269,7 @@ return {
 			"purse",
 		},
 		codes = {
-			"👛",
+			"\xF0\x9F\x91\x9B", -- 👛
 		},
 	},
 	["pushpin"] = {
@@ -8277,7 +8277,7 @@ return {
 			"pushpin",
 		},
 		codes = {
-			"📌",
+			"\xF0\x9F\x93\x8C", -- 📌
 		},
 	},
 	["put_litter_in_its_place"] = {
@@ -8285,7 +8285,7 @@ return {
 			"put_litter_in_its_place",
 		},
 		codes = {
-			"🚮",
+			"\xF0\x9F\x9A\xAE", -- 🚮
 		},
 	},
 	["question"] = {
@@ -8293,7 +8293,7 @@ return {
 			"question",
 		},
 		codes = {
-			"❓",
+			"\xE2\x9D\x93", -- ❓
 		},
 	},
 	["rabbit"] = {
@@ -8301,7 +8301,7 @@ return {
 			"rabbit",
 		},
 		codes = {
-			"🐰",
+			"\xF0\x9F\x90\xB0", -- 🐰
 		},
 	},
 	["rabbit2"] = {
@@ -8309,7 +8309,7 @@ return {
 			"rabbit2",
 		},
 		codes = {
-			"🐇",
+			"\xF0\x9F\x90\x87", -- 🐇
 		},
 	},
 	["race_car"] = {
@@ -8317,7 +8317,7 @@ return {
 			"race_car",
 		},
 		codes = {
-			"🏎",
+			"\xF0\x9F\x8F\x8E", -- 🏎
 		},
 	},
 	["racehorse"] = {
@@ -8325,7 +8325,7 @@ return {
 			"racehorse",
 		},
 		codes = {
-			"🐎",
+			"\xF0\x9F\x90\x8E", -- 🐎
 		},
 	},
 	["radio"] = {
@@ -8333,7 +8333,7 @@ return {
 			"radio",
 		},
 		codes = {
-			"📻",
+			"\xF0\x9F\x93\xBB", -- 📻
 		},
 	},
 	["radio_button"] = {
@@ -8341,7 +8341,7 @@ return {
 			"radio_button",
 		},
 		codes = {
-			"🔘",
+			"\xF0\x9F\x94\x98", -- 🔘
 		},
 	},
 	["radioactive"] = {
@@ -8349,7 +8349,7 @@ return {
 			"radioactive",
 		},
 		codes = {
-			"☢",
+			"\xE2\x98\xA2", -- ☢
 		},
 	},
 	["rage"] = {
@@ -8357,7 +8357,7 @@ return {
 			"rage",
 		},
 		codes = {
-			"😡",
+			"\xF0\x9F\x98\xA1", -- 😡
 		},
 	},
 	["railway_car"] = {
@@ -8365,7 +8365,7 @@ return {
 			"railway_car",
 		},
 		codes = {
-			"🚃",
+			"\xF0\x9F\x9A\x83", -- 🚃
 		},
 	},
 	["railway_track"] = {
@@ -8373,7 +8373,7 @@ return {
 			"railway_track",
 		},
 		codes = {
-			"🛤",
+			"\xF0\x9F\x9B\xA4", -- 🛤
 		},
 	},
 	["rainbow"] = {
@@ -8381,7 +8381,7 @@ return {
 			"rainbow",
 		},
 		codes = {
-			"🌈",
+			"\xF0\x9F\x8C\x88", -- 🌈
 		},
 	},
 	["raised_back_of_hand"] = {
@@ -8389,7 +8389,7 @@ return {
 			"raised_back_of_hand",
 		},
 		codes = {
-			"🤚",
+			"\xF0\x9F\xA4\x9A", -- 🤚
 		},
 	},
 	["raised_hand"] = {
@@ -8397,7 +8397,7 @@ return {
 			"raised_hand",
 		},
 		codes = {
-			"✋",
+			"\xE2\x9C\x8B", -- ✋
 		},
 	},
 	["raised_hands"] = {
@@ -8405,7 +8405,7 @@ return {
 			"raised_hands",
 		},
 		codes = {
-			"🙌",
+			"\xF0\x9F\x99\x8C", -- 🙌
 		},
 	},
 	["raising_hand"] = {
@@ -8413,7 +8413,7 @@ return {
 			"raising_hand",
 		},
 		codes = {
-			"🙋",
+			"\xF0\x9F\x99\x8B", -- 🙋
 		},
 	},
 	["ram"] = {
@@ -8421,7 +8421,7 @@ return {
 			"ram",
 		},
 		codes = {
-			"🐏",
+			"\xF0\x9F\x90\x8F", -- 🐏
 		},
 	},
 	["ramen"] = {
@@ -8429,7 +8429,7 @@ return {
 			"ramen",
 		},
 		codes = {
-			"🍜",
+			"\xF0\x9F\x8D\x9C", -- 🍜
 		},
 	},
 	["rat"] = {
@@ -8437,7 +8437,7 @@ return {
 			"rat",
 		},
 		codes = {
-			"🐀",
+			"\xF0\x9F\x90\x80", -- 🐀
 		},
 	},
 	["record_button"] = {
@@ -8445,7 +8445,7 @@ return {
 			"record_button",
 		},
 		codes = {
-			"⏺",
+			"\xE2\x8F\xBA", -- ⏺
 		},
 	},
 	["recycle"] = {
@@ -8453,7 +8453,7 @@ return {
 			"recycle",
 		},
 		codes = {
-			"♻",
+			"\xE2\x99\xBB", -- ♻
 		},
 	},
 	["red_car"] = {
@@ -8461,7 +8461,7 @@ return {
 			"red_car",
 		},
 		codes = {
-			"🚗",
+			"\xF0\x9F\x9A\x97", -- 🚗
 		},
 	},
 	["red_circle"] = {
@@ -8469,7 +8469,7 @@ return {
 			"red_circle",
 		},
 		codes = {
-			"🔴",
+			"\xF0\x9F\x94\xB4", -- 🔴
 		},
 	},
 	["regional_indicator_a"] = {
@@ -8477,7 +8477,7 @@ return {
 			"regional_indicator_a",
 		},
 		codes = {
-			"🇦",
+			"\xF0\x9F\x87\xA6", -- 🇦
 		},
 	},
 	["regional_indicator_b"] = {
@@ -8485,7 +8485,7 @@ return {
 			"regional_indicator_b",
 		},
 		codes = {
-			"🇧",
+			"\xF0\x9F\x87\xA7", -- 🇧
 		},
 	},
 	["regional_indicator_c"] = {
@@ -8493,7 +8493,7 @@ return {
 			"regional_indicator_c",
 		},
 		codes = {
-			"🇨",
+			"\xF0\x9F\x87\xA8", -- 🇨
 		},
 	},
 	["regional_indicator_d"] = {
@@ -8501,7 +8501,7 @@ return {
 			"regional_indicator_d",
 		},
 		codes = {
-			"🇩",
+			"\xF0\x9F\x87\xA9", -- 🇩
 		},
 	},
 	["regional_indicator_e"] = {
@@ -8509,7 +8509,7 @@ return {
 			"regional_indicator_e",
 		},
 		codes = {
-			"🇪",
+			"\xF0\x9F\x87\xAA", -- 🇪
 		},
 	},
 	["regional_indicator_f"] = {
@@ -8517,7 +8517,7 @@ return {
 			"regional_indicator_f",
 		},
 		codes = {
-			"🇫",
+			"\xF0\x9F\x87\xAB", -- 🇫
 		},
 	},
 	["regional_indicator_g"] = {
@@ -8525,7 +8525,7 @@ return {
 			"regional_indicator_g",
 		},
 		codes = {
-			"🇬",
+			"\xF0\x9F\x87\xAC", -- 🇬
 		},
 	},
 	["regional_indicator_h"] = {
@@ -8533,7 +8533,7 @@ return {
 			"regional_indicator_h",
 		},
 		codes = {
-			"🇭",
+			"\xF0\x9F\x87\xAD", -- 🇭
 		},
 	},
 	["regional_indicator_i"] = {
@@ -8541,7 +8541,7 @@ return {
 			"regional_indicator_i",
 		},
 		codes = {
-			"🇮",
+			"\xF0\x9F\x87\xAE", -- 🇮
 		},
 	},
 	["regional_indicator_j"] = {
@@ -8549,7 +8549,7 @@ return {
 			"regional_indicator_j",
 		},
 		codes = {
-			"🇯",
+			"\xF0\x9F\x87\xAF", -- 🇯
 		},
 	},
 	["regional_indicator_k"] = {
@@ -8557,7 +8557,7 @@ return {
 			"regional_indicator_k",
 		},
 		codes = {
-			"🇰",
+			"\xF0\x9F\x87\xB0", -- 🇰
 		},
 	},
 	["regional_indicator_l"] = {
@@ -8565,7 +8565,7 @@ return {
 			"regional_indicator_l",
 		},
 		codes = {
-			"🇱",
+			"\xF0\x9F\x87\xB1", -- 🇱
 		},
 	},
 	["regional_indicator_m"] = {
@@ -8573,7 +8573,7 @@ return {
 			"regional_indicator_m",
 		},
 		codes = {
-			"🇲",
+			"\xF0\x9F\x87\xB2", -- 🇲
 		},
 	},
 	["regional_indicator_n"] = {
@@ -8581,7 +8581,7 @@ return {
 			"regional_indicator_n",
 		},
 		codes = {
-			"🇳",
+			"\xF0\x9F\x87\xB3", -- 🇳
 		},
 	},
 	["regional_indicator_o"] = {
@@ -8589,7 +8589,7 @@ return {
 			"regional_indicator_o",
 		},
 		codes = {
-			"🇴",
+			"\xF0\x9F\x87\xB4", -- 🇴
 		},
 	},
 	["regional_indicator_p"] = {
@@ -8597,7 +8597,7 @@ return {
 			"regional_indicator_p",
 		},
 		codes = {
-			"🇵",
+			"\xF0\x9F\x87\xB5", -- 🇵
 		},
 	},
 	["regional_indicator_q"] = {
@@ -8605,7 +8605,7 @@ return {
 			"regional_indicator_q",
 		},
 		codes = {
-			"🇶",
+			"\xF0\x9F\x87\xB6", -- 🇶
 		},
 	},
 	["regional_indicator_r"] = {
@@ -8613,7 +8613,7 @@ return {
 			"regional_indicator_r",
 		},
 		codes = {
-			"🇷",
+			"\xF0\x9F\x87\xB7", -- 🇷
 		},
 	},
 	["regional_indicator_s"] = {
@@ -8621,7 +8621,7 @@ return {
 			"regional_indicator_s",
 		},
 		codes = {
-			"🇸",
+			"\xF0\x9F\x87\xB8", -- 🇸
 		},
 	},
 	["regional_indicator_t"] = {
@@ -8629,7 +8629,7 @@ return {
 			"regional_indicator_t",
 		},
 		codes = {
-			"🇹",
+			"\xF0\x9F\x87\xB9", -- 🇹
 		},
 	},
 	["regional_indicator_u"] = {
@@ -8637,7 +8637,7 @@ return {
 			"regional_indicator_u",
 		},
 		codes = {
-			"🇺",
+			"\xF0\x9F\x87\xBA", -- 🇺
 		},
 	},
 	["regional_indicator_v"] = {
@@ -8645,7 +8645,7 @@ return {
 			"regional_indicator_v",
 		},
 		codes = {
-			"🇻",
+			"\xF0\x9F\x87\xBB", -- 🇻
 		},
 	},
 	["regional_indicator_w"] = {
@@ -8653,7 +8653,7 @@ return {
 			"regional_indicator_w",
 		},
 		codes = {
-			"🇼",
+			"\xF0\x9F\x87\xBC", -- 🇼
 		},
 	},
 	["regional_indicator_x"] = {
@@ -8661,7 +8661,7 @@ return {
 			"regional_indicator_x",
 		},
 		codes = {
-			"🇽",
+			"\xF0\x9F\x87\xBD", -- 🇽
 		},
 	},
 	["regional_indicator_y"] = {
@@ -8669,7 +8669,7 @@ return {
 			"regional_indicator_y",
 		},
 		codes = {
-			"🇾",
+			"\xF0\x9F\x87\xBE", -- 🇾
 		},
 	},
 	["regional_indicator_z"] = {
@@ -8677,7 +8677,7 @@ return {
 			"regional_indicator_z",
 		},
 		codes = {
-			"🇿",
+			"\xF0\x9F\x87\xBF", -- 🇿
 		},
 	},
 	["registered"] = {
@@ -8685,7 +8685,7 @@ return {
 			"registered",
 		},
 		codes = {
-			"®",
+			"\xC2\xAE", -- ®
 		},
 	},
 	["relaxed"] = {
@@ -8693,8 +8693,8 @@ return {
 			"relaxed",
 		},
 		codes = {
-			"☺️",
-			"☺",
+			"\xE2\x98\xBA\xEF\xB8\x8F", -- ☺️
+			"\xE2\x98\xBA", -- ☺
 		},
 	},
 	["relieved"] = {
@@ -8702,7 +8702,7 @@ return {
 			"relieved",
 		},
 		codes = {
-			"😌",
+			"\xF0\x9F\x98\x8C", -- 😌
 		},
 	},
 	["reminder_ribbon"] = {
@@ -8710,7 +8710,7 @@ return {
 			"reminder_ribbon",
 		},
 		codes = {
-			"🎗",
+			"\xF0\x9F\x8E\x97", -- 🎗
 		},
 	},
 	["repeat"] = {
@@ -8718,7 +8718,7 @@ return {
 			"repeat",
 		},
 		codes = {
-			"🔁",
+			"\xF0\x9F\x94\x81", -- 🔁
 		},
 	},
 	["repeat_one"] = {
@@ -8726,7 +8726,7 @@ return {
 			"repeat_one",
 		},
 		codes = {
-			"🔂",
+			"\xF0\x9F\x94\x82", -- 🔂
 		},
 	},
 	["restroom"] = {
@@ -8734,7 +8734,7 @@ return {
 			"restroom",
 		},
 		codes = {
-			"🚻",
+			"\xF0\x9F\x9A\xBB", -- 🚻
 		},
 	},
 	["revolving_hearts"] = {
@@ -8742,7 +8742,7 @@ return {
 			"revolving_hearts",
 		},
 		codes = {
-			"💞",
+			"\xF0\x9F\x92\x9E", -- 💞
 		},
 	},
 	["rewind"] = {
@@ -8750,7 +8750,7 @@ return {
 			"rewind",
 		},
 		codes = {
-			"⏪",
+			"\xE2\x8F\xAA", -- ⏪
 		},
 	},
 	["rhino"] = {
@@ -8758,7 +8758,7 @@ return {
 			"rhino",
 		},
 		codes = {
-			"🦏",
+			"\xF0\x9F\xA6\x8F", -- 🦏
 		},
 	},
 	["ribbon"] = {
@@ -8766,7 +8766,7 @@ return {
 			"ribbon",
 		},
 		codes = {
-			"🎀",
+			"\xF0\x9F\x8E\x80", -- 🎀
 		},
 	},
 	["rice"] = {
@@ -8774,7 +8774,7 @@ return {
 			"rice",
 		},
 		codes = {
-			"🍚",
+			"\xF0\x9F\x8D\x9A", -- 🍚
 		},
 	},
 	["rice_ball"] = {
@@ -8782,7 +8782,7 @@ return {
 			"rice_ball",
 		},
 		codes = {
-			"🍙",
+			"\xF0\x9F\x8D\x99", -- 🍙
 		},
 	},
 	["rice_cracker"] = {
@@ -8790,7 +8790,7 @@ return {
 			"rice_cracker",
 		},
 		codes = {
-			"🍘",
+			"\xF0\x9F\x8D\x98", -- 🍘
 		},
 	},
 	["rice_scene"] = {
@@ -8798,7 +8798,7 @@ return {
 			"rice_scene",
 		},
 		codes = {
-			"🎑",
+			"\xF0\x9F\x8E\x91", -- 🎑
 		},
 	},
 	["right_facing_fist"] = {
@@ -8806,7 +8806,7 @@ return {
 			"right_facing_fist",
 		},
 		codes = {
-			"🤜",
+			"\xF0\x9F\xA4\x9C", -- 🤜
 		},
 	},
 	["ring"] = {
@@ -8814,7 +8814,7 @@ return {
 			"ring",
 		},
 		codes = {
-			"💍",
+			"\xF0\x9F\x92\x8D", -- 💍
 		},
 	},
 	["robot"] = {
@@ -8822,7 +8822,7 @@ return {
 			"robot",
 		},
 		codes = {
-			"🤖",
+			"\xF0\x9F\xA4\x96", -- 🤖
 		},
 	},
 	["rocket"] = {
@@ -8830,7 +8830,7 @@ return {
 			"rocket",
 		},
 		codes = {
-			"🚀",
+			"\xF0\x9F\x9A\x80", -- 🚀
 		},
 	},
 	["rofl"] = {
@@ -8838,7 +8838,7 @@ return {
 			"rofl",
 		},
 		codes = {
-			"🤣",
+			"\xF0\x9F\xA4\xA3", -- 🤣
 		},
 	},
 	["roller_coaster"] = {
@@ -8846,7 +8846,7 @@ return {
 			"roller_coaster",
 		},
 		codes = {
-			"🎢",
+			"\xF0\x9F\x8E\xA2", -- 🎢
 		},
 	},
 	["rolling_eyes"] = {
@@ -8854,7 +8854,7 @@ return {
 			"rolling_eyes",
 		},
 		codes = {
-			"🙄",
+			"\xF0\x9F\x99\x84", -- 🙄
 		},
 	},
 	["rooster"] = {
@@ -8862,7 +8862,7 @@ return {
 			"rooster",
 		},
 		codes = {
-			"🐓",
+			"\xF0\x9F\x90\x93", -- 🐓
 		},
 	},
 	["rose"] = {
@@ -8870,7 +8870,7 @@ return {
 			"rose",
 		},
 		codes = {
-			"🌹",
+			"\xF0\x9F\x8C\xB9", -- 🌹
 		},
 	},
 	["rosette"] = {
@@ -8878,7 +8878,7 @@ return {
 			"rosette",
 		},
 		codes = {
-			"🏵",
+			"\xF0\x9F\x8F\xB5", -- 🏵
 		},
 	},
 	["rotating_light"] = {
@@ -8886,7 +8886,7 @@ return {
 			"rotating_light",
 		},
 		codes = {
-			"🚨",
+			"\xF0\x9F\x9A\xA8", -- 🚨
 		},
 	},
 	["round_pushpin"] = {
@@ -8894,7 +8894,7 @@ return {
 			"round_pushpin",
 		},
 		codes = {
-			"📍",
+			"\xF0\x9F\x93\x8D", -- 📍
 		},
 	},
 	["rowboat"] = {
@@ -8902,7 +8902,7 @@ return {
 			"rowboat",
 		},
 		codes = {
-			"🚣",
+			"\xF0\x9F\x9A\xA3", -- 🚣
 		},
 	},
 	["rugby_football"] = {
@@ -8910,7 +8910,7 @@ return {
 			"rugby_football",
 		},
 		codes = {
-			"🏉",
+			"\xF0\x9F\x8F\x89", -- 🏉
 		},
 	},
 	["runner"] = {
@@ -8918,7 +8918,7 @@ return {
 			"runner",
 		},
 		codes = {
-			"🏃",
+			"\xF0\x9F\x8F\x83", -- 🏃
 		},
 	},
 	["running_shirt_with_sash"] = {
@@ -8926,7 +8926,7 @@ return {
 			"running_shirt_with_sash",
 		},
 		codes = {
-			"🎽",
+			"\xF0\x9F\x8E\xBD", -- 🎽
 		},
 	},
 	["sa"] = {
@@ -8934,7 +8934,7 @@ return {
 			"sa",
 		},
 		codes = {
-			"🈂",
+			"\xF0\x9F\x88\x82", -- 🈂
 		},
 	},
 	["sagittarius"] = {
@@ -8942,7 +8942,7 @@ return {
 			"sagittarius",
 		},
 		codes = {
-			"♐",
+			"\xE2\x99\x90", -- ♐
 		},
 	},
 	["sailboat"] = {
@@ -8950,7 +8950,7 @@ return {
 			"sailboat",
 		},
 		codes = {
-			"⛵",
+			"\xE2\x9B\xB5", -- ⛵
 		},
 	},
 	["sake"] = {
@@ -8958,7 +8958,7 @@ return {
 			"sake",
 		},
 		codes = {
-			"🍶",
+			"\xF0\x9F\x8D\xB6", -- 🍶
 		},
 	},
 	["salad"] = {
@@ -8966,7 +8966,7 @@ return {
 			"salad",
 		},
 		codes = {
-			"🥗",
+			"\xF0\x9F\xA5\x97", -- 🥗
 		},
 	},
 	["sandal"] = {
@@ -8974,7 +8974,7 @@ return {
 			"sandal",
 		},
 		codes = {
-			"👡",
+			"\xF0\x9F\x91\xA1", -- 👡
 		},
 	},
 	["santa"] = {
@@ -8982,7 +8982,7 @@ return {
 			"santa",
 		},
 		codes = {
-			"🎅",
+			"\xF0\x9F\x8E\x85", -- 🎅
 		},
 	},
 	["satellite"] = {
@@ -8990,7 +8990,7 @@ return {
 			"satellite",
 		},
 		codes = {
-			"📡",
+			"\xF0\x9F\x93\xA1", -- 📡
 		},
 	},
 	["satellite_orbital"] = {
@@ -8998,7 +8998,7 @@ return {
 			"satellite_orbital",
 		},
 		codes = {
-			"🛰",
+			"\xF0\x9F\x9B\xB0", -- 🛰
 		},
 	},
 	["saxophone"] = {
@@ -9006,7 +9006,7 @@ return {
 			"saxophone",
 		},
 		codes = {
-			"🎷",
+			"\xF0\x9F\x8E\xB7", -- 🎷
 		},
 	},
 	["scales"] = {
@@ -9014,7 +9014,7 @@ return {
 			"scales",
 		},
 		codes = {
-			"⚖",
+			"\xE2\x9A\x96", -- ⚖
 		},
 	},
 	["school"] = {
@@ -9022,7 +9022,7 @@ return {
 			"school",
 		},
 		codes = {
-			"🏫",
+			"\xF0\x9F\x8F\xAB", -- 🏫
 		},
 	},
 	["school_satchel"] = {
@@ -9030,7 +9030,7 @@ return {
 			"school_satchel",
 		},
 		codes = {
-			"🎒",
+			"\xF0\x9F\x8E\x92", -- 🎒
 		},
 	},
 	["scissors"] = {
@@ -9038,7 +9038,7 @@ return {
 			"scissors",
 		},
 		codes = {
-			"✂",
+			"\xE2\x9C\x82", -- ✂
 		},
 	},
 	["scooter"] = {
@@ -9046,7 +9046,7 @@ return {
 			"scooter",
 		},
 		codes = {
-			"🛴",
+			"\xF0\x9F\x9B\xB4", -- 🛴
 		},
 	},
 	["scorpion"] = {
@@ -9054,7 +9054,7 @@ return {
 			"scorpion",
 		},
 		codes = {
-			"🦂",
+			"\xF0\x9F\xA6\x82", -- 🦂
 		},
 	},
 	["scorpius"] = {
@@ -9062,7 +9062,7 @@ return {
 			"scorpius",
 		},
 		codes = {
-			"♏",
+			"\xE2\x99\x8F", -- ♏
 		},
 	},
 	["scream"] = {
@@ -9070,7 +9070,7 @@ return {
 			"scream",
 		},
 		codes = {
-			"😱",
+			"\xF0\x9F\x98\xB1", -- 😱
 		},
 	},
 	["scream_cat"] = {
@@ -9078,7 +9078,7 @@ return {
 			"scream_cat",
 		},
 		codes = {
-			"🙀",
+			"\xF0\x9F\x99\x80", -- 🙀
 		},
 	},
 	["scroll"] = {
@@ -9086,7 +9086,7 @@ return {
 			"scroll",
 		},
 		codes = {
-			"📜",
+			"\xF0\x9F\x93\x9C", -- 📜
 		},
 	},
 	["seat"] = {
@@ -9094,7 +9094,7 @@ return {
 			"seat",
 		},
 		codes = {
-			"💺",
+			"\xF0\x9F\x92\xBA", -- 💺
 		},
 	},
 	["second_place"] = {
@@ -9102,7 +9102,7 @@ return {
 			"second_place",
 		},
 		codes = {
-			"🥈",
+			"\xF0\x9F\xA5\x88", -- 🥈
 		},
 	},
 	["secret"] = {
@@ -9110,7 +9110,7 @@ return {
 			"secret",
 		},
 		codes = {
-			"㊙",
+			"\xE3\x8A\x99", -- ㊙
 		},
 	},
 	["see_no_evil"] = {
@@ -9118,7 +9118,7 @@ return {
 			"see_no_evil",
 		},
 		codes = {
-			"🙈",
+			"\xF0\x9F\x99\x88", -- 🙈
 		},
 	},
 	["seedling"] = {
@@ -9126,7 +9126,7 @@ return {
 			"seedling",
 		},
 		codes = {
-			"🌱",
+			"\xF0\x9F\x8C\xB1", -- 🌱
 		},
 	},
 	["selfie"] = {
@@ -9134,7 +9134,7 @@ return {
 			"selfie",
 		},
 		codes = {
-			"🤳",
+			"\xF0\x9F\xA4\xB3", -- 🤳
 		},
 	},
 	["seven"] = {
@@ -9142,8 +9142,8 @@ return {
 			"seven",
 		},
 		codes = {
-			"7️⃣",
-			"7⃣",
+			"\x37\xEF\xB8\x8F\xE2\x83\xA3", -- 7️⃣
+			"\x37\xE2\x83\xA3", -- 7⃣
 		},
 	},
 	["shallow_pan_of_food"] = {
@@ -9151,7 +9151,7 @@ return {
 			"shallow_pan_of_food",
 		},
 		codes = {
-			"🥘",
+			"\xF0\x9F\xA5\x98", -- 🥘
 		},
 	},
 	["shamrock"] = {
@@ -9159,7 +9159,7 @@ return {
 			"shamrock",
 		},
 		codes = {
-			"☘",
+			"\xE2\x98\x98", -- ☘
 		},
 	},
 	["shark"] = {
@@ -9167,7 +9167,7 @@ return {
 			"shark",
 		},
 		codes = {
-			"🦈",
+			"\xF0\x9F\xA6\x88", -- 🦈
 		},
 	},
 	["shaved_ice"] = {
@@ -9175,7 +9175,7 @@ return {
 			"shaved_ice",
 		},
 		codes = {
-			"🍧",
+			"\xF0\x9F\x8D\xA7", -- 🍧
 		},
 	},
 	["sheep"] = {
@@ -9183,7 +9183,7 @@ return {
 			"sheep",
 		},
 		codes = {
-			"🐑",
+			"\xF0\x9F\x90\x91", -- 🐑
 		},
 	},
 	["shell"] = {
@@ -9191,7 +9191,7 @@ return {
 			"shell",
 		},
 		codes = {
-			"🐚",
+			"\xF0\x9F\x90\x9A", -- 🐚
 		},
 	},
 	["shield"] = {
@@ -9199,7 +9199,7 @@ return {
 			"shield",
 		},
 		codes = {
-			"🛡",
+			"\xF0\x9F\x9B\xA1", -- 🛡
 		},
 	},
 	["shinto_shrine"] = {
@@ -9207,7 +9207,7 @@ return {
 			"shinto_shrine",
 		},
 		codes = {
-			"⛩",
+			"\xE2\x9B\xA9", -- ⛩
 		},
 	},
 	["ship"] = {
@@ -9215,7 +9215,7 @@ return {
 			"ship",
 		},
 		codes = {
-			"🚢",
+			"\xF0\x9F\x9A\xA2", -- 🚢
 		},
 	},
 	["shirt"] = {
@@ -9223,7 +9223,7 @@ return {
 			"shirt",
 		},
 		codes = {
-			"👕",
+			"\xF0\x9F\x91\x95", -- 👕
 		},
 	},
 	["shopping_bags"] = {
@@ -9231,7 +9231,7 @@ return {
 			"shopping_bags",
 		},
 		codes = {
-			"🛍",
+			"\xF0\x9F\x9B\x8D", -- 🛍
 		},
 	},
 	["shopping_cart"] = {
@@ -9239,7 +9239,7 @@ return {
 			"shopping_cart",
 		},
 		codes = {
-			"🛒",
+			"\xF0\x9F\x9B\x92", -- 🛒
 		},
 	},
 	["shower"] = {
@@ -9247,7 +9247,7 @@ return {
 			"shower",
 		},
 		codes = {
-			"🚿",
+			"\xF0\x9F\x9A\xBF", -- 🚿
 		},
 	},
 	["shrimp"] = {
@@ -9255,7 +9255,7 @@ return {
 			"shrimp",
 		},
 		codes = {
-			"🦐",
+			"\xF0\x9F\xA6\x90", -- 🦐
 		},
 	},
 	["shrug"] = {
@@ -9263,7 +9263,7 @@ return {
 			"shrug",
 		},
 		codes = {
-			"🤷",
+			"\xF0\x9F\xA4\xB7", -- 🤷
 		},
 	},
 	["signal_strength"] = {
@@ -9271,7 +9271,7 @@ return {
 			"signal_strength",
 		},
 		codes = {
-			"📶",
+			"\xF0\x9F\x93\xB6", -- 📶
 		},
 	},
 	["six"] = {
@@ -9279,8 +9279,8 @@ return {
 			"six",
 		},
 		codes = {
-			"6️⃣",
-			"6⃣",
+			"\x36\xEF\xB8\x8F\xE2\x83\xA3", -- 6️⃣
+			"\x36\xE2\x83\xA3", -- 6⃣
 		},
 	},
 	["six_pointed_star"] = {
@@ -9288,7 +9288,7 @@ return {
 			"six_pointed_star",
 		},
 		codes = {
-			"🔯",
+			"\xF0\x9F\x94\xAF", -- 🔯
 		},
 	},
 	["ski"] = {
@@ -9296,7 +9296,7 @@ return {
 			"ski",
 		},
 		codes = {
-			"🎿",
+			"\xF0\x9F\x8E\xBF", -- 🎿
 		},
 	},
 	["skier"] = {
@@ -9304,7 +9304,7 @@ return {
 			"skier",
 		},
 		codes = {
-			"⛷",
+			"\xE2\x9B\xB7", -- ⛷
 		},
 	},
 	["skull"] = {
@@ -9312,7 +9312,7 @@ return {
 			"skull",
 		},
 		codes = {
-			"💀",
+			"\xF0\x9F\x92\x80", -- 💀
 		},
 	},
 	["skull_crossbones"] = {
@@ -9320,7 +9320,7 @@ return {
 			"skull_crossbones",
 		},
 		codes = {
-			"☠",
+			"\xE2\x98\xA0", -- ☠
 		},
 	},
 	["sleeping"] = {
@@ -9328,7 +9328,7 @@ return {
 			"sleeping",
 		},
 		codes = {
-			"😴",
+			"\xF0\x9F\x98\xB4", -- 😴
 		},
 	},
 	["sleeping_accommodation"] = {
@@ -9336,7 +9336,7 @@ return {
 			"sleeping_accommodation",
 		},
 		codes = {
-			"🛌",
+			"\xF0\x9F\x9B\x8C", -- 🛌
 		},
 	},
 	["sleepy"] = {
@@ -9344,7 +9344,7 @@ return {
 			"sleepy",
 		},
 		codes = {
-			"😪",
+			"\xF0\x9F\x98\xAA", -- 😪
 		},
 	},
 	["slight_frown"] = {
@@ -9352,7 +9352,7 @@ return {
 			"slight_frown",
 		},
 		codes = {
-			"🙁",
+			"\xF0\x9F\x99\x81", -- 🙁
 		},
 	},
 	["slight_smile"] = {
@@ -9360,7 +9360,7 @@ return {
 			"slight_smile",
 		},
 		codes = {
-			"🙂",
+			"\xF0\x9F\x99\x82", -- 🙂
 		},
 	},
 	["slot_machine"] = {
@@ -9368,7 +9368,7 @@ return {
 			"slot_machine",
 		},
 		codes = {
-			"🎰",
+			"\xF0\x9F\x8E\xB0", -- 🎰
 		},
 	},
 	["small_blue_diamond"] = {
@@ -9376,7 +9376,7 @@ return {
 			"small_blue_diamond",
 		},
 		codes = {
-			"🔹",
+			"\xF0\x9F\x94\xB9", -- 🔹
 		},
 	},
 	["small_orange_diamond"] = {
@@ -9384,7 +9384,7 @@ return {
 			"small_orange_diamond",
 		},
 		codes = {
-			"🔸",
+			"\xF0\x9F\x94\xB8", -- 🔸
 		},
 	},
 	["small_red_triangle"] = {
@@ -9392,7 +9392,7 @@ return {
 			"small_red_triangle",
 		},
 		codes = {
-			"🔺",
+			"\xF0\x9F\x94\xBA", -- 🔺
 		},
 	},
 	["small_red_triangle_down"] = {
@@ -9400,7 +9400,7 @@ return {
 			"small_red_triangle_down",
 		},
 		codes = {
-			"🔻",
+			"\xF0\x9F\x94\xBB", -- 🔻
 		},
 	},
 	["smile"] = {
@@ -9408,7 +9408,7 @@ return {
 			"smile",
 		},
 		codes = {
-			"😄",
+			"\xF0\x9F\x98\x84", -- 😄
 		},
 	},
 	["smile_cat"] = {
@@ -9416,7 +9416,7 @@ return {
 			"smile_cat",
 		},
 		codes = {
-			"😸",
+			"\xF0\x9F\x98\xB8", -- 😸
 		},
 	},
 	["smiley"] = {
@@ -9424,7 +9424,7 @@ return {
 			"smiley",
 		},
 		codes = {
-			"😃",
+			"\xF0\x9F\x98\x83", -- 😃
 		},
 	},
 	["smiley_cat"] = {
@@ -9432,7 +9432,7 @@ return {
 			"smiley_cat",
 		},
 		codes = {
-			"😺",
+			"\xF0\x9F\x98\xBA", -- 😺
 		},
 	},
 	["smiling_imp"] = {
@@ -9440,7 +9440,7 @@ return {
 			"smiling_imp",
 		},
 		codes = {
-			"😈",
+			"\xF0\x9F\x98\x88", -- 😈
 		},
 	},
 	["smirk"] = {
@@ -9448,7 +9448,7 @@ return {
 			"smirk",
 		},
 		codes = {
-			"😏",
+			"\xF0\x9F\x98\x8F", -- 😏
 		},
 	},
 	["smirk_cat"] = {
@@ -9456,7 +9456,7 @@ return {
 			"smirk_cat",
 		},
 		codes = {
-			"😼",
+			"\xF0\x9F\x98\xBC", -- 😼
 		},
 	},
 	["smoking"] = {
@@ -9464,7 +9464,7 @@ return {
 			"smoking",
 		},
 		codes = {
-			"🚬",
+			"\xF0\x9F\x9A\xAC", -- 🚬
 		},
 	},
 	["snail"] = {
@@ -9472,7 +9472,7 @@ return {
 			"snail",
 		},
 		codes = {
-			"🐌",
+			"\xF0\x9F\x90\x8C", -- 🐌
 		},
 	},
 	["snake"] = {
@@ -9480,7 +9480,7 @@ return {
 			"snake",
 		},
 		codes = {
-			"🐍",
+			"\xF0\x9F\x90\x8D", -- 🐍
 		},
 	},
 	["sneezing_face"] = {
@@ -9488,7 +9488,7 @@ return {
 			"sneezing_face",
 		},
 		codes = {
-			"🤧",
+			"\xF0\x9F\xA4\xA7", -- 🤧
 		},
 	},
 	["snowboarder"] = {
@@ -9496,7 +9496,7 @@ return {
 			"snowboarder",
 		},
 		codes = {
-			"🏂",
+			"\xF0\x9F\x8F\x82", -- 🏂
 		},
 	},
 	["snowflake"] = {
@@ -9504,7 +9504,7 @@ return {
 			"snowflake",
 		},
 		codes = {
-			"❄",
+			"\xE2\x9D\x84", -- ❄
 		},
 	},
 	["snowman"] = {
@@ -9512,7 +9512,7 @@ return {
 			"snowman",
 		},
 		codes = {
-			"⛄",
+			"\xE2\x9B\x84", -- ⛄
 		},
 	},
 	["snowman2"] = {
@@ -9520,7 +9520,7 @@ return {
 			"snowman2",
 		},
 		codes = {
-			"☃",
+			"\xE2\x98\x83", -- ☃
 		},
 	},
 	["sob"] = {
@@ -9528,7 +9528,7 @@ return {
 			"sob",
 		},
 		codes = {
-			"😭",
+			"\xF0\x9F\x98\xAD", -- 😭
 		},
 	},
 	["soccer"] = {
@@ -9536,7 +9536,7 @@ return {
 			"soccer",
 		},
 		codes = {
-			"⚽",
+			"\xE2\x9A\xBD", -- ⚽
 		},
 	},
 	["soon"] = {
@@ -9544,7 +9544,7 @@ return {
 			"soon",
 		},
 		codes = {
-			"🔜",
+			"\xF0\x9F\x94\x9C", -- 🔜
 		},
 	},
 	["sos"] = {
@@ -9552,7 +9552,7 @@ return {
 			"sos",
 		},
 		codes = {
-			"🆘",
+			"\xF0\x9F\x86\x98", -- 🆘
 		},
 	},
 	["sound"] = {
@@ -9560,7 +9560,7 @@ return {
 			"sound",
 		},
 		codes = {
-			"🔉",
+			"\xF0\x9F\x94\x89", -- 🔉
 		},
 	},
 	["space_invader"] = {
@@ -9568,7 +9568,7 @@ return {
 			"space_invader",
 		},
 		codes = {
-			"👾",
+			"\xF0\x9F\x91\xBE", -- 👾
 		},
 	},
 	["spades"] = {
@@ -9576,7 +9576,7 @@ return {
 			"spades",
 		},
 		codes = {
-			"♠",
+			"\xE2\x99\xA0", -- ♠
 		},
 	},
 	["spaghetti"] = {
@@ -9584,7 +9584,7 @@ return {
 			"spaghetti",
 		},
 		codes = {
-			"🍝",
+			"\xF0\x9F\x8D\x9D", -- 🍝
 		},
 	},
 	["sparkle"] = {
@@ -9592,7 +9592,7 @@ return {
 			"sparkle",
 		},
 		codes = {
-			"❇",
+			"\xE2\x9D\x87", -- ❇
 		},
 	},
 	["sparkler"] = {
@@ -9600,7 +9600,7 @@ return {
 			"sparkler",
 		},
 		codes = {
-			"🎇",
+			"\xF0\x9F\x8E\x87", -- 🎇
 		},
 	},
 	["sparkles"] = {
@@ -9608,7 +9608,7 @@ return {
 			"sparkles",
 		},
 		codes = {
-			"✨",
+			"\xE2\x9C\xA8", -- ✨
 		},
 	},
 	["sparkling_heart"] = {
@@ -9616,7 +9616,7 @@ return {
 			"sparkling_heart",
 		},
 		codes = {
-			"💖",
+			"\xF0\x9F\x92\x96", -- 💖
 		},
 	},
 	["speak_no_evil"] = {
@@ -9624,7 +9624,7 @@ return {
 			"speak_no_evil",
 		},
 		codes = {
-			"🙊",
+			"\xF0\x9F\x99\x8A", -- 🙊
 		},
 	},
 	["speaker"] = {
@@ -9632,7 +9632,7 @@ return {
 			"speaker",
 		},
 		codes = {
-			"🔈",
+			"\xF0\x9F\x94\x88", -- 🔈
 		},
 	},
 	["speaking_head"] = {
@@ -9640,8 +9640,8 @@ return {
 			"speaking_head",
 		},
 		codes = {
-			"🗣️",
-			"🗣",
+			"\xF0\x9F\x97\xA3\xEF\xB8\x8F", -- 🗣️
+			"\xF0\x9F\x97\xA3", -- 🗣
 		},
 	},
 	["speech_balloon"] = {
@@ -9649,7 +9649,7 @@ return {
 			"speech_balloon",
 		},
 		codes = {
-			"💬",
+			"\xF0\x9F\x92\xAC", -- 💬
 		},
 	},
 	["speech_left"] = {
@@ -9657,7 +9657,7 @@ return {
 			"speech_left",
 		},
 		codes = {
-			"🗨",
+			"\xF0\x9F\x97\xA8", -- 🗨
 		},
 	},
 	["speedboat"] = {
@@ -9665,7 +9665,7 @@ return {
 			"speedboat",
 		},
 		codes = {
-			"🚤",
+			"\xF0\x9F\x9A\xA4", -- 🚤
 		},
 	},
 	["spider"] = {
@@ -9673,7 +9673,7 @@ return {
 			"spider",
 		},
 		codes = {
-			"🕷",
+			"\xF0\x9F\x95\xB7", -- 🕷
 		},
 	},
 	["spider_web"] = {
@@ -9681,7 +9681,7 @@ return {
 			"spider_web",
 		},
 		codes = {
-			"🕸",
+			"\xF0\x9F\x95\xB8", -- 🕸
 		},
 	},
 	["spoon"] = {
@@ -9689,7 +9689,7 @@ return {
 			"spoon",
 		},
 		codes = {
-			"🥄",
+			"\xF0\x9F\xA5\x84", -- 🥄
 		},
 	},
 	["spy"] = {
@@ -9697,7 +9697,7 @@ return {
 			"spy",
 		},
 		codes = {
-			"🕵",
+			"\xF0\x9F\x95\xB5", -- 🕵
 		},
 	},
 	["squid"] = {
@@ -9705,7 +9705,7 @@ return {
 			"squid",
 		},
 		codes = {
-			"🦑",
+			"\xF0\x9F\xA6\x91", -- 🦑
 		},
 	},
 	["stadium"] = {
@@ -9713,7 +9713,7 @@ return {
 			"stadium",
 		},
 		codes = {
-			"🏟",
+			"\xF0\x9F\x8F\x9F", -- 🏟
 		},
 	},
 	["star"] = {
@@ -9721,7 +9721,7 @@ return {
 			"star",
 		},
 		codes = {
-			"⭐",
+			"\xE2\xAD\x90", -- ⭐
 		},
 	},
 	["star2"] = {
@@ -9729,7 +9729,7 @@ return {
 			"star2",
 		},
 		codes = {
-			"🌟",
+			"\xF0\x9F\x8C\x9F", -- 🌟
 		},
 	},
 	["star_and_crescent"] = {
@@ -9737,7 +9737,7 @@ return {
 			"star_and_crescent",
 		},
 		codes = {
-			"☪",
+			"\xE2\x98\xAA", -- ☪
 		},
 	},
 	["star_of_david"] = {
@@ -9745,7 +9745,7 @@ return {
 			"star_of_david",
 		},
 		codes = {
-			"✡",
+			"\xE2\x9C\xA1", -- ✡
 		},
 	},
 	["stars"] = {
@@ -9753,7 +9753,7 @@ return {
 			"stars",
 		},
 		codes = {
-			"🌠",
+			"\xF0\x9F\x8C\xA0", -- 🌠
 		},
 	},
 	["station"] = {
@@ -9761,7 +9761,7 @@ return {
 			"station",
 		},
 		codes = {
-			"🚉",
+			"\xF0\x9F\x9A\x89", -- 🚉
 		},
 	},
 	["statue_of_liberty"] = {
@@ -9769,7 +9769,7 @@ return {
 			"statue_of_liberty",
 		},
 		codes = {
-			"🗽",
+			"\xF0\x9F\x97\xBD", -- 🗽
 		},
 	},
 	["steam_locomotive"] = {
@@ -9777,7 +9777,7 @@ return {
 			"steam_locomotive",
 		},
 		codes = {
-			"🚂",
+			"\xF0\x9F\x9A\x82", -- 🚂
 		},
 	},
 	["stew"] = {
@@ -9785,7 +9785,7 @@ return {
 			"stew",
 		},
 		codes = {
-			"🍲",
+			"\xF0\x9F\x8D\xB2", -- 🍲
 		},
 	},
 	["stop_button"] = {
@@ -9793,7 +9793,7 @@ return {
 			"stop_button",
 		},
 		codes = {
-			"⏹",
+			"\xE2\x8F\xB9", -- ⏹
 		},
 	},
 	["stopwatch"] = {
@@ -9801,7 +9801,7 @@ return {
 			"stopwatch",
 		},
 		codes = {
-			"⏱",
+			"\xE2\x8F\xB1", -- ⏱
 		},
 	},
 	["straight_ruler"] = {
@@ -9809,7 +9809,7 @@ return {
 			"straight_ruler",
 		},
 		codes = {
-			"📏",
+			"\xF0\x9F\x93\x8F", -- 📏
 		},
 	},
 	["strawberry"] = {
@@ -9817,7 +9817,7 @@ return {
 			"strawberry",
 		},
 		codes = {
-			"🍓",
+			"\xF0\x9F\x8D\x93", -- 🍓
 		},
 	},
 	["stuck_out_tongue"] = {
@@ -9825,7 +9825,7 @@ return {
 			"stuck_out_tongue",
 		},
 		codes = {
-			"😛",
+			"\xF0\x9F\x98\x9B", -- 😛
 		},
 	},
 	["stuck_out_tongue_closed_eyes"] = {
@@ -9833,7 +9833,7 @@ return {
 			"stuck_out_tongue_closed_eyes",
 		},
 		codes = {
-			"😝",
+			"\xF0\x9F\x98\x9D", -- 😝
 		},
 	},
 	["stuck_out_tongue_winking_eye"] = {
@@ -9841,7 +9841,7 @@ return {
 			"stuck_out_tongue_winking_eye",
 		},
 		codes = {
-			"😜",
+			"\xF0\x9F\x98\x9C", -- 😜
 		},
 	},
 	["stuffed_flatbread"] = {
@@ -9849,7 +9849,7 @@ return {
 			"stuffed_flatbread",
 		},
 		codes = {
-			"🥙",
+			"\xF0\x9F\xA5\x99", -- 🥙
 		},
 	},
 	["sun_with_face"] = {
@@ -9857,7 +9857,7 @@ return {
 			"sun_with_face",
 		},
 		codes = {
-			"🌞",
+			"\xF0\x9F\x8C\x9E", -- 🌞
 		},
 	},
 	["sunflower"] = {
@@ -9865,7 +9865,7 @@ return {
 			"sunflower",
 		},
 		codes = {
-			"🌻",
+			"\xF0\x9F\x8C\xBB", -- 🌻
 		},
 	},
 	["sunglasses"] = {
@@ -9873,7 +9873,7 @@ return {
 			"sunglasses",
 		},
 		codes = {
-			"😎",
+			"\xF0\x9F\x98\x8E", -- 😎
 		},
 	},
 	["sunny"] = {
@@ -9881,7 +9881,7 @@ return {
 			"sunny",
 		},
 		codes = {
-			"☀",
+			"\xE2\x98\x80", -- ☀
 		},
 	},
 	["sunrise"] = {
@@ -9889,7 +9889,7 @@ return {
 			"sunrise",
 		},
 		codes = {
-			"🌅",
+			"\xF0\x9F\x8C\x85", -- 🌅
 		},
 	},
 	["sunrise_over_mountains"] = {
@@ -9897,7 +9897,7 @@ return {
 			"sunrise_over_mountains",
 		},
 		codes = {
-			"🌄",
+			"\xF0\x9F\x8C\x84", -- 🌄
 		},
 	},
 	["surfer"] = {
@@ -9905,7 +9905,7 @@ return {
 			"surfer",
 		},
 		codes = {
-			"🏄",
+			"\xF0\x9F\x8F\x84", -- 🏄
 		},
 	},
 	["sushi"] = {
@@ -9913,7 +9913,7 @@ return {
 			"sushi",
 		},
 		codes = {
-			"🍣",
+			"\xF0\x9F\x8D\xA3", -- 🍣
 		},
 	},
 	["suspension_railway"] = {
@@ -9921,7 +9921,7 @@ return {
 			"suspension_railway",
 		},
 		codes = {
-			"🚟",
+			"\xF0\x9F\x9A\x9F", -- 🚟
 		},
 	},
 	["sweat"] = {
@@ -9929,7 +9929,7 @@ return {
 			"sweat",
 		},
 		codes = {
-			"😓",
+			"\xF0\x9F\x98\x93", -- 😓
 		},
 	},
 	["sweat_drops"] = {
@@ -9937,7 +9937,7 @@ return {
 			"sweat_drops",
 		},
 		codes = {
-			"💦",
+			"\xF0\x9F\x92\xA6", -- 💦
 		},
 	},
 	["sweat_smile"] = {
@@ -9945,7 +9945,7 @@ return {
 			"sweat_smile",
 		},
 		codes = {
-			"😅",
+			"\xF0\x9F\x98\x85", -- 😅
 		},
 	},
 	["sweet_potato"] = {
@@ -9953,7 +9953,7 @@ return {
 			"sweet_potato",
 		},
 		codes = {
-			"🍠",
+			"\xF0\x9F\x8D\xA0", -- 🍠
 		},
 	},
 	["swimmer"] = {
@@ -9961,7 +9961,7 @@ return {
 			"swimmer",
 		},
 		codes = {
-			"🏊",
+			"\xF0\x9F\x8F\x8A", -- 🏊
 		},
 	},
 	["symbols"] = {
@@ -9969,7 +9969,7 @@ return {
 			"symbols",
 		},
 		codes = {
-			"🔣",
+			"\xF0\x9F\x94\xA3", -- 🔣
 		},
 	},
 	["synagogue"] = {
@@ -9977,7 +9977,7 @@ return {
 			"synagogue",
 		},
 		codes = {
-			"🕍",
+			"\xF0\x9F\x95\x8D", -- 🕍
 		},
 	},
 	["syringe"] = {
@@ -9985,7 +9985,7 @@ return {
 			"syringe",
 		},
 		codes = {
-			"💉",
+			"\xF0\x9F\x92\x89", -- 💉
 		},
 	},
 	["taco"] = {
@@ -9993,7 +9993,7 @@ return {
 			"taco",
 		},
 		codes = {
-			"🌮",
+			"\xF0\x9F\x8C\xAE", -- 🌮
 		},
 	},
 	["tada"] = {
@@ -10001,7 +10001,7 @@ return {
 			"tada",
 		},
 		codes = {
-			"🎉",
+			"\xF0\x9F\x8E\x89", -- 🎉
 		},
 	},
 	["tanabata_tree"] = {
@@ -10009,7 +10009,7 @@ return {
 			"tanabata_tree",
 		},
 		codes = {
-			"🎋",
+			"\xF0\x9F\x8E\x8B", -- 🎋
 		},
 	},
 	["tangerine"] = {
@@ -10017,7 +10017,7 @@ return {
 			"tangerine",
 		},
 		codes = {
-			"🍊",
+			"\xF0\x9F\x8D\x8A", -- 🍊
 		},
 	},
 	["taurus"] = {
@@ -10025,7 +10025,7 @@ return {
 			"taurus",
 		},
 		codes = {
-			"♉",
+			"\xE2\x99\x89", -- ♉
 		},
 	},
 	["taxi"] = {
@@ -10033,7 +10033,7 @@ return {
 			"taxi",
 		},
 		codes = {
-			"🚕",
+			"\xF0\x9F\x9A\x95", -- 🚕
 		},
 	},
 	["tea"] = {
@@ -10041,7 +10041,7 @@ return {
 			"tea",
 		},
 		codes = {
-			"🍵",
+			"\xF0\x9F\x8D\xB5", -- 🍵
 		},
 	},
 	["telephone"] = {
@@ -10049,7 +10049,7 @@ return {
 			"telephone",
 		},
 		codes = {
-			"☎",
+			"\xE2\x98\x8E", -- ☎
 		},
 	},
 	["telephone_receiver"] = {
@@ -10057,7 +10057,7 @@ return {
 			"telephone_receiver",
 		},
 		codes = {
-			"📞",
+			"\xF0\x9F\x93\x9E", -- 📞
 		},
 	},
 	["telescope"] = {
@@ -10065,7 +10065,7 @@ return {
 			"telescope",
 		},
 		codes = {
-			"🔭",
+			"\xF0\x9F\x94\xAD", -- 🔭
 		},
 	},
 	["tennis"] = {
@@ -10073,7 +10073,7 @@ return {
 			"tennis",
 		},
 		codes = {
-			"🎾",
+			"\xF0\x9F\x8E\xBE", -- 🎾
 		},
 	},
 	["tent"] = {
@@ -10081,7 +10081,7 @@ return {
 			"tent",
 		},
 		codes = {
-			"⛺",
+			"\xE2\x9B\xBA", -- ⛺
 		},
 	},
 	["thermometer"] = {
@@ -10089,7 +10089,7 @@ return {
 			"thermometer",
 		},
 		codes = {
-			"🌡",
+			"\xF0\x9F\x8C\xA1", -- 🌡
 		},
 	},
 	["thermometer_face"] = {
@@ -10097,7 +10097,7 @@ return {
 			"thermometer_face",
 		},
 		codes = {
-			"🤒",
+			"\xF0\x9F\xA4\x92", -- 🤒
 		},
 	},
 	["thinking"] = {
@@ -10105,7 +10105,7 @@ return {
 			"thinking",
 		},
 		codes = {
-			"🤔",
+			"\xF0\x9F\xA4\x94", -- 🤔
 		},
 	},
 	["third_place"] = {
@@ -10113,7 +10113,7 @@ return {
 			"third_place",
 		},
 		codes = {
-			"🥉",
+			"\xF0\x9F\xA5\x89", -- 🥉
 		},
 	},
 	["thought_balloon"] = {
@@ -10121,7 +10121,7 @@ return {
 			"thought_balloon",
 		},
 		codes = {
-			"💭",
+			"\xF0\x9F\x92\xAD", -- 💭
 		},
 	},
 	["three"] = {
@@ -10129,8 +10129,8 @@ return {
 			"three",
 		},
 		codes = {
-			"3️⃣",
-			"3⃣",
+			"\x33\xEF\xB8\x8F\xE2\x83\xA3", -- 3️⃣
+			"\x33\xE2\x83\xA3", -- 3⃣
 		},
 	},
 	["thumbsdown"] = {
@@ -10138,7 +10138,7 @@ return {
 			"thumbsdown",
 		},
 		codes = {
-			"👎",
+			"\xF0\x9F\x91\x8E", -- 👎
 		},
 	},
 	["thumbsup"] = {
@@ -10146,7 +10146,7 @@ return {
 			"thumbsup",
 		},
 		codes = {
-			"👍",
+			"\xF0\x9F\x91\x8D", -- 👍
 		},
 	},
 	["thunder_cloud_rain"] = {
@@ -10154,7 +10154,7 @@ return {
 			"thunder_cloud_rain",
 		},
 		codes = {
-			"⛈",
+			"\xE2\x9B\x88", -- ⛈
 		},
 	},
 	["ticket"] = {
@@ -10162,7 +10162,7 @@ return {
 			"ticket",
 		},
 		codes = {
-			"🎫",
+			"\xF0\x9F\x8E\xAB", -- 🎫
 		},
 	},
 	["tickets"] = {
@@ -10170,7 +10170,7 @@ return {
 			"tickets",
 		},
 		codes = {
-			"🎟",
+			"\xF0\x9F\x8E\x9F", -- 🎟
 		},
 	},
 	["tiger"] = {
@@ -10178,7 +10178,7 @@ return {
 			"tiger",
 		},
 		codes = {
-			"🐯",
+			"\xF0\x9F\x90\xAF", -- 🐯
 		},
 	},
 	["tiger2"] = {
@@ -10186,7 +10186,7 @@ return {
 			"tiger2",
 		},
 		codes = {
-			"🐅",
+			"\xF0\x9F\x90\x85", -- 🐅
 		},
 	},
 	["timer"] = {
@@ -10194,7 +10194,7 @@ return {
 			"timer",
 		},
 		codes = {
-			"⏲",
+			"\xE2\x8F\xB2", -- ⏲
 		},
 	},
 	["tired_face"] = {
@@ -10202,7 +10202,7 @@ return {
 			"tired_face",
 		},
 		codes = {
-			"😫",
+			"\xF0\x9F\x98\xAB", -- 😫
 		},
 	},
 	["tm"] = {
@@ -10210,7 +10210,7 @@ return {
 			"tm",
 		},
 		codes = {
-			"™",
+			"\xE2\x84\xA2", -- ™
 		},
 	},
 	["toilet"] = {
@@ -10218,7 +10218,7 @@ return {
 			"toilet",
 		},
 		codes = {
-			"🚽",
+			"\xF0\x9F\x9A\xBD", -- 🚽
 		},
 	},
 	["tokyo_tower"] = {
@@ -10226,7 +10226,7 @@ return {
 			"tokyo_tower",
 		},
 		codes = {
-			"🗼",
+			"\xF0\x9F\x97\xBC", -- 🗼
 		},
 	},
 	["tomato"] = {
@@ -10234,7 +10234,7 @@ return {
 			"tomato",
 		},
 		codes = {
-			"🍅",
+			"\xF0\x9F\x8D\x85", -- 🍅
 		},
 	},
 	["tongue"] = {
@@ -10242,7 +10242,7 @@ return {
 			"tongue",
 		},
 		codes = {
-			"👅",
+			"\xF0\x9F\x91\x85", -- 👅
 		},
 	},
 	["tools"] = {
@@ -10250,8 +10250,8 @@ return {
 			"tools",
 		},
 		codes = {
-			"🛠️",
-			"🛠",
+			"\xF0\x9F\x9B\xA0\xEF\xB8\x8F", -- 🛠️
+			"\xF0\x9F\x9B\xA0", -- 🛠
 		},
 	},
 	["top"] = {
@@ -10259,7 +10259,7 @@ return {
 			"top",
 		},
 		codes = {
-			"🔝",
+			"\xF0\x9F\x94\x9D", -- 🔝
 		},
 	},
 	["tophat"] = {
@@ -10267,7 +10267,7 @@ return {
 			"tophat",
 		},
 		codes = {
-			"🎩",
+			"\xF0\x9F\x8E\xA9", -- 🎩
 		},
 	},
 	["track_next"] = {
@@ -10275,7 +10275,7 @@ return {
 			"track_next",
 		},
 		codes = {
-			"⏭",
+			"\xE2\x8F\xAD", -- ⏭
 		},
 	},
 	["track_previous"] = {
@@ -10283,7 +10283,7 @@ return {
 			"track_previous",
 		},
 		codes = {
-			"⏮",
+			"\xE2\x8F\xAE", -- ⏮
 		},
 	},
 	["trackball"] = {
@@ -10291,7 +10291,7 @@ return {
 			"trackball",
 		},
 		codes = {
-			"🖲",
+			"\xF0\x9F\x96\xB2", -- 🖲
 		},
 	},
 	["tractor"] = {
@@ -10299,7 +10299,7 @@ return {
 			"tractor",
 		},
 		codes = {
-			"🚜",
+			"\xF0\x9F\x9A\x9C", -- 🚜
 		},
 	},
 	["train"] = {
@@ -10307,7 +10307,7 @@ return {
 			"train",
 		},
 		codes = {
-			"🚋",
+			"\xF0\x9F\x9A\x8B", -- 🚋
 		},
 	},
 	["train2"] = {
@@ -10315,7 +10315,7 @@ return {
 			"train2",
 		},
 		codes = {
-			"🚆",
+			"\xF0\x9F\x9A\x86", -- 🚆
 		},
 	},
 	["tram"] = {
@@ -10323,7 +10323,7 @@ return {
 			"tram",
 		},
 		codes = {
-			"🚊",
+			"\xF0\x9F\x9A\x8A", -- 🚊
 		},
 	},
 	["triangular_flag_on_post"] = {
@@ -10331,7 +10331,7 @@ return {
 			"triangular_flag_on_post",
 		},
 		codes = {
-			"🚩",
+			"\xF0\x9F\x9A\xA9", -- 🚩
 		},
 	},
 	["triangular_ruler"] = {
@@ -10339,7 +10339,7 @@ return {
 			"triangular_ruler",
 		},
 		codes = {
-			"📐",
+			"\xF0\x9F\x93\x90", -- 📐
 		},
 	},
 	["trident"] = {
@@ -10347,7 +10347,7 @@ return {
 			"trident",
 		},
 		codes = {
-			"🔱",
+			"\xF0\x9F\x94\xB1", -- 🔱
 		},
 	},
 	["triumph"] = {
@@ -10355,7 +10355,7 @@ return {
 			"triumph",
 		},
 		codes = {
-			"😤",
+			"\xF0\x9F\x98\xA4", -- 😤
 		},
 	},
 	["trolleybus"] = {
@@ -10363,7 +10363,7 @@ return {
 			"trolleybus",
 		},
 		codes = {
-			"🚎",
+			"\xF0\x9F\x9A\x8E", -- 🚎
 		},
 	},
 	["trophy"] = {
@@ -10371,7 +10371,7 @@ return {
 			"trophy",
 		},
 		codes = {
-			"🏆",
+			"\xF0\x9F\x8F\x86", -- 🏆
 		},
 	},
 	["tropical_drink"] = {
@@ -10379,7 +10379,7 @@ return {
 			"tropical_drink",
 		},
 		codes = {
-			"🍹",
+			"\xF0\x9F\x8D\xB9", -- 🍹
 		},
 	},
 	["tropical_fish"] = {
@@ -10387,7 +10387,7 @@ return {
 			"tropical_fish",
 		},
 		codes = {
-			"🐠",
+			"\xF0\x9F\x90\xA0", -- 🐠
 		},
 	},
 	["truck"] = {
@@ -10395,7 +10395,7 @@ return {
 			"truck",
 		},
 		codes = {
-			"🚚",
+			"\xF0\x9F\x9A\x9A", -- 🚚
 		},
 	},
 	["trumpet"] = {
@@ -10403,7 +10403,7 @@ return {
 			"trumpet",
 		},
 		codes = {
-			"🎺",
+			"\xF0\x9F\x8E\xBA", -- 🎺
 		},
 	},
 	["tulip"] = {
@@ -10411,7 +10411,7 @@ return {
 			"tulip",
 		},
 		codes = {
-			"🌷",
+			"\xF0\x9F\x8C\xB7", -- 🌷
 		},
 	},
 	["tumbler_glass"] = {
@@ -10419,7 +10419,7 @@ return {
 			"tumbler_glass",
 		},
 		codes = {
-			"🥃",
+			"\xF0\x9F\xA5\x83", -- 🥃
 		},
 	},
 	["turkey"] = {
@@ -10427,7 +10427,7 @@ return {
 			"turkey",
 		},
 		codes = {
-			"🦃",
+			"\xF0\x9F\xA6\x83", -- 🦃
 		},
 	},
 	["turtle"] = {
@@ -10435,7 +10435,7 @@ return {
 			"turtle",
 		},
 		codes = {
-			"🐢",
+			"\xF0\x9F\x90\xA2", -- 🐢
 		},
 	},
 	["tv"] = {
@@ -10443,7 +10443,7 @@ return {
 			"tv",
 		},
 		codes = {
-			"📺",
+			"\xF0\x9F\x93\xBA", -- 📺
 		},
 	},
 	["twisted_rightwards_arrows"] = {
@@ -10451,7 +10451,7 @@ return {
 			"twisted_rightwards_arrows",
 		},
 		codes = {
-			"🔀",
+			"\xF0\x9F\x94\x80", -- 🔀
 		},
 	},
 	["two"] = {
@@ -10459,8 +10459,8 @@ return {
 			"two",
 		},
 		codes = {
-			"2️⃣",
-			"2⃣",
+			"\x32\xEF\xB8\x8F\xE2\x83\xA3", -- 2️⃣
+			"\x32\xE2\x83\xA3", -- 2⃣
 		},
 	},
 	["two_hearts"] = {
@@ -10468,7 +10468,7 @@ return {
 			"two_hearts",
 		},
 		codes = {
-			"💕",
+			"\xF0\x9F\x92\x95", -- 💕
 		},
 	},
 	["two_men_holding_hands"] = {
@@ -10476,7 +10476,7 @@ return {
 			"two_men_holding_hands",
 		},
 		codes = {
-			"👬",
+			"\xF0\x9F\x91\xAC", -- 👬
 		},
 	},
 	["two_women_holding_hands"] = {
@@ -10484,7 +10484,7 @@ return {
 			"two_women_holding_hands",
 		},
 		codes = {
-			"👭",
+			"\xF0\x9F\x91\xAD", -- 👭
 		},
 	},
 	["u5272"] = {
@@ -10492,7 +10492,7 @@ return {
 			"u5272",
 		},
 		codes = {
-			"🈹",
+			"\xF0\x9F\x88\xB9", -- 🈹
 		},
 	},
 	["u5408"] = {
@@ -10500,7 +10500,7 @@ return {
 			"u5408",
 		},
 		codes = {
-			"🈴",
+			"\xF0\x9F\x88\xB4", -- 🈴
 		},
 	},
 	["u55b6"] = {
@@ -10508,7 +10508,7 @@ return {
 			"u55b6",
 		},
 		codes = {
-			"🈺",
+			"\xF0\x9F\x88\xBA", -- 🈺
 		},
 	},
 	["u6307"] = {
@@ -10516,7 +10516,7 @@ return {
 			"u6307",
 		},
 		codes = {
-			"🈯",
+			"\xF0\x9F\x88\xAF", -- 🈯
 		},
 	},
 	["u6708"] = {
@@ -10524,7 +10524,7 @@ return {
 			"u6708",
 		},
 		codes = {
-			"🈷",
+			"\xF0\x9F\x88\xB7", -- 🈷
 		},
 	},
 	["u6709"] = {
@@ -10532,7 +10532,7 @@ return {
 			"u6709",
 		},
 		codes = {
-			"🈶",
+			"\xF0\x9F\x88\xB6", -- 🈶
 		},
 	},
 	["u6e80"] = {
@@ -10540,7 +10540,7 @@ return {
 			"u6e80",
 		},
 		codes = {
-			"🈵",
+			"\xF0\x9F\x88\xB5", -- 🈵
 		},
 	},
 	["u7121"] = {
@@ -10548,7 +10548,7 @@ return {
 			"u7121",
 		},
 		codes = {
-			"🈚",
+			"\xF0\x9F\x88\x9A", -- 🈚
 		},
 	},
 	["u7533"] = {
@@ -10556,7 +10556,7 @@ return {
 			"u7533",
 		},
 		codes = {
-			"🈸",
+			"\xF0\x9F\x88\xB8", -- 🈸
 		},
 	},
 	["u7981"] = {
@@ -10564,7 +10564,7 @@ return {
 			"u7981",
 		},
 		codes = {
-			"🈲",
+			"\xF0\x9F\x88\xB2", -- 🈲
 		},
 	},
 	["u7a7a"] = {
@@ -10572,7 +10572,7 @@ return {
 			"u7a7a",
 		},
 		codes = {
-			"🈳",
+			"\xF0\x9F\x88\xB3", -- 🈳
 		},
 	},
 	["umbrella"] = {
@@ -10580,7 +10580,7 @@ return {
 			"umbrella",
 		},
 		codes = {
-			"☔",
+			"\xE2\x98\x94", -- ☔
 		},
 	},
 	["umbrella2"] = {
@@ -10588,7 +10588,7 @@ return {
 			"umbrella2",
 		},
 		codes = {
-			"☂",
+			"\xE2\x98\x82", -- ☂
 		},
 	},
 	["unamused"] = {
@@ -10596,7 +10596,7 @@ return {
 			"unamused",
 		},
 		codes = {
-			"😒",
+			"\xF0\x9F\x98\x92", -- 😒
 		},
 	},
 	["underage"] = {
@@ -10604,7 +10604,7 @@ return {
 			"underage",
 		},
 		codes = {
-			"🔞",
+			"\xF0\x9F\x94\x9E", -- 🔞
 		},
 	},
 	["unicorn"] = {
@@ -10612,7 +10612,7 @@ return {
 			"unicorn",
 		},
 		codes = {
-			"🦄",
+			"\xF0\x9F\xA6\x84", -- 🦄
 		},
 	},
 	["unlock"] = {
@@ -10620,7 +10620,7 @@ return {
 			"unlock",
 		},
 		codes = {
-			"🔓",
+			"\xF0\x9F\x94\x93", -- 🔓
 		},
 	},
 	["up"] = {
@@ -10628,7 +10628,7 @@ return {
 			"up",
 		},
 		codes = {
-			"🆙",
+			"\xF0\x9F\x86\x99", -- 🆙
 		},
 	},
 	["upside_down"] = {
@@ -10636,7 +10636,7 @@ return {
 			"upside_down",
 		},
 		codes = {
-			"🙃",
+			"\xF0\x9F\x99\x83", -- 🙃
 		},
 	},
 	["urn"] = {
@@ -10644,7 +10644,7 @@ return {
 			"urn",
 		},
 		codes = {
-			"⚱",
+			"\xE2\x9A\xB1", -- ⚱
 		},
 	},
 	["v"] = {
@@ -10652,7 +10652,7 @@ return {
 			"v",
 		},
 		codes = {
-			"✌",
+			"\xE2\x9C\x8C", -- ✌
 		},
 	},
 	["vertical_traffic_light"] = {
@@ -10660,7 +10660,7 @@ return {
 			"vertical_traffic_light",
 		},
 		codes = {
-			"🚦",
+			"\xF0\x9F\x9A\xA6", -- 🚦
 		},
 	},
 	["vhs"] = {
@@ -10668,7 +10668,7 @@ return {
 			"vhs",
 		},
 		codes = {
-			"📼",
+			"\xF0\x9F\x93\xBC", -- 📼
 		},
 	},
 	["vibration_mode"] = {
@@ -10676,7 +10676,7 @@ return {
 			"vibration_mode",
 		},
 		codes = {
-			"📳",
+			"\xF0\x9F\x93\xB3", -- 📳
 		},
 	},
 	["video_camera"] = {
@@ -10684,7 +10684,7 @@ return {
 			"video_camera",
 		},
 		codes = {
-			"📹",
+			"\xF0\x9F\x93\xB9", -- 📹
 		},
 	},
 	["video_game"] = {
@@ -10692,7 +10692,7 @@ return {
 			"video_game",
 		},
 		codes = {
-			"🎮",
+			"\xF0\x9F\x8E\xAE", -- 🎮
 		},
 	},
 	["violin"] = {
@@ -10700,7 +10700,7 @@ return {
 			"violin",
 		},
 		codes = {
-			"🎻",
+			"\xF0\x9F\x8E\xBB", -- 🎻
 		},
 	},
 	["virgo"] = {
@@ -10708,7 +10708,7 @@ return {
 			"virgo",
 		},
 		codes = {
-			"♍",
+			"\xE2\x99\x8D", -- ♍
 		},
 	},
 	["volcano"] = {
@@ -10716,7 +10716,7 @@ return {
 			"volcano",
 		},
 		codes = {
-			"🌋",
+			"\xF0\x9F\x8C\x8B", -- 🌋
 		},
 	},
 	["volleyball"] = {
@@ -10724,7 +10724,7 @@ return {
 			"volleyball",
 		},
 		codes = {
-			"🏐",
+			"\xF0\x9F\x8F\x90", -- 🏐
 		},
 	},
 	["vs"] = {
@@ -10732,7 +10732,7 @@ return {
 			"vs",
 		},
 		codes = {
-			"🆚",
+			"\xF0\x9F\x86\x9A", -- 🆚
 		},
 	},
 	["vulcan"] = {
@@ -10740,7 +10740,7 @@ return {
 			"vulcan",
 		},
 		codes = {
-			"🖖",
+			"\xF0\x9F\x96\x96", -- 🖖
 		},
 	},
 	["walking"] = {
@@ -10748,7 +10748,7 @@ return {
 			"walking",
 		},
 		codes = {
-			"🚶",
+			"\xF0\x9F\x9A\xB6", -- 🚶
 		},
 	},
 	["waning_crescent_moon"] = {
@@ -10756,7 +10756,7 @@ return {
 			"waning_crescent_moon",
 		},
 		codes = {
-			"🌘",
+			"\xF0\x9F\x8C\x98", -- 🌘
 		},
 	},
 	["waning_gibbous_moon"] = {
@@ -10764,7 +10764,7 @@ return {
 			"waning_gibbous_moon",
 		},
 		codes = {
-			"🌖",
+			"\xF0\x9F\x8C\x96", -- 🌖
 		},
 	},
 	["warning"] = {
@@ -10772,7 +10772,7 @@ return {
 			"warning",
 		},
 		codes = {
-			"⚠",
+			"\xE2\x9A\xA0", -- ⚠
 		},
 	},
 	["wastebasket"] = {
@@ -10780,7 +10780,7 @@ return {
 			"wastebasket",
 		},
 		codes = {
-			"🗑",
+			"\xF0\x9F\x97\x91", -- 🗑
 		},
 	},
 	["watch"] = {
@@ -10788,7 +10788,7 @@ return {
 			"watch",
 		},
 		codes = {
-			"⌚",
+			"\xE2\x8C\x9A", -- ⌚
 		},
 	},
 	["water_buffalo"] = {
@@ -10796,7 +10796,7 @@ return {
 			"water_buffalo",
 		},
 		codes = {
-			"🐃",
+			"\xF0\x9F\x90\x83", -- 🐃
 		},
 	},
 	["water_polo"] = {
@@ -10804,7 +10804,7 @@ return {
 			"water_polo",
 		},
 		codes = {
-			"🤽",
+			"\xF0\x9F\xA4\xBD", -- 🤽
 		},
 	},
 	["watermelon"] = {
@@ -10812,7 +10812,7 @@ return {
 			"watermelon",
 		},
 		codes = {
-			"🍉",
+			"\xF0\x9F\x8D\x89", -- 🍉
 		},
 	},
 	["wave"] = {
@@ -10820,7 +10820,7 @@ return {
 			"wave",
 		},
 		codes = {
-			"👋",
+			"\xF0\x9F\x91\x8B", -- 👋
 		},
 	},
 	["wavy_dash"] = {
@@ -10828,7 +10828,7 @@ return {
 			"wavy_dash",
 		},
 		codes = {
-			"〰",
+			"\xE3\x80\xB0", -- 〰
 		},
 	},
 	["waxing_crescent_moon"] = {
@@ -10836,7 +10836,7 @@ return {
 			"waxing_crescent_moon",
 		},
 		codes = {
-			"🌒",
+			"\xF0\x9F\x8C\x92", -- 🌒
 		},
 	},
 	["waxing_gibbous_moon"] = {
@@ -10844,7 +10844,7 @@ return {
 			"waxing_gibbous_moon",
 		},
 		codes = {
-			"🌔",
+			"\xF0\x9F\x8C\x94", -- 🌔
 		},
 	},
 	["wc"] = {
@@ -10852,7 +10852,7 @@ return {
 			"wc",
 		},
 		codes = {
-			"🚾",
+			"\xF0\x9F\x9A\xBE", -- 🚾
 		},
 	},
 	["weary"] = {
@@ -10860,7 +10860,7 @@ return {
 			"weary",
 		},
 		codes = {
-			"😩",
+			"\xF0\x9F\x98\xA9", -- 😩
 		},
 	},
 	["wedding"] = {
@@ -10868,7 +10868,7 @@ return {
 			"wedding",
 		},
 		codes = {
-			"💒",
+			"\xF0\x9F\x92\x92", -- 💒
 		},
 	},
 	["whale"] = {
@@ -10876,7 +10876,7 @@ return {
 			"whale",
 		},
 		codes = {
-			"🐳",
+			"\xF0\x9F\x90\xB3", -- 🐳
 		},
 	},
 	["whale2"] = {
@@ -10884,7 +10884,7 @@ return {
 			"whale2",
 		},
 		codes = {
-			"🐋",
+			"\xF0\x9F\x90\x8B", -- 🐋
 		},
 	},
 	["wheel_of_dharma"] = {
@@ -10892,7 +10892,7 @@ return {
 			"wheel_of_dharma",
 		},
 		codes = {
-			"☸",
+			"\xE2\x98\xB8", -- ☸
 		},
 	},
 	["wheelchair"] = {
@@ -10900,7 +10900,7 @@ return {
 			"wheelchair",
 		},
 		codes = {
-			"♿",
+			"\xE2\x99\xBF", -- ♿
 		},
 	},
 	["white_check_mark"] = {
@@ -10908,7 +10908,7 @@ return {
 			"white_check_mark",
 		},
 		codes = {
-			"✅",
+			"\xE2\x9C\x85", -- ✅
 		},
 	},
 	["white_circle"] = {
@@ -10916,7 +10916,7 @@ return {
 			"white_circle",
 		},
 		codes = {
-			"⚪",
+			"\xE2\x9A\xAA", -- ⚪
 		},
 	},
 	["white_flower"] = {
@@ -10924,7 +10924,7 @@ return {
 			"white_flower",
 		},
 		codes = {
-			"💮",
+			"\xF0\x9F\x92\xAE", -- 💮
 		},
 	},
 	["white_large_square"] = {
@@ -10932,7 +10932,7 @@ return {
 			"white_large_square",
 		},
 		codes = {
-			"⬜",
+			"\xE2\xAC\x9C", -- ⬜
 		},
 	},
 	["white_medium_small_square"] = {
@@ -10940,7 +10940,7 @@ return {
 			"white_medium_small_square",
 		},
 		codes = {
-			"◽",
+			"\xE2\x97\xBD", -- ◽
 		},
 	},
 	["white_medium_square"] = {
@@ -10948,7 +10948,7 @@ return {
 			"white_medium_square",
 		},
 		codes = {
-			"◻",
+			"\xE2\x97\xBB", -- ◻
 		},
 	},
 	["white_small_square"] = {
@@ -10956,7 +10956,7 @@ return {
 			"white_small_square",
 		},
 		codes = {
-			"▫",
+			"\xE2\x96\xAB", -- ▫
 		},
 	},
 	["white_square_button"] = {
@@ -10964,7 +10964,7 @@ return {
 			"white_square_button",
 		},
 		codes = {
-			"🔳",
+			"\xF0\x9F\x94\xB3", -- 🔳
 		},
 	},
 	["white_sun_cloud"] = {
@@ -10972,7 +10972,7 @@ return {
 			"white_sun_cloud",
 		},
 		codes = {
-			"🌥",
+			"\xF0\x9F\x8C\xA5", -- 🌥
 		},
 	},
 	["white_sun_rain_cloud"] = {
@@ -10980,7 +10980,7 @@ return {
 			"white_sun_rain_cloud",
 		},
 		codes = {
-			"🌦",
+			"\xF0\x9F\x8C\xA6", -- 🌦
 		},
 	},
 	["white_sun_small_cloud"] = {
@@ -10988,7 +10988,7 @@ return {
 			"white_sun_small_cloud",
 		},
 		codes = {
-			"🌤",
+			"\xF0\x9F\x8C\xA4", -- 🌤
 		},
 	},
 	["wilted_rose"] = {
@@ -10996,7 +10996,7 @@ return {
 			"wilted_rose",
 		},
 		codes = {
-			"🥀",
+			"\xF0\x9F\xA5\x80", -- 🥀
 		},
 	},
 	["wind_blowing_face"] = {
@@ -11004,7 +11004,7 @@ return {
 			"wind_blowing_face",
 		},
 		codes = {
-			"🌬",
+			"\xF0\x9F\x8C\xAC", -- 🌬
 		},
 	},
 	["wind_chime"] = {
@@ -11012,7 +11012,7 @@ return {
 			"wind_chime",
 		},
 		codes = {
-			"🎐",
+			"\xF0\x9F\x8E\x90", -- 🎐
 		},
 	},
 	["wine_glass"] = {
@@ -11020,7 +11020,7 @@ return {
 			"wine_glass",
 		},
 		codes = {
-			"🍷",
+			"\xF0\x9F\x8D\xB7", -- 🍷
 		},
 	},
 	["wink"] = {
@@ -11028,7 +11028,7 @@ return {
 			"wink",
 		},
 		codes = {
-			"😉",
+			"\xF0\x9F\x98\x89", -- 😉
 		},
 	},
 	["wolf"] = {
@@ -11036,7 +11036,7 @@ return {
 			"wolf",
 		},
 		codes = {
-			"🐺",
+			"\xF0\x9F\x90\xBA", -- 🐺
 		},
 	},
 	["woman"] = {
@@ -11044,7 +11044,7 @@ return {
 			"woman",
 		},
 		codes = {
-			"👩",
+			"\xF0\x9F\x91\xA9", -- 👩
 		},
 	},
 	["womans_clothes"] = {
@@ -11052,7 +11052,7 @@ return {
 			"womans_clothes",
 		},
 		codes = {
-			"👚",
+			"\xF0\x9F\x91\x9A", -- 👚
 		},
 	},
 	["womans_hat"] = {
@@ -11060,7 +11060,7 @@ return {
 			"womans_hat",
 		},
 		codes = {
-			"👒",
+			"\xF0\x9F\x91\x92", -- 👒
 		},
 	},
 	["womens"] = {
@@ -11068,7 +11068,7 @@ return {
 			"womens",
 		},
 		codes = {
-			"🚺",
+			"\xF0\x9F\x9A\xBA", -- 🚺
 		},
 	},
 	["worried"] = {
@@ -11076,7 +11076,7 @@ return {
 			"worried",
 		},
 		codes = {
-			"😟",
+			"\xF0\x9F\x98\x9F", -- 😟
 		},
 	},
 	["wrestlers"] = {
@@ -11084,7 +11084,7 @@ return {
 			"wrestlers",
 		},
 		codes = {
-			"🤼",
+			"\xF0\x9F\xA4\xBC", -- 🤼
 		},
 	},
 	["writing_hand"] = {
@@ -11092,7 +11092,7 @@ return {
 			"writing_hand",
 		},
 		codes = {
-			"✍",
+			"\xE2\x9C\x8D", -- ✍
 		},
 	},
 	["x"] = {
@@ -11100,7 +11100,7 @@ return {
 			"x",
 		},
 		codes = {
-			"❌",
+			"\xE2\x9D\x8C", -- ❌
 		},
 	},
 	["yellow_heart"] = {
@@ -11108,7 +11108,7 @@ return {
 			"yellow_heart",
 		},
 		codes = {
-			"💛",
+			"\xF0\x9F\x92\x9B", -- 💛
 		},
 	},
 	["yen"] = {
@@ -11116,7 +11116,7 @@ return {
 			"yen",
 		},
 		codes = {
-			"💴",
+			"\xF0\x9F\x92\xB4", -- 💴
 		},
 	},
 	["yin_yang"] = {
@@ -11124,7 +11124,7 @@ return {
 			"yin_yang",
 		},
 		codes = {
-			"☯",
+			"\xE2\x98\xAF", -- ☯
 		},
 	},
 	["yum"] = {
@@ -11132,7 +11132,7 @@ return {
 			"yum",
 		},
 		codes = {
-			"😋",
+			"\xF0\x9F\x98\x8B", -- 😋
 		},
 	},
 	["zap"] = {
@@ -11140,7 +11140,7 @@ return {
 			"zap",
 		},
 		codes = {
-			"⚡",
+			"\xE2\x9A\xA1", -- ⚡
 		},
 	},
 	["zero"] = {
@@ -11148,8 +11148,8 @@ return {
 			"zero",
 		},
 		codes = {
-			"0️⃣",
-			"0⃣",
+			"\x30\xEF\xB8\x8F\xE2\x83\xA3", -- 0️⃣
+			"\x30\xE2\x83\xA3", -- 0⃣
 		},
 	},
 	["zipper_mouth"] = {
@@ -11157,7 +11157,7 @@ return {
 			"zipper_mouth",
 		},
 		codes = {
-			"🤐",
+			"\xF0\x9F\xA4\x90", -- 🤐
 		},
 	},
 	["zzz"] = {
@@ -11165,7 +11165,7 @@ return {
 			"zzz",
 		},
 		codes = {
-			"💤",
+			"\xF0\x9F\x92\xA4", -- 💤
 		},
 	},
 
