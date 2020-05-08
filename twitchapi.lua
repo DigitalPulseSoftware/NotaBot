@@ -98,11 +98,13 @@ function TwitchApi:Commit(method, url, headers, body, retries, forceAuth)
 	headers = headers or {}
 	-- Discard authorization header if any
 	for k, header in pairs(headers) do
-		if (header[1]:lower() == "authorization") then
+		local key = header[1]:lower()
+		if (key == "authorization" or key == "client-id") then
 			headers[k] = nil
 		end
 	end
 	insert(headers, {"Authorization", self.token.tokenType .. " " .. self.token.accessToken})
+	insert(headers, {"Client-ID", self._clientId})
 
 	local success, res, msg = pcall(request, method, url, headers, body)
 	if (not success) then
@@ -139,6 +141,7 @@ function TwitchApi:Commit(method, url, headers, body, retries, forceAuth)
 			delay = delay + random(2000)
 			retry = retries < maxRetries
 		elseif (res.code == 401) then -- Token error
+			p(msg)
 			delay = 100
 			retry = retries < maxRetries
 			forceAuth = true
