@@ -114,7 +114,12 @@ function Module:OnLoaded()
 
 		Help = "Query twitch informations about a channel",
 		Func = function (commandMessage, channel)
-			local profileData, err = self.API:GetUserByName(channel)
+			local profileData, err
+			if (channel:match("^%d+$")) then
+				profileData, err = self.API:GetUserById(channel)
+			else
+				profileData, err = self.API:GetUserByName(channel)
+			end
 
 			if (profileData) then
 				local channelUrl = "https://www.twitch.tv/" .. profileData.login
