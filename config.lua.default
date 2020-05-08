@@ -4,6 +4,9 @@ OwnerUserId = ""
 -- TODO: Handle a prefix per-server
 Prefix = "!"
 
+--- Module configs
+GameModuleConfig = {}
+
 -- Module which will be loaded at bot start
 AutoloadModules = {
 	"module_ban.lua",
