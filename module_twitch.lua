@@ -77,22 +77,44 @@ function Module:GetConfigTable()
 	}
 end
 
+function Module:GetWatchedChannels()
+	local persistentData = self:GetPersistentData(nil)
+	persistentData.watchedChannels = persistentData.watchedChannels or {}
+
+	return persistentData.watchedChannels
+end
+
 function Module:OnLoaded()
 	-- Regenerate secret
 	self.API = twitchAPI(discordia, client, self.GlobalConfig.TwitchClientId, self.GlobalConfig.TwitchClientSecret)
+
+	local secretLifespan = 24 * 60 * 60
+
 	self.Secret = self:GenerateSecret(128)
-	self.WatchedChannels = {}
+	self.SecretTimeout = os.time() + secretLifespan
+
+	for channelId, channelData in pairs(self:GetWatchedChannels()) do
+		channelData.Subscribing = false
+		channelData.WaitingForConfirm = false
+	end
 
 	self.Clock = discordia.Clock()
 	self.Clock:on("sec", function ()
+		local watchedChannels = self:GetWatchedChannels()
+
 		local now = os.time()
-		for channelId, channelData in pairs(self.WatchedChannels) do
+		if (now >= self.SecretTimeout) then
+			self.Secret = self:GenerateSecret(128)
+			self.SecretTimeout = now + secretLifespan
+		end
+
+		for channelId, channelData in pairs(watchedChannels) do
 			if (channelData.RenewTime <= now and not channelData.Subscribing) then
 				if (not table.empty(channelData.Guilds)) then
 					channelData.RenewTime = now + 2*60 -- Retry in two minutes if twitch didn't answer or subscribing failed
 					wrap(function () bot:CallModuleFunction(self, "SubscribeToTwitch", channelId) end)()
 				else
-					self.WatchedChannels[channelId] = nil
+					watchedChannels[channelId] = nil
 				end
 			end
 		end
@@ -168,9 +190,11 @@ function Module:OnLoaded()
 end
 
 function Module:OnEnable(guild)
+	local watchedChannels = self:GetWatchedChannels()
+
 	local config = self:GetConfig(guild)
 	for channelId,channelData in pairs(config.TwitchConfig) do
-		local watchedData = self.WatchedChannels[channelId]
+		local watchedData = watchedChannels[channelId]
 		if (not watchedData) then
 			watchedData = {
 				Guilds = {},
@@ -180,7 +204,7 @@ function Module:OnEnable(guild)
 				Subscribing = false,
 				WaitingForConfirm = false
 			}
-			self.WatchedChannels[channelId] = watchedData
+			watchedChannels[channelId] = watchedData
 		end
 
 		watchedData.Guilds[guild.id] = channelData
@@ -190,9 +214,11 @@ function Module:OnEnable(guild)
 end
 
 function Module:OnDisable(guild)
+	local watchedChannels = self:GetWatchedChannels()
+
 	local config = self:GetConfig(guild)
 	for channelId,channelData in pairs(config.TwitchConfig) do
-		local watchedData = self.WatchedChannels[channelId]
+		local watchedData = watchedChannels[channelId]
 		if (watchedData) then
 			watchedData.Guilds[guild.id] = nil
 		end
@@ -202,12 +228,6 @@ end
 function Module:OnUnload()
 	if (self.Clock) then
 		self.Clock:stop()
-	end
-
-	for channelId, channelData in pairs(self.WatchedChannels) do
-		if (channelData.Subscribed or channelData.WaitingForConfirm) then
-			self:UnsubscribeFromTwitch(channelId)
-		end
 	end
 
 	self.Server:close()
@@ -303,24 +323,31 @@ function Module:SetupServer()
 			end
 		end
 
-		local hasSignature = false
+		-- If we have a signature, then a channel came up, else it's twitch checking
 		if (headerSignature) then
 			local hash, hashValue = string.match(headerSignature, "(%w+)=(%w+)")
 			if (hash and hashValue and hash == "sha256") then
-				local signature = sha256.hmac_sha256(self.Secret, body)
-				if (hashValue == signature) then
-					hasSignature = true
-				else
-					self:LogError("Twitch server: Header signature doesn't match")
-					return Forbidden()
-				end
+				headerSignature = hashValue
 			else
 				self:LogError("Twitch server: Invalid header signature %s", headerSignature)
 				return Forbidden()
 			end
-		end
 
-		if (not hasSignature) then
+			local payload = json.decode(body)
+			if (payload and payload.data) then
+				local channelData = payload.data[1]
+				if (channelData) then
+					-- Channel up
+					self:LogInfo("Twitch server: Channel %s went up", channelData.user_id)
+					bot:CallModuleFunction(self, "HandleChannelUp", channelData, headerSignature, body)
+				else
+					-- Channel down
+					self:LogInfo("Twitch server: A channel went down") -- And ... we have have no idea which channel is concerned, ty twitch
+				end
+			end
+	
+			return Ok()
+		else
 			-- Decode path
 			local query = head.path:match("^[^?]*%??(.*)")
 			if (query) then
@@ -340,8 +367,10 @@ function Module:SetupServer()
 					return Forbidden()
 				end
 
-				local channelData = self.WatchedChannels[channelId]
-				if (not channelData) then
+				local watchedChannels = self:GetWatchedChannels()
+
+				local channelData = watchedChannels[channelId]
+				if (not channelData or not channelData.WaitingForConfirm) then
 					-- May occurs when reloading
 					if (mode == "unsubscribe") then
 						return Ok()
@@ -359,10 +388,6 @@ function Module:SetupServer()
 					end
 
 					self:LogInfo("Twitch server: Subscribed to %s for %s", channelId, subscribeTime)
-
-					if (channelData.Subscribed) then
-						self:LogWarning("Double subscription to %s detected", channelId)
-					end
 
 					channelData.RenewTime = os.time() + subscribeTime
 					channelData.Subscribed = true
@@ -388,31 +413,26 @@ function Module:SetupServer()
 
 			return Forbidden()
 		end
-
-		local payload = json.decode(body)
-		if (payload and payload.data) then
-			local channelData = payload.data[1]
-			if (channelData) then
-				-- Channel up
-				self:LogInfo("Twitch server: Channel %s went up", channelData.user_id)
-				bot:CallModuleFunction(self, "HandleChannelUp", channelData)
-			else
-				-- Channel down
-				self:LogInfo("Twitch server: A channel went down") -- And ... we have have no idea which channel is concerned, ty twitch
-			end
-		end
-
-		return Ok()
 	end)
 end
 
-function Module:HandleChannelUp(channelData)
+function Module:HandleChannelUp(channelData, headerSignature, body)
 	local userId = channelData.user_id
 	self:LogInfo("Channel %s went up", userId)
 
-	local watchedData = self.WatchedChannels[userId]
+	local watchedChannels = self:GetWatchedChannels()
+
+	local watchedData = watchedChannels[userId]
 	if (not watchedData) then
-		self:LogError("%s is not a watched channel, ignoring", userId)
+		self:LogError("%s is not a watched channel, ignoring...", userId)
+		return
+	end
+
+	-- Ensure Twitch has sent this
+	assert(watchedData.Secret)
+	local signature = sha256.hmac_sha256(watchedData.Secret, body)
+	if (headerSignature ~= signature) then
+		self:LogError("Header signature doesn't match")
 		return
 	end
 
@@ -566,13 +586,18 @@ end
 function Module:SubscribeToTwitch(channelId)
 	self:LogInfo("Subscribing to channel %s", channelId)
 
-	local channelData = self.WatchedChannels[channelId]
+	local watchedChannels = self:GetWatchedChannels()
+
+	local channelData = watchedChannels[channelId]
 	assert(channelData)
 
 	channelData.Subscribing = true
 	channelData.WaitingForConfirm = true
 
-	local succeeded, ret, err = pcall(function () self.API:SubscribeToStreamUpDown(channelId, self.GlobalConfig.CallbackEndpoint, self.GlobalConfig.SubscribeDuration, self.Secret) end)
+	local secret = self.Secret
+	channelData.Secret = secret
+
+	local succeeded, ret, err = pcall(function () self.API:SubscribeToStreamUpDown(channelId, self.GlobalConfig.CallbackEndpoint, self.GlobalConfig.SubscribeDuration, secret) end)
 
 	channelData.Subscribing = false
 
