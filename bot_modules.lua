@@ -229,10 +229,11 @@ function ModuleMetatable:EnableForGuild(guild, ignoreCheck, dontSave)
 	return true
 end
 
-function ModuleMetatable:ForEachGuild(callback, evenDisabled, evenNonReady)
+function ModuleMetatable:ForEachGuild(callback, evenDisabled, evenNonReady, evenNonLoaded)
 	for guildId, data in pairs(self._Guilds) do
 		local guild = Bot.Client:getGuild(guildId)
-		if (guild and (evenNonReady or data._Ready) and (evenDisabled or data.Config._Enabled)) then
+
+		if ((guild or evenNonLoaded) and (evenNonReady or data._Ready) and (evenDisabled or data.Config._Enabled)) then
 			callback(guildId, data.Config, data.Data, data.PersistentData, guild)
 		end
 	end
@@ -550,7 +551,7 @@ function Bot:LoadModule(moduleTable)
 
 	moduleTable:ForEachGuild(function (guildId, config, data, persistentData)
 		moduleTable:_PrepareGuildConfig(guildId, config)
-	end, true, true)
+	end, true, true, true)
 
 	-- Loading finished, call callback
 	self.Modules[moduleTable.Name] = moduleTable
