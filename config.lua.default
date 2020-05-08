@@ -1,6 +1,9 @@
 Token = "" -- Bot token
 OwnerUserId = ""
 
+-- TODO: Handle a prefix per-server
+Prefix = "!"
+
 -- Module which will be loaded at bot start
 AutoloadModules = {
 	"module_ban.lua",

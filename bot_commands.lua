@@ -2,6 +2,7 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
+local config = Config
 local enums = discordia.enums
 
 function Bot:BuildUsage(commandTable)
@@ -80,13 +81,13 @@ Bot.Client:on('messageCreate', function(message)
 		return
 	end
 
-	local prefix = '!'
+	local prefix = Config.Prefix
 	local content = message.content
 	if (not content:startswith(prefix)) then
 		return
 	end
 
-	local commandName, args = content:match("^[!/](%w+)%s*(.*)")
+	local commandName, args = content:match("^.?(%w+)%s*(.*)")
 	if (not commandName) then
 		return
 	end
