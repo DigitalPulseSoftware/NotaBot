@@ -337,6 +337,19 @@ Bot:RegisterCommand({
 	end
 })
 
+Bot:RegisterCommand({
+	Name = "reboot",
+	Args = {},
+	PrivilegeCheck = function (member) return member.id == Config.OwnerUserId end,
+
+	Help = "Restart bot",
+	Func = function (message)
+		Bot:Save()
+		message:reply("Saving and rebooting...")
+		os.exit(0)
+	end
+})
+
 Bot.Clock:start()
 
 client:run('Bot ' .. Config.Token)
