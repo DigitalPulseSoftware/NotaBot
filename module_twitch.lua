@@ -90,10 +90,12 @@ function Module:OnLoaded()
 
 	local secretLifespan = 24 * 60 * 60
 
+	self.ChannelAlerts = {}
 	self.Secret = self:GenerateSecret(128)
 	self.SecretTimeout = os.time() + secretLifespan
 
 	for channelId, channelData in pairs(self:GetWatchedChannels()) do
+		channelData.Guilds = nil -- Was removed in a previous version (replaced by self.ChannelAlerts)
 		channelData.Subscribing = false
 		channelData.WaitingForConfirm = false
 	end
@@ -110,11 +112,13 @@ function Module:OnLoaded()
 
 		for channelId, channelData in pairs(watchedChannels) do
 			if (channelData.RenewTime <= now and not channelData.Subscribing) then
-				if (not table.empty(channelData.Guilds)) then
+				local channelAlerts = self.ChannelAlerts[channelId]
+				if (channelAlerts and not table.empty(channelAlerts)) then
 					channelData.RenewTime = now + 2*60 -- Retry in two minutes if twitch didn't answer or subscribing failed
 					wrap(function () bot:CallModuleFunction(self, "SubscribeToTwitch", channelId) end)()
 				else
 					watchedChannels[channelId] = nil
+					self.ChannelAlerts[channelId] = nil
 				end
 			end
 		end
@@ -197,7 +201,6 @@ function Module:OnEnable(guild)
 		local watchedData = watchedChannels[channelId]
 		if (not watchedData) then
 			watchedData = {
-				Guilds = {},
 				LastAlert = 0,
 				RenewTime = os.time(),
 				Subscribed = false,
@@ -207,7 +210,13 @@ function Module:OnEnable(guild)
 			watchedChannels[channelId] = watchedData
 		end
 
-		watchedData.Guilds[guild.id] = channelData
+		local channelAlerts = self.ChannelAlerts[channelId]
+		if (not channelAlerts) then
+			channelAlerts = {}
+			self.ChannelAlerts[channelId] = channelAlerts
+		end
+
+		channelAlerts[guild.id] = channelData
 	end
 
 	return true
@@ -218,9 +227,9 @@ function Module:OnDisable(guild)
 
 	local config = self:GetConfig(guild)
 	for channelId,channelData in pairs(config.TwitchConfig) do
-		local watchedData = watchedChannels[channelId]
-		if (watchedData) then
-			watchedData.Guilds[guild.id] = nil
+		local channelAlerts = self.ChannelAlerts[channelId]
+		if (channelAlerts) then
+			channelAlerts[guild.id] = nil
 		end
 	end
 end
@@ -417,14 +426,20 @@ function Module:SetupServer()
 end
 
 function Module:HandleChannelUp(channelData, headerSignature, body)
-	local userId = channelData.user_id
-	self:LogInfo("Channel %s went up", userId)
+	local channelId = channelData.user_id
+	self:LogInfo("Channel %s went up", channelId)
 
 	local watchedChannels = self:GetWatchedChannels()
 
-	local watchedData = watchedChannels[userId]
+	local watchedData = watchedChannels[channelId]
 	if (not watchedData) then
-		self:LogError("%s is not a watched channel, ignoring...", userId)
+		self:LogError("%s is not a watched channel, ignoring...", channelId)
+		return
+	end
+
+	local channelAlerts = self.ChannelAlerts[channelId]
+	if (not channelAlerts) then
+		self:LogError("%s has no active alerts, ignoring...", channelId)
 		return
 	end
 
@@ -448,9 +463,9 @@ function Module:HandleChannelUp(channelData, headerSignature, body)
 		return
 	end
 
-	local profileData, err = self.API:GetUserById(userId)
+	local profileData, err = self.API:GetUserById(channelId)
 	if (not profileData) then
-		self:LogError("Failed to query user %s info: %s", userId, err)
+		self:LogError("Failed to query user %s info: %s", channelId, err)
 		return
 	end
 
@@ -462,7 +477,7 @@ function Module:HandleChannelUp(channelData, headerSignature, body)
 	watchedData.LastAlert = now
 
 	local title = channelData.title
-	for guildId, guildPatterns in pairs(watchedData.Guilds) do
+	for guildId, guildPatterns in pairs(channelAlerts) do
 		local guild = client:getGuild(guildId)
 		if (guild) then
 			for _, pattern in pairs(guildPatterns) do
