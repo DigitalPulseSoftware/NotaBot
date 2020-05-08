@@ -549,10 +549,6 @@ function Bot:LoadModule(moduleTable)
 
 	moduleTable:_PrepareGlobalConfig()
 
-	moduleTable:ForEachGuild(function (guildId, config, data, persistentData)
-		moduleTable:_PrepareGuildConfig(guildId, config)
-	end, true, true, true)
-
 	-- Loading finished, call callback
 	self.Modules[moduleTable.Name] = moduleTable
 	
@@ -611,19 +607,21 @@ function Bot:LoadModuleData(moduleTable)
 	local dataIt = fs.scandir(dataFolder)
 	if (dataIt) then
 		for entry in assert(dataIt) do
+			local path = dataFolder .. "/" .. entry.name
 			if (entry.type == "directory") then
 				local guildId = entry.name:match("guild_(%d+)")
 				if (guildId) then
 					local guildData = moduleTable:GetGuildData(guildId)
 
-					local config, err = self:UnserializeFromFile(dataFolder .. "/" .. entry.name .. "/config.json")
+					local config, err = self:UnserializeFromFile(path .. "/config.json")
 					if (config) then
 						guildData.Config = config
+						moduleTable:_PrepareGuildConfig(guildId, guildData.Config)
 					else
 						self.Client:error("Failed to load config of guild %s (%s module): %s", guildId, moduleTable.Name, err)
 					end
 
-					local persistentData, err = self:UnserializeFromFile(dataFolder .. "/" .. entry.name .. "/persistentdata.json")
+					local persistentData, err = self:UnserializeFromFile(path .. "/persistentdata.json")
 					if (persistentData) then
 						guildData.PersistentData = persistentData
 					else
@@ -632,10 +630,18 @@ function Bot:LoadModuleData(moduleTable)
 				end
 			elseif (entry.type == "file") then
 				if (entry.name == "global_config.json") then
-					local config, err = self:UnserializeFromFile(dataFolder .. "/" .. entry.name)
+					local config, err = self:UnserializeFromFile(path)
 					if (config) then
 						moduleTable.GlobalConfig = config
 						self.Client:info("Global config of module %s has been loaded", moduleTable.Name)
+					else
+						self.Client:error("Failed to load global config module %s: %s", moduleTable.Name, err)
+					end
+				elseif (entry.name == "global_data.json") then
+					local data, err = self:UnserializeFromFile(path)
+					if (data) then
+						moduleTable.GlobalPersistentData = data
+						self.Client:info("Global data of module %s has been loaded", moduleTable.Name)
 					else
 						self.Client:error("Failed to load global config module %s: %s", moduleTable.Name, err)
 					end
