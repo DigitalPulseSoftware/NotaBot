@@ -114,13 +114,14 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 		return
 	end
 
-	local config = self:GetConfig(channel.guild)
-	local emojiData = bot:GetEmojiData(channel.guild, reactionIdorName)
+	local guild = channel.guild
+	local config = self:GetConfig(guild)
+	local emojiData = bot:GetEmojiData(guild, reactionIdorName)
 	if (not emojiData) then
 		return
 	end
 
-	if (emojiData.Name ~= config.Trigger) then
+	if (emojiData.Name ~= config.Trigger or (emojiData.Custom and emojiData.FromGuild ~= guild)) then
 		return
 	end
 
