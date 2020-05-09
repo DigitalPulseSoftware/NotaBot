@@ -90,13 +90,14 @@ function Module:OnReactionAdd(reaction, userId)
 		return
 	end
 
-	local config = self:GetConfig(reaction.message.guild)
-	local emojiData = bot:GetEmojiData(reaction.message.guild, reaction.emojiName)
+	local guild = reaction.message.guild
+	local config = self:GetConfig(guild)
+	local emojiData = bot:GetEmojiData(guild, reaction.emojiId or reaction.emojiName)
 	if (not emojiData) then
 		return
 	end
 
-	if (emojiData.Name ~= config.Trigger) then
+	if (emojiData.Name ~= config.Trigger or (emojiData.Custom and emojiData.FromGuild ~= guild)) then
 		return
 	end
 

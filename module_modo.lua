@@ -364,7 +364,7 @@ function Module:OnReactionAdd(reaction, userId)
 
 	local guild = reaction.message.guild
 	local config = self:GetConfig(guild)
-	local emojiData = bot:GetEmojiData(guild, reaction.emojiName)
+	local emojiData = bot:GetEmojiData(guild, reaction.emojiId or reaction.emojiName)
 	if (not emojiData) then
 		self:LogWarning(guild, "Emoji %s was used but not found in guild", reaction.emojiName)
 		return
@@ -382,14 +382,15 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 		return
 	end
 
-	local config = self:GetConfig(channel.guild)
-	local emojiData = bot:GetEmojiData(channel.guild, reactionIdorName)
+	local guild = channel.guild
+	local config = self:GetConfig(guild)
+	local emojiData = bot:GetEmojiData(guild, reactionIdorName)
 	if (not emojiData) then
-		self:LogWarning(channel.guild, "Emoji %s was used but not found in guild", reactionIdorName)
+		self:LogWarning(guild, "Emoji %s was used but not found in guild", reactionIdorName)
 		return
 	end
 
-	if (emojiData.Name ~= config.Trigger) then
+	if (emojiData.Name ~= config.Trigger or (emojiData.Custom and emojiData.FromGuild ~= guild)) then
 		return
 	end
 
