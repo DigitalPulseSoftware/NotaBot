@@ -6,10 +6,16 @@ local fs = require("coro-fs")
 local json = require("json")
 local path = require("path")
 
-local discordSubdomains = {
-	[""] = true, -- no subdomain
-	["ptb."] = true, -- public test stable
-	["canary."] = true -- canary
+local discordDomains = {
+	-- no subdomain
+	["discord.com"] = true,
+	["discordapp.com"] = true,
+	-- public test build
+	["ptb.discord.com"] = true,
+	["ptb.discordapp.com"] = true,
+	-- canary
+	["canary.discord.com"] = true,
+	["canary.discordapp.com"] = true,
 }
 
 function Bot:DecodeChannel(guild, message)
@@ -73,8 +79,8 @@ end
 function Bot:DecodeMessage(message, ignoreEscaped)
 	assert(message)
 
-	local e1, domain, guildId, channelId, messageId, e2 = message:match("(<?)https?://([%w%.]*)discordapp.com/channels/(%d+)/(%d+)/(%d+)(>?)")
-	if (not e1 or not discordSubdomains[domain]) then
+	local e1, domain, guildId, channelId, messageId, e2 = message:match("(<?)https?://([%w%.]+)/channels/(%d+)/(%d+)/(%d+)(>?)")
+	if (not e1 or not discordDomains[domain]) then
 		return nil, "Invalid link"
 	end
 
