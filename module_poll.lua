@@ -54,13 +54,13 @@ function Module:GetConfigTable()
         },
         {
             Name = "DefaultPollChannel",
-            Description = "Where should polls be sent if no poll is set on init",
+            Description = "Where should polls be sent if no channel is set on init",
             Type = bot.ConfigType.Channel,
             Optional = true
         },
         {
             Name = "DefaultPollDuration",
-            Description = "Default poll duration if no duration is set",
+            Description = "Default poll duration if no duration is set on init",
             Type = bot.ConfigType.Duration,
             Default = 24 * 60 * 60
         },
