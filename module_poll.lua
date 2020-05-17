@@ -13,7 +13,7 @@ local polls
 Module.Name = "poll"
 
 -- TODO? Ajouter ça dans les utils ?
-function HasOneOfTheseRoles(member, roles)
+function Module:HasOneOfTheseRoles(member, roles)
     for _, roleId in ipairs(roles) do
         if member:hasRole(roleId) then
             return true
@@ -23,15 +23,64 @@ function HasOneOfTheseRoles(member, roles)
 end
 
 -- TODO Supprimer ça ou ajouter dans les utils ?
-function SendNotImplemented(channel)
+function Module:SendNotImplemented(channel)
     channel:send("This feature is not yet implemented!")
+end
+
+function Module:IsAllowedToSpecifyChannel(member, config)
+    return member:hasPermission(enums.permission.administrator) 
+        or (config.SpecifyChannelAllowedRoles ~= nil 
+            and self:HasOneOfTheseRoles(member, config.SpecifyChannelAllowedRoles))
+end
+
+function Module:FormatVotes(count)
+    local votes = "**" .. count .. "** vote"
+    if count > 1 then
+        votes = votes .. "s"
+    end
+
+    return votes
+end
+
+function Module:GetPollFooter(member, duration, isResults)
+    local text = "Poll requested by " .. member.tag
+
+    if duration == nil then
+        return text
+    end
+    
+    local verb = "Lasts"
+    if isResults then
+        verb = "Lasted"
+    end
+
+    if duration < 60 then
+        duration = 60
+    end
+
+    text = text .. string.format(". %s for %s.", verb, util.FormatTime(duration))        
+    return text
+end
+
+function Module:AddEmbedReactions(member, message)
+    local poll = polls[member.guild.id][member.id]
+    
+    if poll == nil or #poll.choices == 0 then
+        return
+    end
+
+    for _, choice in ipairs(poll.choices) do
+        if choice.emoji ~= nil then
+            message:addReaction(choice.emoji.Emoji or choice.emoji.Id)
+        end
+    end
 end
 
 function Module:CheckPermissions(member)
     if member:hasPermission(enums.permission.administrator) then
         return true
     end
-    return HasOneOfTheseRoles(member, self:GetConfig(member.guild).AllowedRoles)
+    return self:HasOneOfTheseRoles(member, self:GetConfig(member.guild).AllowedRoles)
 end
 
 -- TODO? Ajouter option de cooldown entre 2 sondages pour un même membre
@@ -90,7 +139,7 @@ function Module:OnLoaded()
     self.Clock:on("min", function()
         local now = os.time()
 
-        self:ForEachGuild(function (guildId, config, data, persistentData)
+        self:ForEachGuild(function(guildId, config, data, persistentData)
             local guild = client:getGuild(guildId)
             local config = self:GetConfig(guild)
             
@@ -138,7 +187,7 @@ function Module:OnLoaded()
                         },
                         title = message.embed.title,
                         fields = {},
-                        footer = {text = GetPollFooter(member, duration, true)}
+                        footer = {text = self:GetPollFooter(member, duration, true)}
                     }
 
                     table.sort(map, function(a, b) return a.count > b.count end)
@@ -146,7 +195,7 @@ function Module:OnLoaded()
                     for _, choice in ipairs(map) do
                         table.insert(results.fields, {
                             name = choice.title,
-                            value = FormatVotes(choice.count)
+                            value = self:FormatVotes(choice.count)
                         })
                     end
                     if not config.DeletePollOnExpiration then
@@ -169,43 +218,8 @@ function Module:OnLoaded()
 		end)
     end)
 
-    function IsAllowedToSpecifyChannel(channel, member, config)
-        return member:hasPermission(enums.permission.administrator) 
-            or (config.SpecifyChannelAllowedRoles ~= nil 
-                and HasOneOfTheseRoles(member, config.SpecifyChannelAllowedRoles))
-    end
-
-    function FormatVotes(count)
-        local votes = "**" .. count .. "** vote"
-        if count > 1 then
-            votes = votes .. "s"
-        end
-
-        return votes
-    end
-
-    function GetPollFooter(member, duration, isResults)
-        local text = "Poll requested by " .. member.tag
-
-        if duration == nil then
-            return text
-        end
-        
-        local verb = "Lasts"
-        if isResults then
-            verb = "Lasted"
-        end
-
-        if duration < 60 then
-            duration = 60
-        end
-
-        text = text .. string.format(". %s for %s.", verb, util.FormatTime(duration))        
-        return text
-    end
-
     -- TODO Respect limitations : https://birdie0.github.io/discord-webhooks-guide/other/field_limits.html
-    function FormatPoll(member, embed, footer, preview)
+    function Module:FormatPoll(member, embed, footer, preview)
         local fields = {}
         local guild = member.guild
         local poll = polls[guild.id][member.id]
@@ -250,22 +264,10 @@ function Module:OnLoaded()
         if footer ~= nil then
             embed.footer = {text = footer}
         else
-            embed.footer = {text = GetPollFooter(member, polls[guild.id][member.id].duration)}
+            embed.footer = {text = self:GetPollFooter(member, poll.duration)}
         end
 
         return embed
-    end
-
-    function AddEmbedReactions(member, message)
-        if polls[member.guild.id][member.id] == nil or #polls[member.guild.id][member.id].choices == 0 then
-            return
-        end
-    
-        for _, choice in ipairs(polls[member.guild.id][member.id].choices) do
-            if choice.emoji ~= nil then
-                message:addReaction(choice.emoji.Emoji or choice.emoji.Id)
-            end
-        end
     end
 
 	self:RegisterCommand({
@@ -293,7 +295,7 @@ function Module:OnLoaded()
                 return
             end
 
-            if channel ~= nil and not IsAllowedToSpecifyChannel(channel, member, config) then
+            if channel ~= nil and not self:IsAllowedToSpecifyChannel(member, config) then
                 commandMessage:reply("You're not allowed to specify a channel!")
                 return
             end
@@ -345,9 +347,10 @@ function Module:OnLoaded()
             local member = commandMessage.member
             local guild = member.guild
             local config = self:GetConfig(guild)
+            local poll = polls[guild.id][member.id]
 
-            function IsAChoice(emoji)
-                for _, choice in ipairs(polls[guild.id][member.id].choices) do
+            function Module:IsAChoice(emoji)
+                for _, choice in ipairs(poll.choices) do
                     if choice.emoji.Id == emoji.Id then
                         return true
                     end
@@ -355,29 +358,29 @@ function Module:OnLoaded()
                 return false
             end
 
-            if polls[guild.id][member.id] == nil then
+            if poll == nil then
                 commandMessage:reply("You must init a poll in order to use this command!")
                 return
             end
 
             if action == "add" then
-                if #polls[guild.id][member.id].choices >= 20 then
+                if #poll.choices >= 20 then
                     commandMessage:reply("You can't add more than 20 choices!")
                     return
                 end
 
                 local reply = nil
                 
-                if text == nil then
+                if text == nil or text == '' then
                     commandMessage:reply("You can't add a choice without text!")
                     return
                 end
 
                 if emoji ~= nil then 
-                    if IsAChoice(emoji) then
+                    if self:IsAChoice(emoji) then
                         reply = "This emoji is already used for a choice! Can't add it : use `update` action if you want to update it!\n"
                     else
-                        table.insert(polls[guild.id][member.id].choices, { emoji = emoji, text = text })
+                        table.insert(polls[guild.id][member.id].choices, {emoji = emoji, text = text})
                     end
                 else
                     commandMessage:reply("This emoji is unknown! If it is a discord one, please contact Lynix for him to update the internal emoji list!")
@@ -385,9 +388,9 @@ function Module:OnLoaded()
                 end
 
                 local message = commandMessage:reply({
-                    embed = FormatPoll(member, {}, reply, true)
+                    embed = self:FormatPoll(member, {}, reply, true)
                 })
-                AddEmbedReactions(member, message)
+                self:AddEmbedReactions(member, message)
                 return
             end
             
@@ -396,7 +399,7 @@ function Module:OnLoaded()
                     local choices = {}
                     local wasIn = false
 
-                    for _, choice in ipairs(polls[guild.id][member.id].choices) do
+                    for _, choice in ipairs(poll.choices) do
                         if choice.emoji.Name ~= emoji.Name then
                             table.insert(choices, choice)
                         else
@@ -421,9 +424,9 @@ function Module:OnLoaded()
                 end
 
                 local message = commandMessage:reply({
-                    embed = FormatPoll(member, {}, reply, true)
+                    embed = self:FormatPoll(member, {}, reply, true)
                 })
-                AddEmbedReactions(member, message)
+                self:AddEmbedReactions(member, message)
                 return
             end
 
@@ -434,7 +437,7 @@ function Module:OnLoaded()
                 end
 
                 local reply = emoji.MentionString .. " text update has failed!"
-                for _, choice in ipairs(polls[guild.id][member.id].choices) do
+                for _, choice in ipairs(poll.choices) do
                     if choice.emoji.Name == emoji.Name then
                         choice.text = text
                         reply = emoji.MentionString .. " text updated successfully!"
@@ -443,9 +446,9 @@ function Module:OnLoaded()
                 end
 
                 local message = commandMessage:reply({
-                    embed = FormatPoll(member, {}, reply, true)
+                    embed = self:FormatPoll(member, {}, reply, true)
                 })
-                AddEmbedReactions(member, message)
+                self:AddEmbedReactions(member, message)
                 return
             end
 
@@ -466,21 +469,21 @@ function Module:OnLoaded()
                     return
                 end
 
-                local channel = guild:getChannel(polls[guild.id][member.id].channel)
+                local channel = guild:getChannel(poll.channel)
                 local data = self:GetPersistentData(guild)
                 local message = channel:send({
-                    embed = FormatPoll(member, {}, nil, false)
+                    embed = self:FormatPoll(member, {}, nil, false)
                 })
-                AddEmbedReactions(member, message)
+                self:AddEmbedReactions(member, message)
 
                 data.runningPolls = data.runningPolls or {}
                 -- TODO? Ajouter option pour empêcher un membre de faire un sondage s'il en a déjà un en cours
                 local emojiNames = {}
-                for i, choice in ipairs(polls[guild.id][member.id].choices) do
+                for i, choice in ipairs(poll.choices) do
                     emojiNames[i] = choice.emoji.Name
                 end
 
-                table.insert(data.runningPolls, {member.id, os.time(), polls[guild.id][member.id].duration, channel.id, message.id, emojiNames})
+                table.insert(data.runningPolls, {member.id, os.time(), poll.duration, channel.id, message.id, emojiNames})
 
                 polls[guild.id][member.id] = nil
 
