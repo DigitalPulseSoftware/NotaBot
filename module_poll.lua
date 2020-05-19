@@ -7,30 +7,12 @@ local discordia = Discordia
 local bot = Bot
 local enums = discordia.enums
 
--- global
-local polls
-
 Module.Name = "poll"
-
--- TODO? Ajouter ça dans les utils ?
-function Module:HasOneOfTheseRoles(member, roles)
-    for _, roleId in ipairs(roles) do
-        if member:hasRole(roleId) then
-            return true
-        end
-    end
-    return false
-end
-
--- TODO Supprimer ça ou ajouter dans les utils ?
-function Module:SendNotImplemented(channel)
-    channel:send("This feature is not yet implemented!")
-end
 
 function Module:IsAllowedToSpecifyChannel(member, config)
     return member:hasPermission(enums.permission.administrator) 
         or (config.SpecifyChannelAllowedRoles ~= nil 
-            and self:HasOneOfTheseRoles(member, config.SpecifyChannelAllowedRoles))
+            and util.MemberHasAnyRole(member, config.SpecifyChannelAllowedRoles))
 end
 
 function Module:FormatVotes(count)
@@ -63,7 +45,8 @@ function Module:GetPollFooter(member, duration, isResults)
 end
 
 function Module:AddEmbedReactions(member, message)
-    local poll = polls[member.guild.id][member.id]
+    local data = self:GetData(member.guild)
+    local poll = data.Polls[member.id]
     
     if poll == nil or #poll.choices == 0 then
         return
@@ -80,7 +63,7 @@ function Module:CheckPermissions(member)
     if member:hasPermission(enums.permission.administrator) then
         return true
     end
-    return self:HasOneOfTheseRoles(member, self:GetConfig(member.guild).AllowedRoles)
+    return util.MemberHasAnyRole(member, self:GetConfig(member.guild).AllowedRoles)
 end
 
 -- TODO? Ajouter option de cooldown entre 2 sondages pour un même membre
@@ -132,9 +115,12 @@ function Module:OnUnload()
 	end
 end
 
-function Module:OnLoaded()
-    polls = {}
+function Module:OnEnable(guild)
+	local data = self:GetData(guild)
+	data.Polls = {}
+end
 
+function Module:OnLoaded()
     self.Clock = discordia.Clock()
     self.Clock:on("min", function()
         local now = os.time()
@@ -218,60 +204,8 @@ function Module:OnLoaded()
 		end)
     end)
 
-    -- TODO Respect limitations : https://birdie0.github.io/discord-webhooks-guide/other/field_limits.html
-    function Module:FormatPoll(member, embed, footer, preview)
-        local fields = {}
-        local guild = member.guild
-        local poll = polls[guild.id][member.id]
-        local title = poll.title
-        if preview then
-            title = "Preview - " .. title
-        end
-        
-        for i, choice in ipairs(poll.choices) do
-            if Bot:GetEmojiData(guild, choice.emoji.Name) ~= nil then
-                table.insert(fields, { 
-                    name = "Choice n°" .. i,
-                    value = string.format("%s %s", choice.emoji.MentionString, choice.text)
-                })
-            else
-                -- Deinit the poll
-                polls[guild.id][member.id] = nil
-                client:info("An emoji was deleted during the configuration of a poll using it!")
-                return {
-                    title = "Error! An emoji is broken!",
-                    fields = {
-                        {
-                            name = "This is not a bot error!",
-                            value = "This typically happens when an emoji in the poll is deleted during its configuration."
-                        },
-                        {
-                            name = "How to fix it?",
-                            value = "You can't! Your poll has been deinitialised!"
-                        },
-                        {
-                            name = "What to do now?",
-                            value = "Just use the command `initpoll` and redo everything!"
-                        }
-                    }
-                }
-            end
-        end
-
-        -- TODO? Add expiration date to the footer OR add launch time!
-        embed.title = title
-        embed.fields = fields
-        if footer ~= nil then
-            embed.footer = {text = footer}
-        else
-            embed.footer = {text = self:GetPollFooter(member, poll.duration)}
-        end
-
-        return embed
-    end
-
 	self:RegisterCommand({
-        Name = "initpoll",
+        Name = "createpoll",
         Args = {
             {Name = "title", Type = bot.ConfigType.String},
             {Name = "channel", Type = bot.ConfigType.Channel, Optional = true},
@@ -279,13 +213,13 @@ function Module:OnLoaded()
         },
         PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
-        Help = "Initiates a poll (title format: \"title\")",
+        Help = "Creates a poll (title format: \"title\")",
         Func = function (commandMessage, title, channel, duration)
             local member = commandMessage.member
             local guild = member.guild
-            if polls[guild.id] == nil then
-                polls[guild.id] = {}
-            end
+            local data = self:GetData(guild)
+            local polls = data.Polls
+
             local config = self:GetConfig(member.guild)
             local pollChannel = channel or config.DefaultPollChannel
             local pollDuration = duration or config.DefaultPollDuration
@@ -300,8 +234,8 @@ function Module:OnLoaded()
                 return
             end
 
-            if polls[guild.id][member.id] == nil then
-                polls[guild.id][member.id] = {
+            if (not polls[member.id]) then
+                polls[member.id] = {
                     title = title,
                     channel = pollChannel,
                     duration = pollDuration,
@@ -316,19 +250,21 @@ function Module:OnLoaded()
     })
 
     self:RegisterCommand({
-        Name = "deinitpoll",
+        Name = "cancelpoll",
         Args = {},
         PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
         Help = "Cancels your current initialized poll",
         Func = function(commandMessage)
             local member = commandMessage.member
-            
-            if polls[member.guild.id][member.id] ~= nil then
-                polls[member.guild.id][member.id] = nil
+            local data = self:GetData(member.guild)
+            local polls = data.Polls
+
+            if (polls[member.id]) then
+                polls[member.id] = nil
                 commandMessage:reply("You can now init a new poll!")
             else
-                commandMessage:reply("You don't have an already initialized poll!")
+                commandMessage:reply("You don't have a pending poll!")
             end
         end
     })
@@ -346,20 +282,12 @@ function Module:OnLoaded()
         Func = function(commandMessage, action, emoji, text)
             local member = commandMessage.member
             local guild = member.guild
-            local config = self:GetConfig(guild)
-            local poll = polls[guild.id][member.id]
+            local data = self:GetData(member.guild)
+            local polls = data.Polls
+            local poll = polls[member.id]
 
-            function Module:IsAChoice(emoji)
-                for _, choice in ipairs(poll.choices) do
-                    if choice.emoji.Id == emoji.Id then
-                        return true
-                    end
-                end
-                return false
-            end
-
-            if poll == nil then
-                commandMessage:reply("You must init a poll in order to use this command!")
+            if (not poll) then
+                commandMessage:reply("You must create a poll in order to use this command!")
                 return
             end
 
@@ -377,10 +305,10 @@ function Module:OnLoaded()
                 end
 
                 if emoji ~= nil then 
-                    if self:IsAChoice(emoji) then
+                    if self:IsAChoice(poll, emoji) then
                         reply = "This emoji is already used for a choice! Can't add it : use `update` action if you want to update it!\n"
                     else
-                        table.insert(polls[guild.id][member.id].choices, {emoji = emoji, text = text})
+                        table.insert(poll.choices, {emoji = emoji, text = text})
                     end
                 else
                     commandMessage:reply("This emoji is unknown! If it is a discord one, please contact Lynix for him to update the internal emoji list!")
@@ -395,7 +323,7 @@ function Module:OnLoaded()
             end
             
             if action == "remove" then
-                function RemoveChoice(emoji)
+                local function RemoveChoice(emoji)
                     local choices = {}
                     local wasIn = false
 
@@ -407,7 +335,7 @@ function Module:OnLoaded()
                         end
                     end
 
-                    polls[guild.id][member.id].choices = choices
+                    poll.choices = choices
                     return wasIn
                 end
                 
@@ -417,7 +345,7 @@ function Module:OnLoaded()
                     reply = reply .. "**WARN** The specified text is useless and will be ignored!\n"
                 end
 
-                if RemoveChoice(emoji) then
+                if (RemoveChoice(emoji)) then
                     reply = reply .. emoji.MentionString .. " has been removed!\n"
                 else
                     reply = reply .. emoji.MentionString .. " doesn't match any choice! It was not removed!\n"
@@ -496,4 +424,66 @@ function Module:OnLoaded()
     })
 
     return true
+end
+
+function Module:IsAChoice(poll, emoji)
+    for _, choice in ipairs(poll.choices) do
+        if choice.emoji.Id == emoji.Id then
+            return true
+        end
+    end
+    return false
+end
+-- TODO Respect limitations : https://birdie0.github.io/discord-webhooks-guide/other/field_limits.html
+function Module:FormatPoll(member, embed, footer, preview)
+    local guild = member.guild
+    local data = self:GetData(guild)
+
+    local fields = {}
+    local poll = data.Polls[member.id]
+    local title = poll.title
+    if preview then
+        title = "Preview - " .. title
+    end
+    
+    for i, choice in ipairs(poll.choices) do
+        if Bot:GetEmojiData(guild, choice.emoji.Name) ~= nil then
+            table.insert(fields, { 
+                name = "Choice n°" .. i,
+                value = string.format("%s %s", choice.emoji.MentionString, choice.text)
+            })
+        else
+            -- Deinit the poll
+            data.Polls[member.id] = nil
+            client:info("An emoji was deleted during the configuration of a poll using it!")
+            return {
+                title = "Error! An emoji is broken!",
+                fields = {
+                    {
+                        name = "This is not a bot error!",
+                        value = "This typically happens when an emoji in the poll is deleted during its configuration."
+                    },
+                    {
+                        name = "How to fix it?",
+                        value = "You can't! Your poll has been deinitialised!"
+                    },
+                    {
+                        name = "What to do now?",
+                        value = "Just use the command `initpoll` and redo everything!"
+                    }
+                }
+            }
+        end
+    end
+
+    -- TODO? Add expiration date to the footer OR add launch time!
+    embed.title = title
+    embed.fields = fields
+    if footer ~= nil then
+        embed.footer = {text = footer}
+    else
+        embed.footer = {text = self:GetPollFooter(member, poll.duration)}
+    end
+
+    return embed
 end
