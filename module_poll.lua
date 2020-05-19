@@ -38,7 +38,7 @@ function Module:FormatChoiceResult(choiceVotes, totalVotes, asProgressBars)
 			progressText = progressText .. progressVoidCharacter
 		end
 
-		return string.format('`[' .. progressText .. ']` **%d**   %s (%d%%)', choiceVotes, voteText, percentage)
+		return string.format('`[%s]` **%d**   %s (%d%%)', progressText, choiceVotes, voteText, percentage)
 	end
 
 	-- Configuration says we use normal output.
