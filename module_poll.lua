@@ -118,6 +118,8 @@ end
 function Module:OnEnable(guild)
 	local data = self:GetData(guild)
 	data.Polls = {}
+
+	return true
 end
 
 function Module:OnLoaded()
