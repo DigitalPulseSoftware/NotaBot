@@ -338,15 +338,18 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 		return false, "Failed to create the channel, this is likely a bug."
 	end
 
-	if (twoWays) then
-		local permissions = newChannel:getPermissionOverwriteFor(targetMember)
-		if (not permissions) then
-			return false, "Failed to create the channel, this is likely a bug."
-		end
+	local permissions = newChannel:getPermissionOverwriteFor(targetMember)
+	if (not permissions) then
+		return false, "Failed to create the channel, this is likely a bug."
+	end
 
-		if (not permissions:setPermissions(bit.bor(enums.permission.readMessages, enums.permission.sendMessages), 0)) then
-			return false, "Failed to create the channel, this is likely a bug."
-		end
+	local permissions = enums.permission.readMessages
+	if (twoWays) then
+		permissions = bit.bor(permissions, enums.permission.sendMessages)
+	end
+ 
+	if (not permissions:setPermissions(permissions, 0)) then
+		return false, "Failed to create the channel, this is likely a bug."
 	end
 
 	local activeChannelData = {
