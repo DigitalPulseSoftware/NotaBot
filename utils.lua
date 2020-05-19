@@ -226,10 +226,6 @@ function util.FormatTime(seconds, depth)
 end
 
 function util.MemberHasAnyRole(member, roles)
-	if (#roles == 0) then
-		return true
-	end
-
 	for _, roleId in pairs(roles) do
 		if (member:hasRole(roleId)) then
 			return true
@@ -240,6 +236,10 @@ function util.MemberHasAnyRole(member, roles)
 end
 
 function util.MemberHasAllRoles(member, roles)
+	if (#roles == 0) then
+		return true
+	end
+
 	for _, roleId in pairs(roles) do
 		if (not member:hasRole(roleId)) then
 			return false

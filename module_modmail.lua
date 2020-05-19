@@ -118,9 +118,12 @@ function Module:OnLoaded()
 					return commandMessage:reply("You do not have the permission to open a ticket for someone else")
 				end
 			else
-				local authorized = util.MemberHasAnyRole(fromMember, config.AllowedRoles)
-				if (not authorized) then
-					return commandMessage:reply("You do not have the permission to open a ticket")
+				local allowedRoles = config.AllowedRoles
+				if (#allowedRoles > 0) then
+					local authorized = util.MemberHasAnyRole(fromMember, allowedRoles)
+					if (not authorized) then
+						return commandMessage:reply("You do not have the permission to open a ticket")
+					end
 				end
 		
 				targetMember = fromMember
