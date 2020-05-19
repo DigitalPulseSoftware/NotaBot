@@ -246,7 +246,7 @@ function Module:OnLoaded()
 
 				commandMessage:reply("You can now setup your poll by using the poll command!")
 			else
-				commandMessage:reply("You already are setting up a poll!\nYou can use the `deinitpoll` command to abort the previous poll!")
+				commandMessage:reply("You already are setting up a poll!\nYou can use the `cancelpoll` command to abort the previous poll!")
 			end
 		end
 	})
@@ -256,7 +256,7 @@ function Module:OnLoaded()
 		Args = {},
 		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
-		Help = "Cancels your current initialized poll",
+		Help = "Cancels your current pending poll",
 		Func = function(commandMessage)
 			local member = commandMessage.member
 			local data = self:GetData(member.guild)
@@ -264,7 +264,7 @@ function Module:OnLoaded()
 
 			if (polls[member.id]) then
 				polls[member.id] = nil
-				commandMessage:reply("You can now init a new poll!")
+				commandMessage:reply("You can now create a new poll!")
 			else
 				commandMessage:reply("You don't have a pending poll!")
 			end
@@ -467,11 +467,11 @@ function Module:FormatPoll(member, embed, footer, preview)
 					},
 					{
 						name = "How to fix it?",
-						value = "You can't! Your poll has been deinitialised!"
+						value = "You can't! Your poll has been cancelled!"
 					},
 					{
 						name = "What to do now?",
-						value = "Just use the command `initpoll` and redo everything!"
+						value = "Just use the command `createpoll` and redo everything!"
 					}
 				}
 			}
