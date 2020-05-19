@@ -388,13 +388,13 @@ function Module:OnLoaded()
 					return
 				end
 
-				polls[guild.id][member.id].title = text
+				polls[member.id].title = text
 				commandMessage:reply("Title set to `" .. text .. "`")
 				return
 			end
 
 			if action == "send" then
-				if #polls[guild.id][member.id].choices < 2 then
+				if #polls[member.id].choices < 2 then
 					commandMessage:reply("You can't send a poll without at least 2 choices! Set some using the `add` action!")
 					return
 				end
@@ -415,7 +415,7 @@ function Module:OnLoaded()
 
 				table.insert(data.runningPolls, {member.id, os.time(), poll.duration, channel.id, message.id, emojiNames})
 
-				polls[guild.id][member.id] = nil
+				polls[member.id] = nil
 
 				commandMessage:reply(string.format("Poll successfully sent to %s (#%s)", channel.mentionString, channel.name))
 				return
