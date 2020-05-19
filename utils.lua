@@ -225,6 +225,30 @@ function util.FormatTime(seconds, depth)
 	return table.NiceConcat(txt)
 end
 
+function util.MemberHasAnyRole(member, roles)
+	if (#roles == 0) then
+		return true
+	end
+
+	for _, roleId in pairs(roles) do
+		if (member:hasRole(roleId)) then
+			return true
+		end
+	end
+
+	return false
+end
+
+function util.MemberHasAllRoles(member, roles)
+	for _, roleId in pairs(roles) do
+		if (not member:hasRole(roleId)) then
+			return false
+		end
+	end
+
+	return true
+end
+
 function table.binsearch( tbl, value, comp )
 	local comp = comp or function (a, b)
 		if (a == b) then return 0 end
