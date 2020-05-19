@@ -102,130 +102,56 @@ function Module:OnLoaded()
 
 		Help = "Allows you to contact the server staff in private",
 		Silent = true,
-		Func = function (commandMessage, member, reason)
+		Func = function (commandMessage, targetMember, reason)
+			local fromMember = commandMessage.member
 			local guild = commandMessage.guild
-			local commandMember = commandMessage.member
 			local config = self:GetConfig(guild)
-			local data = self:GetPersistentData(guild)
 
-			for _, roleId in pairs(config.ForbiddenRoles) do
-				if (commandMember:hasRole(roleId)) then
-					commandMessage:reply("You do not have the permission to open a ticket on this server")
-					return
-				end
+			if (util.MemberHasAnyRole(fromMember, config.ForbiddenRoles)) then
+				return commandMessage:reply("You do not have the permission to open a ticket on this server")
 			end
-
-			local targetMember
-			if (member and member ~= commandMessage.member) then
-				local authorized = false
-				for _, roleId in pairs(config.TicketHandlingRoles) do
-					if (commandMember:hasRole(roleId)) then
-						authorized = true
-						break
-					end
-				end
-
+		
+			if (targetMember and targetMember ~= fromMember) then
+				local authorized = util.MemberHasAnyRole(fromMember, config.TicketHandlingRoles)
+		
 				if (not authorized) then
-					commandMessage:reply("You do not have the permission to open a ticket for someone else")
-					return
+					return commandMessage:reply("You do not have the permission to open a ticket for someone else")
 				end
-
-				targetMember = member
 			else
-				if (#config.AllowedRoles > 0) then
-					local authorized = false
-					for _, roleId in pairs(config.AllowedRoles) do
-						if (commandMember:hasRole(roleId)) then
-							authorized = true
-							break
-						end
-					end
-
-					if (not authorized) then
-						commandMessage:reply("You do not have the permission to open a ticket")
-						return
-					end
+				local authorized = util.MemberHasAnyRole(fromMember, config.AllowedRoles)
+				if (not authorized) then
+					return commandMessage:reply("You do not have the permission to open a ticket")
 				end
-
-				targetMember = commandMember
+		
+				targetMember = fromMember
 			end
-
-			if (data.activeChannels[targetMember.user.id]) then
-				if (targetMember == commandMember) then
-					commandMessage:reply(string.format("You already have an active ticket on this server, %s.", targetMember.user.mentionString))
-				else
-					commandMessage:reply(string.format("%s already has an active ticket on this server.", targetMember.user.tag, targetMember.user.mentionString))
-				end
-
-				return
+		
+			local success, err = self:OpenTicket(commandMessage.member, targetMember, reason, true)
+			if (not success) then
+				return commandMessage:reply(err)
 			end
+		end
+	})
 
-			if (config.MaxConcurrentChannels > 0 and table.count(data.activeChannels) > config.MaxConcurrentChannels) then
-				commandMessage:reply(string.format("Sorry %s, but there are actually too many tickets open at the same time, please retry in a moment", commandMember.user.mentionString))
-				return
-			end
+	self:RegisterCommand({
+		Name = "modticket",
+		Args = {
+			{Name = "member", Type = Bot.ConfigType.Member},
+			{Name = "message", Type = Bot.ConfigType.String, Optional = true},
+		},
+		PrivilegeCheck = function (member) 
+			local guild = member.guild
+			local config = self:GetConfig(guild)
 
-			local modmailCategory = guild:getChannel(config.Category)
-			if (not modmailCategory or modmailCategory.type ~= enums.channelType.category) then
-				commandMessage:reply("This server is not well configured, please tell the admins!")
-				return
-			end
+			return util.MemberHasAnyRole(member, config.TicketHandlingRoles)
+		end,
 
-			local filteredUsername = targetMember.user.username:gsub("[^%w]", ""):sub(1, 8)
-			if (#filteredUsername == 0) then
-				filteredUsername = "empty"
-			end
-
-			local newChannel = modmailCategory:createTextChannel(string.format("%s-%s", filteredUsername, targetMember.user.discriminator))
-			if (not newChannel) then
-				commandMessage:reply("Failed to create the channel, this is likely a bug.")
-				return
-			end
-
-			local permissions = newChannel:getPermissionOverwriteFor(targetMember)
-			if (not permissions) then
-				commandMessage:reply("Failed to create the channel, this is likely a bug.")
-				return
-			end
-
-			if (not permissions:setPermissions(bit.bor(enums.permission.readMessages, enums.permission.sendMessages), 0)) then				commandMessage:reply("Failed to create the channel, this is likely a bug.")
-				commandMessage:reply("Failed to create the channel, this is likely a bug.")
-				return
-			end
-
-			local activeChannelData = {
-				createdAt = os.time(),
-				channelId = newChannel.id
-			}
-
-			data.activeChannels[targetMember.user.id] = activeChannelData
-
-			local message
-			if (targetMember == commandMember) then
-				message = string.format("Hello %s, use this private channel to communicate with **%s** staff.\n\nStaff can react on this message with 👋 to close the ticket", targetMember.user.mentionString, guild.name)
-			else
-				message = string.format("Hello %s, **%s** staff wants to communicate with you.\n\nStaff can react on this message with 👋 to close the ticket", targetMember.user.mentionString, guild.name)
-			end
-
-			local message = newChannel:send(message)
-			message:addReaction("👋")
-			message:pin()
-
-			activeChannelData.topMessageId = message.id
-
-			if (reason and #reason > 0) then
-				local author = commandMessage.author
-				newChannel:send({
-					content = "Ticket message:",
-					embed = {
-						author = {
-							name = author.tag,
-							icon_url = author.avatarURL
-						},
-						description = reason,
-						timestamp = commandMessage.timestamp
-					}
-				})
+		Help = "Opens a moderation ticket for someone (same as newticket but doesn't allow the target user to talk)",
+		Silent = true,
+		Func = function (commandMessage, targetMember, reason)
+			local success, err = self:OpenTicket(commandMessage.member, targetMember, reason, false)
+			if (not success) then
+				return commandMessage:reply(err)
 			end
 		end
 	})
@@ -353,7 +279,7 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 				closedAt = os.time()
 			})
 
-			if (config.ArchiveCategory) then
+			if (config.ArchiveCategory and config.ArchiveCategory ~= channel.id) then
 				local archiveCategory = guild:getChannel(config.ArchiveCategory)
 				if (archiveCategory and archiveCategory.type == enums.channelType.category) then
 					channel:setCategory(config.ArchiveCategory)
@@ -375,6 +301,87 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 
 			return true
 		end
+	end
+end
+
+function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
+	local guild = fromMember.guild
+	local config = self:GetConfig(guild)
+	local data = self:GetPersistentData(guild)
+
+	if (data.activeChannels[targetMember.user.id]) then
+		if (targetMember == fromMember) then
+			return false, string.format("You already have an active ticket on this server, %s.", targetMember.user.mentionString)
+		else
+			return false, string.format("%s already has an active ticket on this server.", targetMember.user.tag, targetMember.user.mentionString)
+		end
+
+		return
+	end
+
+	if (config.MaxConcurrentChannels > 0 and table.count(data.activeChannels) > config.MaxConcurrentChannels) then
+		return false, string.format("Sorry %s, but there are actually too many tickets open at the same time, please retry in a moment", fromMember.user.mentionString)
+	end
+
+	local modmailCategory = guild:getChannel(config.Category)
+	if (not modmailCategory or modmailCategory.type ~= enums.channelType.category) then
+		return false, "This server is not well configured, please tell the admins!"
+	end
+
+	local filteredUsername = targetMember.user.username:gsub("[^%w]", ""):sub(1, 8)
+	if (#filteredUsername == 0) then
+		filteredUsername = "empty"
+	end
+
+	local newChannel = modmailCategory:createTextChannel(string.format("%s-%s", filteredUsername, targetMember.user.discriminator))
+	if (not newChannel) then
+		return false, "Failed to create the channel, this is likely a bug."
+	end
+
+	if (twoWays) then
+		local permissions = newChannel:getPermissionOverwriteFor(targetMember)
+		if (not permissions) then
+			return false, "Failed to create the channel, this is likely a bug."
+		end
+
+		if (not permissions:setPermissions(bit.bor(enums.permission.readMessages, enums.permission.sendMessages), 0)) then
+			return false, "Failed to create the channel, this is likely a bug."
+		end
+	end
+
+	local activeChannelData = {
+		createdAt = os.time(),
+		channelId = newChannel.id
+	}
+
+	data.activeChannels[targetMember.user.id] = activeChannelData
+
+	local message
+	if (targetMember == fromMember) then
+		message = string.format("Hello %s, use this private channel to communicate with **%s** staff.\n\nStaff can react on this message with 👋 to close the ticket", targetMember.user.mentionString, guild.name)
+	else
+		message = string.format("Hello %s, **%s** staff wants to communicate with you.\n\nStaff can react on this message with 👋 to close the ticket", targetMember.user.mentionString, guild.name)
+	end
+
+	local message = newChannel:send(message)
+	message:addReaction("👋")
+	message:pin()
+
+	activeChannelData.topMessageId = message.id
+
+	if (reason and #reason > 0) then
+		local author = fromMember.user
+		newChannel:send({
+			content = "Ticket message:",
+			embed = {
+				author = {
+					name = author.tag,
+					icon_url = author.avatarURL
+				},
+				description = reason,
+				timestamp = discordia.Date():toISO()
+			}
+		})
 	end
 end
 
