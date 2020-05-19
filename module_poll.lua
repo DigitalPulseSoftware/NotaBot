@@ -147,15 +147,15 @@ function Module:OnLoaded()
 					do 
 						local reactions = message.reactions:toArray()
 						local fields = message.embed.fields
-
-						if #reactions ~= #fields then
-							channel:send("**ERROR!** Reaction count does not match field count!")
-							return
-						end
 						
 						local emojiNames = poll[6] -- This is stored in the same order as fields
 						for _, reaction in ipairs(reactions) do
-							local rEmojiName = Bot:GetEmojiData(guild, reaction.emojiName).Name
+							local rEmojiData = Bot:GetEmojiData(guild, reaction.emojiName)
+							-- This is nil when it is an extern emoji
+							if not rEmojiData then
+								break
+							end
+							local rEmojiName = rEmojiData.Name
 							for i, emojiName in ipairs(emojiNames) do
 								if rEmojiName == emojiName then
 									table.insert(map, {
@@ -163,6 +163,26 @@ function Module:OnLoaded()
 										title = fields[i].value
 									})
 									break
+								end
+							end
+						end
+
+						assert(#fields >= #map)
+
+						if #fields > #map then
+							for _, field in ipairs(fields) do
+								local wasIn = false
+								for _, mapElem in ipairs(map) do
+									if mapElem.title == field.value then
+										wasIn = true
+										break
+									end
+								end
+								if not wasIn then
+									table.insert(map, {
+										count = 0,
+										title = field.value .. " *(**deleted**)*"
+									})
 								end
 							end
 						end
