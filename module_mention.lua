@@ -44,8 +44,8 @@ function Module:OnMessageCreate(message)
 	local mention = false
 	local config = self:GetConfig(message.guild)
 
-	if (message.mentionsEveryone) then
-		mention = config.ReactOnEveryoneOrHere
+	if (message.mentionsEveryone and config.ReactOnEveryoneOrHere) then
+		mention = true
 	else
 		for _, user in pairs(message.mentionedUsers) do
 			if (user.id == client.user.id) then
