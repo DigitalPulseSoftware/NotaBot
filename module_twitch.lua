@@ -190,6 +190,47 @@ function Module:OnLoaded()
 		end
 	})
 
+	self:RegisterCommand({
+		Name = "twitchgameinfo",
+		Args = {
+			{Name = "channel", Type = Bot.ConfigType.String}
+		},
+		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+
+		Help = "Query twitch informations about a game",
+		Func = function (commandMessage, channel)
+			local gameData, err
+			if (channel:match("^%d+$")) then
+				gameData, err = self.API:GetGameById(channel)
+			else
+				gameData, err = self.API:GetGameByName(channel)
+			end
+
+			if (gameData) then
+				commandMessage:reply({
+					embed = {
+						title = gameData.name,
+						thumbnail = {
+							url = gameData.box_art_url
+						},
+						image = {
+							url = gameData.box_art_url
+						},
+						footer = {
+							text = "ID: " .. gameData.id
+						}
+					}
+				})
+			else
+				if (err) then
+					commandMessage:reply(string.format("An error occurred: %s", err))
+				else
+					commandMessage:reply(string.format("Game `%s` not found", channel))
+				end
+			end
+		end
+	})
+
 	return true
 end
 
@@ -508,7 +549,7 @@ function Module:HandleChannelUp(channelData, headerSignature, body)
 						message = message:gsub("{(%w+)}", fields)
 
 						local channelUrl = "https://www.twitch.tv/" .. profileData.login
-						local thumbnail = channelData.thumbnail_url .. "?" .. os.time() -- Prevent cache
+						local thumbnail = channelData.thumbnail_url .. "?" .. os.time() -- Prevent Discord cache
 						thumbnail = thumbnail:gsub("{width}", 320)
 						thumbnail = thumbnail:gsub("{height}", 180)
 

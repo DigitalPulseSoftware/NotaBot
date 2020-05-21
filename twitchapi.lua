@@ -233,6 +233,15 @@ function TwitchApi:GetGameById(gameId)
 	end
 end
 
+function TwitchApi:GetGameByName(gameName)
+	local body, err = self:Request("GET", endpoints.GetGames, {name = gameName})
+	if (body and body.data) then
+		return body.data[1]
+	else
+		return nil, err
+	end
+end
+
 function TwitchApi:GetUserById(userId)
 	local body, err = self:Request("GET", endpoints.GetUsers, {id = userId})
 	if (body and body.data) then
