@@ -10,18 +10,39 @@ local enums = discordia.enums
 Module.Name = "poll"
 
 function Module:IsAllowedToSpecifyChannel(member, config)
-	return member:hasPermission(enums.permission.administrator) 
-		or (config.SpecifyChannelAllowedRoles ~= nil 
+	return member:hasPermission(enums.permission.administrator)
+		or (config.SpecifyChannelAllowedRoles ~= nil
 			and util.MemberHasAnyRole(member, config.SpecifyChannelAllowedRoles))
 end
 
-function Module:FormatVotes(count)
-	local votes = "**" .. count .. "** vote"
-	if count > 1 then
-		votes = votes .. "s"
+function Module:FormatChoiceResult(choiceVotes, totalVotes, asProgressBars)
+	-- Pluralization
+	local voteText = choiceVotes > 1 and "votes" or "vote"
+
+	-- Configuration says we use progress bars.
+	if (asProgressBars) then
+		local progressText = ''
+		local progressLength = 20 -- Determines the length (in characters) of the progress bar
+		local progressCharacter = '='
+		local progressVoidCharacter = ' '
+		local percentage = (choiceVotes / totalVotes) * 100
+		local choiceProgressLength = math.floor((choiceVotes / totalVotes) * progressLength);
+
+		-- Advance progress
+		for _ = 1, choiceProgressLength do
+			progressText = progressText .. progressCharacter
+		end
+
+		-- Fill void
+		for _ = 1, progressLength - choiceProgressLength do
+			progressText = progressText .. progressVoidCharacter
+		end
+
+		return string.format('`[%s]` **%d**   %s (%d%%)', progressText, choiceVotes, voteText, percentage)
 	end
 
-	return votes
+	-- Configuration says we use normal output.
+	return string.format('**%d** %s', choiceVotes, voteText)
 end
 
 function Module:GetPollFooter(member, duration, isResults)
@@ -30,24 +51,21 @@ function Module:GetPollFooter(member, duration, isResults)
 	if duration == nil then
 		return text
 	end
-	
-	local verb = "Lasts"
-	if isResults then
-		verb = "Lasted"
-	end
+
+	local verb = isResults and "Lasts" or "Lasted"
 
 	if duration < 60 then
 		duration = 60
 	end
 
-	text = text .. string.format(". %s for %s.", verb, util.FormatTime(duration))        
+	text = string.format("%s. %s for %s.", text, verb, util.FormatTime(duration))
 	return text
 end
 
 function Module:AddEmbedReactions(member, message)
 	local data = self:GetData(member.guild)
 	local poll = data.Polls[member.id]
-	
+
 	if poll == nil or #poll.choices == 0 then
 		return
 	end
@@ -101,6 +119,12 @@ function Module:GetConfigTable()
 			Description = "Delete original poll message on expiration",
 			Type = bot.ConfigType.Boolean,
 			Default = true
+		},
+		{
+			Name = "UseProgressBars",
+			Description = "Use progress bars to fancy out results",
+			Type = bot.ConfigType.Boolean,
+			Default = true
 		}
 	}
 end
@@ -130,7 +154,7 @@ function Module:OnLoaded()
 		self:ForEachGuild(function(guildId, config, data, persistentData)
 			local guild = client:getGuild(guildId)
 			local config = self:GetConfig(guild)
-			
+
 			if persistentData.runningPolls == nil then
 				return -- This is a callback so return instead of break
 			end
@@ -138,16 +162,18 @@ function Module:OnLoaded()
 				local pollTime = poll[2]
 				local duration = poll[3]
 
+				-- Return if the poll isn't finished.
 				if now >= (pollTime + duration) then
 					local channel = guild:getChannel(poll[4])
 					local member = guild:getMember(poll[1])
 					local message = channel:getMessage(poll[5])
-
+					local totalVotes = 0
 					local map = {}
-					do 
+
+					do
 						local reactions = message.reactions:toArray()
 						local fields = message.embed.fields
-						
+
 						local emojiNames = poll[6] -- This is stored in the same order as fields
 						for _, reaction in ipairs(reactions) do
 							local rEmojiData = Bot:GetEmojiData(guild, reaction.emojiName)
@@ -162,6 +188,8 @@ function Module:OnLoaded()
 										count = reaction.count - 1,
 										title = fields[i].value
 									})
+
+									totalVotes = totalVotes + (reaction.count - 1)
 									break
 								end
 							end
@@ -199,11 +227,11 @@ function Module:OnLoaded()
 					}
 
 					table.sort(map, function(a, b) return a.count > b.count end)
-					
+
 					for _, choice in ipairs(map) do
 						table.insert(results.fields, {
 							name = choice.title,
-							value = self:FormatVotes(choice.count)
+							value = self:FormatChoiceResult(choice.count, totalVotes, config.UseProgressBars)
 						})
 					end
 					if not config.DeletePollOnExpiration then
@@ -247,12 +275,12 @@ function Module:OnLoaded()
 			local pollDuration = duration or config.DefaultPollDuration
 
 			if pollChannel == nil then
-				commandMessage:reply("No poll channel has been configured or specified!")
+				commandMessage:reply("You need to either specify a channel, or configure one with the `config poll` command.")
 				return
 			end
 
 			if channel ~= nil and not self:IsAllowedToSpecifyChannel(member, config) then
-				commandMessage:reply("You're not allowed to specify a channel!")
+				commandMessage:reply("You are not allowed to specify a channel.")
 				return
 			end
 
@@ -264,9 +292,9 @@ function Module:OnLoaded()
 					choices = {}
 				}
 
-				commandMessage:reply("You can now setup your poll by using the poll command!")
+				commandMessage:reply('Poll created! Set it up using the `poll` command.')
 			else
-				commandMessage:reply("You already are setting up a poll!\nYou can use the `cancelpoll` command to abort the previous poll!")
+				commandMessage:reply("You are already setting up a poll.\nUse `cancelpoll` to abort the previous poll.")
 			end
 		end
 	})
@@ -284,9 +312,9 @@ function Module:OnLoaded()
 
 			if (polls[member.id]) then
 				polls[member.id] = nil
-				commandMessage:reply("You can now create a new poll!")
+				commandMessage:reply("You can now create a new poll.")
 			else
-				commandMessage:reply("You don't have a pending poll!")
+				commandMessage:reply("You don't have a pending poll.")
 			end
 		end
 	})
@@ -319,31 +347,30 @@ function Module:OnLoaded()
 					return
 				end
 
-				local reply = nil
-				
 				if text == nil or text == '' then
 					commandMessage:reply("You can't add a choice without text!")
 					return
 				end
 
-				if emoji ~= nil then 
+				if emoji ~= nil then
 					if self:IsAChoice(poll, emoji) then
-						reply = "This emoji is already used for a choice! Can't add it : use `update` action if you want to update it!\n"
-					else
-						table.insert(poll.choices, {emoji = emoji, text = text})
+						commandMessage:reply("This emoji is already used for a choice! Can't add it : use `update` action if you want to update it!\n")
+						return
 					end
+
+					table.insert(poll.choices, {emoji = emoji, text = text})
 				else
-					commandMessage:reply("This emoji is unknown! If it is a discord one, please contact Lynix for him to update the internal emoji list!")
+					commandMessage:reply("This emoji is unknown. If it is a Discord one, please contact Lynix for him to update the internal emoji list.")
 					return
 				end
 
 				local message = commandMessage:reply({
-					embed = self:FormatPoll(member, {}, reply, true)
+					embed = self:FormatPoll(member, {}, nil, true)
 				})
 				self:AddEmbedReactions(member, message)
 				return
 			end
-			
+
 			if action == "remove" then
 				local function RemoveChoice(emoji)
 					local choices = {}
@@ -360,7 +387,7 @@ function Module:OnLoaded()
 					poll.choices = choices
 					return wasIn
 				end
-				
+
 				local reply = ""
 
 				if text ~= nil then
@@ -370,7 +397,7 @@ function Module:OnLoaded()
 				if (RemoveChoice(emoji)) then
 					reply = reply .. emoji.MentionString .. " has been removed!\n"
 				else
-					reply = reply .. emoji.MentionString .. " doesn't match any choice! It was not removed!\n"
+					reply = reply .. emoji.MentionString .. " doesn't match any choice. It was not removed.\n"
 				end
 
 				local message = commandMessage:reply({
@@ -382,15 +409,15 @@ function Module:OnLoaded()
 
 			if action == "update" then
 				if text == nil then
-					commandMessage:reply("Can't update a choice without text! To remove a choice use `remove` action!")
+					commandMessage:reply("Can't update a choice without text! To remove a choice, use the `remove` action.")
 					return
 				end
 
-				local reply = emoji.MentionString .. " text update has failed!"
+				local reply = emoji.MentionString .. " text update has failed."
 				for _, choice in ipairs(poll.choices) do
 					if choice.emoji.Name == emoji.Name then
 						choice.text = text
-						reply = emoji.MentionString .. " text updated successfully!"
+						reply = emoji.MentionString .. " text updated successfully."
 						break
 					end
 				end
@@ -437,11 +464,11 @@ function Module:OnLoaded()
 
 				polls[member.id] = nil
 
-				commandMessage:reply(string.format("Poll successfully sent to %s (#%s)", channel.mentionString, channel.name))
+				commandMessage:reply(string.format("Poll successfully sent to %s (#%s).", channel.mentionString, channel.name))
 				return
 			end
 
-			commandMessage:reply("Invalid action! It can only be `add`, `remove`, `update`, `title` or `send`!")
+			commandMessage:reply("Invalid action. It can only be `add`, `remove`, `update`, `title` or `send`.")
 		end
 	})
 
@@ -454,8 +481,10 @@ function Module:IsAChoice(poll, emoji)
 			return true
 		end
 	end
+
 	return false
 end
+
 -- TODO Respect limitations : https://birdie0.github.io/discord-webhooks-guide/other/field_limits.html
 function Module:FormatPoll(member, embed, footer, preview)
 	local guild = member.guild
@@ -463,35 +492,33 @@ function Module:FormatPoll(member, embed, footer, preview)
 
 	local fields = {}
 	local poll = data.Polls[member.id]
-	local title = poll.title
-	if preview then
-		title = "Preview - " .. title
-	end
-	
+	local title = preview and "[Preview] " .. poll.title or poll.title
+
 	for i, choice in ipairs(poll.choices) do
 		if Bot:GetEmojiData(guild, choice.emoji.Name) ~= nil then
-			table.insert(fields, { 
+			table.insert(fields, {
 				name = "Choice n°" .. i,
-				value = string.format("%s %s", choice.emoji.MentionString, choice.text)
+				value = string.format("%s  %s", choice.emoji.MentionString, choice.text)
 			})
 		else
 			-- Deinit the poll
 			data.Polls[member.id] = nil
-			client:info("An emoji was deleted during the configuration of a poll using it!")
+			client:info("An emoji was deleted during the configuration of a poll that was using it.")
+
 			return {
-				title = "Error! An emoji is broken!",
+				title = "An emoji is broken.",
 				fields = {
 					{
-						name = "This is not a bot error!",
-						value = "This typically happens when an emoji in the poll is deleted during its configuration."
+						name = "This is not a bot error.",
+						value = "This happens when an emoji in the poll is deleted during its configuration."
 					},
 					{
 						name = "How to fix it?",
-						value = "You can't! Your poll has been cancelled!"
+						value = "You can't! Your poll has been cancelled."
 					},
 					{
 						name = "What to do now?",
-						value = "Just use the command `createpoll` and redo everything!"
+						value = "Just use the command `createpoll` and redo everything."
 					}
 				}
 			}
@@ -501,10 +528,11 @@ function Module:FormatPoll(member, embed, footer, preview)
 	-- TODO? Add expiration date to the footer OR add launch time!
 	embed.title = title
 	embed.fields = fields
+
 	if footer ~= nil then
-		embed.footer = {text = footer}
+		embed.footer = { text = footer }
 	else
-		embed.footer = {text = self:GetPollFooter(member, poll.duration)}
+		embed.footer = { text = self:GetPollFooter(member, poll.duration) }
 	end
 
 	return embed
