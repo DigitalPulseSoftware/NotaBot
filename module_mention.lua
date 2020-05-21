@@ -16,6 +16,12 @@ function Module:GetConfigTable()
 			Description = "Emoji to add as a reaction",
 			Type = bot.ConfigType.Emoji,
 			Default = "mention"
+		},
+		{
+			Name = "ReactOnEveryoneOrHere",
+			Description = "Reacts on everyone or here mention?",
+			Type = bot.ConfigType.Boolean,
+			Default = true
 		}
 	}
 end
@@ -36,8 +42,9 @@ function Module:OnMessageCreate(message)
 	end
 
 	local mention = false
+	local config = self:GetConfig(message.guild)
 
-	if (message.mentionsEveryone) then
+	if (message.mentionsEveryone and config.ReactOnEveryoneOrHere) then
 		mention = true
 	else
 		for _, user in pairs(message.mentionedUsers) do
@@ -49,7 +56,6 @@ function Module:OnMessageCreate(message)
 	end
 
 	if (mention) then
-		local config = self:GetConfig(message.guild)
 		local mentionEmoji = bot:GetEmojiData(message.guild, config.Emoji)
 		if (not mentionEmoji) then
 			return
