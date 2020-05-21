@@ -207,7 +207,7 @@ function Module:OnLoaded()
 			end
 
 			if (gameData) then
-				local thumbnail = gameData.box_art_url .. "?" .. os.time() -- Prevent Discord cache
+				local thumbnail = gameData.box_art_url
 				thumbnail = thumbnail:gsub("{width}", 285)
 				thumbnail = thumbnail:gsub("{height}", 380)
 
