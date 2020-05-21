@@ -208,8 +208,8 @@ function Module:OnLoaded()
 
 			if (gameData) then
 				local thumbnail = gameData.box_art_url .. "?" .. os.time() -- Prevent Discord cache
-				thumbnail = thumbnail:gsub("{width}", 320)
-				thumbnail = thumbnail:gsub("{height}", 180)
+				thumbnail = thumbnail:gsub("{width}", 285)
+				thumbnail = thumbnail:gsub("{height}", 380)
 
 				commandMessage:reply({
 					embed = {
