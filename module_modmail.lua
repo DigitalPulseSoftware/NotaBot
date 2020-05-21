@@ -322,7 +322,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 		return
 	end
 
-	if (config.MaxConcurrentChannels > 0 and table.count(data.activeChannels) > config.MaxConcurrentChannels) then
+	if (config.MaxConcurrentChannels > 0 and table.count(data.activeChannels) >= config.MaxConcurrentChannels) then
 		return false, string.format("Sorry %s, but there are actually too many tickets open at the same time, please retry in a moment", fromMember.user.mentionString)
 	end
 
