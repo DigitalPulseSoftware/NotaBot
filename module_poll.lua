@@ -20,25 +20,18 @@ function Module:FormatChoiceResult(choiceVotes, totalVotes, asProgressBars)
 	local voteText = choiceVotes > 1 and "votes" or "vote"
 
 	-- Configuration says we use progress bars.
-	if (asProgressBars) then
-		local progressText = ''
+	if asProgressBars then
 		local progressLength = 20 -- Determines the length (in characters) of the progress bar
 		local progressCharacter = '='
-		local progressVoidCharacter = ' '
-		local percentage = (choiceVotes / totalVotes) * 100
-		local choiceProgressLength = math.floor((choiceVotes / totalVotes) * progressLength);
-
-		-- Advance progress
-		for _ = 1, choiceProgressLength do
-			progressText = progressText .. progressCharacter
+		local ratio = 0
+		if totalVotes > 0 then
+			ratio = choiceVotes / totalVotes
 		end
+		local choiceProgressLength = math.floor(ratio * progressLength)
 
-		-- Fill void
-		for _ = 1, progressLength - choiceProgressLength do
-			progressText = progressText .. progressVoidCharacter
-		end
+		local progressText = string.rep(progressCharacter, choiceProgressLength) .. string.rep(' ', progressLength - choiceProgressLength)
 
-		return string.format('`[%s]` **%d**   %s (%d%%)', progressText, choiceVotes, voteText, percentage)
+		return string.format('`[%s]` **%d**   %s (%d%%)', progressText, choiceVotes, voteText, ratio * 100)
 	end
 
 	-- Configuration says we use normal output.
