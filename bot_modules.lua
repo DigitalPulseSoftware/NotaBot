@@ -9,7 +9,7 @@ local wrap = coroutine.wrap
 local isReady = false
 
 local function code(str)
-    return string.format('```\n%s```', str)
+	return string.format('```\n%s```', str)
 end
 
 -- Maps event name to function to retrieve its guild
@@ -461,6 +461,7 @@ function Bot:LoadModule(moduleTable)
 	local globalConfig = {}
 	if (moduleTable.GetConfigTable) then
 		local success, ret = self:CallModuleFunction(moduleTable, "GetConfigTable")
+
 		if (not success) then
 			return false, "Failed to load config: " .. ret
 		end
@@ -509,7 +510,7 @@ function Bot:LoadModule(moduleTable)
 				end
 			end
 
-			if (not configTable.Default and not configTable.Optional) then
+			if (configTable.Default == nil and not configTable.Optional) then
 				return false, string.format("Option #%s is not optional and has no default value", optionIndex)
 			end
 
