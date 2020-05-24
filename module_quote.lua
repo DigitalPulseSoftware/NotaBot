@@ -51,6 +51,18 @@ function Module:GetConfigTable()
 			Description = "Should quote messages include big avatars",
 			Type = bot.ConfigType.Boolean,
 			Default = true
+		},
+		{
+			Name = "DeleteInvokationOnAutoQuote",
+			Description = "Deletes the message that invoked the quote when auto-quoting",
+			Type = bot.ConfigType.Boolean,
+			Default = false
+		},
+		{
+			Name = "DeleteInvokationOnManualQuote",
+			Description = "Deletes the message that invoked the quote when quoting via command",
+			Type = bot.ConfigType.Boolean,
+			Default = false
 		}
 	}
 end
@@ -59,14 +71,23 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "quote",
 		Args = {
-			{Name = "message", Type = bot.ConfigType.String}
+			{
+				Name = "message", Type = bot.ConfigType.String
+			},
+			{
+				Name = "deleteInvokation",
+				Type = bot.ConfigType.Boolean,
+				Optional = true
+			}
 		},
 
 		Help = "Quote message",
-		Func = function (commandMessage, message)
+		Func = function (commandMessage, message, deleteInvokation)
 			local messageId = message:match("^(%d+)$")
 			local quotedMessage, err
 			local includesLink = false
+			local config = self:GetConfig(commandMessage.guild)
+
 			if (messageId) then
 				quotedMessage = commandMessage.channel:getMessage(messageId)
 				if (not quotedMessage) then
@@ -89,7 +110,11 @@ function Module:OnLoaded()
 				end
 			end
 
-			self:QuoteMessage(commandMessage, quotedMessage, includesLink)
+			-- Only delete the message that invoked the quote if no argument to the command is passed
+			-- and auto deletion is set true, or if command argument is specifically set to true
+			local shouldDeleteInvokation = deleteInvokation == nil and config.DeleteInvokationOnManualQuote or deleteInvokation
+
+			self:QuoteMessage(commandMessage, quotedMessage, includesLink, shouldDeleteInvokation)
 		end
 	})
 
@@ -110,7 +135,7 @@ function Module:CheckReadPermission(user, message)
 	return true
 end
 
-function Module:QuoteMessage(triggeringMessage, message, includesLink)
+function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInvokation)
 	local author = message.author
 	local content = message.content
 
@@ -258,6 +283,10 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink)
 			fields = fields
 		})
 	})
+
+	if (deleteInvokation) then
+		triggeringMessage:delete()
+	end
 end
 
 function Module:OnMessageCreate(message)
@@ -277,7 +306,7 @@ function Module:OnMessageCreate(message)
 				return
 			end
 
-			self:QuoteMessage(message, quotedMessage)
+			self:QuoteMessage(message, quotedMessage, false, config.DeleteInvokationOnAutoQuote)
 		end
 	end
 end
