@@ -488,11 +488,11 @@ function Bot:LoadModule(moduleTable)
 			for configName, configValue in pairs(configTable) do
 				local expectedType = validConfigOptions[configName][1]
 				if (not expectedType) then
-					return false, string.format("Option #%s has invalid key \"%s\"", optionIndex, configName)
+					return false, string.format("[%s] Option #%s has invalid key \"%s\"", configTable.Name, optionIndex, configName)
 				end
 
 				if (expectedType ~= "any" and type(configValue) ~= expectedType) then
-					return false, string.format("Option #%s has key \"%s\" which has invalid type %s (expected %s)", optionIndex, configName, type(configValue), expectedType)
+					return false, string.format("[%s] Option #%s has key \"%s\" which has invalid type %s (expected %s)", configTable.Name, optionIndex, configName, type(configValue), expectedType)
 				end
 			end
 
@@ -511,7 +511,7 @@ function Bot:LoadModule(moduleTable)
 			end
 
 			if (configTable.Default == nil and not configTable.Optional) then
-				return false, string.format("Option #%s is not optional and has no default value", optionIndex)
+				return false, string.format("[%s] Option #%s is not optional and has no default value", configTable.Name, optionIndex)
 			end
 
 			if (configTable.Global) then
