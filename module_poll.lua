@@ -45,7 +45,7 @@ function Module:GetPollFooter(member, duration, isResults)
 		return text
 	end
 
-	local verb = isResults and "Lasts" or "Lasted"
+	local verb = isResults and "Lasted" or "Lasts"
 
 	if duration < 60 then
 		duration = 60
