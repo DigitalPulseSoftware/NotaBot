@@ -459,6 +459,11 @@ function Module:OnLoaded()
 				end
 
 				local channel = guild:getChannel(poll.channel)
+				if channel == nil then
+					polls[member.id] = nil
+					commandMessage:reply("Poll was cancelled because the destination channel was deleted")
+					return
+				end
 				local data = self:GetPersistentData(guild)
 				local message = channel:send({
 					embed = self:FormatPoll(member, {}, nil, false)
