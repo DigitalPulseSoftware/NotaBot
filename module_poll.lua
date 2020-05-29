@@ -163,15 +163,15 @@ function Module:OnLoaded()
 						goto remove
 					end
 
-					local message = channel:getMessage(poll[5])
-					if (not message) then
-						goto remove
-					end
-					
-					local totalVotes = 0
-					local map = {}
-
 					do
+						local message = channel:getMessage(poll[5])
+						if (not message) then
+							goto remove
+						end
+						
+						local totalVotes = 0
+						local map = {}
+
 						local reactions = message.reactions:toArray()
 						local fields = message.embed.fields
 
@@ -215,38 +215,38 @@ function Module:OnLoaded()
 								end
 							end
 						end
-					end
 
-					local results = {
-						author = {
-							name = "Poll results",
-							icon_url = member.avatarURL
-						},
-						title = message.embed.title,
-						fields = {},
-						footer = {text = self:GetPollFooter(member, duration, true)}
-					}
+						local results = {
+							author = {
+								name = "Poll results",
+								icon_url = member.avatarURL
+							},
+							title = message.embed.title,
+							fields = {},
+							footer = {text = self:GetPollFooter(member, duration, true)}
+						}
 
-					table.sort(map, function(a, b) return a.count > b.count end)
+						table.sort(map, function(a, b) return a.count > b.count end)
 
-					for _, choice in ipairs(map) do
-						table.insert(results.fields, {
-							name = choice.title,
-							value = self:FormatChoiceResult(choice.count, totalVotes, config.UseProgressBars)
+						for _, choice in ipairs(map) do
+							table.insert(results.fields, {
+								name = choice.title,
+								value = self:FormatChoiceResult(choice.count, totalVotes, config.UseProgressBars)
+							})
+						end
+						if not config.DeletePollOnExpiration then
+							results.url = message.link
+						end
+
+						channel:send({
+							embed = results
 						})
-					end
-					if not config.DeletePollOnExpiration then
-						results.url = message.link
-					end
 
-					channel:send({
-						embed = results
-					})
-
-					if config.DeletePollOnExpiration then
-						local succeed = message:delete()
-						if not succeed then
-							channel:send("**ERROR** Failed to delete original poll message!")
+						if config.DeletePollOnExpiration then
+							local succeed = message:delete()
+							if not succeed then
+								channel:send("**ERROR** Failed to delete original poll message!")
+							end
 						end
 					end
 
