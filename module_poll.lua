@@ -349,7 +349,7 @@ function Module:OnLoaded()
 			local poll = polls[member.id]
 
 			if (not poll) then
-				commandMessage:reply("You must create a poll in order to use this command!")
+				commandMessage:reply("You must create a poll in order to use this command! Just use the command `createpoll`")
 				return
 			end
 
