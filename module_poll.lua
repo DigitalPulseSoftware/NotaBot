@@ -159,7 +159,15 @@ function Module:OnLoaded()
 				if now >= (pollTime + duration) then
 					local channel = guild:getChannel(poll[4])
 					local member = guild:getMember(poll[1])
+					if (not channel or not member) then
+						goto remove
+					end
+
 					local message = channel:getMessage(poll[5])
+					if (not message) then
+						goto remove
+					end
+					
 					local totalVotes = 0
 					local map = {}
 
@@ -235,13 +243,15 @@ function Module:OnLoaded()
 						embed = results
 					})
 
-					table.remove(persistentData.runningPolls, index)
 					if config.DeletePollOnExpiration then
 						local succeed = message:delete()
 						if not succeed then
 							channel:send("**ERROR** Failed to delete original poll message!")
 						end
 					end
+
+					::remove::
+					table.remove(persistentData.runningPolls, index)
 				end
 			end
 		end)
