@@ -70,6 +70,15 @@ function Module:AddEmbedReactions(member, message)
 	end
 end
 
+function Module:CancelBrokenResults(persistentData, index, memberId, guild)
+	local user = client:getUser(memberId)
+	local pollGuild = guild.name or "this guild"
+	if user ~= nil then
+		user:send("Poll results was cancelled because the destination channel or the original poll message was deleted or you're not longer present on " .. pollGuild)
+	end
+	table.remove(persistentData.runningPolls, index)
+end
+
 function Module:CheckPermissions(member)
 	if member:hasPermission(enums.permission.administrator) then
 		return true
@@ -158,15 +167,18 @@ function Module:OnLoaded()
 				-- Return if the poll isn't finished.
 				if now >= (pollTime + duration) then
 					local channel = guild:getChannel(poll[4])
-					local member = guild:getMember(poll[1])
+					local memberId = poll[1]
+					local member = guild:getMember(memberId) -- TODO Replace with a client:getUser call ?
 					if (not channel or not member) then
-						goto remove
+						self:CancelBrokenResults(persistentData, index, memberId, guild)
+						return
 					end
 
 					do
 						local message = channel:getMessage(poll[5])
 						if (not message) then
-							goto remove
+							self:CancelBrokenResults(persistentData, index, memberId, guild)
+							return
 						end
 						
 						local totalVotes = 0
@@ -249,9 +261,6 @@ function Module:OnLoaded()
 							end
 						end
 					end
-
-					::remove::
-					table.remove(persistentData.runningPolls, index)
 				end
 			end
 		end)
