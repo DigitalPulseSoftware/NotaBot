@@ -840,9 +840,11 @@ Bot:RegisterCommand({
 				end
 			end
 
-			for k,configData in pairs(moduleTable._GlobalConfig) do
-				if (configData.Name == key) then
-					return configData
+			if (message.member.id == Config.OwnerUserId) then
+				for k,configData in pairs(moduleTable._GlobalConfig) do
+					if (configData.Name == key) then
+						return configData
+					end
 				end
 			end
 		end
@@ -879,7 +881,7 @@ Bot:RegisterCommand({
 			})
 		elseif (action == "show") then
 			local configTable = GetConfigByKey(key)
-			if (not configTable or (configTable.Global and message.member.id ~= Config.OwnerUserId)) then
+			if (not configTable) then
 				message:reply(string.format("Module %s has no config key \"%s\"", moduleTable.Name, key))
 				return
 			end
