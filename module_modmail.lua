@@ -336,13 +336,15 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 		filteredUsername = "empty"
 	end
 
-	local newChannel = modmailCategory:createTextChannel(string.format("%s-%s", filteredUsername, targetMember.user.discriminator))
+	local newChannel, err = modmailCategory:createTextChannel(string.format("%s-%s", filteredUsername, targetMember.user.discriminator))
 	if (not newChannel) then
+		print(err)
 		return false, "Failed to create the channel, this is likely a bug."
 	end
 
-	local permissionOverwrite = newChannel:getPermissionOverwriteFor(targetMember)
+	local permissionOverwrite, err = newChannel:getPermissionOverwriteFor(targetMember)
 	if (not permissionOverwrite) then
+		print(err)
 		return false, "Failed to create the channel, this is likely a bug."
 	end
 
