@@ -85,7 +85,6 @@ function Module:GetWatchedChannels()
 end
 
 function Module:OnLoaded()
-	-- Regenerate secret
 	self.API = twitchAPI(discordia, client, self.GlobalConfig.TwitchClientId, self.GlobalConfig.TwitchClientSecret)
 
 	local secretLifespan = 24 * 60 * 60
@@ -469,7 +468,6 @@ end
 
 function Module:HandleChannelUp(channelData, headerSignature, body)
 	local channelId = channelData.user_id
-	self:LogInfo("Channel %s went up", channelId)
 
 	local watchedChannels = self:GetWatchedChannels()
 
@@ -581,7 +579,7 @@ function Module:HandleChannelUp(channelData, headerSignature, body)
 							value = util.FormatTime(now - startDate, 1) .. " ago"
 						})
 
-						channel:send({
+						local success, err = channel:send({
 							content = message,
 							embed = {
 								title = channelData.title,
@@ -601,6 +599,10 @@ function Module:HandleChannelUp(channelData, headerSignature, body)
 								timestamp = channelData.started_at
 							}
 						})
+
+						if (not success) then
+							self:LogError(guild, "Failed to send twitch notification message: %s", err)
+						end
 
 						for roleId, role in pairs(nonMentionableRoles) do
 							local success, err = role:disableMentioning()
