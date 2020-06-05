@@ -589,10 +589,10 @@ function Module:GetProfileData(userId)
 
 		profileData = {}
 		if (userInfo) then
-			userInfo.CachedAt = now
-			userInfo.DisplayName = profileData.display_name
-			userInfo.Name = profileData.login
-			userInfo.Image = profileData.profile_image_url
+			profileData.CachedAt = now
+			profileData.DisplayName = userInfo.display_name
+			profileData.Name = userInfo.login
+			profileData.Image = userInfo.profile_image_url
 		end
 
 		self.ProfileCache[userId] = profileData
