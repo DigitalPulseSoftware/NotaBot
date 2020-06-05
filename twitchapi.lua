@@ -22,6 +22,7 @@ local yield = coroutine.yield
 
 local endpoints = {
 	GetGames   = "https://api.twitch.tv/helix/games",
+	GetStreams = "https://api.twitch.tv/helix/streams",
 	GetUsers   = "https://api.twitch.tv/helix/users",
 	WebhookSub = "https://api.twitch.tv/helix/webhooks/hub"
 }
@@ -235,6 +236,24 @@ end
 
 function TwitchApi:GetGameByName(gameName)
 	local body, err = self:Request("GET", endpoints.GetGames, {name = gameName})
+	if (body and body.data) then
+		return body.data[1]
+	else
+		return nil, err
+	end
+end
+
+function TwitchApi:GetStreamByUserId(userId)
+	local body, err = self:Request("GET", endpoints.GetStreams, {user_id = userId})
+	if (body and body.data) then
+		return body.data[1]
+	else
+		return nil, err
+	end
+end
+
+function TwitchApi:GetStreamByUserName(userName)
+	local body, err = self:Request("GET", endpoints.GetStreams, {user_login = userName})
 	if (body and body.data) then
 		return body.data[1]
 	else
