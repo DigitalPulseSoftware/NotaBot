@@ -652,14 +652,14 @@ function Module:SendChannelNotification(guild, channel, message, channelData)
 	local gameName = gameData and gameData.Name or string.format("<game %s>", channelData.game_id)
 
 	local fields = {
-		display_name = profileData.display_name,
+		display_name = profileData.DisplayName,
 		game_name = gameName,
 		title = channelData.title
 	}
 
 	message = message:gsub("{(%w+)}", fields)
 
-	local channelUrl = "https://www.twitch.tv/" .. profileData.login
+	local channelUrl = "https://www.twitch.tv/" .. profileData.Name
 	local thumbnail = channelData.thumbnail_url .. "?" .. os.time() -- Prevent Discord cache
 	thumbnail = thumbnail:gsub("{width}", 320)
 	thumbnail = thumbnail:gsub("{height}", 180)
@@ -700,12 +700,12 @@ function Module:SendChannelNotification(guild, channel, message, channelData)
 			title = channelData.title,
 			url = channelUrl,
 			author = {
-				name = profileData.login,
+				name = profileData.Name,
 				url = channelUrl,
-				icon_url = profileData.profile_image_url
+				icon_url = profileData.Image
 			},
 			thumbnail = {
-				url = profileData.profile_image_url
+				url = profileData.Image
 			},
 			fields = fields,
 			image = {
