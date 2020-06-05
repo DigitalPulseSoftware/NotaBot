@@ -249,7 +249,7 @@ function Module:OnLoaded()
 			end
 
 			if (channelData) then
-				bot:CallModuleFunction(self, "SendChannelNotification", commandMessage.guild, channel, nil, channelData)
+				bot:CallModuleFunction(self, "SendChannelNotification", commandMessage.guild, channel, "", channelData)
 			else
 				if (err) then
 					commandMessage:reply(string.format("An error occurred: %s", err))
