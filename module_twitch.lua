@@ -12,6 +12,7 @@ local wrap = coroutine.wrap
 Module.Name = "twitch"
 
 Module.GameCache = {}
+Module.ProfileCache = {}
 
 discordia.extensions()
 
@@ -226,6 +227,34 @@ function Module:OnLoaded()
 					commandMessage:reply(string.format("An error occurred: %s", err))
 				else
 					commandMessage:reply(string.format("Game `%s` not found", channel))
+				end
+			end
+		end
+	})
+
+	self:RegisterCommand({
+		Name = "twitchstream",
+		Args = {
+			{Name = "channel", Type = Bot.ConfigType.String}
+		},
+		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+
+		Help = "Query twitch informations about a game",
+		Func = function (commandMessage, channel)
+			local channelData, err
+			if (channel:match("^%d+$")) then
+				channelData, err = self.API:GetStreamByUserId(channel)
+			else
+				channelData, err = self.API:GetStreamByUserName(channel)
+			end
+
+			if (channelData) then
+				bot:CallModuleFunction(self, "SendChannelNotification", commandMessage.guild, channel, nil, channelData)
+			else
+				if (err) then
+					commandMessage:reply(string.format("An error occurred: %s", err))
+				else
+					commandMessage:reply(string.format("Stream `%s` not found", channel))
 				end
 			end
 		end
@@ -468,6 +497,8 @@ end
 
 function Module:HandleChannelUp(channelData, headerSignature, body)
 	local channelId = channelData.user_id
+	local title = channelData.title
+	local gameId = channelData.game_id
 
 	local watchedChannels = self:GetWatchedChannels()
 
@@ -484,11 +515,13 @@ function Module:HandleChannelUp(channelData, headerSignature, body)
 	end
 
 	-- Ensure Twitch has sent this
-	assert(watchedData.Secret)
-	local signature = sha256.hmac_sha256(watchedData.Secret, body)
-	if (headerSignature ~= signature) then
-		self:LogError("Header signature doesn't match")
-		return
+	if (headerSignature) then
+		assert(watchedData.Secret)
+		local signature = sha256.hmac_sha256(watchedData.Secret, body)
+		if (headerSignature ~= signature) then
+			self:LogError("Header signature doesn't match")
+			return
+		end
 	end
 
 	local now = os.time()
@@ -503,113 +536,36 @@ function Module:HandleChannelUp(channelData, headerSignature, body)
 		return
 	end
 
-	local profileData, err = self.API:GetUserById(channelId)
-	if (not profileData) then
-		self:LogError("Failed to query user %s info: %s", channelId, err)
-		return
-	end
-
-	local gameData, err = self:GetGameData(channelData.game_id)
-	if (not gameData) then
-		self:LogError("Failed to query game info about game %s: %s", channelData.game_id, err)
-	end
-
 	watchedData.LastAlert = now
 
-	local title = channelData.title
 	for guildId, guildPatterns in pairs(channelAlerts) do
 		local guild = client:getGuild(guildId)
 		if (guild) then
+			local function CheckPattern(pattern)
+				if (pattern.TitlePattern) then
+					if (not title:match(pattern.TitlePattern)) then
+						return false
+					end
+				end
+
+				if (pattern.AllowedGames) then
+					if (not table.search(pattern.AllowedGames, gameId)) then
+						return false
+					end
+				elseif (pattern.ForbiddenGames) then
+					if (table.search(pattern.ForbiddenGames, gameId)) then
+						return false
+					end
+				end
+
+				return true
+			end
+
 			for _, pattern in pairs(guildPatterns) do
-				if (not pattern.TitlePattern or title:match(pattern.TitlePattern)) then
+				if (CheckPattern(pattern)) then
 					local channel = guild:getChannel(pattern.Channel)
 					if (channel) then
-						local message = pattern.Message
-						local nonMentionableRoles = {}
-						for roleId in message:gmatch("<@&(%d+)>") do
-							local role = guild:getRole(roleId)
-							if (role) then
-								if (not role.mentionable) then
-									nonMentionableRoles[roleId] = role
-								end
-							else
-								self:LogWarning(guild, "Role %s doesn't exist", roleId)
-							end
-						end
-
-						local gameName = gameData and gameData.Name or string.format("<game %s>", channelData.game_id)
-
-						local fields = {
-							display_name = profileData.display_name,
-							game_name = gameName,
-							title = channelData.title
-						}
-
-						message = message:gsub("{(%w+)}", fields)
-
-						local channelUrl = "https://www.twitch.tv/" .. profileData.login
-						local thumbnail = channelData.thumbnail_url .. "?" .. os.time() -- Prevent Discord cache
-						thumbnail = thumbnail:gsub("{width}", 320)
-						thumbnail = thumbnail:gsub("{height}", 180)
-
-						for roleId, role in pairs(nonMentionableRoles) do
-							local success, err = role:enableMentioning()
-							if (not success) then
-								self:LogWarning(guild, "Failed to enable mentioning on role %s (%s): %s", roleId, role.name, err)
-							end
-						end
-
-						local fields = {nil, nil, nil}
-						if (gameData) then
-							table.insert(fields, {
-								name = "Game",
-								value = gameName
-							})
-						end
-
-						if (channelData.viewer_count > 0) then
-							table.insert(fields, {
-								name = "Viewers",
-								value = channelData.viewer_count
-							})
-						end
-
-						table.insert(fields, {
-							name = "Started",
-							value = util.FormatTime(now - startDate, 1) .. " ago"
-						})
-
-						local success, err = channel:send({
-							content = message,
-							embed = {
-								title = channelData.title,
-								url = channelUrl,
-								author = {
-									name = profileData.login,
-									url = channelUrl,
-									icon_url = profileData.profile_image_url
-								},
-								thumbnail = {
-									url = profileData.profile_image_url
-								},
-								fields = fields,
-								image = {
-									url = thumbnail
-								},
-								timestamp = channelData.started_at
-							}
-						})
-
-						if (not success) then
-							self:LogError(guild, "Failed to send twitch notification message: %s", err)
-						end
-
-						for roleId, role in pairs(nonMentionableRoles) do
-							local success, err = role:disableMentioning()
-							if (not success) then
-								self:LogWarning(guild, "Failed to re-disable mentioning on role %s (%s): %s", roleId, role.name, err)
-							end
-						end
+						bot:CallModuleFunction(self, "SendChannelNotification", guild, channel, pattern.Message, channelData)
 					else
 						self:LogError(guild, "Channel %s doesn't exist", pattern.Channel)
 					end
@@ -621,9 +577,35 @@ function Module:HandleChannelUp(channelData, headerSignature, body)
 	end
 end
 
+function Module:GetProfileData(userId)
+	local now = os.time()
+
+	local profileData = self.ProfileCache[userId]
+	if (not profileData or now - profileData.CachedAt > 3600) then
+		local userInfo, err = self.API:GetUserById(userId)
+		if (err) then
+			return nil, err
+		end
+
+		profileData = {}
+		if (userInfo) then
+			userInfo.CachedAt = now
+			userInfo.DisplayName = profileData.display_name
+			userInfo.Name = profileData.login
+			userInfo.Image = profileData.profile_image_url
+		end
+
+		self.ProfileCache[userId] = profileData
+	end
+
+	return profileData
+end
+
 function Module:GetGameData(gameId)
+	local now = os.time()
+
 	local gameData = self.GameCache[gameId]
-	if (not gameData) then
+	if (not gameData or now - gameData.CachedAt > 3600) then
 		local gameInfo, err = self.API:GetGameById(gameId)
 		if (err) then
 			return nil, err
@@ -631,6 +613,7 @@ function Module:GetGameData(gameId)
 
 		gameData = {}
 		if (gameInfo) then
+			gameData.CachedAt = now
 			gameData.Id = gameInfo.id
 			gameData.Image = gameInfo.box_art_url
 			gameData.Name = gameInfo.name
@@ -640,6 +623,108 @@ function Module:GetGameData(gameId)
 	end
 
 	return gameData
+end
+
+function Module:SendChannelNotification(guild, channel, message, channelData)
+	local profileData, err = self:GetProfileData(channelData.user_id)
+	if (not profileData) then
+		self:LogError("Failed to query user %s info: %s", channelData.user_id, err)
+		return
+	end
+
+	local gameData, err = self:GetGameData(channelData.game_id)
+	if (not gameData) then
+		self:LogError("Failed to query game info about game %s: %s", channelData.game_id, err)
+	end
+
+	local nonMentionableRoles = {}
+	for roleId in message:gmatch("<@&(%d+)>") do
+		local role = guild:getRole(roleId)
+		if (role) then
+			if (not role.mentionable) then
+				nonMentionableRoles[roleId] = role
+			end
+		else
+			self:LogWarning(guild, "Role %s doesn't exist", roleId)
+		end
+	end
+
+	local gameName = gameData and gameData.Name or string.format("<game %s>", channelData.game_id)
+
+	local fields = {
+		display_name = profileData.display_name,
+		game_name = gameName,
+		title = channelData.title
+	}
+
+	message = message:gsub("{(%w+)}", fields)
+
+	local channelUrl = "https://www.twitch.tv/" .. profileData.login
+	local thumbnail = channelData.thumbnail_url .. "?" .. os.time() -- Prevent Discord cache
+	thumbnail = thumbnail:gsub("{width}", 320)
+	thumbnail = thumbnail:gsub("{height}", 180)
+
+	for roleId, role in pairs(nonMentionableRoles) do
+		local success, err = role:enableMentioning()
+		if (not success) then
+			self:LogWarning(guild, "Failed to enable mentioning on role %s (%s): %s", roleId, role.name, err)
+		end
+	end
+
+	local fields = {nil, nil, nil}
+	if (gameData) then
+		table.insert(fields, {
+			name = "Game",
+			value = gameName
+		})
+	end
+
+	if (channelData.viewer_count > 0) then
+		table.insert(fields, {
+			name = "Viewers",
+			value = channelData.viewer_count
+		})
+	end
+
+	local now = os.time()
+	local startDate = discordia.Date.parseISO(channelData.started_at)
+
+	table.insert(fields, {
+		name = "Started",
+		value = util.FormatTime(now - startDate, 1) .. " ago"
+	})
+
+	local success, err = channel:send({
+		content = message,
+		embed = {
+			title = channelData.title,
+			url = channelUrl,
+			author = {
+				name = profileData.login,
+				url = channelUrl,
+				icon_url = profileData.profile_image_url
+			},
+			thumbnail = {
+				url = profileData.profile_image_url
+			},
+			fields = fields,
+			image = {
+				url = thumbnail
+			},
+			timestamp = channelData.started_at
+		}
+	})
+
+	if (not success) then
+		self:LogError(guild, "Failed to send twitch notification message: %s", err)
+	end
+
+	for roleId, role in pairs(nonMentionableRoles) do
+		local success, err = role:disableMentioning()
+		if (not success) then
+			self:LogWarning(guild, "Failed to re-disable mentioning on role %s (%s): %s", roleId, role.name, err)
+		end
+	end
 end
 
 function Module:SubscribeToTwitch(channelId)
