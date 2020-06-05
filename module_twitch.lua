@@ -694,27 +694,6 @@ function Module:SendChannelNotification(guild, channel, message, channelData)
 		value = util.FormatTime(now - startDate, 1) .. " ago"
 	})
 
-	p({
-		content = message,
-		embed = {
-			title = channelData.title,
-			url = channelUrl,
-			author = {
-				name = profileData.Name,
-				url = channelUrl,
-				icon_url = profileData.Image
-			},
-			thumbnail = {
-				url = profileData.Image
-			},
-			fields = fields,
-			image = {
-				url = thumbnail
-			},
-			timestamp = channelData.started_at
-		}
-	})
-
 	local success, err = channel:send({
 		content = message,
 		embed = {
