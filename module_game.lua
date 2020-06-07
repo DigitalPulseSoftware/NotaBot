@@ -24,23 +24,16 @@ function Module:GetConfigTable()
 end
 
 function Module:OnLoaded()
-	self.Clock = discordia.Clock()
-	self.Counter = 0
-	self.Clock:on("min", function ()
-		self.Counter = self.Counter + 1
-		if (self.Counter >= 3) then
-			self:UpdateGame()
-			self.Counter = 0
-		end
+	self.UpdateTimer = Bot:CreateRepeatTimer(3 * 60, -1, function ()
+		self:UpdateGame()
 	end)
 
-	self.Clock:start()
 	self:UpdateGame()
 	return true
 end
 
 function Module:OnUnload()
-	self.Clock:stop()
+	self.UpdateTimer:Stop()
 end
 
 function Module:UpdateGame()
