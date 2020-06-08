@@ -61,10 +61,10 @@ function Bot:ScheduleAction(timestamp, callback)
 	assert(timestamp, callback)
 	assert(timestamp > os.time())
 
-	local scheduledActions = self.scheduledActions[timestamp]
+	local scheduledActions = self.ScheduledActions[timestamp]
 	if (not scheduledActions) then
 		scheduledActions = {}
-		self.scheduledActions[timestamp] = scheduledActions
+		self.ScheduledActions[timestamp] = scheduledActions
 	end
 	
 	table.insert(scheduledActions, callback)
