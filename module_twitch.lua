@@ -548,12 +548,22 @@ function Module:HandleChannelUp(channelData, headerSignature, body)
 					end
 				end
 
+				local function tablesearchstr(tab, val)
+					for k,v in pairs(tab) do
+						if (tostring(v) == val) then
+							return true
+						end
+					end
+
+					return false
+				end
+
 				if (pattern.AllowedGames) then
-					if (not table.search(pattern.AllowedGames, gameId)) then
+					if (not tablesearchstr(pattern.AllowedGames, gameId)) then
 						return false
 					end
 				elseif (pattern.ForbiddenGames) then
-					if (table.search(pattern.ForbiddenGames, gameId)) then
+					if (tablesearchstr(pattern.ForbiddenGames, gameId)) then
 						return false
 					end
 				end
