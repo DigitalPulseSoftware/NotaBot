@@ -661,13 +661,11 @@ function Module:SendChannelNotification(guild, channel, message, channelData)
 
 	local gameName = gameData and gameData.Name or string.format("<game %s>", channelData.game_id)
 
-	local fields = {
+	message = message:gsub("{([%w_]+)}", {
 		display_name = profileData.DisplayName,
 		game_name = gameName,
 		title = channelData.title
-	}
-
-	message = message:gsub("{(%w+)}", fields)
+	})
 
 	local channelUrl = "https://www.twitch.tv/" .. profileData.Name
 	local thumbnail = channelData.thumbnail_url .. "?" .. os.time() -- Prevent Discord cache
