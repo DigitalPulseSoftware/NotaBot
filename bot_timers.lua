@@ -61,23 +61,34 @@ function Bot:ScheduleAction(timestamp, callback)
 	assert(timestamp, callback)
 	assert(timestamp > os.time())
 
-	local scheduledActions = self.ScheduledActions[timestamp]
-	if (not scheduledActions) then
-		scheduledActions = {}
-		self.ScheduledActions[timestamp] = scheduledActions
+	local actions = self.ScheduledActions
+
+	local index = #actions + 1
+	for i,a in pairs(actions) do
+		if (a.time > timestamp) then
+			index = i
+			break
+		end
 	end
-	
-	table.insert(scheduledActions, callback)
+
+	table.insert(actions, index, { time = timestamp, cb = callback })
 end
 
 Bot.Clock:on("sec", function ()
 	local timestamp = os.time()
-	local actions = Bot.ScheduledActions[timestamp]
-	if (actions) then
-		for _, callback in pairs(actions) do
-			Bot:ProtectedCall("Scheduled action", callback)
+	local actions = Bot.ScheduledActions
+
+	local executedAction = 0
+	for _, action in pairs(actions) do
+		if (action.time > timestamp) then
+			break
 		end
 
-		Bot.ScheduledActions[timestamp] = nil
+		Bot:ProtectedCall("Scheduled action", action.cb)
+		executedAction = executedAction + 1
+	end
+
+	for i = 1, executedAction do
+		table.remove(actions, 1)
 	end
 end)
