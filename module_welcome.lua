@@ -20,9 +20,9 @@ function Module:GetConfigTable()
 		},
 		{
 			Name = "JoinMessage",
-			Description = "Message to be posted when a user joins the server (`{user}` will be replaced by the user mention string)",
+			Description = "Message to be posted when a user joins the server (`{userMention}` will be replaced by the user mention string)",
 			Type = bot.ConfigType.String,
-			Default = "Welcome to {user}!",
+			Default = "Welcome to {userMention}!",
 			Optional = true
 		},
 		{
@@ -33,23 +33,23 @@ function Module:GetConfigTable()
 		},
 		{
 			Name = "LeaveMessage",
-			Description = "Message to be posted when a user leaves the server (`{user}` will be replaced by the user name)",
+			Description = "Message to be posted when a user leaves the server (`{userTag}` will be replaced by the user name)",
 			Type = bot.ConfigType.String,
-			Default = "Farewell {user}. :wave:",
+			Default = "Farewell {userTag}. :wave:",
 			Optional = true
 		},
 		{
 			Name = "BanMessage",
-			Description = "Message to be posted when a user is banned from the server (`{user}` will be replaced by the user name)",
+			Description = "Message to be posted when a user is banned from the server (`{userTag}` will be replaced by the user name)",
 			Type = bot.ConfigType.String,
-			Default = "{user} has been banned. :hammer:",
+			Default = "{userTag} has been banned. :hammer:",
 			Optional = true
 		},
 		{
 			Name = "UnbanMessage",
-			Description = "Message to be posted when a user is unbanned from the server (`{user}` will be replaced by the user name)",
+			Description = "Message to be posted when a user is unbanned from the server (`{userTag}` will be replaced by the user name)",
 			Type = bot.ConfigType.String,
-			Default = "{user} has been unbanned.",
+			Default = "{userTag} has been unbanned.",
 			Optional = true
 		}
 	}
