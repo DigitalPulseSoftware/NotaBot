@@ -62,6 +62,7 @@ function Module:OnMemberJoin(member)
 		local channel = client:getChannel(config.WelcomeChannel)
 		local message = config.JoinMessage
 		if (channel and message) then
+			message = self:CommonMessageGsub(message, member.user)
 			message = message:gsub("{user}", member.user.mentionString)
 			
 			channel:send(message)
@@ -87,6 +88,7 @@ function Module:OnMemberLeave(member)
 		local channel = client:getChannel(config.WelcomeChannel)
 		local message = config.LeaveMessage
 		if (channel and message) then
+			message = self:CommonMessageGsub(message, member.user)
 			message = message:gsub("{user}", member.user.tag)
 			if (member.joinedAt) then
 				local duration = Discordia.Date() - Discordia.Date.fromISO(member.joinedAt)
@@ -106,6 +108,7 @@ function Module:OnUserBan(user, guild)
 		local channel = client:getChannel(config.BanChannel)
 		local message = config.BanMessage
 		if (channel and message) then
+			message = self:CommonMessageGsub(message, user)
 			message = message:gsub("{user}", user.tag)
 
 			channel:send(message)
@@ -119,9 +122,16 @@ function Module:OnUserUnban(user, guild)
 		local channel = client:getChannel(config.BanChannel)
 		local message = config.UnbanMessage
 		if (channel and message) then
+			message = self:CommonMessageGsub(message, user)
 			message = message:gsub("{user}", user.tag)
 			
 			channel:send(message)
 		end
 	end
+end
+
+function Module:CommonMessageGsub(message, user)
+	message = message:gsub("{userTag}", user.tag)
+	message = message:gsub("{userMention}", user.mentionString)
+	return message
 end
