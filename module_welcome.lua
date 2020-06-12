@@ -20,9 +20,9 @@ function Module:GetConfigTable()
 		},
 		{
 			Name = "JoinMessage",
-			Description = "Message to be posted when a user joins the server (`{user}` will be replaced by the user mention string)",
+			Description = "Message to be posted when a user joins the server (`{userMention}` will be replaced by the user mention string)",
 			Type = bot.ConfigType.String,
-			Default = "Welcome to {user}!",
+			Default = "Welcome to {userMention}!",
 			Optional = true
 		},
 		{
@@ -33,23 +33,23 @@ function Module:GetConfigTable()
 		},
 		{
 			Name = "LeaveMessage",
-			Description = "Message to be posted when a user leaves the server (`{user}` will be replaced by the user name)",
+			Description = "Message to be posted when a user leaves the server (`{userTag}` will be replaced by the user name)",
 			Type = bot.ConfigType.String,
-			Default = "Farewell {user}. :wave:",
+			Default = "Farewell {userTag}. :wave:",
 			Optional = true
 		},
 		{
 			Name = "BanMessage",
-			Description = "Message to be posted when a user is banned from the server (`{user}` will be replaced by the user name)",
+			Description = "Message to be posted when a user is banned from the server (`{userTag}` will be replaced by the user name)",
 			Type = bot.ConfigType.String,
-			Default = "{user} has been banned. :hammer:",
+			Default = "{userTag} has been banned. :hammer:",
 			Optional = true
 		},
 		{
 			Name = "UnbanMessage",
-			Description = "Message to be posted when a user is unbanned from the server (`{user}` will be replaced by the user name)",
+			Description = "Message to be posted when a user is unbanned from the server (`{userTag}` will be replaced by the user name)",
 			Type = bot.ConfigType.String,
-			Default = "{user} has been unbanned.",
+			Default = "{userTag} has been unbanned.",
 			Optional = true
 		}
 	}
@@ -62,6 +62,7 @@ function Module:OnMemberJoin(member)
 		local channel = client:getChannel(config.WelcomeChannel)
 		local message = config.JoinMessage
 		if (channel and message) then
+			message = self:CommonMessageGsub(message, member.user)
 			message = message:gsub("{user}", member.user.mentionString)
 			
 			channel:send(message)
@@ -87,6 +88,7 @@ function Module:OnMemberLeave(member)
 		local channel = client:getChannel(config.WelcomeChannel)
 		local message = config.LeaveMessage
 		if (channel and message) then
+			message = self:CommonMessageGsub(message, member.user)
 			message = message:gsub("{user}", member.user.tag)
 			if (member.joinedAt) then
 				local duration = Discordia.Date() - Discordia.Date.fromISO(member.joinedAt)
@@ -106,6 +108,7 @@ function Module:OnUserBan(user, guild)
 		local channel = client:getChannel(config.BanChannel)
 		local message = config.BanMessage
 		if (channel and message) then
+			message = self:CommonMessageGsub(message, user)
 			message = message:gsub("{user}", user.tag)
 
 			channel:send(message)
@@ -119,9 +122,16 @@ function Module:OnUserUnban(user, guild)
 		local channel = client:getChannel(config.BanChannel)
 		local message = config.UnbanMessage
 		if (channel and message) then
+			message = self:CommonMessageGsub(message, user)
 			message = message:gsub("{user}", user.tag)
 			
 			channel:send(message)
 		end
 	end
+end
+
+function Module:CommonMessageGsub(message, user)
+	message = message:gsub("{userTag}", user.tag)
+	message = message:gsub("{userMention}", user.mentionString)
+	return message
 end
