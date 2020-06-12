@@ -93,6 +93,12 @@ function Module:GetConfigTable()
 			Description = "Channel where stats will be posted each day",
 			Type = bot.ConfigType.Channel,
 			Optional = true
+		},
+		{
+			Name = "ShowActiveUsers",
+			Description = "Allows most active users stats to be shown",
+			Type = bot.ConfigType.Boolean,
+			Default = false
 		}
 	}
 end
@@ -214,7 +220,7 @@ function Module:OnLoaded()
 					return
 				end
 
-				stats = self:LoadStats(commandMessage.guild, self:GetStatsFilename(commandMessage.guild, from))
+				local stats = self:LoadStats(commandMessage.guild, self:GetStatsFilename(commandMessage.guild, from))
 				if (not stats) then
 					commandMessage:reply("We have no stats for that date")
 					return
@@ -281,6 +287,7 @@ end
 
 function Module:PrintStats(channel, stats, fromDate, toDate, dayCount)
 	local guild = channel.guild
+	local config = self:GetConfig(guild)
 
 	local memberCount
 	local valueFunc
@@ -358,6 +365,25 @@ function Module:PrintStats(channel, stats, fromDate, toDate, dayCount)
 		activeChannelList = activeChannelList .. string.format("%s: %s m.\n", channel and channel.mentionString or "<deleted channel>", valueFunc(channelData.messageCount))
 	end
 
+	local activeMemberList
+	if (config.ShowActiveUsers) then
+		local mostActiveMembers = {}
+		for userId, userStats in pairs(stats.Users) do
+			table.insert(mostActiveMembers, { id = userId, messageCount = userStats.MessageCount })
+		end
+		table.sort(mostActiveMembers, function (a, b) return a.messageCount > b.messageCount end)
+
+		activeMemberList = ""
+		for i = 1, 5 do
+			if (i > #mostActiveMembers) then
+				break
+			end
+	
+			local memberData = mostActiveMembers[i]
+			activeMemberList = activeMemberList .. string.format("%s: %s m.\n", "<@" .. memberData.id .. ">", valueFunc(memberData.messageCount))
+		end
+	end
+
 	local fields = {
 		{
 			name = "Member count", value = memberCount, inline = true
@@ -381,12 +407,19 @@ function Module:PrintStats(channel, stats, fromDate, toDate, dayCount)
 			name = "Total reactions added", value = valueFunc(stats.ReactionAdded), inline = true
 		},
 		{
-			name = "Most added reactions", value = #addedReactionList > 0 and addedReactionList, "<None>", inline = true
+			name = "Most added reactions", value = #addedReactionList > 0 and addedReactionList or "<None>", inline = true
 		},
 		{
-			name = "Most active channels", value = #activeChannelList > 0 and activeChannelList, "<None>", inline = true
+			name = "Most active channels", value = #activeChannelList > 0 and activeChannelList or "<None>", inline = true
 		}
 	}
+
+	if (activeMemberList) then
+		table.insert(fields, 
+		{
+			name = "Most active members", value = #activeMemberList > 0 and activeMemberList or "<None>", inline = true
+		})
+	end
 
 	local title
 	if (not fromDate) then
