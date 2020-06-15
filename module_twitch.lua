@@ -468,7 +468,7 @@ function Module:SetupServer()
 
 					self:LogInfo("Twitch server: Subscribed to %s for %s", channelId, subscribeTime)
 
-					channelData.RenewTime = os.time() + subscribeTime
+					channelData.RenewTime = os.time() + math.max(subscribeTime - math.random(1, 10), 1) -- Prevent renewing all channels at the same time
 					channelData.Subscribed = true
 					channelData.WaitingForConfirm = false
 				elseif (mode == "unsubscribe") then
