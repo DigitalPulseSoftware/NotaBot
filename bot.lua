@@ -271,7 +271,7 @@ loadbotfile("bot_commands.lua")
 loadbotfile("bot_modules.lua")
 loadbotfile("bot_timers.lua")
 
-Bot:CreateRepeatTimer(5 * 60, function()
+Bot:CreateRepeatTimer(5 * 60, -1, function()
 	Bot:Save()
 end)
 
