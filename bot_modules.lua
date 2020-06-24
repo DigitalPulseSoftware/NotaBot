@@ -683,6 +683,10 @@ end
 function Bot:UnloadModule(moduleName)
 	local moduleTable = self.Modules[moduleName]
 	if (moduleTable) then
+		moduleTable:ForEachGuild(function (guildId, config, data, persistentData, guild)
+			moduleTable:DisableForGuild(guild, true)
+		end, false, true)
+
 		if (isReady and moduleTable.OnUnload) then
 			moduleTable:OnUnload()
 		end
@@ -1098,9 +1102,9 @@ Bot:RegisterCommand({
 			return
 		end
 
-		local success, err = moduleTable:DisableForGuild(message.guild)
+		local success, err = moduleTable:DisableForGuild(message.guild, true)
 		if (success) then
-			local success, err = moduleTable:EnableForGuild(message.guild)
+			local success, err = moduleTable:EnableForGuild(message.guild, false, true)
 			if (success) then
 				message:reply("Module **" .. moduleName .. "** reloaded")
 			else
