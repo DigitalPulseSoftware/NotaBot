@@ -49,6 +49,7 @@ function Module:OnLoaded()
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
 		Help = "Kicks a member",
+		Silent = true,
 		Func = function (commandMessage, targetMember, reason)
 			local config = self:GetConfig(commandMessage.guild)
 
