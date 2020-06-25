@@ -169,8 +169,10 @@ end
 
 function Module:OnDisable(guild)
 	local data = self:GetData(guild)
-	for userId, timer in pairs(data.UnmuteTimers) do
-		timer:Stop()
+	if (data.UnmuteTimers) then
+		for userId, timer in pairs(data.UnmuteTimers) do
+			timer:Stop()
+		end
 	end
 end
 
