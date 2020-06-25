@@ -249,7 +249,7 @@ function Module:RegisterUnmute(guild, userId, timestamp)
 			timer:Stop()
 		end
 
-		data.UnmuteTimers[userId] = Bot:ScheduleAction(timestamp, function () self:Unmute(guild, userId) end)
+		data.UnmuteTimers[userId] = Bot:ScheduleTimer(timestamp, function () self:Unmute(guild, userId) end)
 	end
 end
 
