@@ -277,7 +277,7 @@ function Module:Unmute(guild, userId)
 	local persistentData = self:GetPersistentData(guild)
 	persistentData.MutedUsers[userId] = nil
 
-	return false
+	return true
 end
 
 function Module:OnChannelCreate(channel)
