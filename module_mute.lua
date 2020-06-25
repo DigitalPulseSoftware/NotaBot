@@ -124,7 +124,6 @@ function Module:OnLoaded()
 				end
 			end
 
-			
 			local success, err = self:Unmute(guild, targetUser.id)
 			if (success) then
 				commandMessage:reply(string.format("%s has unmuted %s%s", commandMessage.member.name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
