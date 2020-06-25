@@ -64,6 +64,7 @@ function Module:OnLoaded()
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
 		Help = "Mutes a member",
+		Silent = true,
 		Func = function (commandMessage, targetMember, duration, reason)
 			local guild = commandMessage.guild
 			local config = self:GetConfig(guild)
@@ -118,6 +119,7 @@ function Module:OnLoaded()
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
 		Help = "Unmutes a member",
+		Silent = true,
 		Func = function (commandMessage, targetUser, reason)
 			local guild = commandMessage.guild
 			local config = self:GetConfig(guild)
