@@ -15,7 +15,7 @@ function Module:GetConfigTable()
 		{
 			Array = true,
 			Name = "AuthorizedRoles",
-			Description = "Roles allowed to create polls",
+			Description = "Roles allowed to use mute commands",
 			Type = bot.ConfigType.Role,
 			Default = {}
 		},
@@ -42,7 +42,15 @@ end
 
 function Module:CheckPermissions(member)
 	local config = self:GetConfig(member.guild)
-	return util.MemberHasAnyRole(member, config.AuthorizedRoles)
+	if (util.MemberHasAnyRole(member, config.AuthorizedRoles)) then
+		return true
+	end
+
+	if (member:hasPermission(enums.permission.administrator)) then
+		return true
+	end
+
+	return false
 end
 
 function Module:OnLoaded()
