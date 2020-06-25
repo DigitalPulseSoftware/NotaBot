@@ -127,7 +127,7 @@ function Module:OnLoaded()
 			local data = self:GetData(commandMessage.guild)
 
 			local success, err = guild:unbanUser(targetUser, reason)
-			if (success)
+			if (success) then
 				commandMessage:reply(string.format("%s has unbanned %s%s", commandMessage.member.name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
 			else
 				commandMessage:reply(string.format("Failed to unban %s: %s", targetUser.tag, err))
