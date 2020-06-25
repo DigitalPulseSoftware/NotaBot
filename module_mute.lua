@@ -176,11 +176,10 @@ function Module:OnEnable(guild)
 end
 
 function Module:OnDisable(guild)
-	local data = self:GetData(guild)
-	if (data.UnmuteTimers) then
-		for userId, timer in pairs(data.UnmuteTimers) do
-			timer:Stop()
-		end
+	-- Unmute everyone
+	local persistentData = self:GetPersistentData(guild)
+	for userId, unmuteTimestamp in pairs(persistentData.MutedUsers) do
+		self:Unmute(guild, userId)
 	end
 end
 
