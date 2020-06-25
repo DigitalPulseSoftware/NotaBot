@@ -139,22 +139,19 @@ end
 function Module:OnEnable(guild)
 	local config = self:GetConfig(guild)
 
-	if (not config.MuteRole) then
+	local muteRole = config.MuteRole and guild:getRole(config.MuteRole) or nil
+	if (not muteRole) then
 		return false, "Invalid mute role (check your configuration)"
 	end
 
 	self:LogInfo(guild, "Checking mute role permission on all channels...")
 
-	if (config.MuteRole) then
-		for _, channel in pairs(guild.textChannels) do
-			self:CheckTextMutePermissions(channel)
-		end
+	for _, channel in pairs(guild.textChannels) do
+		self:CheckTextMutePermissions(channel)
+	end
 
-		for _, channel in pairs(guild.voiceChannels) do
-			self:CheckVoiceMutePermissions(channel)
-		end
-	else
-		self:LogWarning(guild, "No mute role has been set")
+	for _, channel in pairs(guild.voiceChannels) do
+		self:CheckVoiceMutePermissions(channel)
 	end
 
 	local persistentData = self:GetPersistentData(guild)
