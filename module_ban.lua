@@ -67,7 +67,7 @@ function Module:OnLoaded()
 			if (targetMember) then
 				local bannedByRole = bannedBy.highestRole
 				local targetRole = targetMember.highestRole
-				if (targetRole.position > bannedByRole.position) then
+				if (targetRole.position >= bannedByRole.position) then
 					commandMessage:reply("You cannot ban that user due to your lower permissions.")
 					return
 				end

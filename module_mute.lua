@@ -82,7 +82,7 @@ function Module:OnLoaded()
 
 			local mutedByRole = mutedBy.highestRole
 			local targetRole = targetMember.highestRole
-			if (targetRole.position > mutedByRole.position) then
+			if (targetRole.position >= mutedByRole.position) then
 				commandMessage:reply("You cannot mute that user due to your lower permissions.")
 				return
 			end
