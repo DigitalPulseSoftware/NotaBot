@@ -59,7 +59,6 @@ end
 
 function Bot:ScheduleAction(timestamp, callback)
 	assert(timestamp, callback)
-	assert(timestamp > os.time())
 
 	local actions = self.ScheduledActions
 
