@@ -245,12 +245,9 @@ function Module:HandleEmojiAdd(userId, message)
 		local reporterUser = client:getUser(userId)
 
 		local content = message.cleanContent
+
 		if (#content > 800) then
 			content = content:sub(1, 800) .. "...<truncated>"
-		end
-
-		if (content ~= nil) then
-			content = "no content"
 		end
 
 		local embedContent = {
@@ -272,7 +269,7 @@ function Module:HandleEmojiAdd(userId, message)
 				},
 				{
 					name = "Message content",
-					value = content or "<empty>"
+					value = (#content > 0 and content) or "empty"
 				},
 				{
 					name = "Message Link",
