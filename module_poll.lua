@@ -122,14 +122,8 @@ function Module:GetConfigTable()
 	}
 end
 
-function Module:OnReady()
-	self.Clock:start()
-end
-
 function Module:OnUnload()
-	if (self.Clock) then
-		self.Clock:stop()
-	end
+	self.Timer:Stop()
 end
 
 function Module:OnEnable(guild)
@@ -140,8 +134,7 @@ function Module:OnEnable(guild)
 end
 
 function Module:OnLoaded()
-	self.Clock = discordia.Clock()
-	self.Clock:on("min", function()
+	self.Timer = Bot:CreateRepeatTimer(1, -1, function ()
 		local now = os.time()
 
 		self:ForEachGuild(function(guildId, config, data, persistentData)

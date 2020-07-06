@@ -68,8 +68,7 @@ function Module:GetConfigTable()
 end
 
 function Module:OnLoaded()
-	self.Clock = discordia.Clock()
-	self.Clock:on("min", function ()
+	self.Timer = Bot:CreateRepeatTimer(1, -1, function ()
 		local now = os.time()
 		self:ForEachGuild(function (guildId, config, data, persistentData)
 			local guild = client:getGuild(guildId)
@@ -180,14 +179,8 @@ function Module:OnLoaded()
 	return true
 end
 
-function Module:OnReady()
-	self.Clock:start()
-end
-
 function Module:OnUnload()
-	if (self.Clock) then
-		self.Clock:stop()
-	end
+	self.Timer:Stop()
 end
 
 function Module:OnEnable(guild)
@@ -293,7 +286,7 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 			if (ticketMember) then
 				local permissions = channel:getPermissionOverwriteFor(ticketMember)
 
-				if (not permissions or not permissions:setPermissions(enums.permission.readMessages, enums.permission.sendMessages)) then				commandMessage:reply("Failed to create the channel, this is likely a bug.")
+				if (not permissions or not permissions:setPermissions(enums.permission.readMessages, enums.permission.sendMessages)) then
 					channel:sendf("Failed to deny send messages permission to %s.", ticketMember.mentionString)
 				end
 
@@ -336,13 +329,15 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 		filteredUsername = "empty"
 	end
 
-	local newChannel = modmailCategory:createTextChannel(string.format("%s-%s", filteredUsername, targetMember.user.discriminator))
+	local newChannel, err = modmailCategory:createTextChannel(string.format("%s-%s", filteredUsername, targetMember.user.discriminator))
 	if (not newChannel) then
+		print(err)
 		return false, "Failed to create the channel, this is likely a bug."
 	end
 
-	local permissionOverwrite = newChannel:getPermissionOverwriteFor(targetMember)
+	local permissionOverwrite, err = newChannel:getPermissionOverwriteFor(targetMember)
 	if (not permissionOverwrite) then
+		print(err)
 		return false, "Failed to create the channel, this is likely a bug."
 	end
 

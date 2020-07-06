@@ -47,6 +47,7 @@ function Module:OnLoaded()
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
 		Help = "Bans a member",
+		Silent = true,
 		Func = function (commandMessage, targetUser, duration, reason)
 			local guild = commandMessage.guild
 			local config = self:GetConfig(guild)
@@ -66,7 +67,7 @@ function Module:OnLoaded()
 			if (targetMember) then
 				local bannedByRole = bannedBy.highestRole
 				local targetRole = targetMember.highestRole
-				if (targetRole.position > bannedByRole.position) then
+				if (targetRole.position >= bannedByRole.position) then
 					commandMessage:reply("You cannot ban that user due to your lower permissions.")
 					return
 				end
@@ -108,6 +109,7 @@ function Module:OnLoaded()
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
 		Help = "Unbans a member",
+		Silent = true,
 		Func = function (commandMessage, targetUser, reason)
 			local guild = commandMessage.guild
 			local config = self:GetConfig(guild)
@@ -123,10 +125,12 @@ function Module:OnLoaded()
 			end
 
 			local data = self:GetData(commandMessage.guild)
-			if (guild:unbanUser(targetUser, reason)) then
+
+			local success, err = guild:unbanUser(targetUser, reason)
+			if (success) then
 				commandMessage:reply(string.format("%s has unbanned %s%s", commandMessage.member.name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
 			else
-				commandMessage:reply(string.format("Failed to unban %s", targetUser.tag))
+				commandMessage:reply(string.format("Failed to unban %s: %s", targetUser.tag, err))
 			end
 		end
 	})
@@ -139,7 +143,8 @@ function Module:OnLoaded()
 		},
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
-		Help = "Updates the ban duration ",
+		Help = "Updates the ban duration",
+		Silent = true,
 		Func = function (commandMessage, targetUser, newDuration)
 			local guild = commandMessage.guild
 

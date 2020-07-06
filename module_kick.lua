@@ -49,6 +49,7 @@ function Module:OnLoaded()
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
 		Help = "Kicks a member",
+		Silent = true,
 		Func = function (commandMessage, targetMember, reason)
 			local config = self:GetConfig(commandMessage.guild)
 
@@ -58,7 +59,7 @@ function Module:OnLoaded()
 			-- Permission check
 			local kickedByRole = kickedBy.highestRole
 			local targetRole = targetMember.highestRole
-			if (targetRole.position > kickedByRole.position) then
+			if (targetRole.position >= kickedByRole.position) then
 				commandMessage:reply("You cannot kick that user due to your lower permissions.")
 				return
 			end

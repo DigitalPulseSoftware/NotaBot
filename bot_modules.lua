@@ -683,6 +683,10 @@ end
 function Bot:UnloadModule(moduleName)
 	local moduleTable = self.Modules[moduleName]
 	if (moduleTable) then
+		moduleTable:ForEachGuild(function (guildId, config, data, persistentData, guild)
+			moduleTable:DisableForGuild(guild, true)
+		end, false, true)
+
 		if (isReady and moduleTable.OnUnload) then
 			moduleTable:OnUnload()
 		end
@@ -840,9 +844,11 @@ Bot:RegisterCommand({
 				end
 			end
 
-			for k,configData in pairs(moduleTable._GlobalConfig) do
-				if (configData.Name == key) then
-					return configData
+			if (message.member.id == Config.OwnerUserId) then
+				for k,configData in pairs(moduleTable._GlobalConfig) do
+					if (configData.Name == key) then
+						return configData
+					end
 				end
 			end
 		end
@@ -879,7 +885,7 @@ Bot:RegisterCommand({
 			})
 		elseif (action == "show") then
 			local configTable = GetConfigByKey(key)
-			if (not configTable or (configTable.Global and message.member.id ~= Config.OwnerUserId)) then
+			if (not configTable) then
 				message:reply(string.format("Module %s has no config key \"%s\"", moduleTable.Name, key))
 				return
 			end
@@ -1096,9 +1102,9 @@ Bot:RegisterCommand({
 			return
 		end
 
-		local success, err = moduleTable:DisableForGuild(message.guild)
+		local success, err = moduleTable:DisableForGuild(message.guild, true)
 		if (success) then
-			local success, err = moduleTable:EnableForGuild(message.guild)
+			local success, err = moduleTable:EnableForGuild(message.guild, false, true)
 			if (success) then
 				message:reply("Module **" .. moduleName .. "** reloaded")
 			else

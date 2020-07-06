@@ -410,8 +410,11 @@ function Module:OnEnable(guild)
 					for reaction, _ in pairs(reactionTable) do
 						local emoji = bot:GetEmojiData(guild, reaction)
 						if (emoji) then
-							if (not hasReaction[emoji.Name] and not message:addReaction(emoji.Emoji or emoji.Id)) then
-								self:LogWarning(guild, "Failed to add reaction %s on message %s (channel: %s)", emoji.Name, message.id, message.channel.id)
+							if (not hasReaction[emoji.Name]) then
+								local success, err = message:addReaction(emoji.Emoji or emoji.Id)
+								if (not success) then
+									self:LogWarning(guild, "Failed to add reaction %s on message %s (channel: %s): %s", emoji.Name, message.id, message.channel.id, err)
+								end
 							end
 						else
 							self:LogError(guild, "Emoji \"%s\" does not exist", reaction.emojiName)
@@ -445,8 +448,10 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 		local role = guild:getRole(roleId)
 		if (role) then
 			self:LogInfo(guild, "Adding %s%s to %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
-			if (not member:addRole(roleId)) then
-				self:LogWarning(guild, "Failed to add role %s to %s", role.name, member.tag)
+
+			local success, err = member:addRole(roleId)
+			if (not success) then
+				self:LogWarning(guild, "Failed to add role %s to %s: %s", role.name, member.tag, err)
 			end
 		else
 			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
@@ -457,8 +462,10 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 		local role = guild:getRole(roleId)
 		if (role) then
 			self:LogInfo(guild, "Removing %s%s from %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
-			if (not member:removeRole(roleId)) then
-				self:LogWarning(guild, "Failed to remove role % from %s", role.name, member.tag)
+
+			local success, err = member:removeRole(roleId)
+			if (not success) then
+				self:LogWarning(guild, "Failed to remove role % from %s: %s", role.name, member.tag, err)
 			end
 		else
 			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
@@ -468,9 +475,10 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 	if (roleActions.Message) then
 		local privateChannel = member.user:getPrivateChannel()
 		if (privateChannel) then
-			local message = privateChannel:send(string.format("[From %s]\n%s", guild.name, roleActions.Message))
-			if (not message) then
-				self:LogWarning(guild, "Failed to send reaction message to %s (maybe user disabled private messages from this server?)", member.user.tag)
+
+			local success, err = privateChannel:send(string.format("[From %s]\n%s", guild.name, roleActions.Message))
+			if (not success) then
+				self:LogWarning(guild, "Failed to send reaction message to %s (maybe user disabled private messages from this server?): %s", member.user.tag, err)
 			end
 		else
 			self:LogWarning(guild, "Failed to get private channel with %s", member.user.tag)
@@ -494,8 +502,10 @@ function Module:HandleReactionRemove(guild, userId, channelId, messageId, reacti
 		local role = guild:getRole(roleId)
 		if (role) then
 			self:LogInfo(guild, "Removing %s%s from %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
-			if (not member:removeRole(roleId)) then
-				self:LogWarning(guild, "Failed to remove role %s from %s", role.name, member.tag)
+
+			local success, err = member:removeRole(roleId)
+			if (not success) then
+				self:LogWarning(guild, "Failed to remove role %s from %s: %s", role.name, member.tag, err)
 			end
 		else
 			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
@@ -506,8 +516,10 @@ function Module:HandleReactionRemove(guild, userId, channelId, messageId, reacti
 		local role = guild:getRole(roleId)
 		if (role) then
 			self:LogInfo(guild, "Adding back %s%s to %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
-			if (not member:addRole(roleId)) then
-				self:LogWarning(guild, "Failed to add role %s to %s", role.name, member.tag)
+
+			local success, err = member:addRole(roleId)
+			if (not success) then
+				self:LogWarning(guild, "Failed to add role %s to %s: %s", role.name, member.tag, err)
 			end
 		else
 			self:LogWarning(guild, "Role %s appears to have been removed", roleId)

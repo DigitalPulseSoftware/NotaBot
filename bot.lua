@@ -245,16 +245,6 @@ function Bot:Save()
 	client:info("Modules data saved (%.3fs)", stopwatch.milliseconds / 1000)
 end
 
-local saveCounter = 0
-Bot.Clock:on("min", function ()
-	saveCounter = saveCounter + 1
-	if (saveCounter >= 5) then
-		Bot:Save()
-
-		saveCounter = 0
-	end
-end)
-
 -- Why is this required Oo
 local env = setmetatable({}, { __index = _G })
 env.Bot = Bot
@@ -279,6 +269,11 @@ loadbotfile("bot_emoji.lua")
 loadbotfile("bot_utility.lua")
 loadbotfile("bot_commands.lua")
 loadbotfile("bot_modules.lua")
+loadbotfile("bot_timers.lua")
+
+Bot:CreateRepeatTimer(5 * 60, -1, function()
+	Bot:Save()
+end)
 
 Bot:RegisterCommand({
 	Name = "exec",
