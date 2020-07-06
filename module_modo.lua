@@ -250,6 +250,10 @@ function Module:HandleEmojiAdd(userId, message)
 			content = content:sub(1, 800) .. "...<truncated>"
 		end
 
+		if (not content or #content == 0) then
+			content = "<empty>"
+		end
+
 		local embedContent = {
 			title = "One user reported a message",
 			fields = {
@@ -269,7 +273,7 @@ function Module:HandleEmojiAdd(userId, message)
 				},
 				{
 					name = "Message content",
-					value = (#content > 0 and content) or "empty"
+					value = content
 				},
 				{
 					name = "Message Link",
