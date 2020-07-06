@@ -245,7 +245,6 @@ function Module:HandleEmojiAdd(userId, message)
 		local reporterUser = client:getUser(userId)
 
 		local content = message.cleanContent
-
 		if (#content > 800) then
 			content = content:sub(1, 800) .. "...<truncated>"
 		end
