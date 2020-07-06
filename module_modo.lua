@@ -249,6 +249,10 @@ function Module:HandleEmojiAdd(userId, message)
 			content = content:sub(1, 800) .. "...<truncated>"
 		end
 
+		if (content ~= nil) then
+			content = "no content"
+		end
+
 		local embedContent = {
 			title = "One user reported a message",
 			fields = {
