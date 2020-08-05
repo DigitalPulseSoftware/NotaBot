@@ -66,7 +66,8 @@ function Bot:RegisterCommand(values)
 		Help = values.Help,
 		Name = name,
 		PrivilegeCheck = values.PrivilegeCheck,
-		Silent = values.Silent ~= nil and values.Silent
+		Silent = values.Silent ~= nil and values.Silent,
+		BotAware = values.BotAware ~= nil and values.BotAware
 	}
 
 	self.Commands[name] = command
@@ -96,6 +97,10 @@ Bot.Client:on('messageCreate', function(message)
 
 	local commandTable = Bot.Commands[commandName]
 	if (not commandTable) then
+		return
+	end
+
+	if (not commandTable.BotAware and message.author.bot) then
 		return
 	end
 
