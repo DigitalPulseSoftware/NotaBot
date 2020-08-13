@@ -107,7 +107,7 @@ function string.ConvertToTime(str)
 			return -- Invalid value
 		end
 
-		local unit = timeUnitByUnit[timeUnits]
+		local unit = timeUnitByUnit[timeUnit]
 		if (not unit) then
 			return -- Invalid unit
 		end
