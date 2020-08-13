@@ -1,6 +1,7 @@
 util = util or {}
 
 local timeUnits = {}
+local timeUnitByUnit = {}
 
 do
 	local minuteSecond = 60
@@ -13,67 +14,84 @@ do
 	local millenniumSecond = 10 * centurySecond
 
 	table.insert(timeUnits, {
-		NameSingle = "mi",
+		AltNames = {"mi"},
 		NameSingular = "millennium",
 		NamePlural = "millennia",
 		Seconds = millenniumSecond
 	})
 
 	table.insert(timeUnits, {
-		NameSingle = "c",
+		AltNames = {"c"},
 		NameSingular = "century",
 		NamePlural = "centuries",
 		Seconds = centurySecond
 	})
 
 	table.insert(timeUnits, {
-		NameSingle = "y",
+		AltNames = {"y"},
 		NameSingular = "year",
 		NamePlural = "years",
 		Seconds = yearSecond
 	})
 
 	table.insert(timeUnits, {
-		NameSingle = "M",
+		AltNames = {"M"},
 		NameSingular = "month",
 		NamePlural = "months",
 		Seconds = monthSecond
 	})
 
 	table.insert(timeUnits, {
-		NameSingle = "w",
+		AltNames = {"w"},
 		NameSingular = "week",
 		NamePlural = "weeks",
 		Seconds = weekSecond
 	})
 
 	table.insert(timeUnits, {
-		NameSingle = "d",
+		AltNames = {"d"},
 		NameSingular = "day",
 		NamePlural = "days",
 		Seconds = daySecond
 	})
 
 	table.insert(timeUnits, {
-		NameSingle = "h",
+		AltNames = {"h"},
 		NameSingular = "hour",
 		NamePlural = "hours",
 		Seconds = hourSecond
 	})
 
 	table.insert(timeUnits, {
-		NameSingle = "m",
+		AltNames = {"m", "min"},
 		NameSingular = "minute",
 		NamePlural = "minutes",
 		Seconds = minuteSecond
 	})
 
 	table.insert(timeUnits, {
-		NameSingle = "s",
+		AltNames = {"s", "sec"},
 		NameSingular = "second",
 		NamePlural = "seconds",
 		Seconds = 1
 	})
+
+	-- Processing
+	for _, data in pairs(timeUnits) do
+		local function registerUnit(unit)
+			if (timeUnitByUnit[unit] ~= nil) then
+				error("TimeUnit name " .. unit .. " is already registered")
+			end
+
+			timeUnitByUnit[unit] = data
+		end
+
+		registerUnit(data.NameSingular)
+		registerUnit(data.NamePlural)
+		for _, name in pairs(data.AltNames) do
+			registerUnit(name)
+		end
+	end
 end
 
 function string.ConvertToTime(str)
@@ -83,29 +101,18 @@ function string.ConvertToTime(str)
 	end
 
 	seconds = 0
+	for value, timeUnit in string.gmatch(str, "([%d-]+)%s*(%a+)") do
+		value = tonumber(value)
+		if (not value) then
+			return -- Invalid value
+		end
 
-	local units = timeUnits
-	local valid = false
-	for unit, timeUnit in string.gmatch(str, "([%d-]+)%s*(%a+)") do
-		unit = tonumber(unit)
+		local unit = timeUnitByUnit[timeUnits]
 		if (not unit) then
-			return -- Not valid
+			return -- Invalid unit
 		end
 
-		for k,v in pairs(units) do
-			if (timeUnit == v.NameSingle or timeUnit == v.NameSingular or timeUnit == v.NamePlural) then
-				valid = true
-				seconds = seconds + unit * v.Seconds
-			end
-		end
-
-		if (not valid) then
-			return
-		end
-	end
-
-	if (not valid) then
-		return
+		seconds = seconds + value * unit.Seconds
 	end
 
 	return seconds
