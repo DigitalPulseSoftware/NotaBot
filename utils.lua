@@ -100,6 +100,8 @@ function string.ConvertToTime(str)
 		return seconds
 	end
 
+	local isValid = false
+
 	seconds = 0
 	for value, timeUnit in string.gmatch(str, "([%d-]+)%s*(%a+)") do
 		value = tonumber(value)
@@ -112,7 +114,12 @@ function string.ConvertToTime(str)
 			return -- Invalid unit
 		end
 
+		isValid = true
 		seconds = seconds + value * unit.Seconds
+	end
+
+	if (not isValid) then
+		return
 	end
 
 	return seconds
