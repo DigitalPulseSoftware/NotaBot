@@ -139,7 +139,7 @@ function string.GetArguments(txt, limit)
 		end
 	end
 
-	if (limit and #args > limit) then
+	if (limit and limit > 0 and #args > limit) then
 		args[limit] = table.concat(args, " ", limit)
 		for i = limit + 1, #args do
 			args[i] = nil
