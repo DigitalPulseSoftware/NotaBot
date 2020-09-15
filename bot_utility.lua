@@ -151,7 +151,7 @@ end
 
 local publicChannels = {
 	[enums.channelType.text] = true,
-	[enums.channelType.new] = true
+	[enums.channelType.news] = true
 }
 
 function Bot:IsPublicChannel(channel)
