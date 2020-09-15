@@ -154,7 +154,7 @@ function Module:OnEnable(guild)
 
 	local now = os.time()
 	if (persistentData.lockedUntil > now) then
-		self:StartLockTimer(persistentData.lockedUntil)
+		self:StartLockTimer(guild, persistentData.lockedUntil)
 		data.locked = true
 	else
 		data.locked = false
@@ -190,16 +190,15 @@ end
 function Module:StartLockTimer(guild, unlockTimestamp)
 	local data = self:GetData(guild)
 
-	if (data.lockTimer) then
-		data.lockTimer:Unlock()
-	end
-
-	if (unlockTimestamp >= math.huge) then
+	if (unlockTimestamp < math.huge) then
 		local guildId = guild.id
 		data.lockTimer = bot:ScheduleTimer(unlockTimestamp, function ()
 			local guild = client:getGuild(guildId)
 			if (guild) then
-				self:UnlockServer(guild, "lock duration expired")
+				local persistentData = self:GetPersistentData(guild)
+				if (os.time() >= persistentData.lockedUntil) then
+					self:UnlockServer(guild, "lock duration expired")
+				end
 			end
 		end)
 	else
