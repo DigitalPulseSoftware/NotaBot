@@ -372,11 +372,11 @@ function Module:OnMessageCreate(message)
 					-- Send an alert
 					local alertChannel = config.AlertChannel and guild:getChannel(config.AlertChannel)
 					if (alertChannel) then
-						local message = "🙊 %s has been auto-muted because of spam"
+						local message = "🙊 %s has been auto-muted because of spam in %s"
 						alertChannel:send({
 							embed = {
 								color = 16776960,
-								description = string.format(message, member.mentionString),
+								description = string.format(message, member.mentionString, message.channel.mentionString),
 								timestamp = discordia.Date():toISO('T', 'Z')
 							}
 						})
@@ -387,6 +387,7 @@ function Module:OnMessageCreate(message)
 					for _, messageData in pairs(spamChain) do
 						table.insert(messagesToDelete, messageData)
 					end
+					data.spamChain[member.id] = {}
 
 					for _, messageData in pairs(messagesToDelete) do
 						local channel = guild:getChannel(messageData.channelId)
