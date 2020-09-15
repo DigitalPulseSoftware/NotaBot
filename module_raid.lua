@@ -161,6 +161,7 @@ function Module:OnEnable(guild)
 	end
 
 	data.joinChain = {}
+	data.spamChain = {}
 
 	return true
 end
