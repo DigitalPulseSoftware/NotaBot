@@ -226,12 +226,12 @@ function Module:LockServer(guild, duration, reason)
 
 		local alertChannel = guild:getChannel(config.AlertChannel)
 		if (alertChannel) then
-			local message = "🔒 The server has been locked " .. durationStr .. " because a raid has been detected (%s)"
+			local message = "🔒 The server has been locked %s (%s)"
 
 			alertChannel:send({
 				embed = {
 					color = 16711680,
-					description = string.format(message, util.FormatTime(duration, 3), reason),
+					description = string.format(message, durationStr, reason),
 					timestamp = discordia.Date():toISO('T', 'Z')
 				}
 			})
@@ -290,7 +290,7 @@ function Module:OnMemberJoin(member)
 		})
 
 		if (#data.joinChain > joinCountThreshold) then
-			self:AutoLockServer(guild, "auto-lock for suspicious joining accounts")
+			self:AutoLockServer(guild, "auto-lock by anti-raid system")
 
 			local membersToKick = {}
 			for _, joinData in pairs(data.joinChain) do
