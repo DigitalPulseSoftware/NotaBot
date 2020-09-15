@@ -179,7 +179,7 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInv
 
 		-- Sort into differents types
 		for _, attachment in pairs(message.attachments) do
-			local ext = attachment.url:match("//.-/.+%.(.*)$")
+			local ext = attachment.url:match("//.-/.+%.(.*)$"):lower()
 			local fileType = fileTypes[ext]
 			local t = files
 			if (fileType) then

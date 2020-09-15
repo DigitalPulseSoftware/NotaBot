@@ -92,7 +92,7 @@ function Module:OnLoaded()
 				if (privateChannel) then
 					local durationText
 					if (duration > 0) then
-						durationText = string.format("You will be unmuted in %s", duration > 0 and durationStr or "")
+						durationText = "You will be unmuted in " .. durationStr
 					else
 						durationText = ""
 					end
