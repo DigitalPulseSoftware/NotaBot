@@ -20,7 +20,13 @@ function Module:GetConfigTable()
 		},
 		{
 			Name = "AlertChannel",
-			Description = "Channel where a message will be posted (if set) in case of raid",
+			Description = "Channel where a message will be posted (if set) in case someone gets muted for spamming",
+			Type = bot.ConfigType.Channel,
+			Optional = true
+		},
+		{
+			Name = "LockAlertChannel",
+			Description = "Channel where a message will be posted (if set) in case of server locking",
 			Type = bot.ConfigType.Channel,
 			Optional = true
 		},
@@ -28,7 +34,7 @@ function Module:GetConfigTable()
 			Name = "SendMessageThreshold",
 			Description = "If a new member sends a message before this duration, they will be auto-banned (0 to disable)",
 			Type = bot.ConfigType.Duration,
-			Default = 5
+			Default = 3
 		},
 		{
 			Name = "DefaultLockDuration",
@@ -50,15 +56,21 @@ function Module:GetConfigTable()
 		},
 		{
 			Name = "SpamCountThreshold",
-			Description = "How many messages is a member allowed to post in the spam window before being banned",
+			Description = "How many messages is a member allowed to post in the spam window before being banned/muted",
 			Type = bot.ConfigType.Integer,
-			Default = 5
+			Default = 7
 		},
 		{
 			Name = "SpamTimeThreshold",
 			Description = "For how many time should the spam window be open",
 			Type = bot.ConfigType.Integer,
 			Default = 2
+		},
+		{
+			Name = "SpamMute",
+			Description = "Should the bot mute a member exceeding the spam window instead of banning them? (require the mute module)",
+			Type = bot.ConfigType.Boolean,
+			Default = true
 		}
 	}
 end
@@ -220,10 +232,10 @@ function Module:LockServer(guild, duration, reason)
 
 	self:StartLockTimer(guild, persistentData.lockedUntil)
 
-	if (config.AlertChannel) then
+	if (config.LockAlertChannel) then
 		local durationStr = duration > 0 and "for " .. util.FormatTime(duration, 3) or ""
 
-		local alertChannel = guild:getChannel(config.AlertChannel)
+		local alertChannel = guild:getChannel(config.LockAlertChannel)
 		if (alertChannel) then
 			local message = "🔒 The server has been locked %s (%s)"
 
@@ -249,8 +261,8 @@ function Module:UnlockServer(guild, reason)
 	if (data.locked) then
 		data.locked = false
 
-		if (config.AlertChannel) then
-			local alertChannel = guild:getChannel(config.AlertChannel)
+		if (config.LockAlertChannel) then
+			local alertChannel = guild:getChannel(config.LockAlertChannel)
 			if (alertChannel) then
 				local message = "🔓 The server has been unlocked (%s)"
 
@@ -347,15 +359,55 @@ function Module:OnMessageCreate(message)
 
 	table.insert(spamChain, {
 		at = now,
+		channelId = message.channel.id,
 		messageId = message.id
 	})
 
 	if (#spamChain > countThreshold) then
-		local success, err = member:ban("auto-ban for bot suspicion", 1)
-		if (not success) then
-			self:LogWarning(guild, "Failed to autoban potential bot %s (%s)", member.tag, err)
-		end
+		if (config.SpamMute) then
+			local muteModule, err = bot:GetModuleForGuild(guild, "mute")
+			if (muteModule) then
+				local success, err = muteModule:Mute(guild, member.id, 0)
+				if (success) then
+					-- Send an alert
+					local alertChannel = config.AlertChannel and guild:getChannel(config.AlertChannel)
+					if (alertChannel) then
+						local message = "🙊 %s has been auto-muted because of spam"
+						alertChannel:send({
+							embed = {
+								color = 16776960,
+								description = string.format(message, member.mentionString),
+								timestamp = discordia.Date():toISO('T', 'Z')
+							}
+						})
+					end
 
-		return
+					-- Delete messages
+					local messagesToDelete = {}
+					for _, messageData in pairs(spamChain) do
+						table.insert(messagesToDelete, messageData)
+					end
+
+					for _, messageData in pairs(messagesToDelete) do
+						local channel = guild:getChannel(messageData.channelId)
+						if (channel) then
+							local message = channel:getMessage(messageData.messageId)
+							if (message) then
+								message:delete()
+							end
+						end
+					end
+				else
+					self:LogWarning(guild, "Failed to mute potential bot %s: %s", member.tag, err)
+				end
+			else
+				self:LogWarning(guild, "Failed to mute potential bot %s: %s", member.tag, err)
+			end
+		else
+			local success, err = member:ban("auto-ban for bot suspicion", 1)
+			if (not success) then
+				self:LogWarning(guild, "Failed to autoban potential bot %s (%s)", member.tag, err)
+			end	
+		end
 	end
 end
