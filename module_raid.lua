@@ -123,12 +123,12 @@ function Module:OnLoaded()
 
 		Help = "Unlocks the server",
 		Silent = true,
-		Func = function (commandMessage, targetUser, reason)
+		Func = function (commandMessage, reason)
 			local guild = commandMessage.guild
 			local lockedBy = commandMessage.member
 
 			if (not self:IsServerLocked(guild)) then
-				commandMessage:reply("The server is not locked %s")
+				commandMessage:reply("The server is not locked")
 				return
 			end
 
