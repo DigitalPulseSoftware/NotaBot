@@ -31,7 +31,7 @@ function Module:GetConfigTable()
 			Default = 5
 		},
 		{
-			Name = "JoinDefaultLockDuration",
+			Name = "DefaultLockDuration",
 			Description = "For how many time should the server be locked in case of join spam",
 			Type = bot.ConfigType.Duration,
 			Default = 10 * 60
