@@ -526,7 +526,7 @@ function Module:GetUserStats(guild, userId)
 end
 
 function Module:OnMessageCreate(message)
-	if (message.channel.type ~= enums.channelType.text) then
+	if (not self:IsPublicChannel(message.channel)) then
 		return
 	end
 
@@ -567,7 +567,7 @@ function Module:OnMemberLeave(member)
 end
 
 function Module:OnReactionAdd(reaction, userId)
-	if (reaction.message.channel.type ~= enums.channelType.text) then
+	if (not self:IsPublicChannel(reaction.message.channel)) then
 		return
 	end
 
@@ -590,7 +590,7 @@ function Module:OnReactionAdd(reaction, userId)
 end
 
 function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, userId)
-	if (channel.type ~= enums.channelType.text) then
+	if (not self:IsPublicChannel(channel)) then
 		return
 	end
 
@@ -613,7 +613,7 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 end
 
 function Module:OnReactionRemove(reaction, userId)
-	if (reaction.message.channel.type ~= enums.channelType.text) then
+	if (not self:IsPublicChannel(reaction.message.channel)) then
 		return
 	end
 
@@ -625,7 +625,7 @@ function Module:OnReactionRemove(reaction, userId)
 end
 
 function Module:OnReactionRemoveUncached(channel, messageId, reactionIdorName, userId)
-	if (channel.type ~= enums.channelType.text) then
+	if (not self:IsPublicChannel(channel)) then
 		return
 	end
 

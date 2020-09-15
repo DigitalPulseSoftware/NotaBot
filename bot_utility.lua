@@ -2,6 +2,8 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
+local discordia = require('discordia')
+local enums = discordia.enums
 local fs = require("coro-fs")
 local json = require("json")
 local path = require("path")
@@ -145,6 +147,15 @@ end
 function Bot:GenerateMessageLink(message)
 	local guildId = message.guild and message.guild.id or "@me"
 	return string.format("https://discordapp.com/channels/%s/%s/%s", guildId, message.channel.id, message.id)
+end
+
+local publicChannels = {
+	[enums.channelType.text] = true,
+	[enums.channelType.new] = true
+}
+
+function Bot:IsPublicChannel(channel)
+	return publicChannels[channel.type]
 end
 
 local ehandler = function(err)

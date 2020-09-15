@@ -86,7 +86,7 @@ end
 
 function Module:OnReactionAdd(reaction, userId)
 	local channel = reaction.message.channel
-	if (channel.type ~= enums.channelType.text) then
+	if (not self:IsPublicChannel(channel)) then
 		return
 	end
 
@@ -111,7 +111,7 @@ function Module:OnReactionAdd(reaction, userId)
 end
 
 function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, userId)
-	if (channel.type ~= enums.channelType.text) then
+	if (not self:IsPublicChannel(channel)) then
 		return
 	end
 

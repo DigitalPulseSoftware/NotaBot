@@ -78,8 +78,8 @@ function Bot:UnregisterCommand(commandName)
 end
 
 Bot.Client:on('messageCreate', function(message)
-	if (message.channel.type ~= enums.channelType.text) then
-		return
+	if (not Bot:IsPublicChannel(message.channel)) then
+			return
 	end
 
 	local prefix = Config.Prefix

@@ -37,7 +37,7 @@ function Module:OnEnable(guild)
 end
 
 function Module:OnMessageCreate(message)
-	if (message.channel.type ~= enums.channelType.text) then
+	if (not self:IsPublicChannel(message.channel)) then
 		return
 	end
 
