@@ -307,7 +307,7 @@ function Module:OnMemberJoin(member)
 end
 
 function Module:OnMessageCreate(message)
-	if (not self:IsPublicChannel(message.channel)) then
+	if (not bot:IsPublicChannel(message.channel)) then
 		return
 	end
 

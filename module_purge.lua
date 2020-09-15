@@ -171,7 +171,7 @@ function Module:AddMissingMembersToList(guild)
 end
 
 function Module:OnMessageCreate(message)
-	if (not self:IsPublicChannel(message.channel)) then
+	if (not bot:IsPublicChannel(message.channel)) then
 		return
 	end
 
@@ -185,7 +185,7 @@ function Module:OnMemberJoin(member)
 end
 
 function Module:OnReactionAdd(reaction, userId)
-	if (not self:IsPublicChannel(reaction.message.channel)) then
+	if (not bot:IsPublicChannel(reaction.message.channel)) then
 		return
 	end
 
@@ -194,7 +194,7 @@ function Module:OnReactionAdd(reaction, userId)
 end
 
 function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, userId)
-	if (not self:IsPublicChannel(channel)) then
+	if (not bot:IsPublicChannel(channel)) then
 		return
 	end
 
@@ -203,7 +203,7 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 end
 
 function Module:OnReactionRemove(reaction, userId)
-	if (not self:IsPublicChannel(reaction.message.channel)) then
+	if (not bot:IsPublicChannel(reaction.message.channel)) then
 		return
 	end
 
@@ -212,7 +212,7 @@ function Module:OnReactionRemove(reaction, userId)
 end
 
 function Module:OnReactionRemoveUncached(channel, messageId, reactionIdorName, userId)
-	if (not self:IsPublicChannel(channel)) then
+	if (not bot:IsPublicChannel(channel)) then
 		return
 	end
 

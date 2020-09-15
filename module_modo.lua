@@ -362,7 +362,7 @@ function Module:OnChannelCreate(channel)
 end
 
 function Module:OnReactionAdd(reaction, userId)
-	if (not self:IsPublicChannel(reaction.message.channel)) then
+	if (not bot:IsPublicChannel(reaction.message.channel)) then
 		return
 	end
 
@@ -382,7 +382,7 @@ function Module:OnReactionAdd(reaction, userId)
 end
 
 function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, userId)
-	if (not self:IsPublicChannel(channel)) then
+	if (not bot:IsPublicChannel(channel)) then
 		return
 	end
 
@@ -407,7 +407,7 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 end
 
 function Module:OnMessageDelete(message)
-	if (not self:IsPublicChannel(message.channel)) then
+	if (not bot:IsPublicChannel(message.channel)) then
 		return
 	end
 
@@ -415,7 +415,7 @@ function Module:OnMessageDelete(message)
 end
 
 function Module:OnMessageDeleteUncached(channel, messageId)
-	if (not self:IsPublicChannel(channel)) then
+	if (not bot:IsPublicChannel(channel)) then
 		return
 	end
 
