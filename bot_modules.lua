@@ -680,6 +680,19 @@ function Bot:MakeModuleReady(moduleTable)
 	end
 end
 
+function Bot:GetModuleForGuild(guild, moduleName)
+	local moduleTable = self.Modules[moduleName]
+	if (not moduleTable) then
+		return nil, "module is not loaded"
+	end
+
+	if (not moduleTable:IsEnabledForGuild(guild)) then
+		return nil, "module is not enabled"
+	end
+
+	return moduleTable
+end
+
 function Bot:UnloadModule(moduleName)
 	local moduleTable = self.Modules[moduleName]
 	if (moduleTable) then
