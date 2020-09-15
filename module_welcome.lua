@@ -73,7 +73,7 @@ function Module:OnMemberJoin(member)
 			if (role) then
 				local success, err = member:addRole(role)
 				if (not success) then
-					self:LogError(guild, "Failed to add role %s to member %s: %s", role.name, member.user.tag)
+					self:LogError(guild, "Failed to add role %s to member %s: %s", role.name, member.user.tag or "<invalid>")
 				end
 			else
 				self:LogError(guild, "Invalid role %s", config.JoinRole)
