@@ -247,12 +247,12 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 
 			local config = self:GetConfig(guild)
 
-			local channel = guild:getChannel(channelData.channelId)
+			local ticketChannel = guild:getChannel(channelData.channelId)
 			local closeMessage = string.format("%s has closed the ticket, this channel will automatically be deleted in about %s", member.user.mentionString, util.FormatTime(config.DeleteDuration, 2))
 
 			if (reason and #reason > 0) then
 				local author = member.user
-				channel:send({
+				ticketChannel:send({
 					content = closeMessage,
 					embed = {
 						author = {
@@ -264,34 +264,34 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 					}
 				})
 			else
-				channel:send(closeMessage)
+				ticketChannel:send(closeMessage)
 			end
 
-			channel:setName(channel.name .. "✅")
+			ticketChannel:setName(ticketChannel.name .. "✅")
 
 			data.activeChannels[userId] = nil
 			table.insert(data.archivedChannels, {
-				channelId = channel.id,
+				channelId = ticketChannel.id,
 				closedAt = os.time()
 			})
 
-			if (config.ArchiveCategory and config.ArchiveCategory ~= channel.id) then
+			if (config.ArchiveCategory and config.ArchiveCategory ~= ticketChannel.id) then
 				local archiveCategory = guild:getChannel(config.ArchiveCategory)
 				if (archiveCategory and archiveCategory.type == enums.channelType.category) then
-					channel:setCategory(config.ArchiveCategory)
+					ticketChannel:setCategory(config.ArchiveCategory)
 				end
 			end
 
 			local ticketMember = guild:getMember(userId)
 			if (ticketMember) then
-				local permissions = channel:getPermissionOverwriteFor(ticketMember)
+				local permissions = ticketChannel:getPermissionOverwriteFor(ticketMember)
 
 				if (not permissions or not permissions:setPermissions(enums.permission.readMessages, enums.permission.sendMessages)) then
-					channel:sendf("Failed to deny send messages permission to %s.", ticketMember.mentionString)
+					ticketChannel:sendf("Failed to deny send messages permission to %s.", ticketMember.mentionString)
 				end
 
 				if (not permissions or not permissions:denyPermissions(enums.permission.sendMessages)) then
-					channel:sendf("Failed to deny send messages permission to %s.", ticketMember.mentionString)
+					ticketChannel:sendf("Failed to deny send messages permission to %s.", ticketMember.mentionString)
 				end
 			end
 
@@ -320,10 +320,10 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 						embed = {
 							author = author,
 							color = 16711680,
-							description = member.mentionString .. " has closed ticket " .. channel.mentionString,
+							description = member.mentionString .. " has closed ticket " .. ticketChannel.mentionString,
 							fields = fields,
 							footer = {
-								text = "UserID: " .. userId .. " | TicketID: " .. channel.id
+								text = "UserID: " .. userId .. " | TicketID: " .. ticketChannel.id
 							},
 							timestamp = discordia.Date():toISO('T', 'Z')
 						}
@@ -365,13 +365,13 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 		filteredUsername = "empty"
 	end
 
-	local newChannel, err = modmailCategory:createTextChannel(string.format("%s-%s", filteredUsername, targetMember.user.discriminator))
-	if (not newChannel) then
+	local ticketChannel, err = modmailCategory:createTextChannel(string.format("%s-%s", filteredUsername, targetMember.user.discriminator))
+	if (not ticketChannel) then
 		print(err)
 		return false, "failed to create the channel, this is likely a bug."
 	end
 
-	local permissionOverwrite, err = newChannel:getPermissionOverwriteFor(targetMember)
+	local permissionOverwrite, err = ticketChannel:getPermissionOverwriteFor(targetMember)
 	if (not permissionOverwrite) then
 		print(err)
 		return false, "failed to create the channel, this is likely a bug."
@@ -395,13 +395,13 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 			local color, desc
 			if (fromMember == targetMember) then
 				color = 61695
-				desc = targetMember.mentionString .. " has opened a new ticket (" .. newChannel.mentionString .. ")"
+				desc = targetMember.mentionString .. " has opened a new ticket (" .. ticketChannel.mentionString .. ")"
 			elseif (twoWays) then
 				color = 65280
-				desc = fromMember.mentionString .. " has opened a new ticket for " .. targetMember.mentionString .. " (" .. newChannel.mentionString .. ")"
+				desc = fromMember.mentionString .. " has opened a new ticket for " .. targetMember.mentionString .. " (" .. ticketChannel.mentionString .. ")"
 			else
 				color = 16776960
-				desc = fromMember.mentionString .. " has opened a moderator ticket for " .. targetMember.mentionString .. " (" .. newChannel.mentionString .. ")"
+				desc = fromMember.mentionString .. " has opened a moderator ticket for " .. targetMember.mentionString .. " (" .. ticketChannel.mentionString .. ")"
 			end
 
 			local fields
@@ -424,7 +424,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 					description = desc,
 					fields = fields,
 					footer = {
-						text = "UserID: " .. targetMember.user.id .. " | TicketID: " .. newChannel.id
+						text = "UserID: " .. targetMember.user.id .. " | TicketID: " .. ticketChannel.id
 					},
 					timestamp = discordia.Date():toISO('T', 'Z')
 				}
@@ -434,7 +434,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 
 	local activeChannelData = {
 		createdAt = os.time(),
-		channelId = newChannel.id
+		channelId = ticketChannel.id
 	}
 
 	data.activeChannels[targetMember.user.id] = activeChannelData
@@ -446,7 +446,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 		message = string.format("Hello %s, **%s** staff wants to communicate with you.\n\nStaff can react on this message with 👋 to close the ticket", targetMember.user.mentionString, guild.name)
 	end
 
-	local message = newChannel:send(message)
+	local message = ticketChannel:send(message)
 	message:addReaction("👋")
 	message:pin()
 
@@ -454,7 +454,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 
 	if (reason and #reason > 0) then
 		local author = fromMember.user
-		newChannel:send({
+		ticketChannel:send({
 			content = "Ticket message:",
 			embed = {
 				author = {
