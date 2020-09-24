@@ -295,6 +295,42 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 				end
 			end
 
+			if (config.LogChannel) then
+				local channel = guild:getChannel(config.LogChannel)
+				if (channel) then
+					local author
+					if (ticketMember) then
+						author = {
+							name = ticketMember.tag,
+							icon_url = ticketMember.avatarURL
+						}
+					end
+
+					local fields
+					if (reason and #reason > 0) then
+						fields = {
+							{
+								name = "Close message",
+								value = reason
+							}
+						}
+					end
+		
+					channel:send({
+						embed = {
+							author = author,
+							color = 16711680,
+							description = member.mentionString .. " has closed ticket " .. channel.mentionString,
+							fields = fields,
+							footer = {
+								text = "UserID: " .. userId .. " | TicketID: " .. channel.id
+							},
+							timestamp = discordia.Date():toISO('T', 'Z')
+						}
+					})
+				end
+			end
+
 			return true
 		end
 	end
@@ -332,13 +368,13 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 	local newChannel, err = modmailCategory:createTextChannel(string.format("%s-%s", filteredUsername, targetMember.user.discriminator))
 	if (not newChannel) then
 		print(err)
-		return false, "Failed to create the channel, this is likely a bug."
+		return false, "failed to create the channel, this is likely a bug."
 	end
 
 	local permissionOverwrite, err = newChannel:getPermissionOverwriteFor(targetMember)
 	if (not permissionOverwrite) then
 		print(err)
-		return false, "Failed to create the channel, this is likely a bug."
+		return false, "failed to create the channel, this is likely a bug."
 	end
 
 	local allowedPermissions = enums.permission.readMessages
@@ -350,7 +386,50 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 	end
  
 	if (not permissionOverwrite:setPermissions(allowedPermissions, deniedPermissions)) then
-		return false, "Failed to create the channel, this is likely a bug."
+		return false, "failed to create the channel, this is likely a bug."
+	end
+
+	if (config.LogChannel) then
+		local channel = guild:getChannel(config.LogChannel)
+		if (channel) then
+			local color, desc
+			if (fromMember == targetMember) then
+				color = 61695
+				desc = targetMember.mentionString .. " has opened a new ticket (" .. newChannel.mentionString .. ")"
+			elseif (twoWays) then
+				color = 65280
+				desc = fromMember.mentionString .. " has opened a new ticket for " .. targetMember.mentionString .. " (" .. newChannel.mentionString .. ")"
+			else
+				color = 16776960
+				desc = fromMember.mentionString .. " has opened a moderator ticket for " .. targetMember.mentionString .. " (" .. newChannel.mentionString .. ")"
+			end
+
+			local fields
+			if (reason and #reason > 0) then
+				fields = {
+					{
+						name = "Ticket message",
+						value = reason
+					}
+				}
+			end
+
+			channel:send({
+				embed = {
+					author = {
+						name = targetMember.tag,
+						icon_url = targetMember.avatarURL
+					},
+					color = color,
+					description = desc,
+					fields = fields,
+					footer = {
+						text = "UserID: " .. targetMember.user.id .. " | TicketID: " .. newChannel.id
+					},
+					timestamp = discordia.Date():toISO('T', 'Z')
+				}
+			})
+		end
 	end
 
 	local activeChannelData = {
