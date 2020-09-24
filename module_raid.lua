@@ -236,10 +236,12 @@ function Module:LockServer(guild, duration, reason)
 		persistentData.lockedUntil = math.huge
 	end
 
+	local desiredVerificationLevel = math.clamp(config.LockServerVerificationLevel, enums.verificationLevel.none, enums.verificationLevel.veryHigh)
+
 	local currentVerificationLevel = guild.verificationLevel
 	persistentData.previousVerificationLevel = nil
-	if (config.LockServerVerificationLevel > currentVerificationLevel) then
-		local success, err = guild:setVerificationLevel(config.LockServerVerificationLevel)
+	if (desiredVerificationLevel > currentVerificationLevel) then
+		local success, err = guild:setVerificationLevel(desiredVerificationLevel)
 		if (success) then
 			persistentData.previousVerificationLevel = currentVerificationLevel
 		else
