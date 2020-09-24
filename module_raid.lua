@@ -31,6 +31,12 @@ function Module:GetConfigTable()
 			Optional = true
 		},
 		{
+			Name = "LockServerVerificationLevel",
+			Description = "If server verification level is lower than this, it will be raised for the lock duration",
+			Type = bot.ConfigType.Integer,
+			Default = enums.verificationLevel.high
+		},
+		{
 			Name = "SendMessageThreshold",
 			Description = "If a new member sends a message before this duration, they will be auto-banned (0 to disable)",
 			Type = bot.ConfigType.Duration,
@@ -230,6 +236,17 @@ function Module:LockServer(guild, duration, reason)
 		persistentData.lockedUntil = math.huge
 	end
 
+	local currentVerificationLevel = guild.verificationLevel
+	persistentData.previousVerificationLevel = nil
+	if (config.LockServerVerificationLevel > currentVerificationLevel) then
+		local success, err = guild:setVerificationLevel(config.LockServerVerificationLevel)
+		if (success) then
+			persistentData.previousVerificationLevel = currentVerificationLevel
+		else
+			self:LogWarning(guild, "Failed to raise guild verification level: %s", err)
+		end
+	end
+
 	self:StartLockTimer(guild, persistentData.lockedUntil)
 
 	if (config.LockAlertChannel) then
@@ -258,8 +275,17 @@ end
 function Module:UnlockServer(guild, reason)
 	local config = self:GetConfig(guild)
 	local data = self:GetData(guild)
+	local persistentData = self:GetPersistentData(guild)
+
 	if (data.locked) then
 		data.locked = false
+
+		if (persistentData.previousVerificationLevel) then
+			local success, err = guild:setVerificationLevel(persistentData.previousVerificationLevel)
+			if (not success) then
+				self:LogWarning(guild, "Failed to reset guild verification level: %s", err)
+			end
+		end
 
 		if (config.LockAlertChannel) then
 			local alertChannel = guild:getChannel(config.LockAlertChannel)
