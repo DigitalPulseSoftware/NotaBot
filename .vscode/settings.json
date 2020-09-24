@@ -4,5 +4,6 @@
         "Discordia",
         "Module",
         "discordia"
-    ]
+    ],
+    "Lua.runtime.version": "LuaJIT"
 }
