@@ -78,6 +78,16 @@ function Bot:UnregisterCommand(commandName)
 	self.Commands[commandName:lower()] = nil
 end
 
+local prefixes = { 
+	function (content) 
+		return content:startswith(Config.Prefix) and content:sub(#Config.Prefix + 1) or nil
+	end,
+	function (content)
+		local userPing, rest = content:match("<@!?(%d+)>%s*(.+)")
+		return userPing and userPing == client.user.id and rest or nil
+	end
+}
+
 client:on('messageCreate', function(message)
 	if (not Bot:IsPublicChannel(message.channel)) then
 		return
@@ -85,10 +95,9 @@ client:on('messageCreate', function(message)
 
 	local content
 
-	local prefixes = { Config.Prefix, client.user.mentionString .. " " }
-	for _, prefix in pairs(prefixes) do
-		if (message.content:startswith(prefix)) then
-			content = message.content:sub(#prefix + 1)
+	for _, func in pairs(prefixes) do
+		content = func(message.content)
+		if (content) then
 			break
 		end
 	end
