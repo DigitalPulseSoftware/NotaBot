@@ -2,6 +2,7 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
+local client = Bot.Client
 local config = Config
 local enums = discordia.enums
 
@@ -77,18 +78,26 @@ function Bot:UnregisterCommand(commandName)
 	self.Commands[commandName:lower()] = nil
 end
 
-Bot.Client:on('messageCreate', function(message)
+client:on('messageCreate', function(message)
 	if (not Bot:IsPublicChannel(message.channel)) then
-			return
-	end
-
-	local prefix = Config.Prefix
-	local content = message.content
-	if (not content:startswith(prefix)) then
 		return
 	end
 
-	local commandName, args = content:match("^.?(%w+)%s*(.*)")
+	local content
+
+	local prefixes = { Config.Prefix, client.user.mentionString .. " " }
+	for _, prefix in pairs(prefixes) do
+		if (message.content:startswith(prefix)) then
+			content = message.content:sub(#prefix + 1)
+			break
+		end
+	end
+
+	if (not content) then
+		return
+	end
+
+	local commandName, args = content:match("^(%w+)%s*(.*)")
 	if (not commandName) then
 		return
 	end
