@@ -15,7 +15,7 @@ function Module:IsAllowedToSpecifyChannel(member, config)
 			and util.MemberHasAnyRole(member, config.SpecifyChannelAllowedRoles))
 end
 
-function Module:FormatChoiceResult(choiceVotes, totalVotes, asProgressBars)
+function Module:FormatChoiceResult(choiceVotes, barScale, totalVotes, asProgressBars)
 	-- Pluralization
 	local voteText = choiceVotes > 1 and "votes" or "vote"
 
@@ -24,14 +24,15 @@ function Module:FormatChoiceResult(choiceVotes, totalVotes, asProgressBars)
 		local progressLength = 20 -- Determines the length (in characters) of the progress bar
 		local progressCharacter = '='
 		local ratio = 0
-		if totalVotes > 0 then
-			ratio = choiceVotes / totalVotes
+		if barScale > 0 then
+			ratio = choiceVotes / barScale -- barScale is the number of votes needed to have a full length bar
 		end
 		local choiceProgressLength = math.floor(ratio * progressLength)
 
 		local progressText = string.rep(progressCharacter, choiceProgressLength) .. string.rep(' ', progressLength - choiceProgressLength)
+		local percentage = choiceVotes / totalVotes * 100
 
-		return string.format('`[%s]` **%d**   %s (%d%%)', progressText, choiceVotes, voteText, ratio * 100)
+		return string.format('`[%s]` **%d**   %s (%d%%)', progressText, choiceVotes, voteText, percentage)
 	end
 
 	-- Configuration says we use normal output.
@@ -118,6 +119,12 @@ function Module:GetConfigTable()
 			Description = "Use progress bars to fancy out results",
 			Type = bot.ConfigType.Boolean,
 			Default = true
+		},
+		{
+			Name = "MostVotedRelative",
+			Description = "Make Progress bars relative to the most voted choice, instead of being relative to total votes",
+			Type = bot.ConfigType.Boolean,
+			Default = false,
 		}
 	}
 end
@@ -163,6 +170,7 @@ function Module:OnLoaded()
 						end
 						
 						local totalVotes = 0
+						local mostVotedCount = 0
 						local map = {}
 
 						local reactions = message.reactions:toArray()
@@ -183,7 +191,13 @@ function Module:OnLoaded()
 										title = fields[i].value
 									})
 
-									totalVotes = totalVotes + (reaction.count - 1)
+									local choiceVotes = reaction.count - 1
+
+									if choiceVotes > mostVotedCount then
+										mostVotedCount = choiceVotes
+									end
+
+									totalVotes = totalVotes + choiceVotes
 									break
 								end
 							end
@@ -221,10 +235,17 @@ function Module:OnLoaded()
 
 						table.sort(map, function(a, b) return a.count > b.count end)
 
+						local barScale
+						if config.MostVotedRelative then
+							barScale = mostVotedCount
+						else
+							barScale = totalVotes
+						end
+
 						for _, choice in ipairs(map) do
 							table.insert(results.fields, {
 								name = choice.title,
-								value = self:FormatChoiceResult(choice.count, totalVotes, config.UseProgressBars)
+								value = self:FormatChoiceResult(choice.count, barScale, totalVotes, config.UseProgressBars)
 							})
 						end
 						if not config.DeletePollOnExpiration then
