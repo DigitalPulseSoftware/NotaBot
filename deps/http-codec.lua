@@ -18,7 +18,7 @@ limitations under the License.
 
 --[[lit-meta
   name = "luvit/http-codec"
-  version = "3.0.4"
+  version = "3.0.5"
   homepage = "https://github.com/luvit/luvit/blob/master/deps/http-codec.lua"
   description = "A simple pair of functions for converting between hex and raw strings."
   tags = {"codec", "http"}
@@ -183,7 +183,7 @@ local function decoder()
     local _, offset
     local version
     _, offset, version, head.code, head.reason =
-      find(chunk, "^HTTP/(%d%.%d) (%d+) ([^\r\n]+)\r?\n", index)
+      find(chunk, "^HTTP/(%d%.%d) (%d+) ([^\r\n]*)\r?\n", index)
     if offset then
       head.code = tonumber(head.code)
     else
