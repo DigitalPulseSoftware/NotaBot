@@ -17,7 +17,64 @@ function Module:GetConfigTable()
 			Name = "ReactionActions",
 			Description = "Map explaining which role to add/remove from which reaction on which message, use the !channelconfig command to setup this",
 			Type = bot.ConfigType.Custom,
-			Default = {}
+			Default = {},
+			ValidateConfig = function (value)
+				if (type(value) ~= "table" or #value ~= 0) then
+					return false, "ReactionActions must be an array"
+				end
+
+				for channelId, messageTable in pairs(value) do
+					if (not util.ValidateSnowflake(channelId)) then
+						return false, "ReactionActions keys must be channel snowflakes"
+					end
+
+					if (type(messageTable) ~= "table" or #messageTable ~= 0) then
+						return false, "ReactionActions[" .. channelId .. "] must be an object"
+					end
+
+					for messageId, reactionTable in pairs(messageTable) do
+						if (not util.ValidateSnowflake(messageId)) then
+							return false, "ReactionActions[" .. channelId .. "] keys must be message snowflakes (" .. tostring(messageId) .. ")"
+						end
+
+						if (type(reactionTable) ~= "table" or #reactionTable ~= 0) then
+							return false, "ReactionActions[" .. channelId .. "][" .. messageId .. "] must be an object"
+						end
+	
+						for emoji, actions in pairs(reactionTable) do
+							if (type(emoji) ~= "string") then
+								return false, "ReactionActions[" .. channelId .. "][" .. messageId .. "] keys must be strings (" .. tostring(emoji) .. ")"
+							end
+							
+							if (type(actions) ~= "table" or #actions ~= 0) then
+								return false, "ReactionActions[" .. channelId .. "][" .. messageId .. "][" .. emoji .. "] must be an object"
+							end
+
+							for actionType, values in pairs(actions) do
+								if (actionType == "AddRoles" or actionType == "RemoveRoles") then
+									if (type(values) ~= "table" or #values ~= table.count(values)) then
+										return false, "ReactionActions[" .. channelId .. "][" .. messageId .. "][" .. emoji .. "]." .. actionType .. " must be an array"
+									end
+		
+									for i, roleId in pairs(values) do
+										if (not util.ValidateSnowflake(roleId)) then
+											return false, "ReactionActions[" .. channelId .. "][" .. messageId .. "][" .. emoji .. "]." .. actionType .. "[" .. i .. "] isn't a snowflake"
+										end
+									end
+								elseif (actionType == "SendMessage") then
+									if (type(values) ~= "string") then
+										return false, "ReactionActions[" .. channelId .. "][" .. messageId .. "][" .. emoji .. "]." .. actionType .. " value must be a string"
+									end
+								else
+									return false, "ReactionActions[" .. channelId .. "][" .. messageId .. "][" .. emoji .. "]." .. actionType .. " is not a valid action type"
+								end
+							end
+						end
+					end
+				end
+				
+				return true
+			end
 		}
 	}
 end

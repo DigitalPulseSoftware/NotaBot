@@ -99,18 +99,67 @@ local validateSnowflake = function (snowflake)
 	return string.match(snowflake, "%d+")
 end
 
+-- Config validation
+
 local configTypeValidation = {
-	[Bot.ConfigType.Boolean] = function (value) return type(value) == "boolean" end,
-	[Bot.ConfigType.Category] = validateSnowflake,
-	[Bot.ConfigType.Channel] = validateSnowflake,
-	[Bot.ConfigType.Custom] = function (value) return true end,
-	[Bot.ConfigType.Duration] = function (value) return type(value) == "number" end,
-	[Bot.ConfigType.Emoji] = function (value) return type(value) == "string" end,
-	[Bot.ConfigType.Integer] = function (value) return type(value) == "number" and math.floor(value) == value end,
-	[Bot.ConfigType.Number] = function (value) return type(value) == "number" end,
-	[Bot.ConfigType.Role] = validateSnowflake,
-	[Bot.ConfigType.String] = function (value) return type(value) == "string" end,
-	[Bot.ConfigType.User] = validateSnowflake,
+	[Bot.ConfigType.Boolean] = function (value)
+		if (type(value) ~= "boolean") then
+			return false, "boolean expected"
+		end
+
+		return true
+	end,
+	[Bot.ConfigType.Category] = util.ValidateSnowflake,
+	[Bot.ConfigType.Channel] = util.ValidateSnowflake,
+	[Bot.ConfigType.Custom] = function (value, configTable)
+		local customCheck = configTable.ValidateConfig
+		if (customCheck) then
+			return customCheck(value)
+		end
+
+		return true 
+	end,
+	[Bot.ConfigType.Duration] = function (value)
+		if (type(value) ~= "number") then
+			return false, "number expected"
+		end
+
+		return true
+	end,
+	[Bot.ConfigType.Emoji] = function (value)
+		if (type(value) ~= "string") then
+			return false, "string expected"
+		end
+
+		return true
+	end,
+	[Bot.ConfigType.Integer] = function (value)
+		if (type(value) ~= "number") then
+			return false, "number expected"
+		end
+
+		if (math.floor(value) ~= value) then
+			return false, "integer expected"
+		end
+
+		return true
+	end,
+	[Bot.ConfigType.Number] = function (value)
+		if (type(value) ~= "number") then
+			return false, "number expected"
+		end
+
+		return true
+	end,
+	[Bot.ConfigType.Role] = util.ValidateSnowflake,
+	[Bot.ConfigType.String] = function (value)
+		if (type(value) ~= "string") then
+			return false, "string expected"
+		end
+
+		return true
+	end,
+	[Bot.ConfigType.User] = util.ValidateSnowflake,
 }
 
 local validateConfigType = function (configTable, value)
@@ -122,9 +171,14 @@ local validateConfigType = function (configTable, value)
 			return false
 		end
 
+		if (#value ~= table.count(value)) then
+			return false
+		end
+
 		for _, arrayValue in pairs(value) do
-			if (not validator(arrayValue)) then
-				return false
+			local success, err = validator(arrayValue, configTable)
+			if (not success) then
+				return false, err
 			end
 		end
 
@@ -140,9 +194,12 @@ function ModuleMetatable:_PrepareConfig(context, config, values, global)
 		local value = rawget(values, configTable.Name)
 		if (value == nil) then
 			reset = true
-		elseif (not validateConfigType(configTable, value)) then
-			self:LogWarning("%s has invalid value for option %s, resetting...", context, configTable.Name)
-			reset = true
+		else
+			local success, err = validateConfigType(configTable, value)
+			if (not success) then
+				self:LogWarning("%s has invalid value (%s) for option %s (%s), resetting...", context, tostring(value), configTable.Name, err or "<unknown error>")
+				reset = true
+			end
 		end
 
 		if (reset) then
@@ -481,16 +538,18 @@ function Bot:LoadModule(moduleTable)
 			["Optional"] = {"boolean", false, false},
 			["Name"] = {"string", true},
 			["Sensitive"] = {"boolean", false, false},
-			["Type"] = {"number", true}
+			["Type"] = {"number", true},
+			["ValidateConfig"] = {"function", false}
 		}
 
 		for optionIndex, configTable in pairs(config) do
 			for configName, configValue in pairs(configTable) do
-				local expectedType = validConfigOptions[configName][1]
-				if (not expectedType) then
+				local option = validConfigOptions[configName]
+				if (not option) then
 					return false, string.format("[%s] Option #%s has invalid key \"%s\"", configTable.Name, optionIndex, configName)
 				end
 
+				local expectedType = option[1]
 				if (expectedType ~= "any" and type(configValue) ~= expectedType) then
 					return false, string.format("[%s] Option #%s has key \"%s\" which has invalid type %s (expected %s)", configTable.Name, optionIndex, configName, type(configValue), expectedType)
 				end

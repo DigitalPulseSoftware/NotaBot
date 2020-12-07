@@ -291,6 +291,19 @@ function util.MemberHasAllRoles(member, roles)
 	return true
 end
 
+function util.ValidateSnowflake(snowflake)
+	if (type(snowflake) ~= "string") then
+		return false, "not a string"
+	end
+
+	if (not string.match(snowflake, "%d+")) then
+		return false, "must contain only number"
+	end
+
+	return true
+end
+
+
 function table.binsearch( tbl, value, comp )
 	local comp = comp or function (a, b)
 		if (a == b) then return 0 end

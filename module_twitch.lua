@@ -29,7 +29,69 @@ function Module:GetConfigTable()
 			Name = "TwitchConfig",
 			Description = "List of watched channels with title patterns for messages to post on channel goes up",
 			Type = bot.ConfigType.Custom,
-			Default = {}
+			Default = {},
+			ValidateConfig = function (value)
+				if (type(value) ~= "table" or #value ~= 0) then
+					return false, "TwitchConfig must be an object"
+				end
+
+				for channelId, notificationData in pairs(value) do
+					if (not util.ValidateSnowflake(channelId)) then
+						return false, "TwitchConfig keys must be channel snowflakes"
+					end
+
+					if (type(notificationData) ~= "table" or #notificationData ~= table.count(notificationData)) then
+						return false, "TwitchConfig[" .. channelId .. "] must be an array"
+					end
+
+					for i, channelData in pairs(notificationData) do
+						local hasChannel = false
+						local hasMessage = false
+
+						for fieldName, fieldValue in pairs(channelData) do
+							if (fieldName == "AllowedGames") then
+								if (type(fieldValue) ~= "table" or #fieldValue ~= table.count(fieldValue)) then
+									return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " must be an array"
+								end
+
+								for i, value in pairs(fieldValue) do
+									if (type(value) ~= "number" or math.floor(value) ~= value) then
+										return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. "[" .. i .. "] is not an integer"
+									end
+								end
+							elseif (fieldName == "Channel") then
+								if (not util.ValidateSnowflake(fieldValue)) then
+									return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " must be a channel snowflake"
+								end
+
+								hasChannel = true
+							elseif (fieldName == "Message") then
+								if (type(fieldValue) ~= "string") then
+									return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " must be a string"
+								end
+
+								hasMessage = true
+							elseif (fieldName == "TitlePattern") then
+								if (type(fieldValue) ~= "string") then
+									return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " must be a string"
+								end
+							else
+								return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " is not a valid field"
+							end
+						end
+
+						if (not hasChannel) then
+							return false, "TwitchConfig[" .. channelId .. "][" .. i .. "] is lacking a Channel field"
+						end
+
+						if (not hasMessage) then
+							return false, "TwitchConfig[" .. channelId .. "][" .. i .. "] is lacking a Message field"
+						end
+					end
+				end
+		
+				return true
+			end
 		},
 		{
 			Global = true,
