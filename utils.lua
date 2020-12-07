@@ -126,24 +126,52 @@ function string.ConvertToTime(str)
 end
 
 function string.GetArguments(txt, limit)
+	local inCode
+	local inQuote
 	local args = {}
-	for k,v in pairs(string.Explode('"', txt)) do
-		if (k % 2 == 0) then
-			table.insert(args, v)
+	local start
+	local i = 1
+	while i <= #txt and #args < limit - 1 do
+		local c = txt:sub(i, i)
+		if (inCode) then
+			if (c == '`' and txt:sub(i, i + 2) == '```') then
+				table.insert(args, txt:sub(start, i + 2))
+				i = i + 2
+				inCode = false
+				start = nil
+			end
+		elseif (inQuote) then
+			if (c == '"') then
+				table.insert(args, txt:sub(start, i-1))
+				inQuote = false
+				start = nil
+			end
+		elseif (c == '"') then
+			inQuote = true
+			start = i + 1
+		elseif (c == '`' and txt:sub(i):match("```(.*)\r?\n")) then
+			inCode = true
+			start = i
+		elseif (c:match("%s")) then
+			if (start and start <= i -1) then
+				table.insert(args, txt:sub(start, i-1))
+				start = nil
+			end
 		else
-			for k,v in pairs(string.Explode(" ", v)) do
-				if (#v > 0) then
-					table.insert(args, v)
-				end
+			if (not start) then
+				start = i
 			end
 		end
+
+		i = i + 1
 	end
 
-	if (limit and limit > 0 and #args > limit) then
-		args[limit] = table.concat(args, " ", limit)
-		for i = limit + 1, #args do
-			args[i] = nil
-		end
+	if (not start) then
+		start = txt:find("[^%s]", i)
+	end
+
+	if (start and start <= #txt -1) then
+		table.insert(args, txt:sub(start))
 	end
 
 	return args
