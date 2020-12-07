@@ -326,9 +326,20 @@ function Module:OnLoaded()
 end
 
 function Module:OnEnable(guild)
+	local config = self:GetConfig(guild)
+	self:HandleConfig(guild, config)
+
+	return true
+end
+
+function Module:HandleConfig(guild, config)
 	local watchedChannels = self:GetWatchedChannels()
 
-	local config = self:GetConfig(guild)
+	-- Remove all alerts for this guild before reapplying them
+	for channelId, channelAlerts in pairs(self.ChannelAlerts) do
+		channelAlerts[guild.id] = nil
+	end
+
 	for channelId,channelData in pairs(config.TwitchConfig) do
 		local watchedData = watchedChannels[channelId]
 		if (not watchedData) then
@@ -350,13 +361,15 @@ function Module:OnEnable(guild)
 
 		channelAlerts[guild.id] = channelData
 	end
+end
 
-	return true
+function Module:OnConfigUpdate(guild, config, configName)
+	if (not configName or configName == "TwitchConfig") then
+		self:HandleConfig(guild, config)
+	end
 end
 
 function Module:OnDisable(guild)
-	local watchedChannels = self:GetWatchedChannels()
-
 	local config = self:GetConfig(guild)
 	for channelId,channelData in pairs(config.TwitchConfig) do
 		local channelAlerts = self.ChannelAlerts[channelId]

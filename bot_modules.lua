@@ -4,6 +4,8 @@
 
 local enums = discordia.enums
 local fs = require("coro-fs")
+local http = require("coro-http")
+local json = require("json")
 local wrap = coroutine.wrap
 
 local isReady = false
@@ -90,13 +92,7 @@ end
 local ModuleMetatable = {}
 ModuleMetatable["__index"] = ModuleMetatable
 
--- Config validation
-local validateSnowflake = function (snowflake)
-	if (type(snowflake) ~= "string") then
-		return false
-	end
-
-	return string.match(snowflake, "%d+")
+function ModuleMetatable:OnConfigUpdate(guild, config, configName)
 end
 
 -- Config validation
@@ -184,7 +180,7 @@ local validateConfigType = function (configTable, value)
 
 		return true
 	else
-		return validator(value)
+		return validator(value, configTable)
 	end
 end
 
@@ -421,6 +417,10 @@ function ModuleMetatable:LoadGuildConfig(guild)
 		self:_PrepareGuildConfig(guild.id, config)
 
 		guildData.Config = config
+		if (self:IsEnabledForGuild(guild)) then
+			self:OnConfigUpdate(guild, config, nil)
+		end
+
 		return true
 	else
 		self:LogError(guild, "Failed to load config: %s", err)
@@ -842,6 +842,47 @@ Bot:RegisterCommand({
 	end
 })
 
+local StringifyConfigValue = function (guild, configTable, value)
+	if (value ~= nil) then
+		local valueToString = Bot.ConfigTypeToString[configTable.Type]
+		if (configTable.Array) then
+			local valueStr = {}
+			for _, value in pairs(value) do
+				table.insert(valueStr, valueToString(value, guild))
+			end
+
+			return table.concat(valueStr, ", ")
+		else
+			return valueToString(value, guild)
+		end
+	else
+		if (not configTable.Optional) then
+			error("Config " .. configTable.Name .. " has no value but is not optional")
+		end
+
+		return "<None>"
+	end
+end
+
+local GenerateField = function (guild, configTable, value, allowSensitive)
+	local valueStr
+	if (not configTable.Sensitive or allowSensitive) then
+		valueStr = StringifyConfigValue(guild, configTable, value)
+	else
+		valueStr = "*<sensitive>*"
+	end
+
+	local fieldType = Bot.ConfigTypeString[configTable.Type]
+	if (configTable.Array) then
+		fieldType = fieldType .. " array"
+	end
+
+	return {
+		name = string.format("%s:gear: %s", configTable.Global and ":globe_with_meridians: " or "", configTable.Name),
+		value = string.format("**Description:** %s\n**Value (%s):** %s", configTable.Description, fieldType, valueStr)
+	}
+end
+
 Bot:RegisterCommand({
 	Name = "config",
 	Args = {
@@ -868,47 +909,6 @@ Bot:RegisterCommand({
 		local guild = message.guild
 		local guildConfig = moduleTable:GetConfig(guild)
 
-		local StringifyConfigValue = function (configTable, value)
-			if (value ~= nil) then
-				local valueToString = Bot.ConfigTypeToString[configTable.Type]
-				if (configTable.Array) then
-					local valueStr = {}
-					for _, value in pairs(value) do
-						table.insert(valueStr, valueToString(value, guild))
-					end
-
-					return table.concat(valueStr, ", ")
-				else
-					return valueToString(value, guild)
-				end
-			else
-				if (not configTable.Optional) then
-					error("Config " .. configTable.Name .. " has no value but is not optional")
-				end
-
-				return "<None>"
-			end
-		end
-
-		local GenerateField = function (configTable, value, allowSensitive, wasModified)
-			local valueStr
-			if (not configTable.Sensitive or allowSensitive) then
-				valueStr = StringifyConfigValue(configTable, value)
-			else
-				valueStr = "*<sensitive>*"
-			end
-
-			local fieldType = Bot.ConfigTypeString[configTable.Type]
-			if (configTable.Array) then
-				fieldType = fieldType .. " array"
-			end
-
-			return {
-				name = string.format("%s:gear: %s", configTable.Global and ":globe_with_meridians: " or "", configTable.Name),
-				value = string.format("**Description:** %s\n**Value (%s):** %s", configTable.Description, fieldType, valueStr)
-			}
-		end
-
 		local GetConfigByKey = function (key)
 			for k,configData in pairs(moduleTable._GuildConfig) do
 				if (configData.Name == key) then
@@ -929,12 +929,12 @@ Bot:RegisterCommand({
 			local fields = {}
 			local globalFields = {}
 			for k,configTable in pairs(moduleTable._GuildConfig) do
-				table.insert(fields, GenerateField(configTable, rawget(guildConfig, configTable.Name)))
+				table.insert(fields, GenerateField(guild, configTable, rawget(guildConfig, configTable.Name)))
 			end
 
 			if (message.member.id == Config.OwnerUserId) then
 				for k,configTable in pairs(moduleTable._GlobalConfig) do
-					table.insert(fields, GenerateField(configTable, rawget(moduleTable.GlobalConfig, configTable.Name)))
+					table.insert(fields, GenerateField(guild, configTable, rawget(moduleTable.GlobalConfig, configTable.Name)))
 				end
 			end
 
@@ -968,7 +968,7 @@ Bot:RegisterCommand({
 				embed = {
 					title = "Configuration of " .. moduleTable.Name .. " module",
 					fields = {
-						GenerateField(configTable, rawget(config, configTable.Name), true)
+						GenerateField(guild, configTable, rawget(config, configTable.Name), true)
 					},
 					timestamp = discordia.Date():toISO('T', 'Z')
 				}
@@ -1021,7 +1021,14 @@ Bot:RegisterCommand({
 
 			local wasModified = false
 
-			local config = configTable.Global and globalConfig or guildConfig
+			local config
+			local configGuild
+			if (configTable.Global) then
+				config = globalConfig
+			else
+				config = guildConfig
+				configGuild = guild
+			end
 
 			if (action == "add") then
 				assert(configTable.Array)
@@ -1073,6 +1080,8 @@ Bot:RegisterCommand({
 			end
 
 			if (wasModified) then
+				moduleTable:OnConfigUpdate(configGuild, config, configTable.Name)
+
 				if (configTable.Global) then
 					moduleTable:SaveGlobalConfig()
 				else
@@ -1084,13 +1093,216 @@ Bot:RegisterCommand({
 				embed = {
 					title = "Configuration update for " .. moduleTable.Name .. " module",
 					fields = {
-						GenerateField(configTable, config[configTable.Name], false, wasModified)
+						GenerateField(guild, configTable, config[configTable.Name], false, wasModified)
 					},
 					timestamp = discordia.Date():toISO('T', 'Z')
 				}
 			})
 		else
 			message:reply("Invalid action \"" .. action .. "\" (valid actions are *add*, *remove*, *reset*, *set* or *show*)")
+		end
+	end
+})
+
+Bot:RegisterCommand({
+	Name = "configraw",
+	Args = {
+		{Name = "module", Type = Bot.ConfigType.String},
+		{Name = "action", Type = Bot.ConfigType.String, Optional = true},
+		{Name = "content", Type = Bot.ConfigType.String, Optional = true}
+	},
+	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+
+	Help = "Configures a module using JSon",
+	Func = function (message, moduleName, action, content)
+		moduleName = moduleName:lower()
+
+		local moduleTable = Bot.Modules[moduleName]
+		if (not moduleTable) then
+			message:reply("Invalid module \"" .. moduleName .. "\"")
+			return
+		end
+
+		action = action and action:lower() or "get"
+
+		local globalConfig = moduleTable.GlobalConfig
+		local guild = message.guild
+		local guildConfig = moduleTable:GetConfig(guild)
+
+		if (action == "get") then
+			local fields = {}
+			for _,configTable in pairs(moduleTable._GuildConfig) do
+				fields[configTable.Name] = rawget(guildConfig, configTable.Name)
+			end
+
+			if (message.member.id == Config.OwnerUserId) then
+				for _,configTable in pairs(moduleTable._GlobalConfig) do
+					fields[configTable.Name] = rawget(moduleTable.GlobalConfig, configTable.Name)
+				end
+			end
+
+			local fieldJson = json.encode(fields, { indent = 1})
+			if (#fieldJson > 1800) then
+				message:reply({
+					embed = {
+						title = "Configuration for " .. moduleTable.Name .. " module",
+						description = "Configuration was too big and has been sent as a file",
+						footer = {text = string.format("Use `!configraw %s update` to change configuration.", moduleTable.Name)}
+					}
+				})
+				message:reply({ file = {"config.json", fieldJson} })
+			else
+				message:reply({
+					embed = {
+						title = "Configuration for " .. moduleTable.Name .. " module",
+						description = string.format("```json\n%s```:", json.encode(fields, { indent = 1 })),
+						footer = {text = string.format("Use `!configraw %s update` to change configuration.", moduleTable.Name)}
+					}
+				})
+			end
+		elseif (action == "update") then
+			local code
+			if (message.attachments) then
+				if (#message.attachments ~= 1) then
+					message:reply("You must send only one file to update a module config!")
+					return
+				end
+
+				local attachment = message.attachments[1]
+				if (not attachment.filename:match(".json$")) then
+					message:reply("You must send a .json file to update a module config")
+					return
+				end
+
+				if (attachment.size >= 1024 * 1024) then
+					message:reply("This file is too big!")
+					return
+				end
+
+				local res, body = http.request("GET", attachment.url)
+				if (res.code ~= 200) then
+					message:reply(string.format("Failed to download file (%d): ", res.code, body))
+					return
+				end
+
+				code = body
+			else
+				local language
+				language, code = content:match("^```(%w*)\n(.+)```$")
+				if (language) then
+					if (#language > 0 and language ~= "json") then
+						message:reply(string.format("Expected a json code, got %s", language))
+						return
+					end
+				else
+					code = content
+				end
+			end
+
+			local updateFields, idx, err = json.decode(code)
+			if (not updateFields) then
+				message:reply(string.format("Expected a valid json code, parsing failed at %d: %s", idx, err))
+				return
+			end
+
+			local wasGuildConfigModified = false
+			local wasGlobalConfigModified = false
+
+			local fieldDescriptions = {}
+
+			local fieldUpdate = {}
+			local errorFields = {}
+			local ignoredFields = {}
+			for fieldName, fieldValue in pairs(updateFields) do
+				for _, configTable in pairs(moduleTable._GuildConfig) do
+					if (configTable.Name == fieldName) then
+						local success, err = validateConfigType(configTable, fieldValue)
+						if (success) then
+							table.insert(fieldUpdate, function ()
+								rawset(guildConfig, fieldName, fieldValue)
+								moduleTable:OnConfigUpdate(guild, guildConfig, fieldName)
+
+								wasGuildConfigModified = true
+								table.insert(fieldDescriptions, GenerateField(guild, configTable, fieldValue, false))
+							end)
+						else
+							errorFields[fieldName] = err
+						end
+
+						goto continue
+					end
+				end
+
+				if (message.member.id == Config.OwnerUserId) then
+					for _, configTable in pairs(moduleTable._GlobalConfig) do
+						if (configTable.Name == fieldName) then
+							local success, err = validateConfigType(configTable, fieldValue)
+							if (success) then
+								table.insert(fieldUpdate, function ()
+									rawset(globalConfig, fieldName, fieldValue)
+									moduleTable:OnConfigUpdate(nil, globalConfig, fieldName)
+
+									wasGlobalConfigModified = true
+									table.insert(fieldDescriptions, GenerateField(guild, configTable, fieldValue, false))
+								end)
+							else
+								errorFields[fieldName] = err
+							end
+	
+							goto continue
+						end
+					end
+				end
+
+				table.insert(ignoredFields, fieldName)
+
+				::continue::
+			end
+
+			if (next(errorFields) or #ignoredFields > 0) then
+				local msg = {}
+				table.insert(msg, "Field errors detected, please check their value (no configuration has been updated)")
+
+				if (#ignoredFields > 0) then
+					table.insert(msg, " - Ignored field (not matching a configuration): " .. table.concat(ignoredFields, ", "))
+				end
+
+				if (next(errorFields)) then
+					table.insert(msg, " - Fields having an invalid value:")
+					for fieldName, err in pairs(errorFields) do
+						table.insert(msg, "   - " .. fieldName .. ": " .. err)
+					end
+				end
+
+				message:reply(table.concat(msg, "\n"))
+				return
+			end
+
+			if (#fieldUpdate > 0) then
+				for _, func in pairs(fieldUpdate) do
+					func()
+				end
+
+				if (wasGuildConfigModified) then
+					moduleTable:SaveGuildConfig(guild)
+				end
+
+				if (wasGlobalConfigModified) then
+					moduleTable:SaveGlobalConfig()
+				end
+
+				message:reply({
+					embed = {
+						title = "Configuration update for " .. moduleTable.Name .. " module",
+						fields = fieldDescriptions,
+						timestamp = discordia.Date():toISO('T', 'Z')
+					}
+				})
+			else
+				message:reply("No update required (no field were set)")
+			end
+		else
+			message:reply("Invalid action \"" .. action .. "\" (valid actions are *get* or *update*)")
 		end
 	end
 })

@@ -345,48 +345,12 @@ function Module:OnEnable(guild)
 	local data = self:GetData(guild)
 	data.ReactionActions = {}
 
-	--[[if (config.ChannelConfig) then
-		self:LogInfo(guild, "Converting old config format to new config format...")
+	self:HandleConfig(guild, config)
 
-		local guildConfig = {}
-		for channelId,messagetable in pairs(config.ChannelConfig) do
-			local channelMessages = {}
-			guildConfig[channelId] = channelMessages
+	return true
+end
 
-			for messageId,reactionTable in pairs(messagetable) do
-				local messageActions = {}
-				channelMessages[messageId] = messageActions
-
-				for k,reactionInfo in pairs(reactionTable) do
-					local reactionActions = {}
-					messageActions[reactionInfo.reaction] = reactionActions
-
-					if (reactionInfo.roles) then
-						for k,roleId in pairs(reactionInfo.roles) do
-							if (roleId:sub(1,1) ~= "-") then
-								reactionActions.AddRoles = reactionActions.AddRoles or {}
-								table.insert(reactionActions.AddRoles, roleId)
-							else
-								roleId = roleId:sub(2)
-
-								reactionActions.RemoveRoles = reactionActions.RemoveRoles or {}
-								table.insert(reactionActions.RemoveRoles, roleId)
-							end
-						end
-					end
-
-					if (reactionInfo.message) then
-						reactionActions.SendMessage = reactionInfo.message
-					end
-				end
-			end
-		end
-		config.ReactionActions = guildConfig
-
-		config.ChannelConfig = nil
-		self:SaveConfig(guild)
-	end]]
-
+function Module:HandleConfig(guild, config)
 	self:LogInfo(guild, "Processing roles...")
 
 	local ProcessRole = function (channelId, messageId, reaction, roleId, remove)
@@ -485,8 +449,12 @@ function Module:OnEnable(guild)
 			self:LogError(guild, "Channel %s no longer exists", channelId)
 		end
 	end
+end
 
-	return true
+function Module:OnConfigUpdate(guild, config, configName)
+	if (not configName or configName == "ReactionActions") then
+		self:HandleConfig(guild, config)
+	end
 end
 
 function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionName)
