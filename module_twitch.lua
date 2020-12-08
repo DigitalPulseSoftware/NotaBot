@@ -363,7 +363,7 @@ function Module:HandleConfig(guild, config)
 	end
 end
 
-function Module:OnConfigUpdate(guild, config, configName)
+function Module:HandleConfigUpdate(guild, config, configName)
 	if (not configName or configName == "TwitchConfig") then
 		self:HandleConfig(guild, config)
 	end

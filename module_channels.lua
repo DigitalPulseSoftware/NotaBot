@@ -451,7 +451,7 @@ function Module:HandleConfig(guild, config)
 	end
 end
 
-function Module:OnConfigUpdate(guild, config, configName)
+function Module:HandleConfigUpdate(guild, config, configName)
 	if (not configName or configName == "ReactionActions") then
 		self:HandleConfig(guild, config)
 	end

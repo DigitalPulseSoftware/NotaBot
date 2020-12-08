@@ -92,7 +92,7 @@ end
 local ModuleMetatable = {}
 ModuleMetatable["__index"] = ModuleMetatable
 
-function ModuleMetatable:OnConfigUpdate(guild, config, configName)
+function ModuleMetatable:HandleConfigUpdate(guild, config, configName)
 end
 
 -- Config validation
@@ -418,7 +418,7 @@ function ModuleMetatable:LoadGuildConfig(guild)
 
 		guildData.Config = config
 		if (self:IsEnabledForGuild(guild)) then
-			self:OnConfigUpdate(guild, config, nil)
+			self:HandleConfigUpdate(guild, config, nil)
 		end
 
 		return true
@@ -1080,7 +1080,7 @@ Bot:RegisterCommand({
 			end
 
 			if (wasModified) then
-				moduleTable:OnConfigUpdate(configGuild, config, configTable.Name)
+				moduleTable:HandleConfigUpdate(configGuild, config, configTable.Name)
 
 				if (configTable.Global) then
 					moduleTable:SaveGlobalConfig()
@@ -1220,7 +1220,7 @@ Bot:RegisterCommand({
 						if (success) then
 							table.insert(fieldUpdate, function ()
 								rawset(guildConfig, fieldName, fieldValue)
-								moduleTable:OnConfigUpdate(guild, guildConfig, fieldName)
+								moduleTable:HandleConfigUpdate(guild, guildConfig, fieldName)
 
 								wasGuildConfigModified = true
 								table.insert(fieldDescriptions, GenerateField(guild, configTable, fieldValue, false))
@@ -1240,7 +1240,7 @@ Bot:RegisterCommand({
 							if (success) then
 								table.insert(fieldUpdate, function ()
 									rawset(globalConfig, fieldName, fieldValue)
-									moduleTable:OnConfigUpdate(nil, globalConfig, fieldName)
+									moduleTable:HandleConfigUpdate(nil, globalConfig, fieldName)
 
 									wasGlobalConfigModified = true
 									table.insert(fieldDescriptions, GenerateField(guild, configTable, fieldValue, false))
