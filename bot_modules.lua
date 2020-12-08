@@ -164,11 +164,11 @@ local validateConfigType = function (configTable, value)
 
 	if (configTable.Array) then
 		if (type(value) ~= "table") then
-			return false
+			return false, "expected a table, got a " .. type(value)
 		end
 
 		if (#value ~= table.count(value)) then
-			return false
+			return false, "expected an array, got an object"
 		end
 
 		for _, arrayValue in pairs(value) do
