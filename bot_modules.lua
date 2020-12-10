@@ -1109,7 +1109,7 @@ Bot:RegisterCommand({
 	Args = {
 		{Name = "module", Type = Bot.ConfigType.String},
 		{Name = "action", Type = Bot.ConfigType.String, Optional = true},
-		{Name = "content", Type = Bot.ConfigType.String, Optional = true}
+		{Name = "content", Type = Bot.ConfigType.String, Optional = true},
 		{Name = "global", Type = Bot.ConfigType.Boolean, Optional = true}
 	},
 	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
