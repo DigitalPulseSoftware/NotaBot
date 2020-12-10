@@ -1110,11 +1110,12 @@ Bot:RegisterCommand({
 		{Name = "module", Type = Bot.ConfigType.String},
 		{Name = "action", Type = Bot.ConfigType.String, Optional = true},
 		{Name = "content", Type = Bot.ConfigType.String, Optional = true}
+		{Name = "global", Type = Bot.ConfigType.Boolean, Optional = true}
 	},
 	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
 
 	Help = "Configures a module using JSon",
-	Func = function (message, moduleName, action, content)
+	Func = function (message, moduleName, action, content, global)
 		moduleName = moduleName:lower()
 
 		local moduleTable = Bot.Modules[moduleName]
@@ -1135,7 +1136,7 @@ Bot:RegisterCommand({
 				fields[configTable.Name] = rawget(guildConfig, configTable.Name)
 			end
 
-			if (message.member.id == Config.OwnerUserId) then
+			if (global and message.member.id == Config.OwnerUserId) then
 				for _,configTable in pairs(moduleTable._GlobalConfig) do
 					fields[configTable.Name] = rawget(moduleTable.GlobalConfig, configTable.Name)
 				end
