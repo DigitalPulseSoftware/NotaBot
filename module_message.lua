@@ -446,13 +446,6 @@ function Module:OnLoaded()
 	return true
 end
 
-function Module:OnEnable(guild)
-	local config = self:GetConfig(guild)
-	config.Replies = {}
-
-	return true
-end
-
 function Module:OnMessageCreate(message)
 	if (not bot:IsPublicChannel(message.channel)) then
 		return
