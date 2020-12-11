@@ -142,7 +142,7 @@ Bot.ConfigTypeParameter = {
 		return Bot:DecodeMember(guild, value)
 	end,
 	[Bot.ConfigType.Message] = function (value, guild)
-		return Bot:DecodeMessage(value)
+		return Bot:DecodeMessage(value, nil, true)
 	end,
 	[Bot.ConfigType.Number] = function (value)
 		return tonumber(value)
@@ -200,7 +200,7 @@ Bot.ConfigTypeParser = {
 		return member and member.id
 	end,
 	[Bot.ConfigType.Message] = function (value, guild)
-		local message = Bot:DecodeMessage(value)
+		local message = Bot:DecodeMessage(value, nil, true)
 		return message and Bot:GenerateMessageLink(message)
 	end,
 	[Bot.ConfigType.Number] = function (value)

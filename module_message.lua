@@ -276,7 +276,7 @@ function Module:ParseContentParameter(content, commandMessage)
 
 			return messageData
 		else
-			local messageObject = bot:DecodeMessage(content)
+			local messageObject = bot:DecodeMessage(content, false, true)
 			if (messageObject) then
 				return GetMessageFields(messageObject)
 			else

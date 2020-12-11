@@ -97,7 +97,7 @@ function Module:OnLoaded()
 
 				includesLink = true
 			else
-				quotedMessage, err = bot:DecodeMessage(message)
+				quotedMessage, err = bot:DecodeMessage(message, false)
 				if (not quotedMessage) then
 					commandMessage:reply(string.format("Invalid message link: %s", err))
 					return
