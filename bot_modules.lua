@@ -1156,7 +1156,7 @@ Bot:RegisterCommand({
 				message:reply({
 					embed = {
 						title = "Configuration for " .. moduleTable.Name .. " module",
-						description = string.format("```json\n%s```:", json.encode(fields, { indent = 1 })),
+						description = string.format("```json\n%s```", json.encode(fields, { indent = 1 })),
 						footer = {text = string.format("Use `!configraw %s update` to change configuration.", moduleTable.Name)}
 					}
 				})
