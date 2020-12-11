@@ -285,7 +285,7 @@ function Module:ParseContentParameter(content, commandMessage)
 				}
 			end	
 		end
-	elseif (commandMessage.commandMessage)
+	elseif (commandMessage.commandMessage) then
 		if (#commandMessage.attachments ~= 1) then
 			commandMessage:reply("You must send only one file to update a module config!")
 			return
