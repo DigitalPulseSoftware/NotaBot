@@ -285,7 +285,7 @@ function Module:ParseContentParameter(content, commandMessage)
 				}
 			end	
 		end
-	else
+	elseif (commandMessage.commandMessage)
 		if (#commandMessage.attachments ~= 1) then
 			commandMessage:reply("You must send only one file to update a module config!")
 			return
@@ -321,6 +321,9 @@ function Module:ParseContentParameter(content, commandMessage)
 		end
 
 		return messageData
+	else
+		commandMessage:reply(string.format("Expected some content or a file, got nothing"))
+		return
 	end
 end
 
@@ -419,11 +422,11 @@ function Module:OnLoaded()
 			local config = self:GetConfig(commandMessage.guild)
 			config.Replies = config.Replies or {}
 			if (not config.Replies[trigger]) then
-				commandMessage:reply(string.format("No reply is registered for \"%s\"", trigger))
+				commandMessage:reply(string.format("No reply is registered for %s", trigger))
 				return
 			end
 			config.Replies[trigger] = nil
-			commandMessage:reply(string.format("\"%s\" will no longer trigger a reply", trigger))
+			commandMessage:reply(string.format("%s will no longer trigger a reply", trigger))
 		end
 	})
 
