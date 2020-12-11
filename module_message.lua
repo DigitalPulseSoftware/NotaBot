@@ -276,9 +276,9 @@ function Module:ParseContentParameter(content, commandMessage)
 
 			return messageData
 		else
-			local messageObject = bot:DecodeMessage(content, false, true)
-			if (messageObject) then
-				return GetMessageFields(messageObject)
+			local message = bot:DecodeMessage(content, false, true)
+			if (message and message.member:hasPermission(message.channel, enums.permission.readMessages)) then
+				return GetMessageFields(message)
 			else
 				return {
 					content = content
@@ -380,7 +380,14 @@ function Module:OnLoaded()
 				return
 			end
 
+			local member = commandMessage.member
+
 			channel = channel or commandMessage.channel
+			if (not member:hasPermission(channel, enums.permission.readMessages) or not not member:hasPermission(channel, enums.permission.sendMessages)) then
+				commandMessage:reply("You don't have the permission to send messages in that channel")
+				return
+			end
+		
 			local success, err = channel:send(messageData)
 			if (not success) then
 				commandMessage:reply(string.format("Discord rejected the message: %s", err))
