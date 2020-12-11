@@ -406,6 +406,9 @@ function Module:OnLoaded()
 			local config = self:GetConfig(commandMessage.guild)
 			config.Replies = config.Replies or {}
 			config.Replies[trigger] = messageData
+
+			self:SaveGuildConfig(commandMessage.guild)
+
 			commandMessage:reply(string.format("Registered a reply for \"%s\"", trigger))
 		end
 	})
@@ -426,6 +429,9 @@ function Module:OnLoaded()
 				return
 			end
 			config.Replies[trigger] = nil
+
+			self:SaveGuildConfig(commandMessage.guild)
+
 			commandMessage:reply(string.format("%s will no longer trigger a reply", trigger))
 		end
 	})
