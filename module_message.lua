@@ -215,6 +215,31 @@ function Module:GetConfigTable()
 			Type = bot.ConfigType.Role,
 			Default = {},
 			Array = true
+		},
+		{
+			Name = "Replies",
+			Description = "Map associating a trigger with a reply",
+			Type = bot.ConfigType.Custom,
+			Default = {},
+			ValidateConfig = function (value)
+				if (type(value) ~= "table" or #value ~= 0) then
+					return false, "Replies must be an array"
+				end
+
+				for trigger, reply in pairs(value) do
+					local success, err = ValidateString(trigger)
+					if (not success) then
+						return false, "Replies keys error (" .. tostring(trigger) .. " " .. err .. ")"
+					end
+
+					local success, err = ValidateMessageData(reply)
+					if (not success) then
+						return false, "Replies[" .. trigger .. "]" .. err
+					end
+				end
+
+				return true
+			end
 		}
 	}
 end
