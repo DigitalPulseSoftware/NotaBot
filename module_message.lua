@@ -119,14 +119,23 @@ local embedFields = {
 	footer = function (footer)
 		return ValidateFields(footer, footerFields)
 	end,
-	thumbnail = function (footer)
-		return ValidateFields(footer, thumbnailFields, true)
+	thumbnail = function (thumbnail)
+		return ValidateFields(thumbnail, thumbnailFields, true)
 	end,
-	image = function (footer)
-		return ValidateFields(footer, imageFields, true)
+	image = function (image)
+		return ValidateFields(image, imageFields, true)
 	end,
-	author = function (footer)
-		return ValidateFields(footer, authorFields, true)
+	author = function (author)
+		local success, err = ValidateFields(author, authorFields)
+		if (not success) then
+			return false, err
+		end
+
+		if (not author.name) then
+			return false, " must have a name field"
+		end
+
+		return true
 	end,
 	fields = function (fields)
 		if (type(fields) ~= "table" or #fields ~= table.count(fields)) then
