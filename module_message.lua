@@ -383,7 +383,7 @@ function Module:OnLoaded()
 			local member = commandMessage.member
 
 			channel = channel or commandMessage.channel
-			if (not member:hasPermission(channel, enums.permission.readMessages) or not not member:hasPermission(channel, enums.permission.sendMessages)) then
+			if (not member:hasPermission(channel, enums.permission.readMessages) or not member:hasPermission(channel, enums.permission.sendMessages)) then
 				commandMessage:reply("You don't have the permission to send messages in that channel")
 				return
 			end
