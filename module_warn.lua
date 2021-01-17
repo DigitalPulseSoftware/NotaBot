@@ -202,27 +202,30 @@ function Module:OnLoaded()
                     -- BAN
                     local channel = guild:getChannel(config.BanInformationChannel)
                     if channel then
-                        channel:send(string.format("The member **%s** ( %d ) has enough warns to be banned (%d).",
+                        channel:send(string.format("The member **%s** ( %d ) has enough warns to be banned (%d warns).",
                             targetMember.tag,
                             targetMember.id,
                             warnAmount
                         ))
                     end
-                    
 
                 elseif warnAmount % muteAmount == 0 then
                     -- MUTE
                     local duration = config.DefaultMuteDuration * (warnAmount / muteAmount)
                     local durationStr = util.FormatTime(duration, 3)
+                    local mute_module = bot:GetModuleForGuild(guild, "mute")
                     
-                    local channel = guild:getChannel(config.BanInformationChannel)
-                    if channel then
-                        channel:send(string.format("The member **%s** ( %d ) has enough warns to be muted (%d) for %s.",
-                            targetMember.tag,
-                            targetMember.id,
-                            warnAmount,
-                            durationStr
-                        ))
+                    if mute_module:IsEnabledForGuild(guild) then
+                        local channel = guild:getChannel(config.BanInformationChannel)
+                        if channel then
+                            channel:send(string.format("The member **%s** ( %d ) has enough warns to be muted (%d warns) for %s.",
+                                targetMember.tag,
+                                targetMember.id,
+                                warnAmount,
+                                durationStr
+                            ))
+                        end
+                        bot:CallModuleFunction(mute_module, "Mute", guild, targetMember.id, duration)
                     end
                 end
             end
@@ -258,6 +261,34 @@ function Module:OnLoaded()
                     message = message .. string.format("Warned by : **%s** for the reason:\n\t**%s**\n", moderator.tag, reason)
                 end
                 commandMessage:reply(message)
+            end
+        end
+    })
+
+    --
+    --  clearwarns command
+    --
+    self:RegisterCommand({
+        Name = "clearwarns",
+        Args = {
+            {Name = "targetUser", Type = bot.ConfigType.User}
+        },
+        PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+
+        Help = "Clears all the warns of a specified user.",
+        Silent = true,
+        Func = function (commandMessage, targetUser)
+            local guild = commandMessage.guild
+            local history = self:GetPersistentData(guild)
+            local targetMember = guild:getMember(targetUser)
+
+            local memberHistory = FindMember(history, targetMember.id)
+            if not memberHistory then
+                commandMessage:reply(string.format("The member **%s** (%d) already have zero warns.", targetMember.tag, targetMember.id))
+            else
+                memberHistory.Warns = {}
+                commandMessage:reply(string.format("Cleared **%s** (%d) warns, saving.", targetMember.tag, targetMember.id))
+                bot:Save()
             end
         end
     })
