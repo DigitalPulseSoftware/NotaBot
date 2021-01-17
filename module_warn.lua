@@ -61,9 +61,9 @@ end
 
 function SendWarnMessage(commandMessage, targetMember, reason)
     if not reason then
-        commandMessage:reply(string.format("**%s** has warned **%s**.", commandMessage.member.name, targetMember.name))
+        commandMessage:reply(string.format("**%s** has warned **%s**.", commandMessage.member.tag, targetMember.tag))
     else
-        commandMessage:reply(string.format("**%s** has warned **%s** for the following reason:\n**%s**.", commandMessage.member.name, targetMember.name, reason))
+        commandMessage:reply(string.format("**%s** has warned **%s** for the following reason:\n**%s**.", commandMessage.member.tag, targetMember.tag, reason))
     end
 end
 
@@ -102,7 +102,7 @@ function Module:GetConfigTable()
         },
         {
             Name = "MuteRole",
-            Description = "Mute role to be applied (no need to configure its permissions)",
+            Description = "(MUTE NOT YET IMPLEMENTED) Mute role to be applied (no need to configure its permissions)\n /!\\ The role must be the same as the role used in the Mute module. The Mute module must be enabled too.",
             Type = bot.ConfigType.Role,
             Default = ""
         },
@@ -125,6 +125,19 @@ end
 function Module:OnEnable(guild)
     local data = self:GetPersistentData(guild)
     data = data or {}
+
+    local config = self:GetConfig(guild)
+
+    local banInfo = config.BanInformationChannel and guild:getChannel(config.BanInformationChannel) or nil
+    if not banInfo then
+        return false, "Invalid ban information channel, check your configuration."
+    end
+
+    local muteRole = config.MuteRole and guild:getRole(config.MuteRole) or nil
+    if not muteRole then
+        return false, "Invalid mute role, check your configuration."
+    end
+
 
     return true
 end
@@ -187,7 +200,7 @@ function Module:OnLoaded()
 
                 if warnAmount % banAmount == 0 then
                     -- BAN
-                    local channel = config.BanInformationChannel
+                    local channel = guild:getChannel(config.BanInformationChannel)
                     if channel then
                         channel:send(string.format("The member **%s** ( %d ) has enough warns to be banned (%d).",
                             targetMember.tag,
@@ -201,31 +214,15 @@ function Module:OnLoaded()
                     -- MUTE
                     local duration = config.DefaultMuteDuration * (warnAmount / muteAmount)
                     local durationStr = util.FormatTime(duration, 3)
-                    commandMessage:reply(string.format("**%s** has been muted for **%s** for the reason: having too many warns.", 
-                        targetMember.name, 
-                        durationStr
-                    ))
                     
-                    if config.SendPrivateMessage then
-                        local privateChannel = targetMember:getPrivateChannel()
-                        if privateChannel then
-                            local durationText
-                            if (duration > 0) then
-                                durationText = "You will be unmuted in " .. durationStr
-                            else
-                                durationText = ""
-                            end
-                            privateChannel:send(string.format("You have been muted from **%s** by having too many warns.",
-                                commandMessage.guild.name    
-                            ))
-                        end
-                    end
-
-                    local success, err = self:Mute(guild, targetMember.id, duration)
-                    if success then
-                        commandMessage:reply(string.format("%s has been muted for having too many warns.", targetMember.name))
-                    else
-                        commandMessage:reply(string.format("Failed to mute %s: %s", targetMember.name, err))
+                    local channel = guild:getChannel(config.BanInformationChannel)
+                    if channel then
+                        channel:send(string.format("The member **%s** ( %d ) has enough warns to be muted (%d) for %s.",
+                            targetMember.tag,
+                            targetMember.id,
+                            warnAmount,
+                            durationStr
+                        ))
                     end
                 end
             end
@@ -251,14 +248,14 @@ function Module:OnLoaded()
 
             local memberHistory = FindMember(history, targetMember.id)
             if not memberHistory then
-                commandMessage:reply(string.format("The member **%s** doesn't have any warns.", targetMember.name))
+                commandMessage:reply(string.format("The member **%s** (%d) doesn't have any warns.", targetMember.tag, targetMember.id))
             else
-                local message = string.format("Warns of **%s**\n", targetMember.name)
+                local message = string.format("Warns of **%s** (%d)\n", targetMember.tag, targetMember.id)
                 local warns = memberHistory.Warns
                 for _idx, warn in ipairs(warns) do
                     local moderator = guild:getMember(warn.From)
                     local reason = warn.Reason or "No reason provided"
-                    message = message .. string.format("Warned by : **%s** for the reason:\n\t**%s**\n", moderator.name, reason)
+                    message = message .. string.format("Warned by : **%s** for the reason:\n\t**%s**\n", moderator.tag, reason)
                 end
                 commandMessage:reply(message)
             end
@@ -266,27 +263,4 @@ function Module:OnLoaded()
     })
 
     return true
-end
-
--- FROM module_mute.lua
-function Module:Mute(guild, userId, duration)
-	local config = self:GetConfig(guild)
-	local member = guild:getMember(userId)
-	if (not member) then
-		return false, "not part of guild"
-	end
-
-	local success, err = member:addRole(config.MuteRole)
-	if (not success) then
-		self:LogError(guild, "Failed to mute %s: %s", member.tag, err)
-		return false, "failed to mute user: " .. err
-	end
-
-	local persistentData = self:GetPersistentData(guild)
-	local unmuteTimestamp = duration > 0 and os.time() + duration or 0
-		
-	persistentData.MutedUsers[userId] = unmuteTimestamp
-	self:RegisterUnmute(guild, userId, unmuteTimestamp)
-
-	return true
 end
