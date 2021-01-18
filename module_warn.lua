@@ -77,7 +77,7 @@ function Module:GetConfigTable()
 
     return {
         {
-            Name = "Sactions",
+            Name = "Sanctions",
             Description = "Enable sanctions over members.",
             Type = bot.ConfigType.Boolean,
             Default = true
@@ -99,12 +99,6 @@ function Module:GetConfigTable()
             Description = "Default mute duration when reached enough warns.",
             Type = bot.ConfigType.Duration,
             Default = 60 * 60
-        },
-        {
-            Name = "MuteRole",
-            Description = "(MUTE NOT YET IMPLEMENTED) Mute role to be applied (no need to configure its permissions)\n /!\\ The role must be the same as the role used in the Mute module. The Mute module must be enabled too.",
-            Type = bot.ConfigType.Role,
-            Default = ""
         },
         {
             Name = "BanInformationChannel",
@@ -132,12 +126,6 @@ function Module:OnEnable(guild)
     if not banInfo then
         return false, "Invalid ban information channel, check your configuration."
     end
-
-    local muteRole = config.MuteRole and guild:getRole(config.MuteRole) or nil
-    if not muteRole then
-        return false, "Invalid mute role, check your configuration."
-    end
-
 
     return true
 end
