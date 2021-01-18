@@ -23,7 +23,7 @@ Module.Name = "warn"
 --      ...
 --  ]
 
-function FindMember(history, memberId)
+local function FindMember(history, memberId)
     local result = nil
     for _idx, userHistory in ipairs(history) do
         if userHistory.UserId == memberId then
@@ -34,7 +34,7 @@ function FindMember(history, memberId)
     return result
 end
 
-function AddWarn(history, memberId, moderatorId, reason)
+local function AddWarn(history, memberId, moderatorId, reason)
     local member = FindMember(history, memberId)
     if (not member) then
         table.insert(history, {
@@ -54,12 +54,12 @@ function AddWarn(history, memberId, moderatorId, reason)
     end
 end
 
-function GetWarnAmount(history, memberId)
+local function GetWarnAmount(history, memberId)
     local member = FindMember(history, memberId)
     return table.length(member.Warns)
 end
 
-function SendWarnMessage(commandMessage, targetMember, reason)
+local function SendWarnMessage(commandMessage, targetMember, reason)
     if not reason then
         commandMessage:reply(string.format("**%s** has warned **%s**.", commandMessage.member.tag, targetMember.tag))
     else
@@ -186,7 +186,11 @@ function Module:OnLoaded()
             if config.SendPrivateMessage then
                 local privateChannel = targetUser:getPrivateChannel()
                 if privateChannel then
-                    privateChannel:send(string.format("You have been warned for the following reason:\n **%s**", reason))
+                    if reason then
+                        privateChannel:send(string.format("You have been warned on %s for the following reason:\n **%s**", guild.name, reason))
+                    else
+                        privateChannel:send(string.format("You have been warned on %s", guild.name))
+                    end
                 end
             end
 
