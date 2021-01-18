@@ -185,7 +185,7 @@ function Module:OnLoaded()
             -- Updating member state
             SendWarnMessage(commandMessage, targetMember, reason)
             
-            if config.Sactions then
+            if config.Sanctions then
                 local banAmount = config.WarnAmountToBan
                 local muteAmount = config.WarnAmountToMute
                 local warnAmount = GetWarnAmount(history, targetId)
