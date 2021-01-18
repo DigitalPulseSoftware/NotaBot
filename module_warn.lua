@@ -207,7 +207,7 @@ function Module:OnLoaded()
                     local durationStr = util.FormatTime(duration, 3)
                     local mute_module = bot:GetModuleForGuild(guild, "mute")
                     
-                    if mute_module:IsEnabledForGuild(guild) then
+                    if mute_module then
                         local channel = guild:getChannel(config.BanInformationChannel)
                         if channel then
                             channel:send(string.format("The member **%s** ( %d ) has enough warns to be muted (%d warns) for %s.",
