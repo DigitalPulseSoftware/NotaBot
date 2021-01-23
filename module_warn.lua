@@ -96,7 +96,7 @@ function Module:LogWarn(guild, moderator, target, message, timestamp)
         timestamp
     ))
     if not success then
-        self:LogInfo(errMessage)
+        self:LogError(errMessage)
     end
 end
 
@@ -114,7 +114,7 @@ end
 
 function Module:GetWarnAmount(history, memberId)
     local member = FindMember(history, memberId)
-    return table.length(member.Warns)
+    return #member.Warns
 end
 
 function Module:HasWarnRole(member)
@@ -465,7 +465,7 @@ function Module:OnLoaded()
             if not memberHistory then
                 commandMessage:reply(string.format("The member **%s** (%d) already have zero warns.", targetMember.tag, targetMember.id))
             else
-                local lastWarn = table.remove(memberHistory.Warns, #memberHistory.Warns)
+                local lastWarn = table.remove(memberHistory.Warns)
                 local lastWarnReason = lastWarn.Reason
                 if not lastWarnReason then
                     lastWarnReason = "No reason provided."
