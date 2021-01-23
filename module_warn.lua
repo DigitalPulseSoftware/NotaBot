@@ -249,16 +249,19 @@ function Module:OnLoaded()
             local targetMember = guild:getMember(targetUser)
             local moderator = commandMessage.member
             
-            -- Permission check
-            if targetMember then
-                local bannedByRole = moderator.highestRole
-                local targetRole = targetMember.highestRole
-                if targetRole.position >= bannedByRole.position then
-                    commandMessage:reply("You cannot warn this user due to your lower permissions.")
-                    return
-                end
+            if not targetMember then
+                commandMessage:reply("The given member does not exists or is invalid.")
+                return
             end
 
+            -- Permission check
+            local bannedByRole = moderator.highestRole
+            local targetRole = targetMember.highestRole
+            if targetRole.position >= bannedByRole.position then
+                commandMessage:reply("You cannot warn this user due to your lower permissions.")
+                return
+            end
+            
             -- Adding warn to the user
             local targetId = targetUser.id
             local moderatorId = commandMessage.member.id
@@ -348,6 +351,11 @@ function Module:OnLoaded()
             local history = self:GetPersistentData(guild)
             local targetMember = guild:getMember(targetUser)
 
+            if not targetMember then
+                commandMessage:reply("The given member does not exists or is invalid.")
+                return
+            end
+
             local memberHistory = FindMember(history, targetMember.id)
             if not memberHistory then
                 commandMessage:reply(string.format("The member **%s** (%d) doesn't have any warns.", targetMember.tag, targetMember.id))
@@ -383,6 +391,11 @@ function Module:OnLoaded()
             local history = self:GetPersistentData(guild)
             local targetMember = guild:getMember(targetUser)
             local moderator = commandMessage.author
+
+            if not targetMember then
+                commandMessage:reply("The given member does not exists or is invalid.")
+                return
+            end
 
             local memberHistory = FindMember(history, targetMember.id)
             if not memberHistory then
@@ -442,6 +455,11 @@ function Module:OnLoaded()
             local history = self:GetPersistentData(guild)
             local targetMember = guild:getMember(targetUser)
             local moderator = commandMessage.author
+            
+            if not targetMember then
+                commandMessage:reply("The given member does not exists or is invalid.")
+                return
+            end
 
             local memberHistory = FindMember(history, targetMember.id)
             if not memberHistory then
