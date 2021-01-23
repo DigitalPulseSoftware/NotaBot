@@ -14,6 +14,14 @@ After a given amount of warns, the member gets muted __if the mute module is ena
 - Sanctions (Boolean) (default = true)
   - Enables sanctions (mute and ban alert) when a member receives a warning.
 
+- MinimalWarnRole (Role) (default = nothing)
+  - Minimal role to be able to warn members and see their histories
+  - Unlocks `warn` and `warnlist`
+
+- MinimalUnwarnRole (Role) (default = nothing)
+  - Minimal role to be able to unwarn a member.
+  - Unlocks `popwarn` and `clearwarn`
+
 - WarnAmountToMute (Integer) (default = 3)
   - Number of warns needed to mute a member.
 
@@ -28,6 +36,9 @@ After a given amount of warns, the member gets muted __if the mute module is ena
   - Channel where all the ban notifications are sent when a player has enough warnings
   - This setting is required to enable the module
   - You still have to manually ban the member, the last choice remains to the moderation team.
+
+- WarnLogChannel (Channel) (default = nothing)
+  - Channel where all the notifications about warns and unwarns are logged.
 
 - SendPrivateMessage (Boolean) (default = true)
   - Enable private messages to inform the member of his warning.
@@ -48,3 +59,6 @@ Assuming the bot prefix is `!`
 - `!clearwarns <target>`
   - Clears all the history of the given member.
   - Example : `!clearwarns @SomePlayer`
+
+- `!popwarns <target>`
+  - Removes the last warn of the targeted member
