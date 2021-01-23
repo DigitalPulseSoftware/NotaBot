@@ -101,7 +101,7 @@ function Module:LogWarn(guild, moderator, target, message, timestamp)
 end
 
 function Module:LogWarnModification(guild, moderator, target, message, timestamp)
-    local config = self:getConfig(guild)
+    local config = self:GetConfig(guild)
     local logChannel = guild:getChannel(config.WarnLogChannel)
 
     logChannel:send(generateLogEmbed(
@@ -272,7 +272,7 @@ function Module:OnLoaded()
                     guild, 
                     moderator, 
                     targetMember,
-                    string.format("**%s** has warned **%s**, no reason provided.", moderator.tag, targetMember.tag), 
+                    "No reason provided.", 
                     commandMessage.timestamp)
             end
 
@@ -447,7 +447,11 @@ function Module:OnLoaded()
             if not memberHistory then
                 commandMessage:reply(string.format("The member **%s** (%d) already have zero warns.", targetMember.tag, targetMember.id))
             else
-                local lastWarn = memberHistory.Warns.remove(#memberHistory.Warns)
+                local lastWarn = table.remove(memberHistory.Warns, #memberHistory.Warns)
+                local lastWarnReason = lastWarn.Reason
+                if not lastWarnReason then
+                    lastWarnReason = "No reason provided."
+                end
                 self:LogWarnModification(
                     guild, 
                     moderator, 
@@ -456,7 +460,7 @@ function Module:OnLoaded()
                         moderator.tag, 
                         targetMember.tag,
                         targetMember.id,
-                        lastWarn.Reason,
+                        lastWarnReason,
                         guild:getMember(lastWarn.From).tag
                     )
                 )
