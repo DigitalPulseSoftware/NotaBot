@@ -12,7 +12,7 @@ The bot is made in Lua, with a custom wrapper around the Discordia library.
 
 - [Ban]() : Ban management module
 - [Channel]() : Channel management module
-- [Game]() : 
+- [Game]() : Global mudule handling bot status
 - [Kick]() : Kick management
 - [Mention]() : Mention reaction module
 - [Message]() : Message handler module (includes custom commands)
