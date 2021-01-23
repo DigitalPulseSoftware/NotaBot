@@ -117,17 +117,17 @@ function Module:GetWarnAmount(history, memberId)
     return table.length(member.Warns)
 end
 
-function Module:HasWarnRole(guild, member)
-    local config = self:GetConfig(guild)
-    local warnRole = guild:getRole(config.MinimalWarnRole)
+function Module:HasWarnRole(member)
+    local config = self:GetConfig(member.guild)
+    local warnRole = (member.guild):getRole(config.MinimalWarnRole)
     local memberRole = member.highestRole
 
     return memberRole.position >= warnRole.position
 end
 
-function Module:HasUnwarnRole(guild, member)
-    local config = self:GetConfig(guild)
-    local unwarnRole = guild:getRole(config.MinimalUnwarnRole)
+function Module:HasUnwarnRole(member)
+    local config = self:GetConfig(member.guild)
+    local unwarnRole = (member.guild):getRole(config.MinimalUnwarnRole)
     local memberRole = member.highestRole
 
     return memberRole.position >= unwarnRole.position
@@ -234,8 +234,8 @@ function Module:OnLoaded()
             {Name = "target", Type = bot.ConfigType.User},
             {Name = "reason", Type = bot.ConfigType.String, Optional = true}
         },
-        GuildAwarePrivilegeCheck = function (member, guild)
-            return self:HasWarnRole(guild, member)
+        PrivilegeCheck = function (member)
+            return self:HasWarnRole(member)
         end,
 
         Help = "Warns a member",
@@ -337,8 +337,8 @@ function Module:OnLoaded()
         Args = {
             {Name = "targetUser", Type = bot.ConfigType.User}
         },
-        GuildAwarePrivilegeCheck = function (member, guild) 
-            return self:HasWarnRole(guild, member)
+        PrivilegeCheck = function (member) 
+            return self:HasWarnRole(member)
         end,
 
         Help = "Shows all the warns of a member.",
@@ -372,8 +372,8 @@ function Module:OnLoaded()
         Args = {
             {Name = "targetUser", Type = bot.ConfigType.User}
         },
-        GuildAwarePrivilegeCheck = function (member, guild) 
-            return self:HasUnwarnRole(guild, member)
+        PrivilegeCheck = function (member) 
+            return self:HasUnwarnRole(member)
         end,
 
         Help = "Clears all the warns of a specified user.",
@@ -431,8 +431,8 @@ function Module:OnLoaded()
         Args = {
             {Name = "targetUser", Type = bot.ConfigType.User}
         },
-        GuildAwarePrivilegeCheck = function (member, guild)
-            return self:HasUnwarnRole(guild, member)
+        PrivilegeCheck = function (member)
+            return self:HasUnwarnRole(member)
         end,
 
         Help = "Removes the last warn of the given user.",
