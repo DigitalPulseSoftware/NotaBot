@@ -62,7 +62,7 @@ local function SendWarnMessage(commandMessage, targetMember, reason)
     end
 end
 
-local function generateLogEmbed(title, moderator, target, message, timestamp)
+local function generateLogEmbed(title, target, message, timestamp)
     local result = {
         content = "",
         embed = {
@@ -81,7 +81,6 @@ local function generateLogEmbed(title, moderator, target, message, timestamp)
             timestamp = timestamp
         }
     }
-    p(result)
     return result
 end
 
@@ -90,13 +89,15 @@ end
 function Module:LogWarn(guild, moderator, target, message, timestamp)
     local config = self:GetConfig(guild)
     local logChannel = guild:getChannel(config.WarnLogChannel)
-    logChannel:send(generateLogEmbed(
+    local success, errMessage = logChannel:send(generateLogEmbed(
         string.format("**%s** warned **%s**", moderator.tag, target.tag),
-        moderator,
         target,
         message,
         timestamp
     ))
+    if not success then
+        self:LogInfo(errMessage)
+    end
 end
 
 function Module:LogWarnModification(guild, moderator, target, message, timestamp)
@@ -104,8 +105,7 @@ function Module:LogWarnModification(guild, moderator, target, message, timestamp
     local logChannel = guild:getChannel(config.WarnLogChannel)
 
     logChannel:send(generateLogEmbed(
-        string.format("**%s** made a modification upon **%s** warns"),
-        moderator,
+        string.format("**%s** made a modification upon **%s** warns", moderator.tag, target.tag),
         target,
         message,
         timestamp
@@ -264,7 +264,17 @@ function Module:OnLoaded()
             local moderatorId = commandMessage.member.id
             
             AddWarn(history, targetId, moderatorId, reason)
-            self:LogWarn(guild, moderator, targetMember, reason, commandMessage.timestamp)
+            
+            if reason then
+                self:LogWarn(guild, moderator, targetMember, reason, commandMessage.timestamp)
+            else
+                self:LogWarn(
+                    guild, 
+                    moderator, 
+                    targetMember,
+                    string.format("**%s** has warned **%s**, no reason provided.", moderator.tag, targetMember.tag), 
+                    commandMessage.timestamp)
+            end
 
             if config.SendPrivateMessage then
                 local privateChannel = targetUser:getPrivateChannel()
@@ -272,7 +282,7 @@ function Module:OnLoaded()
                     if reason then
                         privateChannel:send(string.format("You have been warned on %s for the following reason:\n **%s**", guild.name, reason))
                     else
-                        privateChannel:send(string.format("You have been warned on %s", guild.name))
+                        privateChannel:send(string.format("You have been warned on %s, no reason provided.", guild.name))
                     end
                 end
             end
