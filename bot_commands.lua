@@ -61,21 +61,12 @@ function Bot:RegisterCommand(values)
 		error("Command \"" .. name .. " already exists")
 	end
 
-	if (values.PrivilegeCheck and not values.GuildAwarePrivilegeCheck) then
-		values.GuildAwarePrivilegeCheck = function (member, guild) return true end
-	end
-
-	if (values.GuildAwarePrivilegeCheck and not values.PrivilegeCheck) then
-		values.PrivilegeCheck = function (member) return true end
-	end
-
 	local command = {
 		Args = values.Args,
 		Function = values.Func,
 		Help = values.Help,
 		Name = name,
 		PrivilegeCheck = values.PrivilegeCheck,
-		GuildAwarePrivilegeCheck = values.GuildAwarePrivilegeCheck,
 		Silent = values.Silent ~= nil and values.Silent,
 		BotAware = values.BotAware ~= nil and values.BotAware
 	}
@@ -133,14 +124,13 @@ client:on('messageCreate', function(message)
 
 	if (commandTable.PrivilegeCheck) then
 	 	local success, ret = Bot:ProtectedCall("Command " .. commandName .. " privilege check", commandTable.PrivilegeCheck, message.member)
-		local guildAwareSuccess, guildAwareRet = Bot:ProtectedCall("Command " .. commandName .. " guild aware privilege check", commandTable.GuildAwarePrivilegeCheck, message.member, message.guild) 
 		
-		if (not success or not guildAwareSuccess) then
+		if (not success) then
 	 		message:reply("An error occurred")
 	 		return
 	 	end
 
-	 	if (not ret and not guildAwareRet) then
+	 	if (not ret) then
 			print(string.format("%s tried to use command %s on guild %s", message.author.tag, commandName, message.guild.name))
 			return
 		end
