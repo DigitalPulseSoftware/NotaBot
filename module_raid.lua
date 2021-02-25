@@ -77,6 +77,13 @@ function Module:GetConfigTable()
 			Description = "Should the bot mute a member exceeding the spam window instead of banning them? (require the mute module)",
 			Type = bot.ConfigType.Boolean,
 			Default = true
+		},
+		{
+			Name = "JoinWhitelist",
+			Description = "List of members allowed to join the server while it's locked",
+			Type = bot.ConfigType.Member,
+			Array = true,
+			Default = {}
 		}
 	}
 end
@@ -312,7 +319,9 @@ function Module:OnMemberJoin(member)
 	local data = self:GetData(guild)
 
 	if (data.locked) then
-		member:kick("server is locked")
+		if (not table.search(config.JoinWhitelist, member.id)) then
+			member:kick("server is locked")
+		end
 	else
 		local now = os.time()
 
