@@ -81,7 +81,7 @@ function Module:GetConfigTable()
 		{
 			Name = "JoinWhitelist",
 			Description = "List of members allowed to join the server while it's locked",
-			Type = bot.ConfigType.Member,
+			Type = bot.ConfigType.User,
 			Array = true,
 			Default = {}
 		}
