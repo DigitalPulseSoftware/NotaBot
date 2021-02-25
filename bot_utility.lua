@@ -160,7 +160,7 @@ end
 
 function Bot:GenerateMessageLink(message)
 	local guildId = message.guild and message.guild.id or "@me"
-	return string.format("https://discordapp.com/channels/%s/%s/%s", guildId, message.channel.id, message.id)
+	return string.format("https://discord.com/channels/%s/%s/%s", guildId, message.channel.id, message.id)
 end
 
 local publicChannels = {
