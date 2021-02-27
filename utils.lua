@@ -291,12 +291,17 @@ function util.MemberHasAllRoles(member, roles)
 	return true
 end
 
+function util.IsValidIdLength(id)
+	local idLength = string.len(id)
+	return idLength > 16 or idLength < 21
+end
+
 function util.ValidateSnowflake(snowflake)
 	if (type(snowflake) ~= "string") then
 		return false, "not a string"
 	end
 
-	if (not string.match(snowflake, "%d+")) then
+	if (not util.IsValidIdLength(snowflake) or not string.match(snowflake, "%d+")) then
 		return false, "must contain only number"
 	end
 

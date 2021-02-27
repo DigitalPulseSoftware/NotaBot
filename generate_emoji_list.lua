@@ -81,7 +81,7 @@ coroutine.wrap(function ()
         local names = {}
 
         for _, emojiName in pairs(emojiData.namesWithColons) do
-            local name = emojiName:match("^:(.+):$")
+            local name = emojiName:match("^:([%w_]+):$")
             if (name) then
                 table.insert(names, name)
             end

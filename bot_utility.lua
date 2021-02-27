@@ -25,9 +25,9 @@ function Bot:DecodeChannel(guild, message)
 	assert(message)
 
 	local channelId = message:match("<#(%d+)>")
-	if (not channelId) then
+	if (not channelId or not util.IsValidIdLength(channelId)) then
 		channelId = message:match("^(%d+)$")
-		if (not channelId) then
+		if (not channelId or not util.IsValidIdLength(channelId)) then
 			return nil, "Invalid channelId id"
 		end
 	end
@@ -45,7 +45,7 @@ function Bot:DecodeEmoji(guild, message)
 	assert(message)
 
 	local emojiId = message:match("<a?:[%w_]+:(%d+)>")
-	if (emojiId) then
+	if (emojiId and util.IsValidIdLength(emojiId)) then
 		 -- Custom emoji
 		local emoji = self:GetEmojiData(guild, emojiId)
 		if (not emoji) then
@@ -69,9 +69,9 @@ function Bot:DecodeMember(guild, message)
 	assert(message)
 
 	local userId = message:match("<@!?(%d+)>")
-	if (not userId) then
+	if (not userId or not util.IsValidIdLength(userId)) then
 		userId = message:match("^(%d+)$")
-		if (not userId) then
+		if (not userId or not util.IsValidIdLength(userId)) then
 			return nil, "Invalid user id"
 		end
 	end
@@ -124,7 +124,7 @@ function Bot:DecodeRole(guild, message)
 	assert(message)
 
 	local roleId = message:match("<@&(%d+)>")
-	if (not roleId) then
+	if (not roleId or not util.IsValidIdLength(roleId)) then
 		roleId = message:match("^(%d+)$")
 		if (not roleId) then
 			return nil, "Invalid role"
@@ -143,9 +143,9 @@ function Bot:DecodeUser(message)
 	assert(message)
 
 	local userId = message:match("<@!?(%d+)>")
-	if (not userId) then
+	if (not userId or not util.IsValidIdLength(userId)) then
 		userId = message:match("^(%d+)$")
-		if (not userId) then
+		if (not userId or not util.IsValidIdLength(userId)) then
 			return nil, "Invalid user id"
 		end
 	end
