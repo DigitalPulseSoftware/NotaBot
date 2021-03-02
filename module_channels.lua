@@ -560,12 +560,14 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 
 	for k,roleId in pairs(roleActions.Add) do
 		local role = guild:getRole(roleId)
-		if (role and not member:hasRole(role)) then
-			self:LogInfo(guild, "Adding %s%s to %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
+		if (role) then
+			if (not member:hasRole(role)) then
+				self:LogInfo(guild, "Adding %s%s to %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
 
-			local success, err = member:addRole(roleId)
-			if (not success) then
-				self:LogWarning(guild, "Failed to add role %s to %s: %s", role.name, member.tag, err)
+				local success, err = member:addRole(roleId)
+				if (not success) then
+					self:LogWarning(guild, "Failed to add role %s to %s: %s", role.name, member.tag, err)
+				end
 			end
 		else
 			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
@@ -574,12 +576,14 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 
 	for k,roleId in pairs(roleActions.Remove) do
 		local role = guild:getRole(roleId)
-		if (role and member:hasRole(role)) then
-			self:LogInfo(guild, "Removing %s%s from %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
+		if (role) then
+			if (member:hasRole(role)) then
+				self:LogInfo(guild, "Removing %s%s from %s", role.name, (role.color ~= 0) and " (colored)" or "", member.tag)
 
-			local success, err = member:removeRole(roleId)
-			if (not success) then
-				self:LogWarning(guild, "Failed to remove role %s from %s: %s", role.name, member.tag, err)
+				local success, err = member:removeRole(roleId)
+				if (not success) then
+					self:LogWarning(guild, "Failed to remove role %s from %s: %s", role.name, member.tag, err)
+				end
 			end
 		else
 			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
