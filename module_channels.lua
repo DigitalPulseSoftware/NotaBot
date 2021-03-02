@@ -548,13 +548,15 @@ end
 
 function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionName)
 	if (client.user.id == userId) then
-		return
+		return false
 	end
 
 	local roleActions = self:GetReactionActions(guild, channelId, messageId, reactionName, true)
 	if (not roleActions) then
-		return
+		return false
 	end
+
+	local isActive = false
 
 	local member = guild:getMember(userId)
 
@@ -568,6 +570,8 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 				if (not success) then
 					self:LogWarning(guild, "Failed to add role %s to %s: %s", role.name, member.tag, err)
 				end
+
+				isActive = true
 			end
 		else
 			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
@@ -584,6 +588,8 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 				if (not success) then
 					self:LogWarning(guild, "Failed to remove role %s from %s: %s", role.name, member.tag, err)
 				end
+
+				isActive = true
 			end
 		else
 			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
@@ -606,6 +612,8 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 			if (not success) then
 				self:LogWarning(guild, "Failed to toggle role %s from %s: %s", role.name, member.tag, err)
 			end
+
+			isActive = true
 		else
 			self:LogWarning(guild, "Role %s appears to have been removed", roleId)
 		end
@@ -618,10 +626,14 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 			if (not success) then
 				self:LogWarning(guild, "Failed to send reaction message to %s (maybe user disabled private messages from this server?): %s", member.user.tag, err)
 			end
+
+			isActive = true
 		else
 			self:LogWarning(guild, "Failed to get private channel with %s", member.user.tag)
 		end
 	end
+
+	return isActive
 end
 
 function Module:OnReactionAdd(reaction, userId)
@@ -634,8 +646,9 @@ function Module:OnReactionAdd(reaction, userId)
 		return
 	end
 
-	self:HandleReactionAdd(reaction.message.channel.guild, userId, reaction.message.channel.id, reaction.message.id, emoji.Name)
-	reaction:delete(userId)
+	if (self:HandleReactionAdd(reaction.message.channel.guild, userId, reaction.message.channel.id, reaction.message.id, emoji.Name)) then
+		reaction:delete(userId)
+	end
 end
 
 function Module:OnReactionAddUncached(channel, messageId, reactionIdOrName, userId)
@@ -649,9 +662,10 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdOrName, user
 		return
 	end
 
-	self:HandleReactionAdd(channel.guild, userId, channel.id, messageId, emoji.Name)
-	local message = channel:getMessage(messageId)
-	if (message) then
-		message:removeReaction(reactionIdOrName, userId)
+	if (self:HandleReactionAdd(channel.guild, userId, channel.id, messageId, emoji.Name)) then
+		local message = channel:getMessage(messageId)
+		if (message) then
+			message:removeReaction(reactionIdOrName, userId)
+		end
 	end
 end
