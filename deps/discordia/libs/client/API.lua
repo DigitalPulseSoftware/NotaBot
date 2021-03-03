@@ -301,6 +301,12 @@ function API:deleteAllReactions(channel_id, message_id) -- Message:clearReaction
 	return self:request("DELETE", endpoint)
 end
 
+-- Backported from Discordia 3.x
+function API:deleteAllReactionsForEmoji(channel_id, message_id, emoji, query)
+	local endpoint = f(endpoints.CHANNEL_MESSAGE_REACTION, channel_id, message_id, urlencode(emoji))
+	return self:request("DELETE", endpoint, nil, query)
+end
+
 function API:editMessage(channel_id, message_id, payload) -- Message:_modify
 	local endpoint = f(endpoints.CHANNEL_MESSAGE, channel_id, message_id)
 	return self:request("PATCH", endpoint, payload)
