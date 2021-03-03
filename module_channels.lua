@@ -11,6 +11,19 @@ discordia.extensions() -- load all helpful extensions
 
 Module.Name = "channels"
 
+local emojiOrder = {
+	zero = 0,
+	one = 1,
+	two = 2,
+	three = 3,
+	four = 4,
+	five = 5,
+	six = 6,
+	seven = 7,
+	eight = 8,
+	nine = 9
+}
+
 local function arrayRemoveValue(t, v)
 	local i = 1
 	while (i <= #t) do
@@ -517,17 +530,33 @@ function Module:HandleConfig(guild, config)
 						end
 					end
 
+					local reactionToAdd = {}
 					for reaction, _ in pairs(reactionTable) do
 						local emoji = bot:GetEmojiData(guild, reaction)
 						if (emoji) then
 							if (not hasReaction[emoji.Name]) then
-								local success, err = message:addReaction(emoji.Emoji or emoji.Id)
-								if (not success) then
-									self:LogWarning(guild, "Failed to add reaction %s on message %s (channel: %s): %s", emoji.Name, message.id, message.channel.id, err)
-								end
+								table.insert(reactionToAdd, reaction)
 							end
 						else
 							self:LogError(guild, "Emoji \"%s\" does not exist", reaction.emojiName)
+						end
+					end
+
+					table.sort(reactionToAdd, function (a, b)
+						local i = emojiOrder[a]
+						local j = emojiOrder[b]
+						if (i and j) then
+							return i < j
+						else
+							return a < b
+						end
+					end)
+
+					for _, reaction in pairs(reactionToAdd) do
+						local emoji = Bot:GetEmojiData(guild, reaction)
+						local success, err = message:addReaction(emoji.Emoji or emoji.Id)
+						if (not success) then
+							self:LogWarning(guild, "Failed to add reaction %s on message %s (channel: %s): %s", emoji.Name, message.id, message.channel.id, err)
 						end
 					end
 				else
