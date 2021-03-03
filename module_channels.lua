@@ -676,7 +676,7 @@ function Module:OnReactionAdd(reaction, userId)
 	end
 
 	if (self:HandleReactionAdd(reaction.message.channel.guild, userId, reaction.message.channel.id, reaction.message.id, emoji.Name)) then
-		reaction:delete(userId)
+		reaction.message:removeReaction(emoji.Emoji or emoji.Id, userId)
 	end
 end
 
