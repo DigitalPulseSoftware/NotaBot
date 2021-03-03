@@ -676,7 +676,10 @@ function Module:OnReactionAdd(reaction, userId)
 	end
 
 	if (self:HandleReactionAdd(reaction.message.channel.guild, userId, reaction.message.channel.id, reaction.message.id, emoji.Name)) then
-		reaction.message:removeReaction(emoji.Emoji or emoji.Id, userId)
+		local success, err = reaction.message:removeReaction(emoji.Emoji or emoji.Id, userId)
+		if (not success) then
+			self:LogWarning(reaction.message.guild, "Failed to remove reaction for message (%s)", err)
+		end
 	end
 end
 
@@ -694,7 +697,10 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdOrName, user
 	if (self:HandleReactionAdd(channel.guild, userId, channel.id, messageId, emoji.Name)) then
 		local message = channel:getMessage(messageId)
 		if (message) then
-			message:removeReaction(reactionIdOrName, userId)
+			local success, err = message:removeReaction(emoji.Emoji or emoji.Id, userId)
+			if (not success) then
+				self:LogWarning(channel.guild, "Failed to remove reaction for uncached message (%s)", err)
+			end
 		end
 	end
 end
