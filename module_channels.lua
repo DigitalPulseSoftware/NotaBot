@@ -375,7 +375,7 @@ function Module:OnLoaded()
 				success = true
 				commandMessage:reply(string.format("Reactions actions on %s for %s have been cleared", Bot:GenerateMessageLink(message), emoji.MentionString))
 			else
-				commandMessage:reply("Invalid action (must be addrole/clear/removerole/send)")
+				commandMessage:reply("Invalid action (must be addrole/clear/removerole/send/togglerole)")
 			end
 
 			if (success) then
