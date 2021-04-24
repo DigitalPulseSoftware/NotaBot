@@ -12,6 +12,12 @@ local json = require("json")
 
 Module.Name = "message"
 
+local function RemoveTableKey(table, key)
+	local element = table[key]
+	table[key] = nil
+	return element
+end
+
 local function ValidateFields(data, expectedFields, allFieldExpected)
 	if (type(data) ~= "table" or #data ~= 0) then
 		return false, " must be an object"
@@ -166,7 +172,8 @@ local messageFields = {
 	embed = function (embed)
 		return ValidateFields(embed, embedFields)
 	end,
-	tts = ValidateBoolean
+	tts = ValidateBoolean,
+	deleteInvokation = ValidateBoolean
 }
 
 local function ValidateMessageData(data)
@@ -179,7 +186,7 @@ local function ValidateMessageData(data)
 		return false, "MessageData" .. err
 	end
 
-	if (not messageFields.content and not messageFields.embed) then
+	if (not data.content and not data.embed) then
 		return false, "MessageData must have at least a content or embed field"
 	end
 
@@ -249,6 +256,12 @@ function Module:GetConfigTable()
 
 				return true
 			end
+		},
+		{
+			Name = "DeleteInvokation",
+			Description = "Deletes the message that invoked the reply",
+			Type = bot.ConfigType.Boolean,
+			Default = false
 		}
 	}
 end
@@ -462,9 +475,14 @@ function Module:OnMessageCreate(message)
 	local config = self:GetConfig(message.guild)
 	local reply = config.Replies[message.content]
 	if (reply) then
-		local success, err = message:reply(reply)
+		reply = table.copy(reply)
+		local deleteInvokation = RemoveTableKey(reply, "deleteInvokation")
+	 	local success, err = message:reply(reply)
+		
 		if (not success) then
 			self:LogError(message.guild, "Failed to reply to %s: %s", message.content, err)
+		elseif (deleteInvokation == nil or deleteInvokation and config.DeleteInvokation) then
+			message:delete()
 		end
 	end
 end
