@@ -479,6 +479,11 @@ function Module:SaveStats(filename, stats)
 end
 
 function Module:GetChannelStats(guild, channelId)
+	if (type(channelId) ~= "string") then
+		self:LogError("expected string as channel id, got " .. type(channelId))
+		return { MessageCount = 0, ReactionCount = 0 } -- dummy temporary table
+	end
+
 	local data = self:GetPersistentData(guild)
 
 	local channels = data.Stats.Channels
@@ -495,6 +500,11 @@ function Module:GetChannelStats(guild, channelId)
 end
 
 function Module:GetReactionStats(guild, reactionName)
+	if (type(reactionName) ~= "string") then
+		self:LogError("expected string as reaction name, got " .. type(reactionName))
+		return { ReactionCount = 0 } -- dummy temporary table
+	end
+
 	local data = self:GetPersistentData(guild)
 
 	local reactions = data.Stats.Reactions
@@ -510,6 +520,11 @@ function Module:GetReactionStats(guild, reactionName)
 end
 
 function Module:GetUserStats(guild, userId)
+	if (type(userId) ~= "string") then
+		self:LogError("expected string as user id, got " .. type(userId))
+		return { MessageCount = 0, ReactionCount = 0 } -- dummy temporary table
+	end
+
 	local data = self:GetPersistentData(guild)
 
 	local users = data.Stats.Users

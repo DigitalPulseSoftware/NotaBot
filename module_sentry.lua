@@ -97,6 +97,10 @@ function Module:OnMessageCreate(message)
 		return
 	end
 
+	if (not bot:IsPublicChannel(message.channel)) then
+		return
+	end
+
 	local guild = message.guild
 	local member = message.member
 	local config = self:GetConfig(guild)
