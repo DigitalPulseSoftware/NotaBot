@@ -178,7 +178,7 @@ function Module:OnLoaded()
 
 						local emojiNames = poll[6] -- This is stored in the same order as fields
 						for _, reaction in ipairs(reactions) do
-							local rEmojiData = Bot:GetEmojiData(guild, reaction.emojiName)
+							local rEmojiData = Bot:GetEmojiData(guild, reaction.emojiId or reaction.emojiName)
 							-- This is nil when it is an extern emoji
 							if not rEmojiData then
 								break

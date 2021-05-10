@@ -521,7 +521,7 @@ function Module:HandleConfig(guild, config)
 					local hasReaction = {}
 					for k,reaction in pairs(message.reactions) do
 						if (reaction.me) then
-							local emoji = bot:GetEmojiData(guild, reaction.emojiName)
+							local emoji = bot:GetEmojiData(guild, reaction.emojiId or reaction.emojiName)
 							if (emoji) then
 								hasReaction[emoji.Name] = true
 							else
@@ -670,7 +670,7 @@ function Module:OnReactionAdd(reaction, userId)
 		return
 	end
 
-	local emoji = bot:GetEmojiData(reaction.message.guild, reaction.emojiName)
+	local emoji = bot:GetEmojiData(reaction.message.guild, reaction.emojiId or reaction.emojiName)
 	if (not emoji) then
 		return
 	end

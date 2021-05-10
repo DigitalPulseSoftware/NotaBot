@@ -586,7 +586,7 @@ function Module:OnReactionAdd(reaction, userId)
 		return
 	end
 
-	local emojiData = bot:GetEmojiData(reaction.message.guild, reaction.emojiName)
+	local emojiData = bot:GetEmojiData(reaction.message.guild, reaction.emojiId or reaction.emojiName)
 	if (not emojiData) then
 		return
 	end
@@ -635,7 +635,7 @@ function Module:OnReactionRemove(reaction, userId)
 	local data = self:GetPersistentData(reaction.message.guild)
 	data.Stats.ReactionRemoved = data.Stats.ReactionRemoved + 1
 
-	local reactionStats = self:GetReactionStats(reaction.message.guild, reaction.emojiName)
+	local reactionStats = self:GetReactionStats(reaction.message.guild, reaction.emojiId or reaction.emojiName)
 	reactionStats.ReactionCount = math.max(reactionStats.ReactionCount - 1, 0)
 end
 
