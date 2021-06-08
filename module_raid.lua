@@ -131,6 +131,32 @@ local rules = {
 
 			return creationDate >= config
 		end
+	},
+	nicknameContains = {
+		Description = "checks if the user nickname contains something (case-insensitive)",
+		Parameters = "<nickname>",
+		Parse = function (param)
+			if (not param or #param == 0) then
+				return nil, "invalid nickname"
+			end
+
+			if (param:sub(1, 2) == "p:") then
+				return {p = true, str = param:sub(3)}
+			else
+				return {p = false, str = param}
+			end
+		end,
+		ToString = function (config)
+			return (config.p and "pattern: " or "") .. config.str
+		end,
+		Check = function (member, config)
+			local name = member.user.name:lower()
+			if (config.p) then
+				return name:match(config.str) and true or false
+			else
+				return name:find(config.str, true) and true or false
+			end
+		end
 	}
 }
 
