@@ -351,7 +351,7 @@ function Module:OnLoaded()
 				end
 
 				success = true
-				commandMessage:reply(string.format("Reactions on %s for %s will now remove role %s (%s)", Bot:GenerateMessageLink(message), emoji.MentionString, role.name, role.id))
+				commandMessage:reply(string.format("Reactions on %s for %s will now toggle role %s (%s)", Bot:GenerateMessageLink(message), emoji.MentionString, role.name, role.id))
 			elseif (action == "send") then
 				if (not value) then
 					commandMessage:reply("Empty message")
