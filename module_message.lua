@@ -409,6 +409,39 @@ function Module:OnLoaded()
 	})
 
 	self:RegisterCommand({
+		Name = "editmessage",
+		Args = {
+			{Name = "message", Type = Bot.ConfigType.Message},
+			{Name = "content", Type = Bot.ConfigType.String, Optional = true},
+		},
+		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+
+		Help = "Edit one of the message posted by the bot",
+		Func = function (commandMessage, message, content)
+			local messageData = self:ParseContentParameter(content, commandMessage)
+			if (not messageData) then
+				return
+			end
+
+			if (message.author ~= Bot.Client.user) then
+				commandMessage:reply("You can only ask me to edit my own messages")
+				return
+			end
+
+			local member = commandMessage.member
+			if (not member:hasPermission(message.channel, enums.permission.readMessages) or not member:hasPermission(message.channel, enums.permission.sendMessages)) then
+				commandMessage:reply("You don't have the permission to send messages in that channel")
+				return
+			end
+
+			local success, err = message:update(messageData)
+			if (not success) then
+				commandMessage:reply(string.format("Discord rejected the message: %s", err))
+			end
+		end
+	})
+
+	self:RegisterCommand({
 		Name = "addreply",
 		Args = {
 			{Name = "trigger", Type = Bot.ConfigType.String},
