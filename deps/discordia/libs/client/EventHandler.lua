@@ -537,4 +537,26 @@ function EventHandler.WEBHOOKS_UPDATE(d, client) -- webhook object is not provid
 	return client:emit('webhooksUpdate', channel)
 end
 
+function EventHandler.THREAD_CREATE(d, client)
+	local guild = client._guilds:get(d.guild_id)
+	if not guild then return warning(client, 'Guild', d.guild_id, 'THREAD_CREATE') end
+	local parent = guild._text_channels:get(d.parent_id)
+	if not parent then return warning(client, 'TextChannel', d.parent_id, 'THREAD_CREATE') end
+	d.permission_overwrites = {}
+	local channel = guild._text_channels:_insert(d)
+	channel._permission_overwrites = parent._permission_overwrites
+	return client:emit('threadCreate', channel)
+end
+
+function EventHandler.THREAD_UPDATE(d, client)
+	local guild = client._guilds:get(d.guild_id)
+	if not guild then return warning(client, 'Guild', d.guild_id, 'THREAD_UPDATE') end
+	local parent = guild._text_channels:get(d.parent_id)
+	if not parent then return warning(client, 'TextChannel', d.parent_id, 'THREAD_UPDATE') end
+	d.permission_overwrites = {}
+	local channel = guild._text_channels:_insert(d)
+	channel._permission_overwrites = parent._permission_overwrites
+	return client:emit('threadUpdate', channel)
+end
+
 return EventHandler

@@ -3,7 +3,10 @@
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
 local discordia = require('discordia')
-local client = discordia.Client({ cacheAllMembers = true })
+local client = discordia.Client({
+	cacheAllMembers = true,
+	intents = 32751 -- all intents except GUILD_INTEGRATIONS
+})
 local enums = discordia.enums
 local wrap = coroutine.wrap
 
