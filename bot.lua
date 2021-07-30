@@ -3,11 +3,9 @@
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
 local discordia = require('discordia')
-local client = discordia.Client({ cacheAllMembers = true })
+local client = discordia.Client({ logLevel = 4 })
 local enums = discordia.enums
 local wrap = coroutine.wrap
-
-discordia.extensions() -- load all helpful extensions
 
 local function code(str)
     return string.format('```\n%s```', str)
@@ -47,7 +45,7 @@ Bot.Clock = discordia.Clock()
 Bot.Commands = {}
 Bot.Events = {}
 Bot.Modules = {}
-Bot.ConfigType = enums.enum {
+enums.BotConfigType = {
 	Boolean  = 0,
 	Category = 1,
 	Channel  = 2,
@@ -62,6 +60,7 @@ Bot.ConfigType = enums.enum {
 	String   = 11,
 	User	 = 12
 }
+Bot.ConfigType = enums.BotConfigType
 
 Bot.ConfigTypeString = {}
 for name,value in pairs(Bot.ConfigType) do
@@ -219,7 +218,7 @@ Bot.ConfigTypeParser = {
 	end
 }
 
-client:onSync("ready", function ()
+client:on("ready", function ()
 	print("Logged in as " .. client.user.username)
 end)
 
@@ -228,11 +227,11 @@ client:on("guildAvailable", function (guild)
 end)
 
 client:on("guildCreate", function (guild)
-	client:info("Bot was added to guild %s", guild.name)
+	client:log("info", "Bot was added to guild %s", guild.name)
 end)
 
 client:on("guildDelete", function (guild)
-	client:info("Bot was removed from guild %s", guild.name)
+	client:log("info", "Bot was removed from guild %s", guild.name)
 end)
 
 function Bot:Save()
@@ -242,7 +241,7 @@ function Bot:Save()
 		self:ProtectedCall(string.format("Module (%s) persistent data save", moduleTable.Name), moduleTable.SavePersistentData, moduleTable)
 	end
 
-	client:info("Modules data saved (%.3fs)", stopwatch.milliseconds / 1000)
+	client:log("info", "Modules data saved (%.3fs)", stopwatch:getTime():toSeconds())
 end
 
 -- Why is this required Oo
@@ -353,14 +352,14 @@ for k,moduleFile in pairs(Config.AutoloadModules) do
 	wrap(function ()
 		local moduleTable, err, codeErr = Bot:LoadModuleFile(moduleFile)
 		if (moduleTable) then
-			client:info("Auto-loaded module \"%s\"", moduleTable.Name)
+			client:log("info", "Auto-loaded module \"%s\"", moduleTable.Name)
 		else
 			local errorMessage = err
 			if (codeErr) then
 				errorMessage = errorMessage .. "\n" .. codeErr
 			end
 
-			client:error(errorMessage)
+			client:log("error", errorMessage)
 		end
 	end)()
 end

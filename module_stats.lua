@@ -130,7 +130,7 @@ function Module:OnLoaded()
 
 		Help = "Resets stats of the day",
 		Func = function (commandMessage)
-			local data = self:GetPersistentData(commandMessage.guild)
+			local data = self:GetPersistentData(commandmessage:getGuild())
 			data.Stats = self:BuildStats()
 			commandMessage:reply("Stats reset successfully")
 		end
@@ -163,10 +163,10 @@ function Module:OnLoaded()
 					return
 				end
 
-				commandMessage.channel:broadcastTyping()
+				commandmessage:getChannel():broadcastTyping()
 
 				-- Check available dates
-				local guildStatsFolder = self:GetStatsFolder(commandMessage.guild)
+				local guildStatsFolder = self:GetStatsFolder(commandmessage:getGuild())
 
 				local availableStats = {}
 				for file in fs.scandir(guildStatsFolder) do
@@ -197,14 +197,14 @@ function Module:OnLoaded()
 				local _, firstIndex = table.binsearch(availableStats, fromDate, compareDateFunc)
 				local _, lastIndex = table.binsearch(availableStats, toDate, compareDateFunc)
 
-				local accumulatedStats = self:BuildStats(commandMessage.guild)
+				local accumulatedStats = self:BuildStats(commandmessage:getGuild())
 				accumulatedStats.MemberCount = nil
 				accumulatedStats.MemberCountHistory = {}
 
 				for i = firstIndex, lastIndex do
 					local v = availableStats[i]
 					local fileName = string.format("%s/stats_%s-%s-%s.json", guildStatsFolder, v.y, v.m, v.d)
-					local stats, err = self:LoadStats(commandMessage.guild, fileName)
+					local stats, err = self:LoadStats(commandmessage:getGuild(), fileName)
 					if (not stats) then
 						commandMessage:reply("Failed to load some stats")
 						return
@@ -213,23 +213,23 @@ function Module:OnLoaded()
 					AccumulateStats(accumulatedStats, stats)
 				end
 
-				self:PrintStats(commandMessage.channel, accumulatedStats, string.format("%s-%s-%s", fromDate.d, fromDate.m, fromDate.y), string.format("%s-%s-%s", toDate.d, toDate.m, toDate.y), lastIndex - firstIndex + 1)
+				self:PrintStats(commandmessage:getChannel(), accumulatedStats, string.format("%s-%s-%s", fromDate.d, fromDate.m, fromDate.y), string.format("%s-%s-%s", toDate.d, toDate.m, toDate.y), lastIndex - firstIndex + 1)
 			elseif (from) then
 				if (not from:match("^%d%d%d%d%-%d%d%-%d%d$")) then
 					commandMessage:reply("Invalid date format, please write it as YYYY-MM-DD")
 					return
 				end
 
-				local stats = self:LoadStats(commandMessage.guild, self:GetStatsFilename(commandMessage.guild, from))
+				local stats = self:LoadStats(commandmessage:getGuild(), self:GetStatsFilename(commandmessage:getGuild(), from))
 				if (not stats) then
 					commandMessage:reply("We have no stats for that date")
 					return
 				end
 
-				self:PrintStats(commandMessage.channel, stats)
+				self:PrintStats(commandmessage:getChannel(), stats)
 			else
-				local data = self:GetPersistentData(commandMessage.guild)
-				self:PrintStats(commandMessage.channel, data.Stats)
+				local data = self:GetPersistentData(commandmessage:getGuild())
+				self:PrintStats(commandmessage:getChannel(), data.Stats)
 			end
 		end
 	})
@@ -286,7 +286,7 @@ function Module:GetStatsFolder(guild)
 end
 
 function Module:PrintStats(channel, stats, fromDate, toDate, dayCount)
-	local guild = channel.guild
+	local guild = channel:getGuild()
 	local config = self:GetConfig(guild)
 
 	local memberCount
@@ -541,7 +541,7 @@ function Module:GetUserStats(guild, userId)
 end
 
 function Module:OnMessageCreate(message)
-	if (not bot:IsPublicChannel(message.channel)) then
+	if (not bot:IsPublicChannel(message:getChannel())) then
 		return
 	end
 
@@ -549,15 +549,15 @@ function Module:OnMessageCreate(message)
 		return
 	end
 
-	local data = self:GetPersistentData(message.guild)
+	local data = self:GetPersistentData(message:getGuild())
 	data.Stats.MessageCount = data.Stats.MessageCount + 1
 
 	-- Channels
-	local channelStats = self:GetChannelStats(message.guild, message.channel.id)
+	local channelStats = self:GetChannelStats(message:getGuild(), message:getChannel().id)
 	channelStats.MessageCount = channelStats.MessageCount + 1
 
 	-- Members
-	local userStats = self:GetUserStats(message.guild, message.author.id)
+	local userStats = self:GetUserStats(message:getGuild(), message.author.id)
 	userStats.MessageCount = userStats.MessageCount + 1
 end
 
@@ -566,7 +566,7 @@ function Module:OnMemberJoin(member)
 		return
 	end
 
-	local data = self:GetPersistentData(member.guild)
+	local data = self:GetPersistentData(member:getGuild())
 	data.Stats.MemberJoined = data.Stats.MemberJoined + 1
 	data.Stats.MemberCount = data.Stats.MemberCount + 1
 end
@@ -576,31 +576,31 @@ function Module:OnMemberLeave(member)
 		return
 	end
 
-	local data = self:GetPersistentData(member.guild)
+	local data = self:GetPersistentData(member:getGuild())
 	data.Stats.MemberLeft = data.Stats.MemberLeft + 1
 	data.Stats.MemberCount = data.Stats.MemberCount - 1
 end
 
 function Module:OnReactionAdd(reaction, userId)
-	if (not bot:IsPublicChannel(reaction.message.channel)) then
+	if (not bot:IsPublicChannel(reaction.message:getChannel())) then
 		return
 	end
 
-	local emojiData = bot:GetEmojiData(reaction.message.guild, reaction.emojiId or reaction.emojiName)
+	local emojiData = bot:GetEmojiData(reaction.message:getGuild(), reaction.emojiId or reaction.emojiName)
 	if (not emojiData) then
 		return
 	end
 
-	local data = self:GetPersistentData(reaction.message.guild)
+	local data = self:GetPersistentData(reaction.message:getGuild())
 	data.Stats.ReactionAdded = data.Stats.ReactionAdded + 1
 
-	local channelStats = self:GetChannelStats(reaction.message.guild, reaction.message.channel.id)
+	local channelStats = self:GetChannelStats(reaction.message:getGuild(), reaction.message:getChannel().id)
 	channelStats.ReactionCount = channelStats.ReactionCount + 1
 
-	local reactionStats = self:GetReactionStats(reaction.message.guild, emojiData.Name)
+	local reactionStats = self:GetReactionStats(reaction.message:getGuild(), emojiData.Name)
 	reactionStats.ReactionCount = reactionStats.ReactionCount + 1
 
-	local userStats = self:GetUserStats(reaction.message.guild, userId)
+	local userStats = self:GetUserStats(reaction.message:getGuild(), userId)
 	userStats.ReactionCount = userStats.ReactionCount + 1
 end
 
@@ -609,33 +609,33 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 		return
 	end
 
-	local emojiData = bot:GetEmojiData(channel.guild, reactionIdorName)
+	local emojiData = bot:GetEmojiData(channel:getGuild(), reactionIdorName)
 	if (not emojiData) then
 		return
 	end
 
-	local data = self:GetPersistentData(channel.guild)
+	local data = self:GetPersistentData(channel:getGuild())
 	data.Stats.ReactionAdded = data.Stats.ReactionAdded + 1
 
-	local channelStats = self:GetChannelStats(channel.guild, channel.id)
+	local channelStats = self:GetChannelStats(channel:getGuild(), channel.id)
 	channelStats.ReactionCount = channelStats.ReactionCount + 1
 
-	local reactionStats = self:GetReactionStats(channel.guild, emojiData.Name)
+	local reactionStats = self:GetReactionStats(channel:getGuild(), emojiData.Name)
 	reactionStats.ReactionCount = reactionStats.ReactionCount + 1
 
-	local userStats = self:GetUserStats(channel.guild, userId)
+	local userStats = self:GetUserStats(channel:getGuild(), userId)
 	userStats.ReactionCount = userStats.ReactionCount + 1
 end
 
 function Module:OnReactionRemove(reaction, userId)
-	if (not bot:IsPublicChannel(reaction.message.channel)) then
+	if (not bot:IsPublicChannel(reaction.message:getChannel())) then
 		return
 	end
 
-	local data = self:GetPersistentData(reaction.message.guild)
+	local data = self:GetPersistentData(reaction.message:getGuild())
 	data.Stats.ReactionRemoved = data.Stats.ReactionRemoved + 1
 
-	local reactionStats = self:GetReactionStats(reaction.message.guild, reaction.emojiId or reaction.emojiName)
+	local reactionStats = self:GetReactionStats(reaction.message:getGuild(), reaction.emojiId or reaction.emojiName)
 	reactionStats.ReactionCount = math.max(reactionStats.ReactionCount - 1, 0)
 end
 
@@ -644,14 +644,14 @@ function Module:OnReactionRemoveUncached(channel, messageId, reactionIdorName, u
 		return
 	end
 
-	local emojiData = bot:GetEmojiData(channel.guild, reactionIdorName)
+	local emojiData = bot:GetEmojiData(channel:getGuild(), reactionIdorName)
 	if (not emojiData) then
 		return
 	end
 
-	local data = self:GetPersistentData(channel.guild)
+	local data = self:GetPersistentData(channel:getGuild())
 	data.Stats.ReactionRemoved = data.Stats.ReactionRemoved + 1
 
-	local reactionStats = self:GetReactionStats(channel.guild, emojiData.Name)
+	local reactionStats = self:GetReactionStats(channel:getGuild(), emojiData.Name)
 	reactionStats.ReactionCount = math.max(reactionStats.ReactionCount - 1, 0)
 end

@@ -107,12 +107,8 @@ function Module:OnEnable(guild)
 	self:LogInfo(guild, "Checking mute role permission on all channels...")
 
 	if (config.MuteRole) then
-		for _, channel in pairs(guild.textChannels) do
-			self:CheckTextMutePermissions(channel)
-		end
-
-		for _, channel in pairs(guild.voiceChannels) do
-			self:CheckVoiceMutePermissions(channel)
+		for _, channel in pairs(guild:getChannels()) do
+			self:OnChannelCreate(channel)
 		end
 	else
 		self:LogWarning(guild, "No mute role has been set")
@@ -129,37 +125,38 @@ end
 
 local DenyPermission = function (permissionOverwrite, permission)
 	if (bit.band(permissionOverwrite.deniedPermissions, permission) ~= permission and not permissionOverwrite:denyPermissions(permission)) then
-		client:warning("[%s] Failed to deny permissions on channel %s", permissionOverwrite.guild.name, permissionOverwrite.channel.name)
+		client:log("warning", "[%s] Failed to deny permissions on channel %s", permissionOverwrite.guild.name, permissionOverwrite.channel.name)
 	end
 end
 
 function Module:CheckTextMutePermissions(channel)
-	local config = self:GetConfig(channel.guild)
-	local mutedRole = channel.guild:getRole(config.MuteRole)
+	local config = self:GetConfig(channel:getGuild())
+	local mutedRole = channel:getGuild():getRole(config.MuteRole)
 	if (not mutedRole) then
-		self:LogError(channel.guild, "Invalid muted role")
+		self:LogError(channel:getGuild(), "Invalid muted role")
 		return
 	end
 
+	--[[local permissionOverwrite, err = targetMember:getPermissions(ticketChannel.id)
 	local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	assert(permissions)
 
 	DenyPermission(permissions, enums.permission.addReactions)
-	DenyPermission(permissions, enums.permission.sendMessages)
+	DenyPermission(permissions, enums.permission.sendMessages)]]
 end
 
 function Module:CheckVoiceMutePermissions(channel)
-	local config = self:GetConfig(channel.guild)
-	local mutedRole = channel.guild:getRole(config.MuteRole)
+	local config = self:GetConfig(channel:getGuild())
+	local mutedRole = channel:getGuild():getRole(config.MuteRole)
 	if (not mutedRole) then
-		self:LogError(channel.guild, "Invalid muted role")
+		self:LogError(channel:getGuild(), "Invalid muted role")
 		return
 	end
 
-	local permissions = channel:getPermissionOverwriteFor(mutedRole)
+	--[[local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	assert(permissions)
 
-	DenyPermission(permissions, enums.permission.speak)
+	DenyPermission(permissions, enums.permission.speak)]]
 end
 
 function Module:HandleEmojiAdd(userId, message)
@@ -168,13 +165,13 @@ function Module:HandleEmojiAdd(userId, message)
 		return
 	end
 
-	local messageMember = message.member
+	local messageMember = message:getMember()
 	if (not messageMember) then
 		-- Ignore PM
 		return
 	end
 
-	local guild = message.guild
+	local guild = message:getGuild()
 	local config = self:GetConfig(guild)
 
 	for _, roleId in pairs(config.ImmunityRoles) do
@@ -223,7 +220,7 @@ function Module:HandleEmojiAdd(userId, message)
 
 					local durationStr = util.FormatTime(config.MuteDuration, 2)
 					alertChannel:send(string.format("%s has been auto-muted for %s\n<%s>", reportedUser.mentionString, durationStr, messageLink))
-					message.channel:send(string.format("%s has been auto-muted for %s due to reporting", reportedUser.mentionString, durationStr, messageLink))
+					message:getChannel():send(string.format("%s has been auto-muted for %s due to reporting", reportedUser.mentionString, durationStr, messageLink))
 				else
 					alertChannel:send(string.format("Failed to mute %s", reportedUser.mentionString))
 				end
@@ -268,7 +265,7 @@ function Module:HandleEmojiAdd(userId, message)
 				},
 				{
 					name = "Message channel",
-					value = message.channel.mentionString
+					value = message:getChannel().mentionString
 				},
 				{
 					name = "Message content",
@@ -287,7 +284,7 @@ function Module:HandleEmojiAdd(userId, message)
 		})
 
 		if (not alertMessage) then
-			self:LogError(message.guild, "Failed to post alert message (too long?) for %s", bot:GenerateMessageLink(message))
+			self:LogError(message:getGuild(), "Failed to post alert message (too long?) for %s", bot:GenerateMessageLink(message))
 		end
 
 		data.ReportedMessages[message.id] = {
@@ -300,14 +297,14 @@ function Module:HandleEmojiAdd(userId, message)
 end
 
 function Module:HandleMessageRemove(channel, messageId)
-	local data = self:GetPersistentData(channel.guild)
+	local data = self:GetPersistentData(channel:getGuild())
 
 	local reportedMessage = data.ReportedMessages[messageId]
 	if (not reportedMessage) then
 		return
 	end
 
-	local config = self:GetConfig(channel.guild)
+	local config = self:GetConfig(channel:getGuild())
 
 	reportedMessage.Embed.fields[5].value = "<Message deleted>"
 
@@ -362,11 +359,11 @@ function Module:OnChannelCreate(channel)
 end
 
 function Module:OnReactionAdd(reaction, userId)
-	if (not bot:IsPublicChannel(reaction.message.channel)) then
+	if (not bot:IsPublicChannel(reaction.message:getChannel())) then
 		return
 	end
 
-	local guild = reaction.message.guild
+	local guild = reaction.message:getGuild()
 	local config = self:GetConfig(guild)
 	local emojiData = bot:GetEmojiData(guild, reaction.emojiId or reaction.emojiName)
 	if (not emojiData) then
@@ -386,7 +383,7 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 		return
 	end
 
-	local guild = channel.guild
+	local guild = channel:getGuild()
 	local config = self:GetConfig(guild)
 	local emojiData = bot:GetEmojiData(guild, reactionIdorName)
 	if (not emojiData) then
@@ -407,11 +404,11 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 end
 
 function Module:OnMessageDelete(message)
-	if (not bot:IsPublicChannel(message.channel)) then
+	if (not bot:IsPublicChannel(message:getChannel())) then
 		return
 	end
 
-	self:HandleMessageRemove(message.channel, message.id)
+	self:HandleMessageRemove(message:getChannel(), message.id)
 end
 
 function Module:OnMessageDeleteUncached(channel, messageId)

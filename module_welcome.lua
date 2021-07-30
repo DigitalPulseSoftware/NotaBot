@@ -56,7 +56,7 @@ function Module:GetConfigTable()
 end
 
 function Module:OnMemberJoin(member)
-	local guild = member.guild
+	local guild = member:getGuild()
 	local config = self:GetConfig(guild)
 	if (config.WelcomeChannel) then
 		local channel = client:getChannel(config.WelcomeChannel)
@@ -83,7 +83,7 @@ function Module:OnMemberJoin(member)
 end
 
 function Module:OnMemberLeave(member)
-	local config = self:GetConfig(member.guild)
+	local config = self:GetConfig(member:getGuild())
 	if (config.WelcomeChannel) then
 		local channel = client:getChannel(config.WelcomeChannel)
 		local message = config.LeaveMessage

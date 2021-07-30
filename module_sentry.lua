@@ -77,7 +77,7 @@ function Module:GetConfigTable()
 end
 
 function Module:OnMemberJoin(member)
-	local guild = member.guild
+	local guild = member:getGuild()
 	local config = self:GetConfig(guild)
 	if (not config.SentryChannel or not table.search(config.MonitoredJoins, member.id)) then
 		return
@@ -97,12 +97,12 @@ function Module:OnMessageCreate(message)
 		return
 	end
 
-	if (not bot:IsPublicChannel(message.channel)) then
+	if (not bot:IsPublicChannel(message:getChannel())) then
 		return
 	end
 
-	local guild = message.guild
-	local member = message.member
+	local guild = message:getGuild()
+	local member = message:getMember()
 	local config = self:GetConfig(guild)
 	
 	local keywords = config.MonitoredMessages[member.id]

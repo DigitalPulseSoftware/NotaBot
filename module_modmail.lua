@@ -7,8 +7,6 @@ local client = Client
 local discordia = Discordia
 local enums = discordia.enums
 
-discordia.extensions() -- load all helpful extensions
-
 Module.Name = "modmail"
 
 function Module:GetConfigTable()
@@ -102,8 +100,8 @@ function Module:OnLoaded()
 		Help = "Allows you to contact the server staff in private",
 		Silent = true,
 		Func = function (commandMessage, targetMember, reason)
-			local fromMember = commandMessage.member
-			local guild = commandMessage.guild
+			local fromMember = commandmessage:getMember()
+			local guild = commandmessage:getGuild()
 			local config = self:GetConfig(guild)
 
 			if (util.MemberHasAnyRole(fromMember, config.ForbiddenRoles)) then
@@ -128,7 +126,7 @@ function Module:OnLoaded()
 				targetMember = fromMember
 			end
 		
-			local success, err = self:OpenTicket(commandMessage.member, targetMember, reason, true)
+			local success, err = self:OpenTicket(commandmessage:getMember(), targetMember, reason, true)
 			if (not success) then
 				return commandMessage:reply(err)
 			end
@@ -142,7 +140,7 @@ function Module:OnLoaded()
 			{Name = "message", Type = Bot.ConfigType.String, Optional = true},
 		},
 		PrivilegeCheck = function (member) 
-			local guild = member.guild
+			local guild = member:getGuild()
 			local config = self:GetConfig(guild)
 
 			return util.MemberHasAnyRole(member, config.TicketHandlingRoles)
@@ -151,7 +149,7 @@ function Module:OnLoaded()
 		Help = "Opens a moderation ticket for someone (same as newticket but doesn't allow the target user to talk)",
 		Silent = true,
 		Func = function (commandMessage, targetMember, reason)
-			local success, err = self:OpenTicket(commandMessage.member, targetMember, reason, false)
+			local success, err = self:OpenTicket(commandmessage:getMember(), targetMember, reason, false)
 			if (not success) then
 				return commandMessage:reply(err)
 			end
@@ -167,11 +165,11 @@ function Module:OnLoaded()
 		Help = "When used in a ticket channel, close it",
 		Silent = true,
 		Func = function (commandMessage, reason)
-			local ret = self:HandleTicketClose(commandMessage.member, commandMessage, reason, false)
+			local ret = self:HandleTicketClose(commandmessage:getMember(), commandMessage, reason, false)
 			if (ret == nil) then
-				commandMessage:reply(string.format("You must type this in an active ticket channel, %s.", commandMessage.member.user.mentionString))
+				commandMessage:reply(string.format("You must type this in an active ticket channel, %s.", commandmessage:getMember().user.mentionString))
 			elseif (ret == false) then
-				commandMessage:reply(string.format("You are not authorized to do that %s.", commandMessage.member.user.mentionString))
+				commandMessage:reply(string.format("You are not authorized to do that %s.", commandmessage:getMember().user.mentionString))
 			end
 		end
 	})
@@ -207,7 +205,7 @@ function Module:HandleEmojiAdd(userId, message, reactionName)
 		return
 	end
 
-	local guild = message.guild
+	local guild = message:getGuild()
 	local member = guild:getMember(userId)
 	if (not member) then
 		return
@@ -217,7 +215,7 @@ function Module:HandleEmojiAdd(userId, message, reactionName)
 end
 
 function Module:HandleTicketClose(member, message, reason, reactionClose)
-	local guild = message.guild
+	local guild = message:getGuild()
 	local config = self:GetConfig(guild)
 
 	local authorized = false
@@ -239,7 +237,7 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 		if (reactionClose) then
 			channelTest = (channelData.topMessageId == message.id)
 		else
-			channelTest = (channelData.channelId == message.channel.id)
+			channelTest = (channelData.channelId == message:getChannel().id)
 		end
 
 		if (channelTest) then
@@ -284,7 +282,7 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 
 			local ticketMember = guild:getMember(userId)
 			if (ticketMember) then
-				local permissions = ticketChannel:getPermissionOverwriteFor(ticketMember)
+				local permissions = ticketMember:getPermissions(ticketChannel.id)
 
 				if (not permissions or not permissions:setPermissions(enums.permission.readMessages, enums.permission.sendMessages)) then
 					ticketChannel:sendf("Failed to deny send messages permission to %s.", ticketMember.mentionString)
@@ -337,7 +335,7 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 end
 
 function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
-	local guild = fromMember.guild
+	local guild = frommember:getGuild()
 	local config = self:GetConfig(guild)
 	local data = self:GetPersistentData(guild)
 
@@ -371,7 +369,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 		return false, "failed to create the channel, this is likely a bug."
 	end
 
-	local permissionOverwrite, err = ticketChannel:getPermissionOverwriteFor(targetMember)
+	local permissionOverwrite, err = targetMember:getPermissions(ticketChannel.id)
 	if (not permissionOverwrite) then
 		print(err)
 		return false, "failed to create the channel, this is likely a bug."
@@ -470,7 +468,7 @@ end
 
 function Module:OnReactionAdd(reaction, userId)
 	local message = reaction.message
-	if (not bot:IsPublicChannel(message.channel)) then
+	if (not bot:IsPublicChannel(message:getChannel())) then
 		return
 	end
 
@@ -495,7 +493,7 @@ function Module:OnChannelDelete(channel)
 		return
 	end
 
-	local guild = channel.guild
+	local guild = channel:getGuild()
 
 	local data = self:GetPersistentData(guild)
 	for userId, channelData in pairs(data.activeChannels) do

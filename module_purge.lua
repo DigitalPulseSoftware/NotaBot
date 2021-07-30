@@ -25,7 +25,7 @@ function Module:OnLoaded()
 		Func = function (commandMessage, time)
 			local durationStr = util.FormatTime(time, 3)
 
-			local userList = self:BuildInactiveUsersList(commandMessage.guild, time)
+			local userList = self:BuildInactiveUsersList(commandmessage:getGuild(), time)
 
 			if table.empty(userList) then
 				commandMessage:reply("No user enought inactive to be purged")
@@ -46,12 +46,12 @@ function Module:OnLoaded()
 		Func = function (commandMessage, time)
 			local durationStr = util.FormatTime(time, 3)
 
-			local userList = self:BuildInactiveUsersList(commandMessage.guild, time)
+			local userList = self:BuildInactiveUsersList(commandmessage:getGuild(), time)
 
 			if #userList == 0 then
 				commandMessage:reply("No member to purge")
 			else 
-				self:PurgeRoles(commandMessage.guild, userList)
+				self:PurgeRoles(commandmessage:getGuild(), userList)
 
 				commandMessage:reply("Purged peoples inactive for " .. durationStr .. " on Discord, removed all roles on ".. #userList .." members.")
 			end
@@ -69,12 +69,12 @@ function Module:OnLoaded()
 		Func = function (commandMessage, time)
 			local durationStr = util.FormatTime(time, 3)
 
-			local userList = self:BuildInactiveUsersList(commandMessage.guild, time)
+			local userList = self:BuildInactiveUsersList(commandmessage:getGuild(), time)
 
 			if #userList == 0 then
 				commandMessage:reply("No member to purge")
 			else 
-				self:PurgeKick(commandMessage.guild, userList, durationStr)
+				self:PurgeKick(commandmessage:getGuild(), userList, durationStr)
 
 				commandMessage:reply("Purged peoples inactive for " .. durationStr .. " on this server, kicked ".. #userList .." members.")
 			end
@@ -171,25 +171,25 @@ function Module:AddMissingMembersToList(guild)
 end
 
 function Module:OnMessageCreate(message)
-	if (not bot:IsPublicChannel(message.channel)) then
+	if (not bot:IsPublicChannel(message:getChannel())) then
 		return
 	end
 
-	local data = self:GetPersistentData(message.guild)
+	local data = self:GetPersistentData(message:getGuild())
 	data.Purge[message.author.id] = os.time()
 end
 
 function Module:OnMemberJoin(member)
-	local data = self:GetPersistentData(member.guild)
+	local data = self:GetPersistentData(member:getGuild())
 	data.Purge[member.user.id] = os.time()
 end
 
 function Module:OnReactionAdd(reaction, userId)
-	if (not bot:IsPublicChannel(reaction.message.channel)) then
+	if (not bot:IsPublicChannel(reaction.message:getChannel())) then
 		return
 	end
 
-	local data = self:GetPersistentData(reaction.message.guild)
+	local data = self:GetPersistentData(reaction.message:getGuild())
 	data.Purge[userId] = os.time()
 end
 
@@ -198,16 +198,16 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 		return
 	end
 
-	local data = self:GetPersistentData(channel.guild)
+	local data = self:GetPersistentData(channel:getGuild())
 	data.Purge[userId] = os.time()
 end
 
 function Module:OnReactionRemove(reaction, userId)
-	if (not bot:IsPublicChannel(reaction.message.channel)) then
+	if (not bot:IsPublicChannel(reaction.message:getChannel())) then
 		return
 	end
 
-	local data = self:GetPersistentData(reaction.message.guild)
+	local data = self:GetPersistentData(reaction.message:getGuild())
 	data.Purge[userId] = os.time()
 end
 
@@ -216,6 +216,6 @@ function Module:OnReactionRemoveUncached(channel, messageId, reactionIdorName, u
 		return
 	end
 
-	local data = self:GetPersistentData(channel.guild)
+	local data = self:GetPersistentData(channel:getGuild())
 	data.Purge[userId] = os.time()
 end

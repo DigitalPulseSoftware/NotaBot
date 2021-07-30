@@ -40,7 +40,7 @@ function Bot:ParseCommandArgs(member, expectedArgs, args)
 			argValue = args[argumentIndex]
 		end
 
-		local value, err = parsers[argData.Type](argValue, member.guild, argData.Options)
+		local value, err = parsers[argData.Type](argValue, member:getGuild(), argData.Options)
 		if (value ~= nil) then
 			values[argIndex] = value
 			argumentIndex = argumentIndex + 1
@@ -89,7 +89,7 @@ local prefixes = {
 }
 
 client:on('messageCreate', function(message)
-	if (not Bot:IsPublicChannel(message.channel)) then
+	if (not Bot:IsPublicChannel(message:getChannel())) then
 		return
 	end
 
@@ -123,19 +123,19 @@ client:on('messageCreate', function(message)
 	end
 
 	if (commandTable.PrivilegeCheck) then
-	 	local success, ret = Bot:ProtectedCall("Command " .. commandName .. " privilege check", commandTable.PrivilegeCheck, message.member)
+	 	local success, ret = Bot:ProtectedCall("Command " .. commandName .. " privilege check", commandTable.PrivilegeCheck, message:getMember())
 	 	if (not success) then
 	 		message:reply("An error occurred")
 	 		return
 	 	end
 
 	 	if (not ret) then
-			print(string.format("%s tried to use command %s on guild %s", message.author.tag, commandName, message.guild.name))
+			print(string.format("%s tried to use command %s on guild %s", message.author.tag, commandName, message:getGuild().name))
 			return
 		end
 	end
 
-	local args, err = Bot:ParseCommandArgs(message.member, commandTable.Args, string.GetArguments(args, #commandTable.Args))
+	local args, err = Bot:ParseCommandArgs(message:getMember(), commandTable.Args, string.GetArguments(args, #commandTable.Args))
 	if (not args) then
 		message:reply(err)
 		return
@@ -157,7 +157,7 @@ Bot:RegisterCommand({
 
 	Help = "Print commands list",
 	Func = function (message, commandName)
-		local member = message.member
+		local member = message:getMember()
 		if (commandName) then
 			commandName = commandName:lower()
 			local commandTable = Bot.Commands[commandName]
@@ -173,7 +173,7 @@ Bot:RegisterCommand({
 			 	end
 
 			 	if (not ret) then
-					print(string.format("%s tried to access command %s via help on guild %s", message.author.tag, commandName, message.guild.name))
+					print(string.format("%s tried to access command %s via help on guild %s", message.author.tag, commandName, message:getGuild().name))
 					return
 				end
 			end

@@ -10,7 +10,7 @@ local enums = discordia.enums
 Module.Name = "kick"
 
 function Module:CheckPermissions(member)
-	local config = self:GetConfig(member.guild)
+	local config = self:GetConfig(member:getGuild())
 	for _,roleId in pairs(config.AuthorizedRoles) do
 		if (member:hasRole(roleId)) then
 			return true
@@ -51,10 +51,10 @@ function Module:OnLoaded()
 		Help = "Kicks a member",
 		Silent = true,
 		Func = function (commandMessage, targetMember, reason)
-			local config = self:GetConfig(commandMessage.guild)
+			local config = self:GetConfig(commandmessage:getGuild())
 
-			local guild = commandMessage.guild
-			local kickedBy = commandMessage.member
+			local guild = commandmessage:getGuild()
+			local kickedBy = commandmessage:getMember()
 
 			-- Permission check
 			local kickedByRole = kickedBy.highestRole

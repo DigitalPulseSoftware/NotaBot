@@ -263,7 +263,7 @@ function Module:GetConfigTable()
 end
 
 function Module:CheckLockPermissions(member)
-	local config = self:GetConfig(member.guild)
+	local config = self:GetConfig(member:getGuild())
 	if (util.MemberHasAnyRole(member, config.LockAuthorizedRoles)) then
 		return true
 	end
@@ -291,9 +291,9 @@ function Module:OnLoaded()
 		Help = "Locks the server, preventing people to join",
 		Silent = true,
 		Func = function (commandMessage, duration, reason)
-			local guild = commandMessage.guild
+			local guild = commandmessage:getGuild()
 			local config = self:GetConfig(guild)
-			local lockedBy = commandMessage.member
+			local lockedBy = commandmessage:getMember()
 
 			if (self:IsServerLocked(guild)) then
 				commandMessage:reply("The server is already locked")
@@ -327,8 +327,8 @@ function Module:OnLoaded()
 		Help = "Unlocks the server",
 		Silent = true,
 		Func = function (commandMessage, reason)
-			local guild = commandMessage.guild
-			local lockedBy = commandMessage.member
+			local guild = commandmessage:getGuild()
+			local lockedBy = commandmessage:getMember()
 
 			if (not self:IsServerLocked(guild)) then
 				commandMessage:reply("The server is not locked")
@@ -399,7 +399,7 @@ function Module:OnLoaded()
 
 		Help = "Adds a new rule for incoming members",
 		Func = function (commandMessage, effect, rule, param)
-			local guild = commandMessage.guild
+			local guild = commandmessage:getGuild()
 			local persistentData = self:GetPersistentData(guild)
 
 			if (not effects[effect]) then
@@ -443,7 +443,7 @@ function Module:OnLoaded()
 
 		Help = "Clear all raid rules",
 		Func = function (commandMessage)
-			local guild = commandMessage.guild
+			local guild = commandmessage:getGuild()
 			local persistentData = self:GetPersistentData(guild)
 			persistentData.rules = {}
 			self:SavePersistentData(guild)
@@ -461,7 +461,7 @@ function Module:OnLoaded()
 
 		Help = "Removes a rule by its index",
 		Func = function (commandMessage, ruleIndex)
-			local guild = commandMessage.guild
+			local guild = commandmessage:getGuild()
 			local persistentData = self:GetPersistentData(guild)
 			if (ruleIndex < 1 or ruleIndex > #persistentData.rules) then
 				commandMessage:reply("Rule index out of range")
@@ -482,7 +482,7 @@ function Module:OnLoaded()
 
 		Help = "Removes a rule by its index",
 		Func = function (commandMessage, ruleIndex)
-			local guild = commandMessage.guild
+			local guild = commandmessage:getGuild()
 			local persistentData = self:GetPersistentData(guild)
 
 			local fields = {}
@@ -650,7 +650,7 @@ function Module:UnlockServer(guild, reason)
 end
 
 function Module:HandleRules(member)
-	local guild = member.guild
+	local guild = member:getGuild()
 	local config = self:GetConfig(guild)
 
 	local whitelist = table.search(config.JoinWhitelist, member.id)
@@ -675,7 +675,7 @@ function Module:HandleRules(member)
 end
 
 function Module:OnMemberJoin(member)
-	local guild = member.guild
+	local guild = member:getGuild()
 	local config = self:GetConfig(guild)
 	local data = self:GetData(guild)
 
@@ -736,7 +736,7 @@ function Module:OnMemberJoin(member)
 end
 
 function Module:OnMessageCreate(message)
-	if (not bot:IsPublicChannel(message.channel)) then
+	if (not bot:IsPublicChannel(message:getChannel())) then
 		return
 	end
 
@@ -744,8 +744,8 @@ function Module:OnMessageCreate(message)
 		return
 	end
 
-	local guild = message.guild
-	local member = message.member
+	local guild = message:getGuild()
+	local member = message:getMember()
 	local data = self:GetData(guild)
 
 	local config = self:GetConfig(guild)
@@ -776,7 +776,7 @@ function Module:OnMessageCreate(message)
 
 	table.insert(spamChain, {
 		at = now,
-		channelId = message.channel.id,
+		channelId = message:getChannel().id,
 		messageId = message.id
 	})
 
@@ -793,7 +793,7 @@ function Module:OnMessageCreate(message)
 						alertChannel:send({
 							embed = {
 								color = 16776960,
-								description = string.format(str, member.mentionString, message.channel.mentionString),
+								description = string.format(str, member.mentionString, message:getChannel().mentionString),
 								timestamp = discordia.Date():toISO('T', 'Z')
 							}
 						})

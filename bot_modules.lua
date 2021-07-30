@@ -16,9 +16,9 @@ end
 
 -- Maps event name to function to retrieve its guild
 local discordiaEvents = {
-	["channelCreate"] = function (channel) return channel.guild end,
-	["channelDelete"] = function (channel) return channel.guild end,
-	["channelUpdate"] = function (channel) return channel.guild end,
+	["channelCreate"] = function (channel) return channel:getGuild() end,
+	["channelDelete"] = function (channel) return channel:getGuild() end,
+	["channelUpdate"] = function (channel) return channel:getGuild() end,
 	["debug"] = function (message) end,
 	["emojisUpdate"] = function (guild) return guild end,
 	["error"] = function (message) end,
@@ -29,21 +29,21 @@ local discordiaEvents = {
 	["guildUpdate"] = function (guild) return guild end,
 	["heartbeat"] = function (shardId, latency) end,
 	["info"] = function (message) end,
-	["memberJoin"] = function (member) return member.guild end,
-	["memberLeave"] = function (member) return member.guild end,
-	["memberUpdate"] = function (member) return member.guild end,
-	["messageCreate"] = function (message) return message.guild end,
-	["messageDelete"] = function (message) return message.guild end,
-	["messageDeleteUncached"] = function (channel, messageId) return channel.guild end,
-	["messageUpdate"] = function (message) return message.guild end,
-	["messageUpdateUncached"] = function (channel, messageId) return channel.guild end,
-	["pinsUpdate"] = function (channel) return channel.guild end,
-	["presenceUpdate"] = function (member) return member.guild end,
+	["memberJoin"] = function (member) return member:getGuild() end,
+	["memberLeave"] = function (member) return member:getGuild() end,
+	["memberUpdate"] = function (member) return member:getGuild() end,
+	["messageCreate"] = function (message) return message:getGuild() end,
+	["messageDelete"] = function (message) return message:getGuild() end,
+	["messageDeleteUncached"] = function (channel, messageId) return channel:getGuild() end,
+	["messageUpdate"] = function (message) return message:getGuild() end,
+	["messageUpdateUncached"] = function (channel, messageId) return channel:getGuild() end,
+	["pinsUpdate"] = function (channel) return channel:getGuild() end,
+	["presenceUpdate"] = function (member) return member:getGuild() end,
 	["raw"] = function (string) end,
-	["reactionAdd"] = function (reaction, userId) return reaction.message.guild end,
-	["reactionAddUncached"] = function (channel, messageId, hash, userId) return channel.guild end,
-	["reactionRemove"] = function (reaction, userId) return reaction.message.guild end,
-	["reactionRemoveUncached"] = function (channel, messageId, hash, userId) return channel.guild end,
+	["reactionAdd"] = function (reaction, userId) return reaction.message:getGuild() end,
+	["reactionAddUncached"] = function (channel, messageId, hash, userId) return channel:getGuild() end,
+	["reactionRemove"] = function (reaction, userId) return reaction.message:getGuild() end,
+	["reactionRemoveUncached"] = function (channel, messageId, hash, userId) return channel:getGuild() end,
 	["ready"] = function () end,
 	["recipientAdd"] = function (relationship) end,
 	["recipientRemove"] = function (relationship) end,
@@ -61,18 +61,18 @@ local discordiaEvents = {
 			return
 		end
 
-		return channel.guild
+		return channel:getGuild()
 	end,
 	["userBan"] = function (user, guild) return guild end,
 	["userUnban"] = function (user, guild) return guild end,
 	["userUpdate"] = function (user) end,
-	["voiceChannelJoin"] = function (member, channel) return channel.guild end,
-	["voiceChannelLeave"] = function (member, channel) return channel.guild end,
-	["voiceConnect"] = function (member) return member.guild end,
-	["voiceDisconnect"] = function (member) return member.guild end,
-	["voiceUpdate"] = function (member) return member.guild end,
+	["voiceChannelJoin"] = function (member, channel) return channel:getGuild() end,
+	["voiceChannelLeave"] = function (member, channel) return channel:getGuild() end,
+	["voiceConnect"] = function (member) return member:getGuild() end,
+	["voiceDisconnect"] = function (member) return member:getGuild() end,
+	["voiceUpdate"] = function (member) return member:getGuild() end,
 	["warning"] = function (message) end,
-	["webhooksUpdate"] = function (channel) return channel.guild end
+	["webhooksUpdate"] = function (channel) return channel:getGuild() end
 }
 
 local botModuleEvents = {
@@ -278,7 +278,7 @@ function ModuleMetatable:EnableForGuild(guild, ignoreCheck, dontSave)
 		self:SaveGuildConfig(guild)
 	end
 
-	self:LogInfo(guild, "Module enabled (%.3fs)", stopwatch.milliseconds / 1000)
+	self:LogInfo(guild, "Module enabled (%.3fs)", stopwatch:getTime():toSeconds())
 	return true
 end
 
@@ -352,12 +352,12 @@ function ModuleMetatable:IsEnabledForGuild(guild)
 end
 
 -- Log functions (LogError, LogInfo, LogWarning)
-for k, func in pairs({"error", "info", "warning"}) do
-	ModuleMetatable["Log" .. string.UpperizeFirst(func)] = function (moduleTable, guild, ...)
+for k, logtype in pairs({"error", "info", "warning"}) do
+	ModuleMetatable["Log" .. string.UpperizeFirst(logtype)] = function (moduleTable, guild, ...)
 		if (type(guild) == "string") then
-			Bot.Client[func](Bot.Client, "[%s][%s] %s", "<*>", moduleTable.Name, string.format(guild, ...))
+			Bot.Client:log(logtype, "[%s][%s] %s", "<*>", moduleTable.Name, string.format(guild, ...))
 		else
-			Bot.Client[func](Bot.Client, "[%s][%s] %s", guild and guild.name or "<Invalid guild>", moduleTable.Name, string.format(...))
+			Bot.Client:log(logtype, "[%s][%s] %s", guild and guild.name or "<Invalid guild>", moduleTable.Name, string.format(...))
 		end
 	end
 end
@@ -366,7 +366,7 @@ function ModuleMetatable:RegisterCommand(values)
 	local privilegeCheck = values.PrivilegeCheck
 	if (privilegeCheck) then
 		values.PrivilegeCheck = function (member)
-			if (not self:IsEnabledForGuild(member.guild)) then
+			if (not self:IsEnabledForGuild(member:getGuild())) then
 				return false
 			end
 
@@ -374,7 +374,7 @@ function ModuleMetatable:RegisterCommand(values)
 		end
 	else
 		values.PrivilegeCheck = function (member) 
-			return self:IsEnabledForGuild(member.guild)
+			return self:IsEnabledForGuild(member:getGuild())
 		end
 	end
 
@@ -622,8 +622,7 @@ function Bot:LoadModule(moduleTable)
 		end
 	end
 
-	local loadTime = stopwatch.milliseconds / 1000
-	self.Client:info("[<*>][%s] Loaded module (%.3fs)", moduleTable.Name, stopwatch.milliseconds / 1000)
+	self.Client:log("info", "[<*>][%s] Loaded module (%.3fs)", moduleTable.Name, stopwatch:getTime():toSeconds())
 
 	if (isReady) then
 		self:CallOnReady(moduleTable)
@@ -678,14 +677,14 @@ function Bot:LoadModuleData(moduleTable)
 						guildData.Config = config
 						moduleTable:_PrepareGuildConfig(guildId, guildData.Config)
 					else
-						self.Client:error("Failed to load config of guild %s (%s module): %s", guildId, moduleTable.Name, err)
+						self.Client:log("error", "Failed to load config of guild %s (%s module): %s", guildId, moduleTable.Name, err)
 					end
 
 					local persistentData, err = self:UnserializeFromFile(path .. "/persistentdata.json")
 					if (persistentData) then
 						guildData.PersistentData = persistentData
 					else
-						self.Client:error("Failed to load persistent data of guild %s (%s module): %s", guildId, moduleTable.Name, err)
+						self.Client:log("error", "Failed to load persistent data of guild %s (%s module): %s", guildId, moduleTable.Name, err)
 					end
 				end
 			elseif (entry.type == "file") then
@@ -693,17 +692,17 @@ function Bot:LoadModuleData(moduleTable)
 					local config, err = self:UnserializeFromFile(path)
 					if (config) then
 						moduleTable.GlobalConfig = config
-						self.Client:info("Global config of module %s has been loaded", moduleTable.Name)
+						self.Client:log("info", "Global config of module %s has been loaded", moduleTable.Name)
 					else
-						self.Client:error("Failed to load global config module %s: %s", moduleTable.Name, err)
+						self.Client:log("error", "Failed to load global config module %s: %s", moduleTable.Name, err)
 					end
 				elseif (entry.name == "global_data.json") then
 					local data, err = self:UnserializeFromFile(path)
 					if (data) then
 						moduleTable.GlobalPersistentData = data
-						self.Client:info("Global data of module %s has been loaded", moduleTable.Name)
+						self.Client:log("info", "Global data of module %s has been loaded", moduleTable.Name)
 					else
-						self.Client:error("Failed to load global config module %s: %s", moduleTable.Name, err)
+						self.Client:log("error", "Failed to load global config module %s: %s", moduleTable.Name, err)
 					end
 				end
 			end
@@ -720,7 +719,7 @@ function Bot:MakeModuleReady(moduleTable)
 		local eventTable = self.Events[eventName]
 		if (not eventTable) then
 			eventTable = {}
-			self.Client:onSync(eventName, function (...)
+			self.Client:on(eventName, function (...)
 				local parameters = {...}
 				table.insert(parameters, self.Client)
 
@@ -780,14 +779,14 @@ function Bot:UnloadModule(moduleName)
 
 		self.Modules[moduleName] = nil
 
-		self.Client:info("[<*>][%s] Unloaded module", moduleTable.Name)
+		self.Client:log("info", "[<*>][%s] Unloaded module", moduleTable.Name)
 		return true
 	end
 	
 	return false
 end
 
-Bot.Client:onSync("ready", function ()
+Bot.Client:on("ready", function ()
 	if (isReady) then
 		for moduleName,moduleTable in pairs(Bot.Modules) do
 			Bot:CallOnReady(moduleTable)
@@ -821,7 +820,7 @@ Bot:RegisterCommand({
 			local enabledEmoji
 			if (moduleTable.Global) then
 				enabledEmoji = ":globe_with_meridians:"
-			elseif (moduleTable:IsEnabledForGuild(message.guild)) then
+			elseif (moduleTable:IsEnabledForGuild(message:getGuild())) then
 				enabledEmoji = ":white_check_mark:"
 			else
 				enabledEmoji = ":x:"
@@ -906,7 +905,7 @@ Bot:RegisterCommand({
 		action = action and action:lower() or "list"
 
 		local globalConfig = moduleTable.GlobalConfig
-		local guild = message.guild
+		local guild = message:getGuild()
 		local guildConfig = moduleTable:GetConfig(guild)
 
 		local GetConfigByKey = function (key)
@@ -916,7 +915,7 @@ Bot:RegisterCommand({
 				end
 			end
 
-			if (message.member.id == Config.OwnerUserId) then
+			if (message:getMember().id == Config.OwnerUserId) then
 				for k,configData in pairs(moduleTable._GlobalConfig) do
 					if (configData.Name == key) then
 						return configData
@@ -932,7 +931,7 @@ Bot:RegisterCommand({
 				table.insert(fields, GenerateField(guild, configTable, rawget(guildConfig, configTable.Name)))
 			end
 
-			if (message.member.id == Config.OwnerUserId) then
+			if (message:getMember().id == Config.OwnerUserId) then
 				for k,configTable in pairs(moduleTable._GlobalConfig) do
 					table.insert(fields, GenerateField(guild, configTable, rawget(moduleTable.GlobalConfig, configTable.Name)))
 				end
@@ -1127,7 +1126,7 @@ Bot:RegisterCommand({
 		action = action and action:lower() or "get"
 
 		local globalConfig = moduleTable.GlobalConfig
-		local guild = message.guild
+		local guild = message:getGuild()
 		local guildConfig = moduleTable:GetConfig(guild)
 
 		if (action == "get") then
@@ -1136,7 +1135,7 @@ Bot:RegisterCommand({
 				fields[configTable.Name] = rawget(guildConfig, configTable.Name)
 			end
 
-			if (global and message.member.id == Config.OwnerUserId) then
+			if (global and message:getMember().id == Config.OwnerUserId) then
 				for _,configTable in pairs(moduleTable._GlobalConfig) do
 					fields[configTable.Name] = rawget(moduleTable.GlobalConfig, configTable.Name)
 				end
@@ -1234,7 +1233,7 @@ Bot:RegisterCommand({
 					end
 				end
 
-				if (message.member.id == Config.OwnerUserId) then
+				if (message:getMember().id == Config.OwnerUserId) then
 					for _, configTable in pairs(moduleTable._GlobalConfig) do
 						if (configTable.Name == fieldName) then
 							local success, err = validateConfigType(configTable, fieldValue)
@@ -1340,7 +1339,7 @@ Bot:RegisterCommand({
 
 	Help = "Disables a module",
 	Func = function (message, moduleName)
-		local success, err = Bot:DisableModule(moduleName, message.guild)
+		local success, err = Bot:DisableModule(moduleName, message:getGuild())
 		if (success) then
 			message:reply("Module **" .. moduleName .. "** disabled")
 		else
@@ -1358,7 +1357,7 @@ Bot:RegisterCommand({
 
 	Help = "Enables a module",
 	Func = function (message, moduleName)
-		local success, err = Bot:EnableModule(moduleName, message.guild)
+		local success, err = Bot:EnableModule(moduleName, message:getGuild())
 		if (success) then
 			message:reply("Module **" .. moduleName .. "** enabled")
 		else
@@ -1382,14 +1381,14 @@ Bot:RegisterCommand({
 			return
 		end
 
-		if (not moduleTable:IsEnabledForGuild(message.guild)) then
+		if (not moduleTable:IsEnabledForGuild(message:getGuild())) then
 			message:reply("Module **" .. moduleName .. "** is not enabled")
 			return
 		end
 
-		local success, err = moduleTable:DisableForGuild(message.guild, true)
+		local success, err = moduleTable:DisableForGuild(message:getGuild(), true)
 		if (success) then
-			local success, err = moduleTable:EnableForGuild(message.guild, false, true)
+			local success, err = moduleTable:EnableForGuild(message:getGuild(), false, true)
 			if (success) then
 				message:reply("Module **" .. moduleName .. "** reloaded")
 			else
@@ -1433,7 +1432,7 @@ Bot:RegisterCommand({
 			return
 		end
 
-		local success, err = moduleTable:LoadGuildConfig(message.guild)
+		local success, err = moduleTable:LoadGuildConfig(message:getGuild())
 		if (success) then
 			message:reply("Module **" .. moduleName .. "** configuration reloaded")
 		else

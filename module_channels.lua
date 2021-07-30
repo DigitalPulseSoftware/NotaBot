@@ -7,8 +7,6 @@ local client = Client
 local discordia = Discordia
 local enums = discordia.enums
 
-discordia.extensions() -- load all helpful extensions
-
 Module.Name = "channels"
 
 local emojiOrder = {
@@ -124,7 +122,7 @@ function Module:OnLoaded()
 
 		Help = "Lists the channel module messages and reactions",
 		Func = function (commandMessage, configMessage)
-			local guild = commandMessage.guild
+			local guild = commandmessage:getGuild()
 			local config = self:GetConfig(guild)
 			local data = self:GetData(guild)
 
@@ -227,7 +225,7 @@ function Module:OnLoaded()
 
 		Help = "Configures the channel module messages and reactions",
 		Func = function (commandMessage, message, emoji, action, value)
-			local guild = commandMessage.guild
+			local guild = commandmessage:getGuild()
 			local config = self:GetConfig(guild)
 
 			local GetReactionActionsConfig = function (channelId, messageId, reaction, noCreate)
@@ -277,7 +275,7 @@ function Module:OnLoaded()
 
 				local roleValue = tostring(role.id)
 
-				local reactionActions = GetReactionActionsConfig(message.channel.id, message.id, emoji.Name)
+				local reactionActions = GetReactionActionsConfig(message:getChannel().id, message.id, emoji.Name)
 				if (reactionActions.AddRoles) then
 					if (not table.search(reactionActions.AddRoles, roleValue)) then
 						table.insert(reactionActions.AddRoles, tostring(role.id))
@@ -305,7 +303,7 @@ function Module:OnLoaded()
 
 				local roleValue = tostring(role.id)
 
-				local reactionActions = GetReactionActionsConfig(message.channel.id, message.id, emoji.Name)
+				local reactionActions = GetReactionActionsConfig(message:getChannel().id, message.id, emoji.Name)
 				if (reactionActions.RemoveRoles) then
 					if (not table.search(reactionActions.RemoveRoles, roleValue)) then
 						table.insert(reactionActions.RemoveRoles, tostring(role.id))
@@ -333,7 +331,7 @@ function Module:OnLoaded()
 
 				local roleValue = tostring(role.id)
 
-				local reactionActions = GetReactionActionsConfig(message.channel.id, message.id, emoji.Name)
+				local reactionActions = GetReactionActionsConfig(message:getChannel().id, message.id, emoji.Name)
 				if (reactionActions.ToggleRoles) then
 					if (not table.search(reactionActions.ToggleRoles, roleValue)) then
 						table.insert(reactionActions.ToggleRoles, tostring(role.id))
@@ -358,13 +356,13 @@ function Module:OnLoaded()
 					return
 				end
 
-				local reactionActions = GetReactionActionsConfig(message.channel.id, message.id, emoji.Name)
+				local reactionActions = GetReactionActionsConfig(message:getChannel().id, message.id, emoji.Name)
 				reactionActions.SendMessage = value
 
 				success = true
 				commandMessage:reply(string.format("Reactions on %s for %s will now send private message: %s", Bot:GenerateMessageLink(message), emoji.MentionString, value))
 			elseif (action == "clear") then
-				local reactionActions = GetReactionActionsConfig(message.channel.id, message.id, emoji.Name, true)
+				local reactionActions = GetReactionActionsConfig(message:getChannel().id, message.id, emoji.Name, true)
 				if (reactionActions) then
 					reactionActions.AddRoles = nil
 					reactionActions.RemoveRoles = nil
@@ -556,7 +554,7 @@ function Module:HandleConfig(guild, config)
 						local emoji = Bot:GetEmojiData(guild, reaction)
 						local success, err = message:addReaction(emoji.Emoji or emoji.Id)
 						if (not success) then
-							self:LogWarning(guild, "Failed to add reaction %s on message %s (channel: %s): %s", emoji.Name, message.id, message.channel.id, err)
+							self:LogWarning(guild, "Failed to add reaction %s on message %s (channel: %s): %s", emoji.Name, message.id, message:getChannel().id, err)
 						end
 					end
 				else
@@ -666,19 +664,19 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 end
 
 function Module:OnReactionAdd(reaction, userId)
-	if (not bot:IsPublicChannel(reaction.message.channel)) then
+	if (not bot:IsPublicChannel(reaction.message:getChannel())) then
 		return
 	end
 
-	local emoji = bot:GetEmojiData(reaction.message.guild, reaction.emojiId or reaction.emojiName)
+	local emoji = bot:GetEmojiData(reaction.message:getGuild(), reaction.emojiId or reaction.emojiName)
 	if (not emoji) then
 		return
 	end
 
-	if (self:HandleReactionAdd(reaction.message.channel.guild, userId, reaction.message.channel.id, reaction.message.id, emoji.Name)) then
+	if (self:HandleReactionAdd(reaction.message:getChannel():getGuild(), userId, reaction.message:getChannel().id, reaction.message.id, emoji.Name)) then
 		local success, err = reaction.message:removeReaction(emoji.Emoji or emoji.Id, userId)
 		if (not success) then
-			self:LogWarning(reaction.message.guild, "Failed to remove reaction for message (%s)", err)
+			self:LogWarning(reaction.message:getGuild(), "Failed to remove reaction for message (%s)", err)
 		end
 	end
 end
@@ -688,18 +686,18 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdOrName, user
 		return
 	end
 
-	local emoji = bot:GetEmojiData(channel.guild, reactionIdOrName)
+	local emoji = bot:GetEmojiData(channel:getGuild(), reactionIdOrName)
 	if (not emoji) then
-		self:LogWarning(channel.guild, "Emoji %s was used but not found in guild", reactionIdOrName)
+		self:LogWarning(channel:getGuild(), "Emoji %s was used but not found in guild", reactionIdOrName)
 		return
 	end
 
-	if (self:HandleReactionAdd(channel.guild, userId, channel.id, messageId, emoji.Name)) then
+	if (self:HandleReactionAdd(channel:getGuild(), userId, channel.id, messageId, emoji.Name)) then
 		local message = channel:getMessage(messageId)
 		if (message) then
 			local success, err = message:removeReaction(emoji.Emoji or emoji.Id, userId)
 			if (not success) then
-				self:LogWarning(channel.guild, "Failed to remove reaction for uncached message (%s)", err)
+				self:LogWarning(channel:getGuild(), "Failed to remove reaction for uncached message (%s)", err)
 			end
 		end
 	end

@@ -45,14 +45,14 @@ function Module:HandleEmojiAdd(config, reaction)
 		local message = reaction.message
 		if (not message.pinned) then
 			if (not message:pin()) then
-				self:LogError(message.guild, "Failed to pin message %s in channel %s", message.id, message.channel.id)
+				self:LogError(message:getGuild(), "Failed to pin message %s in channel %s", message.id, message:getChannel().id)
 				return
 			end
 
 			if (config.AlertChannel) then
-				local alertChannel = message.guild:getChannel(config.AlertChannel)
+				local alertChannel = message:getGuild():getChannel(config.AlertChannel)
 				if (not alertChannel) then
-					self:LogWarning(message.guild, "Invalid alert channel")
+					self:LogWarning(message:getGuild(), "Invalid alert channel")
 					return
 				end
 
@@ -63,7 +63,7 @@ function Module:HandleEmojiAdd(config, reaction)
 				end
 
 				alertChannel:send({
-					content = string.format("A message has been auto-pinned in %s:\n%s", message.channel.mentionString, Bot:GenerateMessageLink(message)),
+					content = string.format("A message has been auto-pinned in %s:\n%s", message:getChannel().mentionString, Bot:GenerateMessageLink(message)),
 					embed = {
 						author = {
 							name = author.tag,
@@ -74,7 +74,7 @@ function Module:HandleEmojiAdd(config, reaction)
 						},
 						description = content,
 						footer = {
-							text = string.format("in #%s at %s", message.channel.name, message.guild.name)
+							text = string.format("in #%s at %s", message:getChannel().name, message:getGuild().name)
 						},
 						timestamp = message.timestamp
 					}
@@ -85,12 +85,12 @@ function Module:HandleEmojiAdd(config, reaction)
 end
 
 function Module:OnReactionAdd(reaction, userId)
-	local channel = reaction.message.channel
+	local channel = reaction.message:getChannel()
 	if (not bot:IsPublicChannel(channel)) then
 		return
 	end
 
-	local guild = reaction.message.guild
+	local guild = reaction.message:getGuild()
 	local config = self:GetConfig(guild)
 	local emojiData = bot:GetEmojiData(guild, reaction.emojiId or reaction.emojiName)
 	if (not emojiData) then
@@ -115,7 +115,7 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 		return
 	end
 
-	local guild = channel.guild
+	local guild = channel:getGuild()
 	local config = self:GetConfig(guild)
 	local emojiData = bot:GetEmojiData(guild, reactionIdorName)
 	if (not emojiData) then

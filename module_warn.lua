@@ -61,9 +61,9 @@ end
 
 local function SendWarnMessage(commandMessage, targetMember, reason)
     if not reason then
-        commandMessage:reply(string.format("**%s** has warned **%s**.", commandMessage.member.tag, targetMember.tag))
+        commandMessage:reply(string.format("**%s** has warned **%s**.", commandmessage:getMember().tag, targetMember.tag))
     else
-        commandMessage:reply(string.format("**%s** has warned **%s** for the following reason:\n**%s**.", commandMessage.member.tag, targetMember.tag, reason))
+        commandMessage:reply(string.format("**%s** has warned **%s** for the following reason:\n**%s**.", commandmessage:getMember().tag, targetMember.tag, reason))
     end
 end
 
@@ -146,13 +146,13 @@ function Module:OnLoaded()
         Help = "Warns a member",
         Silent = true,
         Func = function (commandMessage, targetUser, reason)
-            local guild = commandMessage.guild
+            local guild = commandmessage:getGuild()
             local config = self:GetConfig(guild)
             local history = self:GetPersistentData(guild)
             history = history or {}
             
             local targetMember = guild:getMember(targetUser)
-            local moderator = commandMessage.member
+            local moderator = commandmessage:getMember()
             
             -- Permission check
             if targetMember then
@@ -166,7 +166,7 @@ function Module:OnLoaded()
 
             -- Adding warn to the user
             local targetId = targetUser.id
-            local moderatorId = commandMessage.member.id
+            local moderatorId = commandmessage:getMember().id
             
             AddWarn(history, targetId, moderatorId, reason)
 
@@ -237,7 +237,7 @@ function Module:OnLoaded()
         Help = "Shows all the warns of a member.",
         Silent = true,
         Func = function(commandMessage, targetUser)
-            local guild = commandMessage.guild
+            local guild = commandmessage:getGuild()
             local history = self:GetPersistentData(guild)
             local targetMember = guild:getMember(targetUser)
 
@@ -270,7 +270,7 @@ function Module:OnLoaded()
         Help = "Clears all the warns of a specified user.",
         Silent = true,
         Func = function (commandMessage, targetUser)
-            local guild = commandMessage.guild
+            local guild = commandmessage:getGuild()
             local history = self:GetPersistentData(guild)
             local targetMember = guild:getMember(targetUser)
 

@@ -41,7 +41,7 @@ function Module:GetConfigTable()
 end
 
 function Module:CheckPermissions(member)
-	local config = self:GetConfig(member.guild)
+	local config = self:GetConfig(member:getGuild())
 	if (util.MemberHasAnyRole(member, config.AuthorizedRoles)) then
 		return true
 	end
@@ -66,9 +66,9 @@ function Module:OnLoaded()
 		Help = "Mutes a member",
 		Silent = true,
 		Func = function (commandMessage, targetMember, duration, reason)
-			local guild = commandMessage.guild
+			local guild = commandmessage:getGuild()
 			local config = self:GetConfig(guild)
-			local mutedBy = commandMessage.member
+			local mutedBy = commandmessage:getMember()
 
 			-- Duration
 			if (not duration) then
@@ -97,7 +97,7 @@ function Module:OnLoaded()
 						durationText = ""
 					end
 
-					privateChannel:send(string.format("You have been muted from **%s** by %s (%s)\n%s", commandMessage.guild.name, mutedBy.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given", durationText))
+					privateChannel:send(string.format("You have been muted from **%s** by %s (%s)\n%s", commandmessage:getGuild().name, mutedBy.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given", durationText))
 				end
 			end
 
@@ -121,7 +121,7 @@ function Module:OnLoaded()
 		Help = "Unmutes a member",
 		Silent = true,
 		Func = function (commandMessage, targetUser, reason)
-			local guild = commandMessage.guild
+			local guild = commandmessage:getGuild()
 			local config = self:GetConfig(guild)
 
 			-- Reason
@@ -130,13 +130,13 @@ function Module:OnLoaded()
 			if (config.SendPrivateMessage) then
 				local privateChannel = targetUser:getPrivateChannel()
 				if (privateChannel) then
-					privateChannel:send(string.format("You have been unmuted from **%s** by %s (%s)", commandMessage.guild.name, commandMessage.member.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given"))
+					privateChannel:send(string.format("You have been unmuted from **%s** by %s (%s)", commandmessage:getGuild().name, commandmessage:getMember().user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given"))
 				end
 			end
 
 			local success, err = self:Unmute(guild, targetUser.id)
 			if (success) then
-				commandMessage:reply(string.format("%s has unmuted %s%s", commandMessage.member.name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
+				commandMessage:reply(string.format("%s has unmuted %s%s", commandmessage:getMember().name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
 			else
 				commandMessage:reply(string.format("Failed to unmute %s: %s", targetUser.tag, err))
 			end
@@ -156,12 +156,8 @@ function Module:OnEnable(guild)
 
 	self:LogInfo(guild, "Checking mute role permission on all channels...")
 
-	for _, channel in pairs(guild.textChannels) do
-		self:CheckTextMutePermissions(channel)
-	end
-
-	for _, channel in pairs(guild.voiceChannels) do
-		self:CheckVoiceMutePermissions(channel)
+	for _, channel in pairs(guild:getChannels()) do
+		self:OnChannelCreate(channel)
 	end
 
 	local persistentData = self:GetPersistentData(guild)
@@ -188,37 +184,37 @@ end
 
 local DenyPermission = function (permissionOverwrite, permission)
 	if (bit.band(permissionOverwrite.deniedPermissions, permission) ~= permission and not permissionOverwrite:denyPermissions(permission)) then
-		client:warning("[%s] Failed to deny permissions on channel %s", permissionOverwrite.guild.name, permissionOverwrite.channel.name)
+		client:log("warning", "[%s] Failed to deny permissions on channel %s", permissionOverwrite.guild.name, permissionOverwrite.channel.name)
 	end
 end
 
 function Module:CheckTextMutePermissions(channel)
-	local config = self:GetConfig(channel.guild)
-	local mutedRole = channel.guild:getRole(config.MuteRole)
+	local config = self:GetConfig(channel:getGuild())
+	local mutedRole = channel:getGuild():getRole(config.MuteRole)
 	if (not mutedRole) then
-		self:LogError(channel.guild, "Invalid muted role")
+		self:LogError(channel:getGuild(), "Invalid muted role")
 		return
 	end
 
-	local permissions = channel:getPermissionOverwriteFor(mutedRole)
+	--[[local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	assert(permissions)
 
 	DenyPermission(permissions, enums.permission.addReactions)
-	DenyPermission(permissions, enums.permission.sendMessages)
+	DenyPermission(permissions, enums.permission.sendMessages)]]
 end
 
 function Module:CheckVoiceMutePermissions(channel)
-	local config = self:GetConfig(channel.guild)
-	local mutedRole = channel.guild:getRole(config.MuteRole)
+	local config = self:GetConfig(channel:getGuild())
+	local mutedRole = channel:getGuild():getRole(config.MuteRole)
 	if (not mutedRole) then
-		self:LogError(channel.guild, "Invalid muted role")
+		self:LogError(channel:getGuild(), "Invalid muted role")
 		return
 	end
 
-	local permissions = channel:getPermissionOverwriteFor(mutedRole)
+	--[[local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	assert(permissions)
 
-	DenyPermission(permissions, enums.permission.speak)
+	DenyPermission(permissions, enums.permission.speak)]]
 end
 
 function Module:Mute(guild, userId, duration)
@@ -290,7 +286,7 @@ function Module:OnChannelCreate(channel)
 end
 
 function Module:OnMemberJoin(member)
-	local guild = member.guild
+	local guild = member:getGuild()
 
 	local config = self:GetConfig(guild)
 	local persistentData = self:GetPersistentData(guild)

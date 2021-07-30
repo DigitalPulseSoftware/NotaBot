@@ -37,12 +37,12 @@ function Module:OnEnable(guild)
 end
 
 function Module:OnMessageCreate(message)
-	if (not bot:IsPublicChannel(message.channel)) then
+	if (not bot:IsPublicChannel(message:getChannel())) then
 		return
 	end
 
 	local mention = false
-	local config = self:GetConfig(message.guild)
+	local config = self:GetConfig(message:getGuild())
 
 	if (message.mentionsEveryone and config.ReactOnEveryoneOrHere) then
 		mention = true
@@ -56,7 +56,7 @@ function Module:OnMessageCreate(message)
 	end
 
 	if (mention) then
-		local mentionEmoji = bot:GetEmojiData(message.guild, config.Emoji)
+		local mentionEmoji = bot:GetEmojiData(message:getGuild(), config.Emoji)
 		if (not mentionEmoji) then
 			return
 		end

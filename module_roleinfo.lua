@@ -62,13 +62,13 @@ function Module:OnLoaded()
 			end
 
 			if (roleregex) then
-				for _, role in pairs(commandMessage.guild.roles) do
+				for _, role in pairs(commandmessage:getGuild().roles) do
 					if (role.name:lower():match(roleregex)) then
 						ProcessRole(role)
 					end
 				end
 			else
-				for _, role in pairs(commandMessage.guild.roles) do
+				for _, role in pairs(commandmessage:getGuild().roles) do
 					if (role.name:lower() == rolename) then
 						ProcessRole(role)
 					end

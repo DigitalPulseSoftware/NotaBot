@@ -109,7 +109,7 @@ function TwitchApi:Commit(method, url, headers, body, retries, forceAuth)
 
 	local success, res, msg = pcall(request, method, url, headers, body)
 	if (not success) then
-		self._client:error("Request failed : %s %s", method, url)
+		self._client:log("error", "Request failed : %s %s", method, url)
 		return nil, res, 100
 	end
 
@@ -131,7 +131,7 @@ function TwitchApi:Commit(method, url, headers, body, retries, forceAuth)
 	local data = (contentType and contentType:find("application/json")) and decode(msg) or msg
 
 	if (res.code < 300) then
-		self._client:info("%i - %s : %s %s", res.code, res.reason, method, url)
+		self._client:log("info", "%i - %s : %s %s", res.code, res.reason, method, url)
 		return data, nil, delay
 	else
 		local maxRetries = 5
@@ -149,12 +149,12 @@ function TwitchApi:Commit(method, url, headers, body, retries, forceAuth)
 		end
 
 		if (retry) then
-			self._client:warning("%i - %s : retrying after %i ms : %s %s", res.code, res.reason, delay, method, url)
+			self._client:log("warning", "%i - %s : retrying after %i ms : %s %s", res.code, res.reason, delay, method, url)
 			sleep(delay)
 			return self:Commit(method, url, headers, body, retries + 1, forceAuth)
 		end
 
-		self._client:error('%i - %s : %s %s', res.code, res.reason, method, url)
+		self._client:log("error", '%i - %s : %s %s', res.code, res.reason, method, url)
 		return nil, msg, delay
 	end
 end

@@ -159,13 +159,15 @@ function Bot:DecodeUser(message)
 end
 
 function Bot:GenerateMessageLink(message)
-	local guildId = message.guild and message.guild.id or "@me"
-	return string.format("https://discord.com/channels/%s/%s/%s", guildId, message.channel.id, message.id)
+	local guildId = message:getGuild() and message:getGuild().id or "@me"
+	return string.format("https://discord.com/channels/%s/%s/%s", guildId, message:getChannel().id, message.id)
 end
 
 local publicChannels = {
 	[enums.channelType.text] = true,
-	[enums.channelType.news] = true
+	[enums.channelType.news] = true,
+	[enums.channelType.newsThread] = true,
+	[enums.channelType.publicThread] = true,
 }
 
 function Bot:IsPublicChannel(channel)
@@ -180,7 +182,7 @@ function Bot:ProtectedCall(context, func, ...)
 	local success, a, b, c, d, e, f = xpcall(func, ehandler, ...)
 	if (not success) then
 		local err = string.format("%s failed: %s", context, a)
-		self.Client:warning(err)
+		self.Client:log("warning", err)
 		return false, err
 	end
 

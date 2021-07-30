@@ -14,8 +14,6 @@ Module.Name = "twitch"
 Module.GameCache = {}
 Module.ProfileCache = {}
 
-discordia.extensions()
-
 local httpCodec = require('http-codec')
 local net = require('coro-net')
 local json = require('json')
@@ -311,7 +309,7 @@ function Module:OnLoaded()
 			end
 
 			if (channelData) then
-				bot:CallModuleFunction(self, "SendChannelNotification", commandMessage.guild, commandMessage.channel, "", channelData)
+				bot:CallModuleFunction(self, "SendChannelNotification", commandmessage:getGuild(), commandmessage:getChannel(), "", channelData)
 			else
 				if (err) then
 					commandMessage:reply(string.format("An error occurred: %s", err))

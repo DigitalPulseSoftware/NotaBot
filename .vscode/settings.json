@@ -3,7 +3,8 @@
         "Client",
         "Discordia",
         "Module",
-        "discordia"
+        "discordia",
+        "bit"
     ],
     "Lua.runtime.version": "LuaJIT"
 }

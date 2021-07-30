@@ -86,10 +86,10 @@ function Module:OnLoaded()
 			local messageId = message:match("^(%d+)$")
 			local quotedMessage, err
 			local includesLink = false
-			local config = self:GetConfig(commandMessage.guild)
+			local config = self:GetConfig(commandmessage:getGuild())
 
 			if (messageId) then
-				quotedMessage = commandMessage.channel:getMessage(messageId)
+				quotedMessage = commandmessage:getChannel():getMessage(messageId)
 				if (not quotedMessage) then
 					commandMessage:reply("Message not found in this channel")
 					return
@@ -122,13 +122,13 @@ function Module:OnLoaded()
 end
 
 function Module:CheckReadPermission(user, message)
-	local quotedGuild = message.guild
+	local quotedGuild = message:getGuild()
 	local member = quotedGuild:getMember(user.id)
 	if (not member) then
 		return false
 	end
 
-	if (not member:hasPermission(message.channel, enums.permission.readMessages)) then
+	if (not member:hasPermission(message:getChannel(), enums.permission.readMessages)) then
 		return false
 	end
 
@@ -139,7 +139,7 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInv
 	local author = message.author
 	local content = message.content
 
-	local config = self:GetConfig(triggeringMessage.guild)
+	local config = self:GetConfig(triggeringmessage:getGuild())
 
 	local thumbnail = config.BigAvatar and author.avatarURL or nil
 	local imageUrl = nil
@@ -154,7 +154,7 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInv
 		}
 		embed.thumbnail = thumbnail and { url = thumbnail } or nil
 		embed.footer = {
-			text = string.format("Quoted by %s | in #%s at %s", triggeringMessage.author.tag, message.channel.name, message.guild.name)
+			text = string.format("Quoted by %s | in #%s at %s", triggeringMessage.author.tag, message:getChannel().name, message:getGuild().name)
 		}
 		embed.timestamp = message.timestamp
 
@@ -233,7 +233,7 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInv
 	end
 
 	-- Fix emojis
-	local guild = triggeringMessage.guild
+	local guild = triggeringmessage:getGuild()
 	content = content:gsub("(<a?:([%w_]+):(%d+)>)", function (mention, emojiName, emojiId)
 		-- Bot are allowed to use emojis from every servers they are on
 		local emojiData = bot:GetEmojiData(nil, emojiId)
@@ -290,7 +290,7 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInv
 end
 
 function Module:OnMessageCreate(message)
-	if (not bot:IsPublicChannel(message.channel)) then
+	if (not bot:IsPublicChannel(message:getChannel())) then
 		return
 	end
 
@@ -298,7 +298,7 @@ function Module:OnMessageCreate(message)
 		return
 	end
 
-	local config = self:GetConfig(message.guild)
+	local config = self:GetConfig(message:getGuild())
 	if (config.AutoQuote) then
 		local quotedMessage = bot:DecodeMessage(message.content, true)
 		if (quotedMessage) then

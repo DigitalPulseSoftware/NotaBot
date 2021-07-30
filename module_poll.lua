@@ -57,7 +57,7 @@ function Module:GetPollFooter(member, duration, isResults)
 end
 
 function Module:AddEmbedReactions(member, message)
-	local data = self:GetData(member.guild)
+	local data = self:GetData(member:getGuild())
 	local poll = data.Polls[member.id]
 
 	if poll == nil or #poll.choices == 0 then
@@ -75,7 +75,7 @@ function Module:CheckPermissions(member)
 	if member:hasPermission(enums.permission.administrator) then
 		return true
 	end
-	return util.MemberHasAnyRole(member, self:GetConfig(member.guild).AllowedRoles)
+	return util.MemberHasAnyRole(member, self:GetConfig(member:getGuild()).AllowedRoles)
 end
 
 -- TODO? Ajouter option de cooldown entre 2 sondages pour un même membre
@@ -282,12 +282,12 @@ function Module:OnLoaded()
 
 		Help = "Creates a poll (title format: \"title\")",
 		Func = function (commandMessage, title, channel, duration)
-			local member = commandMessage.member
-			local guild = member.guild
+			local member = commandmessage:getMember()
+			local guild = member:getGuild()
 			local data = self:GetData(guild)
 			local polls = data.Polls
 
-			local config = self:GetConfig(member.guild)
+			local config = self:GetConfig(member:getGuild())
 			local pollChannel = channel or config.DefaultPollChannel
 			local pollDuration = duration or config.DefaultPollDuration
 
@@ -323,8 +323,8 @@ function Module:OnLoaded()
 
 		Help = "Cancels your current pending poll",
 		Func = function(commandMessage)
-			local member = commandMessage.member
-			local data = self:GetData(member.guild)
+			local member = commandmessage:getMember()
+			local data = self:GetData(member:getGuild())
 			local polls = data.Polls
 
 			if (polls[member.id]) then
@@ -347,9 +347,9 @@ function Module:OnLoaded()
 
 		Help = "Sets up a poll",
 		Func = function(commandMessage, action, emoji, text)
-			local member = commandMessage.member
-			local guild = member.guild
-			local data = self:GetData(member.guild)
+			local member = commandmessage:getMember()
+			local guild = member:getGuild()
+			local data = self:GetData(member:getGuild())
 			local polls = data.Polls
 			local poll = polls[member.id]
 
@@ -504,7 +504,7 @@ end
 
 -- TODO Respect limitations : https://birdie0.github.io/discord-webhooks-guide/other/field_limits.html
 function Module:FormatPoll(member, embed, footer, preview)
-	local guild = member.guild
+	local guild = member:getGuild()
 	local data = self:GetData(guild)
 
 	local fields = {}
@@ -520,7 +520,7 @@ function Module:FormatPoll(member, embed, footer, preview)
 		else
 			-- Deinit the poll
 			data.Polls[member.id] = nil
-			client:info("An emoji was deleted during the configuration of a poll that was using it.")
+			client:log("info", "An emoji was deleted during the configuration of a poll that was using it.")
 
 			return {
 				title = "An emoji is broken.",

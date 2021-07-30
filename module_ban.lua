@@ -49,9 +49,9 @@ function Module:OnLoaded()
 		Help = "Bans a member",
 		Silent = true,
 		Func = function (commandMessage, targetUser, duration, reason)
-			local guild = commandMessage.guild
+			local guild = commandmessage:getGuild()
 			local config = self:GetConfig(guild)
-			local bannedBy = commandMessage.member
+			local bannedBy = commandmessage:getMember()
 
 			-- Duration
 			if (not duration) then
@@ -83,16 +83,16 @@ function Module:OnLoaded()
 						durationText = ""
 					end
 
-					privateChannel:send(string.format("You have been banned from **%s** by %s (%s)\n%s", commandMessage.guild.name, bannedBy.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given", durationText))
+					privateChannel:send(string.format("You have been banned from **%s** by %s (%s)\n%s", commandmessage:getGuild().name, bannedBy.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given", durationText))
 				end
 			end
 
-			local data = self:GetData(commandMessage.guild)
+			local data = self:GetData(commandmessage:getGuild())
 			data.BanInProgress[targetUser.id] = true
 			if (guild:banUser(targetUser, reason, 0)) then
 				commandMessage:reply(string.format("%s has banned %s (%s)%s", bannedBy.name, targetUser.tag, duration > 0 and ("for " .. durationStr) or "permanent", #reason > 0 and (" for the reason: " .. reason) or ""))
 
-				self:RegisterBan(commandMessage.guild, targetUser.id, commandMessage.author, duration, reason)
+				self:RegisterBan(commandmessage:getGuild(), targetUser.id, commandMessage.author, duration, reason)
 			else
 				data.BanInProgress[targetUser.id] = nil
 				commandMessage:reply(string.format("Failed to ban %s", targetUser.tag))
@@ -111,7 +111,7 @@ function Module:OnLoaded()
 		Help = "Unbans a member",
 		Silent = true,
 		Func = function (commandMessage, targetUser, reason)
-			local guild = commandMessage.guild
+			local guild = commandmessage:getGuild()
 			local config = self:GetConfig(guild)
 
 			-- Reason
@@ -120,15 +120,15 @@ function Module:OnLoaded()
 			if (config.SendPrivateMessage) then
 				local privateChannel = targetUser:getPrivateChannel()
 				if (privateChannel) then
-					privateChannel:send(string.format("You have been unbanned from **%s** by %s (%s)", commandMessage.guild.name, commandMessage.member.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given"))
+					privateChannel:send(string.format("You have been unbanned from **%s** by %s (%s)", commandmessage:getGuild().name, commandmessage:getMember().user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given"))
 				end
 			end
 
-			local data = self:GetData(commandMessage.guild)
+			local data = self:GetData(commandmessage:getGuild())
 
 			local success, err = guild:unbanUser(targetUser, reason)
 			if (success) then
-				commandMessage:reply(string.format("%s has unbanned %s%s", commandMessage.member.name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
+				commandMessage:reply(string.format("%s has unbanned %s%s", commandmessage:getMember().name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
 			else
 				commandMessage:reply(string.format("Failed to unban %s: %s", targetUser.tag, err))
 			end
@@ -146,13 +146,13 @@ function Module:OnLoaded()
 		Help = "Updates the ban duration",
 		Silent = true,
 		Func = function (commandMessage, targetUser, newDuration)
-			local guild = commandMessage.guild
+			local guild = commandmessage:getGuild()
 
 			local durationStr = util.FormatTime(newDuration, 3)
 
 			if (self:UpdateBanDuration(guild, targetUser.id, newDuration)) then
 				commandMessage:reply(string.format("%s has updated %s ban duration (%s)", 
-					commandMessage.member.name,
+					commandmessage:getMember().name,
 					targetUser.tag,
 					newDuration > 0 and ("unbanned in " .. durationStr) or "banned permanently"))
 			else

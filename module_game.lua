@@ -43,5 +43,5 @@ function Module:UpdateGame()
 		newGame = newGame()
 	end
 
-	client:setGame(newGame)
+	client:setActivity(newGame)
 end
