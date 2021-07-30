@@ -1,539 +1,282 @@
---[=[
-@c Member x UserPresence
-@d Represents a Discord guild member. Though one user may be a member in more than
-one guild, each presence is represented by a different member object associated
-with that guild. Note that any method or property that exists for the User class is
-also available in the Member class.
-]=]
+local Container = require('./Container')
+local Bitfield = require('../utils/Bitfield')
 
-local enums = require('enums')
-local class = require('class')
-local UserPresence = require('containers/abstract/UserPresence')
-local ArrayIterable = require('iterables/ArrayIterable')
-local Color = require('utils/Color')
-local Resolver = require('client/Resolver')
-local GuildChannel = require('containers/abstract/GuildChannel')
-local Permissions = require('utils/Permissions')
+local class = require('../class')
+local enums = require('../enums')
+local typing = require('../typing')
+local helpers = require('../helpers')
+local json = require('json')
 
-local insert, remove, sort = table.insert, table.remove, table.sort
-local band, bor, bnot = bit.band, bit.bor, bit.bnot
-local isInstance = class.isInstance
-local permission = enums.permission
+local checkSnowflake = typing.checkSnowflake
+local readOnly = helpers.readOnly
+local format = string.format
 
-local Member, get = class('Member', UserPresence)
+local Member, get = class('Member', Container)
 
-function Member:__init(data, parent)
-	UserPresence.__init(self, data, parent)
-	return self:_loadMore(data)
+function Member:__init(data, client)
+	Container.__init(self, client)
+	self._guild_id = assert(data.guild_id)
+	self._user = client.state:newUser(data.user)
+	self._nick = data.nick
+	self._roles = data.roles
+	self._joined_at = data.joined_at
+	self._premium_since = data.premium_since
+	self._deaf = data.deaf
+	self._mute = data.mute
+	self._pending = data.pending
+	self._permissions = data.permissions
 end
 
-function Member:_load(data)
-	UserPresence._load(self, data)
-	return self:_loadMore(data)
+function Member:__eq(other)
+	return self.guildId == other.guildId and self.user.id == other.user.id
 end
 
-function Member:_loadMore(data)
-	if data.roles then
-		local roles = #data.roles > 0 and data.roles or nil
-		if self._roles then
-			self._roles._array = roles
-		else
-			self._roles_raw = roles
-		end
+function Member:toString()
+	return self.guildId .. ':' .. self.user.id
+end
+
+local function makeRoleFilter(ids)
+	local filter = {}
+	for _, id in pairs(ids) do
+		filter[id] = true
 	end
-end
-
-local function sorter(a, b)
-	if a._position == b._position then
-		return tonumber(a._id) < tonumber(b._id)
-	else
-		return a._position > b._position
+	return function(role)
+		return filter[role.id]
 	end
 end
 
-local function predicate(role)
-	return role._color > 0
-end
-
---[=[
-@m getColor
-@t mem
-@r Color
-@d Returns a color object that represents the member's color as determined by
-its highest colored role. If the member has no colored roles, then the default
-color with a value of 0 is returned.
-]=]
-function Member:getColor()
-	local roles = {}
-	for role in self.roles:findAll(predicate) do
-		insert(roles, role)
-	end
-	sort(roles, sorter)
-	return roles[1] and roles[1]:getColor() or Color()
-end
-
-local function has(a, b)
-	return band(a, b) > 0
-end
-
---[=[
-@m hasPermission
-@t mem
-@op channel GuildChannel
-@p perm Permissions-Resolvable
-@r boolean
-@d Checks whether the member has a specific permission. If `channel` is omitted,
-then only guild-level permissions are checked. This is a relatively expensive
-operation. If you need to check multiple permissions at once, use the
-`getPermissions` method and check the resulting object.
-]=]
-function Member:hasPermission(channel, perm)
-
-	if not perm then
-		perm = channel
-		channel = nil
-	end
-
-	local guild = self.guild
-	if channel then
-		if not isInstance(channel, GuildChannel) or channel.guild ~= guild then
-			return error('Invalid GuildChannel: ' .. tostring(channel), 2)
-		end
-	end
-
-	local n = Resolver.permission(perm)
-	if not n then
-		return error('Invalid permission: ' .. tostring(perm), 2)
-	end
-
-	if self.id == guild.ownerId then
-		return true
-	end
-
-	local rolePermissions = guild.defaultRole.permissions
-
-	for role in self.roles:iter() do
-		if role.id ~= guild.id then -- just in case
-			rolePermissions = bor(rolePermissions, role.permissions)
-		end
-	end
-
-	if has(rolePermissions, permission.administrator) then
-		return true
-	end
-
-	if channel then
-
-		local overwrites = channel.permissionOverwrites
-
-		local overwrite = overwrites:get(self.id)
-		if overwrite then
-			if has(overwrite.allowedPermissions, n) then
-				return true
-			end
-			if has(overwrite.deniedPermissions, n) then
-				return false
-			end
-		end
-
-		local allow, deny = 0, 0
-		for role in self.roles:iter() do
-			if role.id ~= guild.id then -- just in case
-				overwrite = overwrites:get(role.id)
-				if overwrite then
-					allow = bor(allow, overwrite.allowedPermissions)
-					deny = bor(deny, overwrite.deniedPermissions)
-				end
-			end
-		end
-
-		if has(allow, n) then
-			return true
-		end
-		if has(deny, n) then
-			return false
-		end
-
-		local everyone = overwrites:get(guild.id)
-		if everyone then
-			if has(everyone.allowedPermissions, n) then
-				return true
-			end
-			if has(everyone.deniedPermissions, n) then
-				return false
-			end
-		end
-
-	end
-
-	return has(rolePermissions, n)
-
-end
-
---[=[
-@m getPermissions
-@t mem
-@op channel GuildChannel
-@r Permissions
-@d Returns a permissions object that represents the member's total permissions for
-the guild, or for a specific channel if one is provided. If you just need to
-check one permission, use the `hasPermission` method.
-]=]
-function Member:getPermissions(channel)
-
-	local guild = self.guild
-	if channel then
-		if not isInstance(channel, GuildChannel) or channel.guild ~= guild then
-			return error('Invalid GuildChannel: ' .. tostring(channel), 2)
-		end
-	end
-
-	if self.id == guild.ownerId then
-		return Permissions.all()
-	end
-
-	local ret = guild.defaultRole.permissions
-
-	for role in self.roles:iter() do
-		if role.id ~= guild.id then -- just in case
-			ret = bor(ret, role.permissions)
-		end
-	end
-
-	if band(ret, permission.administrator) > 0 then
-		return Permissions.all()
-	end
-
-	if channel then
-
-		local overwrites = channel.permissionOverwrites
-
-		local everyone = overwrites:get(guild.id)
-		if everyone then
-			ret = band(ret, bnot(everyone.deniedPermissions))
-			ret = bor(ret, everyone.allowedPermissions)
-		end
-
-		local allow, deny = 0, 0
-		for role in self.roles:iter() do
-			if role.id ~= guild.id then -- just in case
-				local overwrite = overwrites:get(role.id)
-				if overwrite then
-					deny = bor(deny, overwrite.deniedPermissions)
-					allow = bor(allow, overwrite.allowedPermissions)
-				end
-			end
-		end
-		ret = band(ret, bnot(deny))
-		ret = bor(ret, allow)
-
-		local overwrite = overwrites:get(self.id)
-		if overwrite then
-			ret = band(ret, bnot(overwrite.deniedPermissions))
-			ret = bor(ret, overwrite.allowedPermissions)
-		end
-
-	end
-
-	return Permissions(ret)
-
-end
-
---[=[
-@m addRole
-@t http?
-@p id Role-ID-Resolvable
-@r boolean
-@d Adds a role to the member. If the member already has the role, then no action is
-taken. Note that the everyone role cannot be explicitly added.
-]=]
-function Member:addRole(id)
-	--if self:hasRole(id) then return true end
-	id = Resolver.roleId(id)
-	local data, err = self.client._api:addGuildMemberRole(self._parent._id, self.id, id)
-	if data then
-		local roles = self._roles and self._roles._array or self._roles_raw
-		if roles then
-			insert(roles, id)
-		else
-			self._roles_raw = {id}
-		end
-		return true
-	else
-		return false, err
-	end
-end
-
---[=[
-@m removeRole
-@t http?
-@p id Role-ID-Resolvable
-@r boolean
-@d Removes a role from the member. If the member does not have the role, then no
-action is taken. Note that the everyone role cannot be removed.
-]=]
-function Member:removeRole(id)
-	if not self:hasRole(id) then return true end
-	id = Resolver.roleId(id)
-	local data, err = self.client._api:removeGuildMemberRole(self._parent._id, self.id, id)
-	if data then
-		local roles = self._roles and self._roles._array or self._roles_raw
-		if roles then
-			for i, v in ipairs(roles) do
-				if v == id then
-					remove(roles, i)
-					break
-				end
-			end
-			if #roles == 0 then
-				if self._roles then
-					self._roles._array = nil
-				else
-					self._roles_raw = nil
-				end
-			end
-		end
-		return true
-	else
-		return false, err
-	end
-end
-
---[=[
-@m hasRole
-@t mem
-@p id Role-ID-Resolvable
-@r boolean
-@d Checks whether the member has a specific role. This will return true for the
-guild's default role in addition to any explicitly assigned roles.
-]=]
-function Member:hasRole(id)
-	id = Resolver.roleId(id)
-	if id == self._parent._id then return true end -- @everyone
-	local roles = self._roles and self._roles._array or self._roles_raw
+function Member:getRoles()
+	local roles, err = self.client:getGuildRoles(self.guildId)
 	if roles then
-		for _, v in ipairs(roles) do
-			if v == id then
-				return true
+		return roles:filter(makeRoleFilter(self.roleIds))
+	else
+		return nil, err
+	end
+end
+
+function Member:getGuild()
+	return self.client:getGuild(self.guildId)
+end
+
+local function positionSorter(a, b)
+	if a.position == b.position then
+		return tonumber(a.id) < tonumber(b.id) -- equal position; lesser id = greater role
+	else
+		return a.position > b.position -- greater position = greater role
+	end
+end
+
+local function colorFilter(r)
+	return r.color > 0
+end
+
+function Member:getHighestRole()
+	local roles, err = self:getRoles()
+	if roles then
+		roles:sort(positionSorter)
+		return roles:get(1)
+	else
+		return nil, err
+	end
+end
+
+function Member:getColor()
+	local roles, err = self:getRoles()
+	if roles then
+		roles = roles:filter(colorFilter)
+		roles:sort(positionSorter)
+		local role = roles:get(1)
+		return role and role.color or 0
+	else
+		return nil, err
+	end
+end
+
+function Member:getPermissions(channelId)
+
+	local guild, err = self:getGuild()
+	if not guild then
+		return nil, err
+	end
+
+	local channel
+	if channelId then
+		channel, err = guild:getChannel(checkSnowflake(channelId))
+		if not channel then
+			return nil, err
+		end
+		if self.guildId ~= channel.guildId then
+			return error('member/channel mismatch: both must have the same guild', 2)
+		end
+	end
+
+	if self.id == guild.ownerId then
+		return Bitfield(enums.permission)
+	end
+
+	local roles = guild:getRoles()
+	local everyone = roles:get(guild.id)
+	local permissions = Bitfield(everyone.permissions)
+	roles = roles:filter(makeRoleFilter(self.roleIds))
+
+	for role in roles:iter() do
+		permissions:enableValue(role.permissions)
+	end
+
+	if permissions:hasValue(enums.permission.administrator) then
+		return Bitfield(enums.permission)
+	end
+
+	if channel then
+
+		local overwrites = channel.permissionOverwrites
+
+		local everyoneOverwrite = overwrites:get(guild.id)
+		if everyoneOverwrite then
+			permissions:disableValue(everyoneOverwrite.deniedPermissions)
+			permissions:enableValue(everyoneOverwrite.allowedPermissions)
+		end
+
+		do
+			local allowed, denied = Bitfield(), Bitfield()
+			for role in roles:iter() do
+				local roleOverwrite = overwrites:get(role.id)
+				if roleOverwrite then
+					allowed:enableValue(roleOverwrite.allowedPermissions)
+					denied:enableValue(roleOverwrite.deniedPermissions)
+				end
 			end
+			permissions:disableValue(denied)
+			permissions:enableValue(allowed)
+		end
+
+		local memberOverwrite = overwrites:get(self.id)
+		if memberOverwrite then
+			permissions:disableValue(memberOverwrite.deniedPermissions)
+			permissions:enableValue(memberOverwrite.allowedPermissions)
+		end
+
+	end
+
+	return permissions
+
+end
+
+function Member:addRole(roleId)
+	return self.client:addGuildMemberRole(self.guildId, self.user.id, roleId)
+end
+
+function Member:removeRole(roleId)
+	return self.client:removeGuildMemberRole(self.guildId, self.user.id, roleId)
+end
+
+function Member:hasRole(roleId)
+	roleId = checkSnowflake(roleId)
+	if roleId == self.guildId then
+		return true
+	end
+	for _, v in pairs(self.roleIds) do
+		if v == roleId then
+			return true
 		end
 	end
 	return false
 end
 
---[=[
-@m setNickname
-@t http
-@p nick string
-@r boolean
-@d Sets the member's nickname. This must be between 1 and 32 characters in length.
-Pass `nil` to remove the nickname.
-]=]
-function Member:setNickname(nick)
-	nick = nick or ''
-	local data, err
-	if self.id == self.client._user._id then
-		data, err = self.client._api:modifyCurrentUsersNick(self._parent._id, {nick = nick})
-	else
-		data, err = self.client._api:modifyGuildMember(self._parent._id, self.id, {nick = nick})
-	end
-	if data then
-		self._nick = nick ~= '' and nick or nil
-		return true
-	else
-		return false, err
-	end
+function Member:modify(payload)
+	return self.client:modifyGuildMember(self.guildId, self.user.id, payload)
 end
 
---[=[
-@m setVoiceChannel
-@t http
-@p id Channel-ID-Resolvable
-@r boolean
-@d Moves the member to a new voice channel, but only if the member has an active
-voice connection in the current guild. Due to complexities in voice state
-handling, the member's `voiceChannel` property will update asynchronously via
-WebSocket; not as a result of the HTTP request.
-]=]
-function Member:setVoiceChannel(id)
-	id = Resolver.channelId(id)
-	local data, err = self.client._api:modifyGuildMember(self._parent._id, self.id, {channel_id = id})
-	if data then
-		return true
-	else
-		return false, err
-	end
+function Member:setRoles(roleIds)
+	return self.client:modifyGuildMember(self.guildId, self.user.id, {roleIds = roleIds or json.null})
 end
 
---[=[
-@m mute
-@t http
-@r boolean
-@d Mutes the member in its guild.
-]=]
+function Member:setNickname(nickname)
+	return self.client:modifyGuildMember(self.guildId, self.user.id, {nickname = nickname or json.null})
+end
+
+function Member:setVoiceChannel(channelId)
+	return self.client:modifyGuildMember(self.guildId, self.user.id, {channelId = channelId or json.null})
+end
+
 function Member:mute()
-	local data, err = self.client._api:modifyGuildMember(self._parent._id, self.id, {mute = true})
-	if data then
-		self._mute = true
-		return true
-	else
-		return false, err
-	end
+	return self.client:modifyGuildMember(self.guildId, self.user.id, {muted = true})
 end
 
---[=[
-@m unmute
-@t http
-@r boolean
-@d Unmutes the member in its guild.
-]=]
 function Member:unmute()
-	local data, err = self.client._api:modifyGuildMember(self._parent._id, self.id, {mute = false})
-	if data then
-		self._mute = false
-		return true
-	else
-		return false, err
-	end
+	return self.client:modifyGuildMember(self.guildId, self.user.id, {muted = false})
 end
 
---[=[
-@m deafen
-@t http
-@r boolean
-@d Deafens the member in its guild.
-]=]
 function Member:deafen()
-	local data, err = self.client._api:modifyGuildMember(self._parent._id, self.id, {deaf = true})
-	if data then
-		self._deaf = true
-		return true
-	else
-		return false, err
-	end
+	return self.client:modifyGuildMember(self.guildId, self.user.id, {deafened = true})
 end
 
---[=[
-@m undeafen
-@t http
-@r boolean
-@d Undeafens the member in its guild.
-]=]
 function Member:undeafen()
-	local data, err = self.client._api:modifyGuildMember(self._parent._id, self.id, {deaf = false})
-	if data then
-		self._deaf = false
-		return true
-	else
-		return false, err
-	end
+	return self.client:modifyGuildMember(self.guildId, self.user.id, {deafened = false})
 end
 
---[=[
-@m kick
-@t http
-@p reason string
-@r boolean
-@d Equivalent to `Member.guild:kickUser(Member.user, reason)`
-]=]
 function Member:kick(reason)
-	return self._parent:kickUser(self._user, reason)
+	return self.client:removeGuildMember(self.guildId, self.user.id, reason)
 end
 
---[=[
-@m ban
-@t http
-@p reason string
-@p days number
-@r boolean
-@d Equivalent to `Member.guild:banUser(Member.user, reason, days)`
-]=]
 function Member:ban(reason, days)
-	return self._parent:banUser(self._user, reason, days)
+	return self.client:createGuildBan(self.guildId, self.user.id, reason, days)
 end
 
---[=[
-@m unban
-@t http
-@p reason string
-@r boolean
-@d Equivalent to `Member.guild:unbanUser(Member.user, reason)`
-]=]
 function Member:unban(reason)
-	return self._parent:unbanUser(self._user, reason)
+	return self.client:removeGuildBan(self.guildId, self.user.id, reason)
 end
 
---[=[@p roles ArrayIterable An iterable array of guild roles that the member has. This does not explicitly
-include the default everyone role. Object order is not guaranteed.]=]
-function get.roles(self)
-	if not self._roles then
-		local roles = self._parent._roles
-		self._roles = ArrayIterable(self._roles_raw, function(id)
-			return roles:get(id)
-		end)
-		self._roles_raw = nil
-	end
-	return self._roles
+function Member:toMention()
+	return format('<@%s>', self.user.id)
 end
 
---[=[@p name string If the member has a nickname, then this will be equivalent to that nickname.
-Otherwise, this is equivalent to `Member.user.username`.]=]
-function get.name(self)
-	return self._nick or self._user._username
+function get:id() -- user shortcut
+	return self.user.id
 end
 
---[=[@p nickname string/nil The member's nickname, if one is set.]=]
-function get.nickname(self)
+function get:user()
+	return self._user
+end
+
+function get:name()
+	return self.nickname or self.user.username
+end
+
+function get:nickname()
 	return self._nick
 end
 
---[=[@p joinedAt string/nil The date and time at which the current member joined the guild, represented as
-an ISO 8601 string plus microseconds when available. Member objects generated
-via presence updates lack this property.]=]
-function get.joinedAt(self)
+function get:joinedAt()
 	return self._joined_at
 end
 
---[=[@p premiumSince string/nil The date and time at which the current member boosted the guild, represented as
-an ISO 8601 string plus microseconds when available.]=]
-function get.premiumSince(self)
+function get:premiumSince()
 	return self._premium_since
 end
 
---[=[@p voiceChannel GuildVoiceChannel/nil The voice channel to which this member is connected in the current guild.]=]
-function get.voiceChannel(self)
-	local guild = self._parent
-	local state = guild._voice_states[self:__hash()]
-	return state and guild._voice_channels:get(state.channel_id)
+function get:muted()
+	return self._mute
 end
 
---[=[@p muted boolean Whether the member is voice muted in its guild.]=]
-function get.muted(self)
-	local state = self._parent._voice_states[self:__hash()]
-	return state and (state.mute or state.self_mute) or self._mute
+function get:deafened()
+	return self._deaf
 end
 
---[=[@p deafened boolean Whether the member is voice deafened in its guild.]=]
-function get.deafened(self)
-	local state = self._parent._voice_states[self:__hash()]
-	return state and (state.deaf or state.self_deaf) or self._deaf
+function get:pending()
+	return self._pending
 end
 
---[=[@p guild Guild The guild in which this member exists.]=]
-function get.guild(self)
-	return self._parent
+function get:permissions()
+	return self._permissions
 end
 
---[=[@p highestRole Role The highest positioned role that the member has. If the member has no
-explicit roles, then this is equivalent to `Member.guild.defaultRole`.]=]
-function get.highestRole(self)
-	local ret
-	for role in self.roles:iter() do
-		if not ret or sorter(role, ret) then
-			ret = role
-		end
-	end
-	return ret or self.guild.defaultRole
+function get:guildId()
+	return self._guild_id
+end
+
+function get:roleIds()
+	return readOnly(self._roles)
 end
 
 return Member

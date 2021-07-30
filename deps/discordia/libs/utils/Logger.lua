@@ -1,81 +1,96 @@
---[=[
-@c Logger
-@t ui
-@mt mem
-@p level number
-@p dateTime string
-@op file string
-@d Used to log formatted messages to stdout (the console) or to a file.
-The `dateTime` argument should be a format string that is accepted by `os.date`.
-The file argument should be a relative or absolute file path or `nil` if no log
-file is desired. See the `logLevel` enumeration for acceptable log level values.
-]=]
-
 local fs = require('fs')
+local pp = require('pretty-print')
+local class = require('../class')
+local enums = require('../enums')
+local typing = require('../typing')
 
 local date = os.date
 local format = string.format
-local stdout = _G.process.stdout.handle
-local openSync, writeSync = fs.openSync, fs.writeSync
+local stdout = pp.stdout
+local openSync, writeSync, closeSync = fs.openSync, fs.writeSync, fs.closeSync
+local checkEnum, checkType = typing.checkEnum, typing.checkType
 
--- local BLACK   = 30
-local RED     = 31
-local GREEN   = 32
-local YELLOW  = 33
--- local BLUE    = 34
--- local MAGENTA = 35
-local CYAN    = 36
--- local WHITE   = 37
-
-local config = {
-	{'[ERROR]  ', RED},
-	{'[WARNING]', YELLOW},
-	{'[INFO]   ', GREEN},
-	{'[DEBUG]  ', CYAN},
+local colors = {
+	black   = 90,
+	red     = 91,
+	green   = 92,
+	yellow  = 93,
+	blue    = 94,
+	magenta = 95,
+	cyan    = 96,
+	white   = 97,
 }
 
-do -- parse config
-	local bold = 1
-	for _, v in ipairs(config) do
-		v[2] = format('\27[%i;%im%s\27[0m', bold, v[2], v[1])
+local labels = {
+	{'[CRITICAL]', colors.magenta},
+	{'[ERROR]   ', colors.red},
+	{'[WARNING] ', colors.yellow},
+	{'[INFO]    ', colors.green},
+	{'[DEBUG]   ', colors.cyan},
+}
+
+for _, v in ipairs(labels) do
+	v[2] = format('\27[%i;%im%s\27[0m', 0, v[2], v[1])
+end
+
+local Logger = class('Logger')
+
+function Logger:__init(level, dateFormat, filePath, useColors)
+	self._level = checkEnum(enums.logLevel, level)
+	self._dateFormat = dateFormat and checkType('string', dateFormat)
+	self._file = filePath and openSync(filePath, 'a')
+	self._useColors = not not useColors
+	self._line = {nil, ' | ', nil, ' | ', nil, '\n'}
+end
+
+function Logger:setLevel(level)
+	self._level = checkEnum(enums.logLevel, level)
+end
+
+function Logger:setDateTime(dateFormat)
+	self._dateFormat = dateFormat and checkType('string', dateFormat) or nil
+end
+
+function Logger:setFile(path)
+	if self._file then
+		closeSync(self._file)
+	end
+	if path then
+		self._file = assert(openSync(path, 'a'))
 	end
 end
 
-local Logger = require('class')('Logger')
-
-function Logger:__init(level, dateTime, file)
-	self._level = level
-	self._dateTime = dateTime
-	self._file = file and openSync(file, 'a')
+function Logger:enableColors()
+	self._useColors = true
 end
 
---[=[
-@m log
-@p level number
-@p msg string
-@p ... *
-@r string
-@d If the provided level is less than or equal to the log level set on
-initialization, this logs a message to stdout as defined by Luvit's `process`
-module and to a file if one was provided on initialization. The `msg, ...` pair
-is formatted according to `string.format` and returned if the message is logged.
-]=]
+function Logger:disableColors()
+	self._useColors = false
+end
+
 function Logger:log(level, msg, ...)
 
+	level = checkEnum(enums.logLevel, level)
+	msg = checkType('string', msg)
+
 	if self._level < level then return end
+	local label = labels[level]
 
-	local tag = config[level]
-	if not tag then return end
+	local line = self._line
+	line[1] = date(self._dateFormat)
+	line[3] = label[1]
+	line[5] = format(msg, ...)
 
-	msg = format(msg, ...)
-
-	local d = date(self._dateTime)
 	if self._file then
-		writeSync(self._file, -1, format('%s | %s | %s\n', d, tag[1], msg))
+		writeSync(self._file, -1, line)
 	end
-	stdout:write(format('%s | %s | %s\n', d, tag[2], msg))
 
-	return msg
+	if self._useColors then
+		line[3] = label[2]
+	end
+	stdout:write(line)
+
+	return line[5]
 
 end
 

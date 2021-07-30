@@ -1,51 +1,45 @@
---[=[
-@c Ban x Container
-@d Represents a Discord guild ban. Essentially a combination of the banned user and
-a reason explaining the ban, if one was provided.
-]=]
+local Container = require('./Container')
 
-local Container = require('containers/abstract/Container')
+local class = require('../class')
 
-local Ban, get = require('class')('Ban', Container)
+local Ban, get = class('Ban', Container)
 
-function Ban:__init(data, parent)
-	Container.__init(self, data, parent)
-	self._user = self.client._users:_insert(data.user)
+function Ban:__init(data, client)
+	Container.__init(self, client)
+	self._guild_id = assert(data.guild_id)
+	self._reason = data.reason
+	self._user = client.state:newUser(data.user)
 end
 
---[=[
-@m __hash
-@r string
-@d Returns `Ban.user.id`
-]=]
-function Ban:__hash()
-	return self._user._id
+function Ban:__eq(other)
+	return self.guildId == other.guildId and self.user.id == other.user.id
 end
 
---[=[
-@m delete
-@t http
-@r boolean
-@d Deletes the ban object, unbanning the corresponding user.
-Equivalent to `Ban.guild:unbanUser(Ban.user)`.
-]=]
-function Ban:delete()
-	return self._parent:unbanUser(self._user)
+function Ban:toString()
+	return self.guildId .. ':' .. self.user.id
 end
 
---[=[@p reason string/nil The reason for the ban, if one was set. This should be from 1 to 512 characters
-in length.]=]
-function get.reason(self)
+function Ban:delete(reason)
+	return self.client:removeGuildBan(self.guildId, self.user.id, reason)
+end
+
+function Ban:getGuild()
+	return self.client:getGuild(self.guildId)
+end
+
+function get:id() -- user shortcut
+	return self.user.id
+end
+
+function get:reason()
 	return self._reason
 end
 
---[=[@p guild Guild The guild in which this ban object exists.]=]
-function get.guild(self)
-	return self._parent
+function get:guildId()
+	return self._guild_id
 end
 
---[=[@p user User The user that this ban object represents.]=]
-function get.user(self)
+function get:user()
 	return self._user
 end
 

@@ -1,394 +1,272 @@
---[=[
-@c Date
-@t ui
-@mt mem
-@op seconds number
-@op microseconds number
-@d Represents a single moment in time and provides utilities for converting to
-and from different date and time formats. Although microsecond precision is available,
-most formats are implemented with only second precision.
-]=]
+local uv = require('uv')
+local class = require('../class')
+local enums = require('../enums')
+local typing = require('../typing')
+local constants = require('../constants')
 
-local class = require('class')
-local constants = require('constants')
-local Time = require('utils/Time')
+local Time = require('./Time')
 
-local abs, modf, fmod, floor = math.abs, math.modf, math.fmod, math.floor
+local gettimeofday = uv.gettimeofday
+local isInstance = class.isInstance
+local checkInteger, checkType = typing.checkInteger, typing.checkType
+local checkEnum = typing.checkEnum
+local checkSnowflake = typing.checkSnowflake
+local floor, fmod, modf = math.floor, math.fmod, math.modf
 local format = string.format
 local date, time, difftime = os.date, os.time, os.difftime
-local isInstance = class.isInstance
 
 local MS_PER_S = constants.MS_PER_S
 local US_PER_MS = constants.US_PER_MS
 local US_PER_S = US_PER_MS * MS_PER_S
-
 local DISCORD_EPOCH = constants.DISCORD_EPOCH
 
-local months = {
-	Jan = 1, Feb = 2, Mar = 3, Apr = 4, May = 5, Jun = 6,
-	Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12
+local function offset()
+	return difftime(time(), time(date('!*t')))
+end
+
+local function decompose(a, b, c)
+	return modf(a / b), fmod(a, b) * c
+end
+
+local function normalize(x, y, z)
+	local a, b = decompose(x, 1, z)
+	local c, d = decompose(y, z, 1)
+	return a + c, b + d
+end
+
+local properties = { -- name, pattern, default
+	date = {
+		{'year', '(%d%d%d%d)', 1970},
+		{'month', '%d%d%d%d%-(%d%d)', 1},
+		{'day', '%d%d%d%d%-%d%d%-(%d%d)', 1},
+	},
+	time = {
+		{'hour', '(%d%d)', 0},
+		{'min', '%d%d:(%d%d)', 0},
+		{'sec', '%d%d:%d%d:(%d%d)', 0},
+		{'usec', '%d%d:%d%d:%d%d.(%d%d%d%d%d%d)', 0},
+	},
 }
 
-local function offset() -- difference between *t and !*t
-	return difftime(time(), time(date('!*t')))
+local function toTime(tbl, utc)
+	local new = {}
+	for _, v in ipairs(properties.date) do
+		new[v[1]] = floor(tbl[v[1]] or v[3])
+	end
+	for _, v in ipairs(properties.time) do
+		new[v[1]] = floor(tbl[v[1]] or v[3])
+	end
+	if utc then
+		new.isdst = false
+	end
+	local sec = time(new)
+	if not sec then
+		return error('date could not be converted to time', 2)
+	end
+	if utc then
+		sec = sec + offset()
+	end
+	return normalize(sec, new.usec, US_PER_S)
+end
+
+local function toDate(fmt, t)
+	local d = date(fmt, t)
+	if not d then
+		return error('time could not be converted to date', 2)
+	end
+	return d
 end
 
 local Date = class('Date')
 
-local function check(self, other)
-	if not isInstance(self, Date) or not isInstance(other, Date) then
-		return error('Cannot perform operation with non-Date object', 2)
+local function checkDate(obj)
+	if isInstance(obj, Date) then
+		return obj:toMicroseconds()
 	end
+	return error('cannot perform operation', 2)
 end
 
-function Date:__init(seconds, micro)
-
-	local f
-	seconds = tonumber(seconds)
-	if seconds then
-		seconds, f = modf(seconds)
+function Date:__init(s, us)
+	if s or us then
+		s = s and checkInteger(s, 10, 0) or 0
+		us = us and checkInteger(us, 10, 0) or 0
 	else
-		seconds = time()
+		s, us = gettimeofday()
 	end
-
-	micro = tonumber(micro)
-	if micro then
-		seconds = seconds + modf(micro / US_PER_S)
-		micro = fmod(micro, US_PER_S)
-	else
-		micro = 0
-	end
-
-	if f and f > 0 then
-		micro = micro + US_PER_S * f
-	end
-
-	self._s = seconds
-	self._us = floor(micro + 0.5)
-
+	self._s, self._us = s, us
 end
 
-function Date:__tostring()
-	return 'Date: ' .. self:toString()
+function Date:__eq(other)
+	return checkDate(self) == checkDate(other)
 end
 
---[=[
-@m toString
-@op fmt string
-@r string
-@d Returns a string from this Date object via Lua's `os.date`.
-If no format string is provided, the default is '%a %b %d %Y %T GMT%z (%Z)'.
-]=]
-function Date:toString(fmt)
-	if not fmt or fmt == '*t' or fmt == '!*t' then
-		fmt = '%a %b %d %Y %T GMT%z (%Z)'
-	end
-	return date(fmt, self._s)
+function Date:__lt(other)
+	return checkDate(self) < checkDate(other)
 end
 
-function Date:__eq(other) check(self, other)
-	return self._s == other._s and self._us == other._us
-end
-
-function Date:__lt(other) check(self, other)
-	return self:toMicroseconds() < other:toMicroseconds()
-end
-
-function Date:__le(other) check(self, other)
-	return self:toMicroseconds() <= other:toMicroseconds()
+function Date:__le(other)
+	return checkDate(self) <= checkDate(other)
 end
 
 function Date:__add(other)
-	if not isInstance(self, Date) then
-		self, other = other, self
+	if isInstance(other, Time) then
+		local n = self:toMicroseconds() + other:toMicroseconds()
+		if n >= 0 and n % 1 == 0 then
+			return Date.fromMicroseconds(n)
+		end
 	end
-	if not isInstance(other, Time) then
-		return error('Cannot perform operation with non-Time object')
-	end
-	return Date(self:toSeconds() + other:toSeconds())
+	return error('cannot perform operation')
 end
 
 function Date:__sub(other)
-	if isInstance(self, Date) then
-		if isInstance(other, Date) then
-			return Time(abs(self:toMilliseconds() - other:toMilliseconds()))
-		elseif isInstance(other, Time) then
-			return Date(self:toSeconds() - other:toSeconds())
-		else
-			return error('Cannot perform operation with non-Date/Time object')
+	if isInstance(other, Date) then
+		return Time.fromMicroseconds(self:toMicroseconds() - other:toMicroseconds())
+	elseif isInstance(other, Time) then
+		local n = self:toMicroseconds() - other:toMicroseconds()
+		if n >= 0 and n % 1 == 0 then
+			return Date.fromMicroseconds(n)
 		end
-	else
-		return error('Cannot perform operation with non-Date object')
 	end
+	return error('cannot perform operation')
 end
 
---[=[
-@m parseISO
-@t static
-@p str string
-@r number
-@r number
-@d Converts an ISO 8601 string into a Unix time in seconds. For compatibility
-with Discord's timestamp format, microseconds are also provided as a second
-return value.
-]=]
-function Date.parseISO(str)
-	local year, month, day, hour, min, sec, other = str:match(
-		'(%d+)-(%d+)-(%d+).(%d+):(%d+):(%d+)(.*)'
-	)
-	other = other:match('%.%d+')
-	return Date.parseTableUTC {
-		day = day, month = month, year = year,
-		hour = hour, min = min, sec = sec, isdst = false,
-	}, other and other * US_PER_S or 0
+function Date.__mod()
+	return error('cannot perform operation')
 end
 
---[=[
-@m parseHeader
-@t static
-@p str string
-@r number
-@d Converts an RFC 2822 string (an HTTP Date header) into a Unix time in seconds.
-]=]
-function Date.parseHeader(str)
-	local day, month, year, hour, min, sec = str:match(
-		'%a+, (%d+) (%a+) (%d+) (%d+):(%d+):(%d+) GMT'
-	)
-	return Date.parseTableUTC {
-		day = day, month = months[month], year = year,
-		hour = hour, min = min, sec = sec, isdst = false,
-	}
+function Date.__mul()
+	return error('cannot perform operation')
 end
 
---[=[
-@m parseSnowflake
-@t static
-@p id string
-@r number
-@d Converts a Discord Snowflake ID into a Unix time in seconds. Additional
-decimal points may be present, though only the first 3 (milliseconds) should be
-considered accurate.
-]=]
-function Date.parseSnowflake(id)
-	return (id / 2^22 + DISCORD_EPOCH) / MS_PER_S
+function Date.__div()
+	return error('cannot perform operation')
 end
 
---[=[
-@m parseTable
-@t static
-@p tbl table
-@r number
-@d Interprets a Lua date table as a local time and converts it to a Unix time in
-seconds. Equivalent to `os.time(tbl)`.
-]=]
-function Date.parseTable(tbl)
-	return time(tbl)
+local function parseString(patterns, tbl, str)
+	local valid = false
+	for _, v in ipairs(patterns) do
+		local i, j, n = str:find(v[2])
+		if not valid and i == 1 and j == #str then
+			valid = true
+		end
+		tbl[v[1]] = n or v[3]
+	end
+	if not valid then
+		return error('invalid ISO 8601 string')
+	end
+	return tbl
 end
 
---[=[
-@m parseTableUTC
-@t static
-@p tbl table
-@r number
-@d Interprets a Lua date table as a UTC time and converts it to a Unix time in
-seconds. Equivalent to `os.time(tbl)` with a correction for UTC.
-]=]
-function Date.parseTableUTC(tbl)
-	return time(tbl) + offset()
-end
-
---[=[
-@m fromISO
-@t static
-@p str string
-@r Date
-@d Constructs a new Date object from an ISO 8601 string. Equivalent to
-`Date(Date.parseISO(str))`.
-]=]
 function Date.fromISO(str)
-	return Date(Date.parseISO(str))
-end
 
---[=[
-@m fromHeader
-@t static
-@p str string
-@r Date
-@d Constructs a new Date object from an RFC 2822 string. Equivalent to
-`Date(Date.parseHeader(str))`.
-]=]
-function Date.fromHeader(str)
-	return Date(Date.parseHeader(str))
-end
+	str = checkType('string', str)
+	local tbl = {isdst = false}
 
---[=[
-@m fromSnowflake
-@t static
-@p id string
-@r Date
-@d Constructs a new Date object from a Discord/Twitter Snowflake ID. Equivalent to
-`Date(Date.parseSnowflake(id))`.
-]=]
-function Date.fromSnowflake(id)
-	return Date(Date.parseSnowflake(id))
-end
+	local d, t = str:match('(.*)T(.*)')
+	parseString(properties.date, tbl, d or str)
 
---[=[
-@m fromTable
-@t static
-@p tbl table
-@r Date
-@d Constructs a new Date object from a Lua date table interpreted as a local time.
-Equivalent to `Date(Date.parseTable(tbl))`.
-]=]
-function Date.fromTable(tbl)
-	return Date(Date.parseTable(tbl))
-end
-
---[=[
-@m fromTableUTC
-@t static
-@p tbl table
-@r Date
-@d Constructs a new Date object from a Lua date table interpreted as a UTC time.
-Equivalent to `Date(Date.parseTableUTC(tbl))`.
-]=]
-function Date.fromTableUTC(tbl)
-	return Date(Date.parseTableUTC(tbl))
-end
-
---[=[
-@m fromSeconds
-@t static
-@p s number
-@r Date
-@d Constructs a new Date object from a Unix time in seconds.
-]=]
-function Date.fromSeconds(s)
-	return Date(s)
-end
-
---[=[
-@m fromMilliseconds
-@t static
-@p ms number
-@r Date
-@d Constructs a new Date object from a Unix time in milliseconds.
-]=]
-function Date.fromMilliseconds(ms)
-	return Date(ms / MS_PER_S)
-end
-
---[=[
-@m fromMicroseconds
-@t static
-@p us number
-@r Date
-@d Constructs a new Date object from a Unix time in microseconds.
-]=]
-function Date.fromMicroseconds(us)
-	return Date(0, us)
-end
-
---[=[
-@m toISO
-@op sep string
-@op tz string
-@r string
-@d Returns an ISO 8601 string that represents the stored date and time.
-If `sep` and `tz` are both provided, then they are used as a custom separator
-and timezone; otherwise, `T` is used for the separator and `+00:00` is used for
-the timezone, plus microseconds if available.
-]=]
-function Date:toISO(sep, tz)
-	if sep and tz then
-		local ret = date('!%F%%s%T%%s', self._s)
-		return format(ret, sep, tz)
-	else
-		if self._us == 0 then
-			return date('!%FT%T', self._s) .. '+00:00'
+	if t then
+		local s, z, o = t:match('(.*)([Z%+%-])(.*)')
+		if s and z and o then
+			parseString(properties.time, tbl, s)
+			if z ~= 'Z' and o ~= '00:00' then
+				if z == '+' then
+					for k, v in pairs(parseString(properties.time, {}, o)) do
+						tbl[k] = tbl[k] + v
+					end
+				elseif z == '-' then
+					for k, v in pairs(parseString(properties.time, {}, o)) do
+						tbl[k] = tbl[k] - v
+					end
+				end
+			end
 		else
-			return date('!%FT%T', self._s) .. format('.%06i+00:00', self._us)
+			parseString(properties.time, tbl, t)
 		end
+	end
+
+	return Date.fromTableUTC(tbl)
+
+end
+
+function Date.fromSnowflake(id)
+	return Date.fromMilliseconds(floor(checkSnowflake(id) / 2^22) + DISCORD_EPOCH)
+end
+
+function Date.fromTable(tbl)
+	return Date(toTime(checkType('table', tbl)))
+end
+
+function Date.fromTableUTC(tbl)
+	return Date(toTime(checkType('table', tbl), true))
+end
+
+function Date.fromSeconds(s)
+	return Date(checkInteger(s, 10, 0))
+end
+
+function Date.fromMilliseconds(ms)
+	return Date(0, checkInteger(ms, 10, 0) * US_PER_MS)
+end
+
+function Date.fromMicroseconds(us)
+	return Date(0, checkInteger(us, 10, 0))
+end
+
+function Date:toISO()
+	local s, us = self:toParts()
+	if us > 0 then
+		return toDate('!%FT%T', s) .. format('.%06i', us)
+	else
+		return toDate('!%FT%T', s)
 	end
 end
 
---[=[
-@m toHeader
-@r string
-@d Returns an RFC 2822 string that represents the stored date and time.
-]=]
-function Date:toHeader()
-	return date('!%a, %d %b %Y %T GMT', self._s)
-end
-
---[=[
-@m toSnowflake
-@r string
-@d Returns a synthetic Discord Snowflake ID based on the stored date and time.
-Due to the lack of native 64-bit support, the result may lack precision.
-In other words, `Date.fromSnowflake(id):toSnowflake() == id` may be `false`.
-]=]
 function Date:toSnowflake()
-	local n = (self:toMilliseconds() - DISCORD_EPOCH) * 2^22
-	return format('%f', n):match('%d*')
+	return format('%i', (self:toMilliseconds() - DISCORD_EPOCH) * 2^22)
 end
 
---[=[
-@m toTable
-@r table
-@d Returns a Lua date table that represents the stored date and time as a local
-time. Equivalent to `os.date('*t', s)` where `s` is the Unix time in seconds.
-]=]
 function Date:toTable()
-	return date('*t', self._s)
+	local sec, usec = self:toParts()
+	local tbl = toDate('*t', sec)
+	tbl.usec = usec
+	return tbl
 end
 
---[=[
-@m toTableUTC
-@r table
-@d Returns a Lua date table that represents the stored date and time as a UTC
-time. Equivalent to `os.date('!*t', s)` where `s` is the Unix time in seconds.
-]=]
 function Date:toTableUTC()
-	return date('!*t', self._s)
+	local sec, usec = self:toParts()
+	local tbl = toDate('!*t', sec)
+	tbl.usec = usec
+	return tbl
 end
 
---[=[
-@m toSeconds
-@r number
-@d Returns a Unix time in seconds that represents the stored date and time.
-]=]
+function Date:toString(fmt)
+	return toDate(fmt, self:toSeconds())
+end
+
 function Date:toSeconds()
 	return self._s + self._us / US_PER_S
 end
 
---[=[
-@m toMilliseconds
-@r number
-@d Returns a Unix time in milliseconds that represents the stored date and time.
-]=]
 function Date:toMilliseconds()
 	return self._s * MS_PER_S + self._us / US_PER_MS
 end
 
---[=[
-@m toMicroseconds
-@r number
-@d Returns a Unix time in microseconds that represents the stored date and time.
-]=]
 function Date:toMicroseconds()
 	return self._s * US_PER_S + self._us
 end
 
---[=[
-@m toParts
-@r number
-@r number
-@d Returns the seconds and microseconds that are stored in the date object.
-]=]
 function Date:toParts()
-	return self._s, self._us
+	return normalize(self._s, self._us, US_PER_S)
+end
+
+function Date:toMention(style)
+	local t = floor(self:toSeconds())
+	if style then
+		return format('<t:%s:%s>', t, checkEnum(enums.dateTimeStyle, style))
+	else
+		return format('<t:%s>', t)
+	end
 end
 
 return Date

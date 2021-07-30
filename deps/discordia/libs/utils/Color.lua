@@ -1,313 +1,230 @@
---[=[
-@c Color
-@t ui
-@mt mem
-@p value number
-@d Wrapper for 24-bit colors packed as a decimal value. See the static constructors for more information.
-]=]
+local class = require('../class')
+local typing = require('../typing')
 
-local class = require('class')
-
-local format = string.format
-local min, max, abs, floor = math.min, math.max, math.abs, math.floor
-local lshift, rshift = bit.lshift, bit.rshift
-local band, bor = bit.band, bit.bor
-local bnot = bit.bnot
 local isInstance = class.isInstance
-
-local Color, get = class('Color')
-
-local function check(self, other)
-	if not isInstance(self, Color) or not isInstance(other, Color) then
-		return error('Cannot perform operation with non-Color object', 2)
-	end
-end
+local checkNumber = typing.checkNumber
+local min, max, abs, floor = math.min, math.max, math.abs, math.floor
+local lshift, rshift, band, bor = bit.lshift, bit.rshift, bit.band, bit.bor
+local format = string.format
 
 local function clamp(n, mn, mx)
 	return min(max(n, mn), mx)
 end
 
-function Color:__init(value)
-	value = tonumber(value)
-	self._value = value and band(value, 0xFFFFFF) or 0
+local function lerp(a, b, t)
+	return a + t * (b - a)
 end
 
-function Color:__tostring()
-	return format('Color: %s (%i, %i, %i)', self:toHex(), self:toRGB())
+local function checkByte(n, m)
+	return lshift(clamp(floor(checkNumber(n)), 0, 0xFF), m)
 end
 
-function Color:__eq(other) check(self, other)
-	return self._value == other._value
+local function getByte(n, m)
+	return band(rshift(n, m), 0xFF)
 end
 
-function Color:__add(other) check(self, other)
-	local r = clamp(self.r + other.r, 0, 0xFF)
-	local g = clamp(self.g + other.g, 0, 0xFF)
-	local b = clamp(self.b + other.b, 0, 0xFF)
-	return Color.fromRGB(r, g, b)
+local function checkValue(n, base)
+	return clamp(floor(checkNumber(n, base)), 0, 0xFFFFFF)
 end
 
-function Color:__sub(other) check(self, other)
-	local r = clamp(self.r - other.r, 0, 0xFF)
-	local g = clamp(self.g - other.g, 0, 0xFF)
-	local b = clamp(self.b - other.b, 0, 0xFF)
-	return Color.fromRGB(r, g, b)
+local function checkFloat(n)
+	return clamp(checkNumber(n), 0, 1)
 end
 
-function Color:__mul(other)
-	if not isInstance(self, Color) then
-		self, other = other, self
-	end
-	other = tonumber(other)
-	if other then
-		local r = clamp(self.r * other, 0, 0xFF)
-		local g = clamp(self.g * other, 0, 0xFF)
-		local b = clamp(self.b * other, 0, 0xFF)
-		return Color.fromRGB(r, g, b)
-	else
-		return error('Cannot perform operation with non-numeric object')
-	end
-end
-
-function Color:__div(other)
-	if not isInstance(self, Color) then
-		return error('Division with Color is not commutative')
-	end
-	other = tonumber(other)
-	if other then
-		local r = clamp(self.r / other, 0, 0xFF)
-		local g = clamp(self.g / other, 0, 0xFF)
-		local b = clamp(self.b / other, 0, 0xFF)
-		return Color.fromRGB(r, g, b)
-	else
-		return error('Cannot perform operation with non-numeric object')
-	end
-end
-
---[=[
-@m fromHex
-@t static
-@p hex string
-@r Color
-@d Constructs a new Color object from a hexadecimal string. The string may or may
-not be prefixed by `#`; all other characters are interpreted as a hex string.
-]=]
-function Color.fromHex(hex)
-	return Color(tonumber(hex:match('#?(.*)'), 16))
-end
-
---[=[
-@m fromRGB
-@t static
-@p r number
-@p g number
-@p b number
-@r Color
-@d Constructs a new Color object from RGB values. Values are allowed to overflow
-though one component will not overflow to the next component.
-]=]
-function Color.fromRGB(r, g, b)
-	r = band(lshift(r, 16), 0xFF0000)
-	g = band(lshift(g, 8), 0x00FF00)
-	b = band(b, 0x0000FF)
-	return Color(bor(bor(r, g), b))
+local function checkAngle(n)
+	return floor(checkNumber(n) % 360 + 0.5)
 end
 
 local function fromHue(h, c, m)
 	local x = c * (1 - abs(h / 60 % 2 - 1))
 	local r, g, b
-	if 0 <= h and h < 60 then
+	if h < 60 then
 		r, g, b = c, x, 0
-	elseif 60 <= h and h < 120 then
+	elseif h < 120 then
 		r, g, b = x, c, 0
-	elseif 120 <= h and h < 180 then
+	elseif h < 180 then
 		r, g, b = 0, c, x
-	elseif 180 <= h and h < 240 then
+	elseif h < 240 then
 		r, g, b = 0, x, c
-	elseif 240 <= h and h < 300 then
+	elseif h < 300 then
 		r, g, b = x, 0, c
-	elseif 300 <= h and h < 360 then
+	elseif h < 360 then
 		r, g, b = c, 0, x
 	end
-	r = (r + m) * 0xFF
-	g = (g + m) * 0xFF
-	b = (b + m) * 0xFF
-	return r, g, b
+	return (r + m) * 0xFF, (g + m) * 0xFF, (b + m) * 0xFF
 end
 
 local function toHue(r, g, b)
 	r = r / 0xFF
 	g = g / 0xFF
 	b = b / 0xFF
-	local mn = min(r, g, b)
-	local mx = max(r, g, b)
-	local d = mx - mn
+	local v = max(r, g, b)
+	local c = v - min(r, g, b)
 	local h
-	if d == 0 then
+	if c == 0 then
 		h = 0
-	elseif mx == r then
-		h = (g - b) / d % 6
-	elseif mx == g then
-		h = (b - r) / d + 2
-	elseif mx == b then
-		h = (r - g) / d + 4
+	elseif v == r then
+		h = (g - b) / c + 0
+	elseif v == g then
+		h = (b - r) / c + 2
+	elseif v == b then
+		h = (r - g) / c + 4
 	end
-	h = floor(h * 60 + 0.5)
-	return h, d, mx, mn
+	return checkAngle(h * 60), c, v
 end
 
---[=[
-@m fromHSV
-@t static
-@p h number
-@p s number
-@p v number
-@r Color
-@d Constructs a new Color object from HSV values. Hue is allowed to overflow
-while saturation and value are clamped to [0, 1].
-]=]
+local Color, get = class('Color')
+
+local function checkColor(obj)
+	if isInstance(obj, Color) then
+		return obj:toRGB()
+	end
+	return error('cannot perform operation', 2)
+end
+
+function Color:__init(n, base)
+	self._n = n and checkValue(n, base) or 0
+end
+
+function Color.fromDec(dec)
+	return Color(dec, 10)
+end
+
+function Color.fromHex(hex)
+	return Color(hex, 16)
+end
+
+function Color.fromRGB(r, g, b)
+	return Color(bor(checkByte(r, 16), checkByte(g, 8), checkByte(b, 0)))
+end
+
 function Color.fromHSV(h, s, v)
-	h = h % 360
-	s = clamp(s, 0, 1)
-	v = clamp(v, 0, 1)
+	h = checkAngle(h)
+	s = checkFloat(s)
+	v = checkFloat(v)
 	local c = v * s
 	local m = v - c
 	local r, g, b = fromHue(h, c, m)
 	return Color.fromRGB(r, g, b)
 end
 
---[=[
-@m fromHSL
-@t static
-@p h number
-@p s number
-@p l number
-@r Color
-@d Constructs a new Color object from HSL values. Hue is allowed to overflow
-while saturation and lightness are clamped to [0, 1].
-]=]
 function Color.fromHSL(h, s, l)
-	h = h % 360
-	s = clamp(s, 0, 1)
-	l = clamp(l, 0, 1)
+	h = checkAngle(h)
+	s = checkFloat(s)
+	l = checkFloat(l)
 	local c = (1 - abs(2 * l - 1)) * s
 	local m = l - c * 0.5
 	local r, g, b = fromHue(h, c, m)
 	return Color.fromRGB(r, g, b)
 end
 
---[=[
-@m toHex
-@r string
-@d Returns a 6-digit hexadecimal string that represents the color value.
-]=]
-function Color:toHex()
-	return format('#%06X', self._value)
+function Color:__eq(other)
+	local r1, g1, b1 = checkColor(self)
+	local r2, g2, b2 = checkColor(other)
+	return r1 == r2 and g1 == g2 and b1 == b2
 end
 
---[=[
-@m toRGB
-@r number
-@r number
-@r number
-@d Returns the red, green, and blue values that are packed into the color value.
-]=]
+function Color:__lt(other)
+	local r1, g1, b1 = checkColor(self)
+	local r2, g2, b2 = checkColor(other)
+	return r1 < r2 and g1 < g2 and b1 < b2
+end
+
+function Color:__le(other)
+	local r1, g1, b1 = checkColor(self)
+	local r2, g2, b2 = checkColor(other)
+	return r1 <= r2 and g1 <= g2 and b1 <= b2
+end
+
+function Color:__add(other)
+	local r1, g1, b1 = checkColor(self)
+	local r2, g2, b2 = checkColor(other)
+	return Color.fromRGB(r1 + r2, g1 + g2, b1 + b2)
+end
+
+function Color:__sub(other)
+	local r1, g1, b1 = checkColor(self)
+	local r2, g2, b2 = checkColor(other)
+	return Color.fromRGB(r1 - r2, g1 - g2, b1 - b2)
+end
+
+function Color:__mul(other)
+	if tonumber(other) then
+		local r, g, b = checkColor(self)
+		return Color.fromRGB(r * other, g * other, b * other)
+	elseif tonumber(self) then
+		local r, g, b = checkColor(other)
+		return Color.fromRGB(r * self, g * self, b * self)
+	else
+		return error('cannot perform operation')
+	end
+end
+
+function Color.__mod()
+	return error('cannot perform operation')
+end
+
+function Color:__div(other)
+	if tonumber(other) then
+		local r, g, b = checkColor(self)
+		return Color.fromRGB(r / other, g / other, b / other)
+	elseif tonumber(self) then
+		return error('division not commutative')
+	else
+		return error('cannot perform operation')
+	end
+end
+
+function Color:lerp(other, t)
+	t = checkFloat(t)
+	local r1, g1, b1 = checkColor(self)
+	local r2, g2, b2 = checkColor(other)
+	return Color.fromRGB(lerp(r1, r2, t), lerp(g1, g2, t), lerp(b1, b2, t))
+end
+
+function Color:toString()
+	return format('#%s (%i, %i, %i)', self:toHex(), self:toRGB())
+end
+
+function Color:toDec()
+	return self._n
+end
+
+function Color:toHex()
+	return format('%06X', self._n)
+end
+
 function Color:toRGB()
 	return self.r, self.g, self.b
 end
 
---[=[
-@m toHSV
-@r number
-@r number
-@r number
-@d Returns the hue, saturation, and value that represents the color value.
-]=]
 function Color:toHSV()
-	local h, d, mx = toHue(self.r, self.g, self.b)
-	local v = mx
-	local s = mx == 0 and 0 or d / mx
+	local h, c, v = toHue(self:toRGB())
+	local s = v == 0 and 0 or c / v
 	return h, s, v
 end
 
---[=[
-@m toHSL
-@r number
-@r number
-@r number
-@d Returns the hue, saturation, and lightness that represents the color value.
-]=]
 function Color:toHSL()
-	local h, d, mx, mn = toHue(self.r, self.g, self.b)
-	local l = (mx + mn) * 0.5
-	local s = d == 0 and 0 or d / (1 - abs(2 * l - 1))
+	local h, c, v = toHue(self:toRGB())
+	local l = v - c * 0.5
+	local s = (l == 0 or l == 1) and 0 or c / (1 - abs(2 * v - c - 1))
 	return h, s, l
 end
 
---[=[@p value number The raw decimal value that represents the color value.]=]
-function get.value(self)
-	return self._value
-end
-
-local function getByte(value, offset)
-	return band(rshift(value, offset), 0xFF)
-end
-
---[=[@p r number The value that represents the color's red-level.]=]
-function get.r(self)
-	return getByte(self._value, 16)
-end
-
---[=[@p g number The value that represents the color's green-level.]=]
-function get.g(self)
-	return getByte(self._value, 8)
-end
-
---[=[@p b number The value that represents the color's blue-level.]=]
-function get.b(self)
-	return getByte(self._value, 0)
-end
-
-local function setByte(value, offset, new)
-	local byte = lshift(0xFF, offset)
-	value = band(value, bnot(byte))
-	return bor(value, band(lshift(new, offset), byte))
-end
-
---[=[
-@m setRed
-@r nil
-@d Sets the color's red-level.
-]=]
-function Color:setRed(r)
-	self._value = setByte(self._value, 16, r)
-end
-
---[=[
-@m setGreen
-@r nil
-@d Sets the color's green-level.
-]=]
-function Color:setGreen(g)
-	self._value = setByte(self._value, 8, g)
-end
-
---[=[
-@m setBlue
-@r nil
-@d Sets the color's blue-level.
-]=]
-function Color:setBlue(b)
-	self._value = setByte(self._value, 0, b)
-end
-
---[=[
-@m copy
-@r Color
-@d Returns a new copy of the original color object.
-]=]
 function Color:copy()
-	return Color(self._value)
+	return Color(self._n)
+end
+
+function get:r()
+	return getByte(self._n, 16)
+end
+
+function get:g()
+	return getByte(self._n, 8)
+end
+
+function get:b()
+	return getByte(self._n, 0)
 end
 
 return Color
