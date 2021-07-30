@@ -478,7 +478,14 @@ function Module:SaveStats(filename, stats)
 	outputFile:close()
 end
 
-function Module:GetChannelStats(guild, channelId)
+function Module:GetChannelStats(guild, channel)
+	local channelId
+	if (channel.isThread) then
+		channelId = channel.parent_id
+	else
+		channelId = channel.id
+	end
+
 	if (type(channelId) ~= "string") then
 		self:LogError("expected string as channel id, got " .. type(channelId))
 		return { MessageCount = 0, ReactionCount = 0 } -- dummy temporary table
@@ -553,7 +560,7 @@ function Module:OnMessageCreate(message)
 	data.Stats.MessageCount = data.Stats.MessageCount + 1
 
 	-- Channels
-	local channelStats = self:GetChannelStats(message.guild, message.channel.id)
+	local channelStats = self:GetChannelStats(message.guild, message.channel)
 	channelStats.MessageCount = channelStats.MessageCount + 1
 
 	-- Members
@@ -594,7 +601,7 @@ function Module:OnReactionAdd(reaction, userId)
 	local data = self:GetPersistentData(reaction.message.guild)
 	data.Stats.ReactionAdded = data.Stats.ReactionAdded + 1
 
-	local channelStats = self:GetChannelStats(reaction.message.guild, reaction.message.channel.id)
+	local channelStats = self:GetChannelStats(reaction.message.guild, reaction.message.channel)
 	channelStats.ReactionCount = channelStats.ReactionCount + 1
 
 	local reactionStats = self:GetReactionStats(reaction.message.guild, emojiData.Name)
@@ -617,7 +624,7 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 	local data = self:GetPersistentData(channel.guild)
 	data.Stats.ReactionAdded = data.Stats.ReactionAdded + 1
 
-	local channelStats = self:GetChannelStats(channel.guild, channel.id)
+	local channelStats = self:GetChannelStats(channel.guild, channel)
 	channelStats.ReactionCount = channelStats.ReactionCount + 1
 
 	local reactionStats = self:GetReactionStats(channel.guild, emojiData.Name)
