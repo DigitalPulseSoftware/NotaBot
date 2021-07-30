@@ -481,7 +481,7 @@ end
 function Module:GetChannelStats(guild, channel)
 	local channelId
 	if (channel.isThread) then
-		channelId = channel.parent_id
+		channelId = channel._parent_id
 	else
 		channelId = channel.id
 	end
