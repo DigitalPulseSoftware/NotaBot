@@ -46,12 +46,15 @@ enums.notificationSetting = enum {
 }
 
 enums.channelType = enum {
-	text     = 0,
-	private  = 1,
-	voice    = 2,
-	group    = 3,
-	category = 4,
-	news     = 5,
+	text           = 0,
+	private        = 1,
+	voice          = 2,
+	group          = 3,
+	category       = 4,
+	news           = 5,
+	news_thread    = 10,
+	public_thread  = 11,
+	private_thread = 12,
 }
 
 enums.webhookType = enum {

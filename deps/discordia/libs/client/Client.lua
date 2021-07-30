@@ -53,6 +53,7 @@ local GATEWAY_VERSION = constants.GATEWAY_VERSION
 -- do not change these options here
 -- pass a custom table on client initialization instead
 local defaultOptions = {
+	intents = 0,
 	routeDelay = 250,
 	maxRetries = 5,
 	shardCount = 0,
