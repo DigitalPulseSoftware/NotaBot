@@ -196,7 +196,7 @@ function Module:OnLoaded()
 		Args = {
 			{Name = "channel", Type = Bot.ConfigType.String}
 		},
-		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+		PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 		Help = "Query twitch informations about a channel",
 		Func = function (commandMessage, channel)
@@ -255,7 +255,7 @@ function Module:OnLoaded()
 		Args = {
 			{Name = "channel", Type = Bot.ConfigType.String}
 		},
-		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+		PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 		Help = "Query twitch informations about a game",
 		Func = function (commandMessage, channel)
@@ -297,7 +297,7 @@ function Module:OnLoaded()
 		Args = {
 			{Name = "channel", Type = Bot.ConfigType.String}
 		},
-		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+		PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 		Help = "Query twitch informations about a game",
 		Func = function (commandMessage, channel)
@@ -309,7 +309,7 @@ function Module:OnLoaded()
 			end
 
 			if (channelData) then
-				bot:CallModuleFunction(self, "SendChannelNotification", commandmessage:getGuild(), commandmessage:getChannel(), "", channelData)
+				bot:CallModuleFunction(self, "SendChannelNotification", commandMessage:getGuild(), commandMessage:getChannel(), "", channelData)
 			else
 				if (err) then
 					commandMessage:reply(string.format("An error occurred: %s", err))

@@ -126,11 +126,11 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "resetstats",
 		Args = {},
-		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+		PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 		Help = "Resets stats of the day",
 		Func = function (commandMessage)
-			local data = self:GetPersistentData(commandmessage:getGuild())
+			local data = self:GetPersistentData(commandMessage:getGuild())
 			data.Stats = self:BuildStats()
 			commandMessage:reply("Stats reset successfully")
 		end
@@ -163,10 +163,10 @@ function Module:OnLoaded()
 					return
 				end
 
-				commandmessage:getChannel():broadcastTyping()
+				commandMessage:getChannel():broadcastTyping()
 
 				-- Check available dates
-				local guildStatsFolder = self:GetStatsFolder(commandmessage:getGuild())
+				local guildStatsFolder = self:GetStatsFolder(commandMessage:getGuild())
 
 				local availableStats = {}
 				for file in fs.scandir(guildStatsFolder) do
@@ -197,14 +197,14 @@ function Module:OnLoaded()
 				local _, firstIndex = table.binsearch(availableStats, fromDate, compareDateFunc)
 				local _, lastIndex = table.binsearch(availableStats, toDate, compareDateFunc)
 
-				local accumulatedStats = self:BuildStats(commandmessage:getGuild())
+				local accumulatedStats = self:BuildStats(commandMessage:getGuild())
 				accumulatedStats.MemberCount = nil
 				accumulatedStats.MemberCountHistory = {}
 
 				for i = firstIndex, lastIndex do
 					local v = availableStats[i]
 					local fileName = string.format("%s/stats_%s-%s-%s.json", guildStatsFolder, v.y, v.m, v.d)
-					local stats, err = self:LoadStats(commandmessage:getGuild(), fileName)
+					local stats, err = self:LoadStats(commandMessage:getGuild(), fileName)
 					if (not stats) then
 						commandMessage:reply("Failed to load some stats")
 						return
@@ -213,23 +213,23 @@ function Module:OnLoaded()
 					AccumulateStats(accumulatedStats, stats)
 				end
 
-				self:PrintStats(commandmessage:getChannel(), accumulatedStats, string.format("%s-%s-%s", fromDate.d, fromDate.m, fromDate.y), string.format("%s-%s-%s", toDate.d, toDate.m, toDate.y), lastIndex - firstIndex + 1)
+				self:PrintStats(commandMessage:getChannel(), accumulatedStats, string.format("%s-%s-%s", fromDate.d, fromDate.m, fromDate.y), string.format("%s-%s-%s", toDate.d, toDate.m, toDate.y), lastIndex - firstIndex + 1)
 			elseif (from) then
 				if (not from:match("^%d%d%d%d%-%d%d%-%d%d$")) then
 					commandMessage:reply("Invalid date format, please write it as YYYY-MM-DD")
 					return
 				end
 
-				local stats = self:LoadStats(commandmessage:getGuild(), self:GetStatsFilename(commandmessage:getGuild(), from))
+				local stats = self:LoadStats(commandMessage:getGuild(), self:GetStatsFilename(commandMessage:getGuild(), from))
 				if (not stats) then
 					commandMessage:reply("We have no stats for that date")
 					return
 				end
 
-				self:PrintStats(commandmessage:getChannel(), stats)
+				self:PrintStats(commandMessage:getChannel(), stats)
 			else
-				local data = self:GetPersistentData(commandmessage:getGuild())
-				self:PrintStats(commandmessage:getChannel(), data.Stats)
+				local data = self:GetPersistentData(commandMessage:getGuild())
+				self:PrintStats(commandMessage:getChannel(), data.Stats)
 			end
 		end
 	})

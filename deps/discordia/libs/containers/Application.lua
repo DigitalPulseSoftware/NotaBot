@@ -1,5 +1,4 @@
 local Snowflake = require('./Snowflake')
-local Team = require('./Team')
 
 local class = require('../class')
 local typing = require('../typing')
@@ -11,24 +10,8 @@ local Application, get = class('Application', Snowflake)
 
 function Application:__init(data, client)
 	Snowflake.__init(self, data, client)
-	self._id = data.id
-	self._name = data.name
-	self._icon = data.icon
-	self._description = data.description
-	self._rpc_origins = data.rpc_origins
-	self._bot_public = data.bot_public
-	self._bot_require_code_grant = data.bot_require_code_grant
-	self._terms_of_service_url = data.terms_of_service_url
-	self._privacy_policy_url = data.privacy_policy_url
 	self._owner = data.owner and client.state:newUser(data.owner)
-	self._summary = data.summary
-	self._verify_key = data.verify_key
-	self._team = data.team and Team(data.team, client)
-	self._guild_id = data.guild_id
-	self._primary_sku_id = data.primary_sku_id
-	self._slug = data.slug
-	self._cover_image = data.cover_image
-	self._flags = data.flags
+	self._team = data.team and client.state:newTeam(data.team)
 end
 
 function Application:getIconURL(ext, size)

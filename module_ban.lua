@@ -16,7 +16,7 @@ function Module:CheckPermissions(member)
 		end
 	end]]
 
-	return member:hasPermission(enums.permission.banMembers)
+	return member:getPermissions():hasValue(enums.permission.banMembers)
 end
 
 function Module:GetConfigTable()
@@ -49,9 +49,9 @@ function Module:OnLoaded()
 		Help = "Bans a member",
 		Silent = true,
 		Func = function (commandMessage, targetUser, duration, reason)
-			local guild = commandmessage:getGuild()
+			local guild = commandMessage:getGuild()
 			local config = self:GetConfig(guild)
-			local bannedBy = commandmessage:getMember()
+			local bannedBy = commandMessage:getMember()
 
 			-- Duration
 			if (not duration) then
@@ -65,8 +65,8 @@ function Module:OnLoaded()
 
 			local targetMember = guild:getMember(targetUser)
 			if (targetMember) then
-				local bannedByRole = bannedBy.highestRole
-				local targetRole = targetMember.highestRole
+				local bannedByRole = bannedBy:getHighestRole()
+				local targetRole = targetMember:getHighestRole()
 				if (targetRole.position >= bannedByRole.position) then
 					commandMessage:reply("You cannot ban that user due to your lower permissions.")
 					return
@@ -83,16 +83,16 @@ function Module:OnLoaded()
 						durationText = ""
 					end
 
-					privateChannel:send(string.format("You have been banned from **%s** by %s (%s)\n%s", commandmessage:getGuild().name, bannedBy.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given", durationText))
+					privateChannel:send(string.format("You have been banned from **%s** by %s (%s)\n%s", commandMessage:getGuild().name, bannedBy.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given", durationText))
 				end
 			end
 
-			local data = self:GetData(commandmessage:getGuild())
+			local data = self:GetData(commandMessage:getGuild())
 			data.BanInProgress[targetUser.id] = true
-			if (guild:banUser(targetUser, reason, 0)) then
+			if (guild:createBan(targetUser, reason, 0)) then
 				commandMessage:reply(string.format("%s has banned %s (%s)%s", bannedBy.name, targetUser.tag, duration > 0 and ("for " .. durationStr) or "permanent", #reason > 0 and (" for the reason: " .. reason) or ""))
 
-				self:RegisterBan(commandmessage:getGuild(), targetUser.id, commandMessage.author, duration, reason)
+				self:RegisterBan(commandMessage:getGuild(), targetUser.id, commandMessage.author, duration, reason)
 			else
 				data.BanInProgress[targetUser.id] = nil
 				commandMessage:reply(string.format("Failed to ban %s", targetUser.tag))
@@ -111,7 +111,7 @@ function Module:OnLoaded()
 		Help = "Unbans a member",
 		Silent = true,
 		Func = function (commandMessage, targetUser, reason)
-			local guild = commandmessage:getGuild()
+			local guild = commandMessage:getGuild()
 			local config = self:GetConfig(guild)
 
 			-- Reason
@@ -120,15 +120,13 @@ function Module:OnLoaded()
 			if (config.SendPrivateMessage) then
 				local privateChannel = targetUser:getPrivateChannel()
 				if (privateChannel) then
-					privateChannel:send(string.format("You have been unbanned from **%s** by %s (%s)", commandmessage:getGuild().name, commandmessage:getMember().user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given"))
+					privateChannel:send(string.format("You have been unbanned from **%s** by %s (%s)", commandMessage:getGuild().name, commandMessage:getMember().user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given"))
 				end
 			end
 
-			local data = self:GetData(commandmessage:getGuild())
-
-			local success, err = guild:unbanUser(targetUser, reason)
+			local success, err = guild:removeBan(targetUser, reason)
 			if (success) then
-				commandMessage:reply(string.format("%s has unbanned %s%s", commandmessage:getMember().name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
+				commandMessage:reply(string.format("%s has unbanned %s%s", commandMessage:getMember().name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
 			else
 				commandMessage:reply(string.format("Failed to unban %s: %s", targetUser.tag, err))
 			end
@@ -146,13 +144,13 @@ function Module:OnLoaded()
 		Help = "Updates the ban duration",
 		Silent = true,
 		Func = function (commandMessage, targetUser, newDuration)
-			local guild = commandmessage:getGuild()
+			local guild = commandMessage:getGuild()
 
 			local durationStr = util.FormatTime(newDuration, 3)
 
 			if (self:UpdateBanDuration(guild, targetUser.id, newDuration)) then
 				commandMessage:reply(string.format("%s has updated %s ban duration (%s)", 
-					commandmessage:getMember().name,
+					commandMessage:getMember().name,
 					targetUser.tag,
 					newDuration > 0 and ("unbanned in " .. durationStr) or "banned permanently"))
 			else
@@ -204,7 +202,7 @@ function Module:OnReady()
 						if (user) then
 							self:LogInfo(guild, "Unbanning %s (duration expired)", user and user.tag or unbanData.UserId)
 
-							guild:unbanUser(unbanData.UserId, "Ban duration expired")
+							guild:removeBan(unbanData.UserId, "Ban duration expired")
 						end
 
 						bannedUsers[userId] = nil
@@ -360,25 +358,24 @@ function Module:SyncBans(guild)
 			end
 
 			local auditLogs = {}
-			for k,log in pairs(guildAuditLogs) do
+			for _, log in pairs(guildAuditLogs) do
 				table.insert(auditLogs, log)
 			end
 
-			table.sort(auditLogs, function (a, b) return a.createdAt > b.createdAt end)
+			table.sort(auditLogs, function (a, b) return a:getDate() > b:getDate() end)
 
-			for k, log in pairs(auditLogs) do
-				local bannedUser = log:getTarget()
+			for _, log in pairs(auditLogs) do
+				-- TODO: fetch the user
+				local bannedUser = log.targetId
 
-				if (bannedUser) then
-					if (missingBanData[bannedUser.id]) then
-						local bannedBy = log:getMember()
-						local date = discordia.Date.fromSnowflake(log.id)
+				if (missingBanData[bannedUser]) then
+					local bannedBy = log:getMember()
+					local date = log:getDate()
 
-						self:LogInfo(guild, "Found audit log data for %s ban (banned by %s at %s)", bannedUser.tag, bannedBy.tag, date:toHeader())
-						self:UpdateBanData(guild, log.targetId, bannedBy.id, date)
+					self:LogInfo(guild, "Found audit log data for %s ban (banned by %s at %s)", bannedUser, bannedBy.tag, date:toString())
+					self:UpdateBanData(guild, bannedUser, bannedBy.id, date)
 
-						missingBanData[bannedUser.id] = nil
-					end
+					missingBanData[bannedUser] = nil
 				end
 			end
 
@@ -400,7 +397,6 @@ end
 function Module:OnUserBan(user, guild)
 	local data = self:GetData(guild)
 	local bannedUsers = self:GetBannedUsersTable(guild)
-	local banData = bannedUsers[user.id]
 	if (not data.BanInProgress[user.id]) then
 		-- Try to recover some ban information from the guild audit logs
 		local query = {}
@@ -410,19 +406,19 @@ function Module:OnUserBan(user, guild)
 		local guildAuditLogs = guild:getAuditLogs(query)
 		if (guildAuditLogs) then
 			local auditLogs = {}
-			for k,log in pairs(guildAuditLogs) do
+			for _, log in pairs(guildAuditLogs) do
 				table.insert(auditLogs, log)
 			end
 
 			table.sort(auditLogs, function (a, b) return a.createdAt > b.createdAt end)
 
-			for k, log in pairs(auditLogs) do
+			for _, log in pairs(auditLogs) do
 				if (log.targetId == user.id) then
 					local bannedBy = log:getMember()
 					local date = discordia.Date.fromSnowflake(log.id)
 
 					self:RegisterBan(guild, user.id, bannedBy.user, 0, log.reason or "")
-					self:LogInfo(guild, "Registered manual ban of %s by %s at %s (reason: %s)", log:getTarget().tag, bannedBy.tag, date:toHeader(), log.reason or "<no reason>")
+					self:LogInfo(guild, "Registered manual ban of %s by %s at %s (reason: %s)", log:getTarget().tag, bannedBy.tag, date:toString(), log.reason or "<no reason>")
 
 					self:SavePersistentData(guild)
 					return
@@ -430,7 +426,7 @@ function Module:OnUserBan(user, guild)
 			end
 		end
 
-		self:LogWarning(guild, "Failed to retrieve informations about manual ban of %s at %s", user.tag, discordia.Date():toHeader())
+		self:LogWarning(guild, "Failed to retrieve informations about manual ban of %s at %s", user.tag, discordia.Date():toString())
 	else
 		data.BanInProgress[user.id] = nil
 	end

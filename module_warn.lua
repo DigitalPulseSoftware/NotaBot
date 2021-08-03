@@ -61,16 +61,16 @@ end
 
 local function SendWarnMessage(commandMessage, targetMember, reason)
     if not reason then
-        commandMessage:reply(string.format("**%s** has warned **%s**.", commandmessage:getMember().tag, targetMember.tag))
+        commandMessage:reply(string.format("**%s** has warned **%s**.", commandMessage:getMember().tag, targetMember.tag))
     else
-        commandMessage:reply(string.format("**%s** has warned **%s** for the following reason:\n**%s**.", commandmessage:getMember().tag, targetMember.tag, reason))
+        commandMessage:reply(string.format("**%s** has warned **%s** for the following reason:\n**%s**.", commandMessage:getMember().tag, targetMember.tag, reason))
     end
 end
 
 --------------------------------
 
 function Module:CheckPermissions(member)
-    return member:hasPermission(enums.permission.banMembers)
+    return member:getPermissions():hasValue(enums.permission.banMembers)
 end
 
 function Module:GetConfigTable()
@@ -146,18 +146,18 @@ function Module:OnLoaded()
         Help = "Warns a member",
         Silent = true,
         Func = function (commandMessage, targetUser, reason)
-            local guild = commandmessage:getGuild()
+            local guild = commandMessage:getGuild()
             local config = self:GetConfig(guild)
             local history = self:GetPersistentData(guild)
             history = history or {}
             
             local targetMember = guild:getMember(targetUser)
-            local moderator = commandmessage:getMember()
+            local moderator = commandMessage:getMember()
             
             -- Permission check
             if targetMember then
-                local bannedByRole = moderator.highestRole
-                local targetRole = targetMember.highestRole
+                local bannedByRole = moderator:getHighestRole()
+                local targetRole = targetMember:getHighestRole()
                 if targetRole.position >= bannedByRole.position then
                     commandMessage:reply("You cannot warn this user due to your lower permissions.")
                     return
@@ -166,7 +166,7 @@ function Module:OnLoaded()
 
             -- Adding warn to the user
             local targetId = targetUser.id
-            local moderatorId = commandmessage:getMember().id
+            local moderatorId = commandMessage:getMember().id
             
             AddWarn(history, targetId, moderatorId, reason)
 
@@ -237,7 +237,7 @@ function Module:OnLoaded()
         Help = "Shows all the warns of a member.",
         Silent = true,
         Func = function(commandMessage, targetUser)
-            local guild = commandmessage:getGuild()
+            local guild = commandMessage:getGuild()
             local history = self:GetPersistentData(guild)
             local targetMember = guild:getMember(targetUser)
 
@@ -270,7 +270,7 @@ function Module:OnLoaded()
         Help = "Clears all the warns of a specified user.",
         Silent = true,
         Func = function (commandMessage, targetUser)
-            local guild = commandmessage:getGuild()
+            local guild = commandMessage:getGuild()
             local history = self:GetPersistentData(guild)
             local targetMember = guild:getMember(targetUser)
 

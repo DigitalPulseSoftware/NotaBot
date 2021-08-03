@@ -1,5 +1,4 @@
 local client = Client
-local discordia = Discordia
 local bot = Bot
 
 Module.Name = "welcome"

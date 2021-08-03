@@ -79,17 +79,17 @@ local function isMember(class, fn)
 end
 
 local function checkInit(class, level)
-	local info = debug.getinfo(level, 'f')
-	if not isInit(class, info.func) then
-		error('cannot declare class property outside of __init', level)
-	end
+	-- local info = debug.getinfo(level, 'f')
+	-- if not isInit(class, info.func) then
+	-- 	error('cannot declare class property outside of __init', level)
+	-- end
 end
 
 local function checkMember(class, level)
-	local info = debug.getinfo(level, 'f')
-	if not isMember(class, info.func) then
-		error('cannot access private class property', level)
-	end
+	-- local info = debug.getinfo(level, 'f')
+	-- if not isMember(class, info.func) then
+	-- 	error('cannot access private class property', level)
+	-- end
 end
 
 local function copy(obj)
@@ -171,16 +171,14 @@ return setmetatable({
 			return rawget(self, properties[k])
 		elseif class[k] ~= nil then
 			return class[k]
-		else
-			return error('undefined class member: ' .. tostring(k))
 		end
 	end
 
 	function class:__newindex(k, v)
 		if set[k] then
 			return set[k](self, v)
-		elseif class[k] or get[k] then
-			return error('cannot override class member: ' .. tostring(k))
+		-- elseif class[k] or get[k] then
+		--	return error('cannot override class member: ' .. tostring(k))
 		else
 			if checkCalls and k:sub(1, 1) == '_' then checkMember(class, 3) end
 			if not properties[k] then

@@ -123,6 +123,9 @@
 	- `WelcomeChannel`
 - Merged `GuildChannel`, `TextChannel`, `GuildCategoryChannel`, `GuildTextChannel`, `GuildVoiceChannel`, and `PrivateChannel` into one `Channel` class
 - Merged `ArrayIterable`, `TableIterable`, and `FilteredIterable` into one `Iterable` class
+- Renamed `Member` to `GuildMember`
+- Renamed `Role` to `GuildRole`
+- Renamed `Emoji` to `GuildEmoji`
 - Removed `Cache`, `SecondaryCache`, and `WeakCache` (some form of these still used internally)
 - Removed `GroupChannel` class (concept was not merged into `Channel`)
 - Removed `Permissions` class (replaced by more general `Bitfield` class)
@@ -463,7 +466,9 @@ Note: All previously existing individual channel sub-classes are considered here
 - Changed `__eq` consider the guild in addition to the user
 - Removed `guild` property (use `guildId` property or `getGuild` method)
 
-#### Emoji
+#### GuildEmoji
+
+Note: Renamed from `Emoji`
 
 - Added `getURL` method
 - Added `getGuild` method
@@ -558,7 +563,9 @@ Note: All previously existing individual channel sub-classes are considered here
 - Removed `channelName` property (use `channel.name` property)
 - Removed `channelType` property (use `channel.type` property)
 
-#### Member
+#### GuildMember
+
+Note: Renamed from `GuildMember`
 
 - Added `getRoles` method
 - Added `getGuild` method
@@ -652,7 +659,9 @@ Note: Technically a new class that implements the former `UserPresence` features
 - Removed `emojiHash` property (use `emoji.hash` property)
 - Removed `emojiURL` property
 
-#### Role
+#### GuildRole
+
+Note: Renamed from `Role`
 
 - Added `getGuild` method
 - Added `toMention` method
@@ -975,7 +984,7 @@ Note: This is effectively a new class compared to the old one. It provides a sim
 	- Overhauled WebSocket connection logic
 	- Deprecated `User.fullname`, use `User.tag` instead
 	- Calling an HTTP API method outside of a coroutine will now throw (instead of return) its error
-	- Implemented internal gateway `message:getMember()` parsing
+	- Implemented internal gateway `message.member` parsing
 	- All offline members are now uncached when `cacheAllMembers` is false (instead of just those in large guilds)
 
 ## 2.3.0
@@ -1762,7 +1771,7 @@ The major goals of this rewrite were to add new or missing features and to impro
 	- Fixes an issue where Server == defaultChannel or defaultRole was true
 
 ## 0.5.5
-- Fixed regression due to message:getChannel()Id removal
+- Fixed regression due to Message.channelId removal
 
 ## 0.5.4
 - Added User object fallback for member[Ban/Unban]

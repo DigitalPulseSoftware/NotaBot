@@ -19,60 +19,58 @@ local discordiaEvents = {
 	["channelCreate"] = function (channel) return channel:getGuild() end,
 	["channelDelete"] = function (channel) return channel:getGuild() end,
 	["channelUpdate"] = function (channel) return channel:getGuild() end,
-	["debug"] = function (message) end,
-	["emojisUpdate"] = function (guild) return guild end,
-	["error"] = function (message) end,
+	["debug"] = function () end,
+	["emojisUpdate"] = function (guildId) return Bot.Client:getGuild(guildId) end,
+	["error"] = function () end,
 	["guildAvailable"] = function (guild) return guild end,
 	["guildCreate"] = function (guild) return guild end,
-	["guildDelete"] = function (guild) return guild end,
-	["guildUnavailable"] = function (guild) return guild end,
+	["guildDelete"] = function (guildId) return Bot.Client:getGuild(guildId) end,
+	["guildUnavailable"] = function (guildId) return Bot.Client:getGuild(guildId) end,
 	["guildUpdate"] = function (guild) return guild end,
-	["heartbeat"] = function (shardId, latency) end,
-	["info"] = function (message) end,
+	["heartbeat"] = function () end,
+	["info"] = function () end,
 	["memberJoin"] = function (member) return member:getGuild() end,
-	["memberLeave"] = function (member) return member:getGuild() end,
+	["memberRemove"] = function (guildId) return Bot.Client:getGuild(guildId) end,
 	["memberUpdate"] = function (member) return member:getGuild() end,
 	["messageCreate"] = function (message) return message:getGuild() end,
-	["messageDelete"] = function (message) return message:getGuild() end,
-	["messageDeleteUncached"] = function (channel, messageId) return channel:getGuild() end,
-	["messageUpdate"] = function (message) return message:getGuild() end,
-	["messageUpdateUncached"] = function (channel, messageId) return channel:getGuild() end,
-	["pinsUpdate"] = function (channel) return channel:getGuild() end,
-	["presenceUpdate"] = function (member) return member:getGuild() end,
-	["raw"] = function (string) end,
-	["reactionAdd"] = function (reaction, userId) return reaction.message:getGuild() end,
-	["reactionAddUncached"] = function (channel, messageId, hash, userId) return channel:getGuild() end,
-	["reactionRemove"] = function (reaction, userId) return reaction.message:getGuild() end,
-	["reactionRemoveUncached"] = function (channel, messageId, hash, userId) return channel:getGuild() end,
-	["ready"] = function () end,
-	["recipientAdd"] = function (relationship) end,
-	["recipientRemove"] = function (relationship) end,
-	["relationshipAdd"] = function (relationship) end,
-	["relationshipRemove"] = function (relationship) end,
-	["relationshipUpdate"] = function (relationship) end,
-	["roleCreate"] = function (role) return role.guild end,
-	["roleDelete"] = function (role) return role.guild end,
-	["roleUpdate"] = function (role) return role.guild end,
-	["shardReady"] = function (shardId) end,
-	["shardResumed"] = function (shardId) end,
-	["typingStart"] = function (userId, channelId, timestamp, client)
-		local channel = client:getChannel(channelId)
-		if (not channel) then
-			return
-		end
-
-		return channel:getGuild()
+	["messageDelete"] = function (channelId)
+		local channel = Bot.Client:getChannel(channelId)
+		if channel then return channel:getGuild() end
 	end,
-	["userBan"] = function (user, guild) return guild end,
-	["userUnban"] = function (user, guild) return guild end,
-	["userUpdate"] = function (user) end,
-	["voiceChannelJoin"] = function (member, channel) return channel:getGuild() end,
-	["voiceChannelLeave"] = function (member, channel) return channel:getGuild() end,
-	["voiceConnect"] = function (member) return member:getGuild() end,
-	["voiceDisconnect"] = function (member) return member:getGuild() end,
-	["voiceUpdate"] = function (member) return member:getGuild() end,
-	["warning"] = function (message) end,
-	["webhooksUpdate"] = function (channel) return channel:getGuild() end
+	["messageUpdate"] = function (channelId)
+		local channel = Bot.Client:getChannel(channelId)
+		if channel then return channel:getGuild() end
+	end,
+	-- ["messageUpdateUncached"] = function (channel, messageId) return channel:getGuild() end,
+	["pinsUpdate"] = function (d) return Bot.Client:getGuild(d.guildId) end,
+	["presenceUpdate"] = function (member) return member:getGuild() end,
+	["raw"] = function () end,
+	["reactionAdd"] = function (d) return Bot.Client:getGuild(d.guildId) end,
+	-- ["reactionAddUncached"] = function (channel, messageId, hash, userId) return channel:getGuild() end,
+	["reactionRemove"] = function (d) return Bot.Client:getGuild(d.guildId) end,
+	-- ["reactionRemoveUncached"] = function (channel, messageId, hash, userId) return channel:getGuild() end,
+	["ready"] = function () end,
+	-- ["recipientAdd"] = function (relationship) end,
+	-- ["recipientRemove"] = function (relationship) end,
+	-- ["relationshipAdd"] = function (relationship) end,
+	-- ["relationshipRemove"] = function (relationship) end,
+	-- ["relationshipUpdate"] = function (relationship) end,
+	["roleCreate"] = function (role) return role:getGuild() end,
+	["roleDelete"] = function (role) return role:getGuild() end,
+	["roleUpdate"] = function (role) return role:getGuild() end,
+	["shardReady"] = function () end,
+	["shardResumed"] = function () end,
+	["typingStart"] = function (d) return Bot.Client:getGuild(d.guildId) end,
+	["userBan"] = function (guildId) return Bot.Client:getGuild(guildId) end,
+	["userUnban"] = function (guildId) return Bot.Client:getGuild(guildId) end,
+	["userUpdate"] = function () end,
+	-- ["voiceChannelJoin"] = function (member, channel) return channel:getGuild() end,
+	-- ["voiceChannelLeave"] = function (member, channel) return channel:getGuild() end,
+	-- ["voiceConnect"] = function (member) return member:getGuild() end,
+	-- ["voiceDisconnect"] = function (member) return member:getGuild() end,
+	-- ["voiceUpdate"] = function (member) return member:getGuild() end,
+	["warning"] = function () end,
+	["webhooksUpdate"] = function (d) return Bot.Client:getGuild(d.guildId) end
 }
 
 local botModuleEvents = {
@@ -788,7 +786,7 @@ end
 
 Bot.Client:on("ready", function ()
 	if (isReady) then
-		for moduleName,moduleTable in pairs(Bot.Modules) do
+		for _, moduleTable in pairs(Bot.Modules) do
 			Bot:CallOnReady(moduleTable)
 		end
 	else
@@ -805,12 +803,12 @@ end)
 Bot:RegisterCommand({
 	Name = "modulelist",
 	Args = {},
-	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+	PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 	Help = "Configures a module",
 	Func = function (message)
 		local moduleList = {}
-		for moduleName, moduleTable in pairs(Bot.Modules) do
+		for _, moduleTable in pairs(Bot.Modules) do
 			table.insert(moduleList, moduleTable)
 		end
 		table.sort(moduleList, function (a, b) return a.Name < b.Name end)
@@ -890,7 +888,7 @@ Bot:RegisterCommand({
 		{Name = "key", Type = Bot.ConfigType.String, Optional = true},
 		{Name = "value", Type = Bot.ConfigType.String, Optional = true}
 	},
-	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+	PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 	Help = "Configures a module",
 	Func = function (message, moduleName, action, key, value)
@@ -1111,7 +1109,7 @@ Bot:RegisterCommand({
 		{Name = "content", Type = Bot.ConfigType.String, Optional = true},
 		{Name = "global", Type = Bot.ConfigType.Boolean, Optional = true}
 	},
-	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+	PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 	Help = "Configures a module using JSon",
 	Func = function (message, moduleName, action, content, global)
@@ -1131,12 +1129,12 @@ Bot:RegisterCommand({
 
 		if (action == "get") then
 			local fields = {}
-			for _,configTable in pairs(moduleTable._GuildConfig) do
+			for _, configTable in pairs(moduleTable._GuildConfig) do
 				fields[configTable.Name] = rawget(guildConfig, configTable.Name)
 			end
 
 			if (global and message:getMember().id == Config.OwnerUserId) then
-				for _,configTable in pairs(moduleTable._GlobalConfig) do
+				for _, configTable in pairs(moduleTable._GlobalConfig) do
 					fields[configTable.Name] = rawget(moduleTable.GlobalConfig, configTable.Name)
 				end
 			end
@@ -1335,7 +1333,7 @@ Bot:RegisterCommand({
 	Args = {
 		{Name = "module", Type = Bot.ConfigType.String}
 	},
-	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+	PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 	Help = "Disables a module",
 	Func = function (message, moduleName)
@@ -1353,7 +1351,7 @@ Bot:RegisterCommand({
 	Args = {
 		{Name = "module", Type = Bot.ConfigType.String}
 	},
-	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+	PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 	Help = "Enables a module",
 	Func = function (message, moduleName)
@@ -1371,7 +1369,7 @@ Bot:RegisterCommand({
 	Args = {
 		{Name = "module", Type = Bot.ConfigType.String}
 	},
-	PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+	PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 	Help = "Reloads a module (as disable/enable would do)",
 	Func = function (message, moduleName)

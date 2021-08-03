@@ -100,8 +100,8 @@ function Module:OnLoaded()
 		Help = "Allows you to contact the server staff in private",
 		Silent = true,
 		Func = function (commandMessage, targetMember, reason)
-			local fromMember = commandmessage:getMember()
-			local guild = commandmessage:getGuild()
+			local fromMember = commandMessage:getMember()
+			local guild = commandMessage:getGuild()
 			local config = self:GetConfig(guild)
 
 			if (util.MemberHasAnyRole(fromMember, config.ForbiddenRoles)) then
@@ -126,7 +126,7 @@ function Module:OnLoaded()
 				targetMember = fromMember
 			end
 		
-			local success, err = self:OpenTicket(commandmessage:getMember(), targetMember, reason, true)
+			local success, err = self:OpenTicket(commandMessage:getMember(), targetMember, reason, true)
 			if (not success) then
 				return commandMessage:reply(err)
 			end
@@ -149,7 +149,7 @@ function Module:OnLoaded()
 		Help = "Opens a moderation ticket for someone (same as newticket but doesn't allow the target user to talk)",
 		Silent = true,
 		Func = function (commandMessage, targetMember, reason)
-			local success, err = self:OpenTicket(commandmessage:getMember(), targetMember, reason, false)
+			local success, err = self:OpenTicket(commandMessage:getMember(), targetMember, reason, false)
 			if (not success) then
 				return commandMessage:reply(err)
 			end
@@ -165,11 +165,11 @@ function Module:OnLoaded()
 		Help = "When used in a ticket channel, close it",
 		Silent = true,
 		Func = function (commandMessage, reason)
-			local ret = self:HandleTicketClose(commandmessage:getMember(), commandMessage, reason, false)
+			local ret = self:HandleTicketClose(commandMessage:getMember(), commandMessage, reason, false)
 			if (ret == nil) then
-				commandMessage:reply(string.format("You must type this in an active ticket channel, %s.", commandmessage:getMember().user.mentionString))
+				commandMessage:reply(string.format("You must type this in an active ticket channel, %s.", commandMessage:getMember().user.mentionString))
 			elseif (ret == false) then
-				commandMessage:reply(string.format("You are not authorized to do that %s.", commandmessage:getMember().user.mentionString))
+				commandMessage:reply(string.format("You are not authorized to do that %s.", commandMessage:getMember().user.mentionString))
 			end
 		end
 	})
@@ -255,7 +255,7 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 					embed = {
 						author = {
 							name = author.tag,
-							icon_url = author.avatarURL
+							icon_url = author:getAvatarURL()
 						},
 						description = reason,
 						timestamp = discordia.Date():toISO('T', 'Z')
@@ -300,7 +300,7 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 					if (ticketMember) then
 						author = {
 							name = ticketMember.tag,
-							icon_url = ticketMember.avatarURL
+							icon_url = ticketMember:getAvatarURL()
 						}
 					end
 
@@ -416,7 +416,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 				embed = {
 					author = {
 						name = targetMember.tag,
-						icon_url = targetMember.avatarURL
+						icon_url = targetMember:getAvatarURL()
 					},
 					color = color,
 					description = desc,
@@ -457,7 +457,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 			embed = {
 				author = {
 					name = author.tag,
-					icon_url = author.avatarURL
+					icon_url = author:getAvatarURL()
 				},
 				description = reason,
 				timestamp = discordia.Date():toISO()

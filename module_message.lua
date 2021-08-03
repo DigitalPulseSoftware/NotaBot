@@ -214,13 +214,13 @@ end
 
 function Module:CheckPermissions(member)
 	local config = self:GetConfig(member:getGuild())
-	for _,roleId in pairs(config.AuthorizedRoles) do
+	for _, roleId in pairs(config.AuthorizedRoles) do
 		if (member:hasRole(roleId)) then
 			return true
 		end
 	end
 
-	return member:hasPermission(enums.permission.administrator)
+	return member:getPermissions():hasValue(enums.permission.administrator)
 end
 
 function Module:GetConfigTable()
@@ -290,7 +290,7 @@ function Module:ParseContentParameter(content, commandMessage)
 			return messageData
 		else
 			local message = bot:DecodeMessage(content, false, true)
-			if (message and message:getMember():hasPermission(message:getChannel(), enums.permission.readMessages)) then
+			if (message and message:getMember():getPermissions(message:getChannel()):hasValue(enums.permission.readMessages)) then
 				return GetMessageFields(message)
 			else
 				return {
@@ -393,10 +393,10 @@ function Module:OnLoaded()
 				return
 			end
 
-			local member = commandmessage:getMember()
+			local member = commandMessage:getMember()
 
-			channel = channel or commandmessage:getChannel()
-			if (not member:hasPermission(channel, enums.permission.readMessages) or not member:hasPermission(channel, enums.permission.sendMessages)) then
+			channel = channel or commandMessage:getChannel()
+			if (not member:getPermissions(channel):hasValue(enums.permission.viewChannel) or not member:getPermissions(channel):hasValue(enums.permission.sendMessages)) then
 				commandMessage:reply("You don't have the permission to send messages in that channel")
 				return
 			end
@@ -428,8 +428,8 @@ function Module:OnLoaded()
 				return
 			end
 
-			local member = commandmessage:getMember()
-			if (not member:hasPermission(message:getChannel(), enums.permission.readMessages) or not member:hasPermission(message:getChannel(), enums.permission.sendMessages)) then
+			local member = commandMessage:getMember()
+			if (not member:getPermissions(message:getChannel()):hasValue(enums.permission.readMessages) or not member:getPermissions(message:getChannel()):hasValue(enums.permission.sendMessages)) then
 				commandMessage:reply("You don't have the permission to send messages in that channel")
 				return
 			end
@@ -456,11 +456,11 @@ function Module:OnLoaded()
 				return
 			end
 
-			local config = self:GetConfig(commandmessage:getGuild())
+			local config = self:GetConfig(commandMessage:getGuild())
 			config.Replies = config.Replies or {}
 			config.Replies[trigger] = messageData
 
-			self:SaveGuildConfig(commandmessage:getGuild())
+			self:SaveGuildConfig(commandMessage:getGuild())
 
 			commandMessage:reply(string.format("Registered a reply for \"%s\"", trigger))
 		end
@@ -475,7 +475,7 @@ function Module:OnLoaded()
 
 		Help = "Unregisters a reply to a particular message",
 		Func = function (commandMessage, trigger, content)
-			local config = self:GetConfig(commandmessage:getGuild())
+			local config = self:GetConfig(commandMessage:getGuild())
 			config.Replies = config.Replies or {}
 			if (not config.Replies[trigger]) then
 				commandMessage:reply(string.format("No reply is registered for %s", trigger))
@@ -483,7 +483,7 @@ function Module:OnLoaded()
 			end
 			config.Replies[trigger] = nil
 
-			self:SaveGuildConfig(commandmessage:getGuild())
+			self:SaveGuildConfig(commandMessage:getGuild())
 
 			commandMessage:reply(string.format("%s will no longer trigger a reply", trigger))
 		end

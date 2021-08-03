@@ -210,7 +210,7 @@ function Path:_commonParts(...)
   local common_parts = {}
   local paths = {...}
   local split_paths = {}
-  for _,path in ipairs(paths) do
+  for _, path in ipairs(paths) do
     table.insert(split_paths, self:_splitBySeparators(path))
   end
   for part_i=1,#split_paths[1] do

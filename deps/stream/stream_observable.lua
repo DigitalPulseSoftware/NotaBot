@@ -40,7 +40,7 @@ function Observable:initialize(options)
 end
 
 function Observable:_transform(chunk, cb)
-  for _,v in pairs(self.observers) do
+  for _, v in pairs(self.observers) do
     v:push(chunk)
   end
   cb(nil, chunk)
