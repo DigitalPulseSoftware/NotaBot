@@ -233,7 +233,6 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInv
 	end
 
 	-- Fix emojis
-	local guild = triggeringMessage.guild
 	content = content:gsub("(<a?:([%w_]+):(%d+)>)", function (mention, emojiName, emojiId)
 		-- Bot are allowed to use emojis from every servers they are on
 		local emojiData = bot:GetEmojiData(nil, emojiId)
@@ -273,6 +272,13 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInv
 
 	if (#content > maxContentSize) then
 		content = content:sub(1, maxContentSize) .. "... <truncated>"
+	end
+
+	-- TODO: support multiple stickers (up to 3 per message), even if there's already an attached image?
+	-- A sticker can be a (1) PNG, (2) APNG or (3) LOTTIE (JSON), if it's a LOTTIE, don't attach it
+	-- https://discord.com/developers/docs/resources/sticker#sticker-object-sticker-format-types
+	if (not imageUrl and message._stickers and message._stickers[1].format_type ~= 3) then
+		imageUrl = "https://media.discordapp.net/stickers/" .. message._stickers[1].id .. ".png?size=256"
 	end
 
 	triggeringMessage:reply({
