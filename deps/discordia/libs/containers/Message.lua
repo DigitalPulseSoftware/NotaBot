@@ -53,6 +53,9 @@ local function parseMentions(content, pattern)
 end
 
 function Message:_loadMore(data)
+	if data.sticker_items then
+		self._stickers = data.sticker_items
+	end
 
 	if data.mentions then
 		for _, user in ipairs(data.mentions) do
