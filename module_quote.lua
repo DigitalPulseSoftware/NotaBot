@@ -50,7 +50,7 @@ function Module:GetConfigTable()
 			Name = "BigAvatar",
 			Description = "Should quote messages include big avatars",
 			Type = bot.ConfigType.Boolean,
-			Default = true
+			Default = false
 		},
 		{
 			Name = "DeleteInvokationOnAutoQuote",
@@ -278,7 +278,7 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInv
 	-- A sticker can be a (1) PNG, (2) APNG or (3) LOTTIE (JSON), if it's a LOTTIE, don't attach it
 	-- https://discord.com/developers/docs/resources/sticker#sticker-object-sticker-format-types
 	if (not imageUrl and message._stickers and message._stickers[1].format_type ~= 3) then
-		imageUrl = "https://media.discordapp.net/stickers/" .. message._stickers[1].id .. ".png?size=256"
+		imageUrl = "https://media.discordapp.net/stickers/" .. message._stickers[1].id .. ".png?size=128"
 	end
 
 	triggeringMessage:reply({
