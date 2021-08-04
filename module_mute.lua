@@ -46,7 +46,7 @@ function Module:CheckPermissions(member)
 		return true
 	end
 
-	if (member:hasPermission(enums.permission.administrator)) then
+	if (member:getPermissions():hasValue(enums.permission.administrator)) then
 		return true
 	end
 
@@ -66,9 +66,9 @@ function Module:OnLoaded()
 		Help = "Mutes a member",
 		Silent = true,
 		Func = function (commandMessage, targetMember, duration, reason)
-			local guild = commandmessage:getGuild()
+			local guild = commandMessage:getGuild()
 			local config = self:GetConfig(guild)
-			local mutedBy = commandmessage:getMember()
+			local mutedBy = commandMessage:getMember()
 
 			-- Duration
 			if (not duration) then
@@ -80,8 +80,8 @@ function Module:OnLoaded()
 			-- Reason
 			reason = reason or ""
 
-			local mutedByRole = mutedBy.highestRole
-			local targetRole = targetMember.highestRole
+			local mutedByRole = mutedBy:getHighestRole()
+			local targetRole = targetMember:getHighestRole()
 			if (targetRole.position >= mutedByRole.position) then
 				commandMessage:reply("You cannot mute that user due to your lower permissions.")
 				return
@@ -97,7 +97,7 @@ function Module:OnLoaded()
 						durationText = ""
 					end
 
-					privateChannel:send(string.format("You have been muted from **%s** by %s (%s)\n%s", commandmessage:getGuild().name, mutedBy.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given", durationText))
+					privateChannel:send(string.format("You have been muted from **%s** by %s (%s)\n%s", commandMessage:getGuild().name, mutedBy.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given", durationText))
 				end
 			end
 
@@ -121,7 +121,7 @@ function Module:OnLoaded()
 		Help = "Unmutes a member",
 		Silent = true,
 		Func = function (commandMessage, targetUser, reason)
-			local guild = commandmessage:getGuild()
+			local guild = commandMessage:getGuild()
 			local config = self:GetConfig(guild)
 
 			-- Reason
@@ -130,13 +130,13 @@ function Module:OnLoaded()
 			if (config.SendPrivateMessage) then
 				local privateChannel = targetUser:getPrivateChannel()
 				if (privateChannel) then
-					privateChannel:send(string.format("You have been unmuted from **%s** by %s (%s)", commandmessage:getGuild().name, commandmessage:getMember().user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given"))
+					privateChannel:send(string.format("You have been unmuted from **%s** by %s (%s)", commandMessage:getGuild().name, commandMessage:getMember().user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given"))
 				end
 			end
 
 			local success, err = self:Unmute(guild, targetUser.id)
 			if (success) then
-				commandMessage:reply(string.format("%s has unmuted %s%s", commandmessage:getMember().name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
+				commandMessage:reply(string.format("%s has unmuted %s%s", commandMessage:getMember().name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
 			else
 				commandMessage:reply(string.format("Failed to unmute %s: %s", targetUser.tag, err))
 			end

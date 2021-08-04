@@ -118,11 +118,11 @@ function Module:OnLoaded()
 		Args = {
 			{Name = "configMessage", Type = Bot.ConfigType.Message, Optional = true}
 		},
-		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+		PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 		Help = "Lists the channel module messages and reactions",
 		Func = function (commandMessage, configMessage)
-			local guild = commandmessage:getGuild()
+			local guild = commandMessage:getGuild()
 			local config = self:GetConfig(guild)
 			local data = self:GetData(guild)
 
@@ -221,11 +221,11 @@ function Module:OnLoaded()
 			{Name = "action", Type = Bot.ConfigType.String},
 			{Name = "value", Type = Bot.ConfigType.String, Optional = true}
 		},
-		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+		PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 		Help = "Configures the channel module messages and reactions",
 		Func = function (commandMessage, message, emoji, action, value)
-			local guild = commandmessage:getGuild()
+			local guild = commandMessage:getGuild()
 			local config = self:GetConfig(guild)
 
 			local GetReactionActionsConfig = function (channelId, messageId, reaction, noCreate)
@@ -587,7 +587,7 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 
 	local member = guild:getMember(userId)
 
-	for _,roleId in pairs(roleActions.Add) do
+	for _, roleId in pairs(roleActions.Add) do
 		local role = guild:getRole(roleId)
 		if (role) then
 			if (not member:hasRole(role)) then
@@ -605,7 +605,7 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 		end
 	end
 
-	for _,roleId in pairs(roleActions.Remove) do
+	for _, roleId in pairs(roleActions.Remove) do
 		local role = guild:getRole(roleId)
 		if (role) then
 			if (member:hasRole(role)) then
@@ -623,7 +623,7 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 		end
 	end
 
-	for _,roleId in pairs(roleActions.Toggle) do
+	for _, roleId in pairs(roleActions.Toggle) do
 		local role = guild:getRole(roleId)
 		if (role) then
 			local hasRole = member:hasRole(role)

@@ -15,7 +15,7 @@ function Module:OnLoaded()
 		Args = {
 			{Name = "rolename", Type = Bot.ConfigType.String}
 		},
-		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+		PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 		Help = "Prints role info",
 		Func = function (commandMessage, rolename)
@@ -62,13 +62,13 @@ function Module:OnLoaded()
 			end
 
 			if (roleregex) then
-				for _, role in pairs(commandmessage:getGuild().roles) do
+				for _, role in pairs(commandMessage:getGuild().roles) do
 					if (role.name:lower():match(roleregex)) then
 						ProcessRole(role)
 					end
 				end
 			else
-				for _, role in pairs(commandmessage:getGuild().roles) do
+				for _, role in pairs(commandMessage:getGuild().roles) do
 					if (role.name:lower() == rolename) then
 						ProcessRole(role)
 					end

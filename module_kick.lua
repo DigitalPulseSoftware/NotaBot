@@ -11,13 +11,13 @@ Module.Name = "kick"
 
 function Module:CheckPermissions(member)
 	local config = self:GetConfig(member:getGuild())
-	for _,roleId in pairs(config.AuthorizedRoles) do
+	for _, roleId in pairs(config.AuthorizedRoles) do
 		if (member:hasRole(roleId)) then
 			return true
 		end
 	end
 
-	return member:hasPermission(enums.permission.kickMembers)
+	return member:getPermissions():hasValue(enums.permission.kickMembers)
 end
 
 function Module:GetConfigTable()
@@ -51,14 +51,14 @@ function Module:OnLoaded()
 		Help = "Kicks a member",
 		Silent = true,
 		Func = function (commandMessage, targetMember, reason)
-			local config = self:GetConfig(commandmessage:getGuild())
+			local config = self:GetConfig(commandMessage:getGuild())
 
-			local guild = commandmessage:getGuild()
-			local kickedBy = commandmessage:getMember()
+			local guild = commandMessage:getGuild()
+			local kickedBy = commandMessage:getMember()
 
 			-- Permission check
-			local kickedByRole = kickedBy.highestRole
-			local targetRole = targetMember.highestRole
+			local kickedByRole = kickedBy:getHighestRole()
+			local targetRole = targetMember:getHighestRole()
 			if (targetRole.position >= kickedByRole.position) then
 				commandMessage:reply("You cannot kick that user due to your lower permissions.")
 				return

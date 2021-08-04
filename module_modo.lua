@@ -131,7 +131,10 @@ end
 
 function Module:CheckTextMutePermissions(channel)
 	local config = self:GetConfig(channel:getGuild())
-	local mutedRole = channel:getGuild():getRole(config.MuteRole)
+	local mutedRole
+	if config.MuteRole ~= "" then
+		mutedRole = channel:getGuild():getRole(config.MuteRole)
+	end
 	if (not mutedRole) then
 		self:LogError(channel:getGuild(), "Invalid muted role")
 		return
@@ -147,7 +150,10 @@ end
 
 function Module:CheckVoiceMutePermissions(channel)
 	local config = self:GetConfig(channel:getGuild())
-	local mutedRole = channel:getGuild():getRole(config.MuteRole)
+	local mutedRole
+	if config.MuteRole ~= "" then
+		mutedRole = channel:getGuild():getRole(config.MuteRole)
+	end
 	if (not mutedRole) then
 		self:LogError(channel:getGuild(), "Invalid muted role")
 		return
@@ -196,7 +202,7 @@ function Module:HandleEmojiAdd(userId, message)
 		table.insert(reportedMessage.ReporterIds, userId)
 
 		local reporters = {}
-		for _,reporterId in pairs(reportedMessage.ReporterIds) do
+		for _, reporterId in pairs(reportedMessage.ReporterIds) do
 			local user = client:getUser(reporterId)
 			table.insert(reporters, user.mentionString)
 		end

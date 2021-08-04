@@ -86,10 +86,10 @@ function Module:OnLoaded()
 			local messageId = message:match("^(%d+)$")
 			local quotedMessage, err
 			local includesLink = false
-			local config = self:GetConfig(commandmessage:getGuild())
+			local config = self:GetConfig(commandMessage:getGuild())
 
 			if (messageId) then
-				quotedMessage = commandmessage:getChannel():getMessage(messageId)
+				quotedMessage = commandMessage:getChannel():getMessage(messageId)
 				if (not quotedMessage) then
 					commandMessage:reply("Message not found in this channel")
 					return
@@ -128,7 +128,7 @@ function Module:CheckReadPermission(user, message)
 		return false
 	end
 
-	if (not member:hasPermission(message:getChannel(), enums.permission.readMessages)) then
+	if (not member:getPermissions(message:getChannel()):hasValue(enums.permission.viewChannel)) then
 		return false
 	end
 
@@ -139,24 +139,24 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInv
 	local author = message.author
 	local content = message.content
 
-	local config = self:GetConfig(triggeringmessage:getGuild())
+	local config = self:GetConfig(triggeringMessage:getGuild())
 
-	local thumbnail = config.BigAvatar and author.avatarURL or nil
+	local thumbnail = config.BigAvatar and author:getAvatarURL() or nil
 	local imageUrl = nil
 
 	local maxContentSize = 1800
 
 	local decorateEmbed = function(embed)
 		-- Replace footer and timestamp
-		embed.author = {
+		embed._author = {
 			name = author.tag,
-			icon_url = author.avatarURL
+			icon_url = author:getAvatarURL()
 		}
-		embed.thumbnail = thumbnail and { url = thumbnail } or nil
-		embed.footer = {
+		embed._thumbnail = thumbnail and { url = thumbnail } or nil
+		embed._footer = {
 			text = string.format("Quoted by %s | in #%s at %s", triggeringMessage.author.tag, message:getChannel().name, message:getGuild().name)
 		}
-		embed.timestamp = message.timestamp
+		embed._timestamp = message:getDate():toISO()
 
 		return embed
 	end
@@ -233,7 +233,6 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInv
 	end
 
 	-- Fix emojis
-	local guild = triggeringmessage:getGuild()
 	content = content:gsub("(<a?:([%w_]+):(%d+)>)", function (mention, emojiName, emojiId)
 		-- Bot are allowed to use emojis from every servers they are on
 		local emojiData = bot:GetEmojiData(nil, emojiId)

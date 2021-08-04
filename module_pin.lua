@@ -67,10 +67,10 @@ function Module:HandleEmojiAdd(config, reaction)
 					embed = {
 						author = {
 							name = author.tag,
-							icon_url = author.avatarURL
+							icon_url = author:getAvatarURL()
 						},
 						thumbnail = {
-							url = author.avatarURL
+							url = author:getAvatarURL()
 						},
 						description = content,
 						footer = {

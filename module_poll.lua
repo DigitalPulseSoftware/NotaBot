@@ -10,7 +10,7 @@ local enums = discordia.enums
 Module.Name = "poll"
 
 function Module:IsAllowedToSpecifyChannel(member, config)
-	return member:hasPermission(enums.permission.administrator)
+	return member:getPermissions():hasValue(enums.permission.administrator)
 		or (config.SpecifyChannelAllowedRoles ~= nil
 			and util.MemberHasAnyRole(member, config.SpecifyChannelAllowedRoles))
 end
@@ -72,7 +72,7 @@ function Module:AddEmbedReactions(member, message)
 end
 
 function Module:CheckPermissions(member)
-	if member:hasPermission(enums.permission.administrator) then
+	if member:getPermissions():hasValue(enums.permission.administrator) then
 		return true
 	end
 	return util.MemberHasAnyRole(member, self:GetConfig(member:getGuild()).AllowedRoles)
@@ -226,7 +226,7 @@ function Module:OnLoaded()
 						local results = {
 							author = {
 								name = "Poll results",
-								icon_url = member.avatarURL
+								icon_url = member:getAvatarURL()
 							},
 							title = message.embed.title,
 							fields = {},
@@ -282,7 +282,7 @@ function Module:OnLoaded()
 
 		Help = "Creates a poll (title format: \"title\")",
 		Func = function (commandMessage, title, channel, duration)
-			local member = commandmessage:getMember()
+			local member = commandMessage:getMember()
 			local guild = member:getGuild()
 			local data = self:GetData(guild)
 			local polls = data.Polls
@@ -323,7 +323,7 @@ function Module:OnLoaded()
 
 		Help = "Cancels your current pending poll",
 		Func = function(commandMessage)
-			local member = commandmessage:getMember()
+			local member = commandMessage:getMember()
 			local data = self:GetData(member:getGuild())
 			local polls = data.Polls
 
@@ -347,7 +347,7 @@ function Module:OnLoaded()
 
 		Help = "Sets up a poll",
 		Func = function(commandMessage, action, emoji, text)
-			local member = commandmessage:getMember()
+			local member = commandMessage:getMember()
 			local guild = member:getGuild()
 			local data = self:GetData(member:getGuild())
 			local polls = data.Polls

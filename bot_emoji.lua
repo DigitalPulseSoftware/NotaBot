@@ -68,7 +68,7 @@ function Bot:GetEmojiData(guild, emojiIdOrName)
 	else
 		-- Not a discord emoji, check in guild
 		if (guild) then
-			for _,emoji in pairs(guild.emojis) do
+			for _, emoji in pairs(guild:getEmojis()) do
 				if (emojiIdOrName == emoji.id or emojiIdOrName == emoji.name) then
 					emojiData = {}
 					emojiData.Custom = true
@@ -82,7 +82,7 @@ function Bot:GetEmojiData(guild, emojiIdOrName)
 			end
 		else
 			for _, guild in pairs(Bot.Client.guilds) do
-				for _,emoji in pairs(guild.emojis) do
+				for _, emoji in pairs(guild:getEmojis()) do
 					if (emojiIdOrName == emoji.id) then
 						emojiData = {}
 						emojiData.Custom = true

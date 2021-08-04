@@ -268,7 +268,7 @@ function Module:CheckLockPermissions(member)
 		return true
 	end
 
-	if (member:hasPermission(enums.permission.administrator)) then
+	if (member:getPermissions():hasValue(enums.permission.administrator)) then
 		return true
 	end
 
@@ -276,7 +276,7 @@ function Module:CheckLockPermissions(member)
 end
 
 function Module:CheckRulePermissions(member)
-	return member:hasPermission(enums.permission.administrator)
+	return member:getPermissions():hasValue(enums.permission.administrator)
 end
 
 function Module:OnLoaded()
@@ -291,9 +291,9 @@ function Module:OnLoaded()
 		Help = "Locks the server, preventing people to join",
 		Silent = true,
 		Func = function (commandMessage, duration, reason)
-			local guild = commandmessage:getGuild()
+			local guild = commandMessage:getGuild()
 			local config = self:GetConfig(guild)
-			local lockedBy = commandmessage:getMember()
+			local lockedBy = commandMessage:getMember()
 
 			if (self:IsServerLocked(guild)) then
 				commandMessage:reply("The server is already locked")
@@ -327,8 +327,8 @@ function Module:OnLoaded()
 		Help = "Unlocks the server",
 		Silent = true,
 		Func = function (commandMessage, reason)
-			local guild = commandmessage:getGuild()
-			local lockedBy = commandmessage:getMember()
+			local guild = commandMessage:getGuild()
+			local lockedBy = commandMessage:getMember()
 
 			if (not self:IsServerLocked(guild)) then
 				commandMessage:reply("The server is not locked")
@@ -399,7 +399,7 @@ function Module:OnLoaded()
 
 		Help = "Adds a new rule for incoming members",
 		Func = function (commandMessage, effect, rule, param)
-			local guild = commandmessage:getGuild()
+			local guild = commandMessage:getGuild()
 			local persistentData = self:GetPersistentData(guild)
 
 			if (not effects[effect]) then
@@ -443,7 +443,7 @@ function Module:OnLoaded()
 
 		Help = "Clear all raid rules",
 		Func = function (commandMessage)
-			local guild = commandmessage:getGuild()
+			local guild = commandMessage:getGuild()
 			local persistentData = self:GetPersistentData(guild)
 			persistentData.rules = {}
 			self:SavePersistentData(guild)
@@ -461,7 +461,7 @@ function Module:OnLoaded()
 
 		Help = "Removes a rule by its index",
 		Func = function (commandMessage, ruleIndex)
-			local guild = commandmessage:getGuild()
+			local guild = commandMessage:getGuild()
 			local persistentData = self:GetPersistentData(guild)
 			if (ruleIndex < 1 or ruleIndex > #persistentData.rules) then
 				commandMessage:reply("Rule index out of range")
@@ -482,7 +482,7 @@ function Module:OnLoaded()
 
 		Help = "Removes a rule by its index",
 		Func = function (commandMessage, ruleIndex)
-			local guild = commandmessage:getGuild()
+			local guild = commandMessage:getGuild()
 			local persistentData = self:GetPersistentData(guild)
 
 			local fields = {}

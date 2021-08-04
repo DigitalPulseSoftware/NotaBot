@@ -19,13 +19,13 @@ function Module:OnLoaded()
 		Args = {
 			{Name = "time", Type = bot.ConfigType.Duration}
 		},
-		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+		PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 		Help = "Count inactive people. Use: !drypurgeroles 30d to count inactive people for 30 days or more.",
 		Func = function (commandMessage, time)
 			local durationStr = util.FormatTime(time, 3)
 
-			local userList = self:BuildInactiveUsersList(commandmessage:getGuild(), time)
+			local userList = self:BuildInactiveUsersList(commandMessage:getGuild(), time)
 
 			if table.empty(userList) then
 				commandMessage:reply("No user enought inactive to be purged")
@@ -40,18 +40,18 @@ function Module:OnLoaded()
 		Args = {
 			{Name = "time", Type = bot.ConfigType.Duration}
 		},
-		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+		PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 		Help = "Clear roles on inactive people to make them avaiable to purge. Use: !purgeroles 30d to remove all roles on members inactive for 30 days or more.",
 		Func = function (commandMessage, time)
 			local durationStr = util.FormatTime(time, 3)
 
-			local userList = self:BuildInactiveUsersList(commandmessage:getGuild(), time)
+			local userList = self:BuildInactiveUsersList(commandMessage:getGuild(), time)
 
 			if #userList == 0 then
 				commandMessage:reply("No member to purge")
 			else 
-				self:PurgeRoles(commandmessage:getGuild(), userList)
+				self:PurgeRoles(commandMessage:getGuild(), userList)
 
 				commandMessage:reply("Purged peoples inactive for " .. durationStr .. " on Discord, removed all roles on ".. #userList .." members.")
 			end
@@ -63,18 +63,18 @@ function Module:OnLoaded()
 		Args = {
 			{Name = "time", Type = bot.ConfigType.Duration}
 		},
-		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+		PrivilegeCheck = function (member) return member:getPermissions():hasValue(enums.permission.administrator) end,
 
 		Help = "Kick inactive people. Use: !purgekick 30d to kick all inactive people for 30 days or more.",
 		Func = function (commandMessage, time)
 			local durationStr = util.FormatTime(time, 3)
 
-			local userList = self:BuildInactiveUsersList(commandmessage:getGuild(), time)
+			local userList = self:BuildInactiveUsersList(commandMessage:getGuild(), time)
 
 			if #userList == 0 then
 				commandMessage:reply("No member to purge")
 			else 
-				self:PurgeKick(commandmessage:getGuild(), userList, durationStr)
+				self:PurgeKick(commandMessage:getGuild(), userList, durationStr)
 
 				commandMessage:reply("Purged peoples inactive for " .. durationStr .. " on this server, kicked ".. #userList .." members.")
 			end
