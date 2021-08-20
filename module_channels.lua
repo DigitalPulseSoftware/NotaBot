@@ -204,7 +204,7 @@ function Module:OnLoaded()
 									description = string.format("Message in %s:\n%s", channel.mentionString, bot:GenerateMessageLink(message)),
 									fields = fields,
 									footer = {
-										text = "Use `!updatechannelconfig <message link> <emoji> <action>` to update channels reactions settings."
+										text = "Use `!updatechannelconfig <message link> <emoji> <action> <data>` to update channels reactions settings."
 									}
 								}
 							})
