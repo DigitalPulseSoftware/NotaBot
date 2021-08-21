@@ -248,7 +248,7 @@ end
 taken. Note that the everyone role cannot be explicitly added.
 ]=]
 function Member:addRole(id)
-	if self:hasRole(id) then return true end
+	--if self:hasRole(id) then return true end
 	id = Resolver.roleId(id)
 	local data, err = self.client._api:addGuildMemberRole(self._parent._id, self.id, id)
 	if data then

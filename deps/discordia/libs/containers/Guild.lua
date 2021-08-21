@@ -80,6 +80,11 @@ function Guild:_makeAvailable(data)
 		end
 	end
 
+	for _, channel in ipairs(data.threads) do
+		channel.permission_overwrites = {}
+		text_channels:_insert(channel)._permission_overwrites = text_channels:get(channel.parent_id)._permission_overwrites
+	end
+
 	return self:_loadMembers(data)
 
 end

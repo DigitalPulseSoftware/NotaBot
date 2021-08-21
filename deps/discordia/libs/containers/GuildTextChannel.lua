@@ -148,6 +148,26 @@ function get.isNews(self)
 	return self._type == 5
 end
 
+--[=[@p isThread boolean Whether this channel is a thread channel of type 10, 11 or 12.]=]
+function get.isThread(self)
+	return self.isPublicThread or self.isNewsThread or self.isPrivateThread
+end
+
+--[=[@p isPublicThread boolean Whether this channel is a public thread channel of type 10.]=]
+function get.isPublicThread(self)
+	return self._type == 10
+end
+
+--[=[@p isNewsThread boolean Whether this channel is a news thread channel of type 11.]=]
+function get.isNewsThread(self)
+	return self._type == 11
+end
+
+--[=[@p isPrivateThread boolean Whether this channel is a private thread channel of type 12.]=]
+function get.isPrivateThread(self)
+	return self._type == 12
+end
+
 --[=[@p members FilteredIterable A filtered iterable of guild members that have
 permission to read this channel. If you want to check whether a specific member
 has permission to read this channel, it would be better to get the member object

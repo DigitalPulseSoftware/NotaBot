@@ -12,6 +12,12 @@ local json = require("json")
 
 Module.Name = "message"
 
+local function RemoveTableKey(table, key)
+	local element = table[key]
+	table[key] = nil
+	return element
+end
+
 local function ValidateFields(data, expectedFields, allFieldExpected)
 	if (type(data) ~= "table" or #data ~= 0) then
 		return false, " must be an object"
@@ -166,7 +172,8 @@ local messageFields = {
 	embed = function (embed)
 		return ValidateFields(embed, embedFields)
 	end,
-	tts = ValidateBoolean
+	tts = ValidateBoolean,
+	deleteInvokation = ValidateBoolean
 }
 
 local function ValidateMessageData(data)
@@ -179,7 +186,7 @@ local function ValidateMessageData(data)
 		return false, "MessageData" .. err
 	end
 
-	if (not messageFields.content and not messageFields.embed) then
+	if (not data.content and not data.embed) then
 		return false, "MessageData must have at least a content or embed field"
 	end
 
@@ -249,6 +256,12 @@ function Module:GetConfigTable()
 
 				return true
 			end
+		},
+		{
+			Name = "DeleteInvokation",
+			Description = "Deletes the message that invoked the reply",
+			Type = bot.ConfigType.Boolean,
+			Default = false
 		}
 	}
 end
@@ -396,6 +409,39 @@ function Module:OnLoaded()
 	})
 
 	self:RegisterCommand({
+		Name = "editmessage",
+		Args = {
+			{Name = "message", Type = Bot.ConfigType.Message},
+			{Name = "content", Type = Bot.ConfigType.String, Optional = true},
+		},
+		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+
+		Help = "Edit one of the message posted by the bot",
+		Func = function (commandMessage, message, content)
+			local messageData = self:ParseContentParameter(content, commandMessage)
+			if (not messageData) then
+				return
+			end
+
+			if (message.author ~= Bot.Client.user) then
+				commandMessage:reply("You can only ask me to edit my own messages")
+				return
+			end
+
+			local member = commandMessage.member
+			if (not member:hasPermission(message.channel, enums.permission.readMessages) or not member:hasPermission(message.channel, enums.permission.sendMessages)) then
+				commandMessage:reply("You don't have the permission to send messages in that channel")
+				return
+			end
+
+			local success, err = message:update(messageData)
+			if (not success) then
+				commandMessage:reply(string.format("Discord rejected the message: %s", err))
+			end
+		end
+	})
+
+	self:RegisterCommand({
 		Name = "addreply",
 		Args = {
 			{Name = "trigger", Type = Bot.ConfigType.String},
@@ -462,9 +508,14 @@ function Module:OnMessageCreate(message)
 	local config = self:GetConfig(message.guild)
 	local reply = config.Replies[message.content]
 	if (reply) then
-		local success, err = message:reply(reply)
+		reply = table.copy(reply)
+		local deleteInvokation = RemoveTableKey(reply, "deleteInvokation")
+	 	local success, err = message:reply(reply)
+		
 		if (not success) then
 			self:LogError(message.guild, "Failed to reply to %s: %s", message.content, err)
+		elseif (deleteInvokation == nil or deleteInvokation and config.DeleteInvokation) then
+			message:delete()
 		end
 	end
 end

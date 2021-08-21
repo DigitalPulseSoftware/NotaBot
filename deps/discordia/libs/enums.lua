@@ -46,12 +46,15 @@ enums.notificationSetting = enum {
 }
 
 enums.channelType = enum {
-	text     = 0,
-	private  = 1,
-	voice    = 2,
-	group    = 3,
-	category = 4,
-	news     = 5,
+	text           = 0,
+	private        = 1,
+	voice          = 2,
+	group          = 3,
+	category       = 4,
+	news           = 5,
+	news_thread    = 10,
+	public_thread  = 11,
+	private_thread = 12,
 }
 
 enums.webhookType = enum {
@@ -209,6 +212,34 @@ enums.logLevel = enum {
 	warning = 2,
 	info    = 3,
 	debug   = 4,
+}
+
+-- Backported from dev
+enums.userFlag = enum {
+	discordEmployee      = 0x00000001, -- 1 << 0
+	discordPartner       = 0x00000002, -- 1 << 1
+	hypesquadEvents      = 0x00000004, -- 1 << 2
+	bugHunterLevel1      = 0x00000008, -- 1 << 3
+	-- unused            = 0x00000010, -- 1 << 4
+	-- unused            = 0x00000020, -- 1 << 5
+	houseBravery         = 0x00000040, -- 1 << 6
+	houseBrilliance      = 0x00000080, -- 1 << 7
+	houseBalance         = 0x00000100, -- 1 << 8
+	earlySupporter       = 0x00000200, -- 1 << 9
+	teamUser             = 0x00000400, -- 1 << 10
+	-- unused            = 0x00000800, -- 1 << 11
+	system               = 0x00001000, -- 1 << 12
+	-- unused            = 0x00002000, -- 1 << 13
+	bugHunterLevel2      = 0x00004000, -- 1 << 14
+	-- unused            = 0x00008000, -- 1 << 15
+	verifiedBot          = 0x00010000, -- 1 << 16
+	verifiedBotDeveloper = 0x00020000, -- 1 << 17
+}
+
+enums.premiumType = enum {
+	none = 0,
+	nitroClassic = 1,
+	nitro = 2
 }
 
 return enums

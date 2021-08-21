@@ -108,11 +108,6 @@ local configTypeValidation = {
 	[Bot.ConfigType.Category] = util.ValidateSnowflake,
 	[Bot.ConfigType.Channel] = util.ValidateSnowflake,
 	[Bot.ConfigType.Custom] = function (value, configTable)
-		local customCheck = configTable.ValidateConfig
-		if (customCheck) then
-			return customCheck(value)
-		end
-
 		return true 
 	end,
 	[Bot.ConfigType.Duration] = function (value)
@@ -171,17 +166,45 @@ local validateConfigType = function (configTable, value)
 			return false, "expected an array, got an object"
 		end
 
+		if (configTable.ArrayMaxSize and #value > configTable.ArrayMaxSize) then
+			return false, #value .. " values found but only up to " .. configTable.ArrayMaxSize .. " are allowed"
+		end
+
 		for _, arrayValue in pairs(value) do
 			local success, err = validator(arrayValue, configTable)
 			if (not success) then
 				return false, err
 			end
+
+			if (configTable.ValidateValue) then
+				local success, err = configTable.ValidateValue(arrayValue, configTable)
+				if (not success) then
+					return false, err
+				end
+			end
+		end
+	else
+		local success, err = validator(value, configTable)
+		if (not success) then
+			return false, err
 		end
 
-		return true
-	else
-		return validator(value, configTable)
+		if (configTable.ValidateValue) then
+			local success, err = configTable.ValidateValue(value, configTable)
+			if (not success) then
+				return false, err
+			end
+		end
 	end
+
+	if (configTable.ValidateConfig) then
+		local success, err = configTable.ValidateConfig(value, configTable)
+		if (not success) then
+			return false, err
+		end
+	end
+
+	return true
 end
 
 function ModuleMetatable:_PrepareConfig(context, config, values, global)
@@ -532,6 +555,7 @@ function Bot:LoadModule(moduleTable)
 		local validConfigOptions = {
 			-- Field = {type, mandatory, default}
 			["Array"] = {"boolean", false, false},
+			["ArrayMaxSize"] = {"number", false},
 			["Default"] = {"any", false},
 			["Description"] = {"string", true},
 			["Global"] = {"boolean", false, false},
@@ -539,7 +563,8 @@ function Bot:LoadModule(moduleTable)
 			["Name"] = {"string", true},
 			["Sensitive"] = {"boolean", false, false},
 			["Type"] = {"number", true},
-			["ValidateConfig"] = {"function", false}
+			["ValidateConfig"] = {"function", false},
+			["ValidateValue"] = {"function", false}
 		}
 
 		for optionIndex, configTable in pairs(config) do
@@ -1040,6 +1065,11 @@ Bot:RegisterCommand({
 
 					values = {}
 					rawset(config, configTable.Name, values)
+				end
+
+				if (configTable.ArrayMaxSize and #values >= configTable.ArrayMaxSize) then
+					message:reply("Too many values (this setting can only have up to " .. configTable.ArrayMaxSize .. " values)")
+					return
 				end
 
 				for _, value in pairs(values) do

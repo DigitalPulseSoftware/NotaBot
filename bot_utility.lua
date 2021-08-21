@@ -26,7 +26,10 @@ function Bot:DecodeChannel(guild, message)
 
 	local channelId = message:match("<#(%d+)>")
 	if (not channelId) then
-		return nil, "Invalid channel id"
+		channelId = message:match("^(%d+)$")
+		if (not channelId) then
+			return nil, "Invalid channelId id"
+		end
 	end
 
 	local channel = guild:getChannel(channelId)
@@ -67,7 +70,10 @@ function Bot:DecodeMember(guild, message)
 
 	local userId = message:match("<@!?(%d+)>")
 	if (not userId) then
-		return nil, "Invalid user id"
+		userId = message:match("^(%d+)$")
+		if (not userId) then
+			return nil, "Invalid user id"
+		end
 	end
 
 	local member = guild:getMember(userId)
@@ -119,7 +125,7 @@ function Bot:DecodeRole(guild, message)
 
 	local roleId = message:match("<@&(%d+)>")
 	if (not roleId) then
-		roleId = message:match("(%d+)")
+		roleId = message:match("^(%d+)$")
 		if (not roleId) then
 			return nil, "Invalid role"
 		end
@@ -138,7 +144,10 @@ function Bot:DecodeUser(message)
 
 	local userId = message:match("<@!?(%d+)>")
 	if (not userId) then
-		return nil, "Invalid user id"
+		userId = message:match("^(%d+)$")
+		if (not userId) then
+			return nil, "Invalid user id"
+		end
 	end
 
 	local user = self.Client:getUser(userId)
@@ -151,12 +160,14 @@ end
 
 function Bot:GenerateMessageLink(message)
 	local guildId = message.guild and message.guild.id or "@me"
-	return string.format("https://discordapp.com/channels/%s/%s/%s", guildId, message.channel.id, message.id)
+	return string.format("https://discord.com/channels/%s/%s/%s", guildId, message.channel.id, message.id)
 end
 
 local publicChannels = {
 	[enums.channelType.text] = true,
-	[enums.channelType.news] = true
+	[enums.channelType.news] = true,
+	[enums.channelType.public_thread] = true,
+	[enums.channelType.news_thread] = true
 }
 
 function Bot:IsPublicChannel(channel)

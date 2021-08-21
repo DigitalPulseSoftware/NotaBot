@@ -53,6 +53,9 @@ local function parseMentions(content, pattern)
 end
 
 function Message:_loadMore(data)
+	if data.sticker_items then
+		self._stickers = data.sticker_items
+	end
 
 	if data.mentions then
 		for _, user in ipairs(data.mentions) do
@@ -323,8 +326,14 @@ end
 @r boolean
 @d Removes all reactions from the message.
 ]=]
-function Message:clearReactions()
-	local data, err = self.client._api:deleteAllReactions(self._parent._id, self._id)
+function Message:clearReactions(emojiHash)
+	local data, err
+	if emojiHash then
+		-- Backported from Discordia 3.x
+		data, err = self.client._api:deleteAllReactionsForEmoji(self._parent._id, self._id, emojiHash)
+	else
+		data, err = self.client._api:deleteAllReactions(self._parent._id, self._id)
+	end
 	if data then
 		return true
 	else

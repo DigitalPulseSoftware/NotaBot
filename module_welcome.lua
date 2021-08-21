@@ -26,10 +26,12 @@ function Module:GetConfigTable()
 			Optional = true
 		},
 		{
-			Name = "JoinRole",
-			Description = "Gives a role to new members",
+			Name = "JoinRoles",
+			Description = "Roles to give to new members (up to 10)",
 			Type = bot.ConfigType.Role,
-			Optional = true
+			Optional = true,
+			Array = true,
+			ArrayMaxSize = 10
 		},
 		{
 			Name = "LeaveMessage",
@@ -68,15 +70,17 @@ function Module:OnMemberJoin(member)
 			channel:send(message)
 		end
 
-		if (config.JoinRole) then
-			local role = guild:getRole(config.JoinRole)
-			if (role) then
-				local success, err = member:addRole(role)
-				if (not success) then
-					self:LogError(guild, "Failed to add role %s to member %s: %s", role.name, member.user.tag or "<invalid>")
+		if (config.JoinRoles) then
+			for _, roleId in ipairs(config.JoinRoles) do
+				local role = guild:getRole(roleId)
+				if (role) then
+					local success, err = member:addRole(role)
+					if (not success) then
+						self:LogError(guild, "Failed to add role %s to member %s: %s", role.name, member.user.tag or "<invalid>", err)
+					end
+				else
+					self:LogError(guild, "Invalid role %s", roleId)
 				end
-			else
-				self:LogError(guild, "Invalid role %s", config.JoinRole)
 			end
 		end
 	end

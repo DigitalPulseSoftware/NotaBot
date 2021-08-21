@@ -13,7 +13,7 @@ local insert, concat = table.insert, table.concat
 local sleep = timer.sleep
 local running = coroutine.running
 
-local BASE_URL = "https://discord.com/api/v7"
+local BASE_URL = "https://discord.com/api/v9"
 
 local JSON = 'application/json'
 local PRECISION = 'millisecond'
@@ -299,6 +299,12 @@ end
 function API:deleteAllReactions(channel_id, message_id) -- Message:clearReactions
 	local endpoint = f(endpoints.CHANNEL_MESSAGE_REACTIONS, channel_id, message_id)
 	return self:request("DELETE", endpoint)
+end
+
+-- Backported from Discordia 3.x
+function API:deleteAllReactionsForEmoji(channel_id, message_id, emoji, query)
+	local endpoint = f(endpoints.CHANNEL_MESSAGE_REACTION, channel_id, message_id, urlencode(emoji))
+	return self:request("DELETE", endpoint, nil, query)
 end
 
 function API:editMessage(channel_id, message_id, payload) -- Message:_modify
