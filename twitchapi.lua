@@ -21,7 +21,7 @@ local urlencode = querystring.urlencode
 local yield = coroutine.yield
 
 local endpoints = {
-	EventSubSubscriptions = "https://api.twitch.tv/helix/eventsub/subscriptions"
+	EventSubSubscriptions = "https://api.twitch.tv/helix/eventsub/subscriptions",
 	GetGames   = "https://api.twitch.tv/helix/games",
 	GetStreams = "https://api.twitch.tv/helix/streams",
 	GetUsers   = "https://api.twitch.tv/helix/users",
