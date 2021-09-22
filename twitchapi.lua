@@ -21,10 +21,10 @@ local urlencode = querystring.urlencode
 local yield = coroutine.yield
 
 local endpoints = {
+	EventSubSubscriptions = "https://api.twitch.tv/helix/eventsub/subscriptions"
 	GetGames   = "https://api.twitch.tv/helix/games",
 	GetStreams = "https://api.twitch.tv/helix/streams",
 	GetUsers   = "https://api.twitch.tv/helix/users",
-	WebhookSub = "https://api.twitch.tv/helix/webhooks/hub"
 }
 
 
@@ -164,7 +164,7 @@ function TwitchApi:Request(method, endpoint, parameters, headers)
 
 	local body
 	if (parameters and not table.empty(parameters)) then
-		if (method == "GET") then
+		if (method == "GET" or method == "DELETE") then
 			local url = {endpoint}
 			for k, v in pairs(parameters) do
 				insert(url, #url == 1 and '?' or '&')
@@ -279,34 +279,33 @@ function TwitchApi:GetUserByName(userName)
 	end
 end
 
-function TwitchApi:SubscribeTo(topic, callback, duration, secret)
+function TwitchApi:SubscribeWebHook(type, userId, callback, secret)
 	local parameters = {
-		["hub.callback"] = callback,
-		["hub.mode"] = "subscribe",
-		["hub.topic"] = topic,
-		["hub.lease_seconds"] = tostring(duration),
-		["hub.secret"] = secret
+		type = type,
+		version = "1",
+		condition = {
+			broadcaster_user_id = userId
+		},
+		transport = {
+			method = "webhook",
+			callback = callback,
+			secret = secret
+		}
 	}
 
-	return self:Request("POST", endpoints.WebhookSub, parameters)
+	return self:Request("POST", endpoints.EventSubSubscriptions, parameters)
 end
 
-function TwitchApi:SubscribeToStreamUpDown(userId, callback, duration, secret)
-	return self:SubscribeTo("https://api.twitch.tv/helix/streams?user_id=" .. userId, callback, duration, secret)
+function TwitchApi:SubscribeToStreamUp(userId, callback, secret)
+	return self:SubscribeTo("stream.online", userId, callback, secret)
 end
 
-function TwitchApi:UnsubscribeFrom(topic, callback)
+function TwitchApi:Unsubscribe(subscriptionId)
 	local parameters = {
-		["hub.callback"] = callback,
-		["hub.mode"] = "unsubscribe",
-		["hub.topic"] = topic
+		id = subscriptionId
 	}
 
-	return self:Request("POST", endpoints.WebhookSub, parameters)
-end
-
-function TwitchApi:UnsubscribeFromStreamUpDown(userId, callback)
-	return self:UnsubscribeFrom("https://api.twitch.tv/helix/streams?user_id=" .. userId, callback)
+	return self:Request("DELETE", endpoints.EventSubSubscriptions, parameters)
 end
 
 function TwitchApi:__tostring()
