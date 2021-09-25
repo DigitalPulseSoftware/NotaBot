@@ -21,6 +21,7 @@ local net = require('coro-net')
 local json = require('json')
 local sha256 = require('sha256')
 local querystring = require('querystring')
+local timer = require("timer")
 local twitchAPI = require('./twitchapi.lua')
 
 function Module:GetConfigTable()
@@ -562,13 +563,26 @@ function Module:HandleChannelNotification(channelId, channelData, type, eventDat
 			self:LogInfo("Dismissed alert event because last one occured while the stream was active (%s ago)", util.FormatTime(now - channelData.LastAlert))
 			return
 		end
-	
-		local streamData, err = self.API:GetStreamByUserId(channelId)
-		if (not streamData) then
-			self:LogError("couldn't retrieve stream info for %s: %s", channelId, err and err.msg or "<no error>")
-			return
+
+		-- There may be a race condition between Twitch notifying a stream started and stream info fetching, try multiple times with a small delay
+		local streamData, err
+		for i=1,10 do
+			self:LogInfo("trying to retrieve stream info for %s (attempt %d/10)", channelId, i)
+			streamData, err = self.API:GetStreamByUserId(channelId)
+			if (streamData) then
+				break
+			else
+				if (err) then
+					self:LogError("couldn't retrieve stream info for %s: %s", channelId, err.msg)
+				end
+				timer.sleep(1000)
+			end
 		end
 
+		if (not streamData) then
+			return
+		end
+	
 		channelData.LastAlert = now
 
 		local title = streamData.title
@@ -707,7 +721,7 @@ function Module:SendChannelNotification(guild, channel, message, channelData)
 	})
 
 	local channelUrl = "https://www.twitch.tv/" .. profileData.Name
-	local thumbnail = channelData.thumbnail_url .. "?" .. os.time() -- Prevent Discord cache
+	local thumbnail = channelData.thumbnail_url .. "?" .. os.time() -- Bypass Discord image caching
 	thumbnail = thumbnail:gsub("{width}", 320)
 	thumbnail = thumbnail:gsub("{height}", 180)
 
