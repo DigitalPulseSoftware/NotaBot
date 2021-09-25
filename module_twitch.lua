@@ -148,7 +148,6 @@ function Module:OnLoaded()
 	self.ChannelAlerts = {}
 
 	for channelId, channelData in pairs(self:GetWatchedChannels()) do
-		channelData.Subscribing = false
 		channelData.WaitingForConfirm = false
 	end
 
@@ -156,10 +155,12 @@ function Module:OnLoaded()
 	self.Clock:on("sec", function ()
 		local watchedChannels = self:GetWatchedChannels()
 
+		local now = os.time()
 		for channelId, channelData in pairs(watchedChannels) do
-			if (not channelData.Subscribed and not channelData.Subscribing) then
+			if (channelData.RenewTime <= now and not channelData.Subscribed) then
 				local channelAlerts = self.ChannelAlerts[channelId]
 				if (channelAlerts and not table.empty(channelAlerts)) then
+					channelData.RenewTime = now + 30 -- Retry in 30 seconds if twitch didn't answer or subscribing failed
 					wrap(function () bot:CallModuleFunction(self, "SubscribeToTwitch", channelId) end)()
 				else
 					watchedChannels[channelId] = nil
@@ -328,8 +329,8 @@ function Module:HandleConfig(guild, config)
 		if (not watchedData) then
 			watchedData = {
 				LastAlert = 0,
+				RenewTime = os.time(),
 				Subscribed = false,
-				Subscribing = false,
 				WaitingForConfirm = false
 			}
 			watchedChannels[channelId] = watchedData
@@ -450,7 +451,7 @@ function Module:SetupServer()
 		end
 
 		-- Check signature
-		local headers
+		local headers = {}
 		for _, keyvalue in ipairs(head) do
 			local key, value = unpack(keyvalue)
 			headers[key:lower()] = value
@@ -484,7 +485,7 @@ function Module:SetupServer()
 		local userId = assert(payload.subscription.condition.broadcaster_user_id)
 
 		local watchedChannels = self:GetWatchedChannels()
-		local channelData = watchedChannels[channelId]
+		local channelData = watchedChannels[userId]
 		if (not channelData) then
 			self:LogError("%s is not a watched channel, ignoring...", userId)
 			return Forbidden()
@@ -494,31 +495,31 @@ function Module:SetupServer()
 		                 .. assert(headers["twitch-eventsub-message-timestamp"])
 						 .. body
 
-		assert(watchedData.Secret)
-		local signature = sha256.hmac_sha256(watchedData.Secret, hmacMessage)
-		if (headerSignature ~= signature) then
-			self:LogError("Header signature doesn't match")
-			return
+		assert(channelData.Secret)
+		local signature = sha256.hmac_sha256(channelData.Secret, hmacMessage)
+		if (hashValue ~= signature) then
+			self:LogError("Hash doesn't match")
+			return Forbidden()
 		end
 
 		-- Okay message is from Twitch, handle it
 		if (messageType == "notification") then
-			self:LogInfo("Twitch server: Received %s notification for channel %s", subscriptionType, channelId)
+			self:LogInfo("Twitch server: Received %s notification for channel %s", subscriptionType, userId)
 			coroutine.wrap(function()
-				bot:CallModuleFunction(self, "HandleChannelNotification", channelId, channelData, messageType, body.event)
+				bot:CallModuleFunction(self, "HandleChannelNotification", userId, channelData, subscriptionType, payload.event)
 			end)()
 		elseif (messageType == "webhook_callback_verification") then
-			self:LogInfo("Twitch server: Subscribed to %s for channel %s", subscriptionType, channelId)
+			self:LogInfo("Twitch server: Subscribed to %s for channel %s", subscriptionType, userId)
 
 			if (not channelData.WaitingForConfirm) then
-				self:LogError("Twitch server: Channel \"%s\" is not waiting for Twitch confirmation", tostring(channelId))
+				self:LogError("Twitch server: Channel \"%s\" is not waiting for Twitch confirmation", tostring(userId))
 				return Forbidden()
 			end
 
 			channelData.Subscribed = true
 			channelData.WaitingForConfirm = false
 
-			local challenge = body.challenge
+			local challenge = payload.challenge
 
 			local header = {
 				code = 200,
@@ -529,8 +530,10 @@ function Module:SetupServer()
 			return header, challenge
 		elseif (messageType == "revocation") then
 			self:LogInfo("Twitch server: Unsubscribed from %s for channel %s", subscriptionType, channelId)
+			channelData.RenewTime = os.time()
 			channelData.Subscribed = false
 			channelData.WaitingForConfirm = false
+			channelData.ChannelUpEventId = nil
 		else
 			self:LogError("Twitch server: Unknown messageType %s", messageType)
 			return ServerError()
@@ -559,14 +562,14 @@ function Module:HandleChannelNotification(channelId, channelData, type, eventDat
 			self:LogInfo("Dismissed alert event because last one occured while the stream was active (%s ago)", util.FormatTime(now - channelData.LastAlert))
 			return
 		end
-
-		channelData.LastAlert = now
 	
 		local streamData, err = self.API:GetStreamByUserId(channelId)
 		if (not streamData) then
-			self:LogError("couldn't retrieve stream info for %s", channelId)
+			self:LogError("couldn't retrieve stream info for %s: %s", channelId, err and err.msg or "<no error>")
 			return
 		end
+
+		channelData.LastAlert = now
 
 		local title = streamData.title
 		local gameId = streamData.game_id
@@ -608,7 +611,7 @@ function Module:HandleChannelNotification(channelId, channelData, type, eventDat
 					if (CheckPattern(pattern)) then
 						local channel = guild:getChannel(pattern.Channel)
 						if (channel) then
-							bot:CallModuleFunction(self, "SendChannelNotification", guild, channel, pattern.Message, channelData)
+							bot:CallModuleFunction(self, "SendChannelNotification", guild, channel, pattern.Message, streamData)
 						else
 							self:LogError(guild, "Channel %s doesn't exist", pattern.Channel)
 						end
@@ -674,13 +677,13 @@ end
 function Module:SendChannelNotification(guild, channel, message, channelData)
 	local profileData, err = self:GetProfileData(channelData.user_id)
 	if (not profileData) then
-		self:LogError("Failed to query user %s info: %s", channelData.user_id, err)
+		self:LogError("Failed to query user %s info: %s", channelData.user_id, err.msg)
 		return
 	end
 
 	local gameData, err = self:GetGameData(channelData.game_id)
 	if (not gameData) then
-		self:LogError("Failed to query game info about game %s: %s", channelData.game_id, err)
+		self:LogError("Failed to query game info about game %s: %s", channelData.game_id, err.msg)
 	end
 
 	local nonMentionableRoles = {}
@@ -775,37 +778,55 @@ function Module:SubscribeToTwitch(channelId)
 	self:LogInfo("Subscribing to channel %s", channelId)
 
 	local watchedChannels = self:GetWatchedChannels()
-
 	local channelData = watchedChannels[channelId]
 	assert(channelData)
 
-	channelData.Subscribing = true
-	channelData.WaitingForConfirm = true
-
-	channelData.Secret = self:GenerateSecret(128)
-
-	local succeeded, ret, err = pcall(function () self.API:SubscribeToStreamUp(channelId, self.GlobalConfig.CallbackEndpoint, secret) end)
-
-	print("Subscribe end")
-
-	channelData.Subscribing = false
-
-	if (not succeeded) then
-		channelData.WaitingForConfirm = false
-		self:LogError("An error occurred: %s", ret)
-		return false, ret
+	if (channelData.ChannelUpEventId) then
+		self:UnsubscribeFromTwitch(channelId)
 	end
 
-	channelData.channelUpEventId = ret.data.id
+	channelData.WaitingForConfirm = true
+
+	channelData.Secret = self:GenerateSecret(32)
+
+	local succeeded, ret, err = pcall(function () return self.API:SubscribeToStreamUp(channelId, self.GlobalConfig.CallbackEndpoint, channelData.Secret) end)
+
+	if (not succeeded or not ret) then
+		channelData.WaitingForConfirm = false
+		if (err.code == 409) then -- conflict, this subscription already exists
+			self:LogInfo("subscription already exist")
+			-- Try to remove subscription
+			local subscriptions, err = self.API:ListSubscriptions()
+			if (not subscriptions) then
+				self:LogError("failed to list current subscriptions: %s", err.msg)
+				return false, err.msg
+			end
+
+			for _, subscription in pairs(subscriptions.data) do
+				if (subscription.condition.broadcaster_user_id == channelId) then
+					self.API:Unsubscribe(subscription.id)
+					break
+				end
+			end
+
+			-- Try again
+			return
+		end
+
+		self:LogError("An error occurred: %s", err.msg)
+		return false, err.msg
+	end
+
+	channelData.ChannelUpEventId = ret.data.id
 
 	return ret, err
 end
 
 function Module:UnsubscribeFromTwitch(channelId)
 	local channelData = watchedChannels[channelId]
-	if (channelData and channelData.channelUpEventId) then
-		self:LogInfo("Unsubscribing to channel %s", channelId)
+	if (channelData and channelData.ChannelUpEventId) then
+		self:LogInfo("Unsubscribing from channel %s", channelId)
 
-		return self.API:Unsubscribe(channelData.channelUpEventId)
+		return self.API:Unsubscribe(channelData.ChannelUpEventId)
 	end
 end

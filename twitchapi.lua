@@ -142,7 +142,6 @@ function TwitchApi:Commit(method, url, headers, body, retries, forceAuth)
 			delay = delay + random(2000)
 			retry = retries < maxRetries
 		elseif (res.code == 401) then -- Token error
-			p(msg)
 			delay = 100
 			retry = retries < maxRetries
 			forceAuth = true
@@ -154,8 +153,10 @@ function TwitchApi:Commit(method, url, headers, body, retries, forceAuth)
 			return self:Commit(method, url, headers, body, retries + 1, forceAuth)
 		end
 
+		p(msg)
+
 		self._client:error('%i - %s : %s %s', res.code, res.reason, method, url)
-		return nil, msg, delay
+		return nil, {code=res.code, msg=msg}, delay
 	end
 end
 
@@ -279,6 +280,10 @@ function TwitchApi:GetUserByName(userName)
 	end
 end
 
+function TwitchApi:ListSubscriptions()
+	return self:Request("GET", endpoints.EventSubSubscriptions)
+end
+
 function TwitchApi:SubscribeWebHook(type, userId, callback, secret)
 	local parameters = {
 		type = type,
@@ -297,15 +302,11 @@ function TwitchApi:SubscribeWebHook(type, userId, callback, secret)
 end
 
 function TwitchApi:SubscribeToStreamUp(userId, callback, secret)
-	return self:SubscribeTo("stream.online", userId, callback, secret)
+	return self:SubscribeWebHook("stream.online", userId, callback, secret)
 end
 
 function TwitchApi:Unsubscribe(subscriptionId)
-	local parameters = {
-		id = subscriptionId
-	}
-
-	return self:Request("DELETE", endpoints.EventSubSubscriptions, parameters)
+	return self:Request("DELETE", endpoints.EventSubSubscriptions, {id = subscriptionId})
 end
 
 function TwitchApi:__tostring()
