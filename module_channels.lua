@@ -270,7 +270,7 @@ function Module:OnLoaded()
 			local success = false
 
 			if (action == "addrole") then
-				local role, err = Bot:DecodeRole(value)
+				local role, err = Bot:DecodeRole(guild, value)
 				if (not role) then
 					commandMessage:reply(string.format("Invalid role: %s", err))
 					return
@@ -298,7 +298,7 @@ function Module:OnLoaded()
 				success = true
 				commandMessage:reply(string.format("Reactions on %s for %s will now adds role %s (%s)", Bot:GenerateMessageLink(message), emoji.MentionString, role.name, role.id))
 			elseif (action == "removerole") then
-				local role, err = Bot:DecodeRole(value)
+				local role, err = Bot:DecodeRole(guild, value)
 				if (not role) then
 					commandMessage:reply(string.format("Invalid role: %s", err))
 					return
@@ -326,7 +326,7 @@ function Module:OnLoaded()
 				success = true
 				commandMessage:reply(string.format("Reactions on %s for %s will now remove role %s (%s)", Bot:GenerateMessageLink(message), emoji.MentionString, role.name, role.id))
 			elseif (action == "togglerole") then
-				local role, err = Bot:DecodeRole(value)
+				local role, err = Bot:DecodeRole(guild, value)
 				if (not role) then
 					commandMessage:reply(string.format("Invalid role: %s", err))
 					return
