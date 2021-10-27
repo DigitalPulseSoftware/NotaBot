@@ -506,10 +506,6 @@ function Module:HandleConfig(guild, config)
 		end
 	end
 
-	if (configUpdated) then
-		self:SaveGuildConfig(guild)
-	end
-
 	self:LogInfo(guild, "Adding emojis to concerned messages...")
 
 	-- Make sure reactions are present on messages
@@ -520,14 +516,22 @@ function Module:HandleConfig(guild, config)
 				local message = channel:getMessage(messageId)
 				if (message) then
 					local hasReaction = {}
+					local messageReactions = {}
 					for k,reaction in pairs(message.reactions) do
+						local emoji = bot:GetEmojiData(guild, reaction.emojiId or reaction.emojiName)
+						if (emoji) then
+							hasReaction[emoji.Name] = true
+						else
+							self:LogError(guild, "found reaction which does not exist in guild: %s", reaction.emojiName)
+						end
+
+						local expectedCount = 0
 						if (reaction.me) then
-							local emoji = bot:GetEmojiData(guild, reaction.emojiId or reaction.emojiName)
-							if (emoji) then
-								hasReaction[emoji.Name] = true
-							else
-								self:LogError(guild, "Found reaction which does not exist in guild: %s", reaction.emojiName)
-							end
+							expectedCount = 1
+						end
+
+						if (reaction.count ~= expectedCount) then
+							messageReactions[reaction] = reaction:getUsers()
 						end
 					end
 
@@ -557,16 +561,39 @@ function Module:HandleConfig(guild, config)
 						local emoji = Bot:GetEmojiData(guild, reaction)
 						local success, err = message:addReaction(emoji.Emoji or emoji.Id)
 						if (not success) then
-							self:LogWarning(guild, "Failed to add reaction %s on message %s (channel: %s): %s", emoji.Name, message.id, message.channel.id, err)
+							self:LogWarning(guild, "Failed to add reaction %s on message %s (channel: %s): %s", emoji.Name, message.id, channelId, err)
+						end
+					end
+
+					-- Handle users reactions
+					for reaction, users in pairs(messageReactions) do
+						local emoji = bot:GetEmojiData(guild, reaction.emojiId or reaction.emojiName)
+						if (emoji) then
+							for _, user in pairs(users) do
+								if (self:HandleReactionAdd(guild, user.id, channelId, messageId, emoji.Name)) then
+									local success, err = reaction:delete(user.id)
+									if (not success) then
+										self:LogWarning(guild, "Failed to remove reaction on message (%s)", err)
+									end						
+								end
+							end
 						end
 					end
 				else
 					self:LogError(guild, "Message %s no longer exists in channel %s", messageId, channelId)
+					messageTable[messageId] = nil
+					configUpdated = true
 				end
 			end
 		else
 			self:LogError(guild, "Channel %s no longer exists", channelId)
+			config.ReactionActions[channelId] = nil
+			configUpdated = true
 		end
+	end
+
+	if (configUpdated) then
+		self:SaveGuildConfig(guild)
 	end
 end
 
@@ -589,6 +616,9 @@ function Module:HandleReactionAdd(guild, userId, channelId, messageId, reactionN
 	local isActive = false
 
 	local member = guild:getMember(userId)
+	if (not member) then
+		return true
+	end
 
 	for _,roleId in pairs(roleActions.Add) do
 		local role = guild:getRole(roleId)
@@ -673,11 +703,12 @@ function Module:OnReactionAdd(reaction, userId)
 
 	local emoji = bot:GetEmojiData(reaction.message.guild, reaction.emojiId or reaction.emojiName)
 	if (not emoji) then
+		self:LogWarning(channel.guild, "Emoji %s was used but not found in guild", reactionIdOrName)
 		return
 	end
 
 	if (self:HandleReactionAdd(reaction.message.channel.guild, userId, reaction.message.channel.id, reaction.message.id, emoji.Name)) then
-		timer.sleep(3000) -- Wait a bit before removing reaction (so user won't think it failed)
+		timer.sleep(1000) -- Wait a bit before removing reaction (so user won't think it failed)
 		local success, err = reaction.message:removeReaction(emoji.Emoji or emoji.Id, userId)
 		if (not success) then
 			self:LogWarning(reaction.message.guild, "Failed to remove reaction for message (%s)", err)
@@ -699,7 +730,7 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdOrName, user
 	if (self:HandleReactionAdd(channel.guild, userId, channel.id, messageId, emoji.Name)) then
 		local message = channel:getMessage(messageId)
 		if (message) then
-			timer.sleep(3000) -- Wait a bit before removing reaction (so user won't think it failed)
+			timer.sleep(1000) -- Wait a bit before removing reaction (so user won't think it failed)
 			local success, err = message:removeReaction(emoji.Emoji or emoji.Id, userId)
 			if (not success) then
 				self:LogWarning(channel.guild, "Failed to remove reaction for uncached message (%s)", err)
