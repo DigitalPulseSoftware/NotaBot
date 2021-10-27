@@ -63,18 +63,29 @@ enums.webhookType = enum {
 }
 
 enums.messageType = enum {
-	default                       = 0,
-	recipientAdd                  = 1,
-	recipientRemove               = 2,
-	call                          = 3,
-	channelNameChange             = 4,
-	channelIconchange             = 5,
-	pinnedMessage                 = 6,
-	memberJoin                    = 7,
-	premiumGuildSubscription      = 8,
-	premiumGuildSubscriptionTier1 = 9,
-	premiumGuildSubscriptionTier2 = 10,
-	premiumGuildSubscriptionTier3 = 11,
+	default                                 = 0,
+	recipientAdd                            = 1,
+	recipientRemove                         = 2,
+	call                                    = 3,
+	channelNameChange                       = 4,
+	channelIconchange                       = 5,
+	pinnedMessage                           = 6,
+	memberJoin                              = 7,
+	premiumGuildSubscription                = 8,
+	premiumGuildSubscriptionTier1           = 9,
+	premiumGuildSubscriptionTier2           = 10,
+	premiumGuildSubscriptionTier3           = 11,
+	channelFollowAdd                        = 12,
+	guildDiscoveryDisqualified              = 14,
+	guildDiscoveryRequalified               = 15,
+	guildDiscoveryGracePeriodInitialWarning = 16,
+	guildDiscoveryGracePeriodFinalWarning   = 17,
+	threadCreated                           = 18,
+	reply                                   = 19,
+	chatInputCommand                        = 20,
+	threadStarterMessage                    = 21,
+	guildInviteReminder                     = 22,
+	contextMenuCommand                      = 23
 }
 
 enums.relationshipType = enum {

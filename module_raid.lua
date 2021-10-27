@@ -750,14 +750,16 @@ function Module:OnMessageCreate(message)
 
 	local config = self:GetConfig(guild)
 
-	local duration = discordia.Date() - discordia.Date.fromISO(member.joinedAt)
-	if (duration:toSeconds() < config.SendMessageThreshold) then
-		local success, err = member:ban("auto-ban for bot suspicion", 1)
-		if (not success) then
-			self:LogWarning(guild, "Failed to autoban potential bot %s (%s)", member.tag, err)
-		end
+	if (message.type ~= enums.messageType.memberJoin) then
+		local duration = discordia.Date() - discordia.Date.fromISO(member.joinedAt)
+		if (duration:toSeconds() < config.SendMessageThreshold) then
+			local success, err = member:ban("auto-ban for bot suspicion", 1)
+			if (not success) then
+				self:LogWarning(guild, "Failed to autoban potential bot %s (%s)", member.tag, err)
+			end
 
-		return
+			return
+		end
 	end
 
 	local spamChain = data.spamChain[member.id]
