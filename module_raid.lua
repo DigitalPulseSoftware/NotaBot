@@ -7,6 +7,7 @@ local discordia = Discordia
 local bot = Bot
 local enums = discordia.enums
 local band, bor, bnot = bit.band, bit.bor, bit.bnot
+local moduleSpam = require('module_spam')
 
 Module.Name = "raid"
 
@@ -776,16 +777,13 @@ function Module:OnMessageCreate(message)
 		table.remove(spamChain, 1)
 	end
 
-	-- Compute message score (TODO: Improve it a lot)
-	local lowerContent = message.content:lower()
-
-	local score = 1 -- base score
-
-	-- Try to identify free nitro giveaway fuckery
-	if lowerContent:find("free") and lowerContent:find("nitro") then
-		score = 5
-	elseif message.content:match("https?://([%w%.]+)") then
-		score = 2 -- message has links, double its score
+	-- Compute message spam score
+	local score = moduleSpam:computeSpamScore(message)
+	if score == 0 then
+		score = 1
+	end
+	if message.content:match("https?://([%w%.]+)") then
+		score = score * 2
 	end
 
 	table.insert(spamChain, {
