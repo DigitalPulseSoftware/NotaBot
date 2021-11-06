@@ -776,13 +776,31 @@ function Module:OnMessageCreate(message)
 		table.remove(spamChain, 1)
 	end
 
+	-- Compute message score (TODO: Improve it a lot)
+	local lowerContent = message.content:lower()
+
+	local score = 1 -- base score
+
+	-- Try to identify free nitro giveaway fuckery
+	if lowerContent:find("free") and lowerContent:find("nitro") then
+		score = 5
+	elseif message.content:match("https?://([%w%.]+)") then
+		score = 2 -- message has links, double its score
+	end
+
 	table.insert(spamChain, {
 		at = now,
 		channelId = message.channel.id,
-		messageId = message.id
+		messageId = message.id,
+		score = score
 	})
 
-	if (#spamChain > countThreshold) then
+	local totalScore = 0
+	for _, spam in ipairs(spamChain) do
+		totalScore = totalScore + spam.score
+	end
+
+	if (totalScore > countThreshold) then
 		if (config.SpamMute) then
 			local muteModule, err = bot:GetModuleForGuild(guild, "mute")
 			if (muteModule) then
