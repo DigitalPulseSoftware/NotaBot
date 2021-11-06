@@ -125,54 +125,45 @@ function string.ConvertToTime(str)
 	return seconds
 end
 
-function string.GetArguments(txt, limit)
-	local inCode
-	local inQuote
-	local args = {}
-	local start
-	local i = 1
-	while i <= #txt and #args < limit - 1 do
-		local c = txt:sub(i, i)
-		if (inCode) then
-			if (c == '`' and txt:sub(i, i + 2) == '```') then
-				table.insert(args, txt:sub(start, i + 2))
-				i = i + 2
-				inCode = false
-				start = nil
-			end
-		elseif (inQuote) then
-			if (c == '"') then
-				table.insert(args, txt:sub(start, i-1))
-				inQuote = false
-				start = nil
-			end
-		elseif (c == '"') then
-			inQuote = true
-			start = i + 1
-		elseif (c == '`' and txt:sub(i):match("```(.*)\r?\n")) then
-			inCode = true
-			start = i
-		elseif (c:match("%s")) then
-			if (start and start <= i -1) then
-				table.insert(args, txt:sub(start, i-1))
-				start = nil
-			end
-		else
-			if (not start) then
-				start = i
-			end
-		end
+function string.GetArguments(text, limit)
+    local args = {}
 
-		i = i + 1
-	end
+    local e = 0
+    while true do
+        local b = e+1
+        b = text:find("%S", b)
+        if b == nil then 
+            break
+        end
+        
+        if limit and #args >= limit - 1 then
+            table.insert(args, text:sub(b))
+            break
+        end
 
-	if (not start) then
-		start = txt:find("[^%s]", i)
-	end
+        local k = false -- should keep delimiter
+        local c = text:sub(b, b)
+        if c == "`" then
+            k = true
+            if text:sub(b, b + 2) == "```" then
+                e = text:find("```", b + 3)
+            else
+                e = text:find("`", b + 1)
+            end
+        elseif c == "'" or c == '"' then
+            e = text:find(c, b + 1)
+            if e ~= nil then
+                b = b+1
+            end
+        else
+            e = text:find("%s", b+1)
+        end
+        if e == nil then
+            e = #text+1
+        end
 
-	if (start and start <= #txt -1) then
-		table.insert(args, txt:sub(start))
-	end
+        table.insert(args, text:sub(b, k and e or e - 1))
+    end
 
 	return args
 end
