@@ -271,11 +271,11 @@ local fileTypes = {
 	wmv = "video"
 }
 
-function Bot:BuildQuoteEmbed(message, bigAvatar)
+function Bot:BuildQuoteEmbed(message, opt)
 	local author = message.author
 	local content = message.content
 
-	local maxContentSize = 1800
+	local maxContentSize = 1800 - (opt and opt.initialContentSize or 0)
 
 	local decorateEmbed = function(embed)
 		-- Replace footer and timestamp
@@ -283,7 +283,7 @@ function Bot:BuildQuoteEmbed(message, bigAvatar)
 			name = author.tag,
 			icon_url = author.avatarURL
 		}
-		embed.thumbnail = bigAvatar and { url = author.avatarURL } or nil
+		embed.thumbnail = opt and opt.bigAvatar and { url = author.avatarURL } or nil
 		embed.timestamp = message.timestamp
 
 		return embed

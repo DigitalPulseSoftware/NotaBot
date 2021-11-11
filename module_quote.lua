@@ -113,7 +113,7 @@ end
 
 function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInvokation)
 	local config = self:GetConfig(triggeringMessage.guild)
-	local embed = Bot:BuildQuoteEmbed(message, config.BigAvatar)
+	local embed = Bot:BuildQuoteEmbed(message, { bigAvatar = config.BigAvatar })
 	embed.footer = {
 		text = string.format("Quoted by %s | in #%s at %s", triggeringMessage.author.tag, message.channel.name, message.guild.name)
 	}
@@ -121,7 +121,7 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInv
 	triggeringMessage:reply({
 		content = includesLink and "Message link: " .. Bot:GenerateMessageLink(message) or nil,
 		embed = embed,
-		reference = not deleteInvokation and { message = triggeringMessage, mention = true } or nil
+		reference = not deleteInvokation and { message = triggeringMessage } or nil
 	})
 
 	if (deleteInvokation) then
