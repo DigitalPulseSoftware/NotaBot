@@ -25,7 +25,7 @@ local function printLine(...)
     return table.concat(ret, '\t')
 end
 
-require("utils.lua")
+dofile("utils.lua")
 
 -- Config
 

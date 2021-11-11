@@ -113,7 +113,7 @@ end
 
 function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInvokation)
 	local config = self:GetConfig(triggeringMessage.guild)
-	local embed = util.BuildQuoteEmbed(message, config.BigAvatar)
+	local embed = Bot:BuildQuoteEmbed(message, config.BigAvatar)
 	embed.footer = {
 		text = string.format("Quoted by %s | in #%s at %s", triggeringMessage.author.tag, message.channel.name, message.guild.name)
 	}
