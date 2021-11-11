@@ -49,7 +49,7 @@ function Module:OnMessageDelete(message)
     local desc = "🗑️ **Deleted message - sent by " .. message.author.mentionString .. " in " .. message.channel.mentionString .. "**\n"
 
 	local embed = Bot:BuildQuoteEmbed(message, { initialContentSize = #desc })
-    embed.description = desc .. embed.description
+    embed.description = desc .. (embed.description or "")
 	embed.footer = {
 		text = string.format("Author ID: %s | Message ID: %s", message.author.id, message.id)
 	}
