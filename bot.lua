@@ -25,6 +25,8 @@ local function printLine(...)
     return table.concat(ret, '\t')
 end
 
+require("utils.lua")
+
 -- Config
 
 Config = {}
@@ -246,6 +248,7 @@ function Bot:Save()
 	client:info("Modules data saved (%.3fs)", stopwatch.milliseconds / 1000)
 end
 
+-- Why is this required Oo
 local env = setmetatable({}, { __index = _G })
 env.Bot = Bot
 env.Client = client
@@ -265,7 +268,6 @@ local function loadbotfile(file)
 	end
 end
 
-loadbotfile("utils.lua")
 loadbotfile("bot_emoji.lua")
 loadbotfile("bot_utility.lua")
 loadbotfile("bot_commands.lua")
