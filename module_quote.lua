@@ -7,35 +7,6 @@ local discordia = Discordia
 local bot = Bot
 local enums = discordia.enums
 
-local json = require("json")
-
-local fileTypes = {
-	aac = "sound",
-	avi = "video",
-	apng = "image",
-	bmp = "image",
-	flac = "video",
-	gif = "image",
-	ico = "image",
-	jpg = "image",
-	jpeg = "image",
-	ogg = "sound",
-	m4a = "sound",
-	mkv = "video",
-	mov = "video",
-	mp1 = "sound",
-	mp2 = "sound",
-	mp3 = "sound",
-	mp4 = "video",
-	png = "image",
-	tif = "image",
-	wav = "sound",
-	webm = "video",
-	webp = "image",
-	wma = "sound",
-	wmv = "video"
-}
-
 Module.Name = "quote"
 
 function Module:GetConfigTable()

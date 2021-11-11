@@ -1,5 +1,7 @@
 util = util or {}
 
+local json = require("json")
+
 local timeUnits = {}
 local timeUnitByUnit = {}
 
@@ -328,6 +330,33 @@ function table.length( tbl )
 	
 	return count
 end
+
+local fileTypes = {
+	aac = "sound",
+	avi = "video",
+	apng = "image",
+	bmp = "image",
+	flac = "video",
+	gif = "image",
+	ico = "image",
+	jpg = "image",
+	jpeg = "image",
+	ogg = "sound",
+	m4a = "sound",
+	mkv = "video",
+	mov = "video",
+	mp1 = "sound",
+	mp2 = "sound",
+	mp3 = "sound",
+	mp4 = "video",
+	png = "image",
+	tif = "image",
+	wav = "sound",
+	webm = "video",
+	webp = "image",
+	wma = "sound",
+	wmv = "video"
+}
 
 function util.BuildQuoteEmbed(message, bigAvatar)
 	local author = message.author

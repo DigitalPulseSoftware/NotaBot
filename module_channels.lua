@@ -703,7 +703,6 @@ function Module:OnReactionAdd(reaction, userId)
 
 	local emoji = bot:GetEmojiData(reaction.message.guild, reaction.emojiId or reaction.emojiName)
 	if (not emoji) then
-		self:LogWarning(channel.guild, "Emoji %s was used but not found in guild", reactionIdOrName)
 		return
 	end
 
