@@ -29,9 +29,11 @@ end
 
 function Module:OnEnable(guild)
     -- Cache last 20 messages in every text channel
-	for _, channel in pairs(guild.textChannels) do
-        channel:getMessages(20)
-    end
+	coroutine.wrap(function ()
+        for _, channel in pairs(guild.textChannels) do
+            channel:getMessages(20)
+        end
+    end)()
 
 	return true
 end
