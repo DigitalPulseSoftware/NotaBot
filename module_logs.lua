@@ -31,7 +31,7 @@ function Module:OnMessageDelete(message)
     local guild = message.guild
     local config = self:GetConfig(guild)
     
-    if table.search(config.IgnoredDeletedMessageChannels, channel.id) then
+    if table.search(config.IgnoredDeletedMessageChannels, message.channel.id) then
         return
     end
 
