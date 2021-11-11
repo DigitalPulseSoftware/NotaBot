@@ -149,7 +149,8 @@ function Module:QuoteMessage(triggeringMessage, message, includesLink, deleteInv
 
 	triggeringMessage:reply({
 		content = includesLink and "Message link: " .. Bot:GenerateMessageLink(message) or nil,
-		embed = embed
+		embed = embed,
+		reference = not deleteInvokation and { message = triggeringMessage, mention = true } or nil
 	})
 
 	if (deleteInvokation) then
