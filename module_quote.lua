@@ -103,6 +103,11 @@ function Module:OnLoaded()
 					return
 				end
 
+				if (config.AutoQuote) then
+					-- Autoquote will quote this link automatically, ignore it
+					return
+				end		
+
 				-- Checks if user has permission to see this message
 				if (not self:CheckReadPermission(commandMessage.author, quotedMessage)) then
 					commandMessage:reply("You can only quote messages you are able to see yourself")
