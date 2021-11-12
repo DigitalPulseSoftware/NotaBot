@@ -360,7 +360,7 @@ function Bot:BuildQuoteEmbed(message, opt)
 	-- Fix emojis
 	content = content:gsub("(<a?:([%w_]+):(%d+)>)", function (mention, emojiName, emojiId)
 		-- Bot are allowed to use emojis from every servers they are on
-		local emojiData = bot:GetEmojiData(nil, emojiId)
+		local emojiData = Bot:GetEmojiData(nil, emojiId)
 
 		local canUse = false
 		if (emojiData) then
