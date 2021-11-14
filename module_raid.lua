@@ -230,7 +230,7 @@ function Module:GetConfigTable()
 		},
 		{
 			Name = "SpamCountThreshold",
-			Description = "How many messages is a member allowed to post in the spam window before being banned/muted",
+			Description = "How much \"spam score\" is allowed in the spam window before the bot bans/mute the member (1 message = 1 score, but some keywords, links, pings and such increase it)",
 			Type = bot.ConfigType.Integer,
 			Default = 7
 		},
@@ -238,7 +238,7 @@ function Module:GetConfigTable()
 			Name = "SpamTimeThreshold",
 			Description = "For how many time should the spam window be open",
 			Type = bot.ConfigType.Integer,
-			Default = 2
+			Default = 10
 		},
 		{
 			Name = "SpamMute",
@@ -735,6 +735,41 @@ function Module:OnMemberJoin(member)
 	end
 end
 
+-- Thanks to DrLazor for his help with this function
+local spamWords = {"nitro", "discord", "steam", "free", "cs:go"} 
+local spamHints = {"3 month", "away", "gift", "airdrop"}
+
+function Module:ComputeMessageSpamScore(content)
+	local score = 1 -- base score
+
+	-- +1 for each spamword
+	for _, spamWord in ipairs(spamWords) do
+		if content:find(spamWord) then
+			score = score + 1
+		end
+	end
+
+	-- +1 if at least one spam hint if found
+	for _, spamHint in ipairs(spamHints) do
+		if content:find(spamHint) then
+			score = score + 1
+			break
+		end
+	end
+
+	-- double score for messages containing pings (everyone/here or member/role)
+	if content:find("@everyone") or content:find("@here") or content:match("<@[&!]?%d+>") then
+		score = score * 2
+	end
+
+	-- double score for messages containing links
+	if content:match("https?://([%w%.]+)") then
+		score = score * 2
+	end
+
+	return score
+end
+
 function Module:OnMessageCreate(message)
 	if (not bot:IsPublicChannel(message.channel)) then
 		return
@@ -750,6 +785,7 @@ function Module:OnMessageCreate(message)
 
 	local config = self:GetConfig(guild)
 
+	-- Check if message happens right after joining
 	if (message.type ~= enums.messageType.memberJoin) then
 		local duration = discordia.Date() - discordia.Date.fromISO(member.joinedAt)
 		if (duration:toSeconds() < config.SendMessageThreshold) then
@@ -762,6 +798,7 @@ function Module:OnMessageCreate(message)
 		end
 	end
 
+	-- Remember previous messages and try to identify spam
 	local spamChain = data.spamChain[member.id]
 	if (not spamChain) then
 		spamChain = {}
@@ -772,31 +809,42 @@ function Module:OnMessageCreate(message)
 	local countThreshold = config.SpamCountThreshold
 	local timeThreshold = config.SpamTimeThreshold
 
+	-- Remove messages outside spam window
 	while (#spamChain > 0 and (now - spamChain[1].at > timeThreshold)) do
 		table.remove(spamChain, 1)
 	end
 
-	-- Compute message score (TODO: Improve it a lot)
+	-- Compute message score and remember it
 	local lowerContent = message.content:lower()
-
-	local score = 1 -- base score
-
-	-- Try to identify free nitro giveaway fuckery
-	if lowerContent:find("free") and lowerContent:find("nitro") then
-		score = 5
-	elseif message.content:match("https?://([%w%.]+)") then
-		score = 2 -- message has links, double its score
-	end
+	local score = self:ComputeMessageSpamScore(lowerContent)
 
 	table.insert(spamChain, {
 		at = now,
 		channelId = message.channel.id,
+		content = lowerContent,
 		messageId = message.id,
 		score = score
 	})
 
+	local lastChannel
+	local seenContent = {}
 	local totalScore = 0
 	for _, spam in ipairs(spamChain) do
+		-- Increase score everytime a channel switch occurs
+		if lastChannel and lastChannel ~= spam.channelId then
+			totalScore = totalScore + 1
+			lastChannel = spam.channelId
+		end
+
+		-- Increase score every time this content appears in the spam chain (+1 first time, +2 second time, etc.)
+		local seenScore = seenContent[spam.content]
+		if seenScore then
+			totalScore = totalScore + seenScore
+			seenContent[spam.content] = seenScore + 1
+		else
+			seenContent[spam.content] = 1
+		end
+
 		totalScore = totalScore + spam.score
 	end
 
@@ -809,11 +857,21 @@ function Module:OnMessageCreate(message)
 					-- Send an alert
 					local alertChannel = config.AlertChannel and guild:getChannel(config.AlertChannel)
 					if (alertChannel) then
+						local channelList = {}
+						for _, spam in ipairs(spamChain) do
+							local channel = guild:getChannel(messageData.channelId)
+							if channel then
+								table.insert(channelList, channel.mentionString)
+							else
+								table.insert(channelList, "#deleted_channel")
+							end
+						end
+
 						local str = "🙊 %s has been auto-muted because of spam in %s"
 						alertChannel:send({
 							embed = {
 								color = 16776960,
-								description = string.format(str, member.mentionString, message.channel.mentionString),
+								description = string.format(str, member.mentionString, table.concat(channelList, ", ")),
 								timestamp = discordia.Date():toISO('T', 'Z')
 							}
 						})
@@ -824,7 +882,7 @@ function Module:OnMessageCreate(message)
 					for _, messageData in pairs(spamChain) do
 						table.insert(messagesToDelete, messageData)
 					end
-					data.spamChain[member.id] = {}
+					data.spamChain[member.id] = nil
 
 					for _, messageData in pairs(messagesToDelete) do
 						local channel = guild:getChannel(messageData.channelId)
