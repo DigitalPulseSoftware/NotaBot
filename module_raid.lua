@@ -859,7 +859,7 @@ function Module:OnMessageCreate(message)
 					if (alertChannel) then
 						local channelList = {}
 						for _, spam in ipairs(spamChain) do
-							local channel = guild:getChannel(messageData.channelId)
+							local channel = guild:getChannel(spam.channelId)
 							if channel then
 								table.insert(channelList, channel.mentionString)
 							else
