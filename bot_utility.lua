@@ -369,7 +369,7 @@ function Bot:BuildQuoteEmbed(message, opt)
 				local guild = emojiData.FromGuild
 
 				-- Check if bot has permissions to use this emoji (on the guild it comes from)
-				local botMember = guild:getMember(client.user) -- Should never make a HTTP request
+				local botMember = guild:getMember(Client.user) -- Should never make a HTTP request
 				local found = true
 				for _, role in pairs(emoji.roles) do
 					found = false -- Set false if we enter the loop
