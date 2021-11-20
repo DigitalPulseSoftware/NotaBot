@@ -247,6 +247,13 @@ function Module:GetConfigTable()
 			Default = true
 		},
 		{
+			Array = true,
+			Name = "SpamImmunity",
+			Description = "Roles that will never be auto-banned/muted for spam",
+			Type = bot.ConfigType.Role,
+			Default = {}
+		},
+		{
 			Name = "JoinWhitelist",
 			Description = "List of members allowed to join the server while it's locked",
 			Type = bot.ConfigType.User,
@@ -796,6 +803,11 @@ function Module:OnMessageCreate(message)
 
 			return
 		end
+	end
+
+	-- Check immunity
+	if (util.MemberHasAnyRole(member, config.SpamImmunity)) then
+		return
 	end
 
 	-- Remember previous messages and try to identify spam
