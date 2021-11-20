@@ -764,8 +764,17 @@ function Module:ComputeMessageSpamScore(content)
 		end
 	end
 
-	-- double score for messages containing pings (everyone/here or member/role)
-	if content:find("@everyone") or content:find("@here") or content:match("<@[&!]?%d+>") then
+	-- add 1 to score for every unique member ping
+	local uniquePings = {}
+	for ping in content:gmatch("<@!?(%d+)>") do
+		if not uniquePings[ping] then
+			score = score + 1
+			uniquePings[ping] = true
+		end
+	end
+
+	-- double score for messages containing pings (@everyone/@here or @role)
+	if content:find("@everyone") or content:find("@here") or content:match("<@&%d+>") then
 		score = score * 2
 	end
 
