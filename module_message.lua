@@ -195,6 +195,7 @@ end
 
 local function GetMessageFields(message)
 	local fields = {
+		attachments = message.attachments,
 		content = #message.content > 0 and message.content or nil,
 		embed = message.embed,
 		tts = message.tts or nil,

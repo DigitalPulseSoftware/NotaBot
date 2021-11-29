@@ -474,6 +474,7 @@ function Bot:MessagesToTable(messages)
 		end
 
 		local fields = {
+			attachments = message.attachments,
 			author = message.author and message.author.id or nil,
 			content = #message.content > 0 and message.content or nil,
 			createdAt = message.timestamp,
