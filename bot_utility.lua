@@ -413,22 +413,50 @@ function Bot:BuildQuoteEmbed(message, opt)
 	})
 end
 
-function Bot:FetchChannelMessages(channel, startId, limit)
-	startId = startId or channel.id
+function Bot:FetchChannelMessages(channel, nextId, limit, fromEnd)
 	limit = limit or 1000
+	fromEnd = fromEnd or false
 
+	local seenMessages = {}
 	local channelMessages = {}
 	while limit > 0 do
 		local requestLimit = math.min(limit, 100)
-		local messages, err = channel:getMessagesAfter(startId, requestLimit)
+		local messages, err
+		if fromEnd then
+			messages, err = channel:getMessagesBefore(nextId, requestLimit)
+		else
+			messages, err = channel:getMessagesAfter(nextId or channel.id, requestLimit)
+		end
+
 		if not messages then
 			return nil, err
 		end
 
-		messages:forEach(function (message)
-			table.insert(channelMessages, message)
-			startId = message.id
-		end)
+		if fromEnd then
+			for message in messages:iter() do
+				local messageId = message.id
+				if not seenMessages[messageId] then
+					seenMessages[messageId] = true
+					table.insert(channelMessages, message)
+
+					if not nextId or messageId < nextId then
+						nextId = messageId
+					end
+				end
+			end
+		else
+			for message in messages:iter() do
+				local messageId = message.id
+				if not seenMessages[messageId] then
+					seenMessages[messageId] = true
+					table.insert(channelMessages, message)
+
+					if not nextId or messageId > nextId then
+						nextId = messageId
+					end
+				end
+			end
+		end
 
 		if #messages < requestLimit then
 			break
