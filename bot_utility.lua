@@ -427,7 +427,7 @@ function Bot:FetchChannelMessages(channel, startId, limit)
 
 		messages:forEach(function (message)
 			table.insert(channelMessages, message)
-			lastId = message.id
+			startId = message.id
 		end)
 
 		if #messages < requestLimit then
