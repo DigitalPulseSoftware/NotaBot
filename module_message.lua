@@ -499,11 +499,12 @@ function Module:OnLoaded()
 			{Name = "channel", Type = Bot.ConfigType.Channel, Optional = true},
 			{Name = "afterMessage", Type = Bot.ConfigType.Message, Optional = true},
 			{Name = "limit", Type = Bot.ConfigType.Integer, Optional = true},
+			{Name = "fromFirstMessage", Type = Bot.ConfigType.Boolean, Optional = true},
 		},
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
 		Help = "Saves all messages posted in a channel in a json format",
-		Func = function (commandMessage, targetChannel, afterMessage, limit)
+		Func = function (commandMessage, targetChannel, afterMessage, limit, fromFirstMessage)
 			limit = limit or 1000
 			if commandMessage.member.id ~= Config.OwnerUserId then
 				-- Don't allow everyone to bypass limit and get all messages (would require a lot of API calls)
@@ -532,7 +533,7 @@ function Module:OnLoaded()
 
 			commandMessage.channel:broadcastTyping()
 
-			local messages, err = Bot:FetchChannelMessages(targetChannel, afterMessage and afterMessage.id or nil, limit)
+			local messages, err = Bot:FetchChannelMessages(targetChannel, afterMessage and afterMessage.id or nil, limit, not fromFirstMessage)
 			if not messages then
 				commandMessage:reply(string.format("An error occurred: %s", err))
 				return
