@@ -232,6 +232,10 @@ function API:commit(method, url, req, payload, retries)
 
 		end
 
+		if res.code == 400 then
+			client:error('Discord rejected request with message %s (payload: %s, traceback: %s)', msg, payload, debug.traceback())
+		end
+
 		client:error('%i - %s : %s %s', res.code, res.reason, method, url)
 		return nil, msg, delay
 

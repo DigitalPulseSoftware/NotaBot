@@ -18,8 +18,8 @@ local rules = {
 		Parameters = "<bool>",
 		Type = Bot.ConfigType.Boolean,
 		Check = function (member)
-			return member.premium_type == enums.premiumType.nitroClassic or
-			       member.premium_type == enums.premiumType.nitro
+			return member.premiumType == enums.premiumType.nitroClassic or
+			       member.premiumType == enums.premiumType.nitro
 		end
 	},
 	hypesquad = {
@@ -27,7 +27,7 @@ local rules = {
 		Parameters = "<bool>",
 		Type = Bot.ConfigType.Boolean,
 		Check = function (member)
-			local flags = member.user.public_flags or 0
+			local flags = member.user.publicFlags or 0
 			return band(flags, hypesquadFlags) ~= 0
 		end
 	},
@@ -36,7 +36,7 @@ local rules = {
 		Parameters = "<bool>",
 		Type = Bot.ConfigType.Boolean,
 		Check = function (member)
-			local flags = member.user.public_flags or 0
+			local flags = member.user.publicFlags or 0
 			return band(flags, enums.userFlag.discordEmployee) ~= 0
 		end
 	},
@@ -45,7 +45,7 @@ local rules = {
 		Parameters = "<bool>",
 		Type = Bot.ConfigType.Boolean,
 		Check = function (member)
-			local flags = member.user.public_flags or 0
+			local flags = member.user.publicFlags or 0
 			return band(flags, enums.userFlag.discordPartner) ~= 0
 		end
 	},
@@ -54,7 +54,7 @@ local rules = {
 		Parameters = "<bool>",
 		Type = Bot.ConfigType.Boolean,
 		Check = function (member)
-			local flags = member.user.public_flags or 0
+			local flags = member.user.publicFlags or 0
 			return band(flags, enums.userFlag.earlySupporter) ~= 0
 		end
 	},
@@ -63,7 +63,7 @@ local rules = {
 		Parameters = "<bool>",
 		Type = Bot.ConfigType.Boolean,
 		Check = function (member)
-			local flags = member.user.public_flags or 0
+			local flags = member.user.publicFlags or 0
 			return band(flags, enums.userFlag.verifiedBotDeveloper) ~= 0
 		end
 	},

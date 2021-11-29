@@ -9,6 +9,8 @@ local enums = discordia.enums
 
 discordia.extensions() -- load all helpful extensions
 
+local json = require("json")
+
 Module.Name = "modmail"
 
 function Module:GetConfigTable()
@@ -63,6 +65,12 @@ function Module:GetConfigTable()
 			Description = "How many time does a ticket channel take to be deleted after being closed",
 			Type = bot.ConfigType.Duration,
 			Default = 24 * 60 * 60
+		},
+		{
+			Name = "SaveTicketContent",
+			Description = "Should the bot save every message in a modmail ticket when closing them? (up to 2000 messages)",
+			Type = bot.ConfigType.Boolean,
+			Default = true
 		}
 	}
 end
@@ -270,10 +278,6 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 			ticketChannel:setName(ticketChannel.name .. "✅")
 
 			data.activeChannels[userId] = nil
-			table.insert(data.archivedChannels, {
-				channelId = ticketChannel.id,
-				closedAt = os.time()
-			})
 
 			if (config.ArchiveCategory and config.ArchiveCategory ~= ticketChannel.id) then
 				local archiveCategory = guild:getChannel(config.ArchiveCategory)
@@ -315,8 +319,33 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 							}
 						}
 					end
-		
-					channel:send({
+
+					local file
+					if config.SaveTicketContent then
+						local messages, err = Bot:FetchChannelMessages(ticketChannel, nil, 2000)
+						if not messages then
+							table.insert(fields, {
+								{
+									name = "⚠️ Failed to save ticket content",
+									value = string.format("error: %s", err)
+								}
+							})
+						end
+
+						local jsonSave = json.encode(bot:MessagesToTable(messages), { indent = 1})
+						file = {
+							"messages.json", 
+							jsonSave
+						}
+
+						fields = fields or {}
+						table.insert(fields, {
+							name = "🗒️ ticket content has been saved",
+							value = "Check attachment file"
+						})
+					end
+
+					local success, err = channel:send({
 						embed = {
 							author = author,
 							color = 16711680,
@@ -326,10 +355,20 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 								text = "UserID: " .. userId .. " | TicketID: " .. ticketChannel.id
 							},
 							timestamp = discordia.Date():toISO('T', 'Z')
-						}
+						},
+						file = file
 					})
+					if not success then
+						self:LogError(guild, "Failed to post closing ticket message (%s)", err)
+					end
 				end
 			end
+
+			-- Insert into archived channels once deletion is possible
+			table.insert(data.archivedChannels, {
+				channelId = ticketChannel.id,
+				closedAt = os.time()
+			})
 
 			return true
 		end
@@ -414,7 +453,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 				}
 			end
 
-			channel:send({
+			local success, err = channel:send({
 				embed = {
 					author = {
 						name = targetMember.tag,
@@ -429,6 +468,9 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 					timestamp = discordia.Date():toISO('T', 'Z')
 				}
 			})
+			if not success then
+				self:LogError(guild, "Failed to post opening ticket message (%s)", err)
+			end
 		end
 	end
 
@@ -454,7 +496,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 
 	if (reason and #reason > 0) then
 		local author = fromMember.user
-		ticketChannel:send({
+		local message, err = ticketChannel:send({
 			content = "Ticket message:",
 			embed = {
 				author = {
@@ -465,7 +507,13 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 				timestamp = discordia.Date():toISO()
 			}
 		})
+
+		if not message then
+			self:LogError(guild, "Failed to post reason message (%s)", err)
+		end
 	end
+
+	return true
 end
 
 function Module:OnReactionAdd(reaction, userId)

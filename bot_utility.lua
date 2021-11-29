@@ -412,3 +412,92 @@ function Bot:BuildQuoteEmbed(message, opt)
 		fields = fields
 	})
 end
+
+function Bot:FetchChannelMessages(channel, startId, limit)
+	startId = startId or channel.id
+	limit = limit or 1000
+
+	local channelMessages = {}
+	while limit > 0 do
+		local requestLimit = math.min(limit, 100)
+		local messages, err = channel:getMessagesAfter(startId, requestLimit)
+		if not messages then
+			return nil, err
+		end
+
+		messages:forEach(function (message)
+			table.insert(channelMessages, message)
+			lastId = message.id
+		end)
+
+		if #messages < requestLimit then
+			break
+		end
+
+		limit = limit - #messages
+	end
+
+	table.sort(channelMessages, function (a, b)
+		return a.id < b.id
+	end)
+
+	return channelMessages
+end
+
+function Bot:MessagesToTable(messages)
+	local authors = {}
+	local messageData = {}
+
+	for _, message in ipairs(messages) do
+		local author = message.member or message.author
+		if not authors[author.id] then
+			authors[author.id] = {
+				-- User fields
+				accentColor = author.accentColor and discordia.Color(author.accentColor):toHex() or nil,
+				avatar = author.avatar,
+				avatarURL = author.avatarURL,
+				banner = author.banner,
+				bot = author.bot,
+				createdAt = author.timestamp,
+				discriminator = author.discriminator,
+				flags = author.publicFlags,
+				premiumType = author.premiumType,
+				system = author.system,
+				username = author.username,
+
+				-- Member fields
+				color = (author.getColor and author:getColor() or discordia.Color()):toHex(),
+				joinedAt = author.joinedAt,
+				nickname = author.nickname,
+				premiumSince = author.premiumSince
+			}
+		end
+
+		local fields = {
+			author = message.author and message.author.id or nil,
+			content = #message.content > 0 and message.content or nil,
+			createdAt = message.timestamp,
+			embed = message.embed,
+			components = message.components,
+			interaction = message.interaction,
+			components = message.components,
+			tts = message.tts or nil
+		}
+	
+		local embed = message.embed
+		if (embed) then
+			embed.type = nil
+			local author = embed.author
+			if (author) then
+				author.proxy_icon_url = nil
+			end
+		end
+
+		table.insert(messageData, fields)
+	end
+
+	return {
+		authors = authors,
+		messages = messageData
+	}
+end

@@ -97,6 +97,14 @@ function Message:_loadMore(data)
 		self._referencedMessage = self._parent._messages:_insert(data.referenced_message)
 	end
 
+	if data.components then
+		self._components = #data.components > 0 and data.components or nil
+	end
+
+	if data.interaction then
+		self._interaction = data.interaction
+	end
+
 end
 
 function Message:_addReaction(d)
@@ -583,6 +591,16 @@ end
 this current message references as seen in replies.]=]
 function get.referencedMessage(self)
 	return self._referencedMessage
+end
+
+--[=[@p components table Sent if the message contains components like buttons, action rows, or other interactive components.]=]
+function get.components(self)
+	return self._components
+end
+
+--[=[@p interaction table Sent if the message is a response to an Interaction.]=]
+function get.interaction(self)
+	return self._interaction
 end
 
 --[=[@p link string URL that can be used to jump-to the message in the Discord client.]=]

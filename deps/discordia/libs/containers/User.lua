@@ -112,6 +112,16 @@ function User:sendf(content, ...)
 	end
 end
 
+--[=[
+@m getAccentColor
+@t mem
+@r Color
+@d Returns a color object that represents the user's accent color.
+]=]
+function User:getAccentColor()
+	return Color(self._accent_color or 0)
+end
+
 --[=[@p bot boolean Whether this user is a bot.]=]
 function get.bot(self)
 	return self._bot or false
@@ -168,6 +178,26 @@ end
 notification in the official Discord client.]=]
 function get.mentionString(self)
 	return format('<@%s>', self._id)
+end
+
+--[=[@p system boolean Whether this user is a part of the official urgent message system.]=]
+function get.system(self)
+	return self._system or false
+end
+
+--[=[@p accentColor integer The user's banner color encoded as an integer representation of hexadecimal color code.]=]
+function get.accentColor(self)
+	return self._accent_color or 0
+end
+
+--[=[@p premiumType integer The type of Nitro subscription on a user's account.]=]
+function get.premiumType(self)
+	return self._premium_type or 0
+end
+
+--[=[@p publicFlags integer Public flags on a user's account.]=]
+function get.publicFlags(self)
+	return self._public_flags or 0
 end
 
 --[=[@p mutualGuilds FilteredIterable A iterable cache of all guilds where this user shares a membership with the

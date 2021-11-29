@@ -197,7 +197,10 @@ local function GetMessageFields(message)
 	local fields = {
 		content = #message.content > 0 and message.content or nil,
 		embed = message.embed,
-		tts = message.tts or nil
+		tts = message.tts or nil,
+		interaction = message.interaction,
+		components = message.components,
+		sticker_items = message.sticker_items
 	}
 
 	local embed = message.embed
@@ -486,6 +489,65 @@ function Module:OnLoaded()
 			self:SaveGuildConfig(commandMessage.guild)
 
 			commandMessage:reply(string.format("%s will no longer trigger a reply", trigger))
+		end
+	})
+
+	self:RegisterCommand({
+		Name = "savechannelmessages",
+		Args = {
+			{Name = "channel", Type = Bot.ConfigType.Channel, Optional = true},
+			{Name = "afterMessage", Type = Bot.ConfigType.Message, Optional = true},
+			{Name = "limit", Type = Bot.ConfigType.Integer, Optional = true},
+		},
+		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+
+		Help = "Saves all messages posted in a channel in a json format",
+		Func = function (commandMessage, targetChannel, afterMessage, limit)
+			limit = limit or 1000
+			if commandMessage.member.id ~= Config.OwnerUserId then
+				-- Don't allow everyone to bypass limit and get all messages (would require a lot of API calls)
+				if limit > 1000 then
+					commandMessage:reply("Only bot owner can ask to retrieve more than 1000+ messages at once, due to the number of API calls required to fetch messages")
+					return
+				end
+
+				limit = math.min(limit, 1000)
+			end
+
+			if afterMessage then
+				if targetChannel then
+					if targetChannel ~= afterMessage.channel then
+						commandMessage:reply("Target message doesn't belong to that channel")
+						return
+					end
+				else
+					targetChannel = afterMessage.channel
+				end
+			end
+
+			if not targetChannel then
+				targetChannel = commandMessage.channel
+			end
+
+			commandMessage.channel:broadcastTyping()
+
+			local messages, err = Bot:FetchChannelMessages(targetChannel, afterMessage and afterMessage.id or nil, limit)
+			if not messages then
+				commandMessage:reply(string.format("An error occurred: %s", err))
+				return
+			end
+
+			local messageData = bot:MessagesToTable(messages)
+			messageData.requestedBy = commandMessage.member.id
+			
+			local jsonSave = json.encode(messageData, { indent = 1})
+			commandMessage:reply({ 
+				content = string.format("%d message(s) of channel %s have been saved to following file", #messages, targetChannel.mentionString),
+				file = {
+					"messages.json", 
+					jsonSave
+				}
+			})
 		end
 	})
 
