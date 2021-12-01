@@ -140,7 +140,7 @@ function Module:OnMessageCreate(message)
     table.insert(cachedMessages, message)
 
     local messageCacheSize = self.GlobalConfig.PersistentMessageCacheSize
-    while #cachedMessages > messageCacheSize then
+    while #cachedMessages > messageCacheSize do
         table.remove(cachedMessages, 1)
     end
 end
