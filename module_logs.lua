@@ -23,19 +23,41 @@ function Module:GetConfigTable()
             Type = bot.ConfigType.Channel,
             Array = true,
             Default = {}
-        }
+        },
+		{
+			Global = true,
+			Name = "PersistentMessageCacheSize",
+			Description = "How many of the last messages of every text channel should stay in bot memory?",
+			Type = bot.ConfigType.Integer,
+			Default = 50
+		},
 	}
 end
 
 function Module:OnEnable(guild)
-    -- Cache last 20 messages in every text channel
+    local data = self:GetData(guild)
+
+    -- Keep a reference to the last X messages of every text channel
+    local messageCacheSize = self.GlobalConfig.PersistentMessageCacheSize
+    data.cachedMessages = {}
+
 	coroutine.wrap(function ()
         for _, channel in pairs(guild.textChannels) do
-            channel:getMessages(20)
+            data.cachedMessages[channel.id] = Bot:FetchChannelMessages(channel, nil, messageCacheSize, true)
         end
     end)()
 
 	return true
+end
+
+function Module:OnChannelDelete(channel)
+	local guild = channel.guild
+    if not guild then
+        return
+    end
+
+    local data = self:GetData(guild)
+    data.cachedMessages[channel.id] = nil
 end
 
 function Module:OnMessageDelete(message)
@@ -99,4 +121,26 @@ function Module:OnMessageDeleteUncached(channel, messageId)
             timestamp = discordia.Date():toISO('T', 'Z')
         }
 	})
+end
+
+function Module:OnMessageCreate(message)
+	local guild = message.guild
+    if not guild then
+        return
+    end
+
+    local data = self:GetData(guild)
+    local cachedMessages = data.cachedMessages[message.channel.id]
+    if not cachedMessages then
+        cachedMessages = {}
+        data.cachedMessages[message.channel.id] = cachedMessages
+    end
+
+    -- Remove oldest message from permanent cache and add the new message
+    table.insert(cachedMessages, message)
+
+    local messageCacheSize = self.GlobalConfig.PersistentMessageCacheSize
+    while #cachedMessages > messageCacheSize then
+        table.remove(cachedMessages, 1)
+    end
 end
