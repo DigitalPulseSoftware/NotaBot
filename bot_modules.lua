@@ -135,6 +135,7 @@ local configTypeValidation = {
 
 		return true
 	end,
+	[Bot.ConfigType.Guild] = util.ValidateSnowflake,
 	[Bot.ConfigType.Number] = function (value)
 		if (type(value) ~= "number") then
 			return false, "number expected"

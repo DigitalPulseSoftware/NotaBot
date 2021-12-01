@@ -57,13 +57,14 @@ Bot.ConfigType = enums.enum {
 	Custom   = 3,
 	Duration = 4,
 	Emoji    = 5,
-	Integer  = 6,
-	Member   = 7,
-	Message  = 8,
-	Number   = 9,
-	Role     = 10,
-	String   = 11,
-	User	 = 12
+	Guild    = 6,
+	Integer  = 7,
+	Member   = 8,
+	Message  = 9,
+	Number   = 10,
+	Role     = 11,
+	String   = 12,
+	User	 = 13
 }
 
 Bot.ConfigTypeString = {}
@@ -88,6 +89,10 @@ Bot.ConfigTypeToString = {
 		return emojiData and emojiData.MentionString or "<Invalid emoji>"
 	end,
 	[Bot.ConfigType.Integer] = tostring,
+	[Bot.ConfigType.Guild] = function (value)
+		local guild = client:getGuild(value)
+		return guild and guild.name or "<Unknown guild>"
+	end,
 	[Bot.ConfigType.Member] = function (value, guild)
 		local member = guild:getMember(value)
 		return member and member.user.mentionString or "<Invalid member>"
@@ -135,11 +140,23 @@ Bot.ConfigTypeParameter = {
 		return string.ConvertToTime(value)
 	end,
 	[Bot.ConfigType.Emoji] = function (value, guild)
-		local emojiData = Bot:DecodeEmoji(guild, value)
-		return emojiData
+		return Bot:DecodeEmoji(guild, value)
 	end,
 	[Bot.ConfigType.Integer] = function (value, guild)
 		return tonumber(value:match("^(%d+)$"))
+	end,
+	[Bot.ConfigType.Guild] = function (value)
+		local success, err = util.ValidateSnowflake(value)
+		if not success then
+			return nil, err
+		end
+	
+		local guild = client:getGuild(value)
+		if not guild then
+			return nil, value .. " is not a guild I know"
+		end
+
+		return guild
 	end,
 	[Bot.ConfigType.Member] = function (value, guild)
 		return Bot:DecodeMember(guild, value)
@@ -179,7 +196,7 @@ Bot.ConfigTypeParser = {
 			return nil, "expected category"
 		end
 
-		return channel and channel.id
+		return channel.id
 	end,
 	[Bot.ConfigType.Channel] = function (value, guild)
 		local channel = Bot:DecodeChannel(guild, value)
@@ -197,6 +214,19 @@ Bot.ConfigTypeParser = {
 	end,
 	[Bot.ConfigType.Integer] = function (value, guild)
 		return tonumber(value:match("^(%d+)$"))
+	end,
+	[Bot.ConfigType.Guild] = function (value)
+		local success, err = util.ValidateSnowflake(value)
+		if not success then
+			return nil, err
+		end
+	
+		local guild = client:getGuild(value)
+		if not guild then
+			return nil, value .. " is not a guild I know"
+		end
+
+		return guild.id
 	end,
 	[Bot.ConfigType.Member] = function (value, guild)
 		local member = Bot:DecodeMember(guild, value)

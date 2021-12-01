@@ -316,7 +316,23 @@ end
 
 function EventHandler.MESSAGE_CREATE(d, client)
 	local channel = getChannel(client, d.channel_id)
-	if not channel then return warning(client, 'TextChannel', d.channel_id, 'MESSAGE_CREATE') end
+	if not channel then 
+		if not d.guild_id then
+			-- private message
+			local user = client:getUser(d.author.id)
+			if not user then
+				return warning(client, 'TextChannel', d.channel_id, 'MESSAGE_CREATE')
+			end
+			
+			user:_load(d.author)
+			channel = user:getPrivateChannel()
+			if not channel then
+				return warning(client, 'TextChannel', d.channel_id, 'MESSAGE_CREATE')
+			end
+		else
+			return warning(client, 'TextChannel', d.channel_id, 'MESSAGE_CREATE')
+		end
+	end
 	local message = channel._messages:_insert(d)
 	return client:emit('messageCreate', message)
 end
