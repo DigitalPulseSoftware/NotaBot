@@ -35,6 +35,11 @@ function Module:OnMessageCreate(message)
 		return
 	end
 
+	if client.user.id == message.author.id then
+		-- Ignore own messages
+		return
+	end
+
 	if not self.GlobalConfig.TargetGuild or not self.GlobalConfig.TargetChannel then
 		return
 	end
