@@ -152,8 +152,7 @@ function Module:OnMessageCreate(message)
 		return
 	end
 
-	if client.user.id == message.author.id then
-		-- Ignore own messages
+	if (message.author.bot) then
 		return
 	end
 
