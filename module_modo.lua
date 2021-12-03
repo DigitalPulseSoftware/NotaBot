@@ -315,7 +315,7 @@ function Module:HandleEmojiAdd(userId, message)
 					value = content
 				},
 				{
-					name = "Actions",
+					name = "Action history",
 					value = "None"
 				}
 			},
