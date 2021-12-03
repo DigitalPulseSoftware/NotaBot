@@ -103,16 +103,26 @@ function Module:OnEnable(guild)
 	local data = self:GetPersistentData(guild)
 	data.MutedUsers = data.MutedUsers or {}
 	data.ReportedMessages = data.ReportedMessages or {}
+	data.AlertMessages = data.AlertMessages or {}
 
 	self:LogInfo(guild, "Checking mute role permission on all channels...")
 
 	if (config.MuteRole) then
-		for _, channel in pairs(guild.textChannels) do
-			self:CheckTextMutePermissions(channel)
-		end
-
-		for _, channel in pairs(guild.voiceChannels) do
-			self:CheckVoiceMutePermissions(channel)
+		local mutedRole = guild:getRole(config.MuteRole)
+		if (mutedRole) then
+			for _, channel in pairs(guild.textChannels) do
+				self:CheckTextMutePermissions(channel)
+			end
+	
+			for _, channel in pairs(guild.voiceChannels) do
+				self:CheckVoiceMutePermissions(channel)
+			end
+	
+			self:LogError(channel.guild, "Invalid muted role")
+			return
+		else
+			config.MuteRole = nil
+			self:SaveGuildConfig(guild)
 		end
 	else
 		self:LogWarning(guild, "No mute role has been set")
@@ -162,6 +172,20 @@ function Module:CheckVoiceMutePermissions(channel)
 	DenyPermission(permissions, enums.permission.speak)
 end
 
+local function GenerateJumpToComponents(message)
+	return {
+		type = enums.componentType.actionRow,
+		components = {
+			{
+				type = enums.componentType.button,
+				style = enums.buttonStyle.link,
+				url = bot:GenerateMessageLink(message),
+				label = "Jump to message"
+			}		
+		}
+	}
+end
+
 function Module:HandleEmojiAdd(userId, message)
 	if (message.author.bot) then
 		-- Ignore bot
@@ -184,7 +208,10 @@ function Module:HandleEmojiAdd(userId, message)
 	end
 
 	local alertChannel = client:getChannel(config.AlertChannel)
-	assert(alertChannel)
+	if not alertChannel then
+		self:LogError(channel.guild, "Failed to get alert channel")
+		return
+	end
 
 	local data = self:GetPersistentData(guild)
 
@@ -201,7 +228,7 @@ function Module:HandleEmojiAdd(userId, message)
 		local reporters = {}
 		for _,reporterId in pairs(reportedMessage.ReporterIds) do
 			local user = client:getUser(reporterId)
-			table.insert(reporters, user.mentionString)
+			table.insert(reporters, user and user.mentionString or "<failed to get user>")
 		end
 
 		reportedMessage.Embed.title = #reporters .. " users reported a message"
@@ -213,33 +240,48 @@ function Module:HandleEmojiAdd(userId, message)
 			alertMessage:setEmbed(reportedMessage.Embed)
 		end
 
-		local reporterCount = #reporters
-		if (config.MuteThreshold > 0 and reporterCount >= config.MuteThreshold and not reportedMessage.MuteApplied) then
-			-- Auto-mute
-			if (config.muteRole) then
-				local reportedUser = client:getUser(reportedMessage.ReportedUserId)
-				if (self:Mute(guild, reportedMessage.ReportedUserId)) then
-					local messageLink = alertMessage and bot:GenerateMessageLink(alertMessage) or "<error>"
-
-					local durationStr = util.FormatTime(config.MuteDuration, 2)
-					alertChannel:send(string.format("%s has been auto-muted for %s\n<%s>", reportedUser.mentionString, durationStr, messageLink))
-					message.channel:send(string.format("%s has been auto-muted for %s due to reporting", reportedUser.mentionString, durationStr, messageLink))
-				else
-					alertChannel:send(string.format("Failed to mute %s", reportedUser.mentionString))
+		if not reportedMessage.Dismissed then
+			local reporterCount = #reporters
+			if (config.MuteThreshold > 0 and reporterCount >= config.MuteThreshold and not reportedMessage.MuteApplied) then
+				-- Auto-mute
+				if (config.muteRole) then
+					local reportedUser = client:getUser(reportedMessage.ReportedUserId)
+					if (self:Mute(guild, reportedMessage.ReportedUserId)) then
+						local durationStr = util.FormatTime(config.MuteDuration, 2)
+						alertChannel:send({
+							content = string.format("%s has been auto-muted for %s", reportedUser.mentionString, durationStr),
+							reference = alertMessage and {
+								message = alertMessage.id
+							} or nil
+						})
+						message.channel:send(string.format("%s has been auto-muted for %s due to reporting", reportedUser.mentionString, durationStr, messageLink))
+					else
+						alertChannel:send({
+							content = string.format("Failed to mute %s", reportedUser.mentionString),
+							reference = alertMessage and {
+								message = alertMessage.id
+							} or nil
+						})
+					end
 				end
+
+				reportedMessage.MuteApplied = true
 			end
 
-			reportedMessage.MuteApplied = true
-		end
+			if (config.ModeratorPingThreshold > 0 and reporterCount >= config.ModeratorPingThreshold and not reportedMessage.ModeratorPinged) then
+				-- Ping moderators
+				local moderatorRole = guild:getRole(config.ModeratorRole)
+				if (moderatorRole) then
+					alertChannel:send({
+						content = string.format("A message has been reported %d times %s\n<%s>", reporterCount, moderatorRole.mentionString, messageLink),
+						reference = alertMessage and {
+							message = alertMessage.id
+						} or nil
+					})
+				end
 
-		if (config.ModeratorPingThreshold > 0 and reporterCount >= config.ModeratorPingThreshold and not reportedMessage.ModeratorPinged) then
-			-- Ping moderators
-			local moderatorRole = guild:getRole(config.ModeratorRole)
-			if (moderatorRole) then
-				alertChannel:send(string.format("A message has been reported %d times %s\n<%s>", reporterCount, moderatorRole.mentionString, alertMessage and bot:GenerateMessageLink(alertMessage) or "<error>"))
+				reportedMessage.ModeratorPinged = true
 			end
-
-			reportedMessage.ModeratorPinged = true
 		end
 	else
 		local reporterUser = client:getUser(userId)
@@ -275,15 +317,110 @@ function Module:HandleEmojiAdd(userId, message)
 					value = content
 				},
 				{
-					name = "Message Link",
-					value = bot:GenerateMessageLink(message)
+					name = "Actions",
+					value = "None"
 				}
 			},
 			timestamp = discordia.Date():toISO('T', 'Z')
 		}
 
+		local actionButtons = {
+			{
+				type = enums.componentType.button,
+				custom_id = "alertmodule_dismiss",
+				style = enums.buttonStyle.secondary,
+				label = "Dismiss alert",
+				emoji = { name = "🔇" }
+			},
+			{
+				type = enums.componentType.button,
+				custom_id = "alertmodule_deletemessage",
+				style = enums.buttonStyle.primary,
+				label = "Delete message",
+				emoji = { name = "🗑️" }
+			}
+		}
+
+		local components = { GenerateJumpToComponents(message) }
+		table.insert(components, {
+			type = enums.componentType.actionRow,
+			components = actionButtons
+		})
+
+		if (Bot:GetModuleForGuild(guild, "modmail")) then
+			table.insert(actionButtons, {
+				type = enums.componentType.button,
+				custom_id = "alertmodule_modmail",
+				style = enums.buttonStyle.primary,
+				label = "Open a modmail ticket",
+				emoji = { name = "⚠️" }
+			})
+		end
+
+		do
+			-- Mute
+			local muteDurations = { 10 * 60, 60 * 60, 6 * 60 * 60, 24 * 60 * 60, 0 }
+			local options = {}
+			for _, duration in pairs(muteDurations) do
+				table.insert(options, {
+					label = duration > 0 and "Mute for " .. util.FormatTime(duration) or "Mute indefinitely",
+					value = tostring(duration)
+				})
+			end
+
+			table.insert(components, {
+				type = enums.componentType.actionRow,
+				components = {
+					{
+						type = enums.componentType.selectMenu,
+						custom_id = "alertmodule_mute",
+						placeholder = "🙊 Mute member",
+						disabled = Bot:GetModuleForGuild(guild, "mute") == nil,
+						options = options
+					}
+				}
+			})
+		end
+
+		local tempBanAvailable = Bot:GetModuleForGuild(guild, "mute") ~= nil
+		do
+			-- Ban
+			local banDurations = { 60 * 60, 6 * 60 * 60, 24 * 60 * 60, 7 * 24 * 60 * 60 }
+			local options = {}
+			for _, duration in pairs(banDurations) do
+				table.insert(options, {
+					label = "Ban for " .. util.FormatTime(duration),
+					value = tostring(duration),
+					disabled = not tempBanAvailable
+				})
+			end
+
+			table.insert(options, {
+				label = "Ban permanently",
+				value = "0"
+			})
+
+			table.insert(options, {
+				label = "Ban permanently and delete last 24h messages",
+				value = "0_deletemessages"
+			})
+
+			table.insert(components, {
+				type = enums.componentType.actionRow,
+				components = {
+					{
+						type = enums.componentType.selectMenu,
+						custom_id = "alertmodule_ban",
+						placeholder = "🔨 Ban member",
+						options = options
+					}
+				}
+			})
+		end
+
 		local alertMessage = alertChannel:send({
-			embed = embedContent
+			embed = embedContent,
+			components = components
 		})
 
 		if (not alertMessage) then
@@ -291,11 +428,18 @@ function Module:HandleEmojiAdd(userId, message)
 		end
 
 		data.ReportedMessages[message.id] = {
-			AlertMessageId = alertMessage and alertMessage.id,
+			AlertMessageId = alertMessage and alertMessage.id or nil,
+			ChannelId = message.channel.id,
+			Dismissed = false,
 			Embed = embedContent,
+			MessageId = message.id,
 			ReportedUserId = message.author.id,
 			ReporterIds = { userId }
 		}
+
+		if alertMessage then
+			data.AlertMessages[alertMessage.id] = data.ReportedMessages[message.id]
+		end
 	end
 end
 
@@ -358,6 +502,270 @@ function Module:OnChannelCreate(channel)
 		self:CheckTextMutePermissions(channel)
 	elseif (channel.type == enums.channelType.voice) then
 		self:CheckVoiceMutePermissions(channel)
+	end
+end
+
+function Module:OnInteractionCreate(interaction)
+	local guild = interaction.guild
+	if not guild then
+		return
+	end
+
+	local data = self:GetPersistentData(guild)
+	local alertMessage = data.AlertMessages[interaction.message.id]
+	if not alertMessage then
+		-- Not our job
+		return
+	end
+
+	local moderator = interaction.member
+
+	local actionStr
+
+	local interactionType = interaction.data.custom_id
+	if interactionType == "alertmodule_dismiss" then
+		alertMessage.Dismissed = true
+
+		interaction:respond({
+			type = enums.interactionResponseType.channelMessageWithSource,
+			data = {
+				content = "✅ Alert has been dismissed (it won't trigger mute nor ping)",
+				flags = enums.interactionResponseFlag.ephemeral
+			}
+		})
+
+		actionStr = "Dismissed by " .. moderator.mentionString
+	elseif interactionType == "alertmodule_deletemessage" then
+		-- "Waiting"
+		interaction:respond({
+			type = enums.interactionResponseType.deferredChannelMessageWithSource,
+			data = {
+				flags = enums.interactionResponseFlag.ephemeral
+			}
+		})
+
+		local channel, err = client:getChannel(alertMessage.ChannelId)
+		if not channel then
+			interaction:editResponse({
+				content = string.format("❌ failed to retrieve message channel: %s", err)
+			})
+			return
+		end
+
+		local message, err = channel:getMessage(alertMessage.MessageId)
+		if not message then
+			interaction:editResponse({
+				content = string.format("❌ failed to retrieve message: %s", err)
+			})
+			return
+		end
+
+		local success, err = message:delete()
+		if not success then
+			interaction:editResponse({
+				content = string.format("❌ failed to delete message: %s", err)
+			})
+			return
+		end
+
+		interaction:editResponse({
+			content = "✅ the message was deleted"
+		})
+
+		actionStr = "Deleted by " .. moderator.mentionString
+	elseif interactionType == "alertmodule_modmail" then
+		local modmail = Bot:GetModuleForGuild(guild, "modmail")
+		if not modmail then
+			interaction:respond({
+				type = enums.interactionResponseType.channelMessageWithSource,
+				data = {
+					content = "❌ The modmail module isn't enabled on this server",
+					flags = enums.interactionResponseFlag.ephemeral
+				}
+			})
+			return
+		end
+
+		-- "Waiting"
+		interaction:respond({
+			type = enums.interactionResponseType.deferredChannelMessageWithSource,
+			data = {
+				flags = enums.interactionResponseFlag.ephemeral
+			}
+		})
+
+		local targetMember, err = guild:getMember(alertMessage.ReportedUserId)
+		if not targetMember then
+			interaction:editResponse({
+				content = string.format("❌ failed to retrieve member: %s", err)
+			})
+			return
+		end
+
+		local reason = string.format("%s has opened a ticket following your message (<https://discord.com/channels/%s>)", moderator.mentionString, guild.id, alertMessage.ChannelId, alertMessage.MessageId)
+		local success, err = modmail:OpenTicket(moderator, targetMember, reason, true)
+		if not success then
+			interaction:editResponse({
+				content = string.format("❌ failed to open modmail ticket: %s", err)
+			})
+			return
+		end
+
+		interaction:editResponse({
+			content = "✅ a modmail ticket has been created"
+		})
+
+		actionStr = "Modmail ticket opened by " .. moderator.mentionString
+	elseif interactionType == "alertmodule_mute" then
+		local mute = Bot:GetModuleForGuild(guild, "mute")
+		if not mute then
+			interaction:respond({
+				type = enums.interactionResponseType.channelMessageWithSource,
+				data = {
+					content = "❌ The mute module isn't enabled on this server",
+					flags = enums.interactionResponseFlag.ephemeral
+				}
+			})
+			return
+		end
+
+		local duration = interaction.data.values and tonumber(interaction.data.values[1]) or nil
+		if not duration then
+			interaction:respond({
+				type = enums.interactionResponseType.channelMessageWithSource,
+				data = {
+					content = "❌ an error occurred (invalid duration)",
+					flags = enums.interactionResponseFlag.ephemeral
+				}
+			})
+			return
+		end
+
+		-- "Waiting"
+		interaction:respond({
+			type = enums.interactionResponseType.deferredChannelMessageWithSource,
+			data = {
+				flags = enums.interactionResponseFlag.ephemeral
+			}
+		})
+
+		local success, err = mute:Mute(guild, alertMessage.ReportedUserId, duration)
+		if not success then
+			interaction:editResponse({
+				content = string.format("❌ failed to open mute member: %s", err)
+			})
+			return
+		end
+
+		interaction:editResponse({
+			content = "✅ the member has been muted for " .. util.FormatTime(duration)
+		})
+
+		actionStr = "Muted for " .. util.FormatTime(duration) .. " by " .. moderator.mentionString
+	elseif interactionType == "alertmodule_ban" then
+		local duration = interaction.data.values and tonumber(interaction.data.values[1]) or nil
+		if duration == "0" or duration == "0_deletemessages" then
+			-- "Waiting"
+			interaction:respond({
+				type = enums.interactionResponseType.deferredChannelMessageWithSource,
+				data = {
+					flags = enums.interactionResponseFlag.ephemeral
+				}
+			})
+
+			local purgeDays = duration == "0_deletemessages" and 1 or 0
+
+			local reason = "banned by " .. moderator.name .. " via alert"
+
+			local success, err = guild:banUser(alertMessage.ReportedUserId, "banned by " .. moderator.name .. " via alert", purgeDays)
+			if not success then
+				interaction:editResponse({
+					content = string.format("❌ failed to open ban user: %s", err)
+				})
+				return
+			end
+
+			local ban = Bot:GetModuleForGuild(guild, "ban")
+			if ban then
+				ban:RegisterBan(guild, alertMessage.ReportedUserId, moderator, 0, reason)
+			end
+
+			interaction:editResponse({
+				content = "✅ the member has been banned" .. (purgeDays > 0 and " (and its last 24h message deleted)" or "")
+			})
+	
+			actionStr = "banned permanently by " .. moderator.mentionString .. (purgeDays > 0 and " (last 24h message deleted)" or "")
+		else
+			duration = duration and tonumber(duration) or nil
+			if not duration then
+				interaction:respond({
+					type = enums.interactionResponseType.channelMessageWithSource,
+					data = {
+						content = "❌ an error occurred (invalid duration)",
+						flags = enums.interactionResponseFlag.ephemeral
+					}
+				})
+				return
+			end
+
+			-- Temp ban
+			local ban = Bot:GetModuleForGuild(guild, "ban")
+			if not ban then
+				interaction:respond({
+					type = enums.interactionResponseType.channelMessageWithSource,
+					data = {
+						content = "❌ The ban module isn't enabled on this server (and is required for temporary ban)",
+						flags = enums.interactionResponseFlag.ephemeral
+					}
+				})
+				return
+			end
+
+			-- "Waiting"
+			interaction:respond({
+				type = enums.interactionResponseType.deferredChannelMessageWithSource,
+				data = {
+					flags = enums.interactionResponseFlag.ephemeral
+				}
+			})
+
+			local durationStr = util.FormatTime(duration)
+
+			local success, err = guild:banUser(alertMessage.ReportedUserId, "banned by " .. moderator.name .. " via alert for " .. durationStr)
+			if not success then
+				interaction:editResponse({
+					content = string.format("❌ failed to open ban user: %s", err)
+				})
+				return
+			end
+
+			ban:RegisterBan(guild, alertMessage.ReportedUserId, moderator, duration, reason)
+
+			interaction:editResponse({
+				content = "✅ the member has been banned for " .. durationStr
+			})
+	
+			actionStr = "banned for " .. durationStr .. " by " .. moderator.mentionString
+		end
+	else
+		interaction:respond({
+			type = enums.interactionResponseType.channelMessageWithSource,
+			data = {
+				content = "❌ an error occurred (unknown interaction type " .. tostring(interactionType) .. ")"
+			}
+		})
+		return
+	end
+
+	if actionStr then
+		local currentActionStr = alertMessage.Embed.fields[5].value
+		if currentActionStr == "None" then
+			alertMessage.Embed.fields[5].value = actionStr
+		else
+			alertMessage.Embed.fields[5].value = currentActionStr .. "\n" .. actionStr
+		end
+
+		interaction.message:setEmbed(alertMessage.Embed)
 	end
 end
 
