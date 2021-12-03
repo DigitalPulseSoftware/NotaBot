@@ -661,7 +661,7 @@ function Module:OnInteractionCreate(interaction)
 
 		actionStr = "Muted for " .. util.FormatTime(duration) .. " by " .. moderator.mentionString
 	elseif interactionType == "alertmodule_ban" then
-		local duration = interaction.data.values and tonumber(interaction.data.values[1]) or nil
+		local duration = interaction.data.values and interaction.data.values[1] or nil
 		if duration == "0" or duration == "0_deletemessages" then
 			-- "Waiting"
 			interaction:respond({
