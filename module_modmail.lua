@@ -290,7 +290,7 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 			if (ticketMember) then
 				local permissions = ticketChannel:getPermissionOverwriteFor(ticketMember)
 
-				if (not permissions or not permissions:setPermissions(enums.permission.readMessages, enums.permission.sendMessages)) then
+				if (not permissions or not permissions:setPermissions(enums.permission.viewChannel, enums.permission.sendMessages)) then
 					ticketChannel:sendf("Failed to deny send messages permission to %s.", ticketMember.mentionString)
 				end
 
@@ -382,7 +382,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 
 	if (data.activeChannels[targetMember.user.id]) then
 		if (targetMember == fromMember) then
-			return false, string.format("You already have an active ticket on this server, %s.", targetMember.user.mentionString)
+			return false, string.format("you already have an active ticket on this server, %s.", targetMember.user.mentionString)
 		else
 			return false, string.format("%s already has an active ticket on this server.", targetMember.user.tag, targetMember.user.mentionString)
 		end
@@ -391,12 +391,12 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 	end
 
 	if (config.MaxConcurrentChannels > 0 and table.count(data.activeChannels) >= config.MaxConcurrentChannels) then
-		return false, string.format("Sorry %s, but there are actually too many tickets open at the same time, please retry in a moment", fromMember.user.mentionString)
+		return false, string.format("sorry %s, but there are actually too many tickets open at the same time, please retry in a moment", fromMember.user.mentionString)
 	end
 
 	local modmailCategory = guild:getChannel(config.Category)
 	if (not modmailCategory or modmailCategory.type ~= enums.channelType.category) then
-		return false, "This server is not well configured, please tell the admins!"
+		return false, "this server is not well configured, please tell the admins!"
 	end
 
 	local filteredUsername = targetMember.user.username:gsub("[^%w]", ""):sub(1, 8)
@@ -416,7 +416,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 		return false, "failed to create the channel, this is likely a bug."
 	end
 
-	local allowedPermissions = enums.permission.readMessages
+	local allowedPermissions = enums.permission.viewChannel
 	local deniedPermissions = 0
 	if (twoWays) then
 		allowedPermissions = bit.bor(allowedPermissions, enums.permission.sendMessages)

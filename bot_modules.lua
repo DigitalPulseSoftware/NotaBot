@@ -29,6 +29,9 @@ local discordiaEvents = {
 	["guildUpdate"] = function (guild) return guild end,
 	["heartbeat"] = function (shardId, latency) end,
 	["info"] = function (message) end,
+	["interactionCreate"] = function (interaction) 
+		return interaction.guild
+	end,
 	["memberJoin"] = function (member) return member.guild end,
 	["memberLeave"] = function (member) return member.guild end,
 	["memberUpdate"] = function (member) return member.guild end,

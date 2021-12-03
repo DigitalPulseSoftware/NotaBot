@@ -294,7 +294,7 @@ function Module:ParseContentParameter(content, commandMessage)
 			return messageData
 		else
 			local message = bot:DecodeMessage(content, false, true)
-			if (message and message.member:hasPermission(message.channel, enums.permission.readMessages)) then
+			if (message and message.member:hasPermission(message.channel, enums.permission.viewChannel)) then
 				return GetMessageFields(message)
 			else
 				return {
@@ -400,7 +400,7 @@ function Module:OnLoaded()
 			local member = commandMessage.member
 
 			channel = channel or commandMessage.channel
-			if (not member:hasPermission(channel, enums.permission.readMessages) or not member:hasPermission(channel, enums.permission.sendMessages)) then
+			if (not member:hasPermission(channel, enums.permission.viewChannel) or not member:hasPermission(channel, enums.permission.sendMessages)) then
 				commandMessage:reply("You don't have the permission to send messages in that channel")
 				return
 			end
@@ -433,7 +433,7 @@ function Module:OnLoaded()
 			end
 
 			local member = commandMessage.member
-			if (not member:hasPermission(message.channel, enums.permission.readMessages) or not member:hasPermission(message.channel, enums.permission.sendMessages)) then
+			if (not member:hasPermission(message.channel, enums.permission.viewChannel) or not member:hasPermission(message.channel, enums.permission.sendMessages)) then
 				commandMessage:reply("You don't have the permission to send messages in that channel")
 				return
 			end

@@ -1,6 +1,7 @@
 local enums = require('enums')
 local json = require('json')
 
+local Interaction = require('containers/Interaction')
 local channelType = enums.channelType
 local insert = table.insert
 local null = json.null
@@ -312,6 +313,10 @@ function EventHandler.GUILD_ROLE_DELETE(d, client) -- role object not provided
 	local role = guild._roles:_delete(d.role_id)
 	if not role then return warning(client, 'Role', d.role_id, 'GUILD_ROLE_DELETE') end
 	return client:emit('roleDelete', role)
+end
+
+function EventHandler.INTERACTION_CREATE(d, client)
+	return client:emit('interactionCreate', Interaction(d, client))
 end
 
 function EventHandler.MESSAGE_CREATE(d, client)

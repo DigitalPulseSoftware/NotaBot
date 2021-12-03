@@ -32,6 +32,10 @@ end
 
 local enums = {enum = enum}
 
+local function flag(n)
+	return tonumber(tostring(bit.lshift(1ULL, n)):match('%d*'))
+end
+
 enums.defaultAvatar = enum {
 	blurple = 0,
 	gray    = 1,
@@ -103,6 +107,15 @@ enums.activityType = enum {
 	custom    = 4,
 }
 
+enums.activityFlag = enum {
+	instance    = flag(0),
+	join        = flag(1),
+	spectate    = flag(2),
+	joinRequest = flag(3),
+	sync        = flag(4),
+	play        = flag(5),
+}
+
 enums.status = enum {
 	online = 'online',
 	idle = 'idle',
@@ -139,44 +152,51 @@ enums.premiumTier = enum {
 }
 
 enums.permission = enum {
-	createInstantInvite = 0x00000001,
-	kickMembers         = 0x00000002,
-	banMembers          = 0x00000004,
-	administrator       = 0x00000008,
-	manageChannels      = 0x00000010,
-	manageGuild         = 0x00000020,
-	addReactions        = 0x00000040,
-	viewAuditLog        = 0x00000080,
-	prioritySpeaker     = 0x00000100,
-	stream              = 0x00000200,
-	readMessages        = 0x00000400,
-	sendMessages        = 0x00000800,
-	sendTextToSpeech    = 0x00001000,
-	manageMessages      = 0x00002000,
-	embedLinks          = 0x00004000,
-	attachFiles         = 0x00008000,
-	readMessageHistory  = 0x00010000,
-	mentionEveryone     = 0x00020000,
-	useExternalEmojis   = 0x00040000,
-	connect             = 0x00100000,
-	speak               = 0x00200000,
-	muteMembers         = 0x00400000,
-	deafenMembers       = 0x00800000,
-	moveMembers         = 0x01000000,
-	useVoiceActivity    = 0x02000000,
-	changeNickname      = 0x04000000,
-	manageNicknames     = 0x08000000,
-	manageRoles         = 0x10000000,
-	manageWebhooks      = 0x20000000,
-	manageEmojis        = 0x40000000,
+	createInstantInvite = flag(0),
+	kickMembers         = flag(1),
+	banMembers          = flag(2),
+	administrator       = flag(3),
+	manageChannels      = flag(4),
+	manageGuild         = flag(5),
+	addReactions        = flag(6),
+	viewAuditLog        = flag(7),
+	prioritySpeaker     = flag(8),
+	stream              = flag(9),
+	viewChannel         = flag(10),
+	sendMessages        = flag(11),
+	sendTextToSpeech    = flag(12),
+	manageMessages      = flag(13),
+	embedLinks          = flag(14),
+	attachFiles         = flag(15),
+	readMessageHistory  = flag(16),
+	mentionEveryone     = flag(17),
+	useExternalEmojis   = flag(18),
+	viewGuildInsights   = flag(19),
+	connect             = flag(20),
+	speak               = flag(21),
+	muteMembers         = flag(22),
+	deafenMembers       = flag(23),
+	moveMembers         = flag(24),
+	useVoiceActivity    = flag(25),
+	changeNickname      = flag(26),
+	manageNicknames     = flag(27),
+	manageRoles         = flag(28),
+	manageWebhooks      = flag(29),
+	manageEmojis        = flag(30),
+	useSlashCommands    = flag(31),
+	requestToSpeak      = flag(32),
+	manageEvents        = flag(33),
+	manageThreads       = flag(34),
+	usePublicThreads    = flag(35),
+	usePrivateThreads   = flag(36),
 }
 
 enums.messageFlag = enum {
-	crossposted          = 0x00000001,
-	isCrosspost          = 0x00000002,
-	suppressEmbeds       = 0x00000004,
-	sourceMessageDeleted = 0x00000008,
-	urgent               = 0x00000010,
+	crossposted          = flag(0),
+	isCrosspost          = flag(1),
+	suppressEmbeds       = flag(2),
+	sourceMessageDeleted = flag(3),
+	urgent               = flag(4),
 }
 
 enums.actionType = enum {
@@ -215,6 +235,9 @@ enums.actionType = enum {
 	integrationCreate      = 80,
 	integrationUpdate      = 81,
 	integrationDelete      = 82,
+	stageInstanceCreate    = 83,
+	stageInstanceUpdate    = 84,
+	stageInstanceDelete    = 85,
 }
 
 enums.logLevel = enum {
@@ -227,30 +250,111 @@ enums.logLevel = enum {
 
 -- Backported from dev
 enums.userFlag = enum {
-	discordEmployee      = 0x00000001, -- 1 << 0
-	discordPartner       = 0x00000002, -- 1 << 1
-	hypesquadEvents      = 0x00000004, -- 1 << 2
-	bugHunterLevel1      = 0x00000008, -- 1 << 3
-	-- unused            = 0x00000010, -- 1 << 4
-	-- unused            = 0x00000020, -- 1 << 5
-	houseBravery         = 0x00000040, -- 1 << 6
-	houseBrilliance      = 0x00000080, -- 1 << 7
-	houseBalance         = 0x00000100, -- 1 << 8
-	earlySupporter       = 0x00000200, -- 1 << 9
-	teamUser             = 0x00000400, -- 1 << 10
-	-- unused            = 0x00000800, -- 1 << 11
-	system               = 0x00001000, -- 1 << 12
-	-- unused            = 0x00002000, -- 1 << 13
-	bugHunterLevel2      = 0x00004000, -- 1 << 14
-	-- unused            = 0x00008000, -- 1 << 15
-	verifiedBot          = 0x00010000, -- 1 << 16
-	verifiedBotDeveloper = 0x00020000, -- 1 << 17
+	discordEmployee      = flag(0),
+	discordPartner       = flag(1),
+	hypesquadEvents      = flag(2),
+	bugHunterLevel1      = flag(3),
+	-- unused            = flag(4),
+	-- unused            = flag(5),
+	houseBravery         = flag(6),
+	houseBrilliance      = flag(7),
+	houseBalance         = flag(8),
+	earlySupporter       = flag(9),
+	teamUser             = flag(10),
+	-- unused            = flag(11),
+	system               = flag(12),
+	-- unused            = flag(13),
+	bugHunterLevel2      = flag(14),
+	-- unused            = flag(15),
+	verifiedBot          = flag(16),
+	verifiedBotDeveloper = flag(17),
+	certifiedModerator   = flag(18),
+}
+
+enums.gatewayIntent = enum {
+	guilds                = flag(0),
+	guildMembers          = flag(1),
+	guildBans             = flag(2),
+	guildEmojis           = flag(3),
+	guildIntegrations     = flag(4),
+	guildWebhooks         = flag(5),
+	guildInvites          = flag(6),
+	guildVoiceStates      = flag(7),
+	guildPresences        = flag(8),
+	guildMessages         = flag(9),
+	guildMessageReactions = flag(10),
+	guildMessageTyping    = flag(11),
+	directMessage         = flag(12),
+	directMessageRections = flag(13),
+	directMessageTyping   = flag(14),
 }
 
 enums.premiumType = enum {
 	none = 0,
 	nitroClassic = 1,
 	nitro = 2
+}
+
+enums.commandOptionType = enum {
+	subCommand      = 1,
+	subCommandGroup = 2,
+	string          = 3,
+	integer         = 4,
+	boolean         = 5,
+	user            = 6,
+	channel         = 7,
+	role            = 8,
+	mentionable     = 9,
+	number          = 10,
+}
+
+enums.commandPermissionType = enum {
+	role = 1,
+	user = 2,
+}
+
+enums.interactionRequestType = enum {
+	ping               = 1,
+	applicationCommand = 2,
+	messageComponent   = 3,
+}
+
+enums.interactionResponseType = enum {
+	pong                                 = 1,
+	-- unused (acknowledge)              = 2,
+	-- unused (channelMessage)           = 3,
+	channelMessageWithSource             = 4,
+	deferredChannelMessageWithSource     = 5,
+	deferredUpdateMessage                = 6,
+	updateMessage                        = 7,
+	applicationCommandAutocompleteResult = 8
+}
+
+enums.componentType = enum {
+	actionRow  = 1,
+	button     = 2,
+	selectMenu = 3,
+}
+
+enums.buttonStyle = enum {
+	primary   = 1, -- blurple
+	secondary = 2, -- green
+	success   = 3, -- grey
+	danger    = 4, -- red
+	link      = 5, -- grey with link icon
+}
+
+enums.interactionResponseFlag = enum {
+	ephemeral = flag(6),
+}
+
+enums.applicationFlag = enum {
+	gatewayPresence               = flag(12),
+	gatewayPresenceLimited        = flag(13),
+	gatewayGuildMembers           = flag(14),
+	gatewayGuildMembersLimited    = flag(15),
+	verificationPendingGuildLimit = flag(16),
+	embedded                      = flag(17),
 }
 
 return enums

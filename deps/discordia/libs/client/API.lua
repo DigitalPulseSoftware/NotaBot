@@ -129,6 +129,7 @@ function API:request(method, endpoint, payload, query, files)
 		return error('Cannot make HTTP request outside of a coroutine', 2)
 	end
 
+
 	local url = BASE_URL .. endpoint
 
 	if query and next(query) then
@@ -232,7 +233,7 @@ function API:commit(method, url, req, payload, retries)
 
 		end
 
-		if res.code == 400 then
+		if res.code >= 400 and res.code <= 499 then
 			client:error('Discord rejected request with message %s (payload: %s, traceback: %s)', msg, payload, debug.traceback())
 		end
 
@@ -244,6 +245,156 @@ function API:commit(method, url, req, payload, retries)
 end
 
 -- start of auto-generated methods --
+
+function API:getEntitlements(application_id, query)
+	local endpoint = f(endpoints.APPLICATION_ENTITLEMENTS, application_id)
+	return self:request("GET", endpoint, nil, query)
+end
+
+function API:getEntitlement(application_id, entitlement_id, query)
+	local endpoint = f(endpoints.APPLICATION_ENTITLEMENT, application_id, entitlement_id)
+	return self:request("GET", endpoint, nil, query)
+end
+
+function API:getSKUs(application_id, query)
+	local endpoint = f(endpoints.APPLICATION_SKUS, application_id)
+	return self:request("GET", endpoint, nil, query)
+end
+
+function API:consumeSKU(application_id, entitlement_id, payload, query)
+	local endpoint = f(endpoints.APPLICATION_ENTITLEMENT_CONSUME, application_id, entitlement_id)
+	return self:request("POST", endpoint, payload, query)
+end
+
+function API:deleteTestEntitlement(application_id, entitlement_id, query)
+	local endpoint = f(endpoints.APPLICATION_ENTITLEMENT, application_id, entitlement_id)
+	return self:request("DELETE", endpoint, nil, query)
+end
+
+function API:createPurchaseDiscount(sku_id, user_id, payload, query)
+	local endpoint = f(endpoints.STORE_SKU_DISCOUNT, sku_id, user_id)
+	return self:request("PUT", endpoint, payload, query, payload)
+end
+
+function API:deletePurchaseDiscount(sku_id, user_id, query)
+	local endpoint = f(endpoints.STORE_SKU_DISCOUNT, sku_id, user_id)
+	return self:request("DELETE", endpoint, nil, query)
+end
+
+function API:getGlobalApplicationCommands(application_id, query)
+	local endpoint = f(endpoints.APPLICATION_COMMANDS, application_id)
+	return self:request("GET", endpoint, nil, query)
+end
+
+function API:createGlobalApplicationCommand(application_id, payload, query)
+	local endpoint = f(endpoints.APPLICATION_COMMANDS, application_id)
+	return self:request("POST", endpoint, payload, query, payload)
+end
+
+function API:getGlobalApplicationCommand(application_id, command_id, query)
+	local endpoint = f(endpoints.APPLICATION_COMMAND, application_id, command_id)
+	return self:request("GET", endpoint, nil, query)
+end
+
+function API:editGlobalApplicationCommand(application_id, command_id, payload, query)
+	local endpoint = f(endpoints.APPLICATION_COMMAND, application_id, command_id)
+	return self:request("PATCH", endpoint, payload, query, payload)
+end
+
+function API:deleteGlobalApplicationCommand(application_id, command_id, query)
+	local endpoint = f(endpoints.APPLICATION_COMMAND, application_id, command_id)
+	return self:request("DELETE", endpoint, nil, query)
+end
+
+function API:getGuildApplicationCommands(application_id, guild_id, query)
+	local endpoint = f(endpoints.APPLICATION_GUILD_COMMANDS, application_id, guild_id)
+	return self:request("GET", endpoint, payload, query)
+end
+
+function API:bulkOverwriteGlobalApplicationCommands(application_id, payload, query)
+	local endpoint = f(endpoints.APPLICATION_COMMANDS, application_id)
+	return self:request("PUT", endpoint, payload, query, payload)
+end
+
+function API:createGuildApplicationCommand(application_id, guild_id, payload, query)
+	local endpoint = f(endpoints.APPLICATION_GUILD_COMMANDS, application_id, guild_id)
+	return self:request("POST", endpoint, payload, query, payload)
+end
+
+function API:getGuildApplicationCommand(application_id, guild_id, command_id, query)
+	local endpoint = f(endpoints.APPLICATION_GUILD_COMMAND, application_id, guild_id, command_id)
+	return self:request("GET", endpoint, nil, query)
+end
+
+function API:editGuildApplicationCommand(application_id, guild_id, command_id, payload, query)
+	local endpoint = f(endpoints.APPLICATION_GUILD_COMMAND, application_id, guild_id, command_id)
+	return self:request("PATCH", endpoint, payload, query, payload)
+end
+
+function API:deleteGuildApplicationCommand(application_id, guild_id, command_id, query)
+	local endpoint = f(endpoints.APPLICATION_GUILD_COMMAND, application_id, guild_id, command_id)
+	return self:request("DELETE", endpoint, nil, query)
+end
+
+function API:bulkOverwriteGuildApplicationCommands(application_id, guild_id, payload, query)
+	local endpoint = f(endpoints.APPLICATION_GUILD_COMMANDS, application_id, guild_id)
+	return self:request("PUT", endpoint, payload, query, payload)
+end
+
+function API:createInteractionResponse(interaction_id, interaction_token, payload, query, files)
+	local endpoint = f(endpoints.INTERACTION_TOKEN_CALLBACK, interaction_id, interaction_token)
+	return self:request("POST", endpoint, payload, query, files)
+end
+
+function API:getOriginalInteractionResponse(application_id, interaction_token, query)
+	local endpoint = f(endpoints.WEBHOOK_TOKEN_MESSAGES_ORIGINAL, application_id, interaction_token)
+	return self:request("GET", endpoint, nil, query)
+end
+
+function API:editOriginalInteractionResponse(application_id, interaction_token, payload, query, files)
+	local endpoint = f(endpoints.WEBHOOK_TOKEN_MESSAGES_ORIGINAL, application_id, interaction_token)
+	return self:request("PATCH", endpoint, payload, query, files)
+end
+
+function API:deleteOriginalInteractionResponse(application_id, interaction_token, query)
+	local endpoint = f(endpoints.WEBHOOK_TOKEN_MESSAGES_ORIGINAL, application_id, interaction_token)
+	return self:request("DELETE", endpoint, nil, query)
+end
+
+function API:createFollowupMessage(application_id, interaction_token, payload, query, files)
+	local endpoint = f(endpoints.WEBHOOK_TOKEN, application_id, interaction_token)
+	return self:request("POST", endpoint, payload, query, files)
+end
+
+function API:editFollowupMessage(application_id, interaction_token, message_id, payload, query, files)
+	local endpoint = f(endpoints.WEBHOOK_TOKEN_MESSAGE, application_id, interaction_token, message_id)
+	return self:request("PATCH", endpoint, payload, query, files)
+end
+
+function API:deleteFollowupMessage(application_id, interaction_token, message_id, query)
+	local endpoint = f(endpoints.WEBHOOK_TOKEN_MESSAGE, application_id, interaction_token, message_id)
+	return self:request("DELETE", endpoint, payload, query)
+end
+
+function API:getGuildApplicationCommandPermissions(application_id, guild_id, query)
+	local endpoint = f(endpoints.APPLICATION_GUILD_COMMANDS_PERMISSIONS, application_id, guild_id)
+	return self:request("GET", endpoint, nil, query)
+end
+
+function API:getApplicationCommandPermissions(application_id, guild_id, command_id, query)
+	local endpoint = f(endpoints.APPLICATION_GUILD_COMMAND_PERMISSIONS, application_id, guild_id, command_id)
+	return self:request("GET", endpoint, payload, query)
+end
+
+function API:editApplicationCommandPermissions(application_id, guild_id, command_id, payload, query)
+	local endpoint = f(endpoints.APPLICATION_GUILD_COMMAND_PERMISSIONS, application_id, guild_id, command_id)
+	return self:request("PUT", endpoint, payload, query, payload)
+end
+
+function API:batchEditApplicationCommandPermissions(application_id, guild_id, payload, query)
+	local endpoint = f(endpoints.APPLICATION_GUILD_COMMANDS_PERMISSIONS, application_id, guild_id)
+	return self:request("PUT", endpoint, payload, query)
+end
 
 function API:getGuildAuditLog(guild_id, query)
 	local endpoint = f(endpoints.GUILD_AUDIT_LOGS, guild_id)
@@ -699,6 +850,16 @@ end
 function API:executeGitHubCompatibleWebhook(webhook_id, webhook_token, payload) -- not exposed, needs webhook client
 	local endpoint = f(endpoints.WEBHOOK_TOKEN_GITHUB, webhook_id, webhook_token)
 	return self:request("POST", endpoint, payload)
+end
+
+function API:getWebhookMessage(webhook_id, webhook_token, message_id, query)
+	local endpoint = f(endpoints.WEBHOOK_TOKEN_MESSAGE, webhook_id, webhook_token, message_id)
+	return self:request("GET", endpoint, nil, query)
+end
+
+function API:editWebhookMessage(webhook_id, webhook_token, message_id, payload, query)
+	local endpoint = f(endpoints.WEBHOOK_TOKEN_MESSAGE, webhook_id, webhook_token, message_id)
+	return self:request("PATCH", endpoint, nil, query, payload)
 end
 
 function API:getGateway() -- Client:run

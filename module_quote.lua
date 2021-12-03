@@ -104,7 +104,7 @@ function Module:CheckReadPermission(user, message)
 		return false
 	end
 
-	if (not member:hasPermission(message.channel, enums.permission.readMessages)) then
+	if (not member:hasPermission(message.channel, enums.permission.viewChannel)) then
 		return false
 	end
 
