@@ -117,10 +117,8 @@ function Module:OnEnable(guild)
 			for _, channel in pairs(guild.voiceChannels) do
 				self:CheckVoiceMutePermissions(channel)
 			end
-	
-			self:LogError(channel.guild, "Invalid muted role")
-			return
 		else
+			self:LogError(guild, "Invalid muted role")
 			config.MuteRole = nil
 			self:SaveGuildConfig(guild)
 		end
