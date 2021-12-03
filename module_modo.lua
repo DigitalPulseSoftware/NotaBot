@@ -428,6 +428,7 @@ function Module:HandleEmojiAdd(userId, message)
 		data.ReportedMessages[message.id] = {
 			AlertMessageId = alertMessage and alertMessage.id or nil,
 			ChannelId = message.channel.id,
+			Components = components,
 			Dismissed = false,
 			Embed = embedContent,
 			MessageId = message.id,
@@ -451,15 +452,14 @@ function Module:HandleMessageRemove(channel, messageId)
 
 	local config = self:GetConfig(channel.guild)
 
-	reportedMessage.Embed.fields[5].value = "<Message deleted>"
+	-- Disable "jump to" button
+	reportedMessage.Components[1].components[1].disabled = true
 
 	local alertChannel = client:getChannel(config.AlertChannel)
-	assert(alertChannel)
-
-	if (reportedMessage.AlertMessageId) then
+	if (alertChannel and reportedMessage.AlertMessageId) then
 		local alertMessage = alertChannel:getMessage(reportedMessage.AlertMessageId)
 		if (alertMessage) then
-			alertMessage:setEmbed(reportedMessage.Embed)
+			alertMessage:setComponents(reportedMessage.Components)
 		end
 	end
 end

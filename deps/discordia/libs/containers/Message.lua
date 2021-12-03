@@ -206,6 +206,17 @@ function Message:setEmbed(embed)
 end
 
 --[=[
+@m setComponents
+@t http
+@p components table
+@r boolean
+@d Sets the message's components. The message must be authored by the current user.
+(ie: you cannot change the components of messages sent by other users).
+]=]
+function Message:setComponents(components)
+	return self:_modify({components = components or null})
+end
+--[=[
 @m hideEmbeds
 @t http
 @r boolean
