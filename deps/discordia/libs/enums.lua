@@ -33,7 +33,7 @@ end
 local enums = {enum = enum}
 
 local function flag(n)
-	return tonumber(tostring(bit.lshift(1, n)):match('%d*'))
+	return tonumber(tostring(bit.lshift(1ULL, n)):match('%d*'))
 end
 
 enums.defaultAvatar = enum {
