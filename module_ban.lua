@@ -246,7 +246,7 @@ function Module:RegisterBan(guild, userId, bannedByUser, duration, reason)
 		BannedAt = now:toSeconds(),
 		BannedBy = bannedByUser.id,
 		ExpirationTime = expiration,
-		Reason = #reason > 0 and reason or nil
+		Reason = (reason and #reason > 0) and reason or nil
 	}
 
 	self:SavePersistentData(guild)
