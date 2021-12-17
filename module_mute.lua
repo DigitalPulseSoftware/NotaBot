@@ -205,6 +205,7 @@ function Module:CheckTextMutePermissions(channel)
 
 	DenyPermission(permissions, enums.permission.addReactions)
 	DenyPermission(permissions, enums.permission.sendMessages)
+	DenyPermission(permissions, enums.permission.usePublicThreads)
 end
 
 function Module:CheckVoiceMutePermissions(channel)
