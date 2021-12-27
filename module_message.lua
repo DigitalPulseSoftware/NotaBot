@@ -184,16 +184,16 @@ local function validateRole(value, metadata)
 	if metadata.guild then
 		local targetRole, err = metadata.guild:getRole(value)
 		if not targetRole then
-			return false, "invalid role: " .. tostring(err)
+			return false, ": invalid role"
 		end
 
 		if metadata.member then
 			if not metadata.member:hasPermission(enums.permission.manageRoles) then
-				return false, "you need to have the manage roles permission to toggle a role"
+				return false, ": you need to have the manage roles permission to toggle a role"
 			end
 
 			if targetRole.position > memberHighestRole.position then
-				return false, "you cannot add or remove a role higher than your own"
+				return false, ": you cannot add or remove a role higher than your own"
 			end
 		end
 	end
@@ -661,15 +661,15 @@ function Module:ParseContentParameter(content, commandMessage)
 				}
 			end	
 		end
-	elseif (commandMessage.commandMessage) then
+	elseif (commandMessage) then
 		if (#commandMessage.attachments ~= 1) then
-			commandMessage:reply("You must send only one file to update a module config!")
+			commandMessage:reply("You can send only one file!")
 			return
 		end
 
 		local attachment = commandMessage.attachments[1]
 		if (not attachment.filename:match(".json$")) then
-			commandMessage:reply("You must send a .json file to update a module config")
+			commandMessage:reply("You must send a .json file")
 			return
 		end
 
