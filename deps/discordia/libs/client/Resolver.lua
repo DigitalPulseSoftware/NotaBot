@@ -232,7 +232,6 @@ function Resolver.color(obj)
 end
 
 function Resolver.permissions(obj)
-	p("Resolver.permissions", obj)
 	local t = type(obj)
 	if t == 'number' then
 		return checkValueRaw(obj, base) + 0ULL

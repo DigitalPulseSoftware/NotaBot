@@ -135,12 +135,6 @@ function Module:OnUnload()
 	end
 end
 
-local DenyPermission = function (permissionOverwrite, permission)
-	if (bit.band(permissionOverwrite.deniedPermissions, permission) ~= permission and not permissionOverwrite:denyPermissions(permission)) then
-		client:warning("[%s] Failed to deny permissions on channel %s", permissionOverwrite.guild.name, permissionOverwrite.channel.name)
-	end
-end
-
 function Module:CheckTextMutePermissions(channel)
 	local config = self:GetConfig(channel.guild)
 	local mutedRole = channel.guild:getRole(config.MuteRole)
@@ -152,9 +146,13 @@ function Module:CheckTextMutePermissions(channel)
 	local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	assert(permissions)
 
-	DenyPermission(permissions, enums.permission.addReactions)
-	DenyPermission(permissions, enums.permission.sendMessages)
-	DenyPermission(permissions, enums.permission.usePublicThreads)
+	local deniedPermissions = permissions:getDeniedPermissions()
+	-- :enable here just sets the bit, disabling the permissions
+	deniedPermissions:enable(enums.permission.addReactions, enums.permission.sendMessages, enums.permission.usePublicThreads)
+
+	if deniedPermissions ~= permissions:getDeniedPermissions() then
+		permissions:setDeniedPermissions(deniedPermissions)
+	end
 end
 
 function Module:CheckVoiceMutePermissions(channel)
@@ -168,7 +166,13 @@ function Module:CheckVoiceMutePermissions(channel)
 	local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	assert(permissions)
 
-	DenyPermission(permissions, enums.permission.speak)
+	local deniedPermissions = permissions:getDeniedPermissions()
+	-- :enable here just sets the bit, disabling the permissions
+	deniedPermissions:enable(enums.permission.speak)
+
+	if deniedPermissions ~= permissions:getDeniedPermissions() then
+		permissions:setDeniedPermissions(deniedPermissions)
+	end
 end
 
 local function GenerateJumpToComponents(message)

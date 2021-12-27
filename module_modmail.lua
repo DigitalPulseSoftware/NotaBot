@@ -293,10 +293,6 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 				if (not permissions or not permissions:setPermissions(enums.permission.viewChannel, enums.permission.sendMessages)) then
 					ticketChannel:sendf("Failed to deny send messages permission to %s.", ticketMember.mentionString)
 				end
-
-				if (not permissions or not permissions:denyPermissions(enums.permission.sendMessages)) then
-					ticketChannel:sendf("Failed to deny send messages permission to %s.", ticketMember.mentionString)
-				end
 			end
 
 			if (config.LogChannel) then
