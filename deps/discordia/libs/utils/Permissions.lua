@@ -15,7 +15,7 @@ local format = string.format
 local band, bor, bnot, bxor = bit.band, bit.bor, bit.bnot, bit.bxor
 local sort, insert, concat = table.sort, table.insert, table.concat
 
-local ALL = 0
+local ALL = 0ULL
 for _, value in pairs(permission) do
 	ALL = bor(ALL, value)
 end
@@ -23,7 +23,7 @@ end
 local Permissions, get = require('class')('Permissions')
 
 function Permissions:__init(value)
-	self._value = tonumber(value) or 0
+	self._value = Resolver.permissions(value)
 end
 
 --[=[
@@ -38,7 +38,7 @@ function Permissions:__tostring()
 	else
 		local a = self:toArray()
 		sort(a)
-		return format('Permissions: %i (%s)', self._value, concat(a, ', '))
+		return format('Permissions: %i (%s)', tonumber(self._value), concat(a, ', '))
 	end
 end
 
@@ -246,7 +246,7 @@ function Permissions:copy()
 	return Permissions(self._value)
 end
 
---[=[@p value number The raw decimal value that represents the permissions value.]=]
+--[=[@p value string The raw decimal value that represents the permissions value.]=]
 function get.value(self)
 	return self._value
 end

@@ -230,7 +230,7 @@ function GuildChannel:getPermissionOverwriteFor(obj)
 	end
 	local overwrites = self._permission_overwrites
 	return overwrites:get(id) or overwrites:_insert(setmetatable({
-		id = id, type = type, allow = 0, deny = 0
+		id = id, type = type, allow = 0ULL, deny = 0ULL
 	}, {__jsontype = 'object'}))
 end
 

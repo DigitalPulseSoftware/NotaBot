@@ -15,11 +15,23 @@ local isObject = class.isObject
 local insert = table.insert
 local format = string.format
 
+local band, bor, bnot, bxor = bit.band, bit.bor, bit.bnot, bit.bxor
+
 local Resolver = {}
 
 local istype = ffi.istype
 local int64_t = ffi.typeof('int64_t')
 local uint64_t = ffi.typeof('uint64_t')
+
+local codec = {}
+local ALPHANUM = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+for n, char in ALPHANUM:gmatch('()(.)') do
+	codec[n - 1] = char
+end
+
+local MIN_VALUE, MAX_VALUE = 0, tonumber(bnot(0ULL))
+local MIN_BASE, MAX_BASE = 2, #ALPHANUM
+local MIN_BIT, MAX_BIT = 1, math.floor(math.log(MAX_VALUE, 2))
 
 local function int(obj)
 	local t = type(obj)
@@ -37,6 +49,80 @@ local function int(obj)
 		return obj:toSnowflake()
 	end
 end
+
+local function typeError(expected, received)
+	return error(format('expected %s, received %s', expected, received), 2)
+end
+
+function checkNumber(obj, base, mn, mx)
+	local success, n = pcall(tonumber, obj, base)
+	if not success or not n then
+		return typeError('number', type(obj))
+	end
+	if mn and n < mn then
+		return typeError('minimum ' .. mn, n)
+	end
+	if mx and n > mx then
+		return typeError('maximum ' .. mx, n)
+	end
+	return n
+end
+
+function checkInteger(obj, base, mn, mx)
+	local success, n = pcall(tonumber, obj, base)
+	if not success or not n then
+		return typeError('integer', type(obj))
+	end
+	if n % 1 ~= 0 then
+		return typeError('integer', n)
+	end
+	if mn and n < mn then
+		return typeError('minimum ' .. mn, n)
+	end
+	if mx and n > mx then
+		return typeError('maximum ' .. mx, n)
+	end
+	return n
+end
+
+local function checkBase(base)
+	return checkInteger(base, 10, MIN_BASE, MAX_BASE)
+end
+
+local function checkValueRaw(value, base)
+	return checkInteger(value, base, MIN_VALUE, MAX_VALUE)
+end
+
+local function str2int64(str, base)
+
+	local i = 1
+	local n = 0ULL
+	local neg = false
+	base = base or 10
+
+	str = str:match('^%s*(.-)%s*$')
+
+	if str:sub(i, i) == '-' then
+		neg = true
+		i = i + 1
+	elseif str:sub(i, i) == '+' then
+		i = i + 1
+	end
+
+	local s = #str
+	repeat
+		local digit = tonumber(str:sub(i, i), base)
+		if not digit then
+			return nil
+		end
+		n = n * base + digit
+		i = i + 1
+	until i > s
+
+	return neg and -n or n
+
+end
+
 
 function Resolver.userId(obj)
 	if isObject(obj) then
@@ -146,10 +232,33 @@ function Resolver.color(obj)
 end
 
 function Resolver.permissions(obj)
-	if isInstance(obj, classes.Permissions) then
-		return obj.value
+	p("Resolver.permissions", obj)
+	local t = type(obj)
+	if t == 'number' then
+		return checkValueRaw(obj, base) + 0ULL
+	elseif t == 'string' then
+		checkValueRaw(obj, base)
+		return str2int64(obj, base)
+	elseif t == 'cdata' then
+		checkValueRaw(obj, base)
+		if base == nil or base == 10 then
+			return obj
+		else
+			return str2int64(tostring(obj:match('%d*'), base))
+		end
+	elseif t == 'table' then
+		if isInstance(obj, classes.Permissions) then
+			return obj.value
+		else
+			local n = 0ULL
+			for _, v in pairs(obj) do
+				n = bor(n, checkValue(v, base))
+			end
+			return n
+		end
 	end
-	return tonumber(obj)
+
+	return nil
 end
 
 function Resolver.permission(obj)
@@ -157,8 +266,10 @@ function Resolver.permission(obj)
 	local n = nil
 	if t == 'string' then
 		n = permission[obj]
-	elseif t == 'number' then
+	elseif t == 'cdata' then
 		n = permission(obj) and obj
+	elseif t == 'number' then
+		n = permission(obj + 0ULL) and obj
 	end
 	return n
 end

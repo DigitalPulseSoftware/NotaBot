@@ -33,7 +33,7 @@ end
 local enums = {enum = enum}
 
 local function flag(n)
-	return tonumber(tostring(bit.lshift(1ULL, n)):match('%d*'))
+	return bit.lshift(1ULL, n)
 end
 
 enums.defaultAvatar = enum {
@@ -189,6 +189,9 @@ enums.permission = enum {
 	manageThreads       = flag(34),
 	usePublicThreads    = flag(35),
 	usePrivateThreads   = flag(36),
+	useExternalStickers = flag(37),
+	sendMessagesInThreads = flag(38),
+	startEmbeddedActivities = flag(39),
 }
 
 enums.messageFlag = enum {

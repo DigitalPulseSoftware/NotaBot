@@ -136,7 +136,7 @@ function Member:hasPermission(channel, perm)
 			end
 		end
 
-		local allow, deny = 0, 0
+		local allow, deny = 0ULL, 0ULL
 		for role in self.roles:iter() do
 			if role.id ~= guild.id then -- just in case
 				overwrite = overwrites:get(role.id)
@@ -214,7 +214,7 @@ function Member:getPermissions(channel)
 			ret = bor(ret, everyone.allowedPermissions)
 		end
 
-		local allow, deny = 0, 0
+		local allow, deny = 0ULL, 0ULL
 		for role in self.roles:iter() do
 			if role.id ~= guild.id then -- just in case
 				local overwrite = overwrites:get(role.id)

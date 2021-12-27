@@ -8,8 +8,27 @@ local Snowflake = require('containers/abstract/Snowflake')
 local Permissions = require('utils/Permissions')
 local Resolver = require('client/Resolver')
 
+local ffi = require('ffi')
+local istype = ffi.istype
+local int64_t = ffi.typeof('int64_t')
+local uint64_t = ffi.typeof('uint64_t')
+
 local band, bnot = bit.band, bit.bnot
 
+local function int(obj)
+	local t = type(obj)
+	if t == 'string' then
+		if tonumber(obj) then
+			return obj
+		end
+	elseif t == 'cdata' then
+		if istype(int64_t, obj) or istype(uint64_t, obj) then
+			return tostring(obj):match('%d*')
+		end
+	elseif t == 'number' then
+		return format('%i', obj)
+	end
+end
 local PermissionOverwrite, get = require('class')('PermissionOverwrite', Snowflake)
 
 function PermissionOverwrite:__init(data, parent)
@@ -58,7 +77,7 @@ end
 
 local function setPermissions(self, allow, deny)
 	local data, err = self.client._api:editChannelPermissions(self._parent._id, self._id, {
-		allow = allow, deny = deny, type = self._type
+		allow = int(allow), deny = int(deny), type = self._type
 	})
 	if data then
 		self._allow, self._deny = allow, deny
