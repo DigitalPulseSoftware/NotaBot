@@ -551,6 +551,7 @@ function Module:OnChannelDelete(channel)
 end
 
 function Module:OnMemberLeave(member)
+	local data = self:GetPersistentData(guild)
 	local channelData = data.activeChannels[member.user.id]
 	if channelData then
 		local ticketChannel = guild:getChannel(channelData.channelId)
