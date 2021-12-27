@@ -549,3 +549,15 @@ function Module:OnChannelDelete(channel)
 		end
 	end
 end
+
+function Module:OnMemberLeave(member)
+	local config = self:GetConfig(member.guild)
+
+	local channelData = data.activeChannels[member.user.id]
+	if channelData then
+		local ticketChannel = guild:getChannel(channelData.channelId)
+		if ticketChannel then
+			ticketChannel:send(member.mentionString .. " left the server")
+		end
+	end
+end
