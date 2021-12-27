@@ -18,7 +18,7 @@ local function RemoveTableKey(table, key)
 	return element
 end
 
-local function ValidateFields(data, expectedFields, allFieldExpected)
+local function ValidateFields(data, expectedFields, allFieldExpected, metadata)
 	if (type(data) ~= "table" or #data ~= 0) then
 		return false, " must be an object"
 	end
@@ -31,7 +31,7 @@ local function ValidateFields(data, expectedFields, allFieldExpected)
 			return false, "." .. fieldName .. " is not an expected field"
 		end
 
-		local success, err = fieldValidator(fieldValue)
+		local success, err = fieldValidator(fieldValue, metadata)
 		if (not success) then
 			return false, "." .. fieldName .. err
 		end
@@ -56,6 +56,14 @@ end
 
 local function ValidateBoolean(data)
 	return type(data) == "boolean"
+end
+
+local function ValidateInteger(data)
+	if type(data) ~= "number" or math.floor(data) ~= data then
+		return false, " must be an integer"
+	end
+
+	return true
 end
 
 local function ValidateString(str)
@@ -167,7 +175,358 @@ local embedFields = {
 	end,
 }
 
+local function validateRole(value, metadata)
+	local success, err = util.ValidateSnowflake(value)
+	if not success then
+		return false, err
+	end
+
+	if metadata.guild then
+		local targetRole, err = metadata.guild:getRole(value)
+		if not targetRole then
+			return false, "invalid role: " .. tostring(err)
+		end
+
+		if metadata.member then
+			if not metadata.member:hasPermission(enums.permission.manageRoles) then
+				return false, "you need to have the manage roles permission to toggle a role"
+			end
+
+			if targetRole.position > memberHighestRole.position then
+				return false, "you cannot add or remove a role higher than your own"
+			end
+		end
+	end
+
+	return true
+end
+
+local possibleActions = {
+	addrole = {
+		Validate = validateRole,
+		Action = function (member, value)
+			local guild = member.guild
+			local role = guild:getRole(value)
+
+			if member:hasRole(value) then
+				return
+			end
+
+			local success, err = member:addRole(value)
+			if success then
+				return "✅ Role " .. role.mentionString .. " added"
+			else
+				return "⚠️ Failed to remove " .. role.mentionString
+			end
+		end
+	},
+	removerole = {
+		Validate = validateRole,
+		Action = function (member, value)
+			local guild = member.guild
+			local role = guild:getRole(value)
+
+			if not member:hasRole(value) then
+				return
+			end
+			
+			local success, err = member:addRole(value)
+			if success then
+				return "✅ Role " .. role.mentionString .. " added"
+			else
+				return "⚠️ Failed to remove " .. role.mentionString
+			end
+		end
+	},
+	togglerole = {
+		Validate = validateRole,
+		Action = function (member, value)
+			local guild = member.guild
+			local role = guild:getRole(value)
+
+			if member:hasRole(value) then
+				local success, err = member:removeRole(value)
+				if success then
+					return "❎ Role " .. role.mentionString .. " removed"
+				else
+					return "⚠️ Failed to remove " .. role.mentionString
+				end
+			else
+				local success, err = member:addRole(value)
+				if success then
+					return "✅ Role " .. role.mentionString .. " added"
+				else
+					return "⚠️ Failed to remove " .. role.mentionString
+				end
+			end
+		end
+	}
+}
+
+local function ValidateActions(actions, metadata)
+	if (type(actions) ~= "table" or #actions == 0) then
+		return false, " must be an array"
+	end
+
+	for idx, action in ipairs(actions) do
+		if type(action) ~= "table" or #action ~= 0 then
+			return false, "[" .. idx .. "] must be an object"
+		end
+	
+		local success, err = ValidateString(action.type)
+		if not success then
+			return false, "[" .. idx .. "].type" .. err
+		end
+
+		local actionData = possibleActions[action.type]
+		if not actionData then
+			return false, "[" .. idx .. "].type is not valid"
+		end
+
+		return actionData.Validate(action.value, metadata)
+	end
+
+	return true
+end
+
+local function GenerateCustomId(actions, metadata, prefix)
+	local customId = {}
+	for idx, action in ipairs(actions) do
+		local actionData = assert(possibleActions[action.type])
+		local encodeFunc = actionData.Encode or tostring
+		
+		table.insert(customId, (prefix and "message_" or "") .. metadata.customIdCounter .. "_" .. action.type .. "_" .. encodeFunc(action.value))
+		metadata.customIdCounter = metadata.customIdCounter + 1
+	end
+
+	return table.concat(customId, ";")
+end
+
+local ValidateComponent
+
+local function ValidateActionRowComponent(component, metadata)
+	if component.type ~= enums.componentType.actionRow then
+		return false, ".type must be action row"
+	end
+
+	if (type(component.components) ~= "table" or #component.components == 0) then
+		return false, ".components must be an array"
+	end
+
+	for idx, component in ipairs(component.components) do
+		local success, err = ValidateComponent(component, metadata)
+		if not success then
+			return false, ".components[" .. idx .. "]" .. err
+		end
+	end
+
+	return true
+end
+
+local emojiFields = {
+	id = util.ValidateSnowflake,
+	name = ValidateString
+}
+
+local buttonFields = {
+	type = function (type)
+		if type ~= enums.componentType.button then
+			return false, " must be button"
+		end
+
+		return true
+	end,
+	style = function (style)
+		local success, err = ValidateInteger(style)
+		if not success then
+			return false, err
+		end
+
+		if style < 1 or style > 5 then
+			return false, ".style must be a valid button style"
+		end
+
+		return true
+	end,
+	label = ValidateString,
+	url = ValidateString,
+	disabled = ValidateBoolean,
+	emoji = function (emoji)
+		return ValidateFields(emoji, emojiFields)
+	end,
+	actions = ValidateActions
+}
+
+local function ValidateButtonComponent(button, metadata)
+	if button.type == nil then
+		return false, ".type must exist"
+	end
+
+	if button.style == nil then
+		return false, ".style must exist"
+	end
+
+	local success, err = ValidateFields(button, buttonFields)
+	if not success then
+		return false, err
+	end
+
+	if button.style == enums.buttonStyle.link then
+		if button.url == nil then
+			return false, " must have an url (because its style is link)"
+		end
+
+		if button.actions ~= nil then
+			return false, " cannot have an actions field (because its style is link)"
+		end
+	else
+		if button.actions == nil then
+			return false, " must have an actions field (because its style is not link)"
+		end
+
+		if button.url ~= nil then
+			return false, " cannot have an url (because its style is not link)"
+		end
+	end
+
+	if button.actions then
+		button.custom_id = GenerateCustomId(button.actions, metadata, true)
+		button.actions = nil
+	end
+
+	return true
+end
+
+local selectMenuOptionFields = {
+	label = ValidateString,
+	description = ValidateString,
+	emoji = function (emoji)
+		return ValidateFields(emoji, emojiFields)
+	end,
+	default = ValidateBoolean,
+	actions = ValidateActions
+}
+
+local selectMenuFields = {
+	type = ValidateInteger,
+	options = function (options, metadata)
+		if type(options) ~= "table" or #options == 0 then
+			return false, " must be an array"
+		end
+
+		for idx, option in ipairs(options) do
+			local success, err = ValidateFields(option, selectMenuOptionFields, false, metadata)
+			if not success then
+				return false, "[" .. idx .. "]" .. err
+			end
+
+			if option.label == nil then
+				return false, "[" .. idx .. "].label must be valid"
+			end
+
+			if option.actions == nil then
+				return false, "[" .. idx .. "].actions must be valid"
+			end
+
+			option.value = GenerateCustomId(option.actions, metadata, false)
+			option.actions = nil
+		end
+
+		return true
+	end,
+	placeholder = ValidateString,
+	min_values = function (min)
+		local success, err = ValidateInteger(min)
+		if not success then
+			return false, err
+		end
+
+		if min < 0 or min > 25 then
+			return false, " must be between 0 and 25"
+		end
+
+		return true
+	end,
+	max_values = function (max)
+		local success, err = ValidateInteger(max)
+		if not success then
+			return false, err
+		end
+
+		if max < 1 or max > 25 then
+			return false, " must be between 1 and 25"
+		end
+
+		return true
+	end,
+	disabled = ValidateBoolean
+}
+
+local function ValidateSelectMenuComponent(selectmenu, metadata)
+	if selectmenu.type == nil then
+		return false, ".type must exist"
+	end
+
+	if selectmenu.options == nil then
+		return false, ".options must exist"
+	end
+
+	local success, err = ValidateFields(selectmenu, selectMenuFields, false, metadata)
+	if not success then
+		return false, err
+	end
+
+	selectmenu.custom_id = "message_placeholder" .. metadata.customIdCounter
+	metadata.customIdCounter = metadata.customIdCounter + 1
+
+	return true
+end
+
+ValidateComponent = function (component, metadata)
+	if type(component.type) ~= "number" or math.floor(component.type) ~= component.type then
+		return false, ".type must be an integer"
+	end
+
+	if component.type == enums.componentType.actionRow then
+		return false, "an action row cannot contain action rows"
+	elseif component.type == enums.componentType.button then
+		local success, err = ValidateButtonComponent(component, metadata)
+		if not success then
+			return false, err
+		end
+	elseif component.type == enums.componentType.selectMenu then
+		local success, err = ValidateSelectMenuComponent(component, metadata)
+		if not success then
+			return false, err
+		end
+	else
+		return false, ".type is not valid"
+	end
+
+	return true
+end
+
 local messageFields = {
+	components = function (components, metadata)
+		if (type(components) ~= "table" or #components == 0) then
+			return false, "Components must be an array"
+		end
+
+		if #components > 5 then
+			return false, "Too many components (each message can only have up to 5 components)"
+		end
+
+		metadata.customIdCounter = 1
+
+		for idx, component in ipairs(components) do
+			local success, err = ValidateActionRowComponent(component, metadata)
+			if not success then
+				return false, "[" .. idx .. "]" .. err
+			end
+		end
+
+		return true
+	end,
 	content = ValidateString,
 	embed = function (embed)
 		return ValidateFields(embed, embedFields)
@@ -176,12 +535,12 @@ local messageFields = {
 	deleteInvokation = ValidateBoolean
 }
 
-local function ValidateMessageData(data)
+local function ValidateMessageData(data, member, guild)
 	if (type(data) ~= "table" or #data ~= 0) then
 		return false, "MessageData must be an object"
 	end
 
-	local success, err = ValidateFields(data, messageFields)
+	local success, err = ValidateFields(data, messageFields, false, { member = member, guild = guild })
 	if (not success) then
 		return false, "MessageData" .. err
 	end
@@ -241,8 +600,8 @@ function Module:GetConfigTable()
 			Description = "Map associating a trigger with a reply",
 			Type = bot.ConfigType.Custom,
 			Default = {},
-			ValidateConfig = function (value)
-				if (type(value) ~= "table" or #value ~= 0) then
+			ValidateConfig = function (value, guildId)
+				if (type(value) ~= "table" or #value == 0) then
 					return false, "Replies must be an array"
 				end
 
@@ -252,7 +611,7 @@ function Module:GetConfigTable()
 						return false, "Replies keys error (" .. tostring(trigger) .. " " .. err .. ")"
 					end
 
-					local success, err = ValidateMessageData(reply)
+					local success, err = ValidateMessageData(reply, nil, client:getGuild(guildId))
 					if (not success) then
 						return false, "Replies[" .. trigger .. "]" .. err
 					end
@@ -285,7 +644,7 @@ function Module:ParseContentParameter(content, commandMessage)
 				return
 			end
 
-			local success, err = ValidateMessageData(messageData)
+			local success, err = ValidateMessageData(messageData, commandMessage.member, commandMessage.guild)
 			if (not success) then
 				commandMessage:reply(err)
 				return
@@ -331,7 +690,7 @@ function Module:ParseContentParameter(content, commandMessage)
 			return
 		end
 
-		local success, err = ValidateMessageData(messageData)
+		local success, err = ValidateMessageData(messageData, commandMessage.member, commandMessage.guild)
 		if (not success) then
 			commandMessage:reply(err)
 			return
@@ -582,4 +941,56 @@ function Module:OnMessageCreate(message)
 			message:delete()
 		end
 	end
+end
+
+function Module:OnInteractionCreate(interaction)
+	local guild = interaction.guild
+	if not guild then
+		return
+	end
+
+	if not interaction.data.custom_id:startswith("message_") then
+		return
+	end
+
+	local messages = {}
+	local function PerformAction(type, value)
+		local actionData = possibleActions[type]
+		if not actionData then
+			table.insert(messages, "<invalid action " .. type .. ">")
+			return
+		end
+
+		table.insert(messages, actionData.Action(interaction.member, value))
+	end
+
+	-- "Waiting"
+	interaction:respond({
+		type = enums.interactionResponseType.deferredChannelMessageWithSource,
+		data = {
+			flags = enums.interactionResponseFlag.ephemeral
+		}
+	})
+
+	if interaction.data.component_type == 2 then
+		local success, type, value = interaction.data.custom_id:match("^message_(%d+)_(%w+)_(.+)$")
+		if success then
+			PerformAction(type, value)
+		end
+	elseif interaction.data.component_type == 3 then
+		for _, value in ipairs(interaction.data.values) do
+			local success, type, value = value:match("^(%d+)_(%w+)_(.+)$")
+			if success then
+				PerformAction(type, value)
+			end
+		end
+	end
+
+	interaction:editResponse({
+		type = enums.interactionResponseType.channelMessageWithSource,
+		data = {
+			content = #messages > 0 and table.concat(messages, "\n") or "Nothing to do",
+			flags = enums.interactionResponseFlag.ephemeral
+		}
+	})		
 end

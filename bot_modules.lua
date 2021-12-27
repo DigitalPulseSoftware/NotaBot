@@ -157,7 +157,7 @@ local configTypeValidation = {
 	[Bot.ConfigType.User] = util.ValidateSnowflake,
 }
 
-local validateConfigType = function (configTable, value)
+local validateConfigType = function (configTable, value, guildId)
 	local validator = configTypeValidation[configTable.Type]
 	assert(validator)
 
@@ -202,7 +202,7 @@ local validateConfigType = function (configTable, value)
 	end
 
 	if (configTable.ValidateConfig) then
-		local success, err = configTable.ValidateConfig(value, configTable)
+		local success, err = configTable.ValidateConfig(value, configTable, guildId)
 		if (not success) then
 			return false, err
 		end
@@ -211,14 +211,14 @@ local validateConfigType = function (configTable, value)
 	return true
 end
 
-function ModuleMetatable:_PrepareConfig(context, config, values, global)
+function ModuleMetatable:_PrepareConfig(context, config, values, guildId)
 	for optionIndex, configTable in pairs(config) do
 		local reset = false
 		local value = rawget(values, configTable.Name)
 		if (value == nil) then
 			reset = true
 		else
-			local success, err = validateConfigType(configTable, value)
+			local success, err = validateConfigType(configTable, value, guildId)
 			if (not success) then
 				self:LogWarning("%s has invalid value (%s) for option %s (%s), resetting...", context, tostring(value), configTable.Name, err or "<unknown error>")
 				reset = true
@@ -243,13 +243,13 @@ function ModuleMetatable:_PrepareGlobalConfig()
 
 	setmetatable(self.GlobalConfig, ConfigMetatable)
 
-	return self:_PrepareConfig("Global config", self._GlobalConfig, self.GlobalConfig, true)
+	return self:_PrepareConfig("Global config", self._GlobalConfig, self.GlobalConfig, nil)
 end
 
 function ModuleMetatable:_PrepareGuildConfig(guildId, guildConfig)
 	setmetatable(guildConfig, ConfigMetatable)
 
-	return self:_PrepareConfig("Guild " .. guildId, self._GuildConfig, guildConfig, false)
+	return self:_PrepareConfig("Guild " .. guildId, self._GuildConfig, guildConfig, guildId)
 end
 
 function ModuleMetatable:DisableForGuild(guild, dontSave)
@@ -1251,7 +1251,7 @@ Bot:RegisterCommand({
 			for fieldName, fieldValue in pairs(updateFields) do
 				for _, configTable in pairs(moduleTable._GuildConfig) do
 					if (configTable.Name == fieldName) then
-						local success, err = validateConfigType(configTable, fieldValue)
+						local success, err = validateConfigType(configTable, fieldValue, guild.id)
 						if (success) then
 							table.insert(fieldUpdate, function ()
 								rawset(guildConfig, fieldName, fieldValue)
@@ -1271,7 +1271,7 @@ Bot:RegisterCommand({
 				if (message.member.id == Config.OwnerUserId) then
 					for _, configTable in pairs(moduleTable._GlobalConfig) do
 						if (configTable.Name == fieldName) then
-							local success, err = validateConfigType(configTable, fieldValue)
+							local success, err = validateConfigType(configTable, fieldValue, nil)
 							if (success) then
 								table.insert(fieldUpdate, function ()
 									rawset(globalConfig, fieldName, fieldValue)
