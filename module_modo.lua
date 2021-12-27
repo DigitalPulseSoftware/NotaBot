@@ -543,7 +543,7 @@ function Module:OnInteractionCreate(interaction)
 
 		alertMessage.Dismissed = true
 		-- Disable dismiss button
-		alertMessage.Components[2].components[2].disabled = true
+		alertMessage.Components[2].components[1].disabled = true
 
 		interaction:respond({
 			type = enums.interactionResponseType.channelMessageWithSource,
