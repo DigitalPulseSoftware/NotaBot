@@ -987,10 +987,6 @@ function Module:OnInteractionCreate(interaction)
 	end
 
 	interaction:editResponse({
-		type = enums.interactionResponseType.channelMessageWithSource,
-		data = {
-			content = #messages > 0 and table.concat(messages, "\n") or "Nothing to do",
-			flags = enums.interactionResponseFlag.ephemeral
-		}
+		content = #messages > 0 and table.concat(messages, "\n") or "Nothing to do",
 	})		
 end
