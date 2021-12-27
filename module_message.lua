@@ -601,8 +601,8 @@ function Module:GetConfigTable()
 			Type = bot.ConfigType.Custom,
 			Default = {},
 			ValidateConfig = function (value, guildId)
-				if (type(value) ~= "table" or #value == 0) then
-					return false, "Replies must be an array"
+				if (type(value) ~= "table" or #value ~= 0) then
+					return false, "Replies must be an object"
 				end
 
 				for trigger, reply in pairs(value) do
