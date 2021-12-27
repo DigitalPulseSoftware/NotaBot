@@ -23,7 +23,7 @@ end
 local Permissions, get = require('class')('Permissions')
 
 function Permissions:__init(value)
-	self._value = Resolver.permissions(value)
+	self._value = Resolver.permissions(value) or 0ULL
 end
 
 --[=[

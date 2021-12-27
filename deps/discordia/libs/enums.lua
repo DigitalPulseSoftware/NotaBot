@@ -32,7 +32,11 @@ end
 
 local enums = {enum = enum}
 
-local function flag(n)
+local function flag(n, as64bits)
+	return bit.lshift(as64bits and 1ULL or 1, n)
+end
+
+local function flag64(n, as64bits)
 	return bit.lshift(1ULL, n)
 end
 
@@ -152,46 +156,46 @@ enums.premiumTier = enum {
 }
 
 enums.permission = enum {
-	createInstantInvite = flag(0),
-	kickMembers         = flag(1),
-	banMembers          = flag(2),
-	administrator       = flag(3),
-	manageChannels      = flag(4),
-	manageGuild         = flag(5),
-	addReactions        = flag(6),
-	viewAuditLog        = flag(7),
-	prioritySpeaker     = flag(8),
-	stream              = flag(9),
-	viewChannel         = flag(10),
-	sendMessages        = flag(11),
-	sendTextToSpeech    = flag(12),
-	manageMessages      = flag(13),
-	embedLinks          = flag(14),
-	attachFiles         = flag(15),
-	readMessageHistory  = flag(16),
-	mentionEveryone     = flag(17),
-	useExternalEmojis   = flag(18),
-	viewGuildInsights   = flag(19),
-	connect             = flag(20),
-	speak               = flag(21),
-	muteMembers         = flag(22),
-	deafenMembers       = flag(23),
-	moveMembers         = flag(24),
-	useVoiceActivity    = flag(25),
-	changeNickname      = flag(26),
-	manageNicknames     = flag(27),
-	manageRoles         = flag(28),
-	manageWebhooks      = flag(29),
-	manageEmojis        = flag(30),
-	useSlashCommands    = flag(31),
-	requestToSpeak      = flag(32),
-	manageEvents        = flag(33),
-	manageThreads       = flag(34),
-	usePublicThreads    = flag(35),
-	usePrivateThreads   = flag(36),
-	useExternalStickers = flag(37),
-	sendMessagesInThreads = flag(38),
-	startEmbeddedActivities = flag(39),
+	createInstantInvite = flag64(0),
+	kickMembers         = flag64(1),
+	banMembers          = flag64(2),
+	administrator       = flag64(3),
+	manageChannels      = flag64(4),
+	manageGuild         = flag64(5),
+	addReactions        = flag64(6),
+	viewAuditLog        = flag64(7),
+	prioritySpeaker     = flag64(8),
+	stream              = flag64(9),
+	viewChannel         = flag64(10),
+	sendMessages        = flag64(11),
+	sendTextToSpeech    = flag64(12),
+	manageMessages      = flag64(13),
+	embedLinks          = flag64(14),
+	attachFiles         = flag64(15),
+	readMessageHistory  = flag64(16),
+	mentionEveryone     = flag64(17),
+	useExternalEmojis   = flag64(18),
+	viewGuildInsights   = flag64(19),
+	connect             = flag64(20),
+	speak               = flag64(21),
+	muteMembers         = flag64(22),
+	deafenMembers       = flag64(23),
+	moveMembers         = flag64(24),
+	useVoiceActivity    = flag64(25),
+	changeNickname      = flag64(26),
+	manageNicknames     = flag64(27),
+	manageRoles         = flag64(28),
+	manageWebhooks      = flag64(29),
+	manageEmojis        = flag64(30),
+	useSlashCommands    = flag64(31),
+	requestToSpeak      = flag64(32),
+	manageEvents        = flag64(33),
+	manageThreads       = flag64(34),
+	usePublicThreads    = flag64(35),
+	usePrivateThreads   = flag64(36),
+	useExternalStickers = flag64(37),
+	sendMessagesInThreads = flag64(38),
+	startEmbeddedActivities = flag64(39),
 }
 
 enums.messageFlag = enum {

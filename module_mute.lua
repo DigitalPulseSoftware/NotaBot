@@ -194,7 +194,6 @@ function Module:CheckTextMutePermissions(channel)
 		return
 	end
 
-	
 	local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	assert(permissions)
 
@@ -202,8 +201,8 @@ function Module:CheckTextMutePermissions(channel)
 	-- :enable here just sets the bit, disabling the permissions
 	deniedPermissions:enable(enums.permission.addReactions, enums.permission.sendMessages, enums.permission.usePublicThreads)
 
-	if deniedPermissions ~= permissions:getDeniedPermissions() then
-		permissions:setDeniedPermissions(deniedPermissions)
+	if permissions:getAllowedPermissions() ~= discordia.Permissions() or permissions:getDeniedPermissions() ~= deniedPermissions then
+		permissions:setPermissions('0', deniedPermissions)
 	end
 end
 
@@ -215,6 +214,7 @@ function Module:CheckVoiceMutePermissions(channel)
 		return
 	end
 
+
 	local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	assert(permissions)
 
@@ -222,8 +222,8 @@ function Module:CheckVoiceMutePermissions(channel)
 	-- :enable here just sets the bit, disabling the permissions
 	deniedPermissions:enable(enums.permission.speak)
 
-	if deniedPermissions ~= permissions:getDeniedPermissions() then
-		permissions:setDeniedPermissions(deniedPermissions)
+	if permissions:getAllowedPermissions() ~= discordia.Permissions() or permissions:getDeniedPermissions() ~= deniedPermissions then
+		permissions:setPermissions('0', deniedPermissions)
 	end
 end
 
