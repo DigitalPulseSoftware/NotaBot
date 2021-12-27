@@ -229,6 +229,7 @@ function Module:OnLoaded()
 		Help = "Configures the channel module messages and reactions",
 		Func = function (commandMessage, message, emoji, action, value)
 			local guild = commandMessage.guild
+			local member = commandMessage.member
 			local config = self:GetConfig(guild)
 
 			local GetReactionActionsConfig = function (channelId, messageId, reaction, noCreate)
@@ -276,6 +277,16 @@ function Module:OnLoaded()
 					return
 				end
 
+				if not member:hasPermission(enums.permission.manageRoles) then
+					commandMessage:reply("you need to have the manage roles permission to toggle a role")
+					return
+				end
+
+				if targetRole.position > memberHighestRole.position then
+					commandMessage:reply("you cannot add or remove a role higher than your own")
+					return
+				end
+
 				local roleValue = tostring(role.id)
 
 				local reactionActions = GetReactionActionsConfig(message.channel.id, message.id, emoji.Name)
@@ -304,6 +315,16 @@ function Module:OnLoaded()
 					return
 				end
 
+				if not member:hasPermission(enums.permission.manageRoles) then
+					commandMessage:reply("you need to have the manage roles permission to toggle a role")
+					return
+				end
+
+				if targetRole.position > memberHighestRole.position then
+					commandMessage:reply("you cannot add or remove a role higher than your own")
+					return
+				end
+
 				local roleValue = tostring(role.id)
 
 				local reactionActions = GetReactionActionsConfig(message.channel.id, message.id, emoji.Name)
@@ -329,6 +350,16 @@ function Module:OnLoaded()
 				local role, err = Bot:DecodeRole(guild, value)
 				if (not role) then
 					commandMessage:reply(string.format("Invalid role: %s", err))
+					return
+				end
+
+				if not member:hasPermission(enums.permission.manageRoles) then
+					commandMessage:reply("you need to have the manage roles permission to toggle a role")
+					return
+				end
+
+				if targetRole.position > memberHighestRole.position then
+					commandMessage:reply("you cannot add or remove a role higher than your own")
 					return
 				end
 
