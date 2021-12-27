@@ -459,6 +459,8 @@ function Module:HandleMessageRemove(channel, messageId)
 
 	-- Disable "jump to" button
 	reportedMessage.Components[1].components[1].disabled = true
+	-- Disable "delete message" button
+	reportedMessage.Components[2].components[2].disabled = true
 
 	local alertChannel = client:getChannel(config.AlertChannel)
 	if (alertChannel and reportedMessage.AlertMessageId) then
@@ -527,7 +529,21 @@ function Module:OnInteractionCreate(interaction)
 
 	local interactionType = interaction.data.custom_id
 	if interactionType == "alertmodule_dismiss" then
+		if alertMessage.Dismissed then
+			interaction:respond({
+				type = enums.interactionResponseType.channelMessageWithSource,
+				data = {
+					content = "❎ Alert has already been dismissed",
+					flags = enums.interactionResponseFlag.ephemeral
+				}
+			})
+	
+			return
+		end
+
 		alertMessage.Dismissed = true
+		-- Disable dismiss button
+		alertMessage.Components[2].components[2].disabled = true
 
 		interaction:respond({
 			type = enums.interactionResponseType.channelMessageWithSource,
@@ -605,9 +621,9 @@ function Module:OnInteractionCreate(interaction)
 			return
 		end
 
-		local reason = string.format("%s has opened a ticket following your message (<https://discord.com/channels/%s>)", moderator.mentionString, guild.id, alertMessage.ChannelId, alertMessage.MessageId)
-		local success, err = modmail:OpenTicket(moderator, targetMember, reason, true)
-		if not success then
+		local reason = string.format("%s has opened a ticket following your message (<https://discord.com/channels/%s/%s/%s>)", moderator.mentionString, guild.id, alertMessage.ChannelId, alertMessage.MessageId)
+		local ticketChannel, err = modmail:OpenTicket(moderator, targetMember, reason, true)
+		if not ticketChannel then
 			interaction:editResponse({
 				content = string.format("❌ failed to open modmail ticket: %s", err)
 			})
@@ -615,7 +631,7 @@ function Module:OnInteractionCreate(interaction)
 		end
 
 		interaction:editResponse({
-			content = "✅ a modmail ticket has been created"
+			content = "✅ a modmail ticket has been created: " .. ticketChannel.mentionString
 		})
 
 		actionStr = "Modmail ticket opened by " .. moderator.mentionString
@@ -768,7 +784,10 @@ function Module:OnInteractionCreate(interaction)
 			alertMessage.Embed.fields[5].value = currentActionStr .. "\n" .. actionStr
 		end
 
-		interaction.message:setEmbed(alertMessage.Embed)
+		interaction.message:update({
+			components = alertMessage.Components,
+			embed = alertMessage.Embed
+		})
 	end
 end
 

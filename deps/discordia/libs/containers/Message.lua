@@ -263,6 +263,7 @@ sent by other users).
 ]=]
 function Message:update(data)
 	return self:_modify({
+		components = data.components or null,
 		content = data.content or null,
 		embed = data.embed or null,
 	})

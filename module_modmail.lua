@@ -509,7 +509,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 		end
 	end
 
-	return true
+	return ticketChannel
 end
 
 function Module:OnReactionAdd(reaction, userId)
