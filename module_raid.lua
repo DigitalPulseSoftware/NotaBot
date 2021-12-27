@@ -673,10 +673,10 @@ function Module:HandleRules(member)
 			if (ruleData.effect == "authorize") then
 				return true, string.format("%s has been allowed to join due to %s", member.mentionString, ruleStr)
 			elseif (ruleData.effect == "ban") then
-				member:ban(string.format("auto-ban by %s(%s)", ruleStr), 0)
+				member:ban(string.format("auto-ban due to %s", ruleStr), 0)
 				return false, string.format("%s has been banned due to %s", member.mentionString, ruleStr)
 			elseif (ruleData.effect == "kick") then
-				member:kick(string.format("auto-kick by %s(%s)", ruleStr))
+				member:kick(string.format("auto-kick due to %s", ruleStr))
 				return false, string.format("%s has been kicked due to %s", member.mentionString, ruleStr)
 			end
 		end
