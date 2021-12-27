@@ -268,6 +268,10 @@ local function ValidateActions(actions, metadata)
 		return false, " must be an array"
 	end
 
+	if #actions > 1 then
+		return false, " has too many values (currently only one action is allowed)"
+	end
+
 	for idx, action in ipairs(actions) do
 		if type(action) ~= "table" or #action ~= 0 then
 			return false, "[" .. idx .. "] must be an object"
@@ -429,6 +433,9 @@ local selectMenuFields = {
 			end
 
 			option.value = GenerateCustomId(option.actions, metadata, false)
+			if metadata.discardSelection then
+				option.value = option.value .. ";" .. "0_refreshmenu_nil"
+			end
 			option.actions = nil
 		end
 
@@ -459,7 +466,8 @@ local selectMenuFields = {
 
 		return true
 	end,
-	disabled = ValidateBoolean
+	disabled = ValidateBoolean,
+	discard_selection = ValidateBoolean
 }
 
 local function ValidateSelectMenuComponent(selectmenu, metadata)
@@ -471,10 +479,18 @@ local function ValidateSelectMenuComponent(selectmenu, metadata)
 		return false, ".options must exist"
 	end
 
+	if selectmenu.discard_selection then
+		metadata.discardSelection = true
+	else
+		metadata.discardSelection = false
+	end
+
 	local success, err = ValidateFields(selectmenu, selectMenuFields, false, metadata)
 	if not success then
 		return false, err
 	end
+
+	metadata.discardSelection = nil
 
 	selectmenu.custom_id = "message_placeholder" .. metadata.customIdCounter
 	metadata.customIdCounter = metadata.customIdCounter + 1
@@ -953,8 +969,14 @@ function Module:OnInteractionCreate(interaction)
 		return
 	end
 
+	local shouldRefresh = false
 	local messages = {}
 	local function PerformAction(type, value)
+		if type == "refreshmenu" then
+			shouldRefresh = true
+			return
+		end
+
 		local actionData = possibleActions[type]
 		if not actionData then
 			table.insert(messages, "<invalid action " .. type .. ">")
@@ -972,21 +994,29 @@ function Module:OnInteractionCreate(interaction)
 		}
 	})
 
-	if interaction.data.component_type == 2 then
-		local success, type, value = interaction.data.custom_id:match("^message_(%d+)_(%w+)_(.+)$")
-		if success then
-			PerformAction(type, value)
-		end
-	elseif interaction.data.component_type == 3 then
-		for _, value in ipairs(interaction.data.values) do
-			local success, type, value = value:match("^(%d+)_(%w+)_(.+)$")
+	local function HandleActions(value)
+		for _, actionStr in ipairs(value:split(";")) do
+			local success, type, value = actionStr:match("(%d+)_(%w+)_(.+)$")
 			if success then
 				PerformAction(type, value)
-			end
+			end	
+		end
+	end
+
+	if interaction.data.component_type == 2 then
+		HandleActions(interaction.data.custom_id)
+	elseif interaction.data.component_type == 3 then
+		for _, value in ipairs(interaction.data.values) do
+			HandleActions(value)
 		end
 	end
 
 	interaction:editResponse({
 		content = #messages > 0 and table.concat(messages, "\n") or "Nothing to do",
-	})		
+	})
+
+	-- C'est saaaaaaaaaaaaale
+	if shouldRefresh then
+		interaction.message:setComponents(interaction.message.components)
+	end
 end
