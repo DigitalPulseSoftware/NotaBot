@@ -172,8 +172,8 @@ end
 
 local effects = {
 	authorize = "Allow the user to join the server if it's locked.",
-	ban = "Prevents the user from joining (even if the server isn't locked).",
-	kick = "Bans the user on join."
+	ban = "Bans the user on join.",
+	kick = "Prevents the user from joining (even if the server isn't locked)."
 }
 
 
@@ -668,14 +668,16 @@ function Module:HandleRules(member)
 	local persistentData = self:GetPersistentData(guild)
 	for i, ruleData in ipairs(persistentData.rules) do
 		if (rules[ruleData.rule].Check(member, ruleData.ruleConfig)) then
+			local ruleStr = string.format("rule %d - %s(%s)", i, ruleData.rule, rules[ruleData.rule].ToString(ruleData.ruleConfig))
+
 			if (ruleData.effect == "authorize") then
-				return true, string.format("%s has been allowed to join (rule %d - %s)", member.mentionString, i, ruleData.rule)
+				return true, string.format("%s has been allowed to join due to %s", member.mentionString, ruleStr)
 			elseif (ruleData.effect == "ban") then
-				member:ban(string.format("auto-ban by rule %d - %s", i, ruleData.rule), 0)
-				return false, string.format("%s has been banned (rule %d - %s)", member.mentionString, i, ruleData.rule)
+				member:ban(string.format("auto-ban by %s(%s)", ruleStr), 0)
+				return false, string.format("%s has been banned due to %s", member.mentionString, ruleStr)
 			elseif (ruleData.effect == "kick") then
-				member:kick(string.format("auto-ban by rule %d - %s", i, ruleData.rule))
-				return false, string.format("%s has been kicked (rule %d - %s)", member.mentionString, i, ruleData.rule)
+				member:kick(string.format("auto-kick by %s(%s)", ruleStr))
+				return false, string.format("%s has been kicked due to %s", member.mentionString, ruleStr)
 			end
 		end
 	end
@@ -695,7 +697,7 @@ function Module:OnMemberJoin(member)
 			end
 		end
 
-		return
+		return -- no more check
 	elseif (allowed == false) then
 		if (msg) then
 			local ruleAlertChannel = guild:getChannel(config.RuleAlertChannel)

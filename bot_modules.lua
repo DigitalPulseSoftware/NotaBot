@@ -885,9 +885,9 @@ local StringifyConfigValue = function (guild, configTable, value)
 			return valueToString(value, guild)
 		end
 	else
-		if (not configTable.Optional) then
-			error("Config " .. configTable.Name .. " has no value but is not optional")
-		end
+		--if (not configTable.Optional) then
+		--	error("Config " .. configTable.Name .. " has no value but is not optional")
+		--end
 
 		return "<None>"
 	end

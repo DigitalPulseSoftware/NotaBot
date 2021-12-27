@@ -147,6 +147,9 @@ function string.GetArguments(text, limit)
             k = true
             if text:sub(b, b + 2) == "```" then
                 e = text:find("```", b + 3)
+				if e ~= nil then
+					e = e + 3
+				end
             else
                 e = text:find("`", b + 1)
             end
