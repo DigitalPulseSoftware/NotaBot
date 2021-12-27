@@ -282,7 +282,7 @@ function Module:OnLoaded()
 					return
 				end
 
-				if targetRole.position > memberHighestRole.position then
+				if targetRole.position > member.highestRole.position then
 					commandMessage:reply("you cannot add or remove a role higher than your own")
 					return
 				end
@@ -320,7 +320,7 @@ function Module:OnLoaded()
 					return
 				end
 
-				if targetRole.position > memberHighestRole.position then
+				if targetRole.position > member.highestRole.position then
 					commandMessage:reply("you cannot add or remove a role higher than your own")
 					return
 				end
@@ -358,7 +358,7 @@ function Module:OnLoaded()
 					return
 				end
 
-				if targetRole.position > memberHighestRole.position then
+				if targetRole.position > member.highestRole.position then
 					commandMessage:reply("you cannot add or remove a role higher than your own")
 					return
 				end

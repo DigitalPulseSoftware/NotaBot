@@ -192,7 +192,7 @@ local function validateRole(value, metadata)
 				return false, ": you need to have the manage roles permission to toggle a role"
 			end
 
-			if targetRole.position > memberHighestRole.position then
+			if targetRole.position > metadata.member.highestRole.position then
 				return false, ": you cannot add or remove a role higher than your own"
 			end
 		end
