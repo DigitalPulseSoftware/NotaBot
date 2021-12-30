@@ -20,6 +20,7 @@ local Role, get = require('class')('Role', Snowflake)
 
 function Role:__init(data, parent)
 	Snowflake.__init(self, data, parent)
+	self._permissions = Resolver.permissions(data.permissions or '0')
 	self.client._role_map[self._id] = parent
 end
 
