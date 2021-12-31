@@ -218,7 +218,7 @@ local possibleActions = {
 		Action = function (member, value)
 			return value
 		end
-	}
+	},
 	addrole = {
 		Validate = validateRole,
 		Action = function (member, value)
