@@ -202,6 +202,23 @@ local function validateRole(value, metadata)
 end
 
 local possibleActions = {
+	reply = {
+		Validate = function (value)
+			local success, err = ValidateString(value)
+			if not success then
+				return false, err
+			end
+
+			if #value > 1800 then
+				return false, " is too long (>1800 characters)"
+			end
+
+			return true
+		end,
+		Action = function (member, value)
+			return value
+		end
+	}
 	addrole = {
 		Validate = validateRole,
 		Action = function (member, value)
@@ -370,7 +387,7 @@ local function ValidateButtonComponent(button, metadata)
 		return false, ".style must exist"
 	end
 
-	local success, err = ValidateFields(button, buttonFields)
+	local success, err = ValidateFields(button, buttonFields, false, metadata)
 	if not success then
 		return false, err
 	end
