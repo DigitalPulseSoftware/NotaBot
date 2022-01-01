@@ -988,7 +988,7 @@ function Module:OnMessageCreate(message)
 
 		local success, err = ValidateMessageData(reply, message.member, message.guild, true)
 		if (not success) then
-			commandMessage:reply(err)
+			message:reply(err)
 			return
 		end
 
