@@ -694,7 +694,7 @@ function Module:ParseContentParameter(content, commandMessage)
 				}
 			end	
 		end
-	elseif (commandMessage) then
+	elseif (commandMessage.attachments) then
 		if (#commandMessage.attachments ~= 1) then
 			commandMessage:reply("You can send only one file!")
 			return
@@ -984,7 +984,6 @@ function Module:OnMessageCreate(message)
 	if (reply) then
 		reply = table.copy(reply)
 
-		reply.components = ReplaceData(reply.components, message.member)
 		reply.content = ReplaceData(reply.content, message.member)
 		reply.embed = ReplaceData(reply.embed, message.member)
 	
