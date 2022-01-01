@@ -410,7 +410,7 @@ local function ValidateButtonComponent(button, metadata)
 		end
 	end
 
-	if button.actions then
+	if metadata.transform and button.actions then
 		button.custom_id = GenerateCustomId(button.actions, metadata, true)
 		button.actions = nil
 	end
@@ -449,11 +449,13 @@ local selectMenuFields = {
 				return false, "[" .. idx .. "].actions must be valid"
 			end
 
-			option.value = GenerateCustomId(option.actions, metadata, false)
-			if metadata.discardSelection then
-				option.value = option.value .. ";" .. "0_refreshmenu_nil"
+			if metadata.transform then
+				option.value = GenerateCustomId(option.actions, metadata, false)
+				if metadata.discardSelection then
+					option.value = option.value .. ";" .. "0_refreshmenu_nil"
+				end
+				option.actions = nil
 			end
-			option.actions = nil
 		end
 
 		return true
@@ -568,12 +570,12 @@ local messageFields = {
 	deleteInvokation = ValidateBoolean
 }
 
-local function ValidateMessageData(data, member, guild)
+local function ValidateMessageData(data, member, guild, shouldTransform)
 	if (type(data) ~= "table" or #data ~= 0) then
 		return false, "MessageData must be an object"
 	end
 
-	local success, err = ValidateFields(data, messageFields, false, { member = member, guild = guild })
+	local success, err = ValidateFields(data, messageFields, false, { member = member, guild = guild, transform = shouldTransform })
 	if (not success) then
 		return false, "MessageData" .. err
 	end
@@ -644,7 +646,7 @@ function Module:GetConfigTable()
 						return false, "Replies keys error (" .. tostring(trigger) .. " " .. err .. ")"
 					end
 
-					local success, err = ValidateMessageData(reply, nil, client:getGuild(guildId))
+					local success, err = ValidateMessageData(reply, nil, client:getGuild(guildId), not reply)
 					if (not success) then
 						return false, "Replies[" .. trigger .. "]" .. err
 					end
@@ -662,7 +664,7 @@ function Module:GetConfigTable()
 	}
 end
 
-function Module:ParseContentParameter(content, commandMessage)
+function Module:ParseContentParameter(content, commandMessage, shouldTransform)
 	if (content) then
 		local language, code = content:match("^```(%w*)\n(.+)```$")
 		if (language) then
@@ -677,7 +679,7 @@ function Module:ParseContentParameter(content, commandMessage)
 				return
 			end
 
-			local success, err = ValidateMessageData(messageData, commandMessage.member, commandMessage.guild)
+			local success, err = ValidateMessageData(messageData, commandMessage.member, commandMessage.guild, shouldTransform)
 			if (not success) then
 				commandMessage:reply(err)
 				return
@@ -723,7 +725,7 @@ function Module:ParseContentParameter(content, commandMessage)
 			return
 		end
 
-		local success, err = ValidateMessageData(messageData, commandMessage.member, commandMessage.guild)
+		local success, err = ValidateMessageData(messageData, commandMessage.member, commandMessage.guild, shouldTransform)
 		if (not success) then
 			commandMessage:reply(err)
 			return
@@ -743,7 +745,7 @@ function Module:ReplaceData(data, triggeringMember)
 
 	if type(data) == "table" then
 		for k,v in pairs(data) do
-			data[k] = ReplaceData(v, triggeringMember)
+			data[k] = self:ReplaceData(v, triggeringMember)
 		end
 	else
 		data = data:gsub("{user}", triggeringMember.mentionString)
@@ -802,7 +804,7 @@ function Module:OnLoaded()
 
 		Help = "Makes the bot send a message",
 		Func = function (commandMessage, channel, content)
-			local messageData = self:ParseContentParameter(content, commandMessage)
+			local messageData = self:ParseContentParameter(content, commandMessage, true)
 			if (not messageData) then
 				return
 			end
@@ -832,7 +834,7 @@ function Module:OnLoaded()
 
 		Help = "Edit one of the message posted by the bot",
 		Func = function (commandMessage, message, content)
-			local messageData = self:ParseContentParameter(content, commandMessage)
+			local messageData = self:ParseContentParameter(content, commandMessage, true)
 			if (not messageData) then
 				return
 			end
@@ -865,7 +867,7 @@ function Module:OnLoaded()
 
 		Help = "Registers a reply to a particular message",
 		Func = function (commandMessage, trigger, content)
-			local messageData = self:ParseContentParameter(content, commandMessage)
+			local messageData = self:ParseContentParameter(content, commandMessage, false)
 			if (not messageData) then
 				return
 			end
@@ -984,8 +986,14 @@ function Module:OnMessageCreate(message)
 	if (reply) then
 		reply = table.copy(reply)
 
-		reply.content = ReplaceData(reply.content, message.member)
-		reply.embed = ReplaceData(reply.embed, message.member)
+		local success, err = ValidateMessageData(reply, message.member, message.guild, true)
+		if (not success) then
+			commandMessage:reply(err)
+			return
+		end
+
+		reply.content = self:ReplaceData(reply.content, message.member)
+		reply.embed = self:ReplaceData(reply.embed, message.member)
 	
 		local deleteInvokation = RemoveTableKey(reply, "deleteInvokation")
 		if deleteInvokation == nil then
