@@ -984,7 +984,7 @@ function Module:OnMessageCreate(message)
 	local config = self:GetConfig(message.guild)
 	local reply = config.Replies[message.content]
 	if (reply) then
-		reply = table.copy(reply)
+		reply = table.deepcopy(reply)
 
 		local success, err = ValidateMessageData(reply, message.member, message.guild, true)
 		if (not success) then
