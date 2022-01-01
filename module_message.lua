@@ -209,14 +209,14 @@ local possibleActions = {
 				return false, err
 			end
 
-			if #value > 1800 then
-				return false, " is too long (>1800 characters)"
+			if #value > 50 then
+				return false, " is too long (>50 characters)"
 			end
 
 			return true
 		end,
 		Action = function (member, value)
-			return value
+			return Module:ReplaceData(value, member)
 		end
 	},
 	addrole = {
@@ -736,6 +736,24 @@ function Module:ParseContentParameter(content, commandMessage)
 	end
 end
 
+function Module:ReplaceData(data, triggeringMember)
+	if data == nil then
+		return
+	end
+
+	if type(data) == "table" then
+		for k,v in pairs(data) do
+			data[k] = ReplaceData(v, triggeringMember)
+		end
+	else
+		data = data:gsub("{user}", triggeringMember.mentionString)
+		data = data:gsub("{userTag}", triggeringMember.tag)
+		data = data:gsub("{userMention}", triggeringMember.mentionString)
+	end
+
+	return data
+end
+
 function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "rawmessage",
@@ -965,12 +983,24 @@ function Module:OnMessageCreate(message)
 	local reply = config.Replies[message.content]
 	if (reply) then
 		reply = table.copy(reply)
+
+		reply.components = ReplaceData(reply.components, message.member)
+		reply.content = ReplaceData(reply.content, message.member)
+		reply.embed = ReplaceData(reply.embed, message.member)
+	
 		local deleteInvokation = RemoveTableKey(reply, "deleteInvokation")
+		if deleteInvokation == nil then
+			deleteInvokation = config.DeleteInvokation
+		end
+		if not deleteInvokation then
+			reply.reference = { message = message }
+		end
+
 	 	local success, err = message:reply(reply)
-		
+
 		if (not success) then
 			self:LogError(message.guild, "Failed to reply to %s: %s", message.content, err)
-		elseif (deleteInvokation == nil or deleteInvokation and config.DeleteInvokation) then
+		elseif deleteInvokation then
 			message:delete()
 		end
 	end
