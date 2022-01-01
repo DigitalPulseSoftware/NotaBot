@@ -747,7 +747,7 @@ function Module:ReplaceData(data, triggeringMember)
 		for k,v in pairs(data) do
 			data[k] = self:ReplaceData(v, triggeringMember)
 		end
-	else
+	elseif type(data) == "string" then
 		data = data:gsub("{user}", triggeringMember.mentionString)
 		data = data:gsub("{userTag}", triggeringMember.tag)
 		data = data:gsub("{userMention}", triggeringMember.mentionString)
