@@ -554,7 +554,7 @@ function Module:OnMemberLeave(member)
 	local data = self:GetPersistentData(member.guild)
 	local channelData = data.activeChannels[member.user.id]
 	if channelData then
-		local ticketChannel = guild:getChannel(channelData.channelId)
+		local ticketChannel = member.guild:getChannel(channelData.channelId)
 		if ticketChannel then
 			ticketChannel:send(member.mentionString .. " left the server")
 		end
