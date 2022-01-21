@@ -33,8 +33,30 @@ local PermissionOverwrite, get = require('class')('PermissionOverwrite', Snowfla
 
 function PermissionOverwrite:__init(data, parent)
 	Snowflake.__init(self, data, parent)
-	self._allow = Resolver.permissions(data.allow or '0')
-	self._deny = Resolver.permissions(data.deny or '0')
+	return self:_loadMore(data)
+end
+
+function PermissionOverwrite:_load(data)
+	Snowflake._load(self, data)
+	return self:_loadMore(data)
+end
+
+function PermissionOverwrite:_loadMore(data)
+	if data.allow then
+		self._allow = Resolver.permissions(data.allow)
+	end
+
+	if data.deny then
+		self._deny = Resolver.permissions(data.deny)
+	end
+
+	if not self._allow then
+		self._allow = 0ULL
+	end
+
+	if not self._deny then
+		self._deny = 0ULL
+	end
 end
 
 --[=[
