@@ -748,6 +748,18 @@ end
 local spamWords = {"nitro", "discord", "steam", "free", "cs:go"} 
 local spamHints = {"3 month", "away", "gift", "airdrop"}
 
+local discordDomains = {
+	-- no subdomain
+	["discord.com"] = true,
+	["discordapp.com"] = true,
+	-- public test build
+	["ptb.discord.com"] = true,
+	["ptb.discordapp.com"] = true,
+	-- canary
+	["canary.discord.com"] = true,
+	["canary.discordapp.com"] = true,
+}
+
 function Module:ComputeMessageSpamScore(content)
 	local score = 1 -- base score
 
@@ -781,7 +793,17 @@ function Module:ComputeMessageSpamScore(content)
 	end
 
 	-- double score for messages containing links
-	if content:match("https?://([%w%.]+)") then
+	local hasLinks = false
+	for link in content:gmatch("https?://([%w%.%%_/]+)") then
+		-- ignore discord links
+		local domain, guildId, channelId, messageId = link:match("https?://([%w%.]+)/channels/(%d+)/(%d+)/(%d+)(>?)")
+		if (not domain or not discordDomains[domain]) then
+			hasLinks = true
+			break
+		end
+	end
+
+	if hasLinks then
 		score = score * 2
 	end
 
