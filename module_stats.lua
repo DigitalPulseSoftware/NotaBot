@@ -455,8 +455,6 @@ function Module:BuildStats(guild)
 end
 
 function Module:SaveStats(filename, stats)
-	filename = filename
-
 	local dirname = path.dirname(filename)
 	if (dirname ~= "." and not fs.mkdirp(dirname)) then
 		self:LogError("Failed to create directory %s", dirname)
