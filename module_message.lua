@@ -209,8 +209,8 @@ local possibleActions = {
 				return false, err
 			end
 
-			if #value > 50 then
-				return false, " is too long (>50 characters)"
+			if #value > 100 then
+				return false, " is too long (must be <=100 characters)"
 			end
 
 			return true
@@ -277,6 +277,42 @@ local possibleActions = {
 				end
 			end
 		end
+	},
+	openticket = {
+		Validate = function (value, metadata)
+			local modmail = Bot:GetModuleForGuild(metadata.guild, "modmail")
+			if not modmail then
+				return false, "modmail module is disabled"
+			end
+
+			if (not value or value == "") then
+				return true
+			end
+
+			local success, err = ValidateString(value)
+			if not success then
+				return false, err
+			end
+
+			if #value > 100 then
+				return false, " is too long (must be <=100 characters)"
+			end
+
+			return true
+		end,
+		Action = function (member, value)
+			local modmail = Bot:GetModuleForGuild(member.guild, "modmail")
+			if not modmail then
+				return "❌ modmail is currently disabled"
+			end
+
+			local ticketChannel, err = modmail:OpenTicket(member, member, value, true)
+			if not ticketChannel then
+				return string.format("❌ failed to open modmail ticket: %s", err)
+			end
+
+			return "✅ a modmail ticket has been created: " .. ticketChannel.mentionString
+		end
 	}
 }
 
@@ -285,8 +321,8 @@ local function ValidateActions(actions, metadata)
 		return false, " must be an array"
 	end
 
-	if #actions > 1 then
-		return false, " has too many values (currently only one action is allowed)"
+	if #actions > 20 then
+		return false, " has too many values (a maximum of 20 actions are supported)"
 	end
 
 	for idx, action in ipairs(actions) do
@@ -310,17 +346,12 @@ local function ValidateActions(actions, metadata)
 	return true
 end
 
-local function GenerateCustomId(actions, metadata, prefix)
-	local customId = {}
-	for idx, action in ipairs(actions) do
-		local actionData = assert(possibleActions[action.type])
-		local encodeFunc = actionData.Encode or tostring
-		
-		table.insert(customId, (prefix and "message_" or "") .. metadata.customIdCounter .. "_" .. action.type .. "_" .. encodeFunc(action.value))
-		metadata.customIdCounter = metadata.customIdCounter + 1
-	end
+local function GenerateCustomId(actions, metadata)
+	local customId = "action_" .. metadata.customIdCounter
+	metadata.customIdCounter = metadata.customIdCounter + 1
 
-	return table.concat(customId, ";")
+	metadata.actions[customId] = actions
+	return customId
 end
 
 local ValidateComponent
@@ -410,8 +441,8 @@ local function ValidateButtonComponent(button, metadata)
 		end
 	end
 
-	if metadata.transform and button.actions then
-		button.custom_id = GenerateCustomId(button.actions, metadata, true)
+	if metadata.actions and button.actions then
+		button.custom_id = GenerateCustomId(button.actions, metadata)
 		button.actions = nil
 	end
 
@@ -449,11 +480,14 @@ local selectMenuFields = {
 				return false, "[" .. idx .. "].actions must be valid"
 			end
 
-			if metadata.transform then
-				option.value = GenerateCustomId(option.actions, metadata, false)
+			if metadata.actions then
 				if metadata.discardSelection then
-					option.value = option.value .. ";" .. "0_refreshmenu_nil"
+					table.insert(option.actions, {
+						type = "refreshmenu"
+					})
 				end
+
+				option.value = GenerateCustomId(option.actions, metadata)
 				option.actions = nil
 			end
 		end
@@ -570,12 +604,12 @@ local messageFields = {
 	deleteInvokation = ValidateBoolean
 }
 
-local function ValidateMessageData(data, member, guild, shouldTransform)
+local function ValidateMessageData(data, member, guild, actions)
 	if (type(data) ~= "table" or #data ~= 0) then
 		return false, "MessageData must be an object"
 	end
 
-	local success, err = ValidateFields(data, messageFields, false, { member = member, guild = guild, transform = shouldTransform })
+	local success, err = ValidateFields(data, messageFields, false, { member = member, guild = guild, actions = actions })
 	if (not success) then
 		return false, "MessageData" .. err
 	end
@@ -646,7 +680,7 @@ function Module:GetConfigTable()
 						return false, "Replies keys error (" .. tostring(trigger) .. " " .. err .. ")"
 					end
 
-					local success, err = ValidateMessageData(reply, nil, client:getGuild(guildId), not reply)
+					local success, err = ValidateMessageData(reply, nil, client:getGuild(guildId), nil)
 					if (not success) then
 						return false, "Replies[" .. trigger .. "]" .. err
 					end
@@ -660,11 +694,17 @@ function Module:GetConfigTable()
 			Description = "Deletes the message that invoked the reply",
 			Type = bot.ConfigType.Boolean,
 			Default = false
+		},
+		{
+			Name = "MaxActionMessage",
+			Description = "How many actions messages are allowed per server",
+			Type = bot.ConfigType.Integer,
+			Default = 20
 		}
 	}
 end
 
-function Module:ParseContentParameter(content, commandMessage, shouldTransform)
+function Module:ParseContentParameter(content, commandMessage, actions)
 	if (content) then
 		local language, code = content:match("^```(%w*)\n(.+)```$")
 		if (language) then
@@ -679,7 +719,7 @@ function Module:ParseContentParameter(content, commandMessage, shouldTransform)
 				return
 			end
 
-			local success, err = ValidateMessageData(messageData, commandMessage.member, commandMessage.guild, shouldTransform)
+			local success, err = ValidateMessageData(messageData, commandMessage.member, commandMessage.guild, actions)
 			if (not success) then
 				commandMessage:reply(err)
 				return
@@ -725,7 +765,7 @@ function Module:ParseContentParameter(content, commandMessage, shouldTransform)
 			return
 		end
 
-		local success, err = ValidateMessageData(messageData, commandMessage.member, commandMessage.guild, shouldTransform)
+		local success, err = ValidateMessageData(messageData, commandMessage.member, commandMessage.guild, actions)
 		if (not success) then
 			commandMessage:reply(err)
 			return
@@ -754,6 +794,28 @@ function Module:ReplaceData(data, triggeringMember)
 	end
 
 	return data
+end
+
+function Module:RegisterAction(guild, messageId, actions)
+	if next(actions) == nil then
+		-- not actions
+		return true
+	end
+
+	local config = self:GetConfig(guild)
+	local persistentData = self:GetPersistentData(guild)
+	persistentData.MessageActions = persistentData.MessageActions or {}
+
+	if not persistentData.MessageActions[messageId] then
+		-- Adding a new entry
+		local count = table.count(persistentData.MessageActions)
+		if count >= config.MaxActionMessage then
+			return false, "too many messages with actions (" .. tostring(count) .. " >= " .. config.MaxActionMessage .. ")"
+		end
+	end
+
+	persistentData.MessageActions[messageId] = actions
+	return true
 end
 
 function Module:OnLoaded()
@@ -804,7 +866,8 @@ function Module:OnLoaded()
 
 		Help = "Makes the bot send a message",
 		Func = function (commandMessage, channel, content)
-			local messageData = self:ParseContentParameter(content, commandMessage, true)
+			local actions = {}
+			local messageData = self:ParseContentParameter(content, commandMessage, actions)
 			if (not messageData) then
 				return
 			end
@@ -817,8 +880,13 @@ function Module:OnLoaded()
 				return
 			end
 		
-			local success, err = channel:send(messageData)
-			if (not success) then
+			local message, err = channel:send(messageData)
+			if (message) then
+				local success, err = self:RegisterAction(commandMessage.guild, message.id, actions)
+				if not success then
+					commandMessage:reply(string.format("Message sent but actions couldn't be registered: %s", err))
+				end
+			else
 				commandMessage:reply(string.format("Discord rejected the message: %s", err))
 			end
 		end
@@ -834,6 +902,7 @@ function Module:OnLoaded()
 
 		Help = "Edit one of the message posted by the bot",
 		Func = function (commandMessage, message, content)
+			local actions = {}
 			local messageData = self:ParseContentParameter(content, commandMessage, true)
 			if (not messageData) then
 				return
@@ -851,7 +920,12 @@ function Module:OnLoaded()
 			end
 
 			local success, err = message:update(messageData)
-			if (not success) then
+			if (success) then
+				local success, err = self:RegisterAction(commandMessage.guild, message.id, actions)
+				if not success then
+					commandMessage:reply(string.format("Message sent but actions couldn't be registered: %s", err))
+				end
+			else
 				commandMessage:reply(string.format("Discord rejected the message: %s", err))
 			end
 		end
@@ -867,7 +941,7 @@ function Module:OnLoaded()
 
 		Help = "Registers a reply to a particular message",
 		Func = function (commandMessage, trigger, content)
-			local messageData = self:ParseContentParameter(content, commandMessage, false)
+			local messageData = self:ParseContentParameter(content, commandMessage, nil)
 			if (not messageData) then
 				return
 			end
@@ -986,7 +1060,7 @@ function Module:OnMessageCreate(message)
 	if (reply) then
 		reply = table.deepcopy(reply)
 
-		local success, err = ValidateMessageData(reply, message.member, message.guild, true)
+		local success, err = ValidateMessageData(reply, message.member, message.guild)
 		if (not success) then
 			message:reply(err)
 			return
@@ -1013,31 +1087,36 @@ function Module:OnMessageCreate(message)
 	end
 end
 
+function Module:OnMessageDelete(message)
+	local persistentData = self:GetPersistentData(message.guild)
+	if persistentData.MessageActions then
+		persistentData.MessageActions[message.id] = nil
+	end
+end
+
+function Module:OnMessageDeleteUncached(channel, messageId)
+	local persistentData = self:GetPersistentData(channel.guild)
+	if persistentData.MessageActions then
+		persistentData.MessageActions[messageId] = nil
+	end
+end
+
 function Module:OnInteractionCreate(interaction)
 	local guild = interaction.guild
 	if not guild then
 		return
 	end
 
-	if not interaction.data.custom_id:startswith("message_") then
+	p("interaction.data", interaction.data)
+
+	local persistentData = self:GetPersistentData(guild)
+	if not persistentData.MessageActions then
 		return
 	end
 
-	local shouldRefresh = false
-	local messages = {}
-	local function PerformAction(type, value)
-		if type == "refreshmenu" then
-			shouldRefresh = true
-			return
-		end
-
-		local actionData = possibleActions[type]
-		if not actionData then
-			table.insert(messages, "<invalid action " .. type .. ">")
-			return
-		end
-
-		table.insert(messages, actionData.Action(interaction.member, value))
+	local messageActions = persistentData.MessageActions[interaction.message.id]
+	if not messageActions then
+		return
 	end
 
 	-- "Waiting"
@@ -1048,12 +1127,27 @@ function Module:OnInteractionCreate(interaction)
 		}
 	})
 
-	local function HandleActions(value)
-		for _, actionStr in ipairs(value:split(";")) do
-			local success, type, value = actionStr:match("(%d+)_(%w+)_(.+)$")
-			if success then
-				PerformAction(type, value)
-			end	
+	local shouldRefresh = false
+	local messages = {}
+
+	local function HandleActions(id)
+		local actions = messageActions[id]
+		if not actions then
+			return
+		end
+
+		for _, action in pairs(actions) do
+			if action.type == "refreshmenu" then
+				shouldRefresh = true
+			else
+				local actionData = possibleActions[action.type]
+				if not actionData then
+					table.insert(messages, "<invalid action " .. action.type .. ">")
+					return
+				end
+
+				table.insert(messages, actionData.Action(interaction.member, action.value))
+			end
 		end
 	end
 
