@@ -1146,7 +1146,10 @@ function Module:OnInteractionCreate(interaction)
 					return
 				end
 
-				table.insert(messages, actionData.Action(interaction.member, action.value))
+				local response = actionData.Action(interaction.member, action.value)
+				if response and #response > 0 then
+					table.insert(messages, response)
+				end
 			end
 		end
 	end
