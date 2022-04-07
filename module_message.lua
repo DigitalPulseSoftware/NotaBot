@@ -247,9 +247,9 @@ local possibleActions = {
 				return
 			end
 			
-			local success, err = member:addRole(value)
+			local success, err = member:removeRole(value)
 			if success then
-				return "✅ Role " .. role.mentionString .. " added"
+				return "✅ Role " .. role.mentionString .. " removed"
 			else
 				return "⚠️ Failed to remove " .. role.mentionString
 			end
