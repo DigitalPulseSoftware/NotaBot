@@ -903,7 +903,7 @@ function Module:OnLoaded()
 		Help = "Edit one of the message posted by the bot",
 		Func = function (commandMessage, message, content)
 			local actions = {}
-			local messageData = self:ParseContentParameter(content, commandMessage, true)
+			local messageData = self:ParseContentParameter(content, commandMessage, actions)
 			if (not messageData) then
 				return
 			end
