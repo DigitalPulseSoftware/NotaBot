@@ -148,7 +148,7 @@ function Module:CheckTextMutePermissions(channel)
 
 	local deniedPermissions = permissions:getDeniedPermissions()
 	-- :enable here just sets the bit, disabling the permissions
-	deniedPermissions:enable(enums.permission.addReactions, enums.permission.sendMessages, enums.permission.usePublicThreads)
+	deniedPermissions:enable(enums.permission.addReactions, enums.permission.sendMessages, enums.permission.usePublicThreads, enums.permission.sendMessagesInThreads)
 
 	if permissions:getAllowedPermissions() ~= discordia.Permissions() or permissions:getDeniedPermissions() ~= deniedPermissions then
 		permissions:setPermissions('0', deniedPermissions)
