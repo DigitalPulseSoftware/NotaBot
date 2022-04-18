@@ -28,7 +28,7 @@ local function SetToTable(s)
 end
 
 coroutine.wrap(function ()
-    local res, body = http.request("GET", "https://static.emzi0767.com/misc/discordEmojiMap.json")
+    local res, body = http.request("GET", "https://emzi0767.gl-pages.emzi0767.dev/discord-emoji/discordEmojiMap.json")
     if (res.code ~= 200) then
         error("failed to download discord emoji map")
     end
