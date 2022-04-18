@@ -300,6 +300,7 @@ end
 
 loadbotfile("bot_emoji.lua")
 loadbotfile("bot_utility.lua")
+loadbotfile("bot_localization.lua")
 loadbotfile("bot_commands.lua")
 loadbotfile("bot_modules.lua")
 loadbotfile("bot_timers.lua")

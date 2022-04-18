@@ -1,0 +1,18 @@
+{
+    "MODMAIL_CLOSETICKET": "Fermer le ticket",
+    "MODMAIL_TICKETCLOSE_MESSAGE": "%s a fermé le ticket, ce canal sera automatiquement supprimé dans %s",
+    "MODMAIL_TICKETOPENING_MESSAGE": "Bonjour %s, vous pouvez communiquer avec la modération de **%s** via ce canal privé.",
+    "MODMAIL_TICKETOPENING_MESSAGE_MODERATION": "Bonjour %s, la modération de **%s** souhaite s'entretenir avec vous.",
+    "MODMAIL_TICKETMESSAGE": "Message associé :",
+    "MODMAIL_LEFTSERVER": "%s a quitté le serveur",
+    "MODMAIL_NOTACTIVETICKET": "Vous ne pouvez effectuer cette action que dans un ticket actif, %s.",
+    "MODMAIL_NOTAUTHORIZED": "Vous n'avez pas la permission de faire ça, %s.",
+    "MODMAIL_TICKETCLOSED_CONFIRMATION": "✅ Ticket fermé.",
+    "MODMAIL_OPENTICKET_BUTTON_LABEL": "Ouvrir un ticket avec la modération...",
+    "MODMAIL_FORM_TITLE": "Ouvrir un ticket avec la modération",
+    "MODMAIL_FORM_DESCRIPTION_LABEL": "Décrivez en quelques mots votre demande :",
+    "MODMAIL_OPENTICKET_FORBIDDEN": "Ouvrir un ticket sur ce serveur vous est interdit.",
+    "MODMAIL_OPENTICKET_NOTALLOWED": "Vous n'avez pas la permission d'ouvrir un ticket sur ce serveur.",
+    "MODMAIL_OPENTICKET_NOTALLOWED_OTHERMEMBER": "Vous n'avez pas la permission d'ouvrir un ticket pour un autre membre sur ce serveur.",
+    "MODMAIL_TICKEDOPENED": "✅ Un ticket de modération a bien été ouvert: %s."
+}

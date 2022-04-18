@@ -374,6 +374,10 @@ function ModuleMetatable:GetPersistentData(guild, noCreate)
 end
 
 function ModuleMetatable:IsEnabledForGuild(guild)
+	if self.Global then
+		return true
+	end
+
 	local config = self:GetConfig(guild, true)
 	return config and config._Enabled or false
 end

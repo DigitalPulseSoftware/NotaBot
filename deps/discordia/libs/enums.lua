@@ -196,6 +196,7 @@ enums.permission = enum {
 	useExternalStickers = flag64(37),
 	sendMessagesInThreads = flag64(38),
 	startEmbeddedActivities = flag64(39),
+	moderateMembers         = flag64(40)
 }
 
 enums.messageFlag = enum {
@@ -334,13 +335,15 @@ enums.interactionResponseType = enum {
 	deferredChannelMessageWithSource     = 5,
 	deferredUpdateMessage                = 6,
 	updateMessage                        = 7,
-	applicationCommandAutocompleteResult = 8
+	applicationCommandAutocompleteResult = 8,
+	modal                                = 9
 }
 
 enums.componentType = enum {
 	actionRow  = 1,
 	button     = 2,
 	selectMenu = 3,
+	textInput  = 4
 }
 
 enums.buttonStyle = enum {
@@ -349,6 +352,11 @@ enums.buttonStyle = enum {
 	success   = 3, -- grey
 	danger    = 4, -- red
 	link      = 5, -- grey with link icon
+}
+
+enums.textInputStyle = enum {
+	short = 1,
+	paragraph = 2
 }
 
 enums.interactionResponseFlag = enum {
