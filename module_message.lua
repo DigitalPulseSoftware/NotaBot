@@ -1027,7 +1027,7 @@ function Module:OnLoaded()
 
 			local messageData = bot:MessagesToTable(messages)
 			messageData.requestedBy = commandMessage.member.id
-			
+
 			local jsonSave = json.encode(messageData, { indent = 1})
 			commandMessage:reply({ 
 				content = string.format("%d message(s) of channel %s have been saved to following file", #messages, targetChannel.mentionString),
@@ -1106,8 +1106,6 @@ function Module:OnInteractionCreate(interaction)
 	if not guild then
 		return
 	end
-
-	p("interaction.data", interaction.data)
 
 	local persistentData = self:GetPersistentData(guild)
 	if not persistentData.MessageActions then
