@@ -77,7 +77,7 @@ function Module:OnLoaded()
 
 			-- Reason
 			if reason and #reason > 0 then
-				reason = bot:Format(guild, "MUTE_REASON", reason)
+				reason = " " .. bot:Format(guild, "MUTE_REASON", reason)
 			else
 				reason = ""
 			end
@@ -135,7 +135,7 @@ function Module:OnLoaded()
 
 			-- Reason
 			if reason and #reason > 0 then
-				reason = bot:Format(guild, "MUTE_REASON", reason)
+				reason = " " .. bot:Format(guild, "MUTE_REASON", reason)
 			else
 				reason = ""
 			end
