@@ -752,7 +752,7 @@ function Module:SendChannelNotification(guild, channel, message, channelData)
 
 	table.insert(fields, {
 		name = "Started",
-		value = util.FormatTime(now - startDate, 1) .. " ago"
+		value = util.DiscordRelativeTimestamp(startDate)
 	})
 
 	local success, err = channel:send({

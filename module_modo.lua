@@ -250,9 +250,9 @@ function Module:HandleEmojiAdd(userId, message)
 				if (config.muteRole) then
 					local reportedUser = client:getUser(reportedMessage.ReportedUserId)
 					if (self:Mute(guild, reportedMessage.ReportedUserId)) then
-						local durationStr = util.FormatTime(config.MuteDuration, 2)
+						local durationStr = util.DiscordRelativeTime(config.MuteDuration)
 						alertChannel:send({
-							content = string.format("%s has been auto-muted for %s", reportedUser.mentionString, durationStr),
+							content = string.format("%s has been auto-muted %s", reportedUser.mentionString, durationStr),
 							reference = alertMessage and {
 								message = alertMessage.id
 							} or nil
@@ -680,7 +680,7 @@ function Module:OnInteractionCreate(interaction)
 			content = "✅ the member has been muted for " .. util.FormatTime(duration)
 		})
 
-		actionStr = "Muted for " .. util.FormatTime(duration) .. " by " .. moderator.mentionString
+		actionStr = "Muted " .. util.DiscordRelativeTime(duration) .. " by " .. moderator.mentionString
 	elseif interactionType == "alertmodule_ban" then
 		local duration = interaction.data.values and interaction.data.values[1] or nil
 		if duration == "0" or duration == "0_deletemessages" then

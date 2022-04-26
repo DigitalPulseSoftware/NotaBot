@@ -96,7 +96,7 @@ function Module:OnMemberLeave(member)
 			message = message:gsub("{user}", member.user.tag)
 			if (member.joinedAt) then
 				local duration = Discordia.Date() - Discordia.Date.fromISO(member.joinedAt)
-				message = message:gsub("{duration}", util.FormatTime(duration:toSeconds(), 2))
+				message = message:gsub("{duration}", bot:FormatDuration(member.guild, duration:toSeconds(), 2))
 			else
 				message = message:gsub("{duration}", "<unavailable>")
 			end

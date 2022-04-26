@@ -83,7 +83,7 @@ Bot.ConfigTypeToString = {
 		return channel and channel.mentionString or "<Invalid channel>"
 	end,
 	[Bot.ConfigType.Custom] = function (value, guild) return "<custom-type>" end,
-	[Bot.ConfigType.Duration] = function (value, guild) return util.FormatTime(value) end,
+	[Bot.ConfigType.Duration] = function (value, guild) return Bot:FormatDuration(guild, value) end,
 	[Bot.ConfigType.Emoji] = function (value, guild)
 		local emojiData = Bot:GetEmojiData(guild, value)
 		return emojiData and emojiData.MentionString or "<Invalid emoji>"

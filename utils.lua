@@ -14,6 +14,13 @@ do
 	local millenniumSecond = 10 * centurySecond
 
 	table.insert(timeUnits, {
+		AltNames = {"u"},
+		NameSingular = "age of the Universe",
+		NamePlural = "ages of the Universe",
+		Seconds = 13800000 * millenniumSecond
+	})
+
+	table.insert(timeUnits, {
 		AltNames = {"mi"},
 		NameSingular = "millennium",
 		NamePlural = "millennia",
@@ -259,6 +266,33 @@ function util.FormatTime(seconds, depth)
 	end
 
 	return table.NiceConcat(txt)
+end
+
+local discordMaxTimestamp = 4294962947295 -- found by rigourous testing
+
+function util.DiscordTime(timestamp)
+	if timestamp < discordMaxTimestamp then
+		return string.format("<t:%d>", timestamp)
+	else
+		return util.FormatTime(timestamp, 3)
+	end
+end
+
+function util.DiscordRelativeTime(duration)
+	return util.DiscordRelativeTimestamp(os.time() + duration)
+end
+
+function util.DiscordRelativeTimestamp(timestamp)
+	if timestamp < discordMaxTimestamp then
+		return string.format("<t:%d:R>", timestamp)
+	else
+		local now = os.time()
+		if timestamp > now then
+			return "in " .. util.FormatTime(timestamp - now, 3)
+		else
+			return util.FormatTime(now - timestamp, 3) .. " ago"
+		end
+	end
 end
 
 function util.MemberHasAnyRole(member, roles)

@@ -278,7 +278,7 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 				end
 			end
 
-			local closeMessage = bot:Format(guild, "MODMAIL_TICKETCLOSE_MESSAGE", member.user.mentionString, util.FormatTime(config.DeleteDuration, 2))
+			local closeMessage = bot:Format(guild, "MODMAIL_TICKETCLOSE_MESSAGE", member.user.mentionString, util.DiscordRelativeTime(config.DeleteDuration))
 
 			if (reason and #reason > 0) then
 				local author = member.user

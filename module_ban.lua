@@ -58,8 +58,6 @@ function Module:OnLoaded()
 				duration = config.DefaultBanDuration
 			end
 
-			local durationStr = util.FormatTime(duration, 3)
-
 			-- Reason
 			reason = reason or ""
 
@@ -78,7 +76,7 @@ function Module:OnLoaded()
 				if (privateChannel) then
 					local durationText
 					if (duration > 0) then
-						durationText = string.format("You will be unbanned in %s", duration > 0 and durationStr or "")
+						durationText = string.format("You will be unbanned %s", duration > 0 and util.DiscordRelativeTime(duration) or "")
 					else
 						durationText = ""
 					end
@@ -148,13 +146,11 @@ function Module:OnLoaded()
 		Func = function (commandMessage, targetUser, newDuration)
 			local guild = commandMessage.guild
 
-			local durationStr = util.FormatTime(newDuration, 3)
-
 			if (self:UpdateBanDuration(guild, targetUser.id, newDuration)) then
 				commandMessage:reply(string.format("%s has updated %s ban duration (%s)", 
 					commandMessage.member.name,
 					targetUser.tag,
-					newDuration > 0 and ("unbanned in " .. durationStr) or "banned permanently"))
+					newDuration > 0 and ("unbanned " .. util.DiscordRelativeTime(newDuration)) or "banned permanently"))
 			else
 				commandMessage:reply(string.format("%s is not banned", targetUser.tag))
 			end

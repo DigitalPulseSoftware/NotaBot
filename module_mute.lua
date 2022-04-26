@@ -75,37 +75,46 @@ function Module:OnLoaded()
 				duration = config.DefaultMuteDuration
 			end
 
-			local durationStr = util.FormatTime(duration, 3)
-
 			-- Reason
-			reason = reason or ""
+			if reason and #reason > 0 then
+				reason = bot:Format(guild, "MUTE_REASON", reason)
+			else
+				reason = ""
+			end
 
 			local mutedByRole = mutedBy.highestRole
 			local targetRole = targetMember.highestRole
 			if (targetRole.position >= mutedByRole.position) then
-				commandMessage:reply("You cannot mute that user due to your lower permissions.")
+				commandMessage:reply(bot:Format(guild, "MUTE_NOTAUTHORIZED"))
 				return
 			end
 
 			if (config.SendPrivateMessage) then
+				local durationText
+				if (duration > 0) then
+					durationText = "\n" .. bot:Format(guild, "MUTE_YOU_WILL_BE_UNMUTED_IN", util.DiscordRelativeTime(duration))
+				else
+					durationText = ""
+				end
+
 				local privateChannel = targetMember:getPrivateChannel()
 				if (privateChannel) then
-					local durationText
-					if (duration > 0) then
-						durationText = "You will be unmuted in " .. durationStr
-					else
-						durationText = ""
-					end
-
-					privateChannel:send(string.format("You have been muted from **%s** by %s (%s)\n%s", commandMessage.guild.name, mutedBy.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given", durationText))
+					privateChannel:send(bot:Format(guild, "MUTE_PRIVATE_MESSAGE", guild.name, mutedBy.user.mentionString, reason, durationText))
 				end
 			end
 
 			local success, err = self:Mute(guild, targetMember.id, duration)
 			if (success) then
-				commandMessage:reply(string.format("%s has muted %s (%s)%s", mutedBy.name, targetMember.tag, duration > 0 and ("for " .. durationStr) or "permanent", #reason > 0 and (" for the reason: " .. reason) or ""))
+				local durationText
+				if (duration > 0) then
+					durationText = "\n" .. bot:Format(guild, "MUTE_THEY_WILL_BE_UNMUTED_IN", util.DiscordRelativeTime(duration))
+				else
+					durationText = ""
+				end
+
+				commandMessage:reply(bot:Format(guild, "MUTE_GUILD_MESSAGE", mutedBy.name, targetMember.tag, reason, durationText))
 			else
-				commandMessage:reply(string.format("Failed to mute %s: %s", targetMember.tag, err))
+				commandMessage:reply(bot:Format(guild, "MUTE_MUTE_FAILED", targetMember.tag, err))
 			end
 		end
 	})
@@ -125,20 +134,24 @@ function Module:OnLoaded()
 			local config = self:GetConfig(guild)
 
 			-- Reason
-			reason = reason or ""
+			if reason and #reason > 0 then
+				reason = bot:Format(guild, "MUTE_REASON", reason)
+			else
+				reason = ""
+			end
 
 			if (config.SendPrivateMessage) then
 				local privateChannel = targetUser:getPrivateChannel()
 				if (privateChannel) then
-					privateChannel:send(string.format("You have been unmuted from **%s** by %s (%s)", commandMessage.guild.name, commandMessage.member.user.mentionString, #reason > 0 and ("reason: " .. reason) or "no reason given"))
+					privateChannel:send(bot:Format(guild, "MUTE_UNMUTE_MESSAGE", guild.name, commandMessage.member.mentionString, reason))
 				end
 			end
 
 			local success, err = self:Unmute(guild, targetUser.id)
 			if (success) then
-				commandMessage:reply(string.format("%s has unmuted %s%s", commandMessage.member.name, targetUser.tag, #reason > 0 and (" for the reason: " .. reason) or ""))
+				commandMessage:reply(bot:Format(guild, "MUTE_UNMUTE_GUILD_MESSAGE", commandMessage.member.name, targetUser.tag, reason))
 			else
-				commandMessage:reply(string.format("Failed to unmute %s: %s", targetUser.tag, err))
+				commandMessage:reply(bot:Format(guild, "MUTE_UNMUTE_FAILED", targetUser.tag, err))
 			end
 		end
 	})
@@ -231,13 +244,13 @@ function Module:Mute(guild, userId, duration)
 	local config = self:GetConfig(guild)
 	local member = guild:getMember(userId)
 	if (not member) then
-		return false, "not part of guild"
+		return false, bot:Format(guild, "MUTE_ERROR_NOT_PART_OF_GUILD", "<@" .. userId .. ">")
 	end
 
 	local success, err = member:addRole(config.MuteRole)
 	if (not success) then
-		self:LogError(guild, "Failed to mute %s: %s", member.tag, err)
-		return false, "failed to mute user: " .. err
+		self:LogError(guild, "failed to mute %s: %s", member.tag, err)
+		return false, err
 	end
 
 	local persistentData = self:GetPersistentData(guild)
@@ -269,7 +282,7 @@ function Module:Unmute(guild, userId)
 		local success, err = member:removeRole(config.MuteRole)
 		if (not success) then
 			self:LogError(guild, "Failed to unmute %s: %s", member.tag, err)
-			return false, "failed to unmute user: " .. err
+			return false, err
 		end
 	end
 
@@ -303,7 +316,7 @@ function Module:OnMemberJoin(member)
 	if (persistentData.MutedUsers[member.id]) then
 		local success, err = member:addRole(config.MuteRole)
 		if (not success) then
-			self:LogError(guild, "Failed to apply mute role to %s: %s", member.tag, err)
+			self:LogError(guild, "failed to apply mute role to %s: %s", member.tag, err)
 		end
 	end
 end

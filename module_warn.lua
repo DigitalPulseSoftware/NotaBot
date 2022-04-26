@@ -204,17 +204,16 @@ function Module:OnLoaded()
                 elseif warnAmount % muteAmount == 0 then
                     -- MUTE
                     local duration = config.DefaultMuteDuration * (warnAmount / muteAmount)
-                    local durationStr = util.FormatTime(duration, 3)
                     local mute_module = bot:GetModuleForGuild(guild, "mute")
-                    
+
                     if mute_module then
                         local channel = guild:getChannel(config.BanInformationChannel)
                         if channel then
-                            channel:send(string.format("The member **%s** ( %d ) has enough warns to be muted (%d warns) for %s.",
+                            channel:send(string.format("The member **%s** ( %d ) has enough warns to be muted (%d warns) %s.",
                                 targetMember.tag,
                                 targetMember.id,
                                 warnAmount,
-                                durationStr
+                                util.DiscordRelativeTime(duration)
                             ))
                         end
                         bot:CallModuleFunction(mute_module, "Mute", guild, targetMember.id, duration)

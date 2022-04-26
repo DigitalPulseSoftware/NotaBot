@@ -602,7 +602,7 @@ function Module:LockServer(guild, duration, reason)
 	self:StartLockTimer(guild, persistentData.lockedUntil)
 
 	if (config.LockAlertChannel) then
-		local durationStr = duration > 0 and "for " .. util.FormatTime(duration, 3) or ""
+		local durationStr = duration > 0 and util.DiscordRelativeTime(duration) or ""
 
 		local alertChannel = guild:getChannel(config.LockAlertChannel)
 		if (alertChannel) then
