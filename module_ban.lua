@@ -76,7 +76,7 @@ function Module:OnLoaded()
 				if (privateChannel) then
 					local durationText
 					if (duration > 0) then
-						durationText = string.format("You will be unbanned %s", duration > 0 and util.DiscordRelativeTime(duration) or "")
+						durationText = string.format("You will be unbanned %s", util.DiscordRelativeTime(duration))
 					else
 						durationText = ""
 					end
@@ -88,7 +88,14 @@ function Module:OnLoaded()
 			local data = self:GetData(commandMessage.guild)
 			data.BanInProgress[targetUser.id] = true
 			if (guild:banUser(targetUser, reason, 0)) then
-				commandMessage:reply(string.format("%s has banned %s (%s)%s", bannedBy.name, targetUser.tag, duration > 0 and ("for " .. durationStr) or "permanent", #reason > 0 and (" for the reason: " .. reason) or ""))
+				local durationText
+				if (duration > 0) then
+					durationText = "for " .. util.DiscordRelativeTime(duration)
+				else
+					durationText = "permanent"
+				end
+
+				commandMessage:reply(string.format("%s has banned %s (%s)%s", bannedBy.name, targetUser.tag, durationText, #reason > 0 and (" for the reason: " .. reason) or ""))
 
 				self:RegisterBan(commandMessage.guild, targetUser.id, commandMessage.author, duration, reason)
 			else
