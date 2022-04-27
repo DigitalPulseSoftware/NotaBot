@@ -25,9 +25,9 @@ end
 function Bot:Format(guild, str, ...)
 	local serverconfig = self:GetModuleForGuild(guild, "serverconfig")
 	if serverconfig then
-		local config = serverconfig:GetConfig(guild, true)
+		local config = serverconfig:GetConfig(guild)
 		if config then
-			local langtable = langtables[config.Language]
+			local langtable = langtables[config.Language or "en"]
 			if langtable then
 				local translation = langtable.Locs[str]
 				if translation then
@@ -43,9 +43,9 @@ end
 function Bot:FormatDuration(guild, seconds, depth)
 	local serverconfig = self:GetModuleForGuild(guild, "serverconfig")
 	if serverconfig then
-		local config = serverconfig:GetConfig(guild, true)
+		local config = serverconfig:GetConfig(guild)
 		if config then
-			local langtable = langtables[config.Language]
+			local langtable = langtables[config.Language or "en"]
 			if langtable then
 				local formatTime = langtable.FormatTime
 				if formatTime then

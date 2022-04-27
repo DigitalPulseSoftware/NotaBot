@@ -15,7 +15,7 @@ function Module:GetConfigTable()
 			Name = "Language",
 			Description = "Bot language (en/fr)",
 			Type = bot.ConfigType.String,
-			Default = "en"
+			Default = "fr"
 		}
 	}
 end
