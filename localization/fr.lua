@@ -36,10 +36,10 @@ do
 
 	table.insert(timeUnits, {
 		AltNames = {"y"},
-		NameSingular = "année",
-		NamePlural = "années",
+		NameSingular = "an",
+		NamePlural = "ans",
 		Seconds = yearSecond,
-        One = "une"
+        One = "un"
 	})
 
 	table.insert(timeUnits, {
