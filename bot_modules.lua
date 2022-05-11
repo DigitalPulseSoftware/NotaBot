@@ -460,7 +460,6 @@ function ModuleMetatable:LoadGuildConfig(guild)
 end
 
 function ModuleMetatable:SaveGuildConfig(guild)
-print("ok config")
 	local save = function (guildId, guildConfig)
 		local filepath = string.format("data/module_%s/guild_%s/config.json", self.Name, guildId)
 		local success, err = Bot:SerializeToFile(filepath, guildConfig, true)
@@ -482,7 +481,6 @@ print("ok config")
 end
 
 function ModuleMetatable:SavePersistentData(guild)
-print("ok persistent")
 	local save = function (guildId, persistentData)
 		local filepath = string.format("data/module_%s/guild_%s/persistentdata.json", self.Name, guildId)
 		local success, err = Bot:SerializeToFile(filepath, persistentData)
