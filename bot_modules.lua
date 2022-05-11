@@ -302,7 +302,7 @@ function ModuleMetatable:EnableForGuild(guild, ignoreCheck, dontSave)
 	guildData.Config._Enabled = true
 
 	if (not dontSave) then
-		self:SaveGuildConfig(guild)
+		self:Save(guild)
 	end
 
 	self:LogInfo(guild, "Module enabled (%.3fs)", stopwatch.milliseconds / 1000)
@@ -460,6 +460,7 @@ function ModuleMetatable:LoadGuildConfig(guild)
 end
 
 function ModuleMetatable:SaveGuildConfig(guild)
+print("ok config")
 	local save = function (guildId, guildConfig)
 		local filepath = string.format("data/module_%s/guild_%s/config.json", self.Name, guildId)
 		local success, err = Bot:SerializeToFile(filepath, guildConfig, true)
@@ -481,6 +482,7 @@ function ModuleMetatable:SaveGuildConfig(guild)
 end
 
 function ModuleMetatable:SavePersistentData(guild)
+print("ok persistent")
 	local save = function (guildId, persistentData)
 		local filepath = string.format("data/module_%s/guild_%s/persistentdata.json", self.Name, guildId)
 		local success, err = Bot:SerializeToFile(filepath, persistentData)
