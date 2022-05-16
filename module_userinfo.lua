@@ -45,12 +45,18 @@ local function buildMemberEmbed(member)
         string.format("__`Fullname:`__ %s\n__`Nickname:`__ %s\n__`Presence:`__ %s\n__`Created at:`__ <t:%s:f>\n__`Joined  at:`__ <t:%s:f>\n",
             fullName, member.name, presence, createdAt, joinedAt)
 
-    local roles = member.roles:toArray() -- cannot choose the sort order with the build-in method of Iterable
-    table.sort(roles, function (a, b) return a.position > b.position end)
+    local fields = {}
 
-    local roleNames = {}
-    for k, v in pairs(roles) do
-        table.insert(roleNames, string.format("`%s`", v.name))
+    local roles = member.roles:toArray() -- cannot choose the sort order with the build-in method of Iterable
+    if next(roles) ~= nil then
+        table.sort(roles, function (a, b) return a.position > b.position end)
+
+        local roleNames = {}
+        for k, v in pairs(roles) do
+            table.insert(roleNames, string.format("`%s`", v.name))
+        end
+
+        table.insert(fields, { name = "Roles", value = table.concat(roleNames, ", ") })
     end
 
     local guildMembers = member.guild.members:toArray()
@@ -65,14 +71,13 @@ local function buildMemberEmbed(member)
         end
     end
 
+    table.insert(fields, { name = "Join order", value = string.format("```markdown\n%s\n```", table.concat(members, "\n")) })
+
     return {
         title = string.format("%s (%s)", fullName, member.id),
         thumbnail = { url = member.user.avatarURL },
         description = description,
-        fields = {
-            { name = "Roles", value = table.concat(roleNames, ", ") },
-            { name = "Join order", value = string.format("```markdown\n%s\n```", table.concat(members, "\n")) }
-        },
+        fields = fields,
         color = getMemberColor(roles)
     }
 end
