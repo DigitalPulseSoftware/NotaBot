@@ -2,19 +2,14 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
+local Date = Discordia.Date
+
 Module.Name = "userinfo"
+
 
 -- We have to precede special chars with an \ to prevent discord from replacing them with the corresponding emoji :<color>_circle:
 local discordStatus = { online = "\\🟢 Online", dnd = "\\🔴 Do Not Disturb", idle = "\\🟡 Idle", offline = "\\⚪ Offline" }
-local ISO8601_PATTERN = "(%d+)%-(%d+)%-(%d+)T(%d+):(%d+):(%d+)%.*"
 local DEFAULT_COLOR = 0 -- Default color value, 0 == black
-
--- Join datetime is provided in ISO format, but a timestamp is needed to use the Discord Timestamps
-local function getMemberJoinTimestamp(member)
-    local y, m, d, h, mn, s = member.joinedAt:match(ISO8601_PATTERN)
-
-    return os.time({year = y, month = m, day = d, hour = h, min = mn, sec = s})
-end
 
 -- The highest role with color ~= black defines the color of the username
 local function getMemberColor(sortedRoles)
@@ -29,7 +24,7 @@ end
 
 local function buildUserEmbed(user)
     local fullName = user.tag
-    local createdAt = tostring(user.createdAt):match("(%d+)%.")
+    local createdAt = Date.fromSeconds(user.createdAt):toParts()
 
     local description = string.format("__Fullname:__ %s\n__Created at:__ <t:%s:f>",
         fullName, createdAt)
@@ -43,8 +38,8 @@ end
 local function buildMemberEmbed(member)
     local fullName = member.user.tag
     local presence = discordStatus[member.status]
-    local createdAt = tostring(member.user.createdAt):match("(%d+)%.")
-    local joinedAt = getMemberJoinTimestamp(member)
+    local createdAt = Date.fromSeconds(member.user.createdAt):toParts()
+    local joinedAt = Date.fromISO(member.joinedAt):toParts()
 
     local description =
         string.format("__`Fullname:`__ %s\n__`Nickname:`__ %s\n__`Presence:`__ %s\n__`Created at:`__ <t:%s:f>\n__`Joined  at:`__ <t:%s:f>\n",
