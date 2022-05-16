@@ -53,9 +53,9 @@ local function buildMemberEmbed(member)
     local roles = member.roles:toArray() -- cannot choose the sort order with the build-in method of Iterable
     table.sort(roles, function (a, b) return a.position > b.position end)
 
-    local role_names = {}
-    for k,v in pairs(roles) do
-        table.insert(role_names, string.format("`%s`", v.name))
+    local roleNames = {}
+    for k, v in pairs(roles) do
+        table.insert(roleNames, string.format("`%s`", v.name))
     end
 
     local guildMembers = member.guild.members:toArray()
@@ -75,7 +75,7 @@ local function buildMemberEmbed(member)
         thumbnail = { url = member.user.avatarURL },
         description = description,
         fields = {
-            { name = "Roles", value = table.concat(role_names, ", ") },
+            { name = "Roles", value = table.concat(roleNames, ", ") },
             { name = "Join order", value = string.format("```markdown\n%s\n```", table.concat(members, "\n")) }
         },
         color = getMemberColor(roles)
