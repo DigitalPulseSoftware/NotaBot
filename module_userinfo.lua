@@ -9,6 +9,7 @@ local discordStatus = { online = "\\🟢 Online", dnd = "\\🔴 Do Not Disturb",
 local ISO8601_PATTERN = "(%d+)%-(%d+)%-(%d+)T(%d+):(%d+):(%d+)%.*"
 local DEFAULT_COLOR = 0 -- Default color value, 0 == black
 
+-- Join datetime is provided in ISO format, but a timestamp is needed to use the Discord Timestamps
 local function getMemberJoinTimestamp(member)
     local y, m, d, h, mn, s = member.joinedAt:match(ISO8601_PATTERN)
 
@@ -85,21 +86,30 @@ function Module:OnLoaded()
     self:RegisterCommand({
         Name = "userinfo",
         Args = {
-            { Name = "target", Type = Bot.ConfigType.User, Optional = true }
+            { Name = "target", Type = Bot.ConfigType.String, Optional = true },
         },
-        Help = "Prints member info",
+        Help = "Prints user/member info",
 
-        Func = function (commandMessage, targetUser)
-            if not targetUser then
+        Func = function (commandMessage, targetUserId)
+            if not targetUserId then
                 return commandMessage:reply({ embed = buildMemberEmbed(commandMessage.member) })
-            else
-                local findMemberPredicate = function (member) return member.id == targetUser.id end
-                local targetMember = commandMessage.guild.members:find(findMemberPredicate)
+            end
 
-                if targetMember then
-                    return commandMessage:reply({ embed = buildMemberEmbed(targetMember) })
-                else
+            local guild = commandMessage.guild
+            local targetMember, err = Bot:DecodeMember(guild, targetUserId)
+
+            if targetMember then
+                return commandMessage:reply({ embed = buildMemberEmbed(targetMember) })
+            elseif err == "Invalid user id" then
+                return commandMessage:reply(err)
+            else
+                -- Not a member of this guild, trying to get info of the user
+                local targetUser, err = Bot:DecodeUser(targetUserId)
+
+                if targetUser then
                     return commandMessage:reply({ embed = buildUserEmbed(targetUser) })
+                else
+                    return commandMessage:reply(err)
                 end
             end
         end
