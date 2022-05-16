@@ -10,6 +10,7 @@ Module.Name = "userinfo"
 -- We have to precede special chars with an \ to prevent discord from replacing them with the corresponding emoji :<color>_circle:
 local discordStatus = { online = "\\🟢 Online", dnd = "\\🔴 Do Not Disturb", idle = "\\🟡 Idle", offline = "\\⚪ Offline" }
 local DEFAULT_COLOR = 0 -- Default color value, 0 == black
+local JOIN_ORDER_WINDOW = 7 -- Number of members to show in "Join order" field
 
 -- The highest role with color ~= black defines the color of the username
 local function getMemberColor(sortedRoles)
@@ -63,12 +64,25 @@ local function buildMemberEmbed(member)
     table.sort(guildMembers, function (a, b) return a.joinedAt < b.joinedAt end)
 
     local members = {}
+    local position = 0
     for k, v in pairs(guildMembers) do
         if member.id == v.id then
             table.insert(members, string.format("%s.\t> %s", k, v.user.tag))
+            position = k
         else
             table.insert(members, string.format("%s.\t  %s", k, v.user.tag))
         end
+    end
+
+    if #members > JOIN_ORDER_WINDOW then
+        local first = math.floor(JOIN_ORDER_WINDOW / 2 - 0.5)
+        local last = math.floor(JOIN_ORDER_WINDOW / 2 - 0.5)
+
+        if position - first < 1 then
+            first = 0
+        end
+
+        members = table.move(members, position - first, position + last, 1, {})
     end
 
     table.insert(fields, { name = "Join order", value = string.format("```markdown\n%s\n```", table.concat(members, "\n")) })
@@ -86,7 +100,7 @@ function Module:OnLoaded()
     self:RegisterCommand({
         Name = "userinfo",
         Args = {
-            { Name = "target", Type = Bot.ConfigType.String, Optional = true },
+            { Name = "target", Type = Bot.ConfigType.String, Optional = true }
         },
         Help = "Prints user/member info",
 
