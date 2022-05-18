@@ -79,8 +79,22 @@ function Bot:UnregisterCommand(commandName)
 end
 
 local prefixes = { 
-	function (content) 
-		return content:startswith(Config.Prefix) and content:sub(#Config.Prefix + 1) or nil
+	function (content, guild)
+		local prefix = Config.Prefix
+		if guild then
+			print("g", guild.name)
+			local serverconfig = Bot:GetModuleForGuild(guild, "serverconfig")
+			if serverconfig then
+				print("sc", serverconfig)
+				local config = serverconfig:GetConfig(guild)
+				if config then
+					p("c", config)
+					prefix = config.Prefix
+				end
+			end
+		end
+
+		return content:startswith(prefix, true) and content:sub(#prefix + 1) or nil
 	end,
 	function (content)
 		local userPing, rest = content:match("<@!?(%d+)>%s*(.+)")
@@ -96,7 +110,7 @@ client:on('messageCreate', function(message)
 	local content
 
 	for _, func in pairs(prefixes) do
-		content = func(message.content)
+		content = func(message.content, message.guild)
 		if (content) then
 			break
 		end
