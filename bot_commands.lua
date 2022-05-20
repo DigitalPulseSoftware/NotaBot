@@ -82,13 +82,10 @@ local prefixes = {
 	function (content, guild)
 		local prefix = Config.Prefix
 		if guild then
-			print("g", guild.name)
 			local serverconfig = Bot:GetModuleForGuild(guild, "serverconfig")
 			if serverconfig then
-				print("sc", serverconfig)
 				local config = serverconfig:GetConfig(guild)
 				if config then
-					p("c", config)
 					prefix = config.Prefix
 				end
 			end
