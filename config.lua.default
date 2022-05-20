@@ -21,5 +21,6 @@ AutoloadModules = {
 	"module_roleinfo.lua",
 	"module_stats.lua",
 	"module_twitch.lua",
+	"module_userinfo.lua",
 	"module_welcome.lua"
 }
