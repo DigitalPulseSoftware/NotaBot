@@ -619,7 +619,7 @@ function Bot:LoadModule(moduleTable)
 	-- Parse events
 	local moduleEvents = {}
 	for key,func in pairs(moduleTable) do
-		if (key:startswith("On") and type(func) == "function") then
+		if (key:startswith("On", true) and type(func) == "function") then
 			local eventName = key:sub(3, 3):lower() .. key:sub(4)
 			if (not botModuleEvents[eventName]) then
 				if (not discordiaEvents[eventName]) then

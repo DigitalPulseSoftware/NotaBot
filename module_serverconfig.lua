@@ -16,6 +16,12 @@ function Module:GetConfigTable()
 			Description = "Bot language (en/fr)",
 			Type = bot.ConfigType.String,
 			Default = "fr"
+		},
+		{
+			Name = "Prefix",
+			Description = "Bot command prefix",
+			Type = bot.ConfigType.String,
+			Default = "!"
 		}
 	}
 end
