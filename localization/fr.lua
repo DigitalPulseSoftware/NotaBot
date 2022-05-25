@@ -2,14 +2,14 @@ local timeUnits = {}
 local timeUnitByUnit = {}
 
 do
-	local minuteSecond = 60
-	local hourSecond = 60 * minuteSecond
-	local daySecond = 24 * hourSecond
-	local weekSecond = 7 * daySecond
-	local monthSecond = 30 * daySecond -- Prendre 4 semaines n'aurait fait que 28 jours
-	local yearSecond = 365 * daySecond -- Prendre 12 mois n'aurait fait que 360 jours
-	local centurySecond = 100 * yearSecond
-	local millenniumSecond = 10 * centurySecond
+	local minuteSecond     = 60
+	local hourSecond       = 60  * minuteSecond
+	local daySecond        = 24  * hourSecond
+	local weekSecond       = 7   * daySecond
+	local monthSecond      = 30  * daySecond -- Prendre 4 semaines n'aurait fait que 28 jours
+	local yearSecond       = 365 * daySecond -- Prendre 12 mois n'aurait fait que 360 jours
+	local centurySecond    = 100 * yearSecond
+	local millenniumSecond = 10  * centurySecond
 
 	table.insert(timeUnits, {
 		AltNames = {"u"},
@@ -23,7 +23,7 @@ do
 		NameSingular = "millénaire",
 		NamePlural = "millénaires",
 		Seconds = millenniumSecond,
-        One = "un"
+		One = "un"
 	})
 
 	table.insert(timeUnits, {
@@ -31,7 +31,7 @@ do
 		NameSingular = "siècle",
 		NamePlural = "siècles",
 		Seconds = centurySecond,
-        One = "un"
+		One = "un"
 	})
 
 	table.insert(timeUnits, {
@@ -39,14 +39,14 @@ do
 		NameSingular = "an",
 		NamePlural = "ans",
 		Seconds = yearSecond,
-        One = "un"
+		One = "un"
 	})
 
 	table.insert(timeUnits, {
 		AltNames = {"M"},
 		NamePlural = "mois",
 		Seconds = monthSecond,
-        One = "un"
+		One = "un"
 	})
 
 	table.insert(timeUnits, {
@@ -54,7 +54,7 @@ do
 		NameSingular = "semaine",
 		NamePlural = "semaines",
 		Seconds = weekSecond,
-        One = "une"
+		One = "une"
 	})
 
 	table.insert(timeUnits, {
@@ -62,7 +62,7 @@ do
 		NameSingular = "jour",
 		NamePlural = "jours",
 		Seconds = daySecond,
-        One = "un"
+		One = "un"
 	})
 
 	table.insert(timeUnits, {
@@ -70,7 +70,7 @@ do
 		NameSingular = "heure",
 		NamePlural = "heures",
 		Seconds = hourSecond,
-        One = "une"
+		One = "une"
 	})
 
 	table.insert(timeUnits, {
@@ -78,7 +78,7 @@ do
 		NameSingular = "minute",
 		NamePlural = "minutes",
 		Seconds = minuteSecond,
-        One = "une"
+		One = "une"
 	})
 
 	table.insert(timeUnits, {
@@ -86,7 +86,7 @@ do
 		NameSingular = "seconde",
 		NamePlural = "secondes",
 		Seconds = 1,
-        One = "une"
+		One = "une"
 	})
 
 	-- Processing
@@ -160,75 +160,89 @@ local function FormatTime(seconds, depth)
 end
 
 return {
-    FormatTime = FormatTime,
-    NiceConcat = NiceConcat,
-    Locs = {
-        MODMAIL_CLOSETICKET = "Fermer le ticket",
-        MODMAIL_TICKETCLOSE_MESSAGE = "%s a fermé le ticket, ce canal sera automatiquement supprimé %s",
-        MODMAIL_TICKETOPENING_MESSAGE = "Bonjour %s, vous pouvez communiquer avec la modération de **%s** via ce canal privé.",
-        MODMAIL_TICKETOPENING_MESSAGE_MODERATION = "Bonjour %s, la modération de **%s** souhaite s'entretenir avec vous.",
-        MODMAIL_TICKETMESSAGE = "Message associé :",
-        MODMAIL_LEFTSERVER = "%s a quitté le serveur",
-        MODMAIL_NOTACTIVETICKET = "Vous ne pouvez effectuer cette action que dans un ticket actif, %s.",
-        MODMAIL_NOTAUTHORIZED = "Vous n'avez pas la permission de faire ça, %s.",
-        MODMAIL_TICKETCLOSED_CONFIRMATION = "✅ Ticket fermé.",
-        MODMAIL_OPENTICKET_BUTTON_LABEL = "Ouvrir un ticket avec la modération...",
-        MODMAIL_FORM_TITLE = "Ouvrir un ticket avec la modération",
-        MODMAIL_FORM_DESCRIPTION_LABEL = "Décrivez en quelques mots votre demande :",
-        MODMAIL_OPENTICKET_FORBIDDEN = "Ouvrir un ticket sur ce serveur vous est interdit.",
-        MODMAIL_OPENTICKET_NOTALLOWED = "Vous n'avez pas la permission d'ouvrir un ticket sur ce serveur.",
-        MODMAIL_OPENTICKET_NOTALLOWED_OTHERMEMBER = "Vous n'avez pas la permission d'ouvrir un ticket pour un autre membre sur ce serveur.",
-        MODMAIL_TICKEDOPENED = "✅ Un ticket de modération a bien été ouvert : %s.",
+	FormatTime = FormatTime,
+	NiceConcat = NiceConcat,
+	Locs = {
+		MODMAIL_CLOSETICKET = "Fermer le ticket",
+		MODMAIL_TICKETCLOSE_MESSAGE = "%s a fermé le ticket, ce canal sera automatiquement supprimé %s",
+		MODMAIL_TICKETOPENING_MESSAGE = "Bonjour %s, vous pouvez communiquer avec la modération de **%s** via ce canal privé.",
+		MODMAIL_TICKETOPENING_MESSAGE_MODERATION = "Bonjour %s, la modération de **%s** souhaite s'entretenir avec vous.",
+		MODMAIL_TICKETMESSAGE = "Message associé :",
+		MODMAIL_LEFTSERVER = "%s a quitté le serveur",
+		MODMAIL_NOTACTIVETICKET = "Vous ne pouvez effectuer cette action que dans un ticket actif, %s.",
+		MODMAIL_NOTAUTHORIZED = "Vous n'avez pas la permission de faire ça, %s.",
+		MODMAIL_TICKETCLOSED_CONFIRMATION = "✅ Ticket fermé.",
+		MODMAIL_OPENTICKET_BUTTON_LABEL = "Ouvrir un ticket avec la modération...",
+		MODMAIL_FORM_TITLE = "Ouvrir un ticket avec la modération",
+		MODMAIL_FORM_DESCRIPTION_LABEL = "Décrivez en quelques mots votre demande :",
+		MODMAIL_OPENTICKET_FORBIDDEN = "Ouvrir un ticket sur ce serveur vous est interdit.",
+		MODMAIL_OPENTICKET_NOTALLOWED = "Vous n'avez pas la permission d'ouvrir un ticket sur ce serveur.",
+		MODMAIL_OPENTICKET_NOTALLOWED_OTHERMEMBER = "Vous n'avez pas la permission d'ouvrir un ticket pour un autre membre sur ce serveur.",
+		MODMAIL_TICKEDOPENED = "✅ Un ticket de modération a bien été ouvert : %s.",
 
 		MUTE_ERROR_NOT_PART_OF_GUILD = "%s n'est pas sur le serveur",
-        MUTE_GUILD_MESSAGE = "%s a rendu muet %s%s%s",
-        MUTE_MUTE_FAILED = "❌ impossible de rendre muet %s : %s",
-        MUTE_NOTAUTHORIZED = "❌ Vous ne pouvez rendre ce membre muet à cause de vos permissions",
-        MUTE_PRIVATE_MESSAGE = "Vous avez été rendu muet sur **%s** par %s%s%s",
-        MUTE_REASON = "pour la raison suivante : %s",
-        MUTE_THEY_WILL_BE_UNMUTED_IN = "Ce membre pourra reparler %s",
-        MUTE_UNMUTE_FAILED = "❌ impossible de rendre la parole à %s : %s",
-        MUTE_UNMUTE_GUILD_MESSAGE = "%s a rendu la parole à %s%s",
-        MUTE_UNMUTE_MESSAGE = "La parole vous a été rendue sur **%s** par %s%s",
-        MUTE_YOU_WILL_BE_UNMUTED_IN = "La parole vous sera rendue %s",
+		MUTE_GUILD_MESSAGE = "%s a rendu muet %s%s%s",
+		MUTE_MUTE_FAILED = "❌ impossible de rendre muet %s : %s",
+		MUTE_NOTAUTHORIZED = "❌ Vous ne pouvez rendre ce membre muet à cause de vos permissions",
+		MUTE_PRIVATE_MESSAGE = "Vous avez été rendu muet sur **%s** par %s%s%s",
+		MUTE_REASON = "pour la raison suivante : %s",
+		MUTE_THEY_WILL_BE_UNMUTED_IN = "Ce membre pourra reparler %s",
+		MUTE_UNMUTE_FAILED = "❌ impossible de rendre la parole à %s : %s",
+		MUTE_UNMUTE_GUILD_MESSAGE = "%s a rendu la parole à %s%s",
+		MUTE_UNMUTE_MESSAGE = "La parole vous a été rendue sur **%s** par %s%s",
+		MUTE_YOU_WILL_BE_UNMUTED_IN = "La parole vous sera rendue %s",
 
-        RAID_LOCKSERVER_HELP = "Verrouille le serveur afin d'empecher les gens de rejoindre", 
-        RAID_LOCKSERVER_ALREADY_LOCKED = "Le serveur est déjà verrouillé",
-        RAID_LOCKSERVER_LOCKED_BY = "verrouillé par %s",
-        RAID_UNLOCKSERVER_HELP = "Déverouille le serveur",
-        RAID_UNLOCKSERVER_NOT_LOCKED = "Le serveur n'est pas verrouillé",
-        RAID_UNLOCKSERVER_LOCKED_BY = "déverrouillé par %s",
-        RAID_RULEHELP_HELP = "Liste les differentes règles possibles",
-        RAID_RULEHELP_FIELDS_VALUE = "**Description:** %s\n**Paramètre:** %s",
-        RAID_RULEHELP_TITLE = "Listes des règles anti-raid disponibles",
-        RAID_RULEHELP_DESCRIPTION = "Voici la liste des règles disponibles dans le module de raid.\n\nVous pouvez les utiliser avec la commande `!addrule <effet> <règle> <param>`.\n\nListe des effets disponibles:\n%s",
-        RAID_ADDRULE_HELP = "Ajoute une règle sur les nouveaux membres",
-        RAID_ADDRULE_INVALID_EFFECT = "Effet invalide (valeurs possibles: %s)",
-        RAID_ADDRULE_INVALID_RULE = "Règle invalide (Utilisez `!rulehelp` afin de voir les règles valides)",
-        RAID_ADDRULE_INVALID_RULE_PARAMETERS = "Paramètre(s) de règle invalide(s): %s",
-        RAID_ADDRULE_ADDED = "Règle ajoutée en tant que règle n°%s",
-        RAID_ALERT_SERVER_LOCKED_UNITL = "🔒 Le seveur a été verrouillé et sera déverrouillé %s (%s)",
-        RAID_ALERT_SERVER_UNLOCKED = "🔓 Le serveur a été deverrouillé (%s)",
-        RAID_LOCK_EXPIRATION = "verrouillage expiré",
-        RAID_CLEARRULES_HELP = "Supprime toutes les règles anti-raid",
-        RAID_CLEARRULES_DONE = "Les règles ont bien été supprimées",
-        RAID_DELRULE_HELP= "Supprimes une règle par son n°",
-        RAID_DELRULE_OUTOFRANGE= "N° de règle invalide",
-        RAID_DELRULE_DONE= "La règle n°%s a été supprimée",
-        RAID_LISTRULES_HELP = "Listes les règles anti-raid",
-        RAID_LISTRULES_RULE_TITLE = "Règle n°%s",
-        RAID_LISTRULES_RULE_DETAIL = "**Règle:** %s**\nConfiguration: %s**\n**Effet:** %s",
-        RAID_LISTRULES_TITLE = "Liste des règles anti-raid du server",
-        RAID_HANDLERULE_WHITELIST = "%s a été autorisé à rejoindre (whitelist)",
-        RAID_HANDLERULE_RULE = "la règle %d - %s(%s)",
-        RAID_HANDLERULE_AUTHORIZE = "%s a été autorisé à rejoindre en raison de %s",
-        RAID_HANDLERULE_BAN_MSG = "auto-ban en raison de %s",
-        RAID_HANDLERULE_BAN_LOG = "%s a été banni en raison de %s",
-        RAID_HANDLERULE_KICK_MSG = "auto-kick en raison de %s",
-        RAID_HANDLERULE_KICK_LOG = "%s a été expulsé en raison de %s",
-        RAID_AUTOKICK_REASON = "Serveur verrouillé",
-        RAID_AUTOLOCK_REASON = "Verouillage automatique par le système anti-raid",
-        RAID_AUTOBAN_BOT_REASON = "auto-ban pour soupçon de bot",
-        RAID_AUTOMUTE_SPAM_REASON = "🙊 %s a été auto-mute à cause de spam dans %s"
-    }
+		RAID_LOCKSERVER_HELP = "Verrouille le serveur afin d'empecher les gens de rejoindre",
+		RAID_LOCKSERVER_ALREADY_LOCKED = "Le serveur est déjà verrouillé",
+		RAID_LOCKSERVER_LOCKED_BY = "verrouillé par %s",
+		RAID_UNLOCKSERVER_HELP = "Déverouille le serveur",
+		RAID_UNLOCKSERVER_NOT_LOCKED = "Le serveur n'est pas verrouillé",
+		RAID_UNLOCKSERVER_LOCKED_BY = "déverrouillé par %s",
+		RAID_RULEHELP_HELP = "Liste les differentes règles possibles",
+		RAID_RULEHELP_FIELDS_VALUE = "**Description:** %s\n**Paramètre:** %s",
+		RAID_RULEHELP_TITLE = "Listes des règles anti-raid disponibles",
+		RAID_RULEHELP_DESCRIPTION = "Voici la liste des règles disponibles dans le module de raid.\n\nVous pouvez les utiliser avec la commande `!addrule <effet> <règle> <param>`.\n\nListe des effets disponibles:\n%s",
+		RAID_ADDRULE_HELP = "Ajoute une règle sur les nouveaux membres",
+		RAID_ADDRULE_INVALID_EFFECT = "Effet invalide (valeurs possibles: %s)",
+		RAID_ADDRULE_INVALID_RULE = "Règle invalide (Utilisez `!rulehelp` afin de voir les règles valides)",
+		RAID_ADDRULE_INVALID_RULE_PARAMETERS = "Paramètre(s) de règle invalide(s): %s",
+		RAID_ADDRULE_ADDED = "Règle ajoutée en tant que règle n°%s",
+		RAID_ALERT_SERVER_LOCKED_UNITL = "🔒 Le seveur a été verrouillé et sera déverrouillé %s (%s)",
+		RAID_ALERT_SERVER_UNLOCKED = "🔓 Le serveur a été deverrouillé (%s)",
+		RAID_LOCK_EXPIRATION = "verrouillage expiré",
+		RAID_CLEARRULES_HELP = "Supprime toutes les règles anti-raid",
+		RAID_CLEARRULES_DONE = "Les règles ont bien été supprimées",
+		RAID_DELRULE_HELP = "Supprimes une règle par son n°",
+		RAID_DELRULE_OUTOFRANGE = "N° de règle invalide",
+		RAID_DELRULE_DONE = "La règle n°%s a été supprimée",
+		RAID_LISTRULES_HELP = "Listes les règles anti-raid",
+		RAID_LISTRULES_RULE_TITLE = "Règle n°%s",
+		RAID_LISTRULES_RULE_DETAIL = "**Règle:** %s**\nConfiguration: %s**\n**Effet:** %s",
+		RAID_LISTRULES_TITLE = "Liste des règles anti-raid du server",
+		RAID_HANDLERULE_WHITELIST = "%s a été autorisé à rejoindre (whitelist)",
+		RAID_HANDLERULE_RULE = "la règle %d - %s(%s)",
+		RAID_HANDLERULE_AUTHORIZE = "%s a été autorisé à rejoindre en raison de %s",
+		RAID_HANDLERULE_BAN_MSG = "auto-ban en raison de %s",
+		RAID_HANDLERULE_BAN_LOG = "%s a été banni en raison de %s",
+		RAID_HANDLERULE_KICK_MSG = "auto-kick en raison de %s",
+		RAID_HANDLERULE_KICK_LOG = "%s a été expulsé en raison de %s",
+		RAID_AUTOKICK_REASON = "Serveur verrouillé",
+		RAID_AUTOLOCK_REASON = "Verouillage automatique par le système anti-raid",
+		RAID_AUTOBAN_BOT_REASON = "auto-ban pour soupçon de bot",
+		RAID_AUTOMUTE_SPAM_REASON = "🙊 %s a été auto-mute à cause de spam dans %s",
+
+		PRUNEFROM_HELP = string.format("%s\n%s\n\t%s",
+            "Supprime tous les messages à partir de celui dont l'identifiant a été passé en paramètre.",
+            "Arguments:",
+            "messageId: L'identifiant du message"
+        ),
+		PRUNE_CANNOT_DELETE = "ℹ️ Certains messages n'ont pas pu être supprimés.",
+		PRUNE_BAD_MESSAGE_ID = "❌ Aucun message avec l'identifiant spécifié n'a été trouvé.",
+		PRUNE_HELP = string.format("%s\n%s\n\t%s",
+			"Supprime les n derniers messages.",
+			"Arguments:",
+			"nbMessages: Le nombre de messages à supprimer"
+		),
+		PRUNE_RESULT = "🧹 %d messages ont été supprimés.",
+	}
 }

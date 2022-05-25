@@ -5,9 +5,9 @@ OwnerUserId = ""
 AutoloadModules = {
 	"module_ban.lua",
 	"module_channels.lua",
+	"module_game.lua",
 	"module_kick.lua",
 	"module_logs.lua",
-	"module_game.lua",
 	"module_mention.lua",
 	"module_message.lua",
 	"module_modmail.lua",
@@ -17,6 +17,7 @@ AutoloadModules = {
 	"module_pin.lua",
 	"module_pm.lua",
 	"module_poll.lua",
+	"module_prune.lua",
 	"module_purge.lua",
 	"module_quote.lua",
 	"module_raid.lua",
