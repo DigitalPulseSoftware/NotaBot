@@ -218,6 +218,13 @@ return {
         RAID_LISTRULES_HELP = "Listes les règles anti-raid",
         RAID_LISTRULES_RULE_TITLE = "Règle n°%s",
         RAID_LISTRULES_RULE_DETAIL = "**Règle:** %s**\nConfiguration: %s**\n**Effet:** %s",
-        RAID_LISTRULES_TITLE = "Liste des règles anti-raid du server"
+        RAID_LISTRULES_TITLE = "Liste des règles anti-raid du server",
+        RAID_HANDLERULE_WHITELIST = "%s a été autorisé à rejoindre (whitelist)",
+        RAID_HANDLERULE_RULE = "la règle %d - %s(%s)",
+        RAID_HANDLERULE_AUTHORIZE = "%s a été autorisé à rejoindre en raison de %s",
+        RAID_HANDLERULE_BAN_MSG = "auto-ban en raison de %s",
+        RAID_HANDLERULE_BAN_LOG = "%s a été banni en raison de %s",
+        RAID_HANDLERULE_KICK_MSG = "auto-kick en raison de %s",
+        RAID_HANDLERULE_KICK_LOG = "%s a été expulsé en raison de %s"
     }
 }

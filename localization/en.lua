@@ -57,6 +57,13 @@ return {
         RAID_LISTRULES_HELP = "List current raid rules",
         RAID_LISTRULES_RULE_TITLE = "Rule #%s",
         RAID_LISTRULES_RULE_DETAIL = "**Rule:** %s**\nRule config: %s**\n**Effect:** %s",
-        RAID_LISTRULES_TITLE = "Guild current rules"
+        RAID_LISTRULES_TITLE = "Guild current rules",
+        RAID_HANDLERULE_WHITELIST = "%s has been allowed to join (whitelisted)",
+        RAID_HANDLERULE_RULE = "rule %d - %s(%s)",
+        RAID_HANDLERULE_AUTHORIZE = "%s has been allowed to join due to %s",
+        RAID_HANDLERULE_BAN_MSG = "auto-ban due to %s",
+        RAID_HANDLERULE_BAN_LOG = "%s has been banned due to %s",
+        RAID_HANDLERULE_KICK_MSG = "auto-kick due to %s",
+        RAID_HANDLERULE_KICK_LOG = "%s has been kicked due to %s"
     }
 }

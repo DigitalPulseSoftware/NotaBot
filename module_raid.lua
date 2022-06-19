@@ -659,22 +659,22 @@ function Module:HandleRules(member)
 
 	local whitelist = table.search(config.JoinWhitelist, member.id)
 	if (whitelist) then
-		return true, string.format("%s has been allowed to join (whitelisted)", member.mentionString)
+		return true, bot:Format(guild, "RAID_HANDLERULE_WHITELIST", member.mentionString)
 	end
 
 	local persistentData = self:GetPersistentData(guild)
 	for i, ruleData in ipairs(persistentData.rules) do
 		if (rules[ruleData.rule].Check(member, ruleData.ruleConfig)) then
-			local ruleStr = string.format("rule %d - %s(%s)", i, ruleData.rule, rules[ruleData.rule].ToString(ruleData.ruleConfig))
+			local ruleStr = bot:Format(guild, "RAID_HANDLERULE_RULE", i, ruleData.rule, rules[ruleData.rule].ToString(ruleData.ruleConfig))
 
 			if (ruleData.effect == "authorize") then
-				return true, string.format("%s has been allowed to join due to %s", member.mentionString, ruleStr)
+				return true, bot:Format(guild, "RAID_HANDLERULE_AUTHORIZE", member.mentionString, ruleStr)
 			elseif (ruleData.effect == "ban") then
-				member:ban(string.format("auto-ban due to %s", ruleStr), 0)
-				return false, string.format("%s has been banned due to %s", member.mentionString, ruleStr)
+				member:ban(bot:Format(guild, "RAID_HANDLERULE_BAN_MSG", ruleStr), 0)
+				return false, bot:Format(guild, "RAID_HANDLERULE_BAN_LOG", member.mentionString, ruleStr)
 			elseif (ruleData.effect == "kick") then
-				member:kick(string.format("auto-kick due to %s", ruleStr))
-				return false, string.format("%s has been kicked due to %s", member.mentionString, ruleStr)
+				member:kick(bot:Format(guild, "RAID_HANDLERULE_KICK_MSG", ruleStr))
+				return false, bot:Format(guild, "RAID_HANDLERULE_KICK_LOG", member.mentionString, ruleStr)
 			end
 		end
 	end
