@@ -359,14 +359,15 @@ function Module:OnLoaded()
 		Args = {},
 		PrivilegeCheck = function (member) return self:CheckRulePermissions(member) end,
 
-		Help = "List the differents available rules",
+		Help = function (guild) return bot:Format(guild, "RAID_RULEHELP_HELP") end,
 		Silent = true,
 		Func = function (commandMessage)
+			local guild = commandMessage.guild
 			local fields = {}
 			for fieldName, ruleData in pairs(rules) do
 				table.insert(fields, {
 					name = fieldName,
-					value = string.format("**Description:** %s\n**Parameter:** %s", ruleData.Description, ruleData.Parameters)
+					value = bot:Format(guild, "RAID_RULEHELP_FIELDS_VALUE", ruleData.Description, ruleData.Parameters)
 				})
 			end
 			table.sort(fields, function (a, b)
@@ -387,8 +388,8 @@ function Module:OnLoaded()
 
 			commandMessage:reply({
 				embed = {
-					title = "Available raid rule list",
-					description = "Here's a list of the available rules for the raid module.\n\nUse them with `!addrule <effect> <rule> <param>`.\n\nEffect lists:\n" .. effectDescription,
+					title = bot:Format(guild, "RAID_RULEHELP_TITLE"),
+					description = bot:Format(guild, "RAID_RULEHELP_DESCRIPTION", effectDescription),
 					fields = fields
 				}
 			})
@@ -404,7 +405,7 @@ function Module:OnLoaded()
 		},
 		PrivilegeCheck = function (member) return self:CheckRulePermissions(member) end,
 
-		Help = "Adds a new rule for incoming members",
+		Help = function (guild) return bot:Format(guild, "RAID_ADDRULE_HELP") end,
 		Func = function (commandMessage, effect, rule, param)
 			local guild = commandMessage.guild
 			local persistentData = self:GetPersistentData(guild)
@@ -416,19 +417,19 @@ function Module:OnLoaded()
 				end
 				table.sort(effectList)
 
-				commandMessage:reply(string.format("Invalid effect (possible values are %s)", table.concat(effectList, ", ")))
+				commandMessage:reply(bot:Format(guild, "RAID_ADDRULE_INVALID_EFFECT", table.concat(effectList, ", ")))
 				return
 			end
 
 			local ruleData = rules[rule]
 			if (not ruleData) then
-				commandMessage:reply("Invalid rule (use !rulehelp to see valid rules)")
+				commandMessage:reply(bot:Format(guild, "RAID_ADDRULE_INVALID_RULE"))
 				return
 			end
 
 			local ruleConfig, err = ruleData.Parse(param)
 			if (not ruleConfig) then
-				commandMessage:reply(string.format("Invalid rule parameters: %s", err))
+				commandMessage:reply(bot:Format(guild, "RAID_ADDRULE_INVALID_RULE_PARAMETERS", err))
 				return
 			end
 
@@ -439,7 +440,7 @@ function Module:OnLoaded()
 			})
 			self:SavePersistentData(guild)
 
-			commandMessage:reply("Rule has been added as rule #" .. #persistentData.rules)
+			commandMessage:reply(bot:Format(guild, "RAID_ADDRULE_ADDED", #persistentData.rules))
 		end
 	})
 
@@ -565,7 +566,7 @@ function Module:StartLockTimer(guild, unlockTimestamp)
 			if (guild) then
 				local persistentData = self:GetPersistentData(guild)
 				if (os.time() >= persistentData.lockedUntil) then
-					self:UnlockServer(guild, Bot:Format(guild, "RAID_LOCK_EXPIRATION"))
+					self:UnlockServer(guild, bot:Format(guild, "RAID_LOCK_EXPIRATION"))
 				end
 			end
 		end)
@@ -609,7 +610,7 @@ function Module:LockServer(guild, duration, reason)
 			alertChannel:send({
 				embed = {
 					color = 16711680,
-					description = Bot:Format(guild, "RAID_ALERT_SERVER_LOCKED_UNITL", durationStr, reason),
+					description = bot:Format(guild, "RAID_ALERT_SERVER_LOCKED_UNITL", durationStr, reason),
 					timestamp = discordia.Date():toISO('T', 'Z')
 				}
 			})
@@ -643,7 +644,7 @@ function Module:UnlockServer(guild, reason)
 				alertChannel:send({
 					embed = {
 						color = 65280,
-						description = Bot:Format(guild, "RAID_ALERT_SERVER_UNLOCKED", reason),
+						description = bot:Format(guild, "RAID_ALERT_SERVER_UNLOCKED", reason),
 						timestamp = discordia.Date():toISO('T', 'Z')
 					}
 				})
