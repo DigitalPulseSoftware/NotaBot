@@ -169,6 +169,7 @@ Bot:RegisterCommand({
 	Help = "Print commands list",
 	Func = function (message, commandName)
 		local member = message.member
+		local guild = message.guild
 		if (commandName) then
 			commandName = commandName:lower()
 			local commandTable = Bot.Commands[commandName]
@@ -184,9 +185,14 @@ Bot:RegisterCommand({
 			 	end
 
 			 	if (not ret) then
-					print(string.format("%s tried to access command %s via help on guild %s", message.author.tag, commandName, message.guild.name))
+					print(string.format("%s tried to access command %s via help on guild %s", message.author.tag, commandName, guild.name))
 					return
 				end
+			end
+
+			local helpStr = commandTable.Help or "<none>"
+			if(type(helpStr) == "function") then -- localization
+				helpStr = commandTable.Help(guild)
 			end
 
 			message:reply({
@@ -194,7 +200,7 @@ Bot:RegisterCommand({
 					fields = {
 						{
 							name = string.format("**Command: %s**", commandName),
-							value = string.format("**Description:** %s\n**Usage:** %s %s", commandTable.Help or "<none>", commandName, Bot:BuildUsage(commandTable))
+							value = string.format("**Description:** %s\n**Usage:** %s %s", helpStr, commandName, Bot:BuildUsage(commandTable))
 						}
 					}
 				}
@@ -219,9 +225,14 @@ Bot:RegisterCommand({
 
 			local fields = {}
 			for _, commandTable in pairs(commands) do
+				local helpStr = commandTable.Help or "<none>"
+				if(type(helpStr) == "function") then -- localization
+					helpStr = commandTable.Help(guild)
+				end
+
 				table.insert(fields, {
 					name = string.format("**Command: %s**", commandTable.Name),
-					value = string.format("**Description:** %s\n**Usage:** %s %s", commandTable.Help or "<none>", commandTable.Name, Bot:BuildUsage(commandTable))
+					value = string.format("**Description:** %s\n**Usage:** %s %s", helpStr, commandTable.Name, Bot:BuildUsage(commandTable))
 				})
 			end
 
