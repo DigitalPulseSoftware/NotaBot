@@ -53,6 +53,10 @@ return {
         RAID_CLEARRULES_DONE = "Rules have been cleared",
         RAID_DELRULE_HELP= "Removes a rule by its index",
         RAID_DELRULE_OUTOFRANGE= "Rule index out of range",
-        RAID_DELRULE_DONE= "Rule #%s has been removed"
+        RAID_DELRULE_DONE= "Rule #%s has been removed",
+        RAID_LISTRULES_HELP = "List current raid rules",
+        RAID_LISTRULES_RULE_TITLE = "Rule #%s",
+        RAID_LISTRULES_RULE_DETAIL = "**Rule:** %s**\nRule config: %s**\n**Effect:** %s",
+        RAID_LISTRULES_TITLE = "Guild current rules"
     }
 }

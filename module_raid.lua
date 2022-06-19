@@ -488,7 +488,7 @@ function Module:OnLoaded()
 		Args = {},
 		PrivilegeCheck = function (member) return self:CheckRulePermissions(member) end,
 
-		Help = "Removes a rule by its index",
+		Help = function (guild) return bot:Format(guild, "RAID_LISTRULES_HELP") end,
 		Func = function (commandMessage, ruleIndex)
 			local guild = commandMessage.guild
 			local persistentData = self:GetPersistentData(guild)
@@ -498,14 +498,14 @@ function Module:OnLoaded()
 				local configStr = rules[ruleData.rule].ToString(ruleData.ruleConfig)
 
 				table.insert(fields, {
-					name = "Rule #" .. i,
-					value = string.format("**Rule:** %s**\nRule config: %s**\n**Effect:** %s", ruleData.rule, configStr, ruleData.effect)
+					name = bot:Format(guild, "RAID_LISTRULES_RULE_TITLE", i),
+					value = bot:Format(guild, "RAID_LISTRULES_RULE_DETAIL", ruleData.rule, configStr, ruleData.effect)
 				})
 			end
 
 			commandMessage:reply({
 				embed = {
-					title = "Guild current rules",
+					title = bot:Format(guild, "RAID_LISTRULES_TITLE"),
 					fields = fields
 				}
 			})

@@ -214,6 +214,10 @@ return {
         RAID_CLEARRULES_DONE = "Les règles ont bien été supprimées",
         RAID_DELRULE_HELP= "Supprimes une règle par son n°",
         RAID_DELRULE_OUTOFRANGE= "N° de règle invalide",
-        RAID_DELRULE_DONE= "La règle n°%s a été supprimée"
+        RAID_DELRULE_DONE= "La règle n°%s a été supprimée",
+        RAID_LISTRULES_HELP = "Listes les règles anti-raid",
+        RAID_LISTRULES_RULE_TITLE = "Règle n°%s",
+        RAID_LISTRULES_RULE_DETAIL = "**Règle:** %s**\nConfiguration: %s**\n**Effet:** %s",
+        RAID_LISTRULES_TITLE = "Liste des règles anti-raid du server"
     }
 }
