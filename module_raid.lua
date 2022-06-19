@@ -467,19 +467,19 @@ function Module:OnLoaded()
 		},
 		PrivilegeCheck = function (member) return self:CheckRulePermissions(member) end,
 
-		Help = "Removes a rule by its index",
+		Help = function (guild) return bot:Format(guild, "RAID_DELRULE_HELP") end,
 		Func = function (commandMessage, ruleIndex)
 			local guild = commandMessage.guild
 			local persistentData = self:GetPersistentData(guild)
 			if (ruleIndex < 1 or ruleIndex > #persistentData.rules) then
-				commandMessage:reply("Rule index out of range")
+				commandMessage:reply(bot:Format(guild, "RAID_DELRULE_OUTOFRANGE"))
 				return
 			end
 			table.remove(persistentData.rules, ruleIndex)
 
 			self:SavePersistentData(guild)
 
-			commandMessage:reply("Rule #" .. ruleIndex .. " has been removed")
+			commandMessage:reply(bot:Format(guild, "RAID_DELRULE_DONE", ruleIndex))
 		end
 	})
 

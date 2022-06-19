@@ -51,5 +51,8 @@ return {
         RAID_LOCK_EXPIRATION = "lock duration expired",
         RAID_CLEARRULES_HELP = "Clear all raid rules",
         RAID_CLEARRULES_DONE = "Rules have been cleared",
+        RAID_DELRULE_HELP= "Removes a rule by its index",
+        RAID_DELRULE_OUTOFRANGE= "Rule index out of range",
+        RAID_DELRULE_DONE= "Rule #%s has been removed"
     }
 }

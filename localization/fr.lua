@@ -212,5 +212,8 @@ return {
         RAID_LOCK_EXPIRATION = "verrouillage expiré",
         RAID_CLEARRULES_HELP = "Supprime toutes les règles anti-raid",
         RAID_CLEARRULES_DONE = "Les règles ont bien été supprimées",
+        RAID_DELRULE_HELP= "Supprimes une règle par son n°",
+        RAID_DELRULE_OUTOFRANGE= "N° de règle invalide",
+        RAID_DELRULE_DONE= "La règle n°%s a été supprimée"
     }
 }
