@@ -199,6 +199,7 @@ return {
         RAID_UNLOCKSERVER_NOT_LOCKED = "Le serveur n'est pas verrouillé",
         RAID_UNLOCKSERVER_LOCKED_BY = "déverrouillé par %s",
         RAID_ALERT_SERVER_LOCKED_UNITL = "🔒 Le seveur a été verrouillé et sera déverrouillé %s (%s)",
-        RAID_ALERT_SERVER_UNLOCKED = "🔓 Le serveur a été deverrouillé (%s)"
+        RAID_ALERT_SERVER_UNLOCKED = "🔓 Le serveur a été deverrouillé (%s)",
+        RAID_LOCK_EXPIRATION = "verrouillage expiré"
     }
 }

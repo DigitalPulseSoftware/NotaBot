@@ -38,6 +38,7 @@ return {
         RAID_UNLOCKSERVER_NOT_LOCKED = "The server is not locked",
         RAID_UNLOCKSERVER_LOCKED_BY = "unlocked by %s",
         RAID_ALERT_SERVER_LOCKED_UNITL = "🔒 The server has been locked and will be unlocked %s (%s)",
-        RAID_ALERT_SERVER_UNLOCKED = "🔓 The server has been unlocked (%s)"
+        RAID_ALERT_SERVER_UNLOCKED = "🔓 The server has been unlocked (%s)",
+        RAID_LOCK_EXPIRATION = "lock duration expired"
     }
 }

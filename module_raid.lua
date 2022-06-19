@@ -565,7 +565,7 @@ function Module:StartLockTimer(guild, unlockTimestamp)
 			if (guild) then
 				local persistentData = self:GetPersistentData(guild)
 				if (os.time() >= persistentData.lockedUntil) then
-					self:UnlockServer(guild, "lock duration expired")
+					self:UnlockServer(guild, Bot:Format(guild, "RAID_LOCK_EXPIRATION"))
 				end
 			end
 		end)
