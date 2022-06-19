@@ -191,5 +191,14 @@ return {
         MUTE_UNMUTE_GUILD_MESSAGE = "%s a rendu la parole à %s%s",
         MUTE_UNMUTE_MESSAGE = "La parole vous a été rendue sur **%s** par %s%s",
         MUTE_YOU_WILL_BE_UNMUTED_IN = "La parole vous sera rendue %s",
+
+        RAID_LOCKSERVER_HELP = "Verrouille le serveur afin d'empecher les gens de rejoindre", 
+        RAID_LOCKSERVER_ALREADY_LOCKED = "Le serveur est déjà verrouillé",
+        RAID_LOCKSERVER_LOCKED_BY = "verrouillé par %s",
+        RAID_UNLOCKSERVER_HELP = "Déverouille le serveur",
+        RAID_UNLOCKSERVER_NOT_LOCKED = "Le serveur n'est pas verrouillé",
+        RAID_UNLOCKSERVER_LOCKED_BY = "déverrouillé par %s",
+        RAID_ALERT_SERVER_LOCKED_UNITL = "🔒 Le seveur a été verrouillé et sera déverrouillé %s (%s)",
+        RAID_ALERT_SERVER_UNLOCKED = "🔓 Le serveur a été deverrouillé (%s)"
     }
 }

@@ -295,7 +295,7 @@ function Module:OnLoaded()
 		},
 		PrivilegeCheck = function (member) return self:CheckLockPermissions(member) end,
 
-		Help = "Locks the server, preventing people to join",
+		Help = function (guild) return bot:Format(guild, "RAID_LOCKSERVER_HELP") end,
 		Silent = true,
 		Func = function (commandMessage, duration, reason)
 			local guild = commandMessage.guild
@@ -303,7 +303,7 @@ function Module:OnLoaded()
 			local lockedBy = commandMessage.member
 
 			if (self:IsServerLocked(guild)) then
-				commandMessage:reply("The server is already locked")
+				commandMessage:reply(bot:Format(guild, "RAID_LOCKSERVER_ALREADY_LOCKED"))
 				return
 			end
 
@@ -313,7 +313,7 @@ function Module:OnLoaded()
 			end
 
 			-- Reason
-			local reasonStart = "locked by " .. lockedBy.mentionString
+			local reasonStart = bot:Format(guild, "RAID_LOCKSERVER_LOCKED_BY", lockedBy.mentionString)
 			if (reason) then
 				reason = reasonStart .. ": " .. reason
 			else
@@ -331,19 +331,19 @@ function Module:OnLoaded()
 		},
 		PrivilegeCheck = function (member) return self:CheckLockPermissions(member) end,
 
-		Help = "Unlocks the server",
+		Help = function (guild) return bot:Format(guild, "RAID_UNLOCKSERVER_HELP") end,
 		Silent = true,
 		Func = function (commandMessage, reason)
 			local guild = commandMessage.guild
 			local lockedBy = commandMessage.member
 
 			if (not self:IsServerLocked(guild)) then
-				commandMessage:reply("The server is not locked")
+				commandMessage:reply(bot:Format(guild, "RAID_UNLOCKSERVER_NOT_LOCKED"))
 				return
 			end
 
 			-- Reason
-			local reasonStart = "unlocked by " .. lockedBy.mentionString
+			local reasonStart = bot:Format(guild, "RAID_UNLOCKSERVER_LOCKED_BY", lockedBy.mentionString)
 			if (reason) then
 				reason = reasonStart .. ": " .. reason
 			else
@@ -606,12 +606,10 @@ function Module:LockServer(guild, duration, reason)
 
 		local alertChannel = guild:getChannel(config.LockAlertChannel)
 		if (alertChannel) then
-			local message = "🔒 The server has been locked %s (%s)"
-
 			alertChannel:send({
 				embed = {
 					color = 16711680,
-					description = string.format(message, durationStr, reason),
+					description = Bot:Format(guild, "RAID_ALERT_SERVER_LOCKED_UNITL", durationStr, reason),
 					timestamp = discordia.Date():toISO('T', 'Z')
 				}
 			})
@@ -642,12 +640,10 @@ function Module:UnlockServer(guild, reason)
 		if (config.LockAlertChannel) then
 			local alertChannel = guild:getChannel(config.LockAlertChannel)
 			if (alertChannel) then
-				local message = "🔓 The server has been unlocked (%s)"
-
 				alertChannel:send({
 					embed = {
 						color = 65280,
-						description = string.format(message, reason),
+						description = Bot:Format(guild, "RAID_ALERT_SERVER_UNLOCKED", reason),
 						timestamp = discordia.Date():toISO('T', 'Z')
 					}
 				})

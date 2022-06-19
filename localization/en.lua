@@ -30,5 +30,14 @@ return {
         MUTE_UNMUTE_GUILD_MESSAGE = "%s has unmuted %s%s",
         MUTE_UNMUTE_MESSAGE = "You have been unmuted from **%s** by %s%s",
         MUTE_YOU_WILL_BE_UNMUTED_IN = "You will be unmuted %s",
+
+        RAID_LOCKSERVER_HELP = "Locks the server, preventing people to join", 
+        RAID_LOCKSERVER_ALREADY_LOCKED = "The server is already locked",
+        RAID_LOCKSERVER_LOCKED_BY = "locked by %s",
+        RAID_UNLOCKSERVER_HELP = "Unlocks the server",
+        RAID_UNLOCKSERVER_NOT_LOCKED = "The server is not locked",
+        RAID_UNLOCKSERVER_LOCKED_BY = "unlocked by %s",
+        RAID_ALERT_SERVER_LOCKED_UNITL = "🔒 The server has been locked and will be unlocked %s (%s)",
+        RAID_ALERT_SERVER_UNLOCKED = "🔓 The server has been unlocked (%s)"
     }
 }
