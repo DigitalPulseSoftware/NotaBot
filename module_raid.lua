@@ -707,7 +707,7 @@ function Module:OnMemberJoin(member)
 	end
 
 	if (data.locked) then
-		member:kick("server is locked")
+		member:kick(bot:Format(guild, "RAID_AUTOKICK_REASON"))
 	else
 		local now = os.time()
 
@@ -724,7 +724,7 @@ function Module:OnMemberJoin(member)
 		})
 
 		if (#data.joinChain > joinCountThreshold) then
-			self:AutoLockServer(guild, "auto-lock by anti-raid system")
+			self:AutoLockServer(guild, bot:Format(guild, "RAID_AUTOLOCK_REASON"))
 
 			local membersToKick = {}
 			for _, joinData in pairs(data.joinChain) do
@@ -734,7 +734,7 @@ function Module:OnMemberJoin(member)
 			for _, memberId in pairs(membersToKick) do
 				local member = guild:getMember(memberId)
 				if (member) then
-					member:kick("server is locked")
+					member:kick(bot:Format(guild, "RAID_AUTOKICK_REASON"))
 				end
 			end
 		end
@@ -826,7 +826,7 @@ function Module:OnMessageCreate(message)
 	if (message.type ~= enums.messageType.memberJoin) then
 		local duration = discordia.Date() - discordia.Date.fromISO(member.joinedAt)
 		if (duration:toSeconds() < config.SendMessageThreshold) then
-			local success, err = member:ban("auto-ban for bot suspicion", 1)
+			local success, err = member:ban(bot:Format("RAID_AUTOBAN_BOT_REASON"), 1)
 			if (not success) then
 				self:LogWarning(guild, "Failed to autoban potential bot %s (%s)", member.tag, err)
 			end
@@ -909,11 +909,10 @@ function Module:OnMessageCreate(message)
 							end
 						end
 
-						local str = "🙊 %s has been auto-muted because of spam in %s"
 						alertChannel:send({
 							embed = {
 								color = 16776960,
-								description = string.format(str, member.mentionString, table.concat(channelList, ", ")),
+								description = bot:Format(guild, "RAID_AUTOMUTE_SPAM_REASON", member.mentionString, table.concat(channelList, ", ")),
 								timestamp = discordia.Date():toISO('T', 'Z')
 							}
 						})
@@ -942,7 +941,7 @@ function Module:OnMessageCreate(message)
 				self:LogWarning(guild, "Failed to mute potential bot %s: %s", member.tag, err)
 			end
 		else
-			local success, err = member:ban("auto-ban for bot suspicion", 1)
+			local success, err = member:ban(bot:Format("RAID_AUTOBAN_BOT_REASON"), 1)
 			if (not success) then
 				self:LogWarning(guild, "Failed to autoban potential bot %s (%s)", member.tag, err)
 			end	

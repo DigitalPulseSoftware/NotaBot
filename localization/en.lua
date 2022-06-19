@@ -64,6 +64,10 @@ return {
         RAID_HANDLERULE_BAN_MSG = "auto-ban due to %s",
         RAID_HANDLERULE_BAN_LOG = "%s has been banned due to %s",
         RAID_HANDLERULE_KICK_MSG = "auto-kick due to %s",
-        RAID_HANDLERULE_KICK_LOG = "%s has been kicked due to %s"
+        RAID_HANDLERULE_KICK_LOG = "%s has been kicked due to %s",
+        RAID_AUTOKICK_REASON = "server is locked",
+        RAID_AUTOLOCK_REASON = "auto-lock by anti-raid system",
+        RAID_AUTOBAN_BOT_REASON = "auto-ban for bot suspicion",
+        RAID_AUTOMUTE_SPAM_REASON = "🙊 %s has been auto-muted because of spam in %s"
     }
 }
