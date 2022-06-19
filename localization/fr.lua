@@ -209,6 +209,8 @@ return {
         RAID_ADDRULE_ADDED = "Règle ajoutée en tant que règle n°%s",
         RAID_ALERT_SERVER_LOCKED_UNITL = "🔒 Le seveur a été verrouillé et sera déverrouillé %s (%s)",
         RAID_ALERT_SERVER_UNLOCKED = "🔓 Le serveur a été deverrouillé (%s)",
-        RAID_LOCK_EXPIRATION = "verrouillage expiré"
+        RAID_LOCK_EXPIRATION = "verrouillage expiré",
+        RAID_CLEARRULES_HELP = "Supprime toutes les règles anti-raid",
+        RAID_CLEARRULES_DONE = "Les règles ont bien été supprimées",
     }
 }

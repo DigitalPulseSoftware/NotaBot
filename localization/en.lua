@@ -48,6 +48,8 @@ return {
         RAID_ADDRULE_ADDED = "Rule has been added as rule #%s",
         RAID_ALERT_SERVER_LOCKED_UNITL = "🔒 The server has been locked and will be unlocked %s (%s)",
         RAID_ALERT_SERVER_UNLOCKED = "🔓 The server has been unlocked (%s)",
-        RAID_LOCK_EXPIRATION = "lock duration expired"
+        RAID_LOCK_EXPIRATION = "lock duration expired",
+        RAID_CLEARRULES_HELP = "Clear all raid rules",
+        RAID_CLEARRULES_DONE = "Rules have been cleared",
     }
 }

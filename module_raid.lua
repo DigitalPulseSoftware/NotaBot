@@ -449,14 +449,14 @@ function Module:OnLoaded()
 		Args = {},
 		PrivilegeCheck = function (member) return self:CheckRulePermissions(member) end,
 
-		Help = "Clear all raid rules",
+		Help = function (guild) return bot:Format(guild, "RAID_CLEARRULES_HELP") end,
 		Func = function (commandMessage)
 			local guild = commandMessage.guild
 			local persistentData = self:GetPersistentData(guild)
 			persistentData.rules = {}
 			self:SavePersistentData(guild)
 
-			commandMessage:reply("Rules have been cleared")
+			commandMessage:reply(bot:Format(guild, "RAID_CLEARRULES_DONE"))
 		end
 	})
 
