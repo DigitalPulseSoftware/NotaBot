@@ -20,7 +20,7 @@ function Module:OnLoaded()
 		Args = {},
 		PrivilegeCheck = function (member) return self:CheckRoles(member) end,
 
-		Help = "Count every nickname of every user on the server.",
+		Help = "Count every user that have a custom nickname on the server.",
 		Func = function (commandMessage, time)
 			local userList = self:BuildRenamedUserList(commandMessage.guild)
 
@@ -37,7 +37,7 @@ function Module:OnLoaded()
 		Args = {},
 		PrivilegeCheck = function (member) return self:CheckRoles(member) end,
 
-		Help = "Remove every nickname of every user on the server.",
+		Help = "Remove every custom nickname of every user on the server.",
 		Func = function (commandMessage, time)
 			local userList = self:BuildRenamedUserList(commandMessage.guild)
 
