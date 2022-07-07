@@ -118,7 +118,7 @@ function Module:OnInteractionCreate(interaction)
 		return
 	end
 
-	if string.startsWith(interactionType, custom_id_start_remove) then
+	if interactionType:startswith(custom_id_start_remove) then
 		local cmdUserId = string.sub(interactionType, string.len(custom_id_start_remove) + 1, string.len(interactionType))
 
 		for _, user in pairs(userList) do
@@ -147,7 +147,7 @@ function Module:OnInteractionCreate(interaction)
 				flags = enums.interactionResponseFlag.ephemeral
 			}
 		})
-	elseif string.startsWith(interactionType, custom_id_start_page) then
+	elseif interactionType:startswith(custom_id_start_page) then
 		local page = string.sub(interactionType, string.len(custom_id_start_page) + 1, string.len(interactionType))
 
 		interaction.message:update(self:BuildUserListMessage(guild, userList, tonumber(page)))
