@@ -13,6 +13,7 @@ AutoloadModules = {
 	"module_modmail.lua",
 	"module_modo.lua",
 	"module_mute.lua",
+	"module_nickname.lua",
 	"module_pin.lua",
 	"module_pm.lua",
 	"module_poll.lua",
