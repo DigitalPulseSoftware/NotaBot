@@ -162,7 +162,7 @@ function Module:BuildRenamedUserList(guild)
 	local userList = {}
 
 	for userId, user in pairs(guild.members) do
-		if(user.nickname ~= nil) then
+		if user.nickname then
 			table.insert(userList, user)
 		end
 	end
@@ -192,7 +192,7 @@ end
 function Module:BuildUserListMessage(guild, userList, currentPage)
 	local components = {}
 
-	table.sort(userList, function(u) return u._user._username end)
+	table.sort(userList, function(a, b) return a.username < b.username end)
 
 	table.insert(components, {
 		type = enums.componentType.actionRow,

@@ -211,10 +211,6 @@ function string.Explode(separator, str, withpattern)
 	return ret
 end
 
-function string.startsWith(str, start)
-   return string.sub(str, 1, string.len(start)) == start
-end
-
 function string.UpperizeFirst(str)
 	return string.upper(str:sub(1,1)) .. str:sub(2)
 end
