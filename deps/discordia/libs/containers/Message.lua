@@ -626,4 +626,14 @@ function get.webhookId(self)
 	return self._webhook_id
 end
 
+--[=[
+@m crosspost
+@t http
+@r Message
+@d Crossposts the message to subscribed channels. Works only in announcement channel type.
+]=]
+function Message:crosspost()
+    return self.client._api:crosspostMessage(self._parent._id, self.id)
+end
+		
 return Message
