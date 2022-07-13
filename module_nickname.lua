@@ -12,7 +12,7 @@ local json = require("json")
 local path = require("path")
 
 Module.Name = "nickname"
-Module.PageSize = 2
+Module.PageSize = 15
 
 function Module:OnLoaded()
 	self:RegisterCommand({
