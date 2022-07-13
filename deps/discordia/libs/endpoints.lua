@@ -18,6 +18,7 @@ return {
 	CHANNEL_MESSAGE_REACTIONS                 = "/channels/%s/messages/%s/reactions",
 	CHANNEL_MESSAGE_REACTION_ME               = "/channels/%s/messages/%s/reactions/%s/@me",
 	CHANNEL_MESSAGE_REACTION_USER             = "/channels/%s/messages/%s/reactions/%s/%s",
+	CHANNEL_MESSAGE_CROSSPOST		  = "/channels/%s/messages/%s/crosspost",
 	CHANNEL_PERMISSION                        = "/channels/%s/permissions/%s",
 	CHANNEL_PIN                               = "/channels/%s/pins/%s",
 	CHANNEL_PINS                              = "/channels/%s/pins",
