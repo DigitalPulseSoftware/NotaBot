@@ -295,7 +295,7 @@ function Module:OnLoaded()
 		},
 		PrivilegeCheck = function (member) return self:CheckLockPermissions(member) end,
 
-		Help = "Locks the server, preventing people to join",
+		Help = function (guild) return bot:Format(guild, "RAID_LOCKSERVER_HELP") end,
 		Silent = true,
 		Func = function (commandMessage, duration, reason)
 			local guild = commandMessage.guild
@@ -303,7 +303,7 @@ function Module:OnLoaded()
 			local lockedBy = commandMessage.member
 
 			if (self:IsServerLocked(guild)) then
-				commandMessage:reply("The server is already locked")
+				commandMessage:reply(bot:Format(guild, "RAID_LOCKSERVER_ALREADY_LOCKED"))
 				return
 			end
 
@@ -313,7 +313,7 @@ function Module:OnLoaded()
 			end
 
 			-- Reason
-			local reasonStart = "locked by " .. lockedBy.mentionString
+			local reasonStart = bot:Format(guild, "RAID_LOCKSERVER_LOCKED_BY", lockedBy.mentionString)
 			if (reason) then
 				reason = reasonStart .. ": " .. reason
 			else
@@ -331,19 +331,19 @@ function Module:OnLoaded()
 		},
 		PrivilegeCheck = function (member) return self:CheckLockPermissions(member) end,
 
-		Help = "Unlocks the server",
+		Help = function (guild) return bot:Format(guild, "RAID_UNLOCKSERVER_HELP") end,
 		Silent = true,
 		Func = function (commandMessage, reason)
 			local guild = commandMessage.guild
 			local lockedBy = commandMessage.member
 
 			if (not self:IsServerLocked(guild)) then
-				commandMessage:reply("The server is not locked")
+				commandMessage:reply(bot:Format(guild, "RAID_UNLOCKSERVER_NOT_LOCKED"))
 				return
 			end
 
 			-- Reason
-			local reasonStart = "unlocked by " .. lockedBy.mentionString
+			local reasonStart = bot:Format(guild, "RAID_UNLOCKSERVER_LOCKED_BY", lockedBy.mentionString)
 			if (reason) then
 				reason = reasonStart .. ": " .. reason
 			else
@@ -359,14 +359,15 @@ function Module:OnLoaded()
 		Args = {},
 		PrivilegeCheck = function (member) return self:CheckRulePermissions(member) end,
 
-		Help = "List the differents available rules",
+		Help = function (guild) return bot:Format(guild, "RAID_RULEHELP_HELP") end,
 		Silent = true,
 		Func = function (commandMessage)
+			local guild = commandMessage.guild
 			local fields = {}
 			for fieldName, ruleData in pairs(rules) do
 				table.insert(fields, {
 					name = fieldName,
-					value = string.format("**Description:** %s\n**Parameter:** %s", ruleData.Description, ruleData.Parameters)
+					value = bot:Format(guild, "RAID_RULEHELP_FIELDS_VALUE", ruleData.Description, ruleData.Parameters)
 				})
 			end
 			table.sort(fields, function (a, b)
@@ -387,8 +388,8 @@ function Module:OnLoaded()
 
 			commandMessage:reply({
 				embed = {
-					title = "Available raid rule list",
-					description = "Here's a list of the available rules for the raid module.\n\nUse them with `!addrule <effect> <rule> <param>`.\n\nEffect lists:\n" .. effectDescription,
+					title = bot:Format(guild, "RAID_RULEHELP_TITLE"),
+					description = bot:Format(guild, "RAID_RULEHELP_DESCRIPTION", effectDescription),
 					fields = fields
 				}
 			})
@@ -404,7 +405,7 @@ function Module:OnLoaded()
 		},
 		PrivilegeCheck = function (member) return self:CheckRulePermissions(member) end,
 
-		Help = "Adds a new rule for incoming members",
+		Help = function (guild) return bot:Format(guild, "RAID_ADDRULE_HELP") end,
 		Func = function (commandMessage, effect, rule, param)
 			local guild = commandMessage.guild
 			local persistentData = self:GetPersistentData(guild)
@@ -416,19 +417,19 @@ function Module:OnLoaded()
 				end
 				table.sort(effectList)
 
-				commandMessage:reply(string.format("Invalid effect (possible values are %s)", table.concat(effectList, ", ")))
+				commandMessage:reply(bot:Format(guild, "RAID_ADDRULE_INVALID_EFFECT", table.concat(effectList, ", ")))
 				return
 			end
 
 			local ruleData = rules[rule]
 			if (not ruleData) then
-				commandMessage:reply("Invalid rule (use !rulehelp to see valid rules)")
+				commandMessage:reply(bot:Format(guild, "RAID_ADDRULE_INVALID_RULE"))
 				return
 			end
 
 			local ruleConfig, err = ruleData.Parse(param)
 			if (not ruleConfig) then
-				commandMessage:reply(string.format("Invalid rule parameters: %s", err))
+				commandMessage:reply(bot:Format(guild, "RAID_ADDRULE_INVALID_RULE_PARAMETERS", err))
 				return
 			end
 
@@ -439,7 +440,7 @@ function Module:OnLoaded()
 			})
 			self:SavePersistentData(guild)
 
-			commandMessage:reply("Rule has been added as rule #" .. #persistentData.rules)
+			commandMessage:reply(bot:Format(guild, "RAID_ADDRULE_ADDED", #persistentData.rules))
 		end
 	})
 
@@ -448,14 +449,14 @@ function Module:OnLoaded()
 		Args = {},
 		PrivilegeCheck = function (member) return self:CheckRulePermissions(member) end,
 
-		Help = "Clear all raid rules",
+		Help = function (guild) return bot:Format(guild, "RAID_CLEARRULES_HELP") end,
 		Func = function (commandMessage)
 			local guild = commandMessage.guild
 			local persistentData = self:GetPersistentData(guild)
 			persistentData.rules = {}
 			self:SavePersistentData(guild)
 
-			commandMessage:reply("Rules have been cleared")
+			commandMessage:reply(bot:Format(guild, "RAID_CLEARRULES_DONE"))
 		end
 	})
 
@@ -466,19 +467,19 @@ function Module:OnLoaded()
 		},
 		PrivilegeCheck = function (member) return self:CheckRulePermissions(member) end,
 
-		Help = "Removes a rule by its index",
+		Help = function (guild) return bot:Format(guild, "RAID_DELRULE_HELP") end,
 		Func = function (commandMessage, ruleIndex)
 			local guild = commandMessage.guild
 			local persistentData = self:GetPersistentData(guild)
 			if (ruleIndex < 1 or ruleIndex > #persistentData.rules) then
-				commandMessage:reply("Rule index out of range")
+				commandMessage:reply(bot:Format(guild, "RAID_DELRULE_OUTOFRANGE"))
 				return
 			end
 			table.remove(persistentData.rules, ruleIndex)
 
 			self:SavePersistentData(guild)
 
-			commandMessage:reply("Rule #" .. ruleIndex .. " has been removed")
+			commandMessage:reply(bot:Format(guild, "RAID_DELRULE_DONE", ruleIndex))
 		end
 	})
 
@@ -487,7 +488,7 @@ function Module:OnLoaded()
 		Args = {},
 		PrivilegeCheck = function (member) return self:CheckRulePermissions(member) end,
 
-		Help = "Removes a rule by its index",
+		Help = function (guild) return bot:Format(guild, "RAID_LISTRULES_HELP") end,
 		Func = function (commandMessage, ruleIndex)
 			local guild = commandMessage.guild
 			local persistentData = self:GetPersistentData(guild)
@@ -497,14 +498,14 @@ function Module:OnLoaded()
 				local configStr = rules[ruleData.rule].ToString(ruleData.ruleConfig)
 
 				table.insert(fields, {
-					name = "Rule #" .. i,
-					value = string.format("**Rule:** %s**\nRule config: %s**\n**Effect:** %s", ruleData.rule, configStr, ruleData.effect)
+					name = bot:Format(guild, "RAID_LISTRULES_RULE_TITLE", i),
+					value = bot:Format(guild, "RAID_LISTRULES_RULE_DETAIL", ruleData.rule, configStr, ruleData.effect)
 				})
 			end
 
 			commandMessage:reply({
 				embed = {
-					title = "Guild current rules",
+					title = bot:Format(guild, "RAID_LISTRULES_TITLE"),
 					fields = fields
 				}
 			})
@@ -565,7 +566,7 @@ function Module:StartLockTimer(guild, unlockTimestamp)
 			if (guild) then
 				local persistentData = self:GetPersistentData(guild)
 				if (os.time() >= persistentData.lockedUntil) then
-					self:UnlockServer(guild, "lock duration expired")
+					self:UnlockServer(guild, bot:Format(guild, "RAID_LOCK_EXPIRATION"))
 				end
 			end
 		end)
@@ -606,12 +607,10 @@ function Module:LockServer(guild, duration, reason)
 
 		local alertChannel = guild:getChannel(config.LockAlertChannel)
 		if (alertChannel) then
-			local message = "🔒 The server has been locked %s (%s)"
-
 			alertChannel:send({
 				embed = {
 					color = 16711680,
-					description = string.format(message, durationStr, reason),
+					description = bot:Format(guild, "RAID_ALERT_SERVER_LOCKED_UNITL", durationStr, reason),
 					timestamp = discordia.Date():toISO('T', 'Z')
 				}
 			})
@@ -642,12 +641,10 @@ function Module:UnlockServer(guild, reason)
 		if (config.LockAlertChannel) then
 			local alertChannel = guild:getChannel(config.LockAlertChannel)
 			if (alertChannel) then
-				local message = "🔓 The server has been unlocked (%s)"
-
 				alertChannel:send({
 					embed = {
 						color = 65280,
-						description = string.format(message, reason),
+						description = bot:Format(guild, "RAID_ALERT_SERVER_UNLOCKED", reason),
 						timestamp = discordia.Date():toISO('T', 'Z')
 					}
 				})
@@ -662,22 +659,22 @@ function Module:HandleRules(member)
 
 	local whitelist = table.search(config.JoinWhitelist, member.id)
 	if (whitelist) then
-		return true, string.format("%s has been allowed to join (whitelisted)", member.mentionString)
+		return true, bot:Format(guild, "RAID_HANDLERULE_WHITELIST", member.mentionString)
 	end
 
 	local persistentData = self:GetPersistentData(guild)
 	for i, ruleData in ipairs(persistentData.rules) do
 		if (rules[ruleData.rule].Check(member, ruleData.ruleConfig)) then
-			local ruleStr = string.format("rule %d - %s(%s)", i, ruleData.rule, rules[ruleData.rule].ToString(ruleData.ruleConfig))
+			local ruleStr = bot:Format(guild, "RAID_HANDLERULE_RULE", i, ruleData.rule, rules[ruleData.rule].ToString(ruleData.ruleConfig))
 
 			if (ruleData.effect == "authorize") then
-				return true, string.format("%s has been allowed to join due to %s", member.mentionString, ruleStr)
+				return true, bot:Format(guild, "RAID_HANDLERULE_AUTHORIZE", member.mentionString, ruleStr)
 			elseif (ruleData.effect == "ban") then
-				member:ban(string.format("auto-ban due to %s", ruleStr), 0)
-				return false, string.format("%s has been banned due to %s", member.mentionString, ruleStr)
+				member:ban(bot:Format(guild, "RAID_HANDLERULE_BAN_MSG", ruleStr), 0)
+				return false, bot:Format(guild, "RAID_HANDLERULE_BAN_LOG", member.mentionString, ruleStr)
 			elseif (ruleData.effect == "kick") then
-				member:kick(string.format("auto-kick due to %s", ruleStr))
-				return false, string.format("%s has been kicked due to %s", member.mentionString, ruleStr)
+				member:kick(bot:Format(guild, "RAID_HANDLERULE_KICK_MSG", ruleStr))
+				return false, bot:Format(guild, "RAID_HANDLERULE_KICK_LOG", member.mentionString, ruleStr)
 			end
 		end
 	end
@@ -710,7 +707,7 @@ function Module:OnMemberJoin(member)
 	end
 
 	if (data.locked) then
-		member:kick("server is locked")
+		member:kick(bot:Format(guild, "RAID_AUTOKICK_REASON"))
 	else
 		local now = os.time()
 
@@ -727,7 +724,7 @@ function Module:OnMemberJoin(member)
 		})
 
 		if (#data.joinChain > joinCountThreshold) then
-			self:AutoLockServer(guild, "auto-lock by anti-raid system")
+			self:AutoLockServer(guild, bot:Format(guild, "RAID_AUTOLOCK_REASON"))
 
 			local membersToKick = {}
 			for _, joinData in pairs(data.joinChain) do
@@ -737,7 +734,7 @@ function Module:OnMemberJoin(member)
 			for _, memberId in pairs(membersToKick) do
 				local member = guild:getMember(memberId)
 				if (member) then
-					member:kick("server is locked")
+					member:kick(bot:Format(guild, "RAID_AUTOKICK_REASON"))
 				end
 			end
 		end
@@ -829,7 +826,7 @@ function Module:OnMessageCreate(message)
 	if (message.type ~= enums.messageType.memberJoin) then
 		local duration = discordia.Date() - discordia.Date.fromISO(member.joinedAt)
 		if (duration:toSeconds() < config.SendMessageThreshold) then
-			local success, err = member:ban("auto-ban for bot suspicion", 1)
+			local success, err = member:ban(bot:Format("RAID_AUTOBAN_BOT_REASON"), 1)
 			if (not success) then
 				self:LogWarning(guild, "Failed to autoban potential bot %s (%s)", member.tag, err)
 			end
@@ -912,11 +909,10 @@ function Module:OnMessageCreate(message)
 							end
 						end
 
-						local str = "🙊 %s has been auto-muted because of spam in %s"
 						alertChannel:send({
 							embed = {
 								color = 16776960,
-								description = string.format(str, member.mentionString, table.concat(channelList, ", ")),
+								description = bot:Format(guild, "RAID_AUTOMUTE_SPAM_REASON", member.mentionString, table.concat(channelList, ", ")),
 								timestamp = discordia.Date():toISO('T', 'Z')
 							}
 						})
@@ -945,7 +941,7 @@ function Module:OnMessageCreate(message)
 				self:LogWarning(guild, "Failed to mute potential bot %s: %s", member.tag, err)
 			end
 		else
-			local success, err = member:ban("auto-ban for bot suspicion", 1)
+			local success, err = member:ban(bot:Format("RAID_AUTOBAN_BOT_REASON"), 1)
 			if (not success) then
 				self:LogWarning(guild, "Failed to autoban potential bot %s (%s)", member.tag, err)
 			end	
