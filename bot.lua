@@ -257,7 +257,7 @@ client:onSync("ready", function ()
 end)
 
 client:on("guildAvailable", function (guild)
-	print("Guild " .. guild.name)
+	print(string.format("Guild %s (%d members)", guild.name, #guild.members))
 end)
 
 client:on("guildCreate", function (guild)
