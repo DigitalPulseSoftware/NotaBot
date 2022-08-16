@@ -82,7 +82,14 @@ function Guild:_makeAvailable(data)
 
 	for _, channel in ipairs(data.threads) do
 		channel.permission_overwrites = {}
-		text_channels:_insert(channel)._permission_overwrites = text_channels:get(channel.parent_id)._permission_overwrites
+		local thread = text_channels:_insert(channel)
+		local parentChannel, err = text_channels:get(channel.parent_id)
+		if parentChannel then
+			thread._permission_overwrites = parentChannel._permission_overwrites
+		else
+			self.client:warning('failed to retrieve thread %s parent channel %s: %s', channel.id, channel.parent_id, err)
+
+		end
 	end
 
 	return self:_loadMembers(data)
