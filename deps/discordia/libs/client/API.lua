@@ -730,6 +730,36 @@ function API:modifyGuildEmbed(guild_id, payload) -- not exposed, maybe in the fu
 	return self:request("PATCH", endpoint, payload)
 end
 
+function API:getGuildScheduledEvent(guild_id, scheduled_event_id)
+	local endpoint = f(endpoints.GUILD_SCHEDULED_EVENT, guild_id, scheduled_event_id)
+	return self:request("GET", endpoint)
+end
+
+function API:modifyGuildScheduledEvent(guild_id, scheduled_event_id, payload)
+	local endpoint = f(endpoints.GUILD_SCHEDULED_EVENT, guild_id, scheduled_event_id)
+	return self:request("PATCH", endpoint)
+end
+
+function API:deleteGuildScheduledEvent(guild_id, scheduled_event_id)
+	local endpoint = f(endpoints.GUILD_SCHEDULED_EVENT, guild_id, scheduled_event_id)
+	return self:request("DELETE", endpoint)
+end
+
+function API:getGuildScheduledEventUsers(guild_id, scheduled_event_id)
+	local endpoint = f(endpoints.GUILD_SCHEDULED_EVENT_USER, guild_id, scheduled_event_id)
+	return self:request("GET", endpoint)
+end
+
+function API:getGuildScheduledEvents(guild_id)
+	local endpoint = f(endpoints.GUILD_SCHEDULED_EVENTS, guild_id)
+	return self:request("GET", endpoint)
+end
+
+function API:createGuildScheduledEvents(guild_id, payload)
+	local endpoint = f(endpoints.GUILD_SCHEDULED_EVENTS, guild_id)
+	return self:request("POST", endpoint, payload)
+end
+
 function API:getInvite(invite_code, query) -- Client:getInvite
 	local endpoint = f(endpoints.INVITE, invite_code)
 	return self:request("GET", endpoint, nil, query)

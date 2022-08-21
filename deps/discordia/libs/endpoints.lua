@@ -47,6 +47,9 @@ return {
 	GUILD_REGIONS                             = "/guilds/%s/regions",
 	GUILD_ROLE                                = "/guilds/%s/roles/%s",
 	GUILD_ROLES                               = "/guilds/%s/roles",
+	GUILD_SCHEDULED_EVENT                     = "/guilds/%s/scheduled-events/%s"
+	GUILD_SCHEDULED_EVENT_USER                = "/guilds/%s/scheduled-events/%s/users"
+	GUILD_SCHEDULED_EVENTS                    = "/guilds/%s/scheduled-events"
 	GUILD_WEBHOOKS                            = "/guilds/%s/webhooks",
 	INTERACTION_TOKEN_CALLBACK                = "/interactions/%s/%s/callback",
 	INVITE                                    = "/invites/%s",
