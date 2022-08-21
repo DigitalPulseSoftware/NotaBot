@@ -735,7 +735,7 @@ function API:getGuildScheduledEvent(guild_id, scheduled_event_id)
 	return self:request("GET", endpoint)
 end
 
-function API:modifyGuildScheduledEvent(guild_id, scheduled_event_id, payload)
+function API:modifyGuildScheduledEvent(guild_id, scheduled_event_id, payload) -- not exposed, maybe in the future
 	local endpoint = f(endpoints.GUILD_SCHEDULED_EVENT, guild_id, scheduled_event_id)
 	return self:request("PATCH", endpoint)
 end
@@ -745,7 +745,7 @@ function API:deleteGuildScheduledEvent(guild_id, scheduled_event_id)
 	return self:request("DELETE", endpoint)
 end
 
-function API:getGuildScheduledEventUsers(guild_id, scheduled_event_id)
+function API:getGuildScheduledEventUsers(guild_id, scheduled_event_id) -- not exposed, maybe in the future, need to manage cache and pagination here
 	local endpoint = f(endpoints.GUILD_SCHEDULED_EVENT_USER, guild_id, scheduled_event_id)
 	return self:request("GET", endpoint)
 end

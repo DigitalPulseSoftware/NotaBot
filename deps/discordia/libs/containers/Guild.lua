@@ -706,6 +706,79 @@ function Guild:unbanUser(id, reason)
 	end
 end
 
+--[=[
+@m getScheduledEvent
+@t http
+@p eventId Event Id
+@r Event
+@d Get a scheduled event content
+]=]
+function Guild:getScheduledEvent(eventId) 
+	if eventId then
+		local data, err = self.client._api:getGuildScheduledEvent(self._id, eventId)
+
+		if data then
+			return data
+		else
+			return nil, err
+		end
+	end
+end
+
+--[=[
+@m deleteScheduledEvent
+@t http
+@p eventId Event Id
+@r Boolean
+@d Delete a scheduled event
+]=]
+function Guild:deleteScheduledEvent(eventId) 
+	if eventId then
+		local data, err = self.client._api:deleteGuildScheduledEvent(self._id, eventId)
+
+		if data then
+			return true
+		else
+			return false, err
+		end
+	end
+end
+
+--[=[
+@m getScheduledEvents
+@t http
+@r List of events
+@d Get a list of scheduled events for the server
+]=]
+function Guild:getScheduledEvents() 
+	local data, err = self.client._api:getGuildScheduledEvents(self._id)
+
+	if data then
+		return data
+	else
+		return nil, err
+	end
+end
+
+--[=[
+@m createScheduledEvents
+@t http
+@p payload Scheduled Event to create
+@r Event
+@d Create a scheduled event on the server
+]=]
+function Guild:createScheduledEvents(payload) 
+	if payload then
+		local data, err = self.client._api:createGuildScheduledEvents(self._id, payload)
+
+		if data then
+			return true
+		else
+			return false, err
+		end
+	end
+end
+
 --[=[@p shardId number The ID of the shard on which this guild is served. If only one shard is in
 operation, then this will always be 0.]=]
 function get.shardId(self)
