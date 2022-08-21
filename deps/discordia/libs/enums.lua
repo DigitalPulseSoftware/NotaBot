@@ -408,4 +408,16 @@ enums.applicationFlag = enum {
 	embedded                      = flag(17),
 }
 
+-- https://discord.com/developers/docs/resources/guild-scheduled-event#guild-scheduled-event-object-guild-scheduled-event-privacy-level
+enums.scheduledEventsPrivacyLevel = enum {
+	guild_only = 2,
+}
+
+-- https://discord.com/developers/docs/resources/guild-scheduled-event#guild-scheduled-event-object-guild-scheduled-event-entity-types
+enums.scheduledEventsEntityTypes = enum {
+	stage_instance = 1,
+	voice = 2,
+	external = 3,
+}
+
 return enums

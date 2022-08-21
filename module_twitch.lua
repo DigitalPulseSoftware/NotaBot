@@ -633,12 +633,12 @@ function Module:HandleChannelNotification(channelId, channelData, type, eventDat
 					local duration = pattern.CreateDiscordEventDuration or 3600
 
 					guild.createScheduledEvents({
-						entity_type = 3, --'EXTERNAL', -- TODO: use enums
+						entity_type = enums.scheduledEventsEntityTypes.external,
 						entity_metadata = {
 							location = string.format("https://twitch.tv/%s", channelId)
 						},
 						name = title,
-						privacy_level = 2, -- 'GUILD_ONLY', -- TODO: use enums
+						privacy_level = enums.scheduledEventsPrivacyLevel.guild_only,
 						scheduled_start_time = os.date("!%Y-%m-%dT%TZ"),
 						scheduled_end_time = os.date("!%Y-%m-%dT%TZ", os.time(os.date("!*t")) + duration),
 					})
