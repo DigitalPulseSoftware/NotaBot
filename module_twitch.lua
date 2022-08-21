@@ -80,6 +80,10 @@ function Module:GetConfigTable()
 								if (type(fieldValue) ~= "boolean") then
 									return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " must be a boolean"
 								end
+							elseif (fieldName == "CreateDiscordEventDuration") then
+								if (type(fieldValue) ~= "number") then
+									return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " must be a number"
+								end
 							else
 								return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " is not a valid field"
 							end
@@ -626,6 +630,8 @@ function Module:HandleChannelNotification(channelId, channelData, type, eventDat
 				end
 
 				if(pattern.ShouldCreateDiscordEvent) then
+					local duration = pattern.CreateDiscordEventDuration or 3600
+
 					guild.createScheduledEvents({
 						entity_type = 3, --'EXTERNAL', -- TODO: use enums
 						entity_metadata = {
@@ -634,7 +640,7 @@ function Module:HandleChannelNotification(channelId, channelData, type, eventDat
 						name = title,
 						privacy_level = 2, -- 'GUILD_ONLY', -- TODO: use enums
 						scheduled_start_time = os.date("!%Y-%m-%dT%TZ"),
-						scheduled_end_time = os.date("!%Y-%m-%dT%TZ", os.time(os.date("!*t")) + 3600), -- One hour later, might need a configuration later ?
+						scheduled_end_time = os.date("!%Y-%m-%dT%TZ", os.time(os.date("!*t")) + duration),
 					})
 				end
 
