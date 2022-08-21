@@ -76,6 +76,10 @@ function Module:GetConfigTable()
 								if (type(fieldValue) ~= "string") then
 									return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " must be a string"
 								end
+							elseif (fieldName == "ShouldCreateDiscordEvent") then
+								if (type(fieldValue) ~= "boolean") then
+									return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " must be a boolean"
+								end
 							else
 								return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " is not a valid field"
 							end
@@ -619,6 +623,19 @@ function Module:HandleChannelNotification(channelId, channelData, type, eventDat
 					end
 	
 					return true
+				end
+
+				if(pattern.ShouldCreateDiscordEvent) then
+					guild.createScheduledEvents({
+						entity_type = 3, --'EXTERNAL', -- TODO: use enums
+						entity_metadata = {
+							location = string.format("https://twitch.tv/%s", channelId)
+						},
+						name = title,
+						privacy_level = 2, -- 'GUILD_ONLY', -- TODO: use enums
+						scheduled_start_time = os.date("!%Y-%m-%dT%TZ"),
+						scheduled_end_time = os.date("!%Y-%m-%dT%TZ", os.time(os.date("!*t")) + 3600), -- One hour later, might need a configuration later ?
+					})
 				end
 
 				for _, pattern in pairs(guildPatterns) do
