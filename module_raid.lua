@@ -748,7 +748,9 @@ local spamHints = {"3 month", "3 months", "away", "gift", "airdrop", "web3"}
 local discordDomains = {
 	-- no subdomain
 	["discord.com"] = true,
+	["discord.media"] = true,
 	["discordapp.com"] = true,
+	["discordapp.net"] = true,
 	-- public test build
 	["ptb.discord.com"] = true,
 	["ptb.discordapp.com"] = true,
