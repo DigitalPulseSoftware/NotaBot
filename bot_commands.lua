@@ -135,7 +135,8 @@ client:on('messageCreate', function(message)
 
 	if (commandTable.PrivilegeCheck) then
 	 	local success, ret = Bot:ProtectedCall("Command " .. commandName .. " privilege check", commandTable.PrivilegeCheck, message.member)
-	 	if (not success) then
+		
+		if (not success) then
 	 		message:reply("An error occurred")
 	 		return
 	 	end
