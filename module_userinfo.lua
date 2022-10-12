@@ -95,6 +95,12 @@ function Module:buildMemberEmbed(member)
 
         table.insert(fields, { name = "Total Message Amount", value = string.format("%s", userStats.MessageCount) })
         table.insert(fields, { name = "Total Reactions Amount", value = string.format("%s", userStats.ReactionCount) })
+
+        -- TODO: display graph instead
+        table.insert(fields, { name = "History:", value = "-" })
+        for k,v in pairs(userStats.perTimeAccumulatedUserStats) do
+            table.insert(fields, { name = k, value = v })
+        end
     else
         self:LogWarning(guild, "Failed to load stats module to display userinfo: %s", err)
     end

@@ -86,6 +86,12 @@ local function AccumulateStats(stats, dateStats)
 	AccumulateArray(stats.Users, dateStats.Users)
 end
 
+local function AccumulateUserStatsPerMonth(stats, dateStats, userId)
+	if(dateStats.Users and dateStats.Users[userId]) then
+		stats[os.date("%Y-%m", dateStats.Date)] = dateStats.Users[userId].MessageCount
+	end
+end
+
 function Module:GetConfigTable()
 	return {
 		{
@@ -553,6 +559,8 @@ function Module:GetUserStatsHistory(guild, userId)
 	accumulatedStats.MemberCount = nil
 	accumulatedStats.MemberCountHistory = {}
 
+	local perTimeAccumulatedUserStats = {}
+
 	for k,v in pairs(files) do
 		local fileName = string.format("%s/%s", guildStatsFolder, v);
 		local stats, err = self:LoadStats(guild, fileName)
@@ -561,6 +569,7 @@ function Module:GetUserStatsHistory(guild, userId)
 		end
 
 		AccumulateStats(accumulatedStats, stats)
+		AccumulateUserStatsPerMonth(perTimeAccumulatedUserStats, stats, userId)
 	end
 
 	local users = accumulatedStats.Users
@@ -569,9 +578,9 @@ function Module:GetUserStatsHistory(guild, userId)
 		userStats = {}
 		userStats.MessageCount = 0
 		userStats.ReactionCount = 0
-
-		users[userId] = userStats
 	end
+
+	userStats.perTimeAccumulatedUserStats = perTimeAccumulatedUserStats
 
 	return userStats
 end
