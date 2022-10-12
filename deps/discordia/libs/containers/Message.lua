@@ -158,6 +158,26 @@ function Message:_removeReaction(d)
 
 end
 
+function Message:_removeReactionAll(d)
+
+	local reactions = self._reactions
+	if not reactions then return nil end
+
+	local emoji = d.emoji
+	local k = emoji.id ~= null and emoji.id or emoji.name
+	local reaction = reactions:get(k)
+
+	if not reaction then return nil end -- uncached reaction?
+
+	reaction._count = 0
+	reaction._me = false
+
+	reactions:_delete(k)
+
+	return reaction
+
+end
+
 function Message:_setOldContent(d)
 	local ts = d.edited_timestamp
 	if not ts then return end
