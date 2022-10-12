@@ -80,6 +80,8 @@ local function getSortedChannels(self)
 		channels = self._parent._voice_channels
 	elseif t == channelType.category then
 		channels = self._parent._categories
+	elseif t == channelType.forum then
+		channels = self._parent._forums
 	end
 
 	local ret = {}

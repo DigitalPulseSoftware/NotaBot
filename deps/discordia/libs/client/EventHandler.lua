@@ -143,6 +143,10 @@ function EventHandler.CHANNEL_CREATE(d, client)
 		local guild = client._guilds:get(d.guild_id)
 		if not guild then return warning(client, 'Guild', d.guild_id, 'CHANNEL_CREATE') end
 		channel = guild._categories:_insert(d)
+	elseif t == channelType.forum then
+		local guild = client._guilds:get(d.guild_id)
+		if not guild then return warning(client, 'Guild', d.guild_id, 'CHANNEL_CREATE') end
+		channel = guild._forums:_insert(d)
 	else
 		return client:warning('Unhandled CHANNEL_CREATE (type %s)', d.type)
 	end
@@ -578,7 +582,7 @@ end
 function EventHandler.THREAD_CREATE(d, client)
 	local guild = client._guilds:get(d.guild_id)
 	if not guild then return warning(client, 'Guild', d.guild_id, 'THREAD_CREATE') end
-	local parent = guild._text_channels:get(d.parent_id)
+	local parent = guild._text_channels:get(d.parent_id) or guild._forums:get(d.parent_id)
 	if not parent then return warning(client, 'TextChannel', d.parent_id, 'THREAD_CREATE') end
 	d.permission_overwrites = {}
 	local channel = guild._text_channels:_insert(d)
@@ -589,7 +593,7 @@ end
 function EventHandler.THREAD_UPDATE(d, client)
 	local guild = client._guilds:get(d.guild_id)
 	if not guild then return warning(client, 'Guild', d.guild_id, 'THREAD_UPDATE') end
-	local parent = guild._text_channels:get(d.parent_id)
+	local parent = guild._text_channels:get(d.parent_id) or guild._forums:get(d.parent_id)
 	if not parent then return warning(client, 'TextChannel', d.parent_id, 'THREAD_UPDATE') end
 	d.permission_overwrites = {}
 	local channel = guild._text_channels:_insert(d)
