@@ -859,7 +859,7 @@ function Module:OnMessageCreate(message)
 	end
 
 	-- Compute message score and remember it
-	local lowerContent = message.content:lower()
+	local lowerContent = string.RemoveNonLatinChars(message.content):lower()
 	local score = self:ComputeMessageSpamScore(lowerContent)
 
 	table.insert(spamChain, {
