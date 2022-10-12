@@ -1,3 +1,5 @@
+local utf8str = require("deps/utf8-string-extensions")
+
 util = util or {}
 
 local timeUnits = {}
@@ -176,6 +178,46 @@ function string.GetArguments(text, limit)
     end
 
 	return args
+end
+
+local nonLatinToLatinEquivalent = {
+	["[ÀÁÂÃÄÅА]"] = "A",
+	["[àáâãăäåāąа]"] = "a",
+	["[Вв]"] = "B",
+	["[СҪС]"] = "C",
+	["[çčċс]"] = "c",
+	["[đ]"] = "d",
+	["[ÈÉÊËЕЁ́]"] = "E",
+	["[е́ё́е]"] = "e",
+	["[Ғ]"] = "F",
+	["[ғ]"] = "f",
+	["[ҢНн]"] = "H",
+	["[ң]"] = "h",
+	["[ЌҞҚК]"] = "K",
+	["[ќҟқк]"] = "k",
+	["[М]"] = "M",
+	["[м]"] = "m",
+	["[ñŉ]"] = "n",
+	["[ОÒÔÖО́О]"] = "O",
+	["[óòôőо́о̑o҅o҆о]"] = "o",
+	["[Р́ҎР̌Р]"] = "P",
+	["[р́ҏр̌р]"] = "p",
+	["[Ѕ]"] = "S",
+	["[ѕ]"] = "s",
+	["[ТҬҭТт]"] = "T",
+	["[ù]"] = "u",
+	["[ҲҳХ]"] = "X",
+	["[х]"] = "x",
+	["[У́Ұ]"] = "Y",
+	["[у́ұ]"] = "у́"
+}
+
+function string.RemoveNonLatinChars(str)
+	for k,v in pairs(nonLatinToLatinEquivalent) do
+		str = utf8str.gsub(str, k, v)
+	end
+
+	return str
 end
 
 function string.ToTable(str)
