@@ -545,6 +545,37 @@ function Module:GetUserStats(guild, userId)
 	return userStats
 end
 
+function Module:GetUserStatsHistory(guild, userId)
+	local guildStatsFolder = self:GetStatsFolder(guild)
+	local files = require("fs").readdirSync(guildStatsFolder)
+
+	local accumulatedStats = self:BuildStats(guild)
+	accumulatedStats.MemberCount = nil
+	accumulatedStats.MemberCountHistory = {}
+
+	for k,v in pairs(files) do
+		local fileName = string.format("%s/%s", guildStatsFolder, v);
+		local stats, err = self:LoadStats(guild, fileName)
+		if (not stats) then
+			return {}
+		end
+
+		AccumulateStats(accumulatedStats, stats)
+	end
+
+	local users = accumulatedStats.Users
+	local userStats = users[userId]
+	if (not userStats) then
+		userStats = {}
+		userStats.MessageCount = 0
+		userStats.ReactionCount = 0
+
+		users[userId] = userStats
+	end
+
+	return userStats
+end
+
 function Module:OnMessageCreate(message)
 	if (not bot:IsPublicChannel(message.channel)) then
 		return

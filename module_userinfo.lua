@@ -2,6 +2,7 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
+local bot = Bot
 local Date = Discordia.Date
 
 Module.Name = "userinfo"
@@ -36,11 +37,12 @@ local function buildUserEmbed(user)
     }
 end
 
-local function buildMemberEmbed(member)
+function Module:buildMemberEmbed(member)
     local fullName = member.user.tag
     local presence = discordStatus[member.status]
     local createdAt = Date.fromSeconds(member.user.createdAt):toParts()
     local joinedAt = Date.fromISO(member.joinedAt):toParts()
+    local guild = member.guild
 
     local description =
         string.format("__`Fullname:`__ %s\n__`Nickname:`__ %s\n__`Presence:`__ %s\n__`Created at:`__ <t:%s:f>\n__`Joined  at:`__ <t:%s:f>\n",
@@ -87,6 +89,16 @@ local function buildMemberEmbed(member)
 
     table.insert(fields, { name = "Join order", value = string.format("```markdown\n%s\n```", table.concat(members, "\n")) })
 
+    local statsModule, err = bot:GetModuleForGuild(guild, "stats")
+    if (statsModule) then
+        local userStats = statsModule:GetUserStatsHistory(guild, member.id)
+
+        table.insert(fields, { name = "Total Message Amount", value = string.format("%s", userStats.MessageCount) })
+        table.insert(fields, { name = "Total Reactions Amount", value = string.format("%s", userStats.ReactionCount) })
+    else
+        self:LogWarning(guild, "Failed to load stats module to display userinfo: %s", err)
+    end
+
     return {
         title = string.format("%s (%s)", fullName, member.id),
         thumbnail = { url = member.user.avatarURL },
@@ -106,14 +118,14 @@ function Module:OnLoaded()
 
         Func = function (commandMessage, targetUserId)
             if not targetUserId then
-                return commandMessage:reply({ embed = buildMemberEmbed(commandMessage.member) })
+                return commandMessage:reply({ embed = self:buildMemberEmbed(commandMessage.member) })
             end
 
             local guild = commandMessage.guild
             local targetMember, err = Bot:DecodeMember(guild, targetUserId)
 
             if targetMember then
-                return commandMessage:reply({ embed = buildMemberEmbed(targetMember) })
+                return commandMessage:reply({ embed = self:buildMemberEmbed(targetMember) })
             elseif err == "Invalid user id" then
                 return commandMessage:reply(err)
             else
