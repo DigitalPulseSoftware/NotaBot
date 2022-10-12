@@ -553,7 +553,7 @@ end
 
 function Module:GetUserStatsHistory(guild, userId)
 	local guildStatsFolder = self:GetStatsFolder(guild)
-	local files = require("fs").readdirSync(guildStatsFolder)
+	local files = fs.scandir(guildStatsFolder)
 
 	local accumulatedStats = self:BuildStats(guild)
 	accumulatedStats.MemberCount = nil
@@ -561,15 +561,18 @@ function Module:GetUserStatsHistory(guild, userId)
 
 	local perTimeAccumulatedUserStats = {}
 
-	for k,v in pairs(files) do
-		local fileName = string.format("%s/%s", guildStatsFolder, v);
-		local stats, err = self:LoadStats(guild, fileName)
-		if (not stats) then
-			return {}
-		end
+	for file in files do
+		if (file.type == "file") then
+			local fileName = string.format("%s/%s", guildStatsFolder, file.name);
+			local stats, err = self:LoadStats(guild, fileName)
+			if (not stats) then
+				self:LogWarning(nil, "Failed to load stats file: %s", err)
+				return {}
+			end
 
-		AccumulateStats(accumulatedStats, stats)
-		AccumulateUserStatsPerMonth(perTimeAccumulatedUserStats, stats, userId)
+			AccumulateStats(accumulatedStats, stats)
+			AccumulateUserStatsPerMonth(perTimeAccumulatedUserStats, stats, userId)
+		end
 	end
 
 	local users = accumulatedStats.Users
