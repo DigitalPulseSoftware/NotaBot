@@ -529,6 +529,13 @@ function Module:OnInteractionCreate(interaction)
 
 	local interactionType = interaction.data.custom_id
 	if interactionType == "alertmodule_dismiss" then
+		if not moderator:hasPermission(enums.permission.moderateMembers) then
+			interaction:editResponse({
+				content = string.format("❌ You do not have permission to moderate")
+			})
+			return
+		end
+
 		if alertMessage.Dismissed then
 			interaction:respond({
 				type = enums.interactionResponseType.channelMessageWithSource,
@@ -562,6 +569,13 @@ function Module:OnInteractionCreate(interaction)
 				flags = enums.interactionResponseFlag.ephemeral
 			}
 		})
+
+		if not moderator:hasPermission(enums.permission.manageMessages) then
+			interaction:editResponse({
+				content = string.format("❌ You do not have permission to delete this message")
+			})
+			return
+		end
 
 		local channel, err = client:getChannel(alertMessage.ChannelId)
 		if not channel then
@@ -621,6 +635,13 @@ function Module:OnInteractionCreate(interaction)
 			return
 		end
 
+		if not modmail:CheckOpenTicketPermission(moderator, targetMember) then
+			interaction:editResponse({
+				content = string.format("❌ You do not have permission to open a modmail ticket.")
+			})
+			return
+		end
+
 		local reason = string.format("%s has opened a ticket following your message (<https://discord.com/channels/%s/%s/%s>)", moderator.mentionString, guild.id, alertMessage.ChannelId, alertMessage.MessageId)
 		local ticketChannel, err = modmail:OpenTicket(moderator, targetMember, reason, true)
 		if not ticketChannel then
@@ -668,6 +689,13 @@ function Module:OnInteractionCreate(interaction)
 			}
 		})
 
+		if not mute:CheckPermissions(moderator) then
+			interaction:editResponse({
+				content = string.format("❌ You do not have permission mute this member")
+			})
+			return
+		end
+
 		local success, err = mute:Mute(guild, alertMessage.ReportedUserId, duration)
 		if not success then
 			interaction:editResponse({
@@ -683,6 +711,15 @@ function Module:OnInteractionCreate(interaction)
 		actionStr = "Muted " .. util.DiscordRelativeTime(duration) .. " by " .. moderator.mentionString
 	elseif interactionType == "alertmodule_ban" then
 		local duration = interaction.data.values and interaction.data.values[1] or nil
+
+		local ban = Bot:GetModuleForGuild(guild, "ban")
+		if (ban and not mute:CheckPermissions(moderator)) or (not ban and not moderator:hasPermission(enums.permission.banMembers)) then
+			interaction:editResponse({
+				content = string.format("❌ You do not have permission mute this member")
+			})
+			return
+		end
+		
 		if duration == "0" or duration == "0_deletemessages" then
 			-- "Waiting"
 			interaction:respond({
@@ -704,7 +741,6 @@ function Module:OnInteractionCreate(interaction)
 				return
 			end
 
-			local ban = Bot:GetModuleForGuild(guild, "ban")
 			if ban then
 				ban:RegisterBan(guild, alertMessage.ReportedUserId, moderator, 0, reason)
 			end
@@ -728,7 +764,6 @@ function Module:OnInteractionCreate(interaction)
 			end
 
 			-- Temp ban
-			local ban = Bot:GetModuleForGuild(guild, "ban")
 			if not ban then
 				interaction:respond({
 					type = enums.interactionResponseType.channelMessageWithSource,

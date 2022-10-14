@@ -158,6 +158,26 @@ function Message:_removeReaction(d)
 
 end
 
+function Message:_removeReactionAll(d)
+
+	local reactions = self._reactions
+	if not reactions then return nil end
+
+	local emoji = d.emoji
+	local k = emoji.id ~= null and emoji.id or emoji.name
+	local reaction = reactions:get(k)
+
+	if not reaction then return nil end -- uncached reaction?
+
+	reaction._count = 0
+	reaction._me = false
+
+	reactions:_delete(k)
+
+	return reaction
+
+end
+
 function Message:_setOldContent(d)
 	local ts = d.edited_timestamp
 	if not ts then return end
@@ -454,7 +474,7 @@ function get.mentionedChannels(self)
 		self._mentioned_channels = ArrayIterable(mentions, function(id)
 			local guild = client._channel_map[id]
 			if guild then
-				return guild._text_channels:get(id) or guild._voice_channels:get(id) or guild._categories:get(id)
+				return guild._text_channels:get(id) or guild._voice_channels:get(id) or guild._categories:get(id) or guild._forums:get(id)
 			else
 				return client._private_channels:get(id) or client._group_channels:get(id)
 			end

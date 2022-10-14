@@ -28,7 +28,7 @@ end
 local function getChannel(client, id)
 	local guild = client._channel_map[id]
 	if guild then
-		return guild._text_channels:get(id)
+		return guild._text_channels:get(id) or guild._voice_channels:get(id)
 	else
 		return client._private_channels:get(id) or client._group_channels:get(id)
 	end
@@ -143,6 +143,10 @@ function EventHandler.CHANNEL_CREATE(d, client)
 		local guild = client._guilds:get(d.guild_id)
 		if not guild then return warning(client, 'Guild', d.guild_id, 'CHANNEL_CREATE') end
 		channel = guild._categories:_insert(d)
+	elseif t == channelType.forum then
+		local guild = client._guilds:get(d.guild_id)
+		if not guild then return warning(client, 'Guild', d.guild_id, 'CHANNEL_CREATE') end
+		channel = guild._forums:_insert(d)
 	else
 		return client:warning('Unhandled CHANNEL_CREATE (type %s)', d.type)
 	end
@@ -328,7 +332,7 @@ function EventHandler.MESSAGE_CREATE(d, client)
 			if not user then
 				return warning(client, 'TextChannel', d.channel_id, 'MESSAGE_CREATE')
 			end
-			
+
 			user:_load(d.author)
 			channel = user:getPrivateChannel()
 			if not channel then
@@ -424,6 +428,23 @@ function EventHandler.MESSAGE_REACTION_REMOVE_ALL(d, client)
 		return client:emit('reactionRemoveAll', message)
 	else
 		return client:emit('reactionRemoveAllUncached', channel, d.message_id)
+	end
+end
+
+function EventHandler.MESSAGE_REACTION_REMOVE_EMOJI(d, client)
+	local channel = getChannel(client, d.channel_id)
+	if not channel then return warning(client, 'TextChannel', d.channel_id, 'MESSAGE_REACTION_REMOVE') end
+	local message = channel._messages:get(d.message_id)
+	if message then
+		local reaction = message:_removeReactionAll(d)
+		if not reaction then -- uncached reaction?
+			local k = d.emoji.id ~= null and d.emoji.id or d.emoji.name
+			return warning(client, 'Reaction', k, 'MESSAGE_REACTION_REMOVE')
+		end
+		return client:emit('reactionRemoveEmoji', reaction)
+	else
+		local k = d.emoji.id ~= null and d.emoji.id or d.emoji.name
+		return client:emit('reactionRemoveEmojiUncached', channel, d.message_id, k)
 	end
 end
 
@@ -553,7 +574,7 @@ end
 function EventHandler.WEBHOOKS_UPDATE(d, client) -- webhook object is not provided
 	local guild = client._guilds:get(d.guild_id)
 	if not guild then return warning(client, 'Guild', d.guild_id, 'WEBHOOKS_UDPATE') end
-	local channel = guild._text_channels:get(d.channel_id)
+	local channel = guild._text_channels:get(d.channel_id) or guild._voice_channels:get(d.channel_id)
 	if not channel then return warning(client, 'TextChannel', d.channel_id, 'WEBHOOKS_UPDATE') end
 	return client:emit('webhooksUpdate', channel)
 end
@@ -561,7 +582,7 @@ end
 function EventHandler.THREAD_CREATE(d, client)
 	local guild = client._guilds:get(d.guild_id)
 	if not guild then return warning(client, 'Guild', d.guild_id, 'THREAD_CREATE') end
-	local parent = guild._text_channels:get(d.parent_id)
+	local parent = guild._text_channels:get(d.parent_id) or guild._forums:get(d.parent_id)
 	if not parent then return warning(client, 'TextChannel', d.parent_id, 'THREAD_CREATE') end
 	d.permission_overwrites = {}
 	local channel = guild._text_channels:_insert(d)
@@ -572,7 +593,7 @@ end
 function EventHandler.THREAD_UPDATE(d, client)
 	local guild = client._guilds:get(d.guild_id)
 	if not guild then return warning(client, 'Guild', d.guild_id, 'THREAD_UPDATE') end
-	local parent = guild._text_channels:get(d.parent_id)
+	local parent = guild._text_channels:get(d.parent_id) or guild._forums:get(d.parent_id)
 	if not parent then return warning(client, 'TextChannel', d.parent_id, 'THREAD_UPDATE') end
 	d.permission_overwrites = {}
 	local channel = guild._text_channels:_insert(d)

@@ -16,6 +16,7 @@ local AuditLogEntry = require('containers/AuditLogEntry')
 local GuildTextChannel = require('containers/GuildTextChannel')
 local GuildVoiceChannel = require('containers/GuildVoiceChannel')
 local GuildCategoryChannel = require('containers/GuildCategoryChannel')
+local GuildForumChannel = require('containers/GuildForumChannel')
 local Snowflake = require('containers/abstract/Snowflake')
 
 local json = require('json')
@@ -35,6 +36,7 @@ function Guild:__init(data, parent)
 	self._text_channels = Cache({}, GuildTextChannel, self)
 	self._voice_channels = Cache({}, GuildVoiceChannel, self)
 	self._categories = Cache({}, GuildCategoryChannel, self)
+	self._forums = Cache({}, GuildForumChannel, self)
 	self._voice_states = {}
 	if not data.unavailable then
 		return self:_makeAvailable(data)
@@ -68,6 +70,7 @@ function Guild:_makeAvailable(data)
 	local text_channels = self._text_channels
 	local voice_channels = self._voice_channels
 	local categories = self._categories
+	local forums = self._forums
 
 	for _, channel in ipairs(data.channels) do
 		local t = channel.type
@@ -77,12 +80,21 @@ function Guild:_makeAvailable(data)
 			voice_channels:_insert(channel)
 		elseif t == channelType.category then
 			categories:_insert(channel)
+		elseif t == channelType.forum then
+			forums:_insert(channel)
 		end
 	end
 
 	for _, channel in ipairs(data.threads) do
 		channel.permission_overwrites = {}
-		text_channels:_insert(channel)._permission_overwrites = text_channels:get(channel.parent_id)._permission_overwrites
+		local thread = text_channels:_insert(channel)
+		local parentChannel, err = text_channels:get(channel.parent_id) or forums:get(channel.parent_id)
+		if parentChannel then
+			thread._permission_overwrites = parentChannel._permission_overwrites
+		else
+			self.client:warning('failed to retrieve thread %s parent channel %s: %s', channel.id, channel.parent_id, err)
+
+		end
 	end
 
 	return self:_loadMembers(data)
@@ -921,6 +933,11 @@ end
 --[=[@p categories Cache An iterable cache of all channel categories that exist in this guild.]=]
 function get.categories(self)
 	return self._categories
+end
+
+--[=[@p forums Cache An iterable cache of all channel forums that exist in this guild.]=]
+function get.forums(self)
+	return self._forums
 end
 
 return Guild

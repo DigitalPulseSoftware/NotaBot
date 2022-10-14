@@ -41,6 +41,8 @@ function Channel:_delete()
 			cache = self._parent._voice_channels
 		elseif t == channelType.category then
 			cache = self._parent._categories
+		elseif t == channelType.forum then
+			cache = self._parent._forums
 		end
 		if cache then
 			cache:_delete(self._id)

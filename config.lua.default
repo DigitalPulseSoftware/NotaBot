@@ -1,26 +1,31 @@
 Token = "" -- Bot token
 OwnerUserId = ""
 
--- TODO: Handle a prefix per-server
-Prefix = "!"
-
 -- Module which will be loaded at bot start
 AutoloadModules = {
 	"module_ban.lua",
 	"module_channels.lua",
 	"module_kick.lua",
+	"module_logs.lua",
 	"module_game.lua",
 	"module_mention.lua",
+	"module_message.lua",
 	"module_modmail.lua",
 	"module_modo.lua",
 	"module_mute.lua",
+	"module_nickname.lua",
 	"module_pin.lua",
+	"module_pm.lua",
 	"module_poll.lua",
 	"module_purge.lua",
 	"module_quote.lua",
+	"module_raid.lua",
 	"module_roleinfo.lua",
+	"module_sentry.lua",
+	"module_serverconfig.lua",
 	"module_stats.lua",
 	"module_twitch.lua",
 	"module_userinfo.lua",
+	"module_warn.lua",
 	"module_welcome.lua"
 }
