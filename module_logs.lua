@@ -11,6 +11,12 @@ Module.Name = "logs"
 
 function Module:GetConfigTable()
 	return {
+        {
+            Name = "ChannelManagementLogChannel",
+            Description = "Where channel created/updated/deleted should be logged",
+            Type = bot.ConfigType.Channel,
+            Optional = true
+        },
 		{
 			Name = "DeletedMessageChannel",
 			Description = "Where deleted messages should be logged",
@@ -58,6 +64,53 @@ function Module:OnChannelDelete(channel)
 
     local data = self:GetData(guild)
     data.cachedMessages[channel.id] = nil
+
+    local config = self:GetConfig(guild)
+    local channelManagementLogChannel = config.ChannelManagementLogChannel
+    if not channelManagementLogChannel then
+        return
+    end
+
+    local logChannel = guild:getChannel(channelManagementLogChannel)
+    if not logChannel then
+        self:LogWarning(guild, "Channel management log channel %s no longer exists", channelManagementLogChannel)
+        return
+    end
+
+    logChannel:send({
+        embed = {
+            title = "Channel deleted",
+            description = channel.name,
+            timestamp = discordia.Date():toISO('T', 'Z')
+        }
+    })
+end
+
+function Module:OnChannelCreate(channel)
+    local guild = channel.guild
+    if not guild then
+        return
+    end
+
+    local config = self:GetConfig(guild)
+    local channelManagementLogChannel = config.ChannelManagementLogChannel
+    if not channelManagementLogChannel then
+        return
+    end
+
+    local logChannel = guild:getChannel(channelManagementLogChannel)
+    if not logChannel then
+        self:LogWarning(guild, "Channel management log channel %s no longer exists", channelManagementLogChannel)
+        return
+    end
+
+    logChannel:send({
+        embed = {
+            title = "Channel created",
+            description = channel.name,
+            timestamp = discordia.Date():toISO('T', 'Z')
+        }
+    })
 end
 
 function Module:OnMessageDelete(message)
