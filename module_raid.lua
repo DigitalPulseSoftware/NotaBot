@@ -866,6 +866,7 @@ function Module:OnMessageCreate(message)
 		at = now,
 		channelId = message.channel.id,
 		content = lowerContent,
+		realContent = message.content,
 		messageId = message.id,
 		score = score
 	})
@@ -911,10 +912,24 @@ function Module:OnMessageCreate(message)
 							end
 						end
 
+						local fields = {}
+						for _, spam in ipairs(spamChain) do
+							local value = string.sub(spam.realContent, 1, 1000) -- This is limited to 1024 chars
+							if string.len(value) ~= string.len(spam.realContent) then
+								value = value .. "... (truncated)"
+							end
+
+							table.insert(fields, {
+								name = "Message",
+								value = value
+							})
+						end
+
 						alertChannel:send({
 							embed = {
 								color = 16776960,
 								description = bot:Format(guild, "RAID_AUTOMUTE_SPAM_REASON", member.mentionString, table.concat(channelList, ", ")),
+								fields = fields,
 								timestamp = discordia.Date():toISO('T', 'Z')
 							}
 						})
