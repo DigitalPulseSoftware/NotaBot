@@ -122,7 +122,7 @@ function Module:OnChannelCreate(channel)
     logChannel:send({
         embed = {
             title = "Channel created",
-            description = channel.name,
+            description = "<#" .. channel.id .. ">",
             timestamp = discordia.Date():toISO('T', 'Z')
         }
     })
