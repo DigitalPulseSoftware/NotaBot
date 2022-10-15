@@ -24,6 +24,12 @@ function Module:GetConfigTable()
 			Optional = true
 		},
         {
+            Name = "NicknameChangedLogChannel",
+            Description = "Where nickname changes should be logged",
+            Type = bot.ConfigType.Channel,
+            Optional = true
+        },
+        {
             Name = "IgnoredDeletedMessageChannels",
             Description = "Messages deleted in those channels will not be logged",
             Type = bot.ConfigType.Channel,
@@ -46,6 +52,15 @@ function Module:OnEnable(guild)
     -- Keep a reference to the last X messages of every text channel
     local messageCacheSize = self.GlobalConfig.PersistentMessageCacheSize
     data.cachedMessages = {}
+
+    data.nicknames = {}
+    for userId, user in pairs(guild.members) do
+        data.nicknames[userId] = user.nickname
+    end
+    data.usernames = {}
+    for userId, user in pairs(guild.members) do
+        data.usernames[userId] = user._user._username
+    end
 
 	coroutine.wrap(function ()
         for _, channel in pairs(guild.textChannels) do
@@ -111,6 +126,50 @@ function Module:OnChannelCreate(channel)
             timestamp = discordia.Date():toISO('T', 'Z')
         }
     })
+end
+
+function Module:OnMemberUpdate(user)
+    local guild = user.guild
+    if not guild then
+        return
+    end
+
+    local config = self:GetConfig(guild)
+    local nicknameChangeLogChannel = config.NicknameChangedLogChannel
+    if not nicknameChangeLogChannel then
+        return
+    end
+
+    local logChannel = guild:getChannel(nicknameChangeLogChannel)
+    if not logChannel then
+        self:LogWarning(guild, "Channel management log channel %s no longer exists", nicknameChangeLogChannel)
+        return
+    end
+
+    local data = self:GetData(guild)
+
+    if not (data.nicknames[user.id] == user.nickname) then
+        logChannel:send({
+            embed = {
+                title = "Nickname changed",
+                description = "<@".. user.id .."> - **" .. (data.nicknames[user.id] or data.usernames[user.id]) .. "** → **" .. (user.nickname or user._user._username) .. "**", -- or here is used to default to global username if no nickname is/was defined
+                timestamp = discordia.Date():toISO('T', 'Z')
+            }
+        })
+    end
+
+    if not (data.usernames[user.id] == user._user._username) then
+        logChannel:send({
+            embed = {
+                title = "Username changed",
+                description = "**" .. data.usernames[user.id] .. "** → **" .. user._user._username .. "**",
+                timestamp = discordia.Date():toISO('T', 'Z')
+            }
+        })
+    end
+    
+    data.nicknames[user.id] = user.nickname
+    data.usernames[user.id] = user._user._username
 end
 
 function Module:OnMessageDelete(message)
