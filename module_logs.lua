@@ -148,7 +148,7 @@ function Module:OnMemberUpdate(user)
 
     local data = self:GetData(guild)
 
-    if not (data.nicknames[user.id] == user.nickname) then
+    if data.nicknames[user.id] ~= user.nickname then
         logChannel:send({
             embed = {
                 title = "Nickname changed",
@@ -158,7 +158,7 @@ function Module:OnMemberUpdate(user)
         })
     end
 
-    if not (data.usernames[user.id] == user._user._username) then
+    if data.usernames[user.id] ~= user._user._username then
         logChannel:send({
             embed = {
                 title = "Username changed",
