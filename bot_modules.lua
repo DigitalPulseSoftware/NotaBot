@@ -302,7 +302,7 @@ function ModuleMetatable:EnableForGuild(guild, ignoreCheck, dontSave)
 	guildData.Config._Enabled = true
 
 	if (not dontSave) then
-		self:SaveGuildConfig(guild)
+		self:Save(guild)
 	end
 
 	self:LogInfo(guild, "Module enabled (%.3fs)", stopwatch.milliseconds / 1000)
