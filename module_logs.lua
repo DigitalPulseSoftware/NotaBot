@@ -162,7 +162,7 @@ function Module:OnMemberUpdate(user)
         logChannel:send({
             embed = {
                 title = "Username changed",
-                description = "**" .. data.usernames[user.id] .. "** → **" .. user._user._username .. "**",
+                description = "<@".. user.id .."> - **" .. data.usernames[user.id] .. "** → **" .. user._user._username .. "**",
                 timestamp = discordia.Date():toISO('T', 'Z')
             }
         })
