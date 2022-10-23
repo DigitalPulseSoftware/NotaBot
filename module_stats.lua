@@ -124,6 +124,23 @@ function Module:OnLoaded()
 	end)
 
 	self:RegisterCommand({
+		Name = "exportstats",
+		Args = {},
+		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+
+		Help = "Export stats for current server",
+		Func = function (commandMessage)
+			local guildId = commandMessage.guild.id
+			local zipFile = "stats/guild_"..guildId.."_"..os.time()..".zip"
+			os.execute("zip -r "..zipFile.." stats/guild_"..guildId)
+
+			commandMessage:reply({ file = {"stats.zip", fs.readFile(zipFile) } })
+
+			os.execute("rm "..zipFile)
+		end
+	})
+
+	self:RegisterCommand({
 		Name = "resetstats",
 		Args = {},
 		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
