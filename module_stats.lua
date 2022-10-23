@@ -13,6 +13,8 @@ local path = require("path")
 
 Module.Name = "stats"
 
+local exportTimeout = 60 * 60; -- One hour between each command
+
 local dayPerMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
 local function DayPerMonth(month, year)
 	if (month == 2) then
@@ -131,6 +133,15 @@ function Module:OnLoaded()
 		Help = "Export stats for current server",
 		Func = function (commandMessage)
 			local guildId = commandMessage.guild.id
+			local data = self:GetPersistentData(guild)
+
+			-- Prevent denial of service
+			if(data.lastExportTime ~= nil and data.lastExportTime > (os.time() - exportTimeout)) then
+				commandMessage:reply("You did ask for an export less than an hour ago, skipping command.")
+				return
+			end
+
+			data.lastExportTime = os.time()
 
 			self:LogInfo(commandMessage.guild, "Exporting stats for server "..guildId.." ...")
 
@@ -274,6 +285,10 @@ function Module:OnEnable(guild)
 		else
 			self:LogInfo(guild, "Previous stats data has been found and date does match, continuing...")
 		end
+	end
+
+	if(not data.lastExportTime) then
+		data.lastExportTime = nil
 	end
 
 	return true
