@@ -131,12 +131,17 @@ function Module:OnLoaded()
 		Help = "Export stats for current server",
 		Func = function (commandMessage)
 			local guildId = commandMessage.guild.id
+
+			self:LogInfo(commandMessage.guild, "Exporting stats for server "..guildId.." ...")
+
 			local zipFile = "/tmp/stats_"..guildId.."_"..os.time()..".zip"
 			os.execute("zip -r "..zipFile.." stats/guild_"..guildId)
 
 			commandMessage:reply({ file = {"stats.zip", fs.readFile(zipFile) } })
 
 			os.execute("rm "..zipFile)
+
+			self:LogInfo(commandMessage.guild, "Exporting stats for server "..guildId.." ... Done !")
 		end
 	})
 
