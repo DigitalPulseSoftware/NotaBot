@@ -10,7 +10,7 @@ discordia.extensions() -- load all helpful Lua library extensions
 
 local client = discordia.Client({
 	cacheAllMembers = true,
-	logLevel = 4,
+--	logLevel = 4,
 	intents = bit.bor(
 		-- All intents except guildIntegrations and guildPresences
 		enums.gatewayIntent.guilds,
