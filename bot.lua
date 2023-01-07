@@ -3,14 +3,31 @@
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
 local discordia = require('discordia')
-local client = discordia.Client({
-	cacheAllMembers = true,
-	intents = 32751 -- all intents except GUILD_INTEGRATIONS
-})
 local enums = discordia.enums
 local wrap = coroutine.wrap
 
-discordia.extensions() -- load all helpful extensions
+discordia.extensions() -- load all helpful Lua library extensions
+
+local client = discordia.Client({
+	cacheAllMembers = true,
+	logLevel = 4,
+	intents = bit.bor(
+		-- All intents except guildIntegrations and guildPresences
+		enums.gatewayIntent.guilds,
+		enums.gatewayIntent.guildMembers,
+		enums.gatewayIntent.guildBans,
+		enums.gatewayIntent.guildEmojis,
+		enums.gatewayIntent.guildWebhooks,
+		enums.gatewayIntent.guildInvites,
+		enums.gatewayIntent.guildVoiceStates,
+		enums.gatewayIntent.guildMessages,
+		enums.gatewayIntent.guildMessageReactions,
+		enums.gatewayIntent.guildMessageTyping,
+		enums.gatewayIntent.directMessage,
+		enums.gatewayIntent.directMessageRections,
+		enums.gatewayIntent.directMessageTyping
+	)
+})
 
 local function code(str)
     return string.format('```\n%s```', str)
