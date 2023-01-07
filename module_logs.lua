@@ -152,7 +152,7 @@ function Module:OnMemberUpdate(user)
         logChannel:send({
             embed = {
                 title = "Nickname changed",
-                description = "<@".. user.id .."> - **" .. (data.nicknames[user.id] or data.usernames[user.id]) .. "** → **" .. (user.nickname or user._user._username) .. "**", -- or here is used to default to global username if no nickname is/was defined
+                description = user.mentionString .." - **" .. (data.nicknames[user.id] or data.usernames[user.id]) .. "** → **" .. (user.nickname or user._user._username) .. "**", -- or here is used to default to global username if no nickname is/was defined
                 timestamp = discordia.Date():toISO('T', 'Z')
             }
         })
@@ -162,7 +162,7 @@ function Module:OnMemberUpdate(user)
         logChannel:send({
             embed = {
                 title = "Username changed",
-                description = "**" .. data.usernames[user.id] .. "** → **" .. user._user._username .. "**",
+                description = user.mentionString .." - **" .. (data.usernames[user.id] or "<Unknown>") .. "** → **" .. (user._user._username or "<Error>") .. "**",
                 timestamp = discordia.Date():toISO('T', 'Z')
             }
         })
