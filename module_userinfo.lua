@@ -85,7 +85,7 @@ local function buildMemberEmbed(member)
         members = table.move(members, position - first, position + last, 1, {})
     end
 
-    table.insert(fields, { name = "Join order", value = string.format("```markdown\n%s\n```", table.concat(members, "\n")) })
+    table.insert(fields, { name = "Join order", value = string.format("```text\n%s\n```", table.concat(members, "\n")) })
 
     return {
         title = string.format("%s (%s)", fullName, member.id),
