@@ -7,8 +7,6 @@ local Date = Discordia.Date
 Module.Name = "userinfo"
 
 
--- We have to precede special chars with an \ to prevent discord from replacing them with the corresponding emoji :<color>_circle:
-local discordStatus = { online = "\\🟢 Online", dnd = "\\🔴 Do Not Disturb", idle = "\\🟡 Idle", offline = "\\⚪ Offline" }
 local DEFAULT_COLOR = 0 -- Default color value, 0 == black
 local JOIN_ORDER_WINDOW = 7 -- Number of members to show in "Join order" field
 
