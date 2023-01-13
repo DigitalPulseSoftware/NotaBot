@@ -158,7 +158,7 @@ function Module:OnMemberUpdate(user)
         })
     end
 
-    if data.usernames[user.id] ~= user._user._username then
+    if data.usernames[user.id] ~= nil and data.usernames[user.id] ~= user._user._username then
         logChannel:send({
             embed = {
                 title = "Username changed",
