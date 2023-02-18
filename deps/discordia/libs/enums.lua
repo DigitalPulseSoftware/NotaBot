@@ -71,6 +71,7 @@ enums.channelType = enum {
 enums.webhookType = enum {
 	incoming        = 1,
 	channelFollower = 2,
+	application     = 3,
 }
 
 enums.messageType = enum {
@@ -96,7 +97,9 @@ enums.messageType = enum {
 	chatInputCommand                        = 20,
 	threadStarterMessage                    = 21,
 	guildInviteReminder                     = 22,
-	contextMenuCommand                      = 23
+	contextMenuCommand                      = 23,
+	autoModerationAction                    = 24,
+	roleSubscriptionPurchase                = 25,
 }
 
 enums.relationshipType = enum {
@@ -111,7 +114,9 @@ enums.activityType = enum {
 	default   = 0,
 	streaming = 1,
 	listening = 2,
+	watching  = 3,
 	custom    = 4,
+	competing = 5,
 }
 
 enums.activityFlag = enum {
@@ -124,17 +129,20 @@ enums.activityFlag = enum {
 }
 
 enums.status = enum {
-	online = 'online',
-	idle = 'idle',
+	online       = 'online',
+	idle         = 'idle',
 	doNotDisturb = 'dnd',
-	invisible = 'invisible',
+	invisible    = 'invisible', -- only sent?
+	offline      = 'offline', -- only received?
 }
 
 enums.gameType = enum { -- NOTE: deprecated; use activityType
 	default   = 0,
 	streaming = 1,
 	listening = 2,
+	watching  = 3,
 	custom    = 4,
+	competing = 5,
 }
 
 enums.verificationLevel = enum {
@@ -208,6 +216,34 @@ enums.messageFlag = enum {
 	suppressEmbeds       = flag(2),
 	sourceMessageDeleted = flag(3),
 	urgent               = flag(4),
+	hasThread            = flag(5),
+	ephemeral            = flag(6),
+	loading              = flag(7),
+}
+
+enums.gatewayIntent = enum {
+	guilds                = flag(0),
+	guildMembers          = flag(1), -- privileged
+	guildModeration       = flag(2),
+	guildEmojis           = flag(3),
+	guildIntegrations     = flag(4),
+	guildWebhooks         = flag(5),
+	guildInvites          = flag(6),
+	guildVoiceStates      = flag(7),
+	guildPresences        = flag(8), -- privileged
+	guildMessages         = flag(9),
+	guildMessageReactions = flag(10),
+	guildMessageTyping    = flag(11),
+	directMessage         = flag(12),
+	directMessageRections = flag(13),
+	directMessageTyping   = flag(14),
+	messageContent        = flag(15), -- privileged
+	guildScheduledEvents  = flag(16),
+	-- unused             = flag(17),
+	-- unused             = flag(18),
+	-- unused             = flag(19),
+	autoModConfiguration  = flag(20),
+	autoModExecution      = flag(21),
 }
 
 enums.actionType = enum {
@@ -249,6 +285,21 @@ enums.actionType = enum {
 	stageInstanceCreate    = 83,
 	stageInstanceUpdate    = 84,
 	stageInstanceDelete    = 85,
+	stickerCreate          = 90,
+	stickerUpdate          = 91,
+	stickerDelete          = 92,
+	eventCreate            = 100,
+	eventUpdate            = 101,
+	eventDelete            = 102,
+	threadCreate           = 110,
+	threadUpdate           = 111,
+	threadDelete           = 112,
+	autoModRuleCreate      = 140,
+	autoModRuleUpdate      = 141,
+	autoModRuleDelete      = 142,
+	autoModMessageBlock    = 143,
+	autoModMessageFlag     = 144,
+	autoModUserTimeout     = 145,
 }
 
 enums.logLevel = enum {
@@ -259,7 +310,7 @@ enums.logLevel = enum {
 	debug   = 4,
 }
 
--- Backported from dev
+--- Backported from dev
 enums.userFlag = enum {
 	discordEmployee      = flag(0),
 	discordPartner       = flag(1),
@@ -280,24 +331,6 @@ enums.userFlag = enum {
 	verifiedBot          = flag(16),
 	verifiedBotDeveloper = flag(17),
 	certifiedModerator   = flag(18),
-}
-
-enums.gatewayIntent = enum {
-	guilds                = flag(0),
-	guildMembers          = flag(1),
-	guildBans             = flag(2),
-	guildEmojis           = flag(3),
-	guildIntegrations     = flag(4),
-	guildWebhooks         = flag(5),
-	guildInvites          = flag(6),
-	guildVoiceStates      = flag(7),
-	guildPresences        = flag(8),
-	guildMessages         = flag(9),
-	guildMessageReactions = flag(10),
-	guildMessageTyping    = flag(11),
-	directMessage         = flag(12),
-	directMessageRections = flag(13),
-	directMessageTyping   = flag(14),
 }
 
 enums.premiumType = enum {

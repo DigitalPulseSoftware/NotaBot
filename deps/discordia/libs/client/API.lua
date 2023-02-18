@@ -4,6 +4,7 @@ local http = require('coro-http')
 local package = require('../../package.lua')
 local Mutex = require('utils/Mutex')
 local endpoints = require('endpoints')
+local constants = require('constants')
 
 local request = http.request
 local f, gsub, byte = string.format, string.gsub, string.byte
@@ -13,8 +14,8 @@ local insert, concat = table.insert, table.concat
 local sleep = timer.sleep
 local running = coroutine.running
 
-local BASE_URL = "https://discord.com/api/v9"
-
+local API_VERSION = constants.API_VERSION
+local BASE_URL = "https://discord.com/api/" .. 'v' .. API_VERSION
 local JSON = 'application/json'
 local PRECISION = 'millisecond'
 local MULTIPART = 'multipart/form-data;boundary='
@@ -129,25 +130,27 @@ function API:request(method, endpoint, payload, query, files)
 		return error('Cannot make HTTP request outside of a coroutine', 2)
 	end
 
-
 	local url = BASE_URL .. endpoint
 
 	if query and next(query) then
-		url = {url}
+		local buf = {url}
 		for k, v in pairs(query) do
-			insert(url, #url == 1 and '?' or '&')
-			insert(url, urlencode(k))
-			insert(url, '=')
-			insert(url, urlencode(v))
+			insert(buf, #buf == 1 and '?' or '&')
+			insert(buf, urlencode(k))
+			insert(buf, '=')
+			insert(buf, urlencode(v))
 		end
-		url = concat(url)
+		url = concat(buf)
 	end
 
 	local req = {
 		{'User-Agent', USER_AGENT},
-		{'X-RateLimit-Precision', PRECISION},
 		{'Authorization', self._token},
 	}
+
+	if API_VERSION < 8 then
+		insert(req, {'X-RateLimit-Precision', PRECISION})
+	end
 
 	if payloadRequired[method] then
 		payload = payload and encode(payload) or '{}'
@@ -216,7 +219,7 @@ function API:commit(method, url, req, payload, retries)
 				retry = retries < options.maxRetries
 			end
 
-			if retry then
+			if retry and delay then
 				client:warning('%i - %s : retrying after %i ms : %s %s', res.code, res.reason, delay, method, url)
 				sleep(delay)
 				return self:commit(method, url, req, payload, retries + 1)

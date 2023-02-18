@@ -18,7 +18,7 @@ limitations under the License.
 
 --[[lit-meta
   name = "luvit/http-codec"
-  version = "3.0.6"
+  version = "3.0.7"
   homepage = "https://github.com/luvit/luvit/blob/master/deps/http-codec.lua"
   description = "A simple pair of functions for converting between hex and raw strings."
   tags = {"codec", "http"}
@@ -251,6 +251,7 @@ local function decoder()
       if #chunk - index > 8192 then
         error("chunk-size header too large")
       end
+
       return
     end
 

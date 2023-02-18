@@ -15,7 +15,7 @@ function Module:GetConfigTable()
 			Array = true,
 			Global = true,
 			Name = "GameList",
-			Description = "List of games",
+			Description = "List of activities",
 			Type = bot.ConfigType.String,
 			Default = {},
 			Sensitive = true
@@ -25,10 +25,10 @@ end
 
 function Module:OnLoaded()
 	self.UpdateTimer = Bot:CreateRepeatTimer(3 * 60, -1, function ()
-		self:UpdateGame()
+		self:UpdateActivity()
 	end)
 
-	self:UpdateGame()
+	self:UpdateActivity()
 	return true
 end
 
@@ -36,12 +36,12 @@ function Module:OnUnload()
 	self.UpdateTimer:Stop()
 end
 
-function Module:UpdateGame()
+function Module:UpdateActivity()
 	local games = self.GlobalConfig.GameList
 	local newGame = games[math.random(1, #games)]
 	if (type(newGame) == "function") then
 		newGame = newGame()
 	end
 
-	client:setGame(newGame)
+	client:setActivity(newGame)
 end

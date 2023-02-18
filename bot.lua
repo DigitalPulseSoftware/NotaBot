@@ -11,11 +11,11 @@ discordia.extensions() -- load all helpful Lua library extensions
 local client = discordia.Client({
 	cacheAllMembers = true,
 --	logLevel = 4,
-	intents = bit.bor(
+	gatewayIntents = bit.bor(
 		-- All intents except guildIntegrations and guildPresences
 		enums.gatewayIntent.guilds,
 		enums.gatewayIntent.guildMembers,
-		enums.gatewayIntent.guildBans,
+		enums.gatewayIntent.guildModeration,
 		enums.gatewayIntent.guildEmojis,
 		enums.gatewayIntent.guildWebhooks,
 		enums.gatewayIntent.guildInvites,

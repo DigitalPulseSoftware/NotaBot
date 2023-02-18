@@ -1,7 +1,7 @@
 --[=[
 @c Activity
-@d Represents a Discord user's presence data, either plain game or streaming presence or a rich presence.
-Most if not all properties may be nil.
+@d Represents a Discord user's presence data, either an application or streaming
+presence or a rich presence. Most if not all properties may be nil.
 ]=]
 
 local Container = require('containers/abstract/Container')
@@ -39,6 +39,15 @@ function Activity:_loadMore(data)
 	self._emoji_animated = emoji and emoji.animated
 end
 
+--[=[
+@m __hash
+@r string
+@d Returns `Activity.parent:__hash()`
+]=]
+function Activity:__hash()
+	return self._parent:__hash()
+end
+
 --[=[@p start number/nil The Unix timestamp for when this Rich Presence activity was started.]=]
 function get.start(self)
 	return self._start
@@ -49,18 +58,18 @@ function get.stop(self)
 	return self._stop
 end
 
---[=[@p name string/nil The game that the user is currently playing.]=]
+--[=[@p name string/nil The name of the activity in which the user is currently engaged.]=]
 function get.name(self)
 	return self._name
 end
 
---[=[@p type number/nil The type of user's game status. See the `activityType`
+--[=[@p type number/nil The user's activity type. See the `activityType`
 enumeration for a human-readable representation.]=]
 function get.type(self)
 	return self._type
 end
 
---[=[@p url string/nil The URL that is set for a user's streaming game status.]=]
+--[=[@p url string/nil The URL for a user's streaming activity.]=]
 function get.url(self)
 	return self._url
 end

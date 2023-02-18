@@ -10,7 +10,7 @@ all stored objects should have a `__hash` method.
 ]=]
 
 local random = math.random
-local insert, sort, pack = table.insert, table.sort, table.pack
+local insert, sort, pack, unpack = table.insert, table.sort, table.pack, table.unpack
 
 local Iterable = require('class')('Iterable')
 
@@ -131,7 +131,7 @@ end
 @op fn function
 @r number
 @d If a predicate is provided, this returns the number of objects in the iterable
-that satistfy the predicate; otherwise, the total number of objects.
+that satisfy the predicate; otherwise, the total number of objects.
 ]=]
 function Iterable:count(fn)
 	if not fn then
@@ -240,6 +240,7 @@ function Iterable:select(...)
 				return sorter(a[i], b[i])
 			end
 		end
+		return false
 	end)
 	return rows
 end

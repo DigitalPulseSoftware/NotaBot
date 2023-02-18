@@ -314,7 +314,7 @@ function Module:OnMemberJoin(member)
 	local config = self:GetConfig(guild)
 	local persistentData = self:GetPersistentData(guild)
 	if (persistentData.MutedUsers[member.id]) then
-		local success, err = member:addRole(config.MuteRole)
+		local success, err = member:addRole(config.MuteRole, true)
 		if (not success) then
 			self:LogError(guild, "failed to apply mute role to %s: %s", member.tag, err)
 		end

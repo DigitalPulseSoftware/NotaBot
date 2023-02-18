@@ -18,7 +18,7 @@ function Reaction:__init(data, parent)
 	Container.__init(self, data, parent)
 	local emoji = data.emoji
 	self._emoji_id = emoji.id ~= null and emoji.id or nil
-	self._emoji_name = emoji.name ~= null and emoji.name or nil
+	self._emoji_name = emoji.name
 	if emoji.animated ~= null and emoji.animated ~= nil then -- not always present
 		self._emoji_animated = emoji.animated
 	end
@@ -116,12 +116,10 @@ end
 --[=[@p emojiHash string The discord hash for the emoji used in this reaction.
 This will be the raw string for a standard emoji.]=]
 function get.emojiHash(self)
-	if self._emoji_id and self._emoji_name then
+	if self._emoji_id then
 		return self._emoji_name .. ':' .. self._emoji_id
-	elseif self._emoji_name then
-		return self._emoji_name
 	else
-		return self._emoji_id
+		return self._emoji_name
 	end
 end
 

@@ -4,9 +4,10 @@ local ssl = require('openssl')
 local class = require('class')
 local enums = require('enums')
 
-local permission = enums.permission
-local actionType = enums.actionType
-local messageFlag = enums.messageFlag
+local permission = assert(enums.permission)
+local gatewayIntent = assert(enums.gatewayIntent)
+local actionType = assert(enums.actionType)
+local messageFlag = assert(enums.messageFlag)
 local base64 = ssl.base64
 local readFileSync = fs.readFileSync
 local classes = class.classes
@@ -269,6 +270,17 @@ function Resolver.permission(obj)
 		n = permission(obj) and obj
 	elseif t == 'number' then
 		n = permission(obj + 0ULL) and obj
+	end
+	return n
+end
+
+function Resolver.gatewayIntent(obj)
+	local t = type(obj)
+	local n = nil
+	if t == 'string' then
+		n = gatewayIntent[obj]
+	elseif t == 'number' then
+		n = gatewayIntent(obj) and obj
 	end
 	return n
 end

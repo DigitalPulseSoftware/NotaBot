@@ -26,7 +26,7 @@ end
 
 --[=[
 @m getMessage
-@t http
+@t http?
 @p id Message-ID-Resolvable
 @r Message
 @d Gets a message object by ID. If the object is already cached, then the cached
@@ -216,6 +216,16 @@ local function parseMention(obj, mentions)
 	return mentions
 end
 
+local function parseEmbed(obj, embeds)
+	if type(obj) == 'table' and next(obj) then
+		embeds = embeds or {}
+		insert(embeds, obj)
+	else
+		return nil, 'Invalid embed object: ' .. tostring(obj)
+	end
+	return embeds
+end
+
 --[=[
 @m send
 @t http
@@ -261,6 +271,22 @@ function TextChannel:send(content)
 			content = concat(mentions, ' ')
 		end
 
+		local embeds
+		if tbl.embed then
+			embeds, err = parseEmbed(tbl.embed)
+			if err then
+				return nil, err
+			end
+		end
+		if type(tbl.embeds) == 'table' then
+			for _, embed in ipairs(tbl.embeds) do
+				embeds, err = parseEmbed(embed, embeds)
+				if err then
+					return nil, err
+				end
+			end
+		end
+
 		local files
 		if tbl.file then
 			files, err = parseFile(tbl.file)
@@ -280,14 +306,17 @@ function TextChannel:send(content)
 		local refMessage, refMention
 		if tbl.reference then
 			refMessage = {message_id = Resolver.messageId(tbl.reference.message)}
-			refMention = {replied_user = not not tbl.reference.mention}
+			refMention = {
+				parse = {'users', 'roles', 'everyone'},
+				replied_user = not not tbl.reference.mention,
+			}
 		end
 
 		data, err = self.client._api:createMessage(self._id, {
 			content = content,
 			tts = tbl.tts,
 			nonce = tbl.nonce,
-			embed = tbl.embed,
+			embeds = embeds,
 			message_reference = refMessage,
 			allowed_mentions = refMention,
 			components = tbl.components,

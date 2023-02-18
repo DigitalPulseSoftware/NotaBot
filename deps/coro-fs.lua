@@ -1,6 +1,6 @@
 --[[lit-meta
   name = "creationix/coro-fs"
-  version = "2.2.3"
+  version = "2.2.5"
   homepage = "https://github.com/luvit/lit/blob/master/deps/coro-fs.lua"
   description = "A coro style interface to the filesystem."
   tags = {"coro", "fs"}
@@ -16,15 +16,22 @@ local uv = require('uv')
 local fs = {}
 local pathJoin = require('pathjoin').pathJoin
 
+local function assertResume(thread, ...)
+  local success, err = coroutine.resume(thread, ...)
+  if not success then
+    error(debug.traceback(thread, err), 0)
+  end
+end
+
 local function noop() end
 
 local function makeCallback()
   local thread = coroutine.running()
   return function (err, value, ...)
     if err then
-      assert(coroutine.resume(thread, nil, err))
+      assertResume(thread, nil, err)
     else
-      assert(coroutine.resume(thread, value == nil and true or value, ...))
+      assertResume(thread, value == nil and true or value, ...)
     end
   end
 end
@@ -49,8 +56,8 @@ function fs.lstat(path)
   uv.fs_lstat(path, makeCallback())
   return coroutine.yield()
 end
-function fs.symlink(target, path)
-  uv.fs_symlink(target, path, makeCallback())
+function fs.symlink(target, path, flags)
+  uv.fs_symlink(target, path, flags, makeCallback())
   return coroutine.yield()
 end
 function fs.readlink(path)
@@ -61,8 +68,8 @@ function fs.fstat(fd)
   uv.fs_fstat(fd, makeCallback())
   return coroutine.yield()
 end
-function fs.chmod(fd, path)
-  uv.fs_chmod(fd, path, makeCallback())
+function fs.chmod(path, mode)
+  uv.fs_chmod(path, mode, makeCallback())
   return coroutine.yield()
 end
 function fs.fchmod(fd, mode)
@@ -81,8 +88,8 @@ function fs.close(fd)
   uv.fs_close(fd, makeCallback())
   return coroutine.yield()
 end
-function fs.access(path, flags)
-  uv.fs_access(path, flags or "", makeCallback())
+function fs.access(path, mode)
+  uv.fs_access(path, mode or "", makeCallback())
   return coroutine.yield()
 end
 function fs.rename(path, newPath)
@@ -214,9 +221,9 @@ function fs.chroot(base)
   function chroot.lstat(path)
     return fs.lstat(resolve(path))
   end
-  function chroot.symlink(target, path)
+  function chroot.symlink(target, path, flags)
     -- TODO: should we resolve absolute target paths or treat it as opaque data?
-    return fs.symlink(target, resolve(path))
+    return fs.symlink(target, resolve(path), flags)
   end
   function chroot.readlink(path)
     return fs.readlink(resolve(path))
@@ -224,8 +231,8 @@ function fs.chroot(base)
   function chroot.chmod(path, mode)
     return fs.chmod(resolve(path), mode)
   end
-  function chroot.access(path, flags)
-    return fs.access(resolve(path), flags)
+  function chroot.access(path, mode)
+    return fs.access(resolve(path), mode)
   end
   function chroot.rename(path, newPath)
     return fs.rename(resolve(path), resolve(newPath))

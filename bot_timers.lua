@@ -58,7 +58,8 @@ function Bot:ScheduleTimer(timestamp, callback)
 end
 
 function Bot:ScheduleAction(timestamp, callback)
-	assert(timestamp, callback)
+	assert(type(timestamp) == "number")
+	assert(type(callback) == "function")
 
 	local actions = self.ScheduledActions
 

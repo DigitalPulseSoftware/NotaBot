@@ -74,7 +74,7 @@ function Module:OnMemberJoin(member)
 			for _, roleId in ipairs(config.JoinRoles) do
 				local role = guild:getRole(roleId)
 				if (role) then
-					local success, err = member:addRole(role)
+					local success, err = member:addRole(role, true)
 					if (not success) then
 						self:LogError(guild, "Failed to add role %s to member %s: %s", role.name, member.user.tag or "<invalid>", err)
 					end
