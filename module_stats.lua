@@ -10,6 +10,9 @@ local enums = discordia.enums
 local fs = require("coro-fs")
 local json = require("json")
 local path = require("path")
+local httpCodec = require("http-codec")
+local net = require("coro-net")
+local querystring = require("querystring")
 
 Module.Name = "stats"
 
@@ -86,6 +89,56 @@ local function AccumulateStats(stats, dateStats)
 	AccumulateArray(stats.Users, dateStats.Users)
 end
 
+local function BadRequest(body)
+
+	local header = {
+		code = 404,
+		reason = "Not Found",
+		{"Content-Type", "charset=utf-8"},
+		{"Content-Length", 0}
+	}
+
+	return header, body or ""
+end
+
+local Forbidden = function (body)
+	local header = {
+		code = 403,
+		{"Content-Type", "charset=utf-8"}
+	}
+
+	return header, body or ""
+end
+
+local Ok = function (body)
+	local header = {
+		code = 200,
+		reason = "OK",
+		{"Content-Type", "charset=utf-8"}
+	}
+
+	return header, body or ""
+end
+
+local function NotFound(body)
+	local header = {
+		code = 404,
+		reason = "Not Found",
+		{"Content-Type", "charset=utf-8"}
+	}
+
+	return header, body or ""
+end
+
+local ServerError = function (body)
+	local header = {
+		code = 500,
+		{"Content-Type", "charset=utf-8"}
+	}
+
+	return header, body or ""
+end
+
 function Module:GetConfigTable()
 	return {
 		{
@@ -99,11 +152,182 @@ function Module:GetConfigTable()
 			Description = "Allows most active users stats to be shown",
 			Type = bot.ConfigType.Boolean,
 			Default = false
+		},
+		{
+			Name = "AllowAPIAccess",
+			Description = "Allows to access this server stats via the web API",
+			Type = bot.ConfigType.Boolean,
+			Default = false
+		},
+		{
+			Name = "APIPrivateKey",
+			Description = "Private key required to access stats via the web API (empty to allow public access)",
+			Type = bot.ConfigType.String,
+			Optional = true,
+			Sensitive = true
+		},
+		{
+			Global = true,
+			Name = "ListenPort",
+			Description = "Port on which internal server listens",
+			Type = bot.ConfigType.Integer,
+			Default = 14794
 		}
 	}
 end
 
+function Module:CreateServer(host, port, onConnect)
+	return net.createServer({
+		host = host,
+		port = port,
+		encoder = httpCodec.encoder,
+		decoder = httpCodec.decoder,
+  	}, function (read, write, socket)
+		for head in read do
+			local parts = {}
+			for part in read do
+				if #part > 0 then
+					parts[#parts + 1] = part
+				else
+					break
+				end
+			end
+
+			local body = table.concat(parts)
+			local head, body = onConnect(head, body, socket)
+			write(head)
+			if body then write(body) end
+			write("")
+			if not head.keepAlive then break end
+		end
+		write() --FIXME: This should be done by coro-net
+ 	end)
+end
+
+function Module:API_ServerList(req)
+	local servers = {}
+
+	self:ForEachGuild(function (guildId, config, data, persistentData)
+		if config.AllowAPIAccess and (config.APIPrivateKey == nil or #config.APIPrivateKey <= 0) then
+			local guild = client:getGuild(guildId)
+			if (guild) then
+				table.insert(servers, {
+					id = guildId,
+					name = guild.name,
+					memberCount = guild.totalMemberCount
+				})
+			end
+		end
+	end)
+
+	return {
+		code = 200,
+		reason = "OK",
+		{"Content-Type", "application/json"}
+	}, json.encode(servers)
+end
+
+function Module:API_Server(req)
+	local serverId = req.params[1]
+	if not serverId then
+		return NotFound("InvalidServerId")
+	end
+
+	local date = string.match(req.params[2] or "", "^%d%d%d%d%-%d%d%-%d%d$")
+	if not date then
+		return NotFound("InvalidDate")
+	end
+
+	local guild = client:getGuild(serverId)
+	if not guild then
+		return NotFound("InvalidServerId")
+	end
+
+	local guildConfig = self:GetConfig(guild, true)
+	if not guildConfig or not guildConfig.AllowAPIAccess then
+		return NotFound("InvalidServerId")
+	end
+
+	if guildConfig.APIPrivateKey and #guildConfig.APIPrivateKey > 0 then
+		local auth = req.headers.authorization
+		if not auth then
+			self:LogWarning("Stats API server: Access forbidden (no authorization)")
+			return Forbidden("MissingAuthorization")
+		end
+
+		local token = string.match(auth, "Bearer (.+)")
+		if not token then
+			return BadRequest("InvalidAuthorizationHeader")
+		end
+
+		if token ~= guildConfig.APIPrivateKey then
+			self:LogWarning("Stats API server: Access forbidden (wrong token)")
+			return Forbidden()
+		end
+	end
+
+	local stats = self:LoadStats(guild, self:GetStatsFilename(guild, date))
+	if not stats then
+		return NotFound("NoData")
+	end
+
+	return {
+		code = 200,
+		reason = "OK",
+		{"Content-Type", "application/json"}
+	}, json.encode(stats)
+end
+
+function Module:SetupServer()
+	if self.GlobalConfig.ListenPort <= 0 then
+		return
+	end
+
+	local routes = {
+		["^/servers$"] = self.API_ServerList,
+		["^/server/(%d+)/day/(.+)$"] = self.API_Server
+	}
+
+	return self:CreateServer("127.0.0.1", self.GlobalConfig.ListenPort, function (head, body, socket)
+		local headers = {}
+		for _, keyvalue in ipairs(head) do
+			local key, value = unpack(keyvalue)
+			headers[key:lower()] = value
+		end
+
+		if head.method == "GET" and head.path then
+			local pathname, query = head.path:match("^([^?]*)%??(.*)")
+			for pattern, handler in pairs(routes) do
+				local matches = {pathname:match(pattern)}
+				if #matches > 0 then
+					local req = {
+						headers = headers,
+						path = head.path,
+						params = matches,
+						query = query and querystring.parse(query) or nil
+					}
+
+					local success, header, body = bot:ProtectedCall("Stats API", handler, self, req)
+					if not success then
+						self:LogWarning("Stats API: Server error")
+						return ServerError()
+					end
+
+					return header, body
+				end
+			end
+		end
+
+		return NotFound()
+	end)
+end
+
 function Module:OnLoaded()
+	self.Server = self:SetupServer()
+	if not self.Server then
+		self:LogError(nil, "Failed to start stats server")
+	end
+
 	self.Clock = discordia.Clock()
 	self.Clock:on("day", function ()
 		self:ForEachGuild(function (guildId, config, data, persistentData)
@@ -262,8 +486,12 @@ function Module:OnReady()
 end
 
 function Module:OnUnload()
-	if (self.Clock) then
+	if self.Clock then
 		self.Clock:stop()
+	end
+
+	if self.Server then
+		self.Server:close()
 	end
 end
 
