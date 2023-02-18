@@ -373,10 +373,10 @@ end
 
 function Module:CreateServer(host, port, onConnect)
 	return net.createServer({
-    	host = host,
-    	port = port,
-    	encode = httpCodec.encoder(),
-    	decode = httpCodec.decoder(),
+		host = host,
+		port = port,
+		encode = httpCodec.encoder,
+		decode = httpCodec.decoder,
   	}, function (read, write, socket)
 		for head in read do
 			local parts = {}
@@ -400,9 +400,9 @@ function Module:CreateServer(host, port, onConnect)
 end
 
 local charset = {}  do -- [0-9a-zA-Z]
-    for c = 48, 57  do table.insert(charset, string.char(c)) end
-    for c = 65, 90  do table.insert(charset, string.char(c)) end
-    for c = 97, 122 do table.insert(charset, string.char(c)) end
+	for c = 48, 57  do table.insert(charset, string.char(c)) end
+	for c = 65, 90  do table.insert(charset, string.char(c)) end
+	for c = 97, 122 do table.insert(charset, string.char(c)) end
 end
 
 function Module:GenerateSecret(length)
@@ -493,7 +493,7 @@ function Module:SetupServer()
 		end
 
 		local hmacMessage = assert(headers["twitch-eventsub-message-id"])
-		                 .. assert(headers["twitch-eventsub-message-timestamp"])
+						 .. assert(headers["twitch-eventsub-message-timestamp"])
 						 .. body
 
 		assert(channelData.Secret)
