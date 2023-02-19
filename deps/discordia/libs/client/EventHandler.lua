@@ -422,7 +422,7 @@ function EventHandler.MESSAGE_REACTION_REMOVE_ALL(d, client)
 end
 
 function EventHandler.MESSAGE_REACTION_REMOVE_EMOJI(d, client)
-	local channel = getChannel(client, d.channel_id)
+	local channel = getChannel(client, d)
 	if not channel then return warning(client, 'TextChannel', d.channel_id, 'MESSAGE_REACTION_REMOVE') end
 	local message = channel._messages:get(d.message_id)
 	if message then
@@ -601,8 +601,9 @@ function EventHandler.THREAD_DELETE(d, client)
 	if not guild then return warning(client, 'Guild', d.guild_id, 'THREAD_DELETE') end
 	local parent = guild._text_channels:get(d.parent_id) or guild._forums:get(d.parent_id)
 	if not parent then return warning(client, 'TextChannel', d.parent_id, 'THREAD_DELETE') end
-	local channel = guild._text_channels:_remove(d)
-	return client:emit('channelDelete', channel)
+	guild._text_channels:_delete(d)
+	--local channel = guild._text_channels:_remove(d)
+	--return client:emit('channelDelete', channel)
 end
 
 function EventHandler.THREAD_LIST_SYNC(d, client)
