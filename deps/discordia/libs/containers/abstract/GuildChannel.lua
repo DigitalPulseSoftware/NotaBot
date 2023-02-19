@@ -36,7 +36,9 @@ function GuildChannel:_load(data)
 end
 
 function GuildChannel:_loadMore(data)
-	return self._permission_overwrites:_load(data.permission_overwrites, true)
+	if data.permission_overwrites then
+		self._permission_overwrites:_load(data.permission_overwrites, true)
+	end
 end
 
 --[=[
