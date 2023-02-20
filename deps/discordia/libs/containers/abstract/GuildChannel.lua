@@ -17,6 +17,7 @@ local isInstance = class.isInstance
 local classes = class.classes
 local channelType = assert(enums.channelType)
 
+local format = string.format
 local insert, sort = table.insert, table.sort
 local min, max, floor = math.min, math.max, math.floor
 local huge = math.huge
@@ -280,6 +281,11 @@ icon and private voice channels are not visible.]=]
 function get.private(self)
 	local overwrite = self._permission_overwrites:get(self._parent._id)
 	return overwrite and overwrite:getDeniedPermissions():has('readMessages')
+end
+
+--[=[@p link string URL that can be used to jump-to the channel in the Discord client.]=]
+function get.link(self)
+	return format('https://discord.com/channels/%s/%s', self._parent._id, self._id)
 end
 
 return GuildChannel

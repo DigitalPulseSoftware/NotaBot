@@ -590,7 +590,7 @@ function Module:PrintStats(channel, stats, fromDate, toDate, dayCount)
 
 		local channelData = mostActiveChannels[i]
 		local channel = guild:getChannel(channelData.id)
-		activeChannelList = activeChannelList .. string.format("%s: %s m.\n", channel and channel.mentionString or "<deleted channel>", valueFunc(channelData.messageCount))
+		activeChannelList = activeChannelList .. string.format("%s: %s m.\n", channel and string.format("[#%s](%s)", channel.name, channel.link) or "<deleted channel>", valueFunc(channelData.messageCount))
 	end
 
 	local activeMemberList
