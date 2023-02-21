@@ -375,8 +375,8 @@ function Module:CreateServer(host, port, onConnect)
 	return net.createServer({
 		host = host,
 		port = port,
-		encode = httpCodec.encoder,
-		decode = httpCodec.decoder,
+		encoder = httpCodec.encoder,
+		decoder = httpCodec.decoder,
   	}, function (read, write, socket)
 		for head in read do
 			local parts = {}
