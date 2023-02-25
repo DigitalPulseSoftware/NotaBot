@@ -158,7 +158,7 @@ function Module:OnLoaded()
 
 		local now = os.time()
 		for channelId, channelData in pairs(watchedChannels) do
-			if (channelData.RenewTime <= now and not channelData.Subscribed) then
+			if (channelData.RenewTime <= now and not channelData.WaitingForConfirm) then
 				local channelAlerts = self.ChannelAlerts[channelId]
 				if (channelAlerts and not table.empty(channelAlerts)) then
 					channelData.RenewTime = now + 30 -- Retry in 30 seconds if twitch didn't answer or subscribing failed
