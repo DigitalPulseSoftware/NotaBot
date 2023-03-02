@@ -6,9 +6,13 @@ local Date = Discordia.Date
 
 Module.Name = "userinfo"
 
-
+-- We have to precede special chars with an \ to prevent discord from replacing them with the corresponding emoji :<color>_circle:
+local discordStatus = { online = "\\🟢 Online", dnd = "\\🔴 Do Not Disturb", idle = "\\🟡 Idle", offline = "\\⚪ Offline" }
 local DEFAULT_COLOR = 0 -- Default color value, 0 == black
 local JOIN_ORDER_WINDOW = 7 -- Number of members to show in "Join order" field
+local intents = Discordia.enums.gatewayIntent
+-- Privileged intent, must be checked before use
+local has_guild_presences_intent = (bit.band(Bot.Client:getIntents(), intents.guildPresences) ~= 0)
 
 -- The highest role with color ~= black defines the color of the username
 local function getMemberColor(sortedRoles)
@@ -36,13 +40,20 @@ end
 
 local function buildMemberEmbed(member)
 	local fullName = member.user.tag
-	local presence = discordStatus[member.status]
 	local createdAt = Date.fromSeconds(member.user.createdAt):toParts()
 	local joinedAt = Date.fromISO(member.joinedAt):toParts()
 
-	local description =
-		string.format("__`Fullname:`__ %s\n__`Nickname:`__ %s\n__`Presence:`__ %s\n__`Created at:`__ <t:%s:f>\n__`Joined  at:`__ <t:%s:f>\n",
-			fullName, member.name, presence, createdAt, joinedAt)
+	local description
+	if has_guild_presences_intent then
+		local presence = discordStatus[member.status]
+		description =
+			string.format("__`Fullname:`__ %s\n__`Nickname:`__ %s\n__`Presence:`__ %s\n__`Created at:`__ <t:%s:f>\n__`Joined  at:`__ <t:%s:f>\n",
+				fullName, member.name, presence, createdAt, joinedAt)
+	else
+		description =
+			string.format("__`Fullname:`__ %s\n__`Nickname:`__ %s\n__`Created at:`__ <t:%s:f>\n__`Joined  at:`__ <t:%s:f>\n",
+				fullName, member.name, createdAt, joinedAt)
+	end
 
 	local fields = {}
 
