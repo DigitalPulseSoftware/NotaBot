@@ -98,7 +98,7 @@ local rules = {
 			if (not time) then
 				return nil, "invalid date, please write it in ISO 8601 format"
 			end
-			
+
 			return time
 		end,
 		ToString = function (config)
@@ -119,7 +119,7 @@ local rules = {
 			if (not time) then
 				return nil, "invalid date, please write it in ISO 8601 format"
 			end
-			
+
 			return time
 		end,
 		ToString = function (config)
@@ -700,7 +700,7 @@ function Module:OnMemberJoin(member)
 			local ruleAlertChannel = guild:getChannel(config.RuleAlertChannel)
 			if (ruleAlertChannel) then
 				ruleAlertChannel:send(msg)
-			end	
+			end
 		end
 
 		return
@@ -742,14 +742,14 @@ function Module:OnMemberJoin(member)
 end
 
 -- Thanks to DrLazor for his help with this function
-local spamWords = {"nitro", "discord", "steam", "free", "subscription", "cs:go", "crypto", "onlyfans"} 
+local spamWords = {"nitro", "discord", "steam", "free", "subscription", "cs:go", "crypto", "onlyfans"}
 local spamHints = {"3 month", "3 months", "away", "gift", "airdrop", "web3", "whatsapp", "bitcoin", "hot", "sex"}
 
 local discordDomains = {
-	-- no subdomain
 	["discord.com"] = true,
 	["discord.media"] = true,
 	["discordapp.com"] = true,
+	["cdn.discordapp.com"] = true,
 	["discordapp.net"] = true,
 	-- public test build
 	["ptb.discord.com"] = true,
@@ -961,7 +961,7 @@ function Module:OnMessageCreate(message)
 			local success, err = member:ban(bot:Format("RAID_AUTOBAN_BOT_REASON"), 1)
 			if (not success) then
 				self:LogWarning(guild, "Failed to autoban potential bot %s (%s)", member.tag, err)
-			end	
+			end
 		end
 	end
 end
