@@ -101,9 +101,9 @@ local function BadRequest(body)
 	return header, body or ""
 end
 
-local Forbidden = function (body)
+local Unauthorized = function (body)
 	local header = {
-		code = 403,
+		code = 401,
 		{"Content-Type", "charset=utf-8"}
 	}
 
@@ -252,7 +252,7 @@ function Module:API_Server(req)
 		local auth = req.headers.authorization
 		if not auth then
 			self:LogWarning("Stats API server: Access forbidden (no authorization)")
-			return Forbidden("MissingAuthorization")
+			return Unauthorized("MissingAuthorization")
 		end
 
 		local token = string.match(auth, "Bearer (.+)")
@@ -262,7 +262,7 @@ function Module:API_Server(req)
 
 		if token ~= guildConfig.APIPrivateKey then
 			self:LogWarning("Stats API server: Access forbidden (wrong token)")
-			return Forbidden()
+			return Unauthorized()
 		end
 	end
 
