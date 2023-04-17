@@ -59,11 +59,11 @@ local function GetWarnAmount(history, memberId)
     return table.length(member.Warns)
 end
 
-local function SendWarnMessage(commandMessage, targetMember, reason)
+local function SendWarnMessage(commandMessage, targetMember, reason, warnAmount)
     if not reason then
-        commandMessage:reply(string.format("**%s** has warned **%s**.", commandMessage.member.tag, targetMember.tag))
+        commandMessage:reply(string.format("**%s** has warned **%s** (warn #%d).", commandMessage.member.tag, targetMember.tag, warnAmount))
     else
-        commandMessage:reply(string.format("**%s** has warned **%s** for the following reason:\n**%s**.", commandMessage.member.tag, targetMember.tag, reason))
+        commandMessage:reply(string.format("**%s** has warned **%s** (warn #%d) for the following reason:\n**%s**.", commandMessage.member.tag, targetMember.tag, warnAmount, reason))
     end
 end
 
@@ -182,13 +182,14 @@ function Module:OnLoaded()
                 end
             end
 
+            local warnAmount = GetWarnAmount(history, targetId)
+
             -- Updating member state
-            SendWarnMessage(commandMessage, targetMember, reason)
+            SendWarnMessage(commandMessage, targetMember, reason, warnAmount)
             
             if config.Sanctions then
                 local banAmount = config.WarnAmountToBan
                 local muteAmount = config.WarnAmountToMute
-                local warnAmount = GetWarnAmount(history, targetId)
 
                 if warnAmount % banAmount == 0 then
                     -- BAN
