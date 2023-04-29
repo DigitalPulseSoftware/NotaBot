@@ -767,7 +767,18 @@ end
 @r Event
 @d Create a scheduled event on the server
 ]=]
-function Guild:createScheduledEvents(payload) 
+function Guild:createScheduledEvents(entity_type, location, name, privacy_level, scheduled_start_time, scheduled_end_time) 
+	local payload = {
+		entity_type = entity_type,
+		entity_metadata = {
+			location = location
+		},
+		name = name,
+		privacy_level = privacy_level,
+		scheduled_start_time = scheduled_start_time,
+		scheduled_end_time = scheduled_end_time,
+	}
+
 	if payload then
 		local data, err = self.client._api:createGuildScheduledEvents(self._id, payload)
 
