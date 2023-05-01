@@ -23,6 +23,16 @@ local sha256 = require('sha256')
 local querystring = require('querystring')
 local timer = require("timer")
 local twitchAPI = require('./twitchapi.lua')
+	
+local function tablesearchstr(tab, val)
+	for k,v in pairs(tab) do
+		if (tostring(v) == val) then
+			return true
+		end
+	end
+
+	return false
+end
 
 function Module:GetConfigTable()
 	return {
@@ -605,17 +615,7 @@ function Module:HandleChannelNotification(channelId, channelData, type, eventDat
 							return false
 						end
 					end
-	
-					local function tablesearchstr(tab, val)
-						for k,v in pairs(tab) do
-							if (tostring(v) == val) then
-								return true
-							end
-						end
-	
-						return false
-					end
-	
+
 					if (pattern.AllowedGames) then
 						if (not tablesearchstr(pattern.AllowedGames, gameId)) then
 							return false
@@ -629,30 +629,18 @@ function Module:HandleChannelNotification(channelId, channelData, type, eventDat
 					return true
 				end
 
-				if(pattern.ShouldCreateDiscordEvent) then
-					local duration = pattern.CreateDiscordEventDuration or 3600
-
-					guild:createScheduledEvents({
-						entity_type = enums.scheduledEventsEntityTypes.external,
-						entity_metadata = {
-							location = string.format("https://twitch.tv/%s", channelId)
-						},
-						name = title,
-						privacy_level = enums.scheduledEventsPrivacyLevel.guild_only,
-						scheduled_start_time = os.date("!%Y-%m-%dT%TZ", os.time() + 1),
-						scheduled_end_time = os.date("!%Y-%m-%dT%TZ", os.time() + duration),
-					})
-				end
-
 				for _, pattern in pairs(guildPatterns) do
 					if (CheckPattern(pattern)) then
 						local channel = guild:getChannel(pattern.Channel)
 						if (channel) then
 							bot:CallModuleFunction(self, "SendChannelNotification", guild, channel, pattern.Message, streamData)
+							if (pattern.ShouldCreateDiscordEvent) then
+								bot:CallModuleFunction(self, "CreateScheduledEvent", guild, channelId, title, pattern.CreateDiscordEventDuration or 3600)
+							end
 						else
 							self:LogError(guild, "Channel %s doesn't exist", pattern.Channel)
 						end
-	
+
 						break
 					end
 				end
@@ -661,6 +649,19 @@ function Module:HandleChannelNotification(channelId, channelData, type, eventDat
 	else
 		self:LogWarning("unexpected event %s for channel %s", type, channelId)
 	end
+end
+
+function Module:CreateScheduledEvent(guild, title, channelId, duration)
+	guild:createScheduledEvents({
+		entity_type = enums.scheduledEventsEntityTypes.external,
+		entity_metadata = {
+			location = string.format("https://twitch.tv/%s", channelId)
+		},
+		name = title,
+		privacy_level = enums.scheduledEventsPrivacyLevel.guild_only,
+		scheduled_start_time = os.date("!%Y-%m-%dT%TZ", os.time() + 1),
+		scheduled_end_time = os.date("!%Y-%m-%dT%TZ", os.time() + duration),
+	})
 end
 
 function Module:GetProfileData(userId)
