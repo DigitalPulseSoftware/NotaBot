@@ -115,24 +115,20 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "prunefrom",
 		Args = {
-			{ Name = "<messageId>", Type = Bot.ConfigType.String }
+			{ Name = "<messageId>", Type = Bot.ConfigType.Message }
 		},
 		PrivilegeCheck = hasManagePermission,
 		Help = function (guild) return Bot:Format(guild, "PRUNEFROM_HELP") end,
 		Silent = true,
-		Func = function (commandMessage, messageId)
+		Func = function (commandMessage, targetMessage)
 			local guild = commandMessage.guild
-
-			local targetMessage = commandMessage.channel:getMessage(messageId)
-			if targetMessage == nil then
-				return  commandMessage:reply(Bot:Format(guild, "PRUNE_BAD_MESSAGE_ID"))
-			end
-
 			local nbDeletedMessages = self:bulkDeleteById(commandMessage, targetMessage)
+
 			local response = "";
 			if not hasValidDate(targetMessage) then
 				response = string.format("%s\n", Bot:Format(guild, "PRUNE_CANNOT_DELETE"))
 			end
+
 			response = response .. Bot:Format(guild, "PRUNE_RESULT", nbDeletedMessages)
 
 			return commandMessage:reply(response)

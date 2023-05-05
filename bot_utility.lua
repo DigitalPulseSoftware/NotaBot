@@ -84,15 +84,15 @@ function Bot:DecodeMember(guild, message)
 	return member
 end
 
-function Bot:DecodeMessage(message, ignoreEscaped, fullContent)
-	assert(message)
+function Bot:DecodeMessage(messageContent, ignoreEscaped, fullContent)
+	assert(messageContent)
 
 	local pattern = "(<?)https?://([%w%.]+)/channels/(%d+)/(%d+)/(%d+)(>?)"
 	if (fullContent) then
 		pattern = "^" .. pattern .. "$"
 	end
 
-	local e1, domain, guildId, channelId, messageId, e2 = message:match(pattern)
+	local e1, domain, guildId, channelId, messageId, e2 = messageContent:match(pattern)
 	if (not e1 or not discordDomains[domain]) then
 		return nil, "Invalid link"
 	end
