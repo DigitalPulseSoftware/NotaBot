@@ -76,7 +76,6 @@ return {
 			"messageId: The message id"
 		),
 		PRUNE_CANNOT_DELETE = "ℹ️ Some messages could not be deleted.",
-		PRUNE_BAD_MESSAGE_ID = "❌ No message with the specified ID was found.",
 		PRUNE_HELP = string.format("%s\n%s\n\t%s",
 			"Delete the nth last messages.",
 			"Arguments:",

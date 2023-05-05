@@ -237,7 +237,6 @@ return {
             "messageId: L'identifiant du message"
         ),
 		PRUNE_CANNOT_DELETE = "ℹ️ Certains messages n'ont pas pu être supprimés.",
-		PRUNE_BAD_MESSAGE_ID = "❌ Aucun message avec l'identifiant spécifié n'a été trouvé.",
 		PRUNE_HELP = string.format("%s\n%s\n\t%s",
 			"Supprime les n derniers messages.",
 			"Arguments:",
