@@ -83,7 +83,7 @@ function Module:GetConfigTable()
 
 								hasMessage = true
 							elseif (fieldName == "TitlePattern") then
-								if type(fieldValue) == "table" and #fieldValue ~= table.count(fieldValue) then
+								if type(fieldValue) == "table" and #fieldValue == table.count(fieldValue) then
 									for j, value in pairs(fieldValue) do
 										if type(value) ~= "string" then
 											return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. "[" .. j .. "] is not a string"
