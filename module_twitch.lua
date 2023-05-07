@@ -83,8 +83,14 @@ function Module:GetConfigTable()
 
 								hasMessage = true
 							elseif (fieldName == "TitlePattern") then
-								if (type(fieldValue) ~= "string") then
-									return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " must be a string"
+								if type(fieldValue) == "table" and #fieldValue ~= table.count(fieldValue) then
+									for j, value in pairs(fieldValue) do
+										if type(value) ~= "string" then
+											return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. "[" .. j .. "] is not a string"
+										end
+									end
+								elseif type(fieldValue) ~= "string" then
+									return false, "TwitchConfig[" .. channelId .. "][" .. i .. "]." .. fieldName .. " must be a string or a table of string"
 								end
 							elseif (fieldName == "ShouldCreateDiscordEvent") then
 								if (type(fieldValue) ~= "boolean") then
@@ -610,8 +616,16 @@ function Module:HandleChannelNotification(channelId, channelData, type, eventDat
 			local guild = client:getGuild(guildId)
 			if (guild) then
 				local function CheckPattern(pattern)
-					if (pattern.TitlePattern) then
-						if (not title:match(pattern.TitlePattern)) then
+					if pattern.TitlePattern then
+						local doesMatch = false
+						for _, titlePattern in ipairs(table.wrap(pattern.TitlePattern)) do
+							if title:match(titlePattern) then
+								doesMatch = true
+								break
+							end
+						end
+
+						if not doesMatch then
 							return false
 						end
 					end

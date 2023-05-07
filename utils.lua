@@ -441,3 +441,11 @@ function table.length( tbl )
 	
 	return count
 end
+
+function table.wrap(value)
+	if type(value) ~= "table" then
+		return { value }
+	end
+
+	return value
+end
