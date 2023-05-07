@@ -665,17 +665,37 @@ function Module:HandleChannelNotification(channelId, channelData, type, eventDat
 	end
 end
 
-function Module:CreateScheduledEvent(guild, title, channelId, duration)
-	guild:createScheduledEvents({
+function Module:CreateScheduledEvent(guild, channelId, title, duration)
+	local profileData, err = self:GetProfileData(channelId)
+	if (not profileData) then
+		self:LogError("failed to query user %s info: %s", channelData.user_id, err.msg)
+		return
+	end
+
+	local eventTitle = "🎬 Stream: " .. title
+	if #eventTitle > 100 then
+		eventTitle = eventTitle:sub(1, 97) .. "..."
+	end
+
+	local now = os.time()
+
+	-- TODO: Add support for images
+	local eventData = {
 		entity_type = enums.scheduledEventsEntityTypes.external,
 		entity_metadata = {
-			location = string.format("https://twitch.tv/%s", channelId)
+			location = "https://twitch.tv/" .. profileData.Name
 		},
-		name = title,
+		name = eventTitle,
+		description = profileData.Name .. " is currently streaming!",
 		privacy_level = enums.scheduledEventsPrivacyLevel.guild_only,
-		scheduled_start_time = os.date("!%Y-%m-%dT%TZ", os.time() + 1),
-		scheduled_end_time = os.date("!%Y-%m-%dT%TZ", os.time() + duration),
-	})
+		scheduled_start_time = os.date("!%Y-%m-%dT%TZ", now + 5),
+		scheduled_end_time = os.date("!%Y-%m-%dT%TZ", now + duration),
+	}
+
+	local success, err = guild:createScheduledEvents(eventData)
+	if not success then
+		self:LogError(guild, "failed to create scheduled event")
+	end
 end
 
 function Module:GetProfileData(userId)
