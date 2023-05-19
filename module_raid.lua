@@ -751,6 +751,7 @@ local discordDomains = {
 	["discordapp.com"] = true,
 	["cdn.discordapp.com"] = true,
 	["discordapp.net"] = true,
+	["media.discordapp.net"] = true,
 	-- public test build
 	["ptb.discord.com"] = true,
 	["ptb.discordapp.com"] = true,
