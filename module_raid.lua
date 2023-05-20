@@ -742,8 +742,8 @@ function Module:OnMemberJoin(member)
 end
 
 -- Thanks to DrLazor for his help with this function
-local spamWords = {"nitro", "discord", "steam", "free", "subscription", "cs:go", "crypto", "onlyfans"}
-local spamHints = {"3 month", "3 months", "away", "gift", "airdrop", "web3", "whatsapp", "bitcoin", "hot", "sex"}
+local spamWords = {"100k", "$100k", "crypto", "currency", "cs:go", "discord", "earn", "exchange", "free", "market", "nitro", "onlyfans", "subscription", "steam", "trading"}
+local spamHints = {"3 month", "3 months", "airdrop", "away", "bitcoin", "gift", "hot", "pay", "sex", "web3", "whatsapp" }
 
 local discordDomains = {
 	["discord.com"] = true,
