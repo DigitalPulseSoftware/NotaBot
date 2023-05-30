@@ -6,6 +6,8 @@ local client = Client
 local discordia = Discordia
 local bot = Bot
 local enums = discordia.enums
+local prefix = Config.Prefix
+
 
 Module.Name = "quote"
 
@@ -74,11 +76,6 @@ function Module:OnLoaded()
 					return
 				end
 
-				if (config.AutoQuote) then
-					-- Autoquote will quote this link automatically, ignore it
-					return
-				end		
-
 				-- Checks if user has permission to see this message
 				if (not self:CheckReadPermission(commandMessage.author, quotedMessage)) then
 					commandMessage:reply("You can only quote messages you are able to see yourself")
@@ -135,6 +132,10 @@ function Module:OnMessageCreate(message)
 	end
 
 	if (message.author.bot) then
+		return
+	end
+
+	if (message.content:startswith(prefix, true)) then
 		return
 	end
 

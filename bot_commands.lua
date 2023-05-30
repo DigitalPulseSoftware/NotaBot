@@ -19,7 +19,7 @@ function Bot:BuildUsage(commandTable)
 	return table.concat(usage, " ")
 end
 
-function Bot:ParseCommandArgs(member, expectedArgs, args)	
+function Bot:ParseCommandArgs(member, expectedArgs, args)
 	local parsers = self.ConfigTypeParameter
 
 	local values = {}
@@ -78,7 +78,7 @@ function Bot:UnregisterCommand(commandName)
 	self.Commands[commandName:lower()] = nil
 end
 
-local prefixes = { 
+local prefixes = {
 	function (content, guild)
 		local prefix = Config.Prefix
 		if guild then
