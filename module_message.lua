@@ -107,7 +107,7 @@ local embedFields = {
 	title = ValidateString,
 	description = ValidateString,
 	url = ValidateString,
-	color = function (color)
+	color = function(color)
 		if (type(color) ~= "number" or math.floor(color) ~= color) then
 			return false, " must be an integer"
 		end
@@ -118,7 +118,7 @@ local embedFields = {
 
 		return true
 	end,
-	timestamp = function (timestamp)
+	timestamp = function(timestamp)
 		local success, err = ValidateString(timestamp)
 		if (not success) then
 			return err
@@ -130,16 +130,16 @@ local embedFields = {
 
 		return true
 	end,
-	footer = function (footer)
+	footer = function(footer)
 		return ValidateFields(footer, footerFields)
 	end,
-	thumbnail = function (thumbnail)
+	thumbnail = function(thumbnail)
 		return ValidateFields(thumbnail, thumbnailFields, true)
 	end,
-	image = function (image)
+	image = function(image)
 		return ValidateFields(image, imageFields, true)
 	end,
-	author = function (author)
+	author = function(author)
 		local success, err = ValidateFields(author, authorFields)
 		if (not success) then
 			return false, err
@@ -151,7 +151,7 @@ local embedFields = {
 
 		return true
 	end,
-	fields = function (fields)
+	fields = function(fields)
 		if (type(fields) ~= "table" or #fields ~= table.count(fields)) then
 			return false, " must be an object"
 		end
@@ -203,7 +203,7 @@ end
 
 local possibleActions = {
 	reply = {
-		Validate = function (value)
+		Validate = function(value)
 			local success, err = ValidateString(value)
 			if not success then
 				return false, err
@@ -215,13 +215,13 @@ local possibleActions = {
 
 			return true
 		end,
-		Action = function (member, value)
+		Action = function(member, value)
 			return Module:ReplaceData(value, member)
 		end
 	},
 	addrole = {
 		Validate = validateRole,
-		Action = function (member, value)
+		Action = function(member, value)
 			local guild = member.guild
 			local role = guild:getRole(value)
 
@@ -239,14 +239,14 @@ local possibleActions = {
 	},
 	removerole = {
 		Validate = validateRole,
-		Action = function (member, value)
+		Action = function(member, value)
 			local guild = member.guild
 			local role = guild:getRole(value)
 
 			if not member:hasRole(value) then
 				return
 			end
-			
+
 			local success, err = member:removeRole(value)
 			if success then
 				return "✅ Role " .. role.mentionString .. " removed"
@@ -257,7 +257,7 @@ local possibleActions = {
 	},
 	togglerole = {
 		Validate = validateRole,
-		Action = function (member, value)
+		Action = function(member, value)
 			local guild = member.guild
 			local role = guild:getRole(value)
 
@@ -279,7 +279,7 @@ local possibleActions = {
 		end
 	},
 	openticket = {
-		Validate = function (value, metadata)
+		Validate = function(value, metadata)
 			local modmail = Bot:GetModuleForGuild(metadata.guild, "modmail")
 			if not modmail then
 				return false, "modmail module is disabled"
@@ -300,7 +300,7 @@ local possibleActions = {
 
 			return true
 		end,
-		Action = function (member, value)
+		Action = function(member, value)
 			local modmail = Bot:GetModuleForGuild(member.guild, "modmail")
 			if not modmail then
 				return "❌ modmail is currently disabled"
@@ -329,7 +329,7 @@ local function ValidateActions(actions, metadata)
 		if type(action) ~= "table" or #action ~= 0 then
 			return false, "[" .. idx .. "] must be an object"
 		end
-	
+
 		local success, err = ValidateString(action.type)
 		if not success then
 			return false, "[" .. idx .. "].type" .. err
@@ -381,14 +381,14 @@ local emojiFields = {
 }
 
 local buttonFields = {
-	type = function (type)
+	type = function(type)
 		if type ~= enums.componentType.button then
 			return false, " must be button"
 		end
 
 		return true
 	end,
-	style = function (style)
+	style = function(style)
 		local success, err = ValidateInteger(style)
 		if not success then
 			return false, err
@@ -403,7 +403,7 @@ local buttonFields = {
 	label = ValidateString,
 	url = ValidateString,
 	disabled = ValidateBoolean,
-	emoji = function (emoji)
+	emoji = function(emoji)
 		return ValidateFields(emoji, emojiFields)
 	end,
 	actions = ValidateActions
@@ -452,7 +452,7 @@ end
 local selectMenuOptionFields = {
 	label = ValidateString,
 	description = ValidateString,
-	emoji = function (emoji)
+	emoji = function(emoji)
 		return ValidateFields(emoji, emojiFields)
 	end,
 	default = ValidateBoolean,
@@ -461,7 +461,7 @@ local selectMenuOptionFields = {
 
 local selectMenuFields = {
 	type = ValidateInteger,
-	options = function (options, metadata)
+	options = function(options, metadata)
 		if type(options) ~= "table" or #options == 0 then
 			return false, " must be an array"
 		end
@@ -495,7 +495,7 @@ local selectMenuFields = {
 		return true
 	end,
 	placeholder = ValidateString,
-	min_values = function (min)
+	min_values = function(min)
 		local success, err = ValidateInteger(min)
 		if not success then
 			return false, err
@@ -507,7 +507,7 @@ local selectMenuFields = {
 
 		return true
 	end,
-	max_values = function (max)
+	max_values = function(max)
 		local success, err = ValidateInteger(max)
 		if not success then
 			return false, err
@@ -551,7 +551,7 @@ local function ValidateSelectMenuComponent(selectmenu, metadata)
 	return true
 end
 
-ValidateComponent = function (component, metadata)
+ValidateComponent = function(component, metadata)
 	if type(component.type) ~= "number" or math.floor(component.type) ~= component.type then
 		return false, ".type must be an integer"
 	end
@@ -576,7 +576,7 @@ ValidateComponent = function (component, metadata)
 end
 
 local messageFields = {
-	components = function (components, metadata)
+	components = function(components, metadata)
 		if (type(components) ~= "table" or #components == 0) then
 			return false, "Components must be an array"
 		end
@@ -597,7 +597,7 @@ local messageFields = {
 		return true
 	end,
 	content = ValidateString,
-	embed = function (embed)
+	embed = function(embed)
 		return ValidateFields(embed, embedFields)
 	end,
 	tts = ValidateBoolean,
@@ -646,7 +646,7 @@ end
 
 function Module:CheckPermissions(member)
 	local config = self:GetConfig(member.guild)
-	for _,roleId in pairs(config.AuthorizedRoles) do
+	for _, roleId in pairs(config.AuthorizedRoles) do
 		if (member:hasRole(roleId)) then
 			return true
 		end
@@ -669,7 +669,7 @@ function Module:GetConfigTable()
 			Description = "Map associating a trigger with a reply",
 			Type = bot.ConfigType.Custom,
 			Default = {},
-			ValidateConfig = function (value, guildId)
+			ValidateConfig = function(value, guildId)
 				if (type(value) ~= "table" or #value ~= 0) then
 					return false, "Replies must be an object"
 				end
@@ -687,7 +687,33 @@ function Module:GetConfigTable()
 				end
 
 				return true
-			end
+			end,
+		},
+		{
+			Name = "Aliases",
+			Description = "Map associating a trigger with a reply",
+			Type = bot.ConfigType.Custom,
+			Default = {},
+			ValidateConfig = function(value)
+				if (type(value) ~= "table" or #value ~= 0) then
+					return false, "Aliases must be an object"
+				end
+
+				for alias, reply in pairs(value) do
+					local success, err = ValidateString(alias)
+					if (not success) then
+						return false, "Aliases keys error (" .. alias .. " " .. err .. ")"
+					end
+
+					local success, err = ValidateString(reply)
+
+					if (not success) then
+						return false, "Aliases[" .. alias .. "]" .. err
+					end
+				end
+
+				return true
+			end,
 		},
 		{
 			Name = "DeleteInvokation",
@@ -734,7 +760,7 @@ function Module:ParseContentParameter(content, commandMessage, actions)
 				return {
 					content = content
 				}
-			end	
+			end
 		end
 	elseif (commandMessage.attachments) then
 		if (#commandMessage.attachments ~= 1) then
@@ -784,7 +810,7 @@ function Module:ReplaceData(data, triggeringMember)
 	end
 
 	if type(data) == "table" then
-		for k,v in pairs(data) do
+		for k, v in pairs(data) do
 			data[k] = self:ReplaceData(v, triggeringMember)
 		end
 	elseif type(data) == "string" then
@@ -810,7 +836,8 @@ function Module:RegisterAction(guild, messageId, actions)
 		-- Adding a new entry
 		local count = table.count(persistentData.MessageActions)
 		if count >= config.MaxActionMessage then
-			return false, "too many messages with actions (" .. tostring(count) .. " >= " .. config.MaxActionMessage .. ")"
+			return false,
+				"too many messages with actions (" .. tostring(count) .. " >= " .. config.MaxActionMessage .. ")"
 		end
 	end
 
@@ -822,16 +849,16 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "rawmessage",
 		Args = {
-			{Name = "message", Type = Bot.ConfigType.Message},
+			{ Name = "message", Type = Bot.ConfigType.Message },
 		},
-		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
 		Help = "Prints a message in a raw form",
-		Func = function (commandMessage, message)
+		Func = function(commandMessage, message)
 			local fields = GetMessageFields(message)
 
 			local fieldJson = json.encode(fields, { indent = 1 })
-			
+
 			local success, err
 			if (#fieldJson > 1800) then
 				success, err = commandMessage:reply({
@@ -840,7 +867,7 @@ function Module:OnLoaded()
 						description = "Message json was too big and has been sent as a file"
 					}
 				})
-				commandMessage:reply({ file = {"mesage.json", fieldJson} })
+				commandMessage:reply({ file = { "message.json", fieldJson } })
 			else
 				success, err = commandMessage:reply({
 					embed = {
@@ -859,13 +886,13 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "sendmessage",
 		Args = {
-			{Name = "channel", Type = Bot.ConfigType.Channel, Optional = true},
-			{Name = "content", Type = Bot.ConfigType.String, Optional = true},
+			{ Name = "channel", Type = Bot.ConfigType.Channel, Optional = true },
+			{ Name = "content", Type = Bot.ConfigType.String,  Optional = true },
 		},
-		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
 		Help = "Makes the bot send a message",
-		Func = function (commandMessage, channel, content)
+		Func = function(commandMessage, channel, content)
 			local actions = {}
 			local messageData = self:ParseContentParameter(content, commandMessage, actions)
 			if (not messageData) then
@@ -879,7 +906,7 @@ function Module:OnLoaded()
 				commandMessage:reply("You don't have the permission to send messages in that channel")
 				return
 			end
-		
+
 			local message, err = channel:send(messageData)
 			if (message) then
 				local success, err = self:RegisterAction(commandMessage.guild, message.id, actions)
@@ -895,13 +922,13 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "editmessage",
 		Args = {
-			{Name = "message", Type = Bot.ConfigType.Message},
-			{Name = "content", Type = Bot.ConfigType.String, Optional = true},
+			{ Name = "message", Type = Bot.ConfigType.Message },
+			{ Name = "content", Type = Bot.ConfigType.String, Optional = true },
 		},
-		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
 		Help = "Edit one of the message posted by the bot",
-		Func = function (commandMessage, message, content)
+		Func = function(commandMessage, message, content)
 			local actions = {}
 			local messageData = self:ParseContentParameter(content, commandMessage, actions)
 			if (not messageData) then
@@ -934,13 +961,13 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "addreply",
 		Args = {
-			{Name = "trigger", Type = Bot.ConfigType.String},
-			{Name = "content", Type = Bot.ConfigType.String, Optional = true},
+			{ Name = "trigger", Type = Bot.ConfigType.String },
+			{ Name = "content", Type = Bot.ConfigType.String, Optional = true },
 		},
-		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
 		Help = "Registers a reply to a particular message",
-		Func = function (commandMessage, trigger, content)
+		Func = function(commandMessage, trigger, content)
 			local messageData = self:ParseContentParameter(content, commandMessage, nil)
 			if (not messageData) then
 				return
@@ -959,12 +986,12 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "removereply",
 		Args = {
-			{Name = "trigger", Type = Bot.ConfigType.String},
+			{ Name = "trigger", Type = Bot.ConfigType.String },
 		},
-		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
 		Help = "Unregisters a reply to a particular message",
-		Func = function (commandMessage, trigger, content)
+		Func = function(commandMessage, trigger)
 			local config = self:GetConfig(commandMessage.guild)
 			config.Replies = config.Replies or {}
 			if (not config.Replies[trigger]) then
@@ -980,22 +1007,104 @@ function Module:OnLoaded()
 	})
 
 	self:RegisterCommand({
+		Name = "addalias",
+		Args = {
+			{ Name = "alias",   Type = Bot.ConfigType.String },
+			{ Name = "trigger", Type = Bot.ConfigType.String },
+		},
+		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
+
+		Help = "Registers an alias for a reply",
+		Func = function(commandMessage, alias, trigger)
+			local config = self:GetConfig(commandMessage.guild)
+
+			config.Replies = config.Replies or {}
+
+			if (config.Replies[alias]) then
+				commandMessage:reply(string.format("A reply is already registered for `%s`, thus, cannot be an alias of itself.", alias))
+				return
+			end
+
+			config.Aliases = config.Aliases or {}
+			config.Aliases[alias] = trigger
+
+			self:SaveGuildConfig(commandMessage.guild)
+
+			commandMessage:reply(string.format("Registered `%s` as an alias for \"%s\"", alias, trigger))
+		end
+	})
+
+	self:RegisterCommand({
+		Name = "removealias",
+		Args = {
+			{ Name = "alias", Type = Bot.ConfigType.String },
+		},
+		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
+
+		Help = "Unregisters an alias for a reply",
+		Func = function(commandMessage, alias)
+			local config = self:GetConfig(commandMessage.guild)
+			config.Aliases = config.Aliases or {}
+			if (not config.Aliases[alias]) then
+				commandMessage:reply(string.format("No alias is registered for %s", alias))
+				return
+			end
+			local trigger = config.Aliases[alias]
+			config.Aliases[alias] = nil
+
+			self:SaveGuildConfig(commandMessage.guild)
+
+			commandMessage:reply(string.format("Removed alias (`%s`) for \"%s\"", alias, trigger))
+		end
+	})
+
+	self:RegisterCommand({
+		Name = "editreply",
+		Args = {
+			{ Name = "trigger", Type = Bot.ConfigType.String },
+			{ Name = "content", Type = Bot.ConfigType.String, Optional = true },
+		},
+		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
+
+		Help = "Edits a reply",
+		Func = function(commandMessage, trigger, content)
+			local messageData = self:ParseContentParameter(content, commandMessage, nil)
+			if (not messageData) then
+				return
+			end
+
+			local config = self:GetConfig(commandMessage.guild)
+			config.Replies = config.Replies or {}
+			if (not config.Replies[trigger]) then
+				commandMessage:reply(string.format("No reply is registered for %s", trigger))
+				return
+			end
+			config.Replies[trigger] = messageData
+
+			self:SaveGuildConfig(commandMessage.guild)
+
+			commandMessage:reply(string.format("Edited the reply for \"%s\"", trigger))
+		end
+	})
+
+	self:RegisterCommand({
 		Name = "savechannelmessages",
 		Args = {
-			{Name = "channel", Type = Bot.ConfigType.Channel, Optional = true},
-			{Name = "afterMessage", Type = Bot.ConfigType.Message, Optional = true},
-			{Name = "limit", Type = Bot.ConfigType.Integer, Optional = true},
-			{Name = "fromFirstMessage", Type = Bot.ConfigType.Boolean, Optional = true},
+			{ Name = "channel",          Type = Bot.ConfigType.Channel, Optional = true },
+			{ Name = "afterMessage",     Type = Bot.ConfigType.Message, Optional = true },
+			{ Name = "limit",            Type = Bot.ConfigType.Integer, Optional = true },
+			{ Name = "fromFirstMessage", Type = Bot.ConfigType.Boolean, Optional = true },
 		},
-		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
 		Help = "Saves all messages posted in a channel in a json format",
-		Func = function (commandMessage, targetChannel, afterMessage, limit, fromFirstMessage)
+		Func = function(commandMessage, targetChannel, afterMessage, limit, fromFirstMessage)
 			limit = limit or 1000
 			if commandMessage.member.id ~= Config.OwnerUserId then
 				-- Don't allow everyone to bypass limit and get all messages (would require a lot of API calls)
 				if limit > 1000 then
-					commandMessage:reply("Only bot owner can ask to retrieve more than 1000+ messages at once, due to the number of API calls required to fetch messages")
+					commandMessage:reply(
+					"Only bot owner can ask to retrieve more than 1000+ messages at once, due to the number of API calls required to fetch messages")
 					return
 				end
 
@@ -1019,7 +1128,8 @@ function Module:OnLoaded()
 
 			commandMessage.channel:broadcastTyping()
 
-			local messages, err = Bot:FetchChannelMessages(targetChannel, afterMessage and afterMessage.id or nil, limit, not fromFirstMessage)
+			local messages, err = Bot:FetchChannelMessages(targetChannel, afterMessage and afterMessage.id or nil, limit,
+				not fromFirstMessage)
 			if not messages then
 				commandMessage:reply(string.format("An error occurred: %s", err))
 				return
@@ -1028,11 +1138,12 @@ function Module:OnLoaded()
 			local messageData = bot:MessagesToTable(messages)
 			messageData.requestedBy = commandMessage.member.id
 
-			local jsonSave = json.encode(messageData, { indent = 1})
-			commandMessage:reply({ 
-				content = string.format("%d message(s) of channel %s have been saved to following file", #messages, targetChannel.mentionString),
+			local jsonSave = json.encode(messageData, { indent = 1 })
+			commandMessage:reply({
+				content = string.format("%d message(s) of channel %s have been saved to following file", #messages,
+					targetChannel.mentionString),
 				file = {
-					"messages.json", 
+					"messages.json",
 					jsonSave
 				}
 			})
@@ -1055,8 +1166,9 @@ function Module:OnMessageCreate(message)
 		return
 	end
 
+
 	local config = self:GetConfig(message.guild)
-	local reply = config.Replies[message.content]
+	local reply = config.Replies[message.content] or config.Replies[config.Aliases[message.content]]
 	if (reply) then
 		reply = table.deepcopy(reply)
 
@@ -1068,7 +1180,7 @@ function Module:OnMessageCreate(message)
 
 		reply.content = self:ReplaceData(reply.content, message.member)
 		reply.embed = self:ReplaceData(reply.embed, message.member)
-	
+
 		local deleteInvokation = RemoveTableKey(reply, "deleteInvokation")
 		if deleteInvokation == nil then
 			deleteInvokation = config.DeleteInvokation
@@ -1077,7 +1189,7 @@ function Module:OnMessageCreate(message)
 			reply.reference = { message = message }
 		end
 
-	 	local success, err = message:reply(reply)
+		local success, err = message:reply(reply)
 
 		if (not success) then
 			self:LogError(message.guild, "Failed to reply to %s: %s", message.content, err)
