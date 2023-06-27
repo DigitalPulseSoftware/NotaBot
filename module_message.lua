@@ -1155,9 +1155,9 @@ function Module:OnLoaded()
 end
 
 local function trimPreprendedMention(str)
-	local mention = str:match("^<@!?(%d+)>")
+	local mention = str:match("^(<@!?%d+>)")
 	if (mention) then
-		return str:sub(#mention + 4)
+		return str:sub(#mention + 1)
 	end
 	return str
 end
