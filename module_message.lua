@@ -1021,7 +1021,8 @@ function Module:OnLoaded()
 			config.Replies = config.Replies or {}
 
 			if (config.Replies[alias]) then
-				commandMessage:reply(string.format("A reply is already registered for `%s`, thus, cannot be an alias of itself.", alias))
+				commandMessage:reply(string.format(
+					"A reply is already registered for `%s`, thus, cannot be an alias of itself.", alias))
 				return
 			end
 
@@ -1104,7 +1105,7 @@ function Module:OnLoaded()
 				-- Don't allow everyone to bypass limit and get all messages (would require a lot of API calls)
 				if limit > 1000 then
 					commandMessage:reply(
-					"Only bot owner can ask to retrieve more than 1000+ messages at once, due to the number of API calls required to fetch messages")
+						"Only bot owner can ask to retrieve more than 1000+ messages at once, due to the number of API calls required to fetch messages")
 					return
 				end
 
@@ -1153,6 +1154,14 @@ function Module:OnLoaded()
 	return true
 end
 
+local function trimPreprendedMention(str)
+	local mention = str:match("^<@!?(%d+)>")
+	if (mention) then
+		return str:sub(#mention + 4)
+	end
+	return str
+end
+
 function Module:OnMessageCreate(message)
 	if (not bot:IsPublicChannel(message.channel)) then
 		return
@@ -1168,7 +1177,8 @@ function Module:OnMessageCreate(message)
 
 
 	local config = self:GetConfig(message.guild)
-	local reply = config.Replies[message.content] or config.Replies[config.Aliases[message.content]]
+	local content = string.trim(trimPreprendedMention(message.content))
+	local reply = config.Replies[content] or config.Replies[config.Aliases[content]]
 	if (reply) then
 		reply = table.deepcopy(reply)
 
@@ -1186,7 +1196,14 @@ function Module:OnMessageCreate(message)
 			deleteInvokation = config.DeleteInvokation
 		end
 		if not deleteInvokation then
-			reply.reference = { message = message }
+			local mention = message.mentionedUsers[1][1]
+			local lastMessage
+			if mention then
+				lastMessage = message.channel.messages:find(function(m)
+					return m.author.id == mention
+				end)
+			end
+			reply.reference = { message = lastMessage or message.referencedMessage or message }
 		end
 
 		local success, err = message:reply(reply)
