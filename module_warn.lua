@@ -12,58 +12,34 @@ Module.Name = "warn"
 
 --  Storage Model
 --
---  [
---	  {
---		  UserId: memberId,
---		  Warns: {
---			  {From: moderatorId, Reason: "...."},
---			  ...
---		  }
---	  },
---	  ...
---  ]
-
-local function FindMember(history, memberId)
-	local result = nil
-	for _idx, userHistory in ipairs(history) do
-		if userHistory.UserId == memberId then
-			result = userHistory
-			break
-		end
-	end
-	return result
-end
+--  {
+--		"Warns": {
+--			"<UserId>": [ { "WarnedBy": "<ModeratorId>", "Reason": "..." }, ... ],
+--			...
+-- 		}
+--	}
 
 local function AddWarn(history, memberId, moderatorId, reason)
-	local member = FindMember(history, memberId)
-	if (not member) then
-		table.insert(history, {
-			UserId = memberId,
-			Warns = {
-				{
-					From = moderatorId,
-					Reason = reason,
-				}
-			}
-		})
-	else
-		table.insert(member.Warns, {
-			From = moderatorId,
-			Reason = reason,
-		})
+	if history.Warns[memberId] == nil then
+		history.Warns[memberId] = {}
 	end
+
+	table.insert(history.Warns[memberId], { WarnedBy = moderatorId, Reason = reason })
 end
 
-local function GetWarnAmount(history, memberId)
-	local member = FindMember(history, memberId)
-	return table.length(member.Warns)
-end
+local function ConvertDataFormat(guildId, config, data, persistentData)
+	-- Check the format, Warns is in the new but not in the old
+	if persistentData.Warns ~= nil then
+		return
+	end
 
-local function SendWarnMessage(commandMessage, targetMember, reason, warnAmount)
-	if not reason then
-		commandMessage:reply(string.format("**%s** has warned **%s** (warn #%d).", commandMessage.member.tag, targetMember.tag, warnAmount))
-	else
-		commandMessage:reply(string.format("**%s** has warned **%s** (warn #%d) for the following reason:\n**%s**.", commandMessage.member.tag, targetMember.tag, warnAmount, reason))
+	persistentData.Warns = {}
+	while #persistentData > 0 do
+		for _, warn in ipairs(persistentData[1].Warns) do
+			persistentData.Warns[persistentData[1].UserId] = {}
+			table.insert(persistentData.Warns[persistentData[1].UserId], { WarnedBy = warn.From, Reason = warn.Reason })
+		end
+		table.remove(persistentData, 1)
 	end
 end
 
@@ -117,9 +93,6 @@ function Module:GetConfigTable()
 end
 
 function Module:OnEnable(guild)
-	local data = self:GetPersistentData(guild)
-	data = data or {}
-
 	local config = self:GetConfig(guild)
 
 	local banInfo = config.BanInformationChannel and guild:getChannel(config.BanInformationChannel) or nil
@@ -132,14 +105,13 @@ end
 
 function Module:OnLoaded()
 
-	--
-	--  warn command
-	--
+	self:ForEachGuild(ConvertDataFormat, true, true, true)
+
 	self:RegisterCommand({
 		Name = "warn",
 		Args = {
-			{Name = "target", Type = bot.ConfigType.User},
-			{Name = "reason", Type = bot.ConfigType.String, Optional = true}
+			{ Name = "target", Type = bot.ConfigType.User },
+			{ Name = "reason", Type = bot.ConfigType.String, Optional = true }
 		},
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
@@ -148,8 +120,8 @@ function Module:OnLoaded()
 		Func = function (commandMessage, targetUser, reason)
 			local guild = commandMessage.guild
 			local config = self:GetConfig(guild)
-			local history = self:GetPersistentData(guild)
-			history = history or {}
+			local history = self:GetPersistentData(guild) or {}
+			local reason = reason or "No reason provided"
 
 			local targetMember = guild:getMember(targetUser)
 			local moderator = commandMessage.member
@@ -164,27 +136,20 @@ function Module:OnLoaded()
 				end
 			end
 
-			-- Adding warn to the user
+			-- Add warn to the user
 			local targetId = targetUser.id
 			local moderatorId = commandMessage.member.id
-
 			AddWarn(history, targetId, moderatorId, reason)
 
 			if config.SendPrivateMessage then
 				local privateChannel = targetUser:getPrivateChannel()
 				if privateChannel then
-					if reason then
-						privateChannel:send(string.format("You have been warned on %s for the following reason:\n **%s**", guild.name, reason))
-					else
-						privateChannel:send(string.format("You have been warned on %s", guild.name))
-					end
+					privateChannel:send(string.format("You have been warned on %s for the following reason:\n **%s**", guild.name, reason))
 				end
 			end
 
-			local warnAmount = GetWarnAmount(history, targetId)
-
-			-- Updating member state
-			SendWarnMessage(commandMessage, targetMember, reason, warnAmount)
+			local warnAmount = #history.Warns[targetId]
+			commandMessage:reply(string.format("**%s** has warned **%s** (warn #%d) for the following reason:\n**%s**.", commandMessage.member.tag, targetMember.tag, warnAmount, reason))
 
 			if config.Sanctions then
 				local banAmount = config.WarnAmountToBan
@@ -223,13 +188,10 @@ function Module:OnLoaded()
 		end
 	})
 
-	--
-	--  warnlist command
-	--
 	self:RegisterCommand({
 		Name = "warnlist",
 		Args = {
-			{Name = "targetUser", Type = bot.ConfigType.User}
+			{ Name = "targetUser", Type = bot.ConfigType.User }
 		},
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
@@ -238,16 +200,14 @@ function Module:OnLoaded()
 		Func = function(commandMessage, targetUser)
 			local guild = commandMessage.guild
 			local history = self:GetPersistentData(guild)
-			local targetMember = guild:getMember(targetUser)
+			local warns = history.Warns[targetUser.id]
 
-			local memberHistory = FindMember(history, targetMember.id)
-			if not memberHistory then
-				commandMessage:reply(string.format("The member **%s** (%d) doesn't have any warns.", targetMember.tag, targetMember.id))
+			if warns == nil then
+				commandMessage:reply(string.format("The member **%s** (%d) doesn't have any warns.", targetUser.tag, targetUser.id))
 			else
-				local message = string.format("Warns of **%s** (%d)\n", targetMember.tag, targetMember.id)
-				local warns = memberHistory.Warns
-				for _idx, warn in ipairs(warns) do
-					local warnedBy = client:getUser(warn.From)
+				local message = string.format("Warns of **%s** (%d)\n", targetUser.tag, targetUser.id)
+				for _, warn in ipairs(warns) do
+					local warnedBy = client:getUser(warn.WarnedBy)
 					local reason = warn.Reason or "No reason provided"
 					message = message .. string.format("Warned by : **%s** for the reason:\n\t**%s**\n", warnedBy.tag, reason)
 				end
@@ -256,13 +216,10 @@ function Module:OnLoaded()
 		end
 	})
 
-	--
-	--  clearwarns command
-	--
 	self:RegisterCommand({
 		Name = "clearwarns",
 		Args = {
-			{Name = "targetUser", Type = bot.ConfigType.User}
+			{ Name = "targetUser", Type = bot.ConfigType.User }
 		},
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
@@ -271,14 +228,12 @@ function Module:OnLoaded()
 		Func = function (commandMessage, targetUser)
 			local guild = commandMessage.guild
 			local history = self:GetPersistentData(guild)
-			local targetMember = guild:getMember(targetUser)
 
-			local memberHistory = FindMember(history, targetMember.id)
-			if not memberHistory then
-				commandMessage:reply(string.format("The member **%s** (%d) already have zero warns.", targetMember.tag, targetMember.id))
+			if history.Warns[targetUser.id] == nil then
+				commandMessage:reply(string.format("The member **%s** (%d) already have zero warns.", targetUser.tag, targetUser.id))
 			else
-				memberHistory.Warns = {}
-				commandMessage:reply(string.format("Cleared **%s** (%d) warns, saving.", targetMember.tag, targetMember.id))
+				history.Warns[targetUser.id] = nil
+				commandMessage:reply(string.format("Cleared **%s** (%d) warns, saving.", targetUser.tag, targetUser.id))
 				bot:Save()
 			end
 		end
