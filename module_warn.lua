@@ -247,9 +247,9 @@ function Module:OnLoaded()
 				local message = string.format("Warns of **%s** (%d)\n", targetMember.tag, targetMember.id)
 				local warns = memberHistory.Warns
 				for _idx, warn in ipairs(warns) do
-					local moderator = guild:getMember(warn.From)
+					local warnedBy = client:getUser(warn.From)
 					local reason = warn.Reason or "No reason provided"
-					message = message .. string.format("Warned by : **%s** for the reason:\n\t**%s**\n", moderator.tag, reason)
+					message = message .. string.format("Warned by : **%s** for the reason:\n\t**%s**\n", warnedBy.tag, reason)
 				end
 				commandMessage:reply(message)
 			end
