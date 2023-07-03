@@ -227,18 +227,18 @@ end
 function Bot:UnserializeFromFile(filepath)
 	local saveFile, err = io.open(filepath, "r")
 	if (not saveFile) then
-		return nil, string.format("Failed to open %s: %s", filepath, err) 
+		return nil, string.format("Failed to open %s: %s", filepath, err)
 	end
 
 	local content, err = saveFile:read("*a")
 	if (not content) then
-		return nil, string.format("Failed to read %s content: %s", filepath, err) 
+		return nil, string.format("Failed to read %s content: %s", filepath, err)
 	end
 	saveFile:close()
 
 	local success, contentOrErr = pcall(json.decode, content)
 	if (not success) then
-		return nil, string.format("Failed to unserialize %s content: %s", filepath, contentOrErr) 
+		return nil, string.format("Failed to unserialize %s content: %s", filepath, contentOrErr)
 	end
 
 	return contentOrErr
@@ -296,7 +296,7 @@ function Bot:BuildQuoteEmbed(message, opt)
 	end
 
 	local fields
-	local imageUrl 
+	local imageUrl
 	if (message.attachments) then
 		local images = {}
 		local files = {}
@@ -393,7 +393,7 @@ function Bot:BuildQuoteEmbed(message, opt)
 			return mention
 		else
 			return ":" .. emojiName .. ":"
-		end			
+		end
 	end)
 
 	if (#content > maxContentSize) then
@@ -513,7 +513,7 @@ function Bot:MessagesToTable(messages)
 			components = message.components,
 			tts = message.tts or nil
 		}
-	
+
 		local embed = message.embed
 		if (embed) then
 			embed.type = nil
