@@ -135,47 +135,47 @@ function string.ConvertToTime(str)
 end
 
 function string.GetArguments(text, limit)
-    local args = {}
+	local args = {}
 
-    local e = 0
-    while true do
-        local b = e+1
-        b = text:find("%S", b)
-        if b == nil then 
-            break
-        end
-        
-        if limit and #args >= limit - 1 then
-            table.insert(args, text:sub(b))
-            break
-        end
+	local e = 0
+	while true do
+		local b = e+1
+		b = text:find("%S", b)
+		if b == nil then
+			break
+		end
 
-        local k = false -- should keep delimiter
-        local c = text:sub(b, b)
-        if c == "`" then
-            k = true
-            if text:sub(b, b + 2) == "```" then
-                e = text:find("```", b + 3)
+		if limit and #args >= limit - 1 then
+			table.insert(args, text:sub(b))
+			break
+		end
+
+		local k = false -- should keep delimiter
+		local c = text:sub(b, b)
+		if c == "`" then
+			k = true
+			if text:sub(b, b + 2) == "```" then
+				e = text:find("```", b + 3)
 				if e ~= nil then
 					e = e + 3
 				end
-            else
-                e = text:find("`", b + 1)
-            end
-        elseif c == "'" or c == '"' then
-            e = text:find(c, b + 1)
-            if e ~= nil then
-                b = b+1
-            end
-        else
-            e = text:find("%s", b+1)
-        end
-        if e == nil then
-            e = #text+1
-        end
+			else
+				e = text:find("`", b + 1)
+			end
+		elseif c == "'" or c == '"' then
+			e = text:find(c, b + 1)
+			if e ~= nil then
+				b = b+1
+			end
+		else
+			e = text:find("%s", b+1)
+		end
+		if e == nil then
+			e = #text+1
+		end
 
-        table.insert(args, text:sub(b, k and e or e - 1))
-    end
+		table.insert(args, text:sub(b, k and e or e - 1))
+	end
 
 	return args
 end
@@ -438,7 +438,7 @@ function table.length( tbl )
 	for _ in pairs(tbl) do
 		count = count + 1
 	end
-	
+
 	return count
 end
 
