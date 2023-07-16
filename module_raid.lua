@@ -770,7 +770,7 @@ function Module:ComputeMessageSpamScore(content)
 		end
 	end
 
-	-- +1 if at least one spam hint if found
+	-- +1 if at least one spam hint is found
 	for _, spamHint in ipairs(spamHints) do
 		if content:find(spamHint) then
 			score = score + 1
@@ -793,18 +793,12 @@ function Module:ComputeMessageSpamScore(content)
 	end
 
 	-- double score for messages containing links
-	local hasLinks = false
-	for link in content:gmatch("https?://([%w%.%%_/]+)") do
+	for domain in content:gmatch("https?://([%w%.%-]+)/") do
 		-- ignore discord links
-		local domain, guildId, channelId, messageId = link:match("https?://([%w%.]+)/channels/(%d+)/(%d+)/(%d+)(>?)")
-		if (not domain or not discordDomains[domain]) then
-			hasLinks = true
+		if (not discordDomains[domain]) then
+			score = score * 2
 			break
 		end
-	end
-
-	if hasLinks then
-		score = score * 2
 	end
 
 	return score
