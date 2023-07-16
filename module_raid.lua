@@ -742,8 +742,8 @@ function Module:OnMemberJoin(member)
 end
 
 -- Thanks to DrLazor for his help with this function
-local spamWords = {"100k", "$100k", "crypto", "currency", "cs:go", "discord", "earn", "exchange", "free", "market", "nitro", "onlyfans", "subscription", "steam", "trading"}
-local spamHints = {"3 month", "3 months", "airdrop", "away", "bitcoin", "gift", "hot", "pay", "sex", "web3", "whatsapp" }
+local spamWords = Set{ "100k", "$100k", "crypto", "currency", "cs:go", "discord", "earn", "exchange", "free", "market", "nitro", "onlyfans", "subscription", "steam", "trading" }
+local spamHints = { "3 month", "3 months", "airdrop", "away", "bitcoin", "gift", "hot", "pay", "sex", "web3", "whatsapp" }
 
 local discordDomains = {
 	["discord.com"] = true,
@@ -764,8 +764,8 @@ function Module:ComputeMessageSpamScore(content)
 	local score = 1 -- base score
 
 	-- +1 for each spamword
-	for _, spamWord in ipairs(spamWords) do
-		if content:find(spamWord) then
+	for token in content:gmatch("[^%s]+") do
+		if spamWords[token] then
 			score = score + 1
 		end
 	end
@@ -793,7 +793,7 @@ function Module:ComputeMessageSpamScore(content)
 	end
 
 	-- double score for messages containing links
-	for domain in content:gmatch("https?://([%w%.%-]+)/") do
+	for domain in content:gmatch("https?://([%w%.%-]+)") do
 		-- ignore discord links
 		if (not discordDomains[domain]) then
 			score = score * 2

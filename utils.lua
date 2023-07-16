@@ -449,3 +449,12 @@ function table.wrap(value)
 
 	return value
 end
+
+-- https://www.lua.org/pil/11.5.html
+function Set(list)
+	local set = {}
+	for _, val in ipairs(list) do
+		set[val] = true
+	end
+	return set
+end
