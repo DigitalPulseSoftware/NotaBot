@@ -250,6 +250,13 @@ function EventHandler.GUILD_UPDATE(d, client)
 end
 
 function EventHandler.GUILD_DELETE(d, client)
+	-- if a guild is unavailable when loading it, we may receive a GUILD_DELETE event which would block loading
+	if shard._loading then
+		shard._loading.chunks[d.id] = nil
+		shard._loading.guilds[d.id] = nil
+		shard._loading.syncs[d.id] = nil
+		return checkReady(shard)
+	end
 	if d.unavailable then
 		local guild = client._guilds:_insert(d)
 		return client:emit('guildUnavailable', guild)
