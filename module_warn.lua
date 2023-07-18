@@ -27,6 +27,7 @@ local function AddWarn(history, memberId, moderatorId, reason)
 	table.insert(history.Warns[memberId], { WarnedBy = moderatorId, Reason = reason })
 end
 
+-- TODO delete this
 local function ConvertDataFormat(guildId, config, data, persistentData)
 	-- Check the format, Warns is in the new but not in the old
 	if persistentData.Warns ~= nil then
@@ -95,7 +96,7 @@ end
 function Module:OnEnable(guild)
 	local config = self:GetConfig(guild)
 
-	local banInfo = config.BanInformationChannel and guild:getChannel(config.BanInformationChannel) or nil
+	local banInfo = config.BanInformationChannel and guild:getChannel(config.BanInformationChannel)
 	if not banInfo then
 		return false, "Invalid ban information channel, check your configuration."
 	end
@@ -105,6 +106,7 @@ end
 
 function Module:OnLoaded()
 
+	-- TODO delete this
 	self:ForEachGuild(ConvertDataFormat, true, true, true)
 
 	self:RegisterCommand({
@@ -115,13 +117,14 @@ function Module:OnLoaded()
 		},
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
-		Help = "Warns a member",
+		Help = function (guild) return Bot:Format(guild, "WARN_WARN_HELP") end,
 		Silent = true,
 		Func = function (commandMessage, targetUser, reason)
 			local guild = commandMessage.guild
 			local config = self:GetConfig(guild)
 			local history = self:GetPersistentData(guild) or {}
-			local reason = reason or "No reason provided"
+			local reason = reason or Bot:Format(guild, "GLOBAL_DEFAULT_REASON")
+			local infoChannel = guild:getChannel(config.BanInformationChannel)
 
 			local targetMember = guild:getMember(targetUser)
 			local moderator = commandMessage.member
@@ -131,7 +134,7 @@ function Module:OnLoaded()
 				local bannedByRole = moderator.highestRole
 				local targetRole = targetMember.highestRole
 				if targetRole.position >= bannedByRole.position then
-					commandMessage:reply("You cannot warn this user due to your lower permissions.")
+					commandMessage:reply(Bot:Format(guild, "WARN_PERMISSION_DENIED"))
 					return
 				end
 			end
@@ -144,44 +147,32 @@ function Module:OnLoaded()
 			if config.SendPrivateMessage then
 				local privateChannel = targetUser:getPrivateChannel()
 				if privateChannel then
-					privateChannel:send(string.format("You have been warned on %s for the following reason:\n **%s**", guild.name, reason))
+					privateChannel:send(Bot:Format(guild, "WARN_WARN_PM", guild.name, reason))
 				end
 			end
 
 			local warnAmount = #history.Warns[targetId]
-			commandMessage:reply(string.format("**%s** has warned **%s** (warn #%d) for the following reason:\n**%s**.", commandMessage.member.tag, targetMember.tag, warnAmount, reason))
+			commandMessage:reply(Bot:Format(guild, "WARN_WARN_MSG", commandMessage.member.tag, targetMember.tag, warnAmount, reason))
 
 			if config.Sanctions then
-				local banAmount = config.WarnAmountToBan
-				local muteAmount = config.WarnAmountToMute
+				local banThreshold = config.WarnAmountToBan
+				local muteThreshold = config.WarnAmountToMute
 
-				if warnAmount % banAmount == 0 then
-					-- BAN
-					local channel = guild:getChannel(config.BanInformationChannel)
-					if channel then
-						channel:send(string.format("The member **%s** ( %d ) has enough warns to be banned (%d warns).",
-							targetMember.tag,
-							targetMember.id,
-							warnAmount
-						))
-					end
+				if warnAmount % banThreshold == 0 then
+					infoChannel:send(Bot:Format(guild, "WARN_WARN_BAN_REACHED",
+						targetMember.tag, targetMember.id, warnAmount))
 
-				elseif warnAmount % muteAmount == 0 then
-					-- MUTE
-					local duration = config.DefaultMuteDuration * (warnAmount / muteAmount)
-					local mute_module = bot:GetModuleForGuild(guild, "mute")
+					return
+				end
 
-					if mute_module then
-						local channel = guild:getChannel(config.BanInformationChannel)
-						if channel then
-							channel:send(string.format("The member **%s** ( %d ) has enough warns to be muted (%d warns) %s.",
-								targetMember.tag,
-								targetMember.id,
-								warnAmount,
-								util.DiscordRelativeTime(duration)
-							))
-						end
-						bot:CallModuleFunction(mute_module, "Mute", guild, targetMember.id, duration)
+				if warnAmount % muteThreshold == 0 then
+					local duration = config.DefaultMuteDuration * (warnAmount / muteThreshold)
+					infoChannel:send(Bot:Format(guild, "WARN_WARN_MUTE_REACHED",
+						targetMember.tag, targetMember.id, warnAmount, duration))
+
+					local muteModule = bot:GetModuleForGuild(guild, "mute")
+					if muteModule then
+						bot:CallModuleFunction(muteModule, "Mute", guild, targetMember.id, duration)
 					end
 				end
 			end
@@ -195,7 +186,7 @@ function Module:OnLoaded()
 		},
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
-		Help = "Shows all the warns of a member.",
+		Help = function (guild) return Bot:Format(guild, "WARN_WARNLIST_HELP") end,
 		Silent = true,
 		Func = function(commandMessage, targetUser)
 			local guild = commandMessage.guild
@@ -203,13 +194,13 @@ function Module:OnLoaded()
 			local warns = history.Warns[targetUser.id]
 
 			if warns == nil then
-				commandMessage:reply(string.format("The member **%s** (%d) doesn't have any warns.", targetUser.tag, targetUser.id))
+				commandMessage:reply(Bot:Format(guild, "WARN_NO_WARNS", targetUser.tag, targetUser.id))
 			else
-				local message = string.format("Warns of **%s** (%d)\n", targetUser.tag, targetUser.id)
+				local message = Bot:Format(guild, "WARN_WARNLIST_LIST", targetUser.tag, targetUser.id)
 				for _, warn in ipairs(warns) do
 					local warnedBy = client:getUser(warn.WarnedBy)
-					local reason = warn.Reason or "No reason provided"
-					message = message .. string.format("Warned by : **%s** for the reason:\n\t**%s**\n", warnedBy.tag, reason)
+					local reason = warn.Reason or Bot:Format(guild, "GLOBAL_DEFAULT_REASON") -- TODO this line may be deleted when timers will be implemented
+					message = message .. Bot:Format(guild, "WARN_WARNLIST_ITEM", warnedBy.tag, reason)
 				end
 				commandMessage:reply(message)
 			end
@@ -223,17 +214,17 @@ function Module:OnLoaded()
 		},
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
 
-		Help = "Clears all the warns of a specified user.",
+		Help = function (guild) return Bot:Format(guild, "WARN_CLEARWARNS_HELP") end,
 		Silent = true,
 		Func = function (commandMessage, targetUser)
 			local guild = commandMessage.guild
 			local history = self:GetPersistentData(guild)
 
 			if history.Warns[targetUser.id] == nil then
-				commandMessage:reply(string.format("The member **%s** (%d) already have zero warns.", targetUser.tag, targetUser.id))
+				commandMessage:reply(Bot:Format(guild, "WARN_NO_WARNS", targetUser.tag, targetUser.id))
 			else
 				history.Warns[targetUser.id] = nil
-				commandMessage:reply(string.format("Cleared **%s** (%d) warns, saving.", targetUser.tag, targetUser.id))
+				commandMessage:reply(Bot:Format(guild, "WARN_CLEARWARNS_CLEARED", targetUser.tag, targetUser.id))
 				bot:Save()
 			end
 		end

@@ -163,6 +163,8 @@ return {
 	FormatTime = FormatTime,
 	NiceConcat = NiceConcat,
 	Locs = {
+		GLOBAL_DEFAULT_REASON = "Aucune raison donnée.",
+
 		MODMAIL_CLOSETICKET = "Fermer le ticket",
 		MODMAIL_TICKETCLOSE_MESSAGE = "%s a fermé le ticket, ce canal sera automatiquement supprimé %s",
 		MODMAIL_TICKETOPENING_MESSAGE = "Bonjour %s, vous pouvez communiquer avec la modération de **%s** via ce canal privé.",
@@ -232,10 +234,10 @@ return {
 		RAID_AUTOMUTE_SPAM_REASON = "🙊 %s a été auto-mute à cause de spam dans %s",
 
 		PRUNEFROM_HELP = string.format("%s\n%s\n\t%s",
-            "Supprime tous les messages à partir de celui dont l'identifiant a été passé en paramètre.",
-            "Arguments:",
-            "messageId: L'identifiant du message"
-        ),
+			"Supprime tous les messages à partir de celui dont l'identifiant a été passé en paramètre.",
+			"Arguments:",
+			"messageId: L'identifiant du message"
+		),
 		PRUNE_CANNOT_DELETE = "ℹ️ Certains messages n'ont pas pu être supprimés.",
 		PRUNE_HELP = string.format("%s\n%s\n\t%s",
 			"Supprime les n derniers messages.",
@@ -243,5 +245,18 @@ return {
 			"nbMessages: Le nombre de messages à supprimer"
 		),
 		PRUNE_RESULT = "🧹 %d messages ont été supprimés.",
+
+		WARN_CLEARWARNS_CLEARED     = "Les avertissements de %s (%d) ont été effacés.",
+		WARN_CLEARWARNS_HELP        = "Efface tous les avertissements de l'utilisateur spécifié.",
+		WARN_NO_WARNS               = "L'utilisateur %s (%d) n'a aucun avertissement.",
+		WARN_WARN_BAN_REACHED       = "The member %s (%d) has enough warns to be banned (%d warns).",
+		WARN_WARN_HELP              = "Avertit un membre.",
+		WARN_WARN_MSG               = "%s a averti %s (avertissement #%d) pour la raison suivante: %s",
+		WARN_WARN_MUTE_REACHED      = "Le membre %s (%d) a suffisamment d'avertissements pour être silencié (%d avertissements) %s secondes.",
+		WARN_WARN_PERMISSION_DENIED = "Vous ne pouvez pas avertir ce membre à cause de vos permissions insuffisantes.",
+		WARN_WARN_PM                = "Vous avez reçu un avertissement sur %s pour la raison suivante: %s",
+		WARN_WARNLIST_HELP          = "Affiche tous les avertissements d'un utilisateur.",
+		WARN_WARNLIST_ITEM          = "\nAverti par %s pour la raison suivante: %s",
+		WARN_WARNLIST_LIST          = "Avertissements de %s (%d):",
 	}
 }
