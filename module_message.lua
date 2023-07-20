@@ -1108,8 +1108,6 @@ function Module:OnLoaded()
 						"Only bot owner can ask to retrieve more than 1000+ messages at once, due to the number of API calls required to fetch messages")
 					return
 				end
-
-				limit = math.min(limit, 1000)
 			end
 
 			if afterMessage then
