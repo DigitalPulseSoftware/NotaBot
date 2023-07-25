@@ -128,8 +128,8 @@ function Module:OnChannelCreate(channel)
     })
 end
 
-function Module:OnMemberUpdate(user)
-    local guild = user.guild
+function Module:OnMemberUpdate(member)
+    local guild = member.guild
     if not guild then
         return
     end
@@ -148,34 +148,35 @@ function Module:OnMemberUpdate(user)
 
     local data = self:GetData(guild)
 
-    if data.nicknames[user.id] ~= user.nickname then
+	-- Ignore the first nickname change because new members tend to change it directly after joining which generates a lot of useless logs
+    if data.nicknames[member.id] ~= nil and data.nicknames[member.id] ~= member.nickname then
         logChannel:send({
             embed = {
                 title = "Nickname changed",
-                description = user.mentionString .." - **" .. (data.nicknames[user.id] or data.usernames[user.id]) .. "** → **" .. (user.nickname or user._user._username) .. "**", -- or here is used to default to global username if no nickname is/was defined
+                description = string.format("%s - `%s` → `%s`", member.mentionString, data.nicknames[member.id], member.name),
                 timestamp = discordia.Date():toISO('T', 'Z')
             }
         })
     end
 
-    if data.usernames[user.id] ~= nil and data.usernames[user.id] ~= user._user._username then
+    if data.usernames[member.id] ~= nil and data.usernames[member.id] ~= member.user.username then
         logChannel:send({
             embed = {
                 title = "Username changed",
-                description = user.mentionString .." - **" .. (data.usernames[user.id] or "<Unknown>") .. "** → **" .. (user._user._username or "<Error>") .. "**",
+                description = string.format("%s - `%s` → `%s`", member.mentionString, data.usernames[member.id], member.user.username),
                 timestamp = discordia.Date():toISO('T', 'Z')
             }
         })
     end
-    
-    data.nicknames[user.id] = user.nickname
-    data.usernames[user.id] = user._user._username
+
+    data.nicknames[member.id] = member.name
+    data.usernames[member.id] = member.user.username
 end
 
 function Module:OnMessageDelete(message)
     local guild = message.guild
     local config = self:GetConfig(guild)
-    
+
     if table.search(config.IgnoredDeletedMessageChannels, message.channel.id) then
         return
     end
