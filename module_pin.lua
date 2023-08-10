@@ -144,3 +144,52 @@ function Module:OnReactionAddUncached(channel, messageId, reactionIdorName, user
 
 	self:HandleEmojiAdd(config, reaction)
 end
+
+function Module:OnLoaded()
+	self:RegisterCommand({
+		Name = "pin",
+		Args = {
+			{ Name = "<messageId>", Type = bot.ConfigType.Message },
+		},
+
+		Help = function (guild) return Bot:Format(guild, "PIN_PIN_HELP") end,
+		Silent = true,
+		Func = function (commandMessage, targetMessage)
+			local guild = commandMessage.guild
+			local sender = commandMessage.member
+			local senderId = sender.id
+			local channelOwnerId = commandMessage.channel._owner_id
+
+			if (sender:hasPermission(enums.permission.manageMessages) or senderId == channelOwnerId) then
+				local res = targetMessage:pin()
+				if not res then
+					commandMessage:reply(Bot:Format(guild, "PIN_PIN_ERROR"))
+				end
+			end
+		end
+	})
+
+	self:RegisterCommand({
+		Name = "unpin",
+		Args = {
+			{ Name = "<messageId>", Type = bot.ConfigType.Message },
+		},
+
+		Help = function (guild) return Bot:Format(guild, "PIN_UNPIN_HELP") end,
+		Silent = true,
+		Func = function (commandMessage, targetMessage)
+			local sender = commandMessage.member
+			local senderId = sender.id
+			local channelOwnerId = commandMessage.channel._owner_id
+
+			if (sender:hasPermission(enums.permission.manageMessages) or senderId == channelOwnerId) then
+				local res = targetMessage:unpin()
+				if not res then
+					commandMessage:reply(Bot:Format(guild, "PIN_UNPIN_ERROR"))
+				end
+			end
+		end
+	})
+
+	return true
+end
