@@ -231,11 +231,24 @@ return {
 		RAID_AUTOBAN_BOT_REASON = "auto-ban pour soupçon de bot",
 		RAID_AUTOMUTE_SPAM_REASON = "🙊 %s a été auto-mute à cause de spam dans %s",
 
+		PIN_PIN_HELP    = string.format("%s\n%s\n\t%s",
+			"Épingle un message.",
+			"Arguments:",
+			"messageId: Le lien du message à épingler"
+		),
+		PIN_PIN_ERROR   = "❌ Impossible d'épingler ce message.",
+		PIN_UNPIN_HELP  = string.format("%s\n%s\n\t%s",
+			"Désépingle un message",
+			"Arguments:",
+			"messageId: Le lien du message à désépingler"
+		),
+		PIN_UNPIN_ERROR = "❌ Impossible de désépingler ce message.",
+
 		PRUNEFROM_HELP = string.format("%s\n%s\n\t%s",
-            "Supprime tous les messages à partir de celui dont l'identifiant a été passé en paramètre.",
-            "Arguments:",
-            "messageId: L'identifiant du message"
-        ),
+			"Supprime tous les messages à partir de celui dont l'identifiant a été passé en paramètre.",
+			"Arguments:",
+			"messageId: L'identifiant du message"
+		),
 		PRUNE_CANNOT_DELETE = "ℹ️ Certains messages n'ont pas pu être supprimés.",
 		PRUNE_HELP = string.format("%s\n%s\n\t%s",
 			"Supprime les n derniers messages.",

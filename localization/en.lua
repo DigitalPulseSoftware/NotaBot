@@ -70,6 +70,19 @@ return {
 		RAID_AUTOBAN_BOT_REASON = "auto-ban for bot suspicion",
 		RAID_AUTOMUTE_SPAM_REASON = "🙊 %s has been auto-muted because of spam in %s",
 
+		PIN_PIN_HELP    = string.format("%s\n%s\n\t%s",
+			"Pin a message.",
+			"Arguments:",
+			"messageId: The link of the message to pin"
+		),
+		PIN_PIN_ERROR   = "❌ Unable to pin this message.",
+		PIN_UNPIN_HELP  = string.format("%s\n%s\n\t%s",
+			"Unpin a message",
+			"Arguments:",
+			"messageId: The link of the message to unpin"
+		),
+		PIN_UNPIN_ERROR = "❌ Unable to unpin this message.",
+
 		PRUNEFROM_HELP = string.format("%s\n%s\n\t%s",
 			"Delete all messages from the one whose identifier has been given in parameter.",
 			"Arguments:",
