@@ -85,17 +85,17 @@ return {
 		),
 		PRUNE_RESULT = "🧹 %d messages have been deleted.",
 
-		WARN_CLEARWARNS_CLEARED     = "Cleared %s (%d) warns.",
+		WARN_CLEARWARNS_CLEARED     = "Cleared %s (%s) warns.",
 		WARN_CLEARWARNS_HELP        = "Clears all the warns of a specified user.",
-		WARN_NO_WARNS               = "The member %s (%d) has no warns.",
-		WARN_WARN_BAN_REACHED       = "The member %s (%d) has enough warns to be banned (%d warns).",
+		WARN_NO_WARNS               = "The member %s (%s) has no warns.",
+		WARN_WARN_BAN_REACHED       = "The member %s (%s) has enough warns to be banned (%d warns).",
 		WARN_WARN_HELP              = "Warns a member",
 		WARN_WARN_MSG               = "%s has warned %s (warn #%d) for the following reason: %s",
-		WARN_WARN_MUTE_REACHED      = "The member %s (%d) has enough warns to be muted (%d warns) %s seconds.",
+		WARN_WARN_MUTE_REACHED      = "The member %s (%s) has enough warns to be muted (%d warns) %s seconds.",
 		WARN_WARN_PERMISSION_DENIED = "You cannot warn this user due to your lower permissions.",
 		WARN_WARN_PM                = "You have been warned on %s for the following reason: %s",
 		WARN_WARNLIST_HELP          = "Shows all the warns of a user.",
 		WARN_WARNLIST_ITEM          = "\nWarned by %s for the following reason: %s",
-		WARN_WARNLIST_LIST          = "Warns of %s (%d):",
+		WARN_WARNLIST_LIST          = "Warns of %s (%s):",
 	}
 }
