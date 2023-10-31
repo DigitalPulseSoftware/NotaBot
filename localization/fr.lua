@@ -246,17 +246,17 @@ return {
 		),
 		PRUNE_RESULT = "🧹 %d messages ont été supprimés.",
 
-		WARN_CLEARWARNS_CLEARED     = "Les avertissements de %s (%d) ont été effacés.",
+		WARN_CLEARWARNS_CLEARED     = "Les avertissements de %s (%s) ont été effacés.",
 		WARN_CLEARWARNS_HELP        = "Efface tous les avertissements de l'utilisateur spécifié.",
-		WARN_NO_WARNS               = "L'utilisateur %s (%d) n'a aucun avertissement.",
-		WARN_WARN_BAN_REACHED       = "The member %s (%d) has enough warns to be banned (%d warns).",
+		WARN_NO_WARNS               = "L'utilisateur %s (%s) n'a aucun avertissement.",
+		WARN_WARN_BAN_REACHED       = "Le membre %s (%s) a suffisament d'avertissements pour être banni (%d avertissements).",
 		WARN_WARN_HELP              = "Avertit un membre.",
 		WARN_WARN_MSG               = "%s a averti %s (avertissement #%d) pour la raison suivante: %s",
-		WARN_WARN_MUTE_REACHED      = "Le membre %s (%d) a suffisamment d'avertissements pour être silencié (%d avertissements) %s secondes.",
+		WARN_WARN_MUTE_REACHED      = "Le membre %s (%s) a suffisamment d'avertissements pour être silencié (%d avertissements) %s secondes.",
 		WARN_WARN_PERMISSION_DENIED = "Vous ne pouvez pas avertir ce membre à cause de vos permissions insuffisantes.",
 		WARN_WARN_PM                = "Vous avez reçu un avertissement sur %s pour la raison suivante: %s",
 		WARN_WARNLIST_HELP          = "Affiche tous les avertissements d'un utilisateur.",
 		WARN_WARNLIST_ITEM          = "\nAverti par %s pour la raison suivante: %s",
-		WARN_WARNLIST_LIST          = "Avertissements de %s (%d):",
+		WARN_WARNLIST_LIST          = "Avertissements de %s (%s):",
 	}
 }
