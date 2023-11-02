@@ -160,11 +160,22 @@ function Module:OnLoaded()
 			local senderId = sender.id
 			local channelOwnerId = commandMessage.channel._owner_id
 
-			if (sender:hasPermission(enums.permission.manageMessages) or senderId == channelOwnerId) then
-				local res = targetMessage:pin()
-				if not res then
-					commandMessage:reply(Bot:Format(guild, "PIN_PIN_ERROR"))
-				end
+			if (targetMessage.pinned) then
+				return
+			end
+
+			if (not sender:hasPermission(enums.permission.manageMessages) and senderId ~= channelOwnerId) then
+				return
+			end
+
+			if (targetMessage.channel.id ~= commandMessage.channel.id) then
+				commandMessage:reply(Bot:Format(guild, "PIN_PIN_ERROR"))
+				return
+			end
+
+			local res = targetMessage:pin()
+			if not res then
+				commandMessage:reply(Bot:Format(guild, "PIN_PIN_ERROR"))
 			end
 		end
 	})
@@ -178,15 +189,27 @@ function Module:OnLoaded()
 		Help = function (guild) return Bot:Format(guild, "PIN_UNPIN_HELP") end,
 		Silent = true,
 		Func = function (commandMessage, targetMessage)
+			local guild = commandMessage.guild
 			local sender = commandMessage.member
 			local senderId = sender.id
 			local channelOwnerId = commandMessage.channel._owner_id
 
-			if (sender:hasPermission(enums.permission.manageMessages) or senderId == channelOwnerId) then
-				local res = targetMessage:unpin()
-				if not res then
-					commandMessage:reply(Bot:Format(guild, "PIN_UNPIN_ERROR"))
-				end
+			if (not targetMessage.pinned) then
+				return
+			end
+
+			if (not sender:hasPermission(enums.permission.manageMessages) and senderId ~= channelOwnerId) then
+				return
+			end
+
+			if (targetMessage.channel.id ~= commandMessage.channel.id) then
+				commandMessage:reply(Bot:Format(guild, "PIN_UNPIN_ERROR"))
+				return
+			end
+
+			local res = targetMessage:unpin()
+			if not res then
+				commandMessage:reply(Bot:Format(guild, "PIN_UNPIN_ERROR"))
 			end
 		end
 	})
