@@ -149,7 +149,7 @@ function Module:OnMemberUpdate(member)
     local data = self:GetData(guild)
 
 	-- Ignore the first nickname change because new members tend to change it directly after joining which generates a lot of useless logs
-    if data.nicknames[member.id] ~= nil and data.nicknames[member.id] ~= member.nickname then
+    if data.nicknames[member.id] ~= nil and data.nicknames[member.id] ~= member.name then
         logChannel:send({
             embed = {
                 title = "Nickname changed",
