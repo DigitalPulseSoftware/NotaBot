@@ -134,7 +134,7 @@ function Module:OnLoaded()
 				local bannedByRole = moderator.highestRole
 				local targetRole = targetMember.highestRole
 				if targetRole.position >= bannedByRole.position then
-					commandMessage:reply(Bot:Format(guild, "WARN_PERMISSION_DENIED"))
+					commandMessage:reply(Bot:Format(guild, "WARN_WARN_PERMISSION_DENIED"))
 					return
 				end
 			end
