@@ -29,7 +29,7 @@ local function buildUserEmbed(user)
 	local fullName = user.tag
 	local createdAt = Date.fromSeconds(user.createdAt):toParts()
 
-	local description = string.format("__Fullname:__ %s\n__Created at:__ <t:%s:f>",
+	local description = string.format("__Fullname:__ `%s`\n__Created at:__ <t:%s:f>",
 		fullName, createdAt)
 
 	return {
@@ -47,11 +47,11 @@ local function buildMemberEmbed(member)
 	if has_guild_presences_intent then
 		local presence = discordStatus[member.status]
 		description =
-			string.format("__`Fullname:`__ %s\n__`Nickname:`__ %s\n__`Presence:`__ %s\n__`Created at:`__ <t:%s:f>\n__`Joined  at:`__ <t:%s:f>\n",
+			string.format("__`Fullname:`__ `%s`\n__`Nickname:`__ `%s`\n__`Presence:`__ %s\n__`Created at:`__ <t:%s:f>\n__`Joined  at:`__ <t:%s:f>\n",
 				fullName, member.name, presence, createdAt, joinedAt)
 	else
 		description =
-			string.format("__`Fullname:`__ %s\n__`Nickname:`__ %s\n__`Created at:`__ <t:%s:f>\n__`Joined  at:`__ <t:%s:f>\n",
+			string.format("__`Fullname:`__ `%s`\n__`Nickname:`__ `%s`\n__`Created at:`__ <t:%s:f>\n__`Joined  at:`__ <t:%s:f>\n",
 				fullName, member.name, createdAt, joinedAt)
 	end
 
