@@ -1007,6 +1007,34 @@ function Module:OnLoaded()
 	})
 
 	self:RegisterCommand({
+		Name = "listreplies",
+		Args = {},
+
+		Help = "List all replies and there aliases",
+		Func = function(commandMessage)
+			local config = self:GetConfig(commandMessage.guild)
+			local replies = config.Replies
+			local aliases = config.Aliases
+			local result = "```replies                         aliases\n\n"
+
+			for kr, _ in pairs(replies) do
+				-- Find the alias of each reply, if there is one
+				local alias = ""
+				for ka, kv in pairs(aliases) do
+					if kr == kv then
+						alias = ka
+					end
+				end
+
+				result = result .. string.format("%-28s    %s\n", kr, alias)
+			end
+
+			result = result .. "```"
+			commandMessage:reply(result)
+		end
+	})
+
+	self:RegisterCommand({
 		Name = "addalias",
 		Args = {
 			{ Name = "alias",   Type = Bot.ConfigType.String },
