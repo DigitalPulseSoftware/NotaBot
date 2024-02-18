@@ -1010,7 +1010,7 @@ function Module:OnLoaded()
 		Name = "listreplies",
 		Args = {},
 
-		Help = "List all replies and there aliases",
+		Help = "List all replies and their aliases",
 		Func = function(commandMessage)
 			local config = self:GetConfig(commandMessage.guild)
 			local replies = config.Replies
