@@ -216,6 +216,7 @@ function Module:OnEnable(guild)
 	local data = self:GetPersistentData(guild)
 	data.activeChannels = data.activeChannels or {}
 	data.archivedChannels = data.archivedChannels or {}
+	table.sort(data.archivedChannels, function (a, b) return a.closedAt < b.closedAt end)
 
 	return true
 end

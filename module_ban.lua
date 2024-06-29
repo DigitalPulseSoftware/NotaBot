@@ -315,9 +315,15 @@ function Module:SyncBans(guild)
 	local bannedUsers = self:GetBannedUsersTable(guild)
 
 	-- Retrieve all banned users in the guild
+	local guildBans, err = guild:getBans()
+	if not guildBans then
+		self:LogWarning(guild, "Failed to retrieve guild ban: %s", tostring(err))
+		return
+	end
+	
 	local guildBanned = {}
 	local missingBanData = {}
-	for _, ban in pairs(guild:getBans()) do
+	for _, ban in pairs(guildBans) do
 		local user = ban.user
 		if (not bannedUsers[user.id]) then
 			self:LogInfo(guild, "Found banned user %s in guild which is not logged (ban reason: %s)", user.tag, ban.reason or "<none>")
