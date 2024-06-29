@@ -63,7 +63,6 @@ end
 
 Bot = {}
 Bot.Client = client
-Bot.Clock = discordia.Clock()
 Bot.Commands = {}
 Bot.Events = {}
 Bot.Modules = {}
@@ -396,7 +395,16 @@ Bot:RegisterCommand({
 	end
 })
 
-Bot.Clock:start()
+Bot:RegisterCommand({
+	Name = "debugtimer",
+	Args = {},
+	PrivilegeCheck = function (member) return member.id == Config.OwnerUserId end,
+
+	Help = "Gets last timer check timestamp",
+	Func = function (message)
+		message:reply(string.format("Last timer check occurred on <t:%d:f>", Bot.LastTimerExecution))
+	end
+})
 
 client:run('Bot ' .. Config.Token)
 
