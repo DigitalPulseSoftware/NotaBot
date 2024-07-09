@@ -18,7 +18,15 @@ function Module:GetConfigTable()
 			Description = "Where private messages should be logged",
 			Type = bot.ConfigType.Channel,
 			Optional = true
-		}
+		},
+		{
+			Global = true,
+			Array = true,
+			Name = "BlockedUsers",
+			Description = "Users who are not allowed to contact the bot",
+			Type = Bot.ConfigType.User,
+			Default = {}
+		},
 	}
 end
 
@@ -46,8 +54,6 @@ function Module:HandleResponse(message)
 
 	local persistentData = self:GetPersistentData()
 	local mirrorData = persistentData.mirrors[mirrorMessageId]
-	p(mirrorData)
-
 	if not mirrorData then
 		return Failure("Failed to identify message, maybe its too old?")
 	end
@@ -70,9 +76,7 @@ function Module:HandleResponse(message)
 	local reply, err = privateMessageChannel:send({
 		attachments = message.attachments,
 		content = message.content,
-		reference = {
-			message = authorData.lastMessageId ~= mirrorData.messageId and mirrorData.messageId or nil -- only reply if we're answering another message than the last one
-		}
+		reference = authorData.lastMessageId ~= mirrorData.messageId and { message = mirrorData.messageId } or nil -- only reply if we're answering another message than the last one
 	})
 
 	if not reply then
@@ -97,6 +101,11 @@ function Module:HandlePrivateMessage(message)
 	end
 
 	local authorId = message.author.id
+	if table.search(self.GlobalConfig.BlockedUsers, authorId) then
+		self:LogInfo("blocked a message from " .. message.author.tag)
+		return
+	end
+
 	local messageId = message.id
 
 	local embed = Bot:BuildQuoteEmbed(message)
