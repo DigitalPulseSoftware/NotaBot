@@ -46,7 +46,7 @@ function Bot:DecodeEmoji(guild, message)
 
 	local emojiId = message:match("<a?:[%w_]+:(%d+)>")
 	if (emojiId) then
-		 -- Custom emoji
+		-- Custom emoji
 		local emoji = self:GetEmojiData(guild, emojiId)
 		if (not emoji) then
 			return nil, "Failed to get emoji, maybe this is a global emoji?"
@@ -244,7 +244,6 @@ function Bot:UnserializeFromFile(filepath)
 	return contentOrErr
 end
 
-
 local fileTypes = {
 	aac = "sound",
 	avi = "video",
@@ -305,7 +304,8 @@ function Bot:BuildQuoteEmbed(message, opt)
 
 		-- Sort into differents types
 		for _, attachment in pairs(message.attachments) do
-			local ext = attachment.url:match("//.-/.+%.(.*)$"):lower()
+			local matchedExt = attachment.url:match("//.-/.+%.(.-)[?].*$") or attachment.url:match("//.-/.+%.(.*)$")
+			local ext = matchedExt:lower()
 			local fileType = fileTypes[ext]
 			local t = files
 			if (fileType) then
@@ -359,7 +359,7 @@ function Bot:BuildQuoteEmbed(message, opt)
 	end
 
 	-- Fix emojis
-	content = content:gsub("(<a?:([%w_]+):(%d+)>)", function (mention, emojiName, emojiId)
+	content = content:gsub("(<a?:([%w_]+):(%d+)>)", function(mention, emojiName, emojiId)
 		-- Bot are allowed to use emojis from every servers they are on
 		local emojiData = Bot:GetEmojiData(nil, emojiId)
 
@@ -466,7 +466,7 @@ function Bot:FetchChannelMessages(channel, nextId, limit, fromEnd)
 		limit = limit - #messages
 	end
 
-	table.sort(channelMessages, function (a, b)
+	table.sort(channelMessages, function(a, b)
 		return a.id < b.id
 	end)
 
