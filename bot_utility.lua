@@ -296,16 +296,16 @@ function Bot:BuildQuoteEmbed(message, opt)
 
 	local fields
 	local imageUrl
-	if (message.attachments) then
+
+	local applyImages = function (imgs)
 		local images = {}
 		local files = {}
 		local sounds = {}
 		local videos = {}
-
-		-- Sort into differents types
-		for _, attachment in pairs(message.attachments) do
-			local matchedExt = attachment.url:match("//.-/.+%.(.-)[?].*$") or attachment.url:match("//.-/.+%.(.*)$")
-			local ext = matchedExt:lower()
+		for _, image in pairs(imgs) do
+			local matchedExt = image.url:match("//.-/.+%.(.-)[?].*$") or image.url:match("//.-/.+%.(.*)$") or ""
+			-- Edge case for embed images with no extensions
+			local ext = (#matchedExt == 0 and image.thumbnail and "png" or matchedExt):lower()
 			local fileType = fileTypes[ext]
 			local t = files
 			if (fileType) then
@@ -318,13 +318,14 @@ function Bot:BuildQuoteEmbed(message, opt)
 				end
 			end
 
-			table.insert(t, attachment)
+			table.insert(t, image)
 		end
 
 		-- Special shortcut for one image attachment
-		if (#message.attachments == 1 and #images == 1) then
+		if (#imgs == 1 and #images == 1) then
 			imageUrl = images[1].url
 		else
+			-- Should only happens for attachments, not embeds
 			fields = {}
 			local function LinkList(title, attachments)
 				if (#attachments == 0) then
@@ -352,6 +353,14 @@ function Bot:BuildQuoteEmbed(message, opt)
 				imageUrl = images[1].url
 			end
 		end
+	end
+
+	if (message.attachments) then
+		applyImages(message.attachments)
+	end
+
+	if (message.embeds and not message.attachments) then
+		applyImages(message.embeds)
 	end
 
 	if (fields) then
