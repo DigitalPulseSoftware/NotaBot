@@ -462,6 +462,8 @@ function Module:OnEnable(guild)
     end
 
     self:CreateGuildRules(config, guild.id)
+
+    return true
 end
 
 function Module:GetWebhook(guild, channel)
