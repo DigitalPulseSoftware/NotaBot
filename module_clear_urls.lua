@@ -458,7 +458,7 @@ function Module:OnEnable(guild)
     local config = self:GetConfig(guild)
 
     if #config.Rules == 0 then
-        return
+        return true
     end
 
     self:CreateGuildRules(config, guild.id)
