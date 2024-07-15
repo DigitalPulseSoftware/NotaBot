@@ -303,7 +303,7 @@ local function removeParam(rule, param, queryParams)
     end
 end
 
-function Module:Replacer(match, config)
+function Module:Replacer(match, config, guildId)
     local protocol, host, path, queryString = match:match("^(https?://)([^/]+)(/[^?]*)?(.*)$")
     if not protocol then
         return match
@@ -335,7 +335,7 @@ function Module:Replacer(match, config)
     end
 
     -- Check all universal guild rules
-    for _, rule in ipairs(self.GuildUniversalRules[guild.id]) do
+    for _, rule in ipairs(self.GuildUniversalRules[guildId] or {}) do
         for param, _ in pairs(queryParams) do
             removeParam(rule, param, queryParams)
         end
@@ -353,9 +353,9 @@ function Module:Replacer(match, config)
     end
 
     -- Check rules for each host that matches
-    for hostRuleName, regex in pairs(self.GuildHostRules[guild.id]) do
+    for hostRuleName, regex in pairs(self.GuildHostRules[guildId] or {}) do
         if host:match(regex) then
-            for _, rule in ipairs(self.GuildRulesByHost[guild.id][hostRuleName]) do
+            for _, rule in ipairs(self.GuildRulesByHost[guildId][hostRuleName] or {}) do
                 for param, _ in pairs(queryParams) do
                     removeParam(rule, param, queryParams)
                 end
@@ -407,7 +407,7 @@ end
 function Module:ClearMessage(message, config)
     if message.content:find("http[s]?://") then
         return message.content:gsub("(https?://[^%s<]+[^<.,:;\"'>)|%]%s])", function(match)
-            local replaced, same = self:Replacer(match, config)
+            local replaced, same = self:Replacer(match, config, message.guild.id)
 
             if not same then
                 return replaced
