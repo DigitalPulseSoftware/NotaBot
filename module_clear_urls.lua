@@ -2,6 +2,9 @@ local bot = Bot
 local client = Client
 local discordia = Discordia
 local enums = discordia.enums
+local timer = require("timer")
+local setTimeout, clearTimeout, sleep = timer.setTimeout, timer.clearTimeout, timer.sleep
+local wrap = coroutine.wrap
 
 
 Module.Name = "clear_urls"
@@ -260,7 +263,6 @@ function Module:CreateRules()
 end
 
 function Module:CreateGuildRules(config, guildId)
-
     local rules = config.Rules
 
     local universalRules = self.GuildUniversalRules[guildId] or {}
@@ -447,11 +449,36 @@ function Module:OnMessageCreate(message)
     -- Get webhook (to mimic the user)
     local webhook = self:GetWebhook(message.guild, message.channel)
 
-    client._api:executeWebhook(webhook.id, webhook.token, {
-        avatar_url = message.author.avatarURL,
-        username = message.author.globalName or message.author.username,
-        content = replaced
-    })
+    local components = {
+        {
+            type = 1,
+            components = {
+                {
+                    type = 2,
+                    style = 4,
+                    label = "Delete",
+                    custom_id = "delete_" .. message.author.id,
+                }
+            }
+        }
+    }
+
+    local msg = client._api:executeWebhook(webhook.id, webhook.token, {
+            avatar_url = message.author.avatarURL,
+            username = message.author.globalName or message.author.username,
+            content = replaced,
+            components = components
+        },
+        { wait = true }
+    )
+
+    setTimeout(5000, function()
+        wrap(function()
+            client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
+                components = {}
+            })
+        end)()
+    end)
 end
 
 function Module:OnEnable(guild)
@@ -464,6 +491,37 @@ function Module:OnEnable(guild)
     self:CreateGuildRules(config, guild.id)
 
     return true
+end
+
+function Module:OnInteractionCreate(interaction)
+    local customId = interaction.data.custom_id
+
+    local authorId = customId:match("delete_(%d+)")
+    if not authorId then
+        return
+    end
+
+    local interactionAuthorId = interaction.member.user.id
+
+    if authorId ~= interactionAuthorId then
+        return interaction:respond({
+            type = 4,
+            data = {
+                flags = 64,
+                content = "This button isn't for you!",
+            }
+        })
+    end
+
+    client._api:deleteMessage(interaction._channel.id or interaction.message.channel_id, interaction.message.id)
+
+    interaction:respond({
+        type = 4,
+        data = {
+            flags = 64,
+            content = "Deleted message",
+        }
+    })
 end
 
 function Module:GetWebhook(guild, channel)
