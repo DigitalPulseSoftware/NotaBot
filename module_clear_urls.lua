@@ -4,7 +4,9 @@ local discordia = Discordia
 local enums = discordia.enums
 local timer = require("timer")
 local setTimeout, clearTimeout, sleep = timer.setTimeout, timer.clearTimeout, timer.sleep
-local wrap = coroutine.wrap
+local wrap, yield = coroutine.wrap, coroutine.yield
+local http = require("coro-http")
+local linkShorteners = require("./data_linkshorteners")
 
 
 Module.Name = "clear_urls"
@@ -305,24 +307,57 @@ local function removeParam(rule, param, queryParams)
     end
 end
 
+local function resolveLocation(url)
+    if not url then return end
+
+    local headers, _ = http.request("HEAD", url)
+    ---@diagnostic disable-next-line: param-type-mismatch
+    local loc = (headers or {}):find(function (header) return header[1]:lower() == "location" end)
+    if headers and loc then
+        return loc[2]
+    end
+
+   local _, body = http.request("GET", url)
+
+    if body then
+        local location = body:match("<meta%s+http%-equiv=\"refresh\"%s+content=\"0;%s*url=([^%s]+)\"")
+        if location then
+            return location
+        end
+    end
+
+    return url
+end
+
 function Module:Replacer(match, config, guildId)
-    local protocol, host, path, queryString = match:match("^(https?://)([^/]+)(/[^?]*)?(.*)$")
+    local protocol, host, path, queryString = match:match("^(https?://)([^/]+)(/[^?]*)(.-)$")
     if not protocol then
         return match
     end
 
-    if queryString == "" or queryString == "?" then
-        return match
-    end
-
+    
     local wl = config.Whitelist
-
+    
     for _, rule in ipairs(wl) do
         if host:match(rule) then
             return match
         end
     end
+    
+    -- Check for link shorteners
+    -- for _, shortener in ipairs(linkShorteners.linkShorteners) do
+    --     if host:match(shortener) then
+    --         local location = resolveLocation(match)
+    --         if location then
+    --             return location, false
+    --         end
+    --     end
+    -- end
 
+    if not queryString or #queryString == 0 or queryString == "?" then
+        return match
+    end
+    
     -- Parsing query string into table
     local queryParams = {}
     for key, value in queryString:gmatch("([^&=]+)=([^&]*)") do
@@ -513,6 +548,7 @@ function Module:OnInteractionCreate(interaction)
         })
     end
 
+    -- Because apparently, there's no channel.id or channel_id??
     client._api:deleteMessage(interaction._channel.id or interaction.message.channel_id, interaction.message.id)
 
     interaction:respond({
