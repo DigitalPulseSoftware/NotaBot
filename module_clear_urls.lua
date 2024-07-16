@@ -1,12 +1,19 @@
 local bot = Bot
 local client = Client
 local discordia = Discordia
+local prefix = Config.Prefix
 local enums = discordia.enums
 local timer = require("timer")
 local setTimeout, clearTimeout, sleep = timer.setTimeout, timer.clearTimeout, timer.sleep
 local wrap, yield = coroutine.wrap, coroutine.yield
 local http = require("coro-http")
 local linkShorteners = require("./data_linkshorteners")
+
+--[[
+    This module is used to clear URLs from unwanted tracking (or, depending of guild configuration, any) query parameters.
+    It will replace the URL with a cleaned version, and optionally delete the message that invoked the command.
+    To preserve the continuation of an happening conversation, a webhook is used to mimic the user that initially posted the message.
+]]
 
 
 Module.Name = "clear_urls"
@@ -64,6 +71,12 @@ function Module:GetConfigTable()
             Type = bot.ConfigType.String,
             Default = {},
             Array = true
+        },
+        {
+            Name = "ButtonTimeout",
+            Description = "The time, in milliseconds after which the delete button will disappear",
+            Type = bot.ConfigType.Number,
+            Default = 10000
         }
     }
 end
@@ -95,20 +108,21 @@ local defaultRules = {
     "algo_pvid@*.aliexpress.*",
     "btsid",
     "ws_ab_test",
-    "pd_rd_*@amazon.*",
-    "_encoding@amazon.*",
-    "psc@amazon.*",
-    "tag@amazon.*",
-    "ref_@amazon.*",
-    "pf_rd_*@amazon.*",
-    "pf@amazon.*",
-    "crid@amazon.*",
-    "keywords@amazon.*",
-    "sprefix@amazon.*",
-    "sr@amazon.*",
-    "ie@amazon.*",
-    "node@amazon.*",
-    "qid@amazon.*",
+    -- "pd_rd_*@amazon.*",
+    -- "_encoding@amazon.*",
+    -- "psc@amazon.*",
+    -- "tag@amazon.*",
+    -- "ref_@amazon.*",
+    -- "pf_rd_*@amazon.*",
+    -- "pf@amazon.*",
+    -- "crid@amazon.*",
+    -- "keywords@amazon.*",
+    -- "sprefix@amazon.*",
+    -- "sr@amazon.*",
+    -- "ie@amazon.*",
+    -- "node@amazon.*",
+    -- "qid@amazon.*",
+    "*@amazon.*",
     "callback@bilibili.com",
     "cvid@bing.com",
     "form@bing.com",
@@ -301,6 +315,12 @@ function Module:CreateGuildRules(config, guildId)
     self.GuildRulesByHost[guildId] = rulesByHost
 end
 
+function Module:ClearGuildRules(config, guildId)
+    self.GuildUniversalRules[guildId] = nil
+    self.GuildHostRules[guildId] = nil
+    self.GuildRulesByHost[guildId] = nil
+end
+
 local function removeParam(rule, param, queryParams)
     if param == rule or string.match(param, rule) then
         queryParams[param] = nil
@@ -312,12 +332,12 @@ local function resolveLocation(url)
 
     local headers, _ = http.request("HEAD", url)
     ---@diagnostic disable-next-line: param-type-mismatch
-    local loc = (headers or {}):find(function (header) return header[1]:lower() == "location" end)
+    local loc = (headers or {}):find(function(header) return header[1]:lower() == "location" end)
     if headers and loc then
         return loc[2]
     end
 
-   local _, body = http.request("GET", url)
+    local _, body = http.request("GET", url)
 
     if body then
         local location = body:match("<meta%s+http%-equiv=\"refresh\"%s+content=\"0;%s*url=([^%s]+)\"")
@@ -335,15 +355,15 @@ function Module:Replacer(match, config, guildId)
         return match
     end
 
-    
+
     local wl = config.Whitelist
-    
+
     for _, rule in ipairs(wl) do
         if host:match(rule) then
             return match
         end
     end
-    
+
     -- Check for link shorteners
     -- for _, shortener in ipairs(linkShorteners.linkShorteners) do
     --     if host:match(shortener) then
@@ -357,10 +377,10 @@ function Module:Replacer(match, config, guildId)
     if not queryString or #queryString == 0 or queryString == "?" then
         return match
     end
-    
+
     -- Parsing query string into table
     local queryParams = {}
-    for key, value in queryString:gmatch("([^&=]+)=([^&]*)") do
+    for key, value in queryString:sub(2):gmatch("([^&=]+)=([^&]*)") do
         queryParams[key] = value
     end
 
@@ -416,32 +436,143 @@ function Module:Replacer(match, config, guildId)
     return newUrl, same
 end
 
+function Module:AddRules(rules, guild)
+    local config = self:GetConfig(guild)
+
+    for _, rule in ipairs(rules) do
+        table.insert(config.Rules, rule)
+    end
+
+    self:CreateGuildRules(config, guild.id)
+    self:SaveGuildConfig(guild)
+end
+
 function Module:OnLoaded()
     self:CreateRules()
 
     self:RegisterCommand({
-        Name = "clear",
+        Name = "clean",
         Args = {
-            { "string",  "url",              "The URL to clear" },
-            { "boolean", "deleteInvokation", "Delete the message that invoked the command", Optional = true }
+            { Name = "url", Description = "The URL to clean", Type = bot.ConfigType.String },
+            { Name = "deleteInvokation", Description = "Delete the message that invoked the command", Type = bot.ConfigType.Boolean, Optional = true }
         },
         Func = function(cmd, url, deleteInvokation)
-            local replaced = self:Replacer(url, cmd.guild)
+            local config = self:GetConfig(cmd.guild)
+            local replaced = self:Replacer(url, config, cmd.guild.id)
             if replaced then
                 cmd:reply(replaced)
             end
 
-            -- if deleteInvokation then
-            --     cmd.message:delete()
-            -- end
+            if deleteInvokation then
+                cmd.message:delete()
+            end
         end
 
+    })
+
+    self:RegisterCommand({
+        Name = "addcleanrules",
+        Args = {
+            { Name = "rules", Description = "The rules to add, separated by commas", Type = bot.ConfigType.String }
+        },
+        Func = function(cmd, rules)
+            if not rules then
+                return cmd:reply("No rules provided")
+            end
+
+            local rules = rules:split(",")
+            self:AddRules(rules, cmd.guild)
+            cmd:reply("Added rules")
+        end
+    })
+
+    self:RegisterCommand({
+        Name = "addcleanrule",
+        Args = {
+            { Name = "rule", Description = "The rule to add", Type = bot.ConfigType.String, }
+        },
+        Func = function(cmd, rule)
+            if not rule then
+                return cmd:reply("No rule provided")
+            end
+
+            self:AddRules({ rule }, cmd.guild)
+            cmd:reply("Added rule")
+        end
+    })
+
+    self:RegisterCommand({
+        Name = "removecleanrule",
+        Args = {
+            { Name = "rule", Description = "The rule to remove", Type = bot.ConfigType.String, }
+        },
+        Func = function(cmd, rule)
+            if not rule then
+                return cmd:reply("No rule provided")
+            end
+
+            local config = self:GetConfig(cmd.guild)
+            local rules = config.Rules
+
+            for i, r in ipairs(rules) do
+                if r == rule then
+                    table.remove(rules, i)
+                    break
+                end
+            end
+
+            self:CreateGuildRules(config, cmd.guild.id)
+            self:SaveGuildConfig(cmd.guild)
+            cmd:reply("Removed rule")
+        end
+    })
+
+    self:RegisterCommand({
+        Name = "clearcleanrules",
+        Args = {},
+        Func = function(cmd)
+            local config = self:GetConfig(cmd.guild)
+            config.Rules = {}
+            self:ClearGuildRules(config, cmd.guild.id)
+            self:SaveGuildConfig(cmd.guild)
+            cmd:reply("Cleared rules")
+        end
+    })
+
+    self:RegisterCommand({
+        Name = "listcleanrules",
+        Args = {},
+        Func = function(cmd)
+            local config = self:GetConfig(cmd.guild)
+            local rules = config.Rules
+
+            if #rules == 0 then
+                return cmd:reply("No rules")
+            end
+
+            local result = "## Rules\n```yaml\n"
+
+            for i, rule in ipairs(rules) do
+                result = result .. i .. ". " .. rule .. "\n"
+            end
+
+            result = result .. "```"
+
+            cmd:reply(result)
+        end
     })
 
     return true
 end
 
 function Module:ClearMessage(message, config)
+    if (not bot:IsPublicChannel(message.channel)) then
+		return
+	end
+
+	if (message.content:startswith(prefix, true)) then
+		return
+	end
     if message.content:find("http[s]?://") then
         return message.content:gsub("(https?://[^%s<]+[^<.,:;\"'>)|%]%s])", function(match)
             local replaced, same = self:Replacer(match, config, message.guild.id)
@@ -472,7 +603,7 @@ function Module:OnMessageCreate(message)
 
     local replaced = self:ClearMessage(message, config)
 
-    if replaced == message.content then
+    if replaced == message.content or not replaced then
         return
     end
 
@@ -507,7 +638,7 @@ function Module:OnMessageCreate(message)
         { wait = true }
     )
 
-    setTimeout(5000, function()
+    setTimeout(config.ButtonTimeout or 10000, function()
         wrap(function()
             client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
                 components = {}
