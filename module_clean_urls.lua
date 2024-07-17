@@ -5,43 +5,43 @@ local prefix = Config.Prefix
 local enums = discordia.enums
 local timer = require("timer")
 local setTimeout, clearTimeout, sleep = timer.setTimeout, timer.clearTimeout, timer.sleep
-local wrap, yield = coroutine.wrap, coroutine.yield
+local wrap, yield, running = coroutine.wrap, coroutine.yield, coroutine.running
 local http = require("coro-http")
 local linkShorteners = require("./data_linkshorteners")
 
 --[[
-    This module is used to clear URLs from unwanted tracking (or, depending of guild configuration, any) query parameters.
+    This module is used to clean URLs from unwanted tracking (or, depending of guild configuration, any) query parameters.
     It will replace the URL with a cleaned version, and optionally delete the message that invoked the command.
     To preserve the continuation of an happening conversation, a webhook is used to mimic the user that initially posted the message.
 ]]
 
 
-Module.Name = "clear_urls"
+Module.Name = "clean_urls"
 
 
 function Module:GetConfigTable()
     return {
         {
-            Name = "AutoClearUrls",
-            Description = "Should clear urls when an user posts a message link (when not using clear command)",
+            Name = "AutoCleanUrls",
+            Description = "Should clean urls when an user posts a message link (when not using clean command)",
             Type = bot.ConfigType.Boolean,
             Default = true
         },
         {
-            Name = "DeleteInvokationOnAutoClearUrls",
-            Description = "Deletes the message that invoked the clear urls when auto-clearing urls",
+            Name = "DeleteInvokationOnAutoCleanUrls",
+            Description = "Deletes the message that invoked the clean urls when auto-cleaning urls",
             Type = bot.ConfigType.Boolean,
             Default = true
         },
         {
-            Name = "DeleteInvokationOnManualClearUrls",
-            Description = "Deletes the message that invoked the clear urls when clearing urls via command",
+            Name = "DeleteInvokationOnManualCleanUrls",
+            Description = "Deletes the message that invoked the clean urls when cleaning urls via command",
             Type = bot.ConfigType.Boolean,
             Default = true
         },
         {
             Name = "WebhooksMappings",
-            Description = "The webhook id to use for clearing urls",
+            Description = "The webhook id to use for cleaning urls",
             Type = bot.ConfigType.Custom,
             Default = {},
             ValidateConfig = function(value, guildId)
@@ -60,7 +60,7 @@ function Module:GetConfigTable()
         },
         {
             Name = "Rules",
-            Description = "The rules to use for clearing urls",
+            Description = "The rules to use for cleaning urls",
             Type = bot.ConfigType.String,
             Default = {},
             Array = true
@@ -328,6 +328,9 @@ local function removeParam(rule, param, queryParams)
 end
 
 local function resolveLocation(url)
+    local t, main = running()
+    print(t, main)
+
     if not url then return end
 
     local headers, _ = http.request("HEAD", url)
@@ -565,7 +568,7 @@ function Module:OnLoaded()
     return true
 end
 
-function Module:ClearMessage(message, config)
+function Module:CleanMessage(message, config)
     if (not bot:IsPublicChannel(message.channel)) then
 		return
 	end
@@ -597,18 +600,18 @@ function Module:OnMessageCreate(message)
         return
     end
 
-    if not config.AutoClearUrls then
+    if not config.AutoCleanUrls then
         return
     end
 
-    local replaced = self:ClearMessage(message, config)
+    local replaced = self:CleanMessage(message, config)
 
     if replaced == message.content or not replaced then
         return
     end
 
 
-    if config.DeleteInvokationOnAutoClearUrls then
+    if config.DeleteInvokationOnAutoCleanUrls then
         message:delete()
     end
 
@@ -697,7 +700,7 @@ function Module:GetWebhook(guild, channel)
     local webhookId = config.WebhooksMappings[channel.id]
 
     if not webhookId then
-        local webhook = channel:createWebhook("Clear URLs")
+        local webhook = channel:createWebhook("Clean URLs")
         config.WebhooksMappings[channel.id] = webhook.id
         self:SaveGuildConfig(guild)
         return webhook
