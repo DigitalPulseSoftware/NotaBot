@@ -238,6 +238,22 @@ local defaultRules = {
     "share_id@reddit.com",
 }
 
+local fixServices = {
+    -- Currently broken
+    -- ["bsky.app"] = "bsyy.app",
+    ["deviantart.com"] = "fxdeviantart.com",
+    ["instagram.com"] = "ddinstagram.com",
+    ["pixiv.net"] = "ppxiv.net",
+    ["reddit.com"] = "rxddit.com",
+    -- Currently broken
+    -- ["threads.net"] = "vxthreads.net",
+    ["tiktok.com"] = "tiktxk.com",
+    ["tumblr.com"] = "tpmblr.com",
+    -- Use vxtwitter instead of fxtwitter since it includes greedy analytics
+    ["twitter.com"] = "vxtwitter.com",
+    ["x.com"] = "fixvx.com",
+}
+
 Module.UniversalRules = {}
 Module.HostRules = {}
 Module.RulesByHost = {}
@@ -377,6 +393,14 @@ function Module:Replacer(match, config, guildId)
     --     end
     -- end
 
+    -- Check for fix services
+    for service, fix in pairs(fixServices) do
+        if host:match(service) then
+            local newHost = host:gsub(service, fix)
+            return protocol .. newHost .. path .. queryString, false
+        end
+    end
+
     if not queryString or #queryString == 0 or queryString == "?" then
         return match
     end
@@ -456,7 +480,7 @@ function Module:OnLoaded()
     self:RegisterCommand({
         Name = "clean",
         Args = {
-            { Name = "url", Description = "The URL to clean", Type = bot.ConfigType.String },
+            { Name = "url",              Description = "The URL to clean",                            Type = bot.ConfigType.String },
             { Name = "deleteInvokation", Description = "Delete the message that invoked the command", Type = bot.ConfigType.Boolean, Optional = true }
         },
         Func = function(cmd, url, deleteInvokation)
@@ -570,12 +594,12 @@ end
 
 function Module:CleanMessage(message, config)
     if (not bot:IsPublicChannel(message.channel)) then
-		return
-	end
+        return
+    end
 
-	if (message.content:startswith(prefix, true)) then
-		return
-	end
+    if (message.content:startswith(prefix, true)) then
+        return
+    end
     if message.content:find("http[s]?://") then
         return message.content:gsub("(https?://[^%s<]+[^<.,:;\"'>)|%]%s])", function(match)
             local replaced, same = self:Replacer(match, config, message.guild.id)
