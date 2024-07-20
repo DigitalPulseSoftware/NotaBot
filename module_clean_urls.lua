@@ -254,6 +254,8 @@ local fixServices = {
     ["x.com"] = "fixvx.com",
 }
 
+Module.UsersHanging = {}
+
 Module.UniversalRules = {}
 Module.HostRules = {}
 Module.RulesByHost = {}
@@ -269,15 +271,15 @@ function Module:CreateRules()
     for _, rule in ipairs(rules) do
         ---@diagnostic disable-next-line: undefined-field
         local splitRule = rule:split("@")
-        local pattern = "^" .. escapeRegex(splitRule[1]):gsub("%*", ".+?") .. "$"
+        local pattern = "^" .. escapeRegex(splitRule[1]):gsub("%%%*", ".-") .. "$"
 
         if not splitRule[2] then
             table.insert(self.UniversalRules, pattern)
         else
-            local hostPattern = "^(w*%.?)" .. escapeRegex(splitRule[2])
+            local hostPattern = "^(w*%.?)" .. "(" .. escapeRegex(splitRule[2])
                 :gsub("\\%.", "\\.")
-                :gsub("^%*%.", "(.+?%.)?")
-                :gsub("%%%*", ".-") .. "$"
+                :gsub("^%*%.", "(.-%.)?")
+                :gsub("%%%*", ".-") .. ")" .. "$"
 
             local hostPatternIndex = hostPattern
 
@@ -304,14 +306,14 @@ function Module:CreateGuildRules(config, guildId)
     for _, rule in ipairs(rules) do
         ---@diagnostic disable-next-line: undefined-field
         local splitRule = rule:split("@")
-        local pattern = "^" .. escapeRegex(splitRule[1]):gsub("%*", ".+?") .. "$"
+        local pattern = "^" .. escapeRegex(splitRule[1]):gsub("%*", ".-") .. "$"
 
         if not splitRule[2] then
             table.insert(universalRules, pattern)
         else
             local hostPattern = "^(w*%.?)" .. escapeRegex(splitRule[2])
                 :gsub("\\%.", "\\.")
-                :gsub("^%*%.", "(.+?%.)?")
+                :gsub("^%*%.", "(.-%.)?")
                 :gsub("%%%*", ".-") .. "$"
 
             local hostPatternIndex = hostPattern
@@ -665,11 +667,16 @@ function Module:OnMessageCreate(message)
         { wait = true }
     )
 
+    self.UsersHanging[message.author.id] = true
+
     setTimeout(config.ButtonTimeout or 10000, function()
         wrap(function()
-            client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
-                components = {}
-            })
+            if self.UsersHanging[message.author.id] then
+                client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
+                    components = {}
+                })
+                self.UsersHanging[message.author.id] = nil
+            end
         end)()
     end)
 end
@@ -716,6 +723,8 @@ function Module:OnInteractionCreate(interaction)
             content = "Deleted message",
         }
     })
+
+    self.UsersHanging[authorId] = nil
 end
 
 function Module:GetWebhook(guild, channel)
