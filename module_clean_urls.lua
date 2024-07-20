@@ -235,6 +235,7 @@ local fixServices = {
     -- ["threads.net"] = "vxthreads.net",
     ["tiktok.com"] = "tiktxk.com",
     ["tumblr.com"] = "tpmblr.com",
+    ["twitch.tv"] = "fxtwitch.tv",
     -- Use vxtwitter instead of fxtwitter since it includes greedy analytics
     ["twitter.com"] = "vxtwitter.com",
     ["x.com"] = "fixvx.com",
