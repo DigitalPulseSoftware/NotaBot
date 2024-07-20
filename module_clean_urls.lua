@@ -12,7 +12,7 @@ local linkShorteners = require("./data_linkshorteners")
 --[[
     This module is used to clean URLs from unwanted tracking (or, depending of guild configuration, any) query parameters.
     It will replace the URL with a cleaned version, and optionally delete the message that invoked the command.
-    To preserve the continuation of an happening conversation, a webhook is used to mimic the user that initially posted the message.
+    To preserve the flow of an happening conversation, a webhook is used to mimic the user that initially posted the message.
 ]]
 
 
@@ -81,15 +81,16 @@ function Module:GetConfigTable()
     }
 end
 
+local regExpChars = "[%\\%^%$%.%*%+%-%?%(%)%[%]{}%|]"
+
 local function hasRegExpChar(str)
-    local regExpChar = "[%\\%^%$%.%*%+%?%(%)%[%]{}%|]"
-    return string.find(str, regExpChar) ~= nil
+    return string.find(str, regExpChars) ~= nil
 end
 
 local function escapeRegex(str)
     if not str or #str == 0 then return "" end
     if hasRegExpChar(str) then
-        return str:gsub("([%\\%^%$%.%*%+%?%(%)%[%]{}%|])", "%%%1")
+        return str:gsub(regExpChars, "%%%1")
     else
         return str
     end
