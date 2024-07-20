@@ -265,7 +265,7 @@ function Module:CreateRules()
         else
             local hostPattern = "^(w*%.?)" .. "(" .. escapeRegex(splitRule[2])
                 :gsub("\\%.", "\\.")
-                :gsub("^%*%.", "(.-%.)?")
+                :gsub("^%%%*%.", "(.-%.)?")
                 :gsub("%%%*", ".-") .. ")" .. "$"
 
             local hostPatternIndex = hostPattern
@@ -293,14 +293,14 @@ function Module:CreateGuildRules(config, guildId)
     for _, rule in ipairs(rules) do
         ---@diagnostic disable-next-line: undefined-field
         local splitRule = rule:split("@")
-        local pattern = "^" .. escapeRegex(splitRule[1]):gsub("%*", ".-") .. "$"
+        local pattern = "^" .. escapeRegex(splitRule[1]):gsub("%%%*", ".-") .. "$"
 
         if not splitRule[2] then
             table.insert(universalRules, pattern)
         else
             local hostPattern = "^(w*%.?)" .. escapeRegex(splitRule[2])
                 :gsub("\\%.", "\\.")
-                :gsub("^%*%.", "(.-%.)?")
+                :gsub("^%%%*%.", "(.-%.)?")
                 :gsub("%%%*", ".-") .. "$"
 
             local hostPatternIndex = hostPattern
