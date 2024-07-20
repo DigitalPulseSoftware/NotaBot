@@ -5,7 +5,7 @@ local prefix = Config.Prefix
 local enums = discordia.enums
 local timer = require("timer")
 local setTimeout, clearTimeout, sleep = timer.setTimeout, timer.clearTimeout, timer.sleep
-local wrap, yield, running = coroutine.wrap, coroutine.yield, coroutine.running
+local wrap, running = coroutine.wrap, coroutine.running
 local http = require("coro-http")
 local linkShorteners = require("./data_linkshorteners")
 
@@ -108,20 +108,6 @@ local defaultRules = {
     "algo_pvid@*.aliexpress.*",
     "btsid",
     "ws_ab_test",
-    -- "pd_rd_*@amazon.*",
-    -- "_encoding@amazon.*",
-    -- "psc@amazon.*",
-    -- "tag@amazon.*",
-    -- "ref_@amazon.*",
-    -- "pf_rd_*@amazon.*",
-    -- "pf@amazon.*",
-    -- "crid@amazon.*",
-    -- "keywords@amazon.*",
-    -- "sprefix@amazon.*",
-    -- "sr@amazon.*",
-    -- "ie@amazon.*",
-    -- "node@amazon.*",
-    -- "qid@amazon.*",
     "*@amazon.*",
     "callback@bilibili.com",
     "cvid@bing.com",
@@ -385,7 +371,6 @@ function Module:Replacer(match, config, guildId)
         end
     end
 
-    -- Check for link shorteners
     -- for _, shortener in ipairs(linkShorteners.linkShorteners) do
     --     if host:match(shortener) then
     --         local location = resolveLocation(match)
@@ -395,7 +380,6 @@ function Module:Replacer(match, config, guildId)
     --     end
     -- end
 
-    -- Check for fix services
     for service, fix in pairs(fixServices) do
         if host:match(service) then
             local newHost = host:gsub(service, fix)
@@ -407,27 +391,23 @@ function Module:Replacer(match, config, guildId)
         return match
     end
 
-    -- Parsing query string into table
     local queryParams = {}
     for key, value in queryString:sub(2):gmatch("([^&=]+)=([^&]*)") do
         queryParams[key] = value
     end
 
-    -- Check all universal rules
     for _, rule in ipairs(self.UniversalRules) do
         for param, _ in pairs(queryParams) do
             removeParam(rule, param, queryParams)
         end
     end
 
-    -- Check all universal guild rules
     for _, rule in ipairs(self.GuildUniversalRules[guildId] or {}) do
         for param, _ in pairs(queryParams) do
             removeParam(rule, param, queryParams)
         end
     end
 
-    -- Check rules for each host that matches
     for hostRuleName, regex in pairs(self.HostRules) do
         if host:match(regex) then
             for _, rule in ipairs(self.RulesByHost[hostRuleName]) do
@@ -438,7 +418,6 @@ function Module:Replacer(match, config, guildId)
         end
     end
 
-    -- Check rules for each host that matches
     for hostRuleName, regex in pairs(self.GuildHostRules[guildId] or {}) do
         if host:match(regex) then
             for _, rule in ipairs(self.GuildRulesByHost[guildId][hostRuleName] or {}) do
@@ -449,7 +428,6 @@ function Module:Replacer(match, config, guildId)
         end
     end
 
-    -- Reconstructing the query string
     local newQueryString = {}
     for key, value in pairs(queryParams) do
         table.insert(newQueryString, key .. "=" .. value)
@@ -457,10 +435,8 @@ function Module:Replacer(match, config, guildId)
 
     local concatedQueryString = table.concat(newQueryString, "&")
 
-    -- Reconstructing the URL
     local newUrl = protocol .. host .. (path or "") .. (concatedQueryString ~= "" and "?" .. concatedQueryString or "")
 
-    -- Check if the new URL is the same as the old one
     local same = newUrl == match
     return newUrl, same
 end
@@ -641,7 +617,6 @@ function Module:OnMessageCreate(message)
         message:delete()
     end
 
-    -- Get webhook (to mimic the user)
     local webhook = self:GetWebhook(message.guild, message.channel)
 
     local components = {
