@@ -218,25 +218,25 @@ function Module:GetConfigTable()
 		},
 		{
 			Name = "JoinCountThreshold",
-			Description = "How many members are allowed to join the server in the join window before triggering an automatic lock",
+			Description = "How many members are allowed to join the server in the join window before triggering an automatic lock?",
 			Type = bot.ConfigType.Integer,
 			Default = 10
 		},
 		{
 			Name = "JoinTimeThreshold",
-			Description = "For how many time should the join window be open",
+			Description = "For how long should the join window be open",
 			Type = bot.ConfigType.Integer,
 			Default = 5
 		},
 		{
 			Name = "SpamCountThreshold",
-			Description = "How much \"spam score\" is allowed in the spam window before the bot bans/mute the member (1 message = 1 score, but some keywords, links, pings and such increase it)",
+			Description = "How much \"spam score\" is allowed in the spam window before the bot bans/mutes the member (1 message = 1 score, but some keywords, links, pings and such increase it)",
 			Type = bot.ConfigType.Integer,
 			Default = 7
 		},
 		{
 			Name = "SpamTimeThreshold",
-			Description = "For how many time should the spam window be open",
+			Description = "For how long should the spam window be open",
 			Type = bot.ConfigType.Integer,
 			Default = 10
 		},
