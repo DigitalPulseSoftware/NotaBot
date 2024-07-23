@@ -638,7 +638,7 @@ function Module:OnMessageCreate(message)
 
     self.UsersHanging[message.author.id] = true
 
-    self:ScheduleTimer(config.ButtonTimeout or 10000, function()
+    bot:ScheduleTimer(config.ButtonTimeout or 10000, function()
         if self.UsersHanging[message.author.id] then
             client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
                 components = {}
