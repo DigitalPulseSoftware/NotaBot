@@ -223,8 +223,7 @@ local defaultRules = {
 }
 
 local fixServices = {
-    -- Currently broken
-    -- ["bsky.app"] = "bsyy.app",
+    ["bsky.app"] = "bskyx.app",
     ["deviantart.com"] = "fxdeviantart.com",
     ["instagram.com"] = "ddinstagram.com",
     ["pixiv.net"] = "ppxiv.net",
