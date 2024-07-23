@@ -3,8 +3,6 @@ local client = Client
 local discordia = Discordia
 local prefix = Config.Prefix
 local enums = discordia.enums
-local timer = require("timer")
-local setTimeout, clearTimeout, sleep = timer.setTimeout, timer.clearTimeout, timer.sleep
 local wrap, running = coroutine.wrap, coroutine.running
 local http = require("coro-http")
 local linkShorteners = require("./data_linkshorteners")
@@ -334,19 +332,14 @@ local function removeParam(rule, param, queryParams)
 end
 
 local function resolveLocation(url)
-    local t, main = running()
-    print(t, main)
-
     if not url then return end
 
-    local headers, _ = http.request("HEAD", url)
+    local headers, body = http.request("GET", url)
     ---@diagnostic disable-next-line: param-type-mismatch
     local loc = (headers or {}):find(function(header) return header[1]:lower() == "location" end)
     if headers and loc then
         return loc[2]
     end
-
-    local _, body = http.request("GET", url)
 
     if body then
         local location = body:match("<meta%s+http%-equiv=\"refresh\"%s+content=\"0;%s*url=([^%s]+)\"")
