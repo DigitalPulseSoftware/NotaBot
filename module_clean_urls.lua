@@ -3,7 +3,6 @@ local client = Client
 local discordia = Discordia
 local prefix = Config.Prefix
 local enums = discordia.enums
-local wrap, running = coroutine.wrap, coroutine.running
 local http = require("coro-http")
 local linkShorteners = require("./data_linkshorteners")
 
@@ -639,15 +638,13 @@ function Module:OnMessageCreate(message)
 
     self.UsersHanging[message.author.id] = true
 
-    setTimeout(config.ButtonTimeout or 10000, function()
-        wrap(function()
-            if self.UsersHanging[message.author.id] then
-                client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
-                    components = {}
-                })
-                self.UsersHanging[message.author.id] = nil
-            end
-        end)()
+    self:ScheduleTimer(config.ButtonTimeout or 10000, function()
+        if self.UsersHanging[message.author.id] then
+            client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
+                components = {}
+            })
+            self.UsersHanging[message.author.id] = nil
+        end
     end)
 end
 
