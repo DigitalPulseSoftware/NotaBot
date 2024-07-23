@@ -450,7 +450,7 @@ function Module:OnLoaded()
     self:CreateRules()
 
     self:RegisterCommand({
-        Name = "clean",
+        Name = "cleanurl",
         Args = {
             { Name = "url",              Description = "The URL to clean",                            Type = bot.ConfigType.String },
             { Name = "deleteInvokation", Description = "Delete the message that invoked the command", Type = bot.ConfigType.Boolean, Optional = true }
