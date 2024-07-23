@@ -1,13 +1,3 @@
-local http = require("coro-http")
-
-local function find(tbl, predicate)
-    for i, v in ipairs(tbl) do
-        if predicate(v, i) then
-            return v, i
-        end
-    end
-end
-
 local linkShorteners = {
     "0rz.tw",
     "1-url.net",
