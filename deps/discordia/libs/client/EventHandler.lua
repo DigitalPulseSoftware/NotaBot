@@ -651,4 +651,10 @@ end
 function EventHandler.GUILD_AUDIT_LOG_ENTRY_CREATE(d, client)
 end
 
+function EventHandler.VOICE_CHANNEL_STATUS_UPDATE(d, client)
+end
+
+function EventHandler.VOICE_CHANNEL_STATUS_DELETE(d, client)
+end
+
 return EventHandler
