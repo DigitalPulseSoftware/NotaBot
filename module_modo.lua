@@ -375,7 +375,7 @@ function Module:HandleEmojiAdd(userId, message)
 				type = enums.componentType.actionRow,
 				components = {
 					{
-						type = enums.componentType.selectMenu,
+						type = enums.componentType.stringSelect,
 						custom_id = "alertmodule_mute",
 						placeholder = "🙊 Mute member",
 						disabled = Bot:GetModuleForGuild(guild, "mute") == nil,
@@ -412,7 +412,7 @@ function Module:HandleEmojiAdd(userId, message)
 				type = enums.componentType.actionRow,
 				components = {
 					{
-						type = enums.componentType.selectMenu,
+						type = enums.componentType.stringSelect,
 						custom_id = "alertmodule_ban",
 						placeholder = "🔨 Ban member",
 						options = options
