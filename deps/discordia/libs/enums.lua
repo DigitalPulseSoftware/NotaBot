@@ -177,9 +177,9 @@ enums.verificationLevel = enum {
 
 -- https://discord.com/developers/docs/resources/guild#guild-object-explicit-content-filter-level
 enums.explicitContentLevel = enum {
-	none   = 0,
-	medium = 1,
-	high   = 2,
+	disabled            = 0,
+	membersWithoutRoles = 1,
+	allmembers          = 2,
 }
 
 -- https://discord.com/developers/docs/resources/guild#guild-object-premium-tier
