@@ -563,7 +563,7 @@ ValidateComponent = function(component, metadata)
 		if not success then
 			return false, err
 		end
-	elseif component.type == enums.componentType.selectMenu then
+	elseif component.type == enums.componentType.stringSelect then
 		local success, err = ValidateSelectMenuComponent(component, metadata)
 		if not success then
 			return false, err

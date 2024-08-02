@@ -164,11 +164,11 @@ function Bot:GenerateMessageLink(message)
 end
 
 local publicChannels = {
-	[enums.channelType.text] = true,
-	[enums.channelType.voice] = true,
-	[enums.channelType.news] = true,
-	[enums.channelType.public_thread] = true,
-	[enums.channelType.news_thread] = true
+	[enums.channelType.text]         = true,
+	[enums.channelType.voice]        = true,
+	[enums.channelType.news]         = true,
+	[enums.channelType.publicThread] = true,
+	[enums.channelType.newsThread]   = true,
 }
 
 function Bot:IsPublicChannel(channel)
