@@ -52,6 +52,7 @@ function Module.GetConfigTable()
 	}
 end
 
+
 function Module:OnEnable(guild)
 	local config = self:GetConfig(guild)
 
@@ -59,19 +60,26 @@ function Module:OnEnable(guild)
 		return false, 'No channel configured for private voice.'
 	end
 
+	local persistentData = self:GetPersistentData(guild)
+
+	if not persistentData.PrivateVoiceChannels then
+		persistentData.PrivateVoiceChannels = {}
+	end
+
 	return true
 end
 
 function Module:OnvoiceChannelJoin(member, channel)
 	local guild = channel.guild
+	local category = channel.category
 	local config = self:GetConfig(guild)
 	local triggerChannelId = config.TriggerChannel
+
 
 	if channel.id ~= triggerChannelId then
 		return
 	end
 
-	local category = channel.category
 	local data = self:GetPersistentData(guild)
 
 	local privateVoice
