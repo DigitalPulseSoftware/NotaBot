@@ -297,6 +297,7 @@ function Bot:BuildQuoteEmbed(message, opt)
 	local fields
 	local imageUrl
 
+	local function ProcessAttachments(attachments)
 		local images = {}
 		local files = {}
 		local sounds = {}
