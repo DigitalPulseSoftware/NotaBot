@@ -297,15 +297,18 @@ function Bot:BuildQuoteEmbed(message, opt)
 	local fields
 	local imageUrl
 
-	local applyImages = function (imgs)
+	local applyImages = function (attachments)
 		local images = {}
 		local files = {}
 		local sounds = {}
 		local videos = {}
-		for _, image in pairs(imgs) do
+		for _, image in pairs(attachments) do
 			local matchedExt = image.url:match("//.-/.+%.(.-)[?].*$") or image.url:match("//.-/.+%.(.*)$") or ""
 			-- Edge case for embed images with no extensions
 			local ext = (#matchedExt == 0 and image.thumbnail and "png" or matchedExt):lower()
+			-- handle urls ending in .jpg:large
+			ext = ext:match("^(.+):.-$") or ext
+
 			local fileType = fileTypes[ext]
 			local t = files
 			if (fileType) then
@@ -322,7 +325,7 @@ function Bot:BuildQuoteEmbed(message, opt)
 		end
 
 		-- Special shortcut for one image attachment
-		if (#imgs == 1 and #images == 1) then
+		if (#attachments == 1 and #images == 1) then
 			imageUrl = images[1].url
 		else
 			-- Should only happens for attachments, not embeds
@@ -334,7 +337,7 @@ function Bot:BuildQuoteEmbed(message, opt)
 
 				local desc = {}
 				for _, attachment in pairs(attachments) do
-					table.insert(desc, "[" .. attachment.filename .. "](" .. attachment.url .. ")")
+					table.insert(desc, "[" .. (attachment.filename or attachment.url) .. "](" .. attachment.url .. ")")
 				end
 
 				table.insert(fields, {
