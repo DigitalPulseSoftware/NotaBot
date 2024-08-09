@@ -5,6 +5,7 @@ OwnerUserId = ""
 AutoloadModules = {
 	"module_ban.lua",
 	"module_channels.lua",
+	"module_clean_urls.lua",
 	"module_game.lua",
 	"module_kick.lua",
 	"module_logs.lua",

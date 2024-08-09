@@ -870,9 +870,9 @@ function API:deleteWebhookWithToken(webhook_id, webhook_token) -- not exposed, n
 	return self:request("DELETE", endpoint)
 end
 
-function API:executeWebhook(webhook_id, webhook_token, payload) -- not exposed, needs webhook client
+function API:executeWebhook(webhook_id, webhook_token, payload, query) -- not exposed, needs webhook client
 	local endpoint = f(endpoints.WEBHOOK_TOKEN, webhook_id, webhook_token)
-	return self:request("POST", endpoint, payload)
+	return self:request("POST", endpoint, payload, query)
 end
 
 function API:executeSlackCompatibleWebhook(webhook_id, webhook_token, payload) -- not exposed, needs webhook client
@@ -892,7 +892,7 @@ end
 
 function API:editWebhookMessage(webhook_id, webhook_token, message_id, payload, query)
 	local endpoint = f(endpoints.WEBHOOK_TOKEN_MESSAGE, webhook_id, webhook_token, message_id)
-	return self:request("PATCH", endpoint, nil, query, payload)
+	return self:request("PATCH", endpoint, payload, query, nil)
 end
 
 function API:getGateway() -- Client:run
