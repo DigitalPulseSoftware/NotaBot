@@ -259,6 +259,12 @@ return {
 		),
 		PRUNE_RESULT = "🧹 %d messages ont été supprimés.",
 
+		VOICE_CHAN_PREFIX         = "Vocal Privé - ",
+		VOICE_CONFIRM             = "Ces membres peuvent maintenant rejoindre le vocal.",
+		VOICE_INTERAC_PLACEHOLDER = "Maximum 25 membres.",
+		VOICE_MISCONFIG           = "La clé de configuration 'TriggerChannel' n'a pas été initialisée pour le module 'voice'.",
+		VOICE_MSG                 = "Inviter des membres à rejoindre ce canal:",
+
 		WARN_CLEARWARNS_CLEARED     = "Les avertissements de %s (%s) ont été effacés.",
 		WARN_CLEARWARNS_HELP        = "Efface tous les avertissements de l'utilisateur spécifié.",
 		WARN_NO_WARNS               = "L'utilisateur %s (%s) n'a aucun avertissement.",
