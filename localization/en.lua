@@ -98,6 +98,12 @@ return {
 		),
 		PRUNE_RESULT = "🧹 %d messages have been deleted.",
 
+		VOICE_CHAN_PREFIX         = "Private Voice - ",
+		VOICE_CONFIRM             = "These members can now join this channel.",
+		VOICE_INTERAC_PLACEHOLDER = "Maximum of 25 members.",
+		VOICE_MISCONFIG           = "No trigger channel configured for private voice.",
+		VOICE_MSG                 = "Invite members to join this channel:",
+
 		WARN_CLEARWARNS_CLEARED     = "Cleared %s (%s) warns.",
 		WARN_CLEARWARNS_HELP        = "Clears all the warns of a specified user.",
 		WARN_NO_WARNS               = "The member %s (%s) has no warns.",

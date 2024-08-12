@@ -60,7 +60,7 @@ function Module:OnEnable(guild)
 	local config = self:GetConfig(guild)
 
 	if not config.TriggerChannel then
-		return false, 'No channel configured for private voice.'
+		return false, Bot:Format(guild, 'VOICE_MISCONFIG')
 	end
 
 	local persistentData = self:GetPersistentData(guild)
@@ -84,6 +84,7 @@ function Module:OnEnable(guild)
 			if not isOwnerConnected then
 				channel:delete()
 				persistentData.PrivateVoiceChannels[channelId] = nil
+				Client:info(string.format('[%s][%s] Deleted an unused channel %s', guild.name, Module.Name, channelId))
 			end
 		else
 			persistentData.PrivateVoiceChannels[channelId] = nil
@@ -109,10 +110,11 @@ function Module:OnvoiceChannelJoin(member, channel)
 	local data = self:GetPersistentData(guild)
 
 	local privateVoice
+	local privateVoiceName = Bot:Format(guild, 'VOICE_CHAN_PREFIX') .. member.name
 	if category then
-		privateVoice = category:createVoiceChannel('Private voice - ' .. member.name)
+		privateVoice = category:createVoiceChannel(privateVoiceName)
 	else
-		privateVoice = guild:createVoiceChannel('Private voice - ' .. member.name)
+		privateVoice = guild:createVoiceChannel(privateVoiceName)
 	end
 
 	local everyoneFilter = function(role) if role.name == '@everyone' then return role end end
@@ -147,13 +149,13 @@ function Module:OnvoiceChannelJoin(member, channel)
 			{
 				type        = EnumComponent.userSelect,
 				custom_id   = selectInteractionId,
-				placeholder = 'Maximum 25 membres à la fois',
+				placeholder = Bot:Format(guild, 'VOICE_INTERAC_PLACEHOLDER'),
 			}
 		}
 	}
 
 	local messageData = {
-		content = 'Inviter des membres à rejoindre ce canal',
+		content = Bot:Format(guild, 'VOICE_MSG'),
 		components = { rowComponent }
 	}
 
@@ -186,7 +188,7 @@ function Module:OnInteractionCreate(interaction)
 	return interaction:respond({
 		type = EnumInteractionType.channelMessageWithSource,
 		data = {
-			content = 'Ces membres peuvent maintenant rejoindre le vocal.',
+			content = Bot:Format(guild, 'VOICE_CONFIRM'),
 			flags = EnumInteractionFlag.ephemeral
 		}
 	})
