@@ -79,7 +79,7 @@ function Module:OnEnable(guild)
 
 		if channel then
 			local isOwnerConnected = channel.connectedMembers:find(
-				function(member) if member.id == ownerId then return true end end
+				function(member) return member.id == ownerId end
 			)
 
 			if not isOwnerConnected then
