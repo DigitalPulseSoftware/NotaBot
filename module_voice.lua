@@ -4,14 +4,17 @@
 
 
 --[[
-	This module allows a server member to create a private voice channel that cannot be joined by other members by default.
+	This module allows a server member to create a private voice channel that cannot be joined by other members by
+	default.
 	The channel owner has the ability to invite other members to join.
 	Administrators and authorized roles can still join this type of channel without an invitation from the owner.
 
 	Usage:
-		When a member joins a specific voice channel, a private voice channel is created with the appropriate permissions.
-		The member is then moved there and becomes the owner of the channel. The channel owner can invite other members to join their channel.
+		When a member joins a specific voice channel, a private voice channel is created with the appropriate
+		permissions. The member is then moved there and becomes the owner of the channel. The channel owner can
+		invite other members to join their channel.
 		The private voice channel is automatically deleted when the channel owner disconnects.
+		All roles listed in AuthorizedRoles will recieve the same permissions as the channel owner.
 ]]
 
 --[[
@@ -34,7 +37,7 @@ local EnumInteractionType = Discordia.enums.interactionResponseType
 local EnumInteractionFlag = Discordia.enums.interactionResponseFlag
 local selectInteractionId = 'private_voice_invite'
 
-function Module.GetConfigTable()
+function Module:GetConfigTable()
 	return {
 		{
 			Name        = 'TriggerChannel',
@@ -46,8 +49,8 @@ function Module.GetConfigTable()
 			Name        = 'AuthorizedRoles',
 			Description = 'Authorized roles to join a private voice channel',
 			Type        = Bot.ConfigType.Role,
-			Default     = {},
-			Array       = true
+			Array       = true,
+			Optional    = true,
 		}
 	}
 end
@@ -61,10 +64,33 @@ function Module:OnEnable(guild)
 	end
 
 	local persistentData = self:GetPersistentData(guild)
-
 	if not persistentData.PrivateVoiceChannels then
 		persistentData.PrivateVoiceChannels = {}
+
+		return true
 	end
+
+--  cleanup config and unused channels after reboot
+	for channelId, ownerId in pairs(persistentData.PrivateVoiceChannels) do
+		local channel = guild.voiceChannels:find(
+			function(voice) if voice.id == channelId then return voice end end
+		)
+
+		if channel then
+			local isOwnerConnected = channel.connectedMembers:find(
+				function(member) if member.id == ownerId then return true end end
+			)
+
+			if not isOwnerConnected then
+				channel:delete()
+				persistentData.PrivateVoiceChannels[channelId] = nil
+			end
+		else
+			persistentData.PrivateVoiceChannels[channelId] = nil
+		end
+	end
+
+	Bot:Save()
 
 	return true
 end
@@ -102,6 +128,17 @@ function Module:OnvoiceChannelJoin(member, channel)
 		EnumPermission.setVoiceChannelStatus
 	)
 
+	for _, roleId in ipairs(config.AuthorizedRoles) do
+		local role = guild:getRole(roleId)
+		local rolePermissions = privateVoice:getPermissionOverwriteFor(role)
+		rolePermissions:allowPermissions(
+			EnumPermission.connect,
+			EnumPermission.moveMembers,
+			EnumPermission.setVoiceChannelStatus
+		)
+	end
+
+
 	member:setVoiceChannel(privateVoice.id)
 
 	local rowComponent = {
@@ -122,17 +159,13 @@ function Module:OnvoiceChannelJoin(member, channel)
 
 	privateVoice:send(messageData)
 
-	if not data.PrivateVoiceChannels then
-		data.PrivateVoiceChannels = {}
-	end
-
 	data.PrivateVoiceChannels[privateVoice.id] = member.id
 	Bot:Save()
 end
 
 function Module:OnInteractionCreate(interaction)
 	local interactionId = interaction.data.custom_id
-	
+
 	if interactionId ~= selectInteractionId then
 		return
 	end
@@ -168,7 +201,7 @@ function Module:OnvoiceChannelLeave(member, channel)
 	end
 
 	if member.id == data.PrivateVoiceChannels[channel.id] then
-		-- will throw an error if a member with "manage" permission deletes the channel while connected
+		-- will throw an HTTP error if a member with "manage" permission deletes the channel while connected
 		channel:delete()
 		data.PrivateVoiceChannels[channel.id] = nil
 		Bot:Save()
