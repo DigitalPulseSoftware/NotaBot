@@ -49,6 +49,7 @@ function Module:GetConfigTable()
 			Name        = 'AuthorizedRoles',
 			Description = 'Authorized roles to join a private voice channel',
 			Type        = Bot.ConfigType.Role,
+			Default     = {},
 			Array       = true,
 			Optional    = true,
 		}
