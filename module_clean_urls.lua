@@ -1,5 +1,6 @@
 local bot = Bot
 local client = Client
+---@type discordia
 local discordia = Discordia
 local prefix = Config.Prefix
 local enums = discordia.enums
@@ -84,17 +85,21 @@ local function hasRegExpChar(str)
     return string.find(str, regExpChars) ~= nil
 end
 
+---Checks if a string has any regex characters and escapes them.
+---@param str string
+---@return string
 local function escapeRegex(str)
     if not str or #str == 0 then return "" end
     if hasRegExpChar(str) then
-        return str:gsub(regExpChars, "%%%1")
+        local replaced = str:gsub(regExpChars, "%%%1")
+        return replaced
     else
         return str
     end
 end
 
 
-local defaultRules = {
+Module.DefaultRules = {
     "action_object_map",
     "action_type_map",
     "action_ref_map",
@@ -222,15 +227,16 @@ local defaultRules = {
     "share_id@reddit.com",
 }
 
-local fixServices = {
+Module.FixServices = {
     ["bsky.app"] = "bskyx.app",
-    ["deviantart.com"] = "fxdeviantart.com",
+    -- Currently broken
+    -- ["deviantart.com"] = "fxdeviantart.com",
     ["instagram.com"] = "ddinstagram.com",
     ["pixiv.net"] = "ppxiv.net",
     ["reddit.com"] = "rxddit.com",
     -- Currently broken
     -- ["threads.net"] = "vxthreads.net",
-    ["tiktok.com"] = "tiktxk.com",
+    ["tiktok.com"] = "tnktok.com",
     ["tumblr.com"] = "tpmblr.com",
     ["twitch.tv"] = "fxtwitch.tv",
     -- Use vxtwitter instead of fxtwitter since it includes greedy analytics
@@ -243,13 +249,10 @@ Module.UsersHanging = {}
 Module.UniversalRules = {}
 Module.HostRules = {}
 Module.RulesByHost = {}
-Module.GuildUniversalRules = {}
-Module.GuildHostRules = {}
-Module.GuildRulesByHost = {}
 
 function Module:CreateRules()
     -- Can be extended with a config option in the future
-    local rules = defaultRules
+    local rules = self.DefaultRules
 
 
     for _, rule in ipairs(rules) do
@@ -280,12 +283,14 @@ function Module:CreateRules()
     return self.UniversalRules, self.HostRules, self.RulesByHost
 end
 
-function Module:CreateGuildRules(config, guildId)
+---@param config table<string, any>
+---@param data table<string, any>
+function Module:CreateGuildRules(config, data)
     local rules = config.Rules
 
-    local universalRules = self.GuildUniversalRules[guildId] or {}
-    local hostRules = self.GuildHostRules[guildId] or {}
-    local rulesByHost = self.GuildRulesByHost[guildId] or {}
+    local universalRules = data.GuildUniversalRules or {}
+    local hostRules = data.GuildHostRules or {}
+    local rulesByHost = data.GuildRulesByHost or {}
 
     for _, rule in ipairs(rules) do
         ---@diagnostic disable-next-line: undefined-field
@@ -312,15 +317,19 @@ function Module:CreateGuildRules(config, guildId)
         end
     end
 
-    self.GuildUniversalRules[guildId] = universalRules
-    self.GuildHostRules[guildId] = hostRules
-    self.GuildRulesByHost[guildId] = rulesByHost
+    data.GuildUniversalRules = universalRules
+    data.GuildHostRules = hostRules
+    data.GuildRulesByHost = rulesByHost
+
+    bot:Save()
 end
 
-function Module:ClearGuildRules(config, guildId)
-    self.GuildUniversalRules[guildId] = nil
-    self.GuildHostRules[guildId] = nil
-    self.GuildRulesByHost[guildId] = nil
+function Module:ClearGuildRules(config, data)
+    data.GuildUniversalRules = nil
+    data.GuildHostRules = nil
+    data.GuildRulesByHost = nil
+
+    bot:Save()
 end
 
 local function removeParam(rule, param, queryParams)
@@ -329,6 +338,8 @@ local function removeParam(rule, param, queryParams)
     end
 end
 
+---@param url string
+---@return string?
 local function resolveLocation(url)
     if not url then return end
 
@@ -349,7 +360,11 @@ local function resolveLocation(url)
     return url
 end
 
-function Module:Replacer(match, config, guildId)
+---@param match string
+---@param config table<string, any>
+---@param data table<string, any>
+---@return string
+function Module:Replacer(match, config, data)
     local protocol, host, path, queryString = match:match("^(https?://)([^/]+)(/[^?]*)(.-)$")
     if not protocol then
         return match
@@ -368,15 +383,15 @@ function Module:Replacer(match, config, guildId)
     --     if host:match(shortener) then
     --         local location = resolveLocation(match)
     --         if location then
-    --             return location, false
+    --             return location
     --         end
     --     end
     -- end
 
-    for service, fix in pairs(fixServices) do
+    for service, fix in pairs(self.FixServices) do
         if host:match(service) then
             local newHost = host:gsub(service, fix)
-            return protocol .. newHost .. path .. queryString, false
+            return protocol .. newHost .. path .. queryString
         end
     end
 
@@ -395,7 +410,7 @@ function Module:Replacer(match, config, guildId)
         end
     end
 
-    for _, rule in ipairs(self.GuildUniversalRules[guildId] or {}) do
+    for _, rule in ipairs(data.GuildUniversalRules or {}) do
         for param, _ in pairs(queryParams) do
             removeParam(rule, param, queryParams)
         end
@@ -411,9 +426,9 @@ function Module:Replacer(match, config, guildId)
         end
     end
 
-    for hostRuleName, regex in pairs(self.GuildHostRules[guildId] or {}) do
+    for hostRuleName, regex in pairs(data.GuildHostRules or {}) do
         if host:match(regex) then
-            for _, rule in ipairs(self.GuildRulesByHost[guildId][hostRuleName] or {}) do
+            for _, rule in ipairs(data.GuildRulesByHost[hostRuleName] or {}) do
                 for param, _ in pairs(queryParams) do
                     removeParam(rule, param, queryParams)
                 end
@@ -430,18 +445,21 @@ function Module:Replacer(match, config, guildId)
 
     local newUrl = protocol .. host .. (path or "") .. (concatedQueryString ~= "" and "?" .. concatedQueryString or "")
 
-    local same = newUrl == match
-    return newUrl, same
+    return newUrl
 end
 
+---@param rules string[]
+---@param guild Guild
 function Module:AddRules(rules, guild)
-    local config = self:GetConfig(guild)
+    local guildData = self:GetGuildData(guild)
+    local config = guildData.Config
+    local data = guildData.Data
 
     for _, rule in ipairs(rules) do
         table.insert(config.Rules, rule)
     end
 
-    self:CreateGuildRules(config, guild.id)
+    self:CreateGuildRules(config, data)
     self:SaveGuildConfig(guild)
 end
 
@@ -456,7 +474,9 @@ function Module:OnLoaded()
         },
         Func = function(cmd, url, deleteInvokation)
             local config = self:GetConfig(cmd.guild)
-            local replaced = self:Replacer(url, config, cmd.guild.id)
+            local data = self:GetData(cmd.guild)
+            local replaced = self:Replacer(url, config, data)
+
             if replaced then
                 cmd:reply(replaced)
             end
@@ -475,12 +495,12 @@ function Module:OnLoaded()
         },
         Func = function(cmd, rules)
             if not rules then
-                return cmd:reply("No rules provided")
+                return cmd:reply(Bot:Format(cmd.guild, 'CLEAN_URLS_NO_RULES_PROVIDED'))
             end
 
-            local rules = rules:split(",")
-            self:AddRules(rules, cmd.guild)
-            cmd:reply("Added rules")
+            local splittedRules = rules:split(",")
+            self:AddRules(splittedRules, cmd.guild)
+            cmd:reply(Bot:Format(cmd.guild, 'CLEAN_URLS_RULES_ADDED'))
         end
     })
 
@@ -491,11 +511,11 @@ function Module:OnLoaded()
         },
         Func = function(cmd, rule)
             if not rule then
-                return cmd:reply("No rule provided")
+                return cmd:reply(Bot:Format(cmd.guild, 'CLEAN_URLS_NO_RULE_PROVIDED'))
             end
 
             self:AddRules({ rule }, cmd.guild)
-            cmd:reply("Added rule")
+            cmd:reply(Bot:Format(cmd.guild, 'CLEAN_URLS_RULE_ADDED', rule))
         end
     })
 
@@ -506,7 +526,7 @@ function Module:OnLoaded()
         },
         Func = function(cmd, rule)
             if not rule then
-                return cmd:reply("No rule provided")
+                return cmd:reply(Bot:Format(cmd.guild, 'CLEAN_URLS_NO_RULE_PROVIDED'))
             end
 
             local config = self:GetConfig(cmd.guild)
@@ -521,7 +541,7 @@ function Module:OnLoaded()
 
             self:CreateGuildRules(config, cmd.guild.id)
             self:SaveGuildConfig(cmd.guild)
-            cmd:reply("Removed rule")
+            cmd:reply(Bot:Format(cmd.guild, 'CLEAN_URLS_RULE_REMOVED', rule))
         end
     })
 
@@ -533,7 +553,7 @@ function Module:OnLoaded()
             config.Rules = {}
             self:ClearGuildRules(config, cmd.guild.id)
             self:SaveGuildConfig(cmd.guild)
-            cmd:reply("Cleared rules")
+            cmd:reply(Bot:Format(cmd.guild, 'CLEAN_URLS_RULES_CLEARED'))
         end
     })
 
@@ -545,10 +565,10 @@ function Module:OnLoaded()
             local rules = config.Rules
 
             if #rules == 0 then
-                return cmd:reply("No rules")
+                return cmd:reply(Bot:Format(cmd.guild, 'CLEAN_URLS_NO_RULES'))
             end
 
-            local result = "## Rules\n```yaml\n"
+            local result = string.format("## %s\n```yaml\n", Bot:Format(cmd.guild, 'CLEAN_URLS_RULES_HEADER'))
 
             for i, rule in ipairs(rules) do
                 result = result .. i .. ". " .. rule .. "\n"
@@ -563,7 +583,11 @@ function Module:OnLoaded()
     return true
 end
 
-function Module:CleanMessage(message, config)
+---comment
+---@param message Message
+---@param config table<string, any>
+---@param data table<string, any>
+function Module:CleanMessage(message, config, data)
     if (not bot:IsPublicChannel(message.channel)) then
         return
     end
@@ -573,7 +597,8 @@ function Module:CleanMessage(message, config)
     end
     if message.content:find("http[s]?://") then
         return message.content:gsub("(https?://[^%s<]+[^<.,:;\"'>)|%]%s])", function(match)
-            local replaced, same = self:Replacer(match, config, message.guild.id)
+            local replaced = self:Replacer(match, config, data)
+            local same = match == replaced
 
             if not same then
                 return replaced
@@ -584,12 +609,14 @@ function Module:CleanMessage(message, config)
     end
 end
 
+---@param message Message
 function Module:OnMessageCreate(message)
     if not message.channel.type == enums.channelType.text and not message.guild then
         return
     end
 
     local config = self:GetConfig(message.guild)
+    local data = self:GetData(message.guild)
 
     if message.author.bot or message.webhookId then
         return
@@ -599,7 +626,7 @@ function Module:OnMessageCreate(message)
         return
     end
 
-    local replaced = self:CleanMessage(message, config)
+    local replaced = self:CleanMessage(message, config, data)
 
     if replaced == message.content or not replaced then
         return
@@ -614,12 +641,12 @@ function Module:OnMessageCreate(message)
 
     local components = {
         {
-            type = 1,
+            type = enums.componentType.actionRow,
             components = {
                 {
-                    type = 2,
-                    style = 4,
-                    label = "Delete",
+                    type = enums.componentType.button,
+                    style = enums.buttonStyle.danger,
+                    label = Bot:Format(message.guild, "CLEAN_URLS_DELETE_BUTTON_LABEL"),
                     custom_id = "delete_" .. message.author.id,
                 }
             }
@@ -647,20 +674,25 @@ function Module:OnMessageCreate(message)
     end)
 end
 
+---@param guild Guild
+---@return boolean
 function Module:OnEnable(guild)
     local config = self:GetConfig(guild)
+    local data = self:GetData(guild)
 
     if #config.Rules == 0 then
         return true
     end
 
-    self:CreateGuildRules(config, guild.id)
+    self:CreateGuildRules(config, data)
 
     return true
 end
 
+---@param interaction Interaction
 function Module:OnInteractionCreate(interaction)
     local customId = interaction.data.custom_id
+    local guild = interaction.guild
 
     local authorId = customId:match("delete_(%d+)")
     if not authorId then
@@ -671,35 +703,39 @@ function Module:OnInteractionCreate(interaction)
 
     if authorId ~= interactionAuthorId then
         return interaction:respond({
-            type = 4,
+            type = enums.interactionResponseType.channelMessageWithSource,
             data = {
-                flags = 64,
-                content = "This button isn't for you!",
+                flags = enums.interactionResponseFlag.ephemeral,
+                content = Bot:Format(guild, "CLEAN_URLS_WRONG_USER_BUTTON")
             }
         })
     end
 
-    -- Because apparently, there's no channel.id or channel_id??
-    client._api:deleteMessage(interaction._channel.id or interaction.message.channel_id, interaction.message.id)
+    if interaction.message then
+        interaction.message:delete()
+    end
 
     interaction:respond({
-        type = 4,
+        type = enums.interactionResponseType.channelMessageWithSource,
         data = {
-            flags = 64,
-            content = "Deleted message",
+            flags = enums.interactionResponseFlag.ephemeral,
+            content = Bot:Format(guild, "CLEAN_URLS_DELETED_MESSAGE"),
         }
     })
 
     self.UsersHanging[authorId] = nil
 end
 
+---@param guild Guild
+---@param channel GuildTextChannel
+---@return Webhook
 function Module:GetWebhook(guild, channel)
     local config = self:GetConfig(guild)
 
     local webhookId = config.WebhooksMappings[channel.id]
 
     if not webhookId then
-        local webhook = channel:createWebhook("Clean URLs")
+        local webhook = channel:createWebhook(Bot:Format(guild, "CLEAN_URLS_AUDITLOG"))
         config.WebhooksMappings[channel.id] = webhook.id
         self:SaveGuildConfig(guild)
         return webhook
