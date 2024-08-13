@@ -256,7 +256,6 @@ function Module:CreateRules()
 
 
     for _, rule in ipairs(rules) do
-        ---@diagnostic disable-next-line: undefined-field
         local splitRule = rule:split("@")
         local pattern = "^" .. escapeRegex(splitRule[1]):gsub("%%%*", ".-") .. "$"
 
