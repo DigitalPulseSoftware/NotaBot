@@ -614,6 +614,12 @@ function Module:OnMessageCreate(message)
         return
     end
 
+    ---@type GuildTextChannel
+    ---@diagnostic disable-next-line: assign-type-mismatch
+    local realChannel = (message.channel.isThread) and
+        (message.client:getChannel(message.channel._parent_id)) or
+        message.channel
+
     local config = self:GetConfig(message.guild)
     local data = self:GetData(message.guild)
 
@@ -636,7 +642,7 @@ function Module:OnMessageCreate(message)
         message:delete()
     end
 
-    local webhook = self:GetWebhook(message.guild, message.channel)
+    local webhook = self:GetWebhook(message.guild, realChannel)
 
     local components = {
         {
@@ -652,13 +658,15 @@ function Module:OnMessageCreate(message)
         }
     }
 
+    local threadId = realChannel.id ~= message.channel.id and message.channel.id or nil
+
     local msg = client._api:executeWebhook(webhook.id, webhook.token, {
             avatar_url = message.author.avatarURL,
             username = message.author.globalName or message.author.username,
             content = replaced,
             components = components
         },
-        { wait = true }
+        { wait = true, thread_id = threadId }
     )
 
     self.UsersHanging[message.author.id] = true
@@ -667,7 +675,7 @@ function Module:OnMessageCreate(message)
         if self.UsersHanging[message.author.id] then
             client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
                 components = {}
-            })
+            }, { thread_id = threadId })
             self.UsersHanging[message.author.id] = nil
         end
     end)
