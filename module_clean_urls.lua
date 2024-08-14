@@ -474,7 +474,7 @@ end
 ---@param rules string[]
 ---@param guild Guild
 function Module:AddRules(rules, guild)
-    local guildData = self:GetGuildData(guild)
+    local guildData = self:GetGuildData(guild.id)
     local config = guildData.Config
     local data = guildData.Data
 
