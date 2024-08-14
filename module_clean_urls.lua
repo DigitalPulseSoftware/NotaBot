@@ -6,6 +6,10 @@ local prefix = Config.Prefix
 local enums = discordia.enums
 local http = require("coro-http")
 local linkShorteners = require("./data_linkshorteners")
+local os = require("os")
+local timer = require("timer")
+local setTimeout, sleep = timer.setTimeout, timer.sleep
+local wrap = coroutine.wrap
 
 --[[
     This module is used to clean URLs from unwanted tracking (or, depending of guild configuration, any) query parameters.
@@ -73,7 +77,7 @@ function Module:GetConfigTable()
         {
             Name = "ButtonTimeout",
             Description = "The time, in milliseconds after which the delete button will disappear",
-            Type = bot.ConfigType.Number,
+            Type = bot.ConfigType.Integer,
             Default = 10000
         }
     }
@@ -121,6 +125,10 @@ Module.DefaultRules = {
     "crid@amazon.*",
     "keywords@amazon.*",
     "sprefix@amazon.*",
+    "smid@amazon.*",
+    "creative*@amazon.*",
+    "th@amazon.*",
+    "linkCode@amazon.*",
     "sr@amazon.*",
     "ie@amazon.*",
     "node@amazon.*",
@@ -478,6 +486,9 @@ function Module:AddRules(rules, guild)
     self:SaveGuildConfig(guild)
 end
 
+---@type table<string, table<string, table>>
+local _attachments = {}
+
 function Module:OnLoaded()
     self:CreateRules()
 
@@ -655,7 +666,20 @@ function Module:OnMessageCreate(message)
 
 
     if config.DeleteInvokationOnAutoCleanUrls then
-        message:delete()
+        if message.attachment then
+            for _, attachment in pairs(message.attachments) do
+                local _, d = http.request("GET", attachment.url)
+                local attachments = {}
+                if d then
+                    table.insert(attachments, { attachment.filename, d })
+                end
+
+                _attachments[message.id] = attachments
+            end
+        end
+
+
+        pcall(message.delete, message)
     end
 
     local webhook = self:GetWebhook(message.guild, realChannel)
@@ -676,24 +700,33 @@ function Module:OnMessageCreate(message)
 
     local threadId = realChannel.id ~= message.channel.id and message.channel.id or nil
 
+    local newAttachments = _attachments[message.id] or {}
+
     local msg = client._api:executeWebhook(webhook.id, webhook.token, {
             avatar_url = message.author.avatarURL,
             username = message.author.globalName or message.author.username,
             content = replaced,
-            components = components
+            components = components,
         },
-        { wait = true, thread_id = threadId }
+        { wait = true, thread_id = threadId },
+        newAttachments
     )
+
+    _attachments[message.id] = nil
 
     self.UsersHanging[message.author.id] = true
 
-    bot:ScheduleTimer(config.ButtonTimeout or 10000, function()
-        if self.UsersHanging[message.author.id] then
-            client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
-                components = {}
-            }, { thread_id = threadId })
-            self.UsersHanging[message.author.id] = nil
-        end
+    local deleteTimeout = (config.ButtonTimeout or 10000)
+
+    setTimeout(deleteTimeout, function()
+        wrap(function()
+            if self.UsersHanging[message.author.id] then
+                client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
+                    components = {}
+                }, { thread_id = threadId })
+                self.UsersHanging[message.author.id] = nil
+            end
+        end)()
     end)
 end
 
@@ -735,7 +768,7 @@ function Module:OnInteractionCreate(interaction)
     end
 
     if interaction.message then
-        interaction.message:delete()
+        pcall(interaction.message.delete, interaction.message)
     end
 
     interaction:respond({
