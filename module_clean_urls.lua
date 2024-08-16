@@ -268,7 +268,8 @@ Module.FixServices = {
     ["x.com"] = "fixvx.com",
 }
 
-Module.UsersHanging = {}
+---@type table<string, boolean>
+Module.UsersHanging = {} -- Table of users that have a message hanging with a delete button. (Otherwise an error would be thrown)
 
 Module.UniversalRules = {}
 Module.HostRules = {}
@@ -309,6 +310,7 @@ end
 ---@param config table<string, any>
 ---@param data table<string, any>
 function Module:CreateGuildRules(config, data)
+    ---@type string[]
     local rules = config.Rules
 
     local universalRules = data.GuildUniversalRules or {}
@@ -316,7 +318,6 @@ function Module:CreateGuildRules(config, data)
     local rulesByHost = data.GuildRulesByHost or {}
 
     for _, rule in ipairs(rules) do
-        ---@diagnostic disable-next-line: undefined-field
         local splitRule = rule:split("@")
         local pattern = "^" .. escapeRegex(splitRule[1]):gsub("%%%*", ".-") .. "$"
 
@@ -664,21 +665,21 @@ function Module:OnMessageCreate(message)
         return
     end
 
+    if message.attachment then
+        local attachments = {}
 
-    if config.DeleteInvokationOnAutoCleanUrls then
-        if message.attachment then
-            for _, attachment in pairs(message.attachments) do
-                local _, d = http.request("GET", attachment.url)
-                local attachments = {}
-                if d then
-                    table.insert(attachments, { attachment.filename, d })
-                end
-
-                _attachments[message.id] = attachments
+        for _, attachment in pairs(message.attachments) do
+            local _, d = http.request("GET", attachment.url)
+            if d then
+                table.insert(attachments, { attachment.filename, d })
             end
         end
 
+        _attachments[message.id] = attachments
+    end
 
+
+    if config.DeleteInvokationOnAutoCleanUrls then
         pcall(message.delete, message)
     end
 
