@@ -746,17 +746,18 @@ local spamWords = Set{ "100k", "$100k", "72hours", "crypto", "currency", "cs:go"
 local spamHints = { "3 month", "3 months", "airdrop", "away", "bitcoin", "gift", "hot", "pay", "sex", "web3", "whatsapp" }
 
 local discordDomains = {
-	["discord.com"] = true,
-	["discord.media"] = true,
-	["discordapp.com"] = true,
-	["cdn.discordapp.com"] = true,
-	["discordapp.net"] = true,
-	["media.discordapp.net"] = true,
+	["discord.com"]           = true,
+	["discordapp.com"]        = true,
+	-- invites
+	["discord.gg"]            = true,
+	-- attachements and images
+	["cdn.discordapp.com"]    = true,
+	["media.discordapp.net"]  = true,
 	-- public test build
-	["ptb.discord.com"] = true,
-	["ptb.discordapp.com"] = true,
+	["ptb.discord.com"]       = true,
+	["ptb.discordapp.com"]    = true,
 	-- canary
-	["canary.discord.com"] = true,
+	["canary.discord.com"]    = true,
 	["canary.discordapp.com"] = true,
 }
 
