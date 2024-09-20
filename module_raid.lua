@@ -742,7 +742,7 @@ function Module:OnMemberJoin(member)
 end
 
 -- Thanks to DrLazor for his help with this function
-local spamWords = { "100k", "$100k", "72hours", "72 hours", "crypto", "currency", "cs:go", "discord", "earn", "earning", "exchange", "free", "i'll help", "market", "nitro", "onlyfans", "subscription", "steam", "trading" }
+local spamWords = Set{ "100k", "$100k", "72hours", "crypto", "currency", "cs:go", "discord", "earn", "earning", "exchange", "free", "market", "nitro", "onlyfans", "subscription", "steam", "trading" }
 local spamHints = { "3 month", "3 months", "airdrop", "away", "bitcoin", "gift", "hot", "pay", "sex", "web3", "whatsapp" }
 
 local discordDomains = {
@@ -764,8 +764,8 @@ function Module:ComputeMessageSpamScore(content)
 	local score = 1 -- base score
 
 	-- +1 for each spamword
-	for _, spamWord in ipairs(spamWords) do
-		if content:find(spamWord) then
+	for token in content:gmatch("[^%s]+") do
+		if spamWords[token] then
 			score = score + 1
 		end
 	end
