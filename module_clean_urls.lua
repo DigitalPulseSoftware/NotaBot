@@ -412,11 +412,10 @@ function Module:Replacer(match, config, data)
     --     end
     -- end
 
-    for service, fix in pairs(self.FixServices) do
-        if host:match(service) then
-            local newHost = host:gsub(service, fix)
-            return protocol .. newHost .. path .. queryString
-        end
+    if self.FixServices[host] then
+        local fix = self.FixServices[host]
+        local newHost = host:gsub(host, fix)
+        return protocol .. newHost .. path .. queryString
     end
 
     if not queryString or #queryString == 0 or queryString == "?" then
@@ -489,6 +488,36 @@ end
 
 ---@type table<string, table<string, table>>
 local _attachments = {}
+
+local ansiColoursForeground = {
+    black = 30,
+    red = 31,
+    green = 32,
+    yellow = 33,
+    blue = 34,
+    magenta = 35,
+    cyan = 36,
+    white = 37,
+}
+
+---@param rule string
+---@return string
+local function formatRule(rule)
+    local splitRule = rule:split("@")
+
+    if not splitRule[2] then
+        return string.format("\x1b[%dm%s\x1b[0m", ansiColoursForeground.green, splitRule[1])
+    end
+
+    local colour = splitRule[1] == "*" and ansiColoursForeground.cyan or ansiColoursForeground.green
+
+    local splitted = splitRule[2]:split("%.")
+
+    return string.format("\x1b[%dm%s\x1b[0m\x1b[%dm@\x1b[0m\x1b[%dm%s\x1b[0m\x1b[%dm.\x1b[0m\x1b[%dm%s\x1b[0m", colour,
+        splitRule[1], ansiColoursForeground.magenta, ansiColoursForeground.yellow, splitted[1],
+        ansiColoursForeground.blue,
+        ansiColoursForeground.red, splitted[2])
+end
 
 function Module:OnLoaded()
     self:CreateRules()
@@ -595,10 +624,10 @@ function Module:OnLoaded()
                 return cmd:reply(Bot:Format(cmd.guild, 'CLEAN_URLS_NO_RULES'))
             end
 
-            local result = string.format("## %s\n```yaml\n", Bot:Format(cmd.guild, 'CLEAN_URLS_RULES_HEADER'))
+            local result = string.format("## %s\n```ansi\n", Bot:Format(cmd.guild, 'CLEAN_URLS_RULES_HEADER'))
 
             for i, rule in ipairs(rules) do
-                result = result .. i .. ". " .. rule .. "\n"
+                result = result .. i .. ". " .. formatRule(rule) .. "\n"
             end
 
             result = result .. "```"
@@ -719,15 +748,13 @@ function Module:OnMessageCreate(message)
 
     local deleteTimeout = (config.ButtonTimeout or 10000)
 
-    setTimeout(deleteTimeout, function()
-        wrap(function()
-            if self.UsersHanging[message.author.id] then
-                client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
-                    components = {}
-                }, { thread_id = threadId })
-                self.UsersHanging[message.author.id] = nil
-            end
-        end)()
+    Bot:ScheduleAction(os.time() + deleteTimeout, function()
+        if self.UsersHanging[message.author.id] then
+            client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
+                components = {}
+            }, { thread_id = threadId })
+            self.UsersHanging[message.author.id] = nil
+        end
     end)
 end
 
@@ -758,7 +785,7 @@ function Module:OnInteractionCreate(interaction)
 
     local interactionAuthorId = interaction.member.user.id
 
-    if authorId ~= interactionAuthorId then
+    if authorId ~= interactionAuthorId or not interaction.member:hasPermission(interaction.channel, 'manageMessages') then
         return interaction:respond({
             type = enums.interactionResponseType.channelMessageWithSource,
             data = {
