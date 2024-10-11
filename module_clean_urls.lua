@@ -785,7 +785,7 @@ function Module:OnInteractionCreate(interaction)
 
     local interactionAuthorId = interaction.member.user.id
 
-    if authorId ~= interactionAuthorId or not interaction.member:hasPermission(interaction.channel, 'manageMessages') then
+    if authorId ~= interactionAuthorId or interaction.member:hasPermission(interaction.channel, 'manageMessages') then
         return interaction:respond({
             type = enums.interactionResponseType.channelMessageWithSource,
             data = {
