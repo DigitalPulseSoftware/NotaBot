@@ -259,7 +259,7 @@ Module.FixServices = {
     ["pixiv.net"] = "ppxiv.net",
     ["reddit.com"] = "rxddit.com",
     -- Currently broken
-    -- ["threads.net"] = "vxthreads.net",
+    ["threads.net"] = "fixthreads.net",
     ["tiktok.com"] = "tnktok.com",
     ["tumblr.com"] = "tpmblr.com",
     ["twitch.tv"] = "fxtwitch.tv",
