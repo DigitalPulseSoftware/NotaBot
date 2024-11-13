@@ -6,6 +6,8 @@ local client = Bot.Client
 local config = Config
 local enums = discordia.enums
 
+local MAX_NUMBER_OF_EMBED_FIELDS = 25
+
 function Bot:BuildUsage(commandTable)
 	local usage = {}
 	for k,v in ipairs(commandTable.Args) do
@@ -159,17 +161,122 @@ client:on('messageCreate', function(message)
 	end
 end)
 
+local function getCommands(member)
+	local commands = {}
+
+	for commandName, commandTable in pairs(Bot.Commands) do
+		local visible = true
+		if (commandTable.PrivilegeCheck) then
+			local success, ret = Bot:ProtectedCall("Command " .. commandName .. " privilege check", commandTable.PrivilegeCheck, member)
+			if (not success or not ret) then
+				visible = false
+			end
+		end
+
+		if (visible) then
+			table.insert(commands, commandTable)
+		end
+	end
+
+	table.sort(commands, function (a, b) return a.Name < b.Name end)
+
+	local commandsFields = {}
+	for _, commandTable in pairs(commands) do
+		local helpStr = commandTable.Help or "<none>"
+		if(type(helpStr) == "function") then -- localization
+			helpStr = commandTable.Help(member.guild)
+		end
+
+		table.insert(commandsFields, {
+			name = string.format("**Command: %s**", commandTable.Name),
+			value = string.format("**Description:** %s\n**Usage:** %s %s", helpStr, commandTable.Name, Bot:BuildUsage(commandTable))
+		})
+	end
+
+	return commandsFields
+end
+
+local function getHelpButtonsComponent(guild, selectedPage, nbPages)
+	local components = {}
+	local actionButtons = {
+		{
+			type = enums.componentType.button,
+			custom_id = "help_button_previous_page_" .. selectedPage - 1,
+			style = enums.buttonStyle.primary,
+			label = Bot:Format(guild, "BOT_HELP_PREV_BUTTON_LABEL"),
+			disabled = (selectedPage - 1) < 1 and true or false
+		},
+		{
+			type = enums.componentType.button,
+			custom_id = "help_button_next_page_" .. selectedPage + 1,
+			style = enums.buttonStyle.primary,
+			label = Bot:Format(guild, "BOT_HELP_NEXT_BUTTON_LABEL"),
+			disabled = (selectedPage + 1) > nbPages and true or false
+		}
+	}
+
+	table.insert(components, {
+		type = enums.componentType.actionRow,
+		components = actionButtons
+	})
+
+	return components
+end
+
+client:on("interactionCreate", function (interaction)
+	local guild = interaction.guild
+	if (not guild) then
+		return
+	end
+
+	local member = interaction.member
+	local interactionId = interaction.data.custom_id
+	if (not string.match(interactionId, "^help_button")) then
+		return
+	end
+
+	local commandsFields = getCommands(member)
+	local nbPages = math.floor((#commandsFields - 1) / MAX_NUMBER_OF_EMBED_FIELDS) + 1
+	local selectedPage = tonumber(string.match(interactionId, "(%d+)$")) or 1
+
+	if (selectedPage < 1 or selectedPage > nbPages) then
+		return
+	end
+
+	local page = {
+		table.unpack(
+			commandsFields,
+			((selectedPage - 1) * MAX_NUMBER_OF_EMBED_FIELDS) + 1,
+			selectedPage * MAX_NUMBER_OF_EMBED_FIELDS
+		)
+	}
+
+	interaction.message:update({
+		components = getHelpButtonsComponent(guild, selectedPage, nbPages),
+		embed = {
+			fields = page,
+			footer = { text = string.format("Page %s/%s", selectedPage, nbPages) }
+		}
+	})
+
+	interaction:respond({
+		type = enums.interactionResponseType.updateMessage
+	})
+end)
+
 Bot:RegisterCommand({
 	Name = "help",
 	Args = {
-		{Name = "command", Type = Bot.ConfigType.String, Optional = true}
+		{ Name = "command", Type = Bot.ConfigType.String, Optional = true }
 	},
 	Silent = false,
 
-	Help = "Print commands list",
+	Help = function (guild) return Bot:Format(guild, "BOT_HELP_HELP") end,
 	Func = function (message, commandName)
 		local member = message.member
 		local guild = message.guild
+		local commandsFields = {}
+
 		if (commandName) then
 			commandName = commandName:lower()
 			local commandTable = Bot.Commands[commandName]
@@ -195,52 +302,32 @@ Bot:RegisterCommand({
 				helpStr = commandTable.Help(guild)
 			end
 
-			message:reply({
-				embed = {
-					fields = {
-						{
-							name = string.format("**Command: %s**", commandName),
-							value = string.format("**Description:** %s\n**Usage:** %s %s", helpStr, commandName, Bot:BuildUsage(commandTable))
-						}
-					}
-				}
+			table.insert(commandsFields, {
+					name = string.format("**Command: %s**", commandName),
+					value = string.format("**Description:** %s\n**Usage:** %s %s", helpStr, commandName, Bot:BuildUsage(commandTable))
 			})
 		else
-			local commands = {}
-			for commandName, commandTable in pairs(Bot.Commands) do
-				local visible = true
-				if (commandTable.PrivilegeCheck) then
-				 	local success, ret = Bot:ProtectedCall("Command " .. commandName .. " privilege check", commandTable.PrivilegeCheck, member)
-				 	if (not success or not ret) then
-				 		visible = false
-				 	end
-				end
-
-				if (visible) then
-					table.insert(commands, commandTable)
-				end
-			end
-
-			table.sort(commands, function (a, b) return a.Name < b.Name end)
-
-			local fields = {}
-			for _, commandTable in pairs(commands) do
-				local helpStr = commandTable.Help or "<none>"
-				if(type(helpStr) == "function") then -- localization
-					helpStr = commandTable.Help(guild)
-				end
-
-				table.insert(fields, {
-					name = string.format("**Command: %s**", commandTable.Name),
-					value = string.format("**Description:** %s\n**Usage:** %s %s", helpStr, commandTable.Name, Bot:BuildUsage(commandTable))
-				})
-			end
-
-			message:reply({
-				embed = {
-					fields = fields
-				}
-			})
+			commandsFields = getCommands(member)
 		end
+
+		-- pagination
+		local components = {}
+		if (#commandsFields > MAX_NUMBER_OF_EMBED_FIELDS) then
+			local nbPages = math.floor((#commandsFields - 1) / MAX_NUMBER_OF_EMBED_FIELDS) + 1
+			local selectedPage = 1
+
+			commandsFields = { table.unpack(commandsFields, 1, MAX_NUMBER_OF_EMBED_FIELDS) }
+			components = getHelpButtonsComponent(guild, selectedPage, nbPages)
+
+			local footer = { text = string.format("Page %s/%s", selectedPage, nbPages) }
+		end
+
+		message:reply({
+			embed = {
+				fields = commandsFields,
+				footer = footer or null
+			},
+			components = components
+		})
 	end
 })

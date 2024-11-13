@@ -4,6 +4,10 @@ return {
 	Locs = {
 		GLOBAL_DEFAULT_REASON                     = "No reason provided.",
 
+		BOT_HELP_HELP                             = "Print commands list.",
+		BOT_HELP_NEXT_BUTTON_LABEL                = "Next Page",
+		BOT_HELP_PREV_BUTTON_LABEL                = "Previous Page",
+
 		CLEAN_URLS_NO_RULE_PROVIDED               = "No rule provided",
 		CLEAN_URLS_NO_RULES_PROVIDED              = "No rules provided",
 		CLEAN_URLS_RULE_ADDED                     = "Added rule: `%s`",
