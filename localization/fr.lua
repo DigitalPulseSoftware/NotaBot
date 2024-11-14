@@ -165,6 +165,10 @@ return {
 	Locs = {
 		GLOBAL_DEFAULT_REASON                     = "Aucune raison donnée.",
 
+		BOT_HELP_HELP                             = "Affiche la liste des commandes.",
+		BOT_HELP_NEXT_BUTTON_LABEL                = "Page Suivante",
+		BOT_HELP_PREV_BUTTON_LABEL                = "Page Précédente",
+
 		CLEAN_URLS_NO_RULE_PROVIDED               = "Aucune règle fournie",
 		CLEAN_URLS_NO_RULES_PROVIDED              = "Aucune règles fournies",
 		CLEAN_URLS_RULE_ADDED                     = "Règle ajoutée : `%s`",

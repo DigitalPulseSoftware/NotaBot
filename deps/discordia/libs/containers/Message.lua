@@ -298,6 +298,7 @@ sent by other users).
 function Message:update(data)
 	return self:_modify({
 		content = data.content or null,
+		components = data.components or null,
 		embed = data.embed or null,
 		allowed_mentions = {
 			parse = {'users', 'roles', 'everyone'},
