@@ -1,7 +1,7 @@
 Token = "" -- Bot token
 OwnerUserId = ""
-VanityUrl = "notaname"
-MainGuildId = "323076998576603137"
+VanityUrl = ""
+MainGuildId = ""
 
 -- Module which will be loaded at bot start
 AutoloadModules = {
