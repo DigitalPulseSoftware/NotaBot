@@ -24,17 +24,17 @@ function Module:GetConfigTable()
 			Optional = true
 		},
 		{
-			Name = "NicknameChangedLogChannel",
-			Description = "Where nickname changes should be logged",
-			Type = Bot.ConfigType.Channel,
-			Optional = true
-		},
-		{
 			Name = "IgnoredDeletedMessageChannels",
 			Description = "Messages deleted in those channels will not be logged",
-			Type = Bot.ConfigType.Channel,
+			Type = bot.ConfigType.Channel,
 			Array = true,
 			Default = {}
+		},
+		{
+			Name = "NicknameChangedLogChannel",
+			Description = "Where nickname changes should be logged",
+			Type = bot.ConfigType.Channel,
+			Optional = true
 		},
 		{
 			Global = true,
@@ -252,6 +252,7 @@ function Module:OnMessageDelete(message)
 
 	local desc = string.format("🗑️ **Deleted message - sent by %s in %s**\n",
 		message.author.mentionString, message.channel.mentionString)
+
 	local embed = Bot:BuildQuoteEmbed(message, { initialContentSize = #desc })
 	embed.description = desc .. (embed.description or "")
 	embed.footer = {
