@@ -2,48 +2,108 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
-local client = Client
-local discordia = Discordia
-local bot = Bot
-local enums = discordia.enums
+local Bot = Bot
+local Client = Client
+local Discordia = Discordia
+local Clock = Discordia.Clock
+local Date = Discordia.Date
+
 
 Module.Name = "logs"
+
+local messagesToDelete = {}
 
 function Module:GetConfigTable()
 	return {
 		{
 			Name = "ChannelManagementLogChannel",
 			Description = "Where channel created/updated/deleted should be logged",
-			Type = bot.ConfigType.Channel,
+			Type = Bot.ConfigType.Channel,
 			Optional = true
 		},
 		{
 			Name = "DeletedMessageChannel",
 			Description = "Where deleted messages should be logged",
-			Type = bot.ConfigType.Channel,
+			Type = Bot.ConfigType.Channel,
 			Optional = true
+		},
+		{
+			Name = "EnableLogRotation",
+			Description = "Enable log rotation",
+			Type = Bot.ConfigType.Boolean,
+			Default = false
+		},
+		{
+			Name = "LogRetentionPeriod",
+			Description = "The retention period of logs",
+			Type = Bot.ConfigType.Duration,
+			Default = 2 * 365 * 24 * 60 * 60 -- 2 years
 		},
 		{
 			Name = "IgnoredDeletedMessageChannels",
 			Description = "Messages deleted in those channels will not be logged",
-			Type = bot.ConfigType.Channel,
+			Type = Bot.ConfigType.Channel,
 			Array = true,
 			Default = {}
 		},
 		{
 			Name = "NicknameChangedLogChannel",
 			Description = "Where nickname changes should be logged",
-			Type = bot.ConfigType.Channel,
+			Type = Bot.ConfigType.Channel,
 			Optional = true
 		},
 		{
 			Global = true,
 			Name = "PersistentMessageCacheSize",
 			Description = "How many of the last messages of every text channel should stay in bot memory?",
-			Type = bot.ConfigType.Integer,
+			Type = Bot.ConfigType.Integer,
 			Default = 50
 		},
 	}
+end
+
+
+function Module:OnLoaded()
+	self.RotationClock = Clock()
+	self.RotationClock:on("day", function ()
+		self:ForEachGuild(function (guildId, config, data, persistentData)
+			local guild = Client:getGuild(guildId)
+			if (guild) then
+				local config = self:GetConfig(guild)
+				if not config.EnableLogRotation then
+					return
+				end
+
+				Module:RotateLogs(guild,
+					config.LogRetentionPeriod,
+					{
+						config.ChannelManagementLogChannel,
+						config.DeletedMessageChannel,
+						config.NicknameChangedLogChannel,
+					}
+				)
+			end
+		end)
+	end)
+
+	self.DeletionClock = Clock()
+	self.DeletionClock:on("sec", function ()
+		if next(messagesToDelete) then
+			table.remove(messagesToDelete):delete()
+		end
+	end)
+
+	return true
+end
+
+function Module:OnUnload()
+	self.RotationClock:stop()
+	self.DeletionClock:stop()
+end
+
+function Module:OnReady()
+	self.RotationClock:start()
+	self.DeletionClock:start()
 end
 
 function Module:OnEnable(guild)
@@ -96,7 +156,7 @@ function Module:OnChannelDelete(channel)
 		embed = {
 			title = "Channel deleted",
 			description = channel.name,
-			timestamp = discordia.Date():toISO('T', 'Z')
+			timestamp = Date():toISO('T', 'Z')
 		}
 	})
 end
@@ -123,7 +183,7 @@ function Module:OnChannelCreate(channel)
 		embed = {
 			title = "Channel created",
 			description = "<#" .. channel.id .. ">",
-			timestamp = discordia.Date():toISO('T', 'Z')
+			timestamp = Date():toISO('T', 'Z')
 		}
 	})
 end
@@ -154,7 +214,7 @@ function Module:OnMemberUpdate(member)
 			embed = {
 				title = "Nickname changed",
 				description = string.format("%s - `%s` → `%s`", member.mentionString, data.nicknames[member.id], member.name),
-				timestamp = discordia.Date():toISO('T', 'Z')
+				timestamp = Date():toISO('T', 'Z')
 			}
 		})
 	end
@@ -164,7 +224,7 @@ function Module:OnMemberUpdate(member)
 			embed = {
 				title = "Username changed",
 				description = string.format("%s - `%s` → `%s`", member.mentionString, data.usernames[member.id], member.user.username),
-				timestamp = discordia.Date():toISO('T', 'Z')
+				timestamp = Date():toISO('T', 'Z')
 			}
 		})
 	end
@@ -199,7 +259,7 @@ function Module:OnMessageDelete(message)
 	embed.footer = {
 		text = string.format("Author ID: %s | Message ID: %s", message.author.id, message.id)
 	}
-	embed.timestamp = discordia.Date():toISO('T', 'Z')
+	embed.timestamp = Date():toISO('T', 'Z')
 
 	logChannel:send({
 		embed = embed
@@ -231,7 +291,7 @@ function Module:OnMessageDeleteUncached(channel, messageId)
 			footer = {
 				text = string.format("Message ID: %s", messageId)
 			},
-			timestamp = discordia.Date():toISO('T', 'Z')
+			timestamp = Date():toISO('T', 'Z')
 		}
 	})
 end
@@ -257,3 +317,47 @@ function Module:OnMessageCreate(message)
 		table.remove(cachedMessages, 1)
 	end
 end
+
+local function isMessageTooOld(message, logRetentionPeriod)
+	local messageTimestamp = Date.fromSnowflake(message.id):toSeconds()
+	return os.difftime(os.time(), messageTimestamp) > logRetentionPeriod
+end
+
+local function scheduleOldMessagesToDeletion(firstMessage, channel, logRetentionPeriod)
+	local buf = {}
+
+	repeat
+		-- Sort by id to keep the temporal order
+		local messages = channel:getMessagesAfter(firstMessage.id, 100):toArray("id")
+		table.insert(messages, 1, firstMessage)
+
+		for _, msg in ipairs(messages) do
+			if msg.author.id == Client.user.id
+			and (msg.embed and msg.embed.description and msg.embed.description:match("Deleted message"))
+			and isMessageTooOld(msg, logRetentionPeriod) then
+				table.insert(buf, msg)
+			end
+		end
+
+		firstMessage = messages[#messages]
+	until next(buf) or messages == nil
+
+	messagesToDelete = buf
+end
+
+function Module:RotateLogs(guild, logRetentionPeriod, logChannels)
+	local done = {}
+	for _, logChannelId in pairs(logChannels) do
+		if not done[logChannelId] then
+			local logChannel = guild:getChannel(logChannelId)
+			local firstMessage = logChannel:getFirstMessage()
+
+			if firstMessage then
+				scheduleOldMessagesToDeletion(firstMessage, logChannel, logRetentionPeriod)
+			end
+
+			done[logChannelId] = true
+		end
+	end
+end
+
