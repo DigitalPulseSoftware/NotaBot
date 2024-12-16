@@ -3,11 +3,15 @@
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
 local Bot = Bot
-local Discordia = Discordia
+local Client = Client
+local Clock = Discordia.Clock
 local Date = Discordia.Date
+local Discordia = Discordia
 
 
 Module.Name = "logs"
+
+local messagesToDelete = {}
 
 function Module:GetConfigTable()
 	return {
@@ -24,16 +28,28 @@ function Module:GetConfigTable()
 			Optional = true
 		},
 		{
+			Name = "EnableLogRotation",
+			Description = "Enable log rotation",
+			Type = Bot.ConfigType.Boolean,
+			Default = false
+		},
+		{
+			Name = "LogRetentionPeriod",
+			Description = "The retention period of logs",
+			Type = Bot.ConfigType.Duration,
+			Default = 2 * 365 * 24 * 60 * 60 -- 2 years
+		},
+		{
 			Name = "IgnoredDeletedMessageChannels",
 			Description = "Messages deleted in those channels will not be logged",
-			Type = bot.ConfigType.Channel,
+			Type = Bot.ConfigType.Channel,
 			Array = true,
 			Default = {}
 		},
 		{
 			Name = "NicknameChangedLogChannel",
 			Description = "Where nickname changes should be logged",
-			Type = bot.ConfigType.Channel,
+			Type = Bot.ConfigType.Channel,
 			Optional = true
 		},
 		{
@@ -44,6 +60,50 @@ function Module:GetConfigTable()
 			Default = 50
 		},
 	}
+end
+
+
+function Module:OnLoaded()
+	self.RotationClock = Clock()
+	self.RotationClock:on("day", function ()
+		self:ForEachGuild(function (guildId, config, data, persistentData)
+			local guild = Client:getGuild(guildId)
+			if (guild) then
+				local config = self:GetConfig(guild)
+				if not config.EnableLogRotation then
+					return
+				end
+
+				Module:RotateLogs(guild,
+					config.LogRetentionPeriod,
+					{
+						config.ChannelManagementLogChannel,
+						config.DeletedMessageChannel,
+						config.NicknameChangedLogChannel,
+					}
+				)
+			end
+		end)
+	end)
+
+	self.DeletionClock = Clock()
+	self.DeletionClock:on("sec", function ()
+		if next(messagesToDelete) then
+			table.remove(messagesToDelete):delete()
+		end
+	end)
+
+	return true
+end
+
+function Module:OnUnload()
+	self.RotationClock:stop()
+	self.DeletionClock:stop()
+end
+
+function Module:OnReady()
+	self.RotationClock:start()
+	self.DeletionClock:start()
 end
 
 function Module:OnEnable(guild)
@@ -316,3 +376,47 @@ function Module:OnMessageCreate(message)
 		table.remove(cachedMessages, 1)
 	end
 end
+
+local function isMessageTooOld(message, logRetentionPeriod)
+	local messageTimestamp = Date.fromSnowflake(message.id):toSeconds()
+	return os.difftime(os.time(), messageTimestamp) > logRetentionPeriod
+end
+
+local function scheduleOldMessagesToDeletion(firstMessage, channel, logRetentionPeriod)
+	local buf = {}
+
+	repeat
+		-- Sort by id to keep the temporal order
+		local messages = channel:getMessagesAfter(firstMessage.id, 100):toArray("id")
+		table.insert(messages, 1, firstMessage)
+
+		for _, msg in ipairs(messages) do
+			if msg.author.id == Client.user.id
+			and (msg.embed and msg.embed.description and msg.embed.description:match("Deleted message"))
+			and isMessageTooOld(msg, logRetentionPeriod) then
+				table.insert(buf, msg)
+			end
+		end
+
+		firstMessage = messages[#messages]
+	until next(buf) or messages == nil
+
+	messagesToDelete = buf
+end
+
+function Module:RotateLogs(guild, logRetentionPeriod, logChannels)
+	local done = {}
+	for _, logChannelId in pairs(logChannels) do
+		if not done[logChannelId] then
+			local logChannel = guild:getChannel(logChannelId)
+			local firstMessage = logChannel:getFirstMessage()
+
+			if firstMessage then
+				scheduleOldMessagesToDeletion(firstMessage, logChannel, logRetentionPeriod)
+			end
+
+			done[logChannelId] = true
+		end
+	end
+end
+
