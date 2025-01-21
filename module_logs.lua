@@ -2,10 +2,6 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
-local client = Client
-local discordia = Discordia
-local bot = Bot
-local enums = discordia.enums
 
 Module.Name = "logs"
 
@@ -14,25 +10,25 @@ function Module:GetConfigTable()
 		{
 			Name = "ChannelManagementLogChannel",
 			Description = "Where channel created/updated/deleted should be logged",
-			Type = bot.ConfigType.Channel,
+			Type = Bot.ConfigType.Channel,
 			Optional = true
 		},
 		{
 			Name = "DeletedMessageChannel",
 			Description = "Where deleted messages should be logged",
-			Type = bot.ConfigType.Channel,
+			Type = Bot.ConfigType.Channel,
 			Optional = true
 		},
 		{
 			Name = "NicknameChangedLogChannel",
 			Description = "Where nickname changes should be logged",
-			Type = bot.ConfigType.Channel,
+			Type = Bot.ConfigType.Channel,
 			Optional = true
 		},
 		{
 			Name = "IgnoredDeletedMessageChannels",
 			Description = "Messages deleted in those channels will not be logged",
-			Type = bot.ConfigType.Channel,
+			Type = Bot.ConfigType.Channel,
 			Array = true,
 			Default = {}
 		},
@@ -40,7 +36,7 @@ function Module:GetConfigTable()
 			Global = true,
 			Name = "PersistentMessageCacheSize",
 			Description = "How many of the last messages of every text channel should stay in bot memory?",
-			Type = bot.ConfigType.Integer,
+			Type = Bot.ConfigType.Integer,
 			Default = 50
 		},
 	}
@@ -96,7 +92,7 @@ function Module:OnChannelDelete(channel)
 		embed = {
 			title = "Channel deleted",
 			description = channel.name,
-			timestamp = discordia.Date():toISO('T', 'Z')
+			timestamp = Discordia.Date():toISO('T', 'Z')
 		}
 	})
 end
@@ -123,7 +119,7 @@ function Module:OnChannelCreate(channel)
 		embed = {
 			title = "Channel created",
 			description = "<#" .. channel.id .. ">",
-			timestamp = discordia.Date():toISO('T', 'Z')
+			timestamp = Discordia.Date():toISO('T', 'Z')
 		}
 	})
 end
@@ -148,13 +144,15 @@ function Module:OnMemberUpdate(member)
 
 	local data = self:GetData(guild)
 
-	-- Ignore the first nickname change because new members tend to change it directly after joining which generates a lot of useless logs
+	-- Ignore the first nickname change because new members tend to change it
+	-- directly after joining which generates a lot of useless logs
 	if data.nicknames[member.id] ~= nil and data.nicknames[member.id] ~= member.name then
 		logChannel:send({
 			embed = {
 				title = "Nickname changed",
-				description = string.format("%s - `%s` → `%s`", member.mentionString, data.nicknames[member.id], member.name),
-				timestamp = discordia.Date():toISO('T', 'Z')
+				description = string.format("%s - `%s` → `%s`",
+					member.mentionString, data.nicknames[member.id], member.name),
+				timestamp = Discordia.Date():toISO('T', 'Z')
 			}
 		})
 	end
@@ -163,8 +161,9 @@ function Module:OnMemberUpdate(member)
 		logChannel:send({
 			embed = {
 				title = "Username changed",
-				description = string.format("%s - `%s` → `%s`", member.mentionString, data.usernames[member.id], member.user.username),
-				timestamp = discordia.Date():toISO('T', 'Z')
+				description = string.format("%s - `%s` → `%s`",
+					member.mentionString, data.usernames[member.id], member.user.username),
+				timestamp = Discordia.Date():toISO('T', 'Z')
 			}
 		})
 	end
@@ -192,14 +191,14 @@ function Module:OnMessageDelete(message)
 		return
 	end
 
-	local desc = "🗑️ **Deleted message - sent by " .. message.author.mentionString .. " in " .. message.channel.mentionString .. "**\n"
-
+	local desc = string.format("🗑️ **Deleted message - sent by %s in %s**\n",
+		message.author.mentionString, message.channel.mentionString)
 	local embed = Bot:BuildQuoteEmbed(message, { initialContentSize = #desc })
 	embed.description = desc .. (embed.description or "")
 	embed.footer = {
 		text = string.format("Author ID: %s | Message ID: %s", message.author.id, message.id)
 	}
-	embed.timestamp = discordia.Date():toISO('T', 'Z')
+	embed.timestamp = Discordia.Date():toISO('T', 'Z')
 
 	logChannel:send({
 		embed = embed
@@ -231,7 +230,7 @@ function Module:OnMessageDeleteUncached(channel, messageId)
 			footer = {
 				text = string.format("Message ID: %s", messageId)
 			},
-			timestamp = discordia.Date():toISO('T', 'Z')
+			timestamp = Discordia.Date():toISO('T', 'Z')
 		}
 	})
 end
