@@ -58,6 +58,14 @@ function Module:OnEnable(guild)
 		data.usernames[userId] = user._user._username
 	end
 
+	data.channelNames = {}
+	for channelId, channel in pairs(guild.textChannels) do
+		data.channelNames[channelId] = channel.name
+	end
+	for channelId, channel in pairs(guild.voiceChannels) do
+		data.channelNames[channelId] = channel.name
+	end
+
 	coroutine.wrap(function ()
 		for _, channel in pairs(guild.textChannels) do
 			data.cachedMessages[channel.id] = Bot:FetchChannelMessages(channel, nil, messageCacheSize, true)
@@ -75,6 +83,7 @@ function Module:OnChannelDelete(channel)
 
 	local data = self:GetData(guild)
 	data.cachedMessages[channel.id] = nil
+	data.channelNames[channel.id] = nil
 
 	local config = self:GetConfig(guild)
 	local channelManagementLogChannel = config.ChannelManagementLogChannel
@@ -109,6 +118,9 @@ function Module:OnChannelCreate(channel)
 		return
 	end
 
+	local data = self:GetData(guild)
+	data.channelNames[channel.id] = channel.name
+
 	local logChannel = guild:getChannel(channelManagementLogChannel)
 	if not logChannel then
 		self:LogWarning(guild, "Channel management log channel %s no longer exists", channelManagementLogChannel)
@@ -122,6 +134,49 @@ function Module:OnChannelCreate(channel)
 			timestamp = Discordia.Date():toISO('T', 'Z')
 		}
 	})
+end
+
+function Module:OnChannelUpdate(channel)
+	local guild = channel.guild
+	if not guild then
+		return
+	end
+
+	local config = self:GetConfig(guild)
+	local channelManagementLogChannel = config.ChannelManagementLogChannel
+	if not channelManagementLogChannel then
+		return
+	end
+
+	local data = self:GetData(guild)
+	-- Maybe a channel has been created when the bot was down
+	-- In this case, the old and new names will be identical
+	if not data.channelNames[channel.id] then
+		data.channelNames[channel.id] = channel.name
+		return
+	end
+
+	-- We only want to log name updates
+	if data.channelNames[channel.id] == channel.name then
+		return
+	end
+
+	local logChannel = guild:getChannel(channelManagementLogChannel)
+	if not logChannel then
+		self:LogWarning(guild, "Channel management log channel %s no longer exists", channelManagementLogChannel)
+		return
+	end
+
+	logChannel:send({
+		embed = {
+			title = "Channel updated",
+			description = string.format("%s - `%s` → `%s`",
+				channel.mentionString, data.channelNames[channel.id], channel.name),
+			timestamp = Discordia.Date():toISO('T', 'Z')
+		}
+	})
+
+	data.channelNames[channel.id] = channel.name
 end
 
 function Module:OnMemberUpdate(member)
