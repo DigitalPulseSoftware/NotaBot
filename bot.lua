@@ -12,7 +12,7 @@ local client = discordia.Client({
 	cacheAllMembers = true,
 --	logLevel = 4,
 	gatewayIntents = bit.bor(
-		-- All intents except guildIntegrations and guildPresences
+		-- All intents except guildIntegrations
 		enums.gatewayIntent.guilds,
 		enums.gatewayIntent.guildMembers,
 		enums.gatewayIntent.guildModeration,
@@ -25,7 +25,9 @@ local client = discordia.Client({
 		enums.gatewayIntent.guildMessageTyping,
 		enums.gatewayIntent.directMessage,
 		enums.gatewayIntent.directMessageRections,
-		enums.gatewayIntent.directMessageTyping
+		enums.gatewayIntent.directMessageTyping,
+		-- privileged intents
+		enums.gatewayIntent.guildPresences
 	)
 })
 

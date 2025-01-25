@@ -2,21 +2,24 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
-local Date = Discordia.Date
-
 Module.Name = "userinfo"
 
--- We have to precede special chars with an \ to prevent discord from replacing them with the corresponding emoji :<color>_circle:
-local discordStatus = { online = "\\🟢 Online", dnd = "\\🔴 Do Not Disturb", idle = "\\🟡 Idle", offline = "\\⚪ Offline" }
+
+-- We have to precede special chars with an \ to prevent discord
+-- from replacing them with the corresponding emoji :<color>_circle:
+local discordStatus = {
+	online = "\\🟢 Online", dnd = "\\🔴 Do Not Disturb", idle = "\\🟡 Idle", offline = "\\⚪ Offline"
+}
 local DEFAULT_COLOR = 0 -- Default color value, 0 == black
 local JOIN_ORDER_WINDOW = 7 -- Number of members to show in "Join order" field
+local Date = Discordia.Date
 local intents = Discordia.enums.gatewayIntent
 -- Privileged intent, must be checked before use
 local has_guild_presences_intent = (bit.band(Bot.Client:getIntents(), intents.guildPresences) ~= 0)
 
 -- The highest role with color ~= black defines the color of the username
 local function getMemberColor(sortedRoles)
-	for i, v in ipairs(sortedRoles) do
+	for _, v in ipairs(sortedRoles) do
 		if v.color ~= DEFAULT_COLOR then
 			return v.color
 		end
@@ -47,11 +50,22 @@ local function buildMemberEmbed(member)
 	if has_guild_presences_intent then
 		local presence = discordStatus[member.status]
 		description =
-			string.format("__`Fullname:`__ `%s`\n__`Nickname:`__ `%s`\n__`Presence:`__ %s\n__`Created at:`__ <t:%s:f>\n__`Joined  at:`__ <t:%s:f>\n",
+			string.format([[
+				__`Fullname:`__ `%s`
+				__`Nickname:`__ `%s`
+				__`Presence:`__ %s
+				__`Created at:`__ <t:%s:f>
+				__`Joined  at:`__ <t:%s:f>
+				]],
 				fullName, member.name, presence, createdAt, joinedAt)
 	else
 		description =
-			string.format("__`Fullname:`__ `%s`\n__`Nickname:`__ `%s`\n__`Created at:`__ <t:%s:f>\n__`Joined  at:`__ <t:%s:f>\n",
+			string.format([[
+				__`Fullname:`__ `%s`
+				__`Nickname:`__ `%s`
+				__`Created at:`__ <t:%s:f>
+				__`Joined  at:`__ <t:%s:f>
+				]],
 				fullName, member.name, createdAt, joinedAt)
 	end
 
@@ -62,7 +76,7 @@ local function buildMemberEmbed(member)
 		table.sort(roles, function (a, b) return a.position > b.position end)
 
 		local roleNames = {}
-		for k, v in pairs(roles) do
+		for _, v in pairs(roles) do
 			table.insert(roleNames, string.format("`%s`", v.name))
 		end
 
@@ -118,8 +132,11 @@ function Module:OnLoaded()
 				return commandMessage:reply({ embed = buildMemberEmbed(commandMessage.member) })
 			end
 
+			local targetMember, targetUser
+			local err
 			local guild = commandMessage.guild
-			local targetMember, err = Bot:DecodeMember(guild, targetUserId)
+
+			targetMember, err = Bot:DecodeMember(guild, targetUserId)
 
 			if targetMember then
 				return commandMessage:reply({ embed = buildMemberEmbed(targetMember) })
@@ -127,7 +144,7 @@ function Module:OnLoaded()
 				return commandMessage:reply(err)
 			else
 				-- Not a member of this guild, trying to get info of the user
-				local targetUser, err = Bot:DecodeUser(targetUserId)
+				targetUser, err = Bot:DecodeUser(targetUserId)
 
 				if targetUser then
 					return commandMessage:reply({ embed = buildUserEmbed(targetUser) })
