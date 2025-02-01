@@ -113,7 +113,7 @@ function Module:OnEnable(guild)
 			for _, channel in pairs(guild.textChannels) do
 				self:CheckTextMutePermissions(channel)
 			end
-	
+
 			for _, channel in pairs(guild.voiceChannels) do
 				self:CheckVoiceMutePermissions(channel)
 			end
@@ -184,7 +184,7 @@ local function GenerateJumpToComponents(message)
 				style = enums.buttonStyle.link,
 				url = bot:GenerateMessageLink(message),
 				label = "Jump to message"
-			}		
+			}
 		}
 	}
 end
@@ -257,7 +257,8 @@ function Module:HandleEmojiAdd(userId, message)
 								message = alertMessage.id
 							} or nil
 						})
-						message.channel:send(string.format("%s has been auto-muted for %s due to reporting", reportedUser.mentionString, durationStr, messageLink))
+						message.channel:send(string.format("%s has been auto-muted for %s due to reporting",
+							reportedUser.mentionString, durationStr))
 					else
 						alertChannel:send({
 							content = string.format("Failed to mute %s", reportedUser.mentionString),
@@ -276,7 +277,8 @@ function Module:HandleEmojiAdd(userId, message)
 				local moderatorRole = guild:getRole(config.ModeratorRole)
 				if (moderatorRole) then
 					alertChannel:send({
-						content = string.format("A message has been reported %d times %s\n<%s>", reporterCount, moderatorRole.mentionString, messageLink),
+						content = string.format("A message has been reported %d times %s",
+							reporterCount, moderatorRole.mentionString),
 						reference = alertMessage and {
 							message = alertMessage.id
 						} or nil
@@ -544,7 +546,7 @@ function Module:OnInteractionCreate(interaction)
 					flags = enums.interactionResponseFlag.ephemeral
 				}
 			})
-	
+
 			return
 		end
 
@@ -719,7 +721,7 @@ function Module:OnInteractionCreate(interaction)
 			})
 			return
 		end
-		
+
 		if duration == "0" or duration == "0_deletemessages" then
 			-- "Waiting"
 			interaction:respond({
@@ -748,7 +750,7 @@ function Module:OnInteractionCreate(interaction)
 			interaction:editResponse({
 				content = "✅ the member has been banned" .. (purgeDays > 0 and " (and its last 24h message deleted)" or "")
 			})
-	
+
 			actionStr = "banned permanently by " .. moderator.mentionString .. (purgeDays > 0 and " (last 24h message deleted)" or "")
 		else
 			duration = duration and tonumber(duration) or nil
@@ -798,7 +800,7 @@ function Module:OnInteractionCreate(interaction)
 			interaction:editResponse({
 				content = "✅ the member has been banned for " .. durationStr
 			})
-	
+
 			actionStr = "banned for " .. durationStr .. " by " .. moderator.mentionString
 		end
 	else
