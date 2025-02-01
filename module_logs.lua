@@ -2,6 +2,10 @@
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
 
+local Bot = Bot
+local Discordia = Discordia
+local Date = Discordia.Date
+
 
 Module.Name = "logs"
 
@@ -101,7 +105,7 @@ function Module:OnChannelDelete(channel)
 		embed = {
 			title = "Channel deleted",
 			description = channel.name,
-			timestamp = Discordia.Date():toISO('T', 'Z')
+			timestamp = Date():toISO('T', 'Z')
 		}
 	})
 end
@@ -131,7 +135,7 @@ function Module:OnChannelCreate(channel)
 		embed = {
 			title = "Channel created",
 			description = "<#" .. channel.id .. ">",
-			timestamp = Discordia.Date():toISO('T', 'Z')
+			timestamp = Date():toISO('T', 'Z')
 		}
 	})
 end
@@ -172,7 +176,7 @@ function Module:OnChannelUpdate(channel)
 			title = "Channel updated",
 			description = string.format("%s - `%s` → `%s`",
 				channel.mentionString, data.channelNames[channel.id], channel.name),
-			timestamp = Discordia.Date():toISO('T', 'Z')
+			timestamp = Date():toISO('T', 'Z')
 		}
 	})
 
@@ -207,7 +211,7 @@ function Module:OnMemberUpdate(member)
 				title = "Nickname changed",
 				description = string.format("%s - `%s` → `%s`",
 					member.mentionString, data.nicknames[member.id], member.name),
-				timestamp = Discordia.Date():toISO('T', 'Z')
+				timestamp = Date():toISO('T', 'Z')
 			}
 		})
 	end
@@ -218,7 +222,7 @@ function Module:OnMemberUpdate(member)
 				title = "Username changed",
 				description = string.format("%s - `%s` → `%s`",
 					member.mentionString, data.usernames[member.id], member.user.username),
-				timestamp = Discordia.Date():toISO('T', 'Z')
+				timestamp = Date():toISO('T', 'Z')
 			}
 		})
 	end
@@ -253,7 +257,7 @@ function Module:OnMessageDelete(message)
 	embed.footer = {
 		text = string.format("Author ID: %s | Message ID: %s", message.author.id, message.id)
 	}
-	embed.timestamp = Discordia.Date():toISO('T', 'Z')
+	embed.timestamp = Date():toISO('T', 'Z')
 
 	logChannel:send({
 		embed = embed
@@ -285,7 +289,7 @@ function Module:OnMessageDeleteUncached(channel, messageId)
 			footer = {
 				text = string.format("Message ID: %s", messageId)
 			},
-			timestamp = Discordia.Date():toISO('T', 'Z')
+			timestamp = Date():toISO('T', 'Z')
 		}
 	})
 end
