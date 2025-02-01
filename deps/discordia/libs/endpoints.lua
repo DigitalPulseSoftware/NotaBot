@@ -51,6 +51,7 @@ return {
 	GUILD_SCHEDULED_EVENT_USER                = "/guilds/%s/scheduled-events/%s/users",
 	GUILD_SCHEDULED_EVENTS                    = "/guilds/%s/scheduled-events",
 	GUILD_WEBHOOKS                            = "/guilds/%s/webhooks",
+	GUILD_VANITY_URL                          = "/guilds/%s/vanity-url",
 	INTERACTION_TOKEN_CALLBACK                = "/interactions/%s/%s/callback",
 	INVITE                                    = "/invites/%s",
 	OAUTH2_APPLICATION_ME                     = "/oauth2/applications/@me",

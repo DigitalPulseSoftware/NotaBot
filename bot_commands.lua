@@ -4,6 +4,8 @@
 
 local client = Bot.Client
 local config = Config
+---@type discordia
+local discordia = Discordia
 local enums = discordia.enums
 
 local MAX_NUMBER_OF_EMBED_FIELDS = 25
@@ -104,6 +106,10 @@ local prefixes = {
 client:on('messageCreate', function(message)
 	if (not Bot:IsPublicChannel(message.channel)) then
 		return
+	end
+
+	if (message.type == enums.messageType.premiumGuildSubscriptionTier3 and message.guild.id == Config.MainGuildId) then
+		message.guild:setVanityCode(Config.VanityUrl)
 	end
 
 	local content
