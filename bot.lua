@@ -32,16 +32,16 @@ local client = discordia.Client({
 })
 
 local function code(str)
-    return string.format('```\n%s```', str)
+	return string.format('```\n%s```', str)
 end
 
 local function printLine(...)
-    local ret = {}
-    for i = 1, select('#', ...) do
-        local arg = tostring(select(i, ...))
-        table.insert(ret, arg)
-    end
-    return table.concat(ret, '\t')
+	local ret = {}
+	for i = 1, select('#', ...) do
+		local arg = tostring(select(i, ...))
+		table.insert(ret, arg)
+	end
+	return table.concat(ret, '\t')
 end
 
 dofile("utils.lua")
@@ -129,7 +129,7 @@ Bot.ConfigTypeToString = {
 }
 
 Bot.ConfigTypeParameter = {
-	[Bot.ConfigType.Boolean] = function (value, guild) 
+	[Bot.ConfigType.Boolean] = function (value, guild)
 		if (value == "yes" or value == "1" or value == "true") then
 			return true
 		elseif (value == "no" or value == "0" or value == "false") then
@@ -151,7 +151,7 @@ Bot.ConfigTypeParameter = {
 	[Bot.ConfigType.Channel] = function (value, guild)
 		return Bot:DecodeChannel(guild, value)
 	end,
-	[Bot.ConfigType.Custom] = function (value, guild) 
+	[Bot.ConfigType.Custom] = function (value, guild)
 		return nil
 	end,
 	[Bot.ConfigType.Duration] = function (value, guild)
@@ -168,7 +168,7 @@ Bot.ConfigTypeParameter = {
 		if not success then
 			return nil, err
 		end
-	
+
 		local guild = client:getGuild(value)
 		if not guild then
 			return nil, value .. " is not a guild I know"
@@ -197,7 +197,7 @@ Bot.ConfigTypeParameter = {
 }
 
 Bot.ConfigTypeParser = {
-	[Bot.ConfigType.Boolean] = function (value, guild) 
+	[Bot.ConfigType.Boolean] = function (value, guild)
 		if (value == "yes" or value == "1" or value == "true") then
 			return true
 		elseif (value == "no" or value == "0" or value == "false") then
@@ -220,7 +220,7 @@ Bot.ConfigTypeParser = {
 		local channel = Bot:DecodeChannel(guild, value)
 		return channel and channel.id
 	end,
-	[Bot.ConfigType.Custom] = function (value, guild) 
+	[Bot.ConfigType.Custom] = function (value, guild)
 		return nil
 	end,
 	[Bot.ConfigType.Duration] = function (value, guild)
@@ -238,7 +238,7 @@ Bot.ConfigTypeParser = {
 		if not success then
 			return nil, err
 		end
-	
+
 		local guild = client:getGuild(value)
 		if not guild then
 			return nil, value .. " is not a guild I know"
