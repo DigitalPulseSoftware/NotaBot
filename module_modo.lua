@@ -717,16 +717,29 @@ function Module:OnInteractionCreate(interaction)
 
 		actionStr = "Muted " .. util.DiscordRelativeTime(duration) .. " by " .. moderator.mentionString
 	elseif interactionType == "alertmodule_ban" then
-		local duration = interaction.data.values and interaction.data.values[1] or nil
 
-		local ban = Bot:GetModuleForGuild(guild, "ban")
-		if (ban and not mute:CheckPermissions(moderator)) or (not ban and not moderator:hasPermission(enums.permission.banMembers)) then
+		if (not moderator:hasPermission(enums.permission.banMembers)) then
 			interaction:editResponse({
-				content = string.format("❌ You do not have permission mute this member")
+				content = string.format("❌ You do not have permission ban this member")
 			})
+
 			return
 		end
 
+		local ban = Bot:GetModuleForGuild(guild, "ban")
+		if not ban then
+			interaction:respond({
+				type = enums.interactionResponseType.channelMessageWithSource,
+				data = {
+					content = "❌ The ban module isn't enabled on this server",
+					flags = enums.interactionResponseFlag.ephemeral
+				}
+			})
+
+			return
+		end
+
+		local duration = interaction.data.values and interaction.data.values[1] or nil
 		if duration == "0" or duration == "0_deletemessages" then
 			-- "Waiting"
 			interaction:respond({
