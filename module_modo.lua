@@ -113,7 +113,7 @@ function Module:OnEnable(guild)
 			for _, channel in pairs(guild.textChannels) do
 				self:CheckTextMutePermissions(channel)
 			end
-	
+
 			for _, channel in pairs(guild.voiceChannels) do
 				self:CheckVoiceMutePermissions(channel)
 			end
@@ -184,7 +184,7 @@ local function GenerateJumpToComponents(message)
 				style = enums.buttonStyle.link,
 				url = bot:GenerateMessageLink(message),
 				label = "Jump to message"
-			}		
+			}
 		}
 	}
 end
@@ -544,7 +544,7 @@ function Module:OnInteractionCreate(interaction)
 					flags = enums.interactionResponseFlag.ephemeral
 				}
 			})
-	
+
 			return
 		end
 
@@ -710,16 +710,29 @@ function Module:OnInteractionCreate(interaction)
 
 		actionStr = "Muted " .. util.DiscordRelativeTime(duration) .. " by " .. moderator.mentionString
 	elseif interactionType == "alertmodule_ban" then
-		local duration = interaction.data.values and interaction.data.values[1] or nil
 
-		local ban = Bot:GetModuleForGuild(guild, "ban")
-		if (ban and not mute:CheckPermissions(moderator)) or (not ban and not moderator:hasPermission(enums.permission.banMembers)) then
+		if (not moderator:hasPermission(enums.permission.banMembers)) then
 			interaction:editResponse({
-				content = string.format("❌ You do not have permission mute this member")
+				content = string.format("❌ You do not have permission ban this member")
 			})
+
 			return
 		end
-		
+
+		local ban = Bot:GetModuleForGuild(guild, "ban")
+		if not ban then
+			interaction:respond({
+				type = enums.interactionResponseType.channelMessageWithSource,
+				data = {
+					content = "❌ The ban module isn't enabled on this server",
+					flags = enums.interactionResponseFlag.ephemeral
+				}
+			})
+
+			return
+		end
+
+		local duration = interaction.data.values and interaction.data.values[1] or nil
 		if duration == "0" or duration == "0_deletemessages" then
 			-- "Waiting"
 			interaction:respond({
@@ -748,7 +761,7 @@ function Module:OnInteractionCreate(interaction)
 			interaction:editResponse({
 				content = "✅ the member has been banned" .. (purgeDays > 0 and " (and its last 24h message deleted)" or "")
 			})
-	
+
 			actionStr = "banned permanently by " .. moderator.mentionString .. (purgeDays > 0 and " (last 24h message deleted)" or "")
 		else
 			duration = duration and tonumber(duration) or nil
@@ -798,7 +811,7 @@ function Module:OnInteractionCreate(interaction)
 			interaction:editResponse({
 				content = "✅ the member has been banned for " .. durationStr
 			})
-	
+
 			actionStr = "banned for " .. durationStr .. " by " .. moderator.mentionString
 		end
 	else
