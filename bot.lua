@@ -27,7 +27,8 @@ local client = discordia.Client({
 		enums.gatewayIntent.directMessageRections,
 		enums.gatewayIntent.directMessageTyping,
 		-- privileged intents
-		enums.gatewayIntent.guildPresences
+		enums.gatewayIntent.guildPresences,
+		enums.gatewayIntent.messageContent
 	)
 })
 
