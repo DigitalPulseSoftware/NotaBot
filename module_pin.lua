@@ -63,7 +63,10 @@ function Module:HandleEmojiAdd(config, reaction)
 				end
 
 				alertChannel:send({
-					content = string.format("A message has been auto-pinned in %s:\n%s", message.channel.mentionString, Bot:GenerateMessageLink(message)),
+					content = string.format(
+						"A message has been auto-pinned in %s:\n%s", message.channel.mentionString,
+						Bot:GenerateMessageLink(message)
+					),
 					embed = {
 						author = {
 							name = author.tag,
@@ -149,7 +152,7 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "pin",
 		Args = {
-			{ Name = "<messageId>", Type = bot.ConfigType.Message },
+			{ Name = "messageId", Type = bot.ConfigType.Message }
 		},
 
 		Help = function (guild) return Bot:Format(guild, "PIN_PIN_HELP") end,
@@ -183,7 +186,7 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "unpin",
 		Args = {
-			{ Name = "<messageId>", Type = bot.ConfigType.Message },
+			{ Name = "messageId", Type = bot.ConfigType.Message }
 		},
 
 		Help = function (guild) return Bot:Format(guild, "PIN_UNPIN_HELP") end,

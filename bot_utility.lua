@@ -139,6 +139,18 @@ function Bot:DecodeRole(guild, message)
 	return role
 end
 
+function Bot:ParseModalFields(interaction)
+	local fields = {}
+	for _, row in ipairs(interaction.data.components or {}) do
+		local component = row.components[1]
+		if (component) then
+			fields[component.custom_id] = component.value
+		end
+	end
+
+	return fields
+end
+
 function Bot:DecodeUser(message)
 	assert(message)
 
@@ -156,6 +168,21 @@ function Bot:DecodeUser(message)
 	end
 
 	return user
+end
+
+function Bot:GetGuildPrefix(guild)
+	local prefix = Config.Prefix
+	if (guild) then
+		local serverconfig = self:GetModuleForGuild(guild, "serverconfig")
+		if (serverconfig) then
+			local config = serverconfig:GetConfig(guild)
+			if (config and config.Prefix) then
+				prefix = config.Prefix
+			end
+		end
+	end
+
+	return prefix or "!"
 end
 
 function Bot:GenerateMessageLink(message)

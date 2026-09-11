@@ -39,29 +39,14 @@ function Module:GetConfigTable()
 	}
 end
 
-function Module:OnLoaded()
-	self:RegisterCommand({
-		Name = "kick",
-		Args = {
-			{Name = "target", Type = Bot.ConfigType.Member},
-			{Name = "reason", Type = Bot.ConfigType.String, Optional = true},
-		},
-		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
-
-		Help = "Kicks a member",
-		Silent = true,
-		Func = function (commandMessage, targetMember, reason)
-			local config = self:GetConfig(commandMessage.guild)
-
-			local guild = commandMessage.guild
-			local kickedBy = commandMessage.member
+function Module:PerformKick(guild, kickedBy, targetMember, reason)
+	local config = self:GetConfig(guild)
 
 			-- Permission check
 			local kickedByRole = kickedBy.highestRole
 			local targetRole = targetMember.highestRole
 			if (targetRole.position >= kickedByRole.position) then
-				commandMessage:reply("You cannot kick that user due to your lower permissions.")
-				return
+		return false, "You cannot kick that user due to your lower permissions."
 			end
 
 			if (config.PrivateMessage) then
@@ -77,12 +62,101 @@ function Module:OnLoaded()
 			end
 
 			if (targetMember:kick(string.format("Kicked by %s%s", kickedBy.mentionString, reason and string.format(": %s", reason) or ""))) then
-				commandMessage:reply(string.format("%s has kicked %s%s", kickedBy.user.tag, targetMember.user.tag, reason and string.format(": %s", reason) or ""))
+		return true, string.format("%s has kicked %s%s", kickedBy.user.tag, targetMember.user.tag, reason and string.format(": %s", reason) or "")
 			else
-				commandMessage:reply(string.format("Failed to kick %s", targetMember.user.tag))
+		return false, string.format("Failed to kick %s", targetMember.user.tag)
+	end
 			end
+
+local function BuildKickModal(targetMember)
+	return {
+		type = enums.interactionResponseType.modal,
+		data = {
+			custom_id = "kick_modal_" .. targetMember.id,
+			title = "Kick " .. targetMember.tag,
+			components = {
+				{
+					type = enums.componentType.actionRow,
+					components = {
+						{
+							type = enums.componentType.textInput,
+							custom_id = "reason",
+							style = enums.textInputStyle.paragraph,
+							label = "Reason",
+							required = false
+						}
+					}
+				}
+			}
+		}
+	}
 		end
+
+function Module:OnLoaded()
+	self:RegisterCommand({
+		Name = "kick",
+		Args = {
+			{ Name = "target", Type = Bot.ConfigType.Member, Description = "Member to kick" },
+			{ Name = "reason", Type = Bot.ConfigType.String, Description = "Kick reason", Optional = true }
+		},
+		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+
+		Help = "Kicks a member",
+		Silent = true,
+		Func = function (commandMessage, targetMember, reason)
+			local success, text = self:PerformKick(commandMessage.guild, commandMessage.member, targetMember, reason)
+			commandMessage:reply(text)
+		end,
+		Slash = {
+			Description = "Kick a member",
+			Func = function (interaction, targetMember, reason)
+				local success, text = self:PerformKick(interaction.guild, interaction.member, targetMember, reason)
+				interaction:respond({
+					type = enums.interactionResponseType.channelMessageWithSource,
+					data = { content = text }
+				})
+			end
+		},
+		ContextMenu = {
+			Type = "user",
+			Func = function (interaction, targetMember)
+				interaction:respond(BuildKickModal(targetMember))
+			end
+		}
 	})
 
 	return true
+end
+
+function Module:OnInteractionCreate(interaction)
+	if (interaction.type ~= enums.interactionRequestType.modalSubmit) then
+		return
+	end
+
+	local guild = interaction.guild
+	if (not guild) then
+		return
+	end
+
+	local customId = interaction.data.custom_id
+	local kickTargetId = customId:match("^kick_modal_(%d+)$")
+	if (not kickTargetId) then
+		return
+	end
+
+	if (not self:CheckPermissions(interaction.member)) then
+		return interaction:respond({
+			type = enums.interactionResponseType.channelMessageWithSource,
+			data = { content = "You are not authorized to use this command.", flags = enums.interactionResponseFlag.ephemeral }
+		})
+	end
+
+	local fields = Bot:ParseModalFields(interaction)
+	local targetMember = guild:getMember(kickTargetId)
+	local success, text = self:PerformKick(guild, interaction.member, targetMember, fields.reason)
+
+	interaction:respond({
+		type = enums.interactionResponseType.channelMessageWithSource,
+		data = { content = text }
+	})
 end

@@ -110,7 +110,7 @@ function Module:OnLoaded()
 		Name = "newticket",
 		Args = {
 			{Name = "member", Type = Bot.ConfigType.Member, Optional = true},
-			{Name = "message", Type = Bot.ConfigType.String, Optional = true},
+			{ Name = "message", Type = Bot.ConfigType.String, Optional = true }
 		},
 
 		Help = "Allows you to contact the server staff in private",
@@ -134,7 +134,7 @@ function Module:OnLoaded()
 		Name = "modticket",
 		Args = {
 			{Name = "member", Type = Bot.ConfigType.Member},
-			{Name = "message", Type = Bot.ConfigType.String, Optional = true},
+			{ Name = "message", Type = Bot.ConfigType.String, Optional = true }
 		},
 		PrivilegeCheck = function (member) 
 			local guild = member.guild
@@ -156,7 +156,7 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "closeticket",
 		Args = {
-			{Name = "reason", Type = Bot.ConfigType.String, Optional = true},
+			{ Name = "reason", Type = Bot.ConfigType.String, Optional = true }
 		},
 
 		Help = "When used in a ticket channel, close it",
@@ -164,9 +164,15 @@ function Module:OnLoaded()
 		Func = function (commandMessage, reason)
 			local ret = self:HandleTicketClose(commandMessage.member, commandMessage, reason, false)
 			if (ret == nil) then
-				commandMessage:reply(bot:Format(commandMessage.guild, "MODMAIL_NOTACTIVETICKET", commandMessage.member.user.mentionString))
+				commandMessage:reply(
+					bot:Format(
+						commandMessage.guild, "MODMAIL_NOTACTIVETICKET", commandMessage.member.user.mentionString
+					)
+				)
 			elseif (ret == false) then
-				commandMessage:reply(bot:Format(commandMessage.guild, "MODMAIL_NOTAUTHORIZED", commandMessage.member.user.mentionString))
+				commandMessage:reply(
+					bot:Format(commandMessage.guild, "MODMAIL_NOTAUTHORIZED", commandMessage.member.user.mentionString)
+				)
 			end
 		end
 	})
@@ -174,13 +180,175 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "createticketform",
 		Args = {
-			{Name = "channel", Type = Bot.ConfigType.Channel},
+			{ Name = "channel", Type = Bot.ConfigType.Channel }
 		},
 		PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
 
 		Help = "Creates a button in the specified channel to open the ticket form",
 		Silent = true,
 		Func = function (commandMessage, channel)
+			self:PostTicketForm(channel, commandMessage.guild)
+		end
+	})
+
+	self:RegisterCommand({
+		Name = "modmail",
+		Subcommands = {
+			{
+				Name = "new",
+				Description = "Contact the server staff in private",
+				Args = {
+					{
+						Name = "member",
+						Type = Bot.ConfigType.Member,
+						Optional = true,
+						Description = "Open the ticket for someone else (requires ticket handling role)"
+					},
+					{
+						Name = "message",
+						Type = Bot.ConfigType.String,
+						Optional = true,
+						Description = "Message to include with the ticket"
+					}
+				},
+				Func = function (interaction, targetMember, reason)
+					local fromMember = interaction.member
+
+					local authorized, err = self:CheckOpenTicketPermission(fromMember, targetMember)
+					if not authorized then
+						return interaction:respond({
+							type = enums.interactionResponseType.channelMessageWithSource,
+							data = {
+								content = err,
+								flags = enums.interactionResponseFlag.ephemeral
+							}
+						})
+					end
+
+					local ticketChannel
+					ticketChannel, err = self:OpenTicket(fromMember, targetMember or fromMember, reason, true)
+					if (not ticketChannel) then
+						return interaction:respond({
+							type = enums.interactionResponseType.channelMessageWithSource,
+							data = {
+								content = err,
+								flags = enums.interactionResponseFlag.ephemeral
+							}
+						})
+					end
+
+					interaction:respond({
+						type = enums.interactionResponseType.channelMessageWithSource,
+						data = {
+							content = ticketChannel.mentionString,
+							flags = enums.interactionResponseFlag.ephemeral
+						}
+					})
+				end
+			},
+			{
+				Name = "mod",
+				Description = "Open a moderation ticket for someone (target can't talk)",
+				Args = {
+					{ Name = "member", Type = Bot.ConfigType.Member, Description = "Member to open the ticket for" },
+					{
+						Name = "message",
+						Type = Bot.ConfigType.String,
+						Optional = true,
+						Description = "Message to include with the ticket"
+					}
+				},
+				PrivilegeCheck = function (member)
+					local config = self:GetConfig(member.guild)
+					return util.MemberHasAnyRole(member, config.TicketHandlingRoles)
+				end,
+				Func = function (interaction, targetMember, reason)
+					local success, err = self:OpenTicket(interaction.member, targetMember, reason, false)
+					if (not success) then
+						return interaction:respond({
+							type = enums.interactionResponseType.channelMessageWithSource,
+							data = {
+								content = err,
+								flags = enums.interactionResponseFlag.ephemeral
+							}
+						})
+					end
+
+					interaction:respond({
+						type = enums.interactionResponseType.channelMessageWithSource,
+						data = {
+							content = success.mentionString,
+							flags = enums.interactionResponseFlag.ephemeral
+						}
+					})
+				end
+			},
+			{
+				Name = "close",
+				Description = "Close the current ticket",
+				Args = {
+					{ Name = "reason", Type = Bot.ConfigType.String, Optional = true, Description = "Close reason" }
+				},
+				Func = function (interaction, reason)
+					local ret = self:HandleTicketClose(
+						interaction.member, { channel = interaction.channel, guild = interaction.guild }, reason, false
+					)
+					local content, embed
+					local ephemeral = false
+					if (ret == nil) then
+						content = bot:Format(
+							interaction.guild, "MODMAIL_NOTACTIVETICKET", interaction.member.mentionString
+						)
+						ephemeral = true
+					elseif (ret == false) then
+						content = bot:Format(
+							interaction.guild, "MODMAIL_NOTAUTHORIZED", interaction.member.mentionString
+						)
+						ephemeral = true
+					else
+						embed = {
+							description = bot:Format(
+								interaction.guild, "MODMAIL_TICKETCLOSED_CONFIRMATION", interaction.member.mentionString
+							),
+							color = 0x2ECC71
+						}
+					end
+
+					interaction:respond({
+						type = enums.interactionResponseType.channelMessageWithSource,
+						data = {
+							content = content,
+							embeds = embed and { embed } or nil,
+							flags = ephemeral and enums.interactionResponseFlag.ephemeral or nil
+						}
+					})
+				end
+			},
+			{
+				Name = "form",
+				Description = "Post a button in a channel to let members open a ticket themselves",
+				Args = {
+					{ Name = "channel", Type = Bot.ConfigType.Channel, Description = "Channel to post the button in" }
+				},
+				PrivilegeCheck = function (member) return member:hasPermission(enums.permission.administrator) end,
+				Func = function (interaction, channel)
+					self:PostTicketForm(channel, interaction.guild)
+					interaction:respond({
+						type = enums.interactionResponseType.channelMessageWithSource,
+						data = {
+							content = "Ticket form posted.",
+							flags = enums.interactionResponseFlag.ephemeral
+						}
+					})
+				end
+			}
+		}
+	})
+
+	return true
+end
+
+function Module:PostTicketForm(channel, guild)
 			channel:send({
 				components = {
 					{
@@ -190,17 +358,13 @@ function Module:OnLoaded()
 								type = enums.componentType.button,
 								style = enums.buttonStyle.primary,
 								custom_id = "modmail_openticketform",
-								label = bot:Format(commandMessage.guild, "MODMAIL_OPENTICKET_BUTTON_LABEL")
+						label = bot:Format(guild, "MODMAIL_OPENTICKET_BUTTON_LABEL")
 							}
 						}
 					}
 				}
 			})
 		end
-	})
-
-	return true
-end
 
 function Module:OnUnload()
 	self.Timer:Stop()
@@ -279,7 +443,10 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 				end
 			end
 
-			local closeMessage = bot:Format(guild, "MODMAIL_TICKETCLOSE_MESSAGE", member.user.mentionString, util.DiscordRelativeTime(config.DeleteDuration))
+			local closeMessage = bot:Format(
+				guild, "MODMAIL_TICKETCLOSE_MESSAGE", member.user.mentionString,
+				util.DiscordRelativeTime(config.DeleteDuration)
+			)
 
 			if (reason and #reason > 0) then
 				local author = member.user
@@ -313,7 +480,8 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 			if (ticketMember) then
 				local permissions = ticketChannel:getPermissionOverwriteFor(ticketMember)
 
-				if (not permissions or not permissions:setPermissions(enums.permission.viewChannel, enums.permission.sendMessages)) then
+				if (not permissions
+					or not permissions:setPermissions(enums.permission.viewChannel, enums.permission.sendMessages)) then
 					ticketChannel:sendf("Failed to deny send messages permission to %s.", ticketMember.mentionString)
 				end
 			end
@@ -323,10 +491,7 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 				if (channel) then
 					local author
 					if (ticketMember) then
-						author = {
-							name = ticketMember.tag,
-							icon_url = ticketMember.avatarURL
-						}
+						author = { name = ticketMember.tag, icon_url = ticketMember.avatarURL }
 					end
 
 					local fields
@@ -352,10 +517,7 @@ function Module:HandleTicketClose(member, message, reason, reactionClose)
 						end
 
 						local jsonSave = json.encode(bot:MessagesToTable(messages), { indent = 1})
-						file = {
-							"messages.json", 
-							jsonSave
-						}
+						file = { "messages.json", jsonSave }
 
 						fields = fields or {}
 						table.insert(fields, {
@@ -428,16 +590,25 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 
 	if (data.activeChannels[targetMember.user.id]) then
 		if (targetMember == fromMember) then
-			return false, string.format("you already have an active ticket on this server, %s.", targetMember.user.mentionString)
+			return false,
+				string.format("you already have an active ticket on this server, %s.", targetMember.user.mentionString)
 		else
-			return false, string.format("%s already has an active ticket on this server.", targetMember.user.tag, targetMember.user.mentionString)
+			return false,
+				string.format(
+					"%s already has an active ticket on this server.", targetMember.user.tag,
+					targetMember.user.mentionString
+				)
 		end
 
 		return
 	end
 
 	if (config.MaxConcurrentChannels > 0 and table.count(data.activeChannels) >= config.MaxConcurrentChannels) then
-		return false, string.format("sorry %s, but there are actually too many tickets open at the same time, please retry in a moment", fromMember.user.mentionString)
+		return false,
+			string.format(
+				"sorry %s, but there are actually too many tickets open at the same time, please retry in a moment",
+				fromMember.user.mentionString
+			)
 	end
 
 	local modmailCategory = guild:getChannel(config.Category)
@@ -450,7 +621,10 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 		filteredUsername = "empty"
 	end
 
-	local ticketChannel, err = modmailCategory:createTextChannel(string.format("%s-%s", filteredUsername, targetMember.user.discriminator))
+	local channelName = targetMember.user.discriminator == "0" and filteredUsername
+		or string.format("%s-%s", filteredUsername, targetMember.user.discriminator)
+
+	local ticketChannel, err = modmailCategory:createTextChannel(channelName)
 	if (not ticketChannel) then
 		print(err)
 		return false, "failed to create the channel, this is likely a bug."
@@ -483,10 +657,12 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 				desc = targetMember.mentionString .. " has opened a new ticket (" .. ticketChannel.mentionString .. ")"
 			elseif (twoWays) then
 				color = 65280
-				desc = fromMember.mentionString .. " has opened a new ticket for " .. targetMember.mentionString .. " (" .. ticketChannel.mentionString .. ")"
+				desc = fromMember.mentionString .. " has opened a new ticket for " .. targetMember.mentionString .. " ("
+					.. ticketChannel.mentionString .. ")"
 			else
 				color = 16776960
-				desc = fromMember.mentionString .. " has opened a moderator ticket for " .. targetMember.mentionString .. " (" .. ticketChannel.mentionString .. ")"
+				desc = fromMember.mentionString .. " has opened a moderator ticket for " .. targetMember.mentionString
+					.. " (" .. ticketChannel.mentionString .. ")"
 			end
 
 			local fields
@@ -533,7 +709,9 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 	if (targetMember == fromMember) then
 		message = bot:Format(guild, "MODMAIL_TICKETOPENING_MESSAGE", targetMember.user.mentionString, guild.name)
 	else
-		message = bot:Format(guild, "MODMAIL_TICKETOPENING_MESSAGE_MODERATION", targetMember.user.mentionString, guild.name)
+		message = bot:Format(
+			guild, "MODMAIL_TICKETOPENING_MESSAGE_MODERATION", targetMember.user.mentionString, guild.name
+		)
 	end
 
 	local components = {
@@ -553,10 +731,7 @@ function Module:OpenTicket(fromMember, targetMember, reason, twoWays)
 		}
 	}
 
-	local messageData = {
-		content = message,
-		components = components
-	}
+	local messageData = { content = message, components = components }
 
 	local message = ticketChannel:send(messageData)
 	message:pin()
@@ -645,26 +820,25 @@ function Module:OnInteractionCreate(interaction)
 
 	local interactionType = interaction.data.custom_id
 	if interactionType == "modmail_closeticket" then
-		-- "Waiting"
 		interaction:respond({
-			type = enums.interactionResponseType.deferredChannelMessageWithSource,
-			data = {
-				flags = enums.interactionResponseFlag.ephemeral
-			}
+			type = enums.interactionResponseType.deferredUpdateMessage
 		})
 
 		local ret = self:HandleTicketClose(interaction.member, interaction.message, nil, true)
 		if (ret == nil) then
-			interaction:editResponse({
-				content = bot:Format(guild, "MODMAIL_NOTACTIVETICKET", interaction.member.mentionString),
+			interaction.channel:send({
+				content = bot:Format(guild, "MODMAIL_NOTACTIVETICKET", interaction.member.mentionString)
 			})
 		elseif (ret == false) then
-			interaction:editResponse({
-				content = bot:Format(guild, "MODMAIL_NOTAUTHORIZED", interaction.member.mentionString),
+			interaction.channel:send({
+				content = bot:Format(guild, "MODMAIL_NOTAUTHORIZED", interaction.member.mentionString)
 			})
 		else
-			interaction:editResponse({
-				content = bot:Format(guild, "MODMAIL_TICKETCLOSED_CONFIRMATION", interaction.member.mentionString)
+			interaction.channel:send({
+				embed = {
+					description = bot:Format(guild, "MODMAIL_TICKETCLOSED_CONFIRMATION", interaction.member.mentionString),
+					color = 0x2ECC71
+				}
 			})
 		end
 	elseif interactionType == "modmail_openticketform" then

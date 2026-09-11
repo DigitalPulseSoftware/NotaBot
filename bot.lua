@@ -1,7 +1,6 @@
 -- Copyright (C) 2018 Jérôme Leclercq
 -- This file is part of the "Not a Bot" application
 -- For conditions of distribution and use, see copyright notice in LICENSE
-
 local discordia = require('discordia')
 local enums = discordia.enums
 local wrap = coroutine.wrap
@@ -32,16 +31,16 @@ local client = discordia.Client({
 })
 
 local function code(str)
-    return string.format('```\n%s```', str)
+	return string.format('```\n%s```', str)
 end
 
 local function printLine(...)
-    local ret = {}
-    for i = 1, select('#', ...) do
-        local arg = tostring(select(i, ...))
-        table.insert(ret, arg)
-    end
-    return table.concat(ret, '\t')
+	local ret = {}
+	for i = 1, select('#', ...) do
+		local arg = tostring(select(i, ...))
+		table.insert(ret, arg)
+	end
+	return table.concat(ret, '\t')
 end
 
 dofile("utils.lua")
@@ -129,7 +128,7 @@ Bot.ConfigTypeToString = {
 }
 
 Bot.ConfigTypeParameter = {
-	[Bot.ConfigType.Boolean] = function (value, guild) 
+	[Bot.ConfigType.Boolean] = function (value, guild)
 		if (value == "yes" or value == "1" or value == "true") then
 			return true
 		elseif (value == "no" or value == "0" or value == "false") then
@@ -151,7 +150,7 @@ Bot.ConfigTypeParameter = {
 	[Bot.ConfigType.Channel] = function (value, guild)
 		return Bot:DecodeChannel(guild, value)
 	end,
-	[Bot.ConfigType.Custom] = function (value, guild) 
+	[Bot.ConfigType.Custom] = function (value, guild)
 		return nil
 	end,
 	[Bot.ConfigType.Duration] = function (value, guild)
@@ -168,7 +167,7 @@ Bot.ConfigTypeParameter = {
 		if not success then
 			return nil, err
 		end
-	
+
 		local guild = client:getGuild(value)
 		if not guild then
 			return nil, value .. " is not a guild I know"
@@ -197,7 +196,7 @@ Bot.ConfigTypeParameter = {
 }
 
 Bot.ConfigTypeParser = {
-	[Bot.ConfigType.Boolean] = function (value, guild) 
+	[Bot.ConfigType.Boolean] = function (value, guild)
 		if (value == "yes" or value == "1" or value == "true") then
 			return true
 		elseif (value == "no" or value == "0" or value == "false") then
@@ -220,7 +219,7 @@ Bot.ConfigTypeParser = {
 		local channel = Bot:DecodeChannel(guild, value)
 		return channel and channel.id
 	end,
-	[Bot.ConfigType.Custom] = function (value, guild) 
+	[Bot.ConfigType.Custom] = function (value, guild)
 		return nil
 	end,
 	[Bot.ConfigType.Duration] = function (value, guild)
@@ -238,7 +237,7 @@ Bot.ConfigTypeParser = {
 		if not success then
 			return nil, err
 		end
-	
+
 		local guild = client:getGuild(value)
 		if not guild then
 			return nil, value .. " is not a guild I know"
@@ -270,6 +269,23 @@ Bot.ConfigTypeParser = {
 	end
 }
 
+Bot.ConfigTypeToCommandOptionType = {
+	[Bot.ConfigType.Boolean]  = enums.commandOptionType.boolean,
+	[Bot.ConfigType.Category] = enums.commandOptionType.channel,
+	[Bot.ConfigType.Channel]  = enums.commandOptionType.channel,
+	[Bot.ConfigType.Custom]   = enums.commandOptionType.string,
+	[Bot.ConfigType.Duration] = enums.commandOptionType.string,
+	[Bot.ConfigType.Emoji]    = enums.commandOptionType.string,
+	[Bot.ConfigType.Guild]    = enums.commandOptionType.string,
+	[Bot.ConfigType.Integer]  = enums.commandOptionType.integer,
+	[Bot.ConfigType.Member]   = enums.commandOptionType.user,
+	[Bot.ConfigType.Message]  = enums.commandOptionType.string,
+	[Bot.ConfigType.Number]   = enums.commandOptionType.number,
+	[Bot.ConfigType.Role]     = enums.commandOptionType.role,
+	[Bot.ConfigType.String]   = enums.commandOptionType.string,
+	[Bot.ConfigType.User]     = enums.commandOptionType.user,
+}
+
 client:onSync("ready", function ()
 	print("Logged in as " .. client.user.username)
 end)
@@ -290,7 +306,8 @@ function Bot:Save()
 	local stopwatch = discordia.Stopwatch()
 
 	for _, moduleTable in pairs(self.Modules) do
-		self:ProtectedCall(string.format("Module (%s) persistent data save", moduleTable.Name), moduleTable.SavePersistentData, moduleTable)
+		self:ProtectedCall(string.format("Module (%s) persistent data save", moduleTable.Name),
+			moduleTable.SavePersistentData, moduleTable)
 	end
 
 	client:info("Modules data saved (%.3fs)", stopwatch.milliseconds / 1000)

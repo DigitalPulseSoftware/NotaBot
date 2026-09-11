@@ -78,30 +78,15 @@ local function ValidateString(str)
 	return true
 end
 
-local footerFields = {
-	icon_url = ValidateString,
-	text = ValidateString
-}
+local footerFields = { icon_url = ValidateString, text = ValidateString }
 
-local imageFields = {
-	url = ValidateString
-}
+local imageFields = { url = ValidateString }
 
-local thumbnailFields = {
-	url = ValidateString
-}
+local thumbnailFields = { url = ValidateString }
 
-local authorFields = {
-	name = ValidateString,
-	url = ValidateString,
-	icon_url = ValidateString
-}
+local authorFields = { name = ValidateString, url = ValidateString, icon_url = ValidateString }
 
-local fieldFields = {
-	name = ValidateString,
-	value = ValidateString,
-	inline = ValidateBoolean
-}
+local fieldFields = { name = ValidateString, value = ValidateString, inline = ValidateBoolean }
 
 local embedFields = {
 	title = ValidateString,
@@ -172,7 +157,7 @@ local embedFields = {
 		end
 
 		return true
-	end,
+	end
 }
 
 local function validateRole(value, metadata)
@@ -375,10 +360,7 @@ local function ValidateActionRowComponent(component, metadata)
 	return true
 end
 
-local emojiFields = {
-	id = util.ValidateSnowflake,
-	name = ValidateString
-}
+local emojiFields = { id = util.ValidateSnowflake, name = ValidateString }
 
 local buttonFields = {
 	type = function(type)
@@ -609,7 +591,9 @@ local function ValidateMessageData(data, member, guild, actions)
 		return false, "MessageData must be an object"
 	end
 
-	local success, err = ValidateFields(data, messageFields, false, { member = member, guild = guild, actions = actions })
+	local success, err = ValidateFields(
+		data, messageFields, false, { member = member, guild = guild, actions = actions }
+	)
 	if (not success) then
 		return false, "MessageData" .. err
 	end
@@ -687,7 +671,7 @@ function Module:GetConfigTable()
 				end
 
 				return true
-			end,
+			end
 		},
 		{
 			Name = "Aliases",
@@ -713,7 +697,7 @@ function Module:GetConfigTable()
 				end
 
 				return true
-			end,
+			end
 		},
 		{
 			Name = "DeleteInvokation",
@@ -757,9 +741,7 @@ function Module:ParseContentParameter(content, commandMessage, actions)
 			if (message and message.member:hasPermission(message.channel, enums.permission.viewChannel)) then
 				return GetMessageFields(message)
 			else
-				return {
-					content = content
-				}
+				return { content = content }
 			end
 		end
 	elseif (commandMessage.attachments) then
@@ -822,6 +804,48 @@ function Module:ReplaceData(data, triggeringMember)
 	return data
 end
 
+function Module:BuildReplyListText(guild)
+	local config = self:GetConfig(guild)
+	local replies = config.Replies
+	local aliases = config.Aliases
+	local result = "```replies                         aliases\n\n"
+
+	for kr, _ in pairs(replies) do
+		-- Find the alias of each reply, if there is one
+		local alias = ""
+		for ka, kv in pairs(aliases) do
+			if kr == kv then
+				alias = ka
+			end
+		end
+
+		result = result .. string.format("%-28s    %s\n", kr, alias)
+	end
+
+	result = result .. "```"
+	return result
+end
+
+function Module:PerformReply(guild, triggeringMember, name)
+	local config = self:GetConfig(guild)
+	local reply = config.Replies[name] or config.Replies[config.Aliases[name]]
+	if (not reply) then
+		return nil, string.format("No reply is registered for %s", name)
+	end
+
+	reply = table.deepcopy(reply)
+
+	local success, err = ValidateMessageData(reply, triggeringMember, guild)
+	if (not success) then
+		return nil, err
+	end
+
+	reply.content = self:ReplaceData(reply.content, triggeringMember)
+	reply.embed = self:ReplaceData(reply.embed, triggeringMember)
+
+	return reply
+end
+
 function Module:RegisterAction(guild, messageId, actions)
 	if next(actions) == nil then
 		-- not actions
@@ -849,7 +873,7 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "rawmessage",
 		Args = {
-			{ Name = "message", Type = Bot.ConfigType.Message },
+			{ Name = "message", Type = Bot.ConfigType.Message }
 		},
 		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
@@ -887,7 +911,7 @@ function Module:OnLoaded()
 		Name = "sendmessage",
 		Args = {
 			{ Name = "channel", Type = Bot.ConfigType.Channel, Optional = true },
-			{ Name = "content", Type = Bot.ConfigType.String,  Optional = true },
+			{ Name = "content", Type = Bot.ConfigType.String, Optional = true }
 		},
 		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
@@ -902,7 +926,8 @@ function Module:OnLoaded()
 			local member = commandMessage.member
 
 			channel = channel or commandMessage.channel
-			if (not member:hasPermission(channel, enums.permission.viewChannel) or not member:hasPermission(channel, enums.permission.sendMessages)) then
+			if (not member:hasPermission(channel, enums.permission.viewChannel)
+				or not member:hasPermission(channel, enums.permission.sendMessages)) then
 				commandMessage:reply("You don't have the permission to send messages in that channel")
 				return
 			end
@@ -923,7 +948,7 @@ function Module:OnLoaded()
 		Name = "editmessage",
 		Args = {
 			{ Name = "message", Type = Bot.ConfigType.Message },
-			{ Name = "content", Type = Bot.ConfigType.String, Optional = true },
+			{ Name = "content", Type = Bot.ConfigType.String, Optional = true }
 		},
 		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
@@ -941,7 +966,8 @@ function Module:OnLoaded()
 			end
 
 			local member = commandMessage.member
-			if (not member:hasPermission(message.channel, enums.permission.viewChannel) or not member:hasPermission(message.channel, enums.permission.sendMessages)) then
+			if (not member:hasPermission(message.channel, enums.permission.viewChannel)
+				or not member:hasPermission(message.channel, enums.permission.sendMessages)) then
 				commandMessage:reply("You don't have the permission to send messages in that channel")
 				return
 			end
@@ -962,7 +988,7 @@ function Module:OnLoaded()
 		Name = "addreply",
 		Args = {
 			{ Name = "trigger", Type = Bot.ConfigType.String },
-			{ Name = "content", Type = Bot.ConfigType.String, Optional = true },
+			{ Name = "content", Type = Bot.ConfigType.String, Optional = true }
 		},
 		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
@@ -986,7 +1012,7 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "removereply",
 		Args = {
-			{ Name = "trigger", Type = Bot.ConfigType.String },
+			{ Name = "trigger", Type = Bot.ConfigType.String }
 		},
 		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
@@ -1012,33 +1038,93 @@ function Module:OnLoaded()
 
 		Help = "List all replies and their aliases",
 		Func = function(commandMessage)
-			local config = self:GetConfig(commandMessage.guild)
-			local replies = config.Replies
-			local aliases = config.Aliases
-			local result = "```replies                         aliases\n\n"
+			commandMessage:reply(self:BuildReplyListText(commandMessage.guild))
+		end
+	})
 
-			for kr, _ in pairs(replies) do
-				-- Find the alias of each reply, if there is one
-				local alias = ""
-				for ka, kv in pairs(aliases) do
-					if kr == kv then
-						alias = ka
+	self:RegisterCommand({
+		Name = "reply",
+		Args = {
+			{
+				Name = "name",
+				Type = Bot.ConfigType.String,
+				Description = "Reply trigger/alias, or \"list\" to show all available replies",
+				Autocomplete = function (guild, _member, current)
+					local config = self:GetConfig(guild)
+
+					local names = { "list" }
+					for trigger, _ in pairs(config.Replies) do
+						table.insert(names, trigger)
 					end
+					for alias, _ in pairs(config.Aliases) do
+						table.insert(names, alias)
 				end
 
-				result = result .. string.format("%-28s    %s\n", kr, alias)
+					table.sort(names)
+
+					current = current:lower()
+					local choices = {}
+					for _, name in ipairs(names) do
+						if (#current == 0 or name:lower():find(current, 1, true)) then
+							table.insert(choices, { name = name, value = name })
+						end
 			end
 
-			result = result .. "```"
-			commandMessage:reply(result)
+					return choices
+				end
+			}
+		},
+
+		Help = "Sends a predefined reply, or lists them with \"list\"",
+		Func = function (commandMessage, name)
+			if (name:lower() == "list") then
+				commandMessage:reply(self:BuildReplyListText(commandMessage.guild))
+				return
+			end
+
+			local reply, err = self:PerformReply(commandMessage.guild, commandMessage.member, name)
+			if (not reply) then
+				commandMessage:reply(err)
+				return
 		end
+
+			RemoveTableKey(reply, "deleteInvokation")
+			commandMessage:reply(reply)
+		end,
+		Slash = {
+			Description = "Send a predefined reply, or list them with \"list\"",
+			Func = function (interaction, name)
+				if (name:lower() == "list") then
+					return interaction:respond({
+						type = enums.interactionResponseType.channelMessageWithSource,
+						data = {
+							content = self:BuildReplyListText(interaction.guild)
+						}
+					})
+				end
+
+				local reply, err = self:PerformReply(interaction.guild, interaction.member, name)
+				if (not reply) then
+					return interaction:respond({
+						type = enums.interactionResponseType.channelMessageWithSource,
+						data = { content = err, flags = enums.interactionResponseFlag.ephemeral }
+					})
+				end
+
+				RemoveTableKey(reply, "deleteInvokation")
+				interaction:respond({
+					type = enums.interactionResponseType.channelMessageWithSource,
+					data = reply
+				})
+			end
+		}
 	})
 
 	self:RegisterCommand({
 		Name = "addalias",
 		Args = {
 			{ Name = "alias",   Type = Bot.ConfigType.String },
-			{ Name = "trigger", Type = Bot.ConfigType.String },
+			{ Name = "trigger", Type = Bot.ConfigType.String }
 		},
 		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
@@ -1049,8 +1135,9 @@ function Module:OnLoaded()
 			config.Replies = config.Replies or {}
 
 			if (config.Replies[alias]) then
-				commandMessage:reply(string.format(
-					"A reply is already registered for `%s`, thus, cannot be an alias of itself.", alias))
+				commandMessage:reply(
+					string.format("A reply is already registered for `%s`, thus, cannot be an alias of itself.", alias)
+				)
 				return
 			end
 
@@ -1066,7 +1153,7 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "removealias",
 		Args = {
-			{ Name = "alias", Type = Bot.ConfigType.String },
+			{ Name = "alias", Type = Bot.ConfigType.String }
 		},
 		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
@@ -1091,7 +1178,7 @@ function Module:OnLoaded()
 		Name = "editreply",
 		Args = {
 			{ Name = "trigger", Type = Bot.ConfigType.String },
-			{ Name = "content", Type = Bot.ConfigType.String, Optional = true },
+			{ Name = "content", Type = Bot.ConfigType.String, Optional = true }
 		},
 		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
@@ -1122,7 +1209,7 @@ function Module:OnLoaded()
 			{ Name = "channel",          Type = Bot.ConfigType.Channel, Optional = true },
 			{ Name = "afterMessage",     Type = Bot.ConfigType.Message, Optional = true },
 			{ Name = "limit",            Type = Bot.ConfigType.Integer, Optional = true },
-			{ Name = "fromFirstMessage", Type = Bot.ConfigType.Boolean, Optional = true },
+			{ Name = "fromFirstMessage", Type = Bot.ConfigType.Boolean, Optional = true }
 		},
 		PrivilegeCheck = function(member) return self:CheckPermissions(member) end,
 
@@ -1133,7 +1220,8 @@ function Module:OnLoaded()
 				-- Don't allow everyone to bypass limit and get all messages (would require a lot of API calls)
 				if limit > 1000 then
 					commandMessage:reply(
-						"Only bot owner can ask to retrieve more than 1000+ messages at once, due to the number of API calls required to fetch messages")
+						"Only the bot owner can request to retrieve more than 1,000 messages at a time, due to the number of API calls required to fetch the messages."
+					)
 					return
 				end
 			end
@@ -1155,8 +1243,9 @@ function Module:OnLoaded()
 
 			commandMessage.channel:broadcastTyping()
 
-			local messages, err = Bot:FetchChannelMessages(targetChannel, afterMessage and afterMessage.id or nil, limit,
-				not fromFirstMessage)
+			local messages, err = Bot:FetchChannelMessages(
+				targetChannel, afterMessage and afterMessage.id or nil, limit, not fromFirstMessage
+			)
 			if not messages then
 				commandMessage:reply(string.format("An error occurred: %s", err))
 				return
@@ -1167,8 +1256,10 @@ function Module:OnLoaded()
 
 			local jsonSave = json.encode(messageData, { indent = 1 })
 			commandMessage:reply({
-				content = string.format("%d message(s) of channel %s have been saved to following file", #messages,
-					targetChannel.mentionString),
+				content = string.format(
+					"%d message(s) from the %s channel were saved to the following file", #messages,
+					targetChannel.mentionString
+				),
 				file = {
 					"messages.json",
 					jsonSave
@@ -1201,21 +1292,14 @@ function Module:OnMessageCreate(message)
 		return
 	end
 
-
 	local config = self:GetConfig(message.guild)
 	local content = string.trim(trimPreprendedMention(message.content))
-	local reply = config.Replies[content] or config.Replies[config.Aliases[content]]
-	if (reply) then
-		reply = table.deepcopy(reply)
-
-		local success, err = ValidateMessageData(reply, message.member, message.guild)
-		if (not success) then
+	if (config.Replies[content] or config.Replies[config.Aliases[content]]) then
+		local reply, err = self:PerformReply(message.guild, message.member, content)
+		if (not reply) then
 			message:reply(err)
 			return
 		end
-
-		reply.content = self:ReplaceData(reply.content, message.member)
-		reply.embed = self:ReplaceData(reply.embed, message.member)
 
 		local deleteInvokation = RemoveTableKey(reply, "deleteInvokation")
 		if deleteInvokation == nil then
@@ -1316,7 +1400,7 @@ function Module:OnInteractionCreate(interaction)
 	end
 
 	interaction:editResponse({
-		content = #messages > 0 and table.concat(messages, "\n") or "Nothing to do",
+		content = #messages > 0 and table.concat(messages, "\n") or "Nothing to do"
 	})
 
 	-- C'est saaaaaaaaaaaaale

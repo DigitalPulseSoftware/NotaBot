@@ -154,7 +154,7 @@ local configTypeValidation = {
 
 		return true
 	end,
-	[Bot.ConfigType.User] = util.ValidateSnowflake,
+	[Bot.ConfigType.User] = util.ValidateSnowflake
 }
 
 local validateConfigType = function (configTable, value, guildId)
@@ -220,7 +220,10 @@ function ModuleMetatable:_PrepareConfig(context, config, values, guildId)
 		else
 			local success, err = validateConfigType(configTable, value, guildId)
 			if (not success) then
-				self:LogWarning("%s has invalid value (%s) for option %s (%s), resetting...", context, tostring(value), configTable.Name, err or "<unknown error>")
+				self:LogWarning(
+					"%s has invalid value (%s) for option %s (%s), resetting...", context, tostring(value),
+					configTable.Name, err or "<unknown error>"
+				)
 				reset = true
 			end
 		end
@@ -271,6 +274,10 @@ function ModuleMetatable:DisableForGuild(guild, dontSave)
 			self:SaveGuildConfig(guild)
 		end
 
+		if (self._ApplicationCommands and #self._ApplicationCommands > 0) then
+			Bot:UnsyncApplicationCommandsForGuild(guild, self._ApplicationCommands)
+		end
+
 		self:LogInfo(guild, "Module disabled")
 		return true
 	else
@@ -303,6 +310,10 @@ function ModuleMetatable:EnableForGuild(guild, ignoreCheck, dontSave)
 
 	if (not dontSave) then
 		self:Save(guild)
+	end
+
+	if (self._ApplicationCommands and #self._ApplicationCommands > 0) then
+		Bot:SyncApplicationCommandsForGuild(guild, self._ApplicationCommands)
 	end
 
 	self:LogInfo(guild, "Module enabled (%.3fs)", stopwatch.milliseconds / 1000)
@@ -341,9 +352,7 @@ function ModuleMetatable:GetGuildData(guildId, noCreate)
 	local guildData = self._Guilds[guildId]
 	if (not guildData and not noCreate) then
 		guildData = {}
-		guildData.Config = {
-			_Enabled = false
-		}
+		guildData.Config = { _Enabled = false }
 		guildData.Data = {}
 		guildData.PersistentData = {}
 		guildData._Ready = false
@@ -388,7 +397,10 @@ for k, func in pairs({"error", "info", "warning"}) do
 		if (type(guild) == "string") then
 			Bot.Client[func](Bot.Client, "[%s][%s] %s", "<*>", moduleTable.Name, string.format(guild, ...))
 		else
-			Bot.Client[func](Bot.Client, "[%s][%s] %s", guild and guild.name or "<Invalid guild>", moduleTable.Name, string.format(...))
+			Bot.Client[func](
+				Bot.Client, "[%s][%s] %s", guild and guild.name or "<Invalid guild>", moduleTable.Name,
+				string.format(...)
+			)
 		end
 	end
 end
@@ -410,6 +422,12 @@ function ModuleMetatable:RegisterCommand(values)
 	end
 
 	table.insert(self._Commands, values.Name)
+
+	if (values.Slash or values.ContextMenu or values.Subcommands) then
+		print("Application commands found")
+		self._ApplicationCommands = self._ApplicationCommands or {}
+		table.insert(self._ApplicationCommands, values.Name)
+	end
 
 	return Bot:RegisterCommand(values)
 end
@@ -439,11 +457,12 @@ function ModuleMetatable:SaveGlobalPersistentData()
 	end
 end
 
-
 function ModuleMetatable:LoadGuildConfig(guild)
 	local guildData = self:GetGuildData(guild.id)
 
-	local config, err = Bot:UnserializeFromFile(string.format("data/module_%s/guild_%s/config.json", self.Name, guild.id))
+	local config, err = Bot:UnserializeFromFile(
+		string.format("data/module_%s/guild_%s/config.json", self.Name, guild.id)
+	)
 	if (config) then
 		self:_PrepareGuildConfig(guild.id, config)
 
@@ -502,14 +521,18 @@ function ModuleMetatable:SavePersistentData(guild)
 	end
 end
 
-
 function Bot:CallModuleFunction(moduleTable, functionName, ...)
-	return self:ProtectedCall(string.format("Module (%s) function (%s)", moduleTable.Name, functionName), moduleTable[functionName], moduleTable, ...)
+	return self:ProtectedCall(
+		string.format("Module (%s) function (%s)", moduleTable.Name, functionName), moduleTable[functionName],
+		moduleTable, ...
+	)
 end
 
 function Bot:CallOnReady(moduleTable)
 	if (moduleTable.OnReady) then
-		wrap(function () self:CallModuleFunction(moduleTable, "OnReady") end)()
+		wrap(function ()
+			self:CallModuleFunction(moduleTable, "OnReady")
+		end)()
 	end
 end
 
@@ -579,12 +602,19 @@ function Bot:LoadModule(moduleTable)
 			for configName, configValue in pairs(configTable) do
 				local option = validConfigOptions[configName]
 				if (not option) then
-					return false, string.format("[%s] Option #%s has invalid key \"%s\"", configTable.Name, optionIndex, configName)
+					return false,
+						string.format(
+							"[%s] Option #%s has invalid key \"%s\"", configTable.Name, optionIndex, configName
+						)
 				end
 
 				local expectedType = option[1]
 				if (expectedType ~= "any" and type(configValue) ~= expectedType) then
-					return false, string.format("[%s] Option #%s has key \"%s\" which has invalid type %s (expected %s)", configTable.Name, optionIndex, configName, type(configValue), expectedType)
+					return false,
+						string.format(
+							"[%s] Option #%s has key \"%s\" which has invalid type %s (expected %s)", configTable.Name,
+							optionIndex, configName, type(configValue), expectedType
+						)
 				end
 			end
 
@@ -603,7 +633,10 @@ function Bot:LoadModule(moduleTable)
 			end
 
 			if (configTable.Default == nil and not configTable.Optional) then
-				return false, string.format("[%s] Option #%s is not optional and has no default value", configTable.Name, optionIndex)
+				return false,
+					string.format(
+						"[%s] Option #%s is not optional and has no default value", configTable.Name, optionIndex
+					)
 			end
 
 			if (configTable.Global) then
@@ -626,7 +659,13 @@ function Bot:LoadModule(moduleTable)
 					return false, "Module tried to bind hook \"" .. eventName .. "\" which doesn't exist"
 				end
 
-				moduleEvents[eventName] = {Module = moduleTable, Callback = function (moduleTable, ...) self:CallModuleFunction(moduleTable, key, ...) end}
+				moduleEvents[eventName] = {
+					Module = moduleTable,
+					Callback = function (moduleTable, ...)
+						self
+							:CallModuleFunction(moduleTable, key, ...)
+					end
+				}
 			end
 		end
 	end
@@ -642,18 +681,16 @@ function Bot:LoadModule(moduleTable)
 
 	moduleTable:_PrepareGlobalConfig()
 
-	-- Loading finished, call callback
-	self.Modules[moduleTable.Name] = moduleTable
-	
 	if (moduleTable.OnLoaded) then
 		local success, err = self:CallModuleFunction(moduleTable, "OnLoaded")
 		if (not success or not err) then
-			self.Modules[moduleTable.Name] = nil
-
 			err = err or "OnLoaded hook returned false"
 			return false, err
 		end
 	end
+
+	-- Loading finished, call callback
+	self.Modules[moduleTable.Name] = moduleTable
 
 	local loadTime = stopwatch.milliseconds / 1000
 	self.Client:info("[<*>][%s] Loaded module (%.3fs)", moduleTable.Name, stopwatch.milliseconds / 1000)
@@ -711,14 +748,18 @@ function Bot:LoadModuleData(moduleTable)
 						guildData.Config = config
 						moduleTable:_PrepareGuildConfig(guildId, guildData.Config)
 					else
-						self.Client:error("Failed to load config of guild %s (%s module): %s", guildId, moduleTable.Name, err)
+						self.Client:error(
+							"Failed to load config of guild %s (%s module): %s", guildId, moduleTable.Name, err
+						)
 					end
 
 					local persistentData, err = self:UnserializeFromFile(path .. "/persistentdata.json")
 					if (persistentData) then
 						guildData.PersistentData = persistentData
 					else
-						self.Client:error("Failed to load persistent data of guild %s (%s module): %s", guildId, moduleTable.Name, err)
+						self.Client:error(
+							"Failed to load persistent data of guild %s (%s module): %s", guildId, moduleTable.Name, err
+						)
 					end
 				end
 			elseif (entry.type == "file") then
@@ -835,7 +876,6 @@ Bot.Client:onSync("ready", function ()
 	isReady = true
 end)
 
-
 Bot:RegisterCommand({
 	Name = "modulelist",
 	Args = {},
@@ -867,7 +907,7 @@ Bot:RegisterCommand({
 			embed = {
 				title = "Module list",
 				fields = {
-					{name = "Loaded modules", value = table.concat(moduleListStr, '\n')},
+					{ name = "Loaded modules", value = table.concat(moduleListStr, '\n') }
 				},
 				timestamp = discordia.Date():toISO('T', 'Z')
 			}
@@ -967,7 +1007,9 @@ Bot:RegisterCommand({
 
 			if (message.member.id == Config.OwnerUserId) then
 				for k,configTable in pairs(moduleTable._GlobalConfig) do
-					table.insert(fields, GenerateField(guild, configTable, rawget(moduleTable.GlobalConfig, configTable.Name)))
+					table.insert(
+						fields, GenerateField(guild, configTable, rawget(moduleTable.GlobalConfig, configTable.Name))
+					)
 				end
 			end
 
@@ -975,7 +1017,8 @@ Bot:RegisterCommand({
 			if (moduleTable.Global) then
 				enabledText = ":globe_with_meridians: This module is global and cannot be enabled nor disabled on a guild basis"
 			elseif (moduleTable:IsEnabledForGuild(guild)) then
-				enabledText = ":white_check_mark: Module **enabled** (use `!disable " .. moduleTable.Name .. "` to disable it)"
+				enabledText = ":white_check_mark: Module **enabled** (use `!disable " .. moduleTable.Name
+					.. "` to disable it)"
 			else
 				enabledText = ":x: Module **disabled** (use `!enable " .. moduleTable.Name .. "` to enable it)"
 			end
@@ -985,7 +1028,12 @@ Bot:RegisterCommand({
 					title = "Configuration for " .. moduleTable.Name .. " module",
 					description = string.format("%s\n\nConfiguration list:", enabledText, moduleTable.Name),
 					fields = fields,
-					footer = {text = string.format("Use `!config %s add/remove/reset/set/show ConfigName <value>` to change configuration settings.", moduleTable.Name)}
+					footer = {
+						text = string.format(
+							"Use `!config %s add/remove/reset/set/show ConfigName <value>` to change configuration settings.",
+							moduleTable.Name
+						)
+					}
 				}
 			})
 		elseif (action == "show") then
@@ -1019,7 +1067,8 @@ Bot:RegisterCommand({
 			end
 
 			if (not configTable.Array and (action == "add" or action == "remove")) then
-				message:reply("Configuration **" .. configTable.Name .. "** is not an array, use the *set* action to change its value")
+				message:reply("Configuration **" .. configTable.Name
+						.. "** is not an array, use the *set* action to change its value")
 				return
 			end
 
@@ -1039,7 +1088,9 @@ Bot:RegisterCommand({
 
 					newValue = valueParser(value, guild)
 					if (newValue == nil) then
-						message:reply("Failed to parse new value (type: " .. Bot.ConfigTypeString[configTable.Type] .. ")")
+						message:reply(
+							"Failed to parse new value (type: " .. Bot.ConfigTypeString[configTable.Type] .. ")"
+						)
 						return
 					end
 				end
@@ -1076,7 +1127,9 @@ Bot:RegisterCommand({
 				end
 
 				if (configTable.ArrayMaxSize and #values >= configTable.ArrayMaxSize) then
-					message:reply("Too many values (this setting can only have up to " .. configTable.ArrayMaxSize .. " values)")
+					message:reply(
+						"Too many values (this setting can only have up to " .. configTable.ArrayMaxSize .. " values)"
+					)
 					return
 				end
 
@@ -1137,7 +1190,9 @@ Bot:RegisterCommand({
 				}
 			})
 		else
-			message:reply("Invalid action \"" .. action .. "\" (valid actions are *add*, *remove*, *reset*, *set* or *show*)")
+			message:reply(
+				"Invalid action \"" .. action .. "\" (valid actions are *add*, *remove*, *reset*, *set* or *show*)"
+			)
 		end
 	end
 })
@@ -1186,7 +1241,11 @@ Bot:RegisterCommand({
 					embed = {
 						title = "Configuration for " .. moduleTable.Name .. " module",
 						description = "Configuration was too big and has been sent as a file",
-						footer = {text = string.format("Use `!configraw %s update` to change configuration.", moduleTable.Name)}
+						footer = {
+							text = string.format(
+								"Use `!configraw %s update` to change configuration.", moduleTable.Name
+							)
+						}
 					}
 				})
 				message:reply({ file = {"config.json", fieldJson} })
@@ -1195,7 +1254,11 @@ Bot:RegisterCommand({
 					embed = {
 						title = "Configuration for " .. moduleTable.Name .. " module",
 						description = string.format("```json\n%s```", json.encode(fields, { indent = 1 })),
-						footer = {text = string.format("Use `!configraw %s update` to change configuration.", moduleTable.Name)}
+						footer = {
+							text = string.format(
+								"Use `!configraw %s update` to change configuration.", moduleTable.Name
+							)
+						}
 					}
 				})
 			end
@@ -1282,7 +1345,9 @@ Bot:RegisterCommand({
 									moduleTable:HandleConfigUpdate(nil, globalConfig, fieldName)
 
 									wasGlobalConfigModified = true
-									table.insert(fieldDescriptions, GenerateField(guild, configTable, fieldValue, false))
+									table.insert(
+										fieldDescriptions, GenerateField(guild, configTable, fieldValue, false)
+									)
 								end)
 							else
 								errorFields[fieldName] = err
@@ -1303,7 +1368,9 @@ Bot:RegisterCommand({
 				table.insert(msg, "Field errors detected, please check their value (no configuration has been updated)")
 
 				if (#ignoredFields > 0) then
-					table.insert(msg, " - Ignored field (not matching a configuration): " .. table.concat(ignoredFields, ", "))
+					table.insert(
+						msg, " - Ignored field (not matching a configuration): " .. table.concat(ignoredFields, ", ")
+					)
 				end
 
 				if (next(errorFields)) then

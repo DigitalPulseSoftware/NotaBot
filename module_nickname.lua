@@ -89,8 +89,20 @@ function Module:HasHighestRolesThanTarget(user, target)
 end
 
 function Module:OnInteractionCreate(interaction)
+	if (interaction.type ~= enums.interactionRequestType.messageComponent) then
+		return
+	end
+
 	local guild = interaction.guild
 	if not guild then
+		return
+	end
+
+	local interactionType = interaction.data.custom_id
+	local custom_id_start_remove = 'nickname_remove_'
+	local custom_id_start_page = 'nickname_page_'
+
+	if not interactionType:startswith(custom_id_start_remove) and not interactionType:startswith(custom_id_start_page) then
 		return
 	end
 
@@ -100,10 +112,6 @@ function Module:OnInteractionCreate(interaction)
 	end
 
 	local config = self:GetConfig(guild)
-
-	local interactionType = interaction.data.custom_id
-	local custom_id_start_remove = 'nickname_remove_'
-	local custom_id_start_page = 'nickname_page_'
 
 	local userList = self:BuildRenamedUserList(guild)
 

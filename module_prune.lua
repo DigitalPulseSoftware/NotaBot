@@ -15,6 +15,16 @@ local NB_MSG_MAX_LIMIT  = 100
 
 Module.Name = "prune"
 
+function Module:GetConfigTable()
+	return {
+		{
+			Name = "Silent",
+			Description = "Delete the command message used to invoke prunefrom",
+			Type = Bot.ConfigType.Boolean,
+			Default = true
+		}
+	}
+end
 
 local function bulkDeleteChunks(channel, messagesChunks)
 	local nbDeletedMessages = 0
@@ -58,14 +68,15 @@ function Module:bulkDeleteByNumber(commandMessage, nbMessages)
 	end
 
 	if remainder > 0 then
-		table.insert(messagesToDelete, channel:getMessagesBefore(currentMessageId, remainder):toArray("id", hasValidDate))
+		table.insert(
+			messagesToDelete, channel:getMessagesBefore(currentMessageId, remainder):toArray("id", hasValidDate)
+		)
 	end
 
 	return bulkDeleteChunks(channel, messagesToDelete)
 end
 
-function Module:bulkDeleteById(commandMessage, targetMessage)
-	local channel = commandMessage.channel
+function Module:bulkDeleteById(channel, targetMessage, trimInvokingMessage)
 	local currentMessageId = targetMessage.id
 
 	local messagesToDelete = {}
@@ -78,8 +89,11 @@ function Module:bulkDeleteById(commandMessage, targetMessage)
 		end
 	until next(messages) == nil
 
-	-- This command is silent so we don't have to remove the command message here
+	-- Text command invocation posts a message right after the range we just fetched; strip it.
+	-- Context-menu invocations don't post one, so this must stay conditional.
+	if (trimInvokingMessage) then
 	table.remove(messagesToDelete[#messagesToDelete], #messagesToDelete[#messagesToDelete])
+	end
 
 	-- Delete also the selected message
 	if hasValidDate(targetMessage) then
@@ -93,7 +107,7 @@ function Module:OnLoaded()
 	self:RegisterCommand({
 		Name = "prune",
 		Args = {
-			{ Name = "<nbMessages>", Type = Bot.ConfigType.Integer }
+			{ Name = "nbOfMessages", Type = Bot.ConfigType.Integer, Description = "Number of recent messages to delete" }
 		},
 		PrivilegeCheck = hasManagePermission,
 		Help = function (guild) return Bot:Format(guild, "PRUNE_HELP") end,
@@ -102,29 +116,46 @@ function Module:OnLoaded()
 			local guild = commandMessage.guild
 
 			local nbDeletedMessages = self:bulkDeleteByNumber(commandMessage, nbMessages)
-			local response = "";
+			local response = ""
 			if nbDeletedMessages ~= nbMessages then
 				response = string.format("%s\n", Bot:Format(guild, "PRUNE_CANNOT_DELETE"))
 			end
 			response = response .. Bot:Format(guild, "PRUNE_RESULT", nbDeletedMessages)
 
 			return commandMessage:reply(response)
+		end,
+		Slash = {
+			Description = "Delete a number of recent messages in this channel",
+			Func = function (interaction, nbMessages)
+				local guild = interaction.guild
+
+				interaction:respond({ type = Enums.interactionResponseType.deferredChannelMessageWithSource })
+
+				local nbDeletedMessages = self:bulkDeleteByNumber(interaction, nbMessages)
+				local response = ""
+				if nbDeletedMessages ~= nbMessages then
+					response = string.format("%s\n", Bot:Format(guild, "PRUNE_CANNOT_DELETE"))
+				end
+				response = response .. Bot:Format(guild, "PRUNE_RESULT", nbDeletedMessages)
+
+				interaction:editResponse({ content = response })
 		end
+		}
 	})
 
 	self:RegisterCommand({
 		Name = "prunefrom",
 		Args = {
-			{ Name = "<messageId>", Type = Bot.ConfigType.Message }
+			{ Name = "messageId", Type = Bot.ConfigType.Message }
 		},
 		PrivilegeCheck = hasManagePermission,
 		Help = function (guild) return Bot:Format(guild, "PRUNEFROM_HELP") end,
-		Silent = true,
 		Func = function (commandMessage, targetMessage)
 			local guild = commandMessage.guild
-			local nbDeletedMessages = self:bulkDeleteById(commandMessage, targetMessage)
+			local config = self:GetConfig(guild)
+			local nbDeletedMessages = self:bulkDeleteById(commandMessage.channel, targetMessage, config.Silent)
 
-			local response = "";
+			local response = ""
 			if not hasValidDate(targetMessage) then
 				response = string.format("%s\n", Bot:Format(guild, "PRUNE_CANNOT_DELETE"))
 			end
@@ -132,7 +163,28 @@ function Module:OnLoaded()
 			response = response .. Bot:Format(guild, "PRUNE_RESULT", nbDeletedMessages)
 
 			return commandMessage:reply(response)
+		end,
+		ContextMenu = {
+			Type = "message",
+			Func = function (interaction, targetMessage)
+				local guild = interaction.guild
+
+				interaction:respond({
+					type = Enums.interactionResponseType.deferredChannelMessageWithSource
+				})
+
+				local nbDeletedMessages = self:bulkDeleteById(interaction.channel, targetMessage, false)
+
+				local response = ""
+				if not hasValidDate(targetMessage) then
+					response = string.format("%s\n", Bot:Format(guild, "PRUNE_CANNOT_DELETE"))
+				end
+
+				response = response .. Bot:Format(guild, "PRUNE_RESULT", nbDeletedMessages)
+
+				interaction:editResponse({ content = response })
 		end
+		}
 	})
 
 	return true

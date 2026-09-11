@@ -430,6 +430,8 @@ enums.interactionRequestType = enum {
 	ping               = 1,
 	applicationCommand = 2,
 	messageComponent   = 3,
+	applicationCommandAutocomplete  = 4,
+	modalSubmit                     = 5,
 }
 
 enums.interactionResponseType = enum {

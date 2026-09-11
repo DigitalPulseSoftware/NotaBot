@@ -160,7 +160,8 @@ local function run(self, token)
 
 	local user, err1 = api:authenticate(token)
 	if not user then
-		return self:error('Could not authenticate, check token: ' .. err1)
+		self:error('Could not authenticate, check token: ' .. err1)
+		os.exit(0)
 	end
 	self._user = users:_insert(user)
 	self._token = token

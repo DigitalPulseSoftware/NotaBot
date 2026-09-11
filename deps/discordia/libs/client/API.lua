@@ -321,7 +321,7 @@ end
 
 function API:createGuildApplicationCommand(application_id, guild_id, payload, query)
 	local endpoint = f(endpoints.APPLICATION_GUILD_COMMANDS, application_id, guild_id)
-	return self:request("POST", endpoint, payload, query, payload)
+	return self:request("POST", endpoint, payload, query)
 end
 
 function API:getGuildApplicationCommand(application_id, guild_id, command_id, query)

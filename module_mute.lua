@@ -53,110 +53,238 @@ function Module:CheckPermissions(member)
 	return false
 end
 
-function Module:OnLoaded()
-	self:RegisterCommand({
-		Name = "mute",
-		Args = {
-			{Name = "target", Type = Bot.ConfigType.Member},
-			{Name = "duration", Type = Bot.ConfigType.Duration, Optional = true},
-			{Name = "reason", Type = Bot.ConfigType.String, Optional = true},
-		},
-		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
-
-		Help = "Mutes a member",
-		Silent = true,
-		Func = function (commandMessage, targetMember, duration, reason)
-			local guild = commandMessage.guild
+function Module:PerformMute(guild, mutedBy, targetMember, duration, reason)
 			local config = self:GetConfig(guild)
-			local mutedBy = commandMessage.member
-
-			-- Duration
-			if (not duration) then
-				duration = config.DefaultMuteDuration
-			end
-
-			-- Reason
-			if reason and #reason > 0 then
-				reason = " " .. bot:Format(guild, "MUTE_REASON", reason)
-			else
-				reason = ""
-			end
+	if (not duration) then duration = config.DefaultMuteDuration end
+	reason = (reason and #reason > 0) and (" " .. bot:Format(guild, "MUTE_REASON", reason)) or ""
 
 			local mutedByRole = mutedBy.highestRole
 			local targetRole = targetMember.highestRole
 			if (targetRole.position >= mutedByRole.position) then
-				commandMessage:reply(bot:Format(guild, "MUTE_NOTAUTHORIZED"))
-				return
+		return false, bot:Format(guild, "MUTE_NOTAUTHORIZED")
 			end
 
 			if (config.SendPrivateMessage) then
-				local durationText
+		local durationText = ""
 				if (duration > 0) then
 					durationText = "\n" .. bot:Format(guild, "MUTE_YOU_WILL_BE_UNMUTED_IN", util.DiscordRelativeTime(duration))
-				else
-					durationText = ""
 				end
 
 				local privateChannel = targetMember:getPrivateChannel()
 				if (privateChannel) then
-					privateChannel:send(bot:Format(guild, "MUTE_PRIVATE_MESSAGE", guild.name, mutedBy.user.mentionString, reason, durationText))
+			privateChannel:send(
+				bot:Format(guild, "MUTE_PRIVATE_MESSAGE", guild.name, mutedBy.user.mentionString, reason, durationText)
+			)
 				end
 			end
 
 			local success, err = self:Mute(guild, targetMember.id, duration)
 			if (success) then
-				local durationText
+		local durationText = ""
 				if (duration > 0) then
 					durationText = "\n" .. bot:Format(guild, "MUTE_THEY_WILL_BE_UNMUTED_IN", util.DiscordRelativeTime(duration))
+		end
+
+		return true, bot:Format(guild, "MUTE_GUILD_MESSAGE", mutedBy.name, targetMember.tag, reason, durationText)
 				else
-					durationText = ""
+		return false, bot:Format(guild, "MUTE_MUTE_FAILED", targetMember.tag, err)
+	end
 				end
 
-				commandMessage:reply(bot:Format(guild, "MUTE_GUILD_MESSAGE", mutedBy.name, targetMember.tag, reason, durationText))
-			else
-				commandMessage:reply(bot:Format(guild, "MUTE_MUTE_FAILED", targetMember.tag, err))
-			end
+function Module:PerformUnmute(guild, unmutedBy, targetUser, reason)
+	local config = self:GetConfig(guild)
+	reason = (reason and #reason > 0) and (" " .. bot:Format(guild, "MUTE_REASON", reason)) or ""
+
+	if (config.SendPrivateMessage) then
+		local privateChannel = targetUser:getPrivateChannel()
+		if (privateChannel) then
+			privateChannel:send(bot:Format(guild, "MUTE_UNMUTE_MESSAGE", guild.name, unmutedBy.mentionString, reason))
 		end
+	end
+
+	local success, err = self:Unmute(guild, targetUser.id)
+	if (success) then
+		return true, bot:Format(guild, "MUTE_UNMUTE_GUILD_MESSAGE", unmutedBy.name, targetUser.tag, reason)
+			else
+		return false, bot:Format(guild, "MUTE_UNMUTE_FAILED", targetUser.tag, err)
+	end
+end
+
+local function BuildMuteModal(targetMember)
+	return {
+		type = enums.interactionResponseType.modal,
+		data = {
+			custom_id = "mute_modal_" .. targetMember.id,
+			title = "Mute " .. targetMember.tag,
+			components = {
+				{
+					type = enums.componentType.actionRow,
+					components = {
+						{
+							type = enums.componentType.textInput,
+							custom_id = "duration",
+							style = enums.textInputStyle.short,
+							label = "Duration",
+							placeholder = "30m, 2h, 1d... (leave empty for default duration)",
+							required = false
+						}
+					}
+				},
+				{
+					type = enums.componentType.actionRow,
+					components = {
+						{
+							type = enums.componentType.textInput,
+							custom_id = "reason",
+							style = enums.textInputStyle.paragraph,
+							label = "Reason",
+							required = false
+						}
+					}
+				}
+			}
+		}
+	}
+end
+
+local function BuildUnmuteModal(targetUser)
+	return {
+		type = enums.interactionResponseType.modal,
+		data = {
+			custom_id = "unmute_modal_" .. targetUser.id,
+			title = "Unmute " .. targetUser.tag,
+			components = {
+				{
+					type = enums.componentType.actionRow,
+					components = {
+						{
+							type = enums.componentType.textInput,
+							custom_id = "reason",
+							style = enums.textInputStyle.paragraph,
+							label = "Reason",
+							required = false
+						}
+					}
+				}
+			}
+		}
+	}
+end
+
+function Module:OnLoaded()
+	self:RegisterCommand({
+		Name = "mute",
+		Args = {
+			{ Name = "target", Type = Bot.ConfigType.Member, Description = "Member to mutes" },
+			{
+				Name = "duration",
+				Type = Bot.ConfigType.Duration,
+				Description = "Duration to mutes for (seconds by default, or use m/h/d/w suffix, e.g. 30m, 2h)",
+				Optional = true
+			},
+			{ Name = "reason", Type = Bot.ConfigType.String, Description = "Mutes reason", Optional = true }
+		},
+		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
+		Help = "Mutes a member",
+		Silent = true,
+		Func = function (commandMessage, targetMember, duration, reason)
+			local success, text = self:PerformMute(
+				commandMessage.guild, commandMessage.member, targetMember, duration, reason
+			)
+			commandMessage:reply(text)
+		end,
+		Slash = {
+			Description = "Mute a member",
+			Func = function (interaction, targetMember, duration, reason)
+				local success, text = self:PerformMute(
+					interaction.guild, interaction.member, targetMember, duration, reason
+				)
+				interaction:respond({
+					type = enums.interactionResponseType.channelMessageWithSource,
+					data = { content = text }
+				})
+			end
+		},
+		ContextMenu = {
+			Type = "user",
+			Func = function (interaction, targetMember)
+				interaction:respond(BuildMuteModal(targetMember))
+		end
+		}
 	})
 
 	self:RegisterCommand({
 		Name = "unmute",
 		Args = {
-			{Name = "target", Type = Bot.ConfigType.User},
-			{Name = "reason", Type = Bot.ConfigType.String, Optional = true},
+			{ Name = "target", Type = Bot.ConfigType.User, Description = "Member to unmutes" },
+			{ Name = "reason", Type = Bot.ConfigType.String, Description = "Unmutes reason", Optional = true }
 		},
 		PrivilegeCheck = function (member) return self:CheckPermissions(member) end,
-
 		Help = "Unmutes a member",
 		Silent = true,
 		Func = function (commandMessage, targetUser, reason)
-			local guild = commandMessage.guild
-			local config = self:GetConfig(guild)
-
-			-- Reason
-			if reason and #reason > 0 then
-				reason = " " .. bot:Format(guild, "MUTE_REASON", reason)
-			else
-				reason = ""
+			local success, text = self:PerformUnmute(commandMessage.guild, commandMessage.member, targetUser, reason)
+			commandMessage:reply(text)
+		end,
+		Slash = {
+			Description = "Unmute a member",
+			Func = function (interaction, targetUser, reason)
+				local success, text = self:PerformUnmute(interaction.guild, interaction.member, targetUser, reason)
+				interaction:respond(
+					{ type = enums.interactionResponseType.channelMessageWithSource, data = { content = text } }
+				)
 			end
-
-			if (config.SendPrivateMessage) then
-				local privateChannel = targetUser:getPrivateChannel()
-				if (privateChannel) then
-					privateChannel:send(bot:Format(guild, "MUTE_UNMUTE_MESSAGE", guild.name, commandMessage.member.mentionString, reason))
-				end
+		},
+		ContextMenu = {
+			Type = "user",
+			Func = function (interaction, targetUser)
+				interaction:respond(BuildUnmuteModal(targetUser.user or targetUser))
 			end
-
-			local success, err = self:Unmute(guild, targetUser.id)
-			if (success) then
-				commandMessage:reply(bot:Format(guild, "MUTE_UNMUTE_GUILD_MESSAGE", commandMessage.member.name, targetUser.tag, reason))
-			else
-				commandMessage:reply(bot:Format(guild, "MUTE_UNMUTE_FAILED", targetUser.tag, err))
-			end
-		end
+		}
 	})
 
 	return true
+				end
+
+function Module:OnInteractionCreate(interaction)
+	if (interaction.type ~= enums.interactionRequestType.modalSubmit) then
+		return
+			end
+
+	local guild = interaction.guild
+	if (not guild) then
+		return
+			end
+
+	local customId = interaction.data.custom_id
+	local muteTargetId = customId:match("^mute_modal_(%d+)$")
+	local unmuteTargetId = customId:match("^unmute_modal_(%d+)$")
+	if (not muteTargetId and not unmuteTargetId) then
+		return
+		end
+
+	if (not self:CheckPermissions(interaction.member)) then
+		return interaction:respond({
+			type = enums.interactionResponseType.channelMessageWithSource,
+			data = { content = "You are not authorized to use this command.", flags = enums.interactionResponseFlag.ephemeral }
+	})
+	end
+
+	local fields = Bot:ParseModalFields(interaction)
+	local success, text
+	if (muteTargetId) then
+		local targetMember = guild:getMember(muteTargetId)
+		local duration = Bot.ConfigTypeParameter[Bot.ConfigType.Duration](fields.duration or "", guild)
+		success, text = self:PerformMute(guild, interaction.member, targetMember, duration, fields.reason)
+	else
+		local targetUser = Bot:DecodeUser(unmuteTargetId)
+		success, text = self:PerformUnmute(guild, interaction.member, targetUser, fields.reason)
+	end
+
+	interaction:respond({
+		type = enums.interactionResponseType.channelMessageWithSource,
+		data = { content = text }
+	})
 end
 
 function Module:OnEnable(guild)
@@ -212,9 +340,13 @@ function Module:CheckTextMutePermissions(channel)
 
 	local deniedPermissions = permissions:getDeniedPermissions()
 	-- :enable here just sets the bit, disabling the permissions
-	deniedPermissions:enable(enums.permission.addReactions, enums.permission.sendMessages, enums.permission.usePublicThreads, enums.permission.sendMessagesInThreads)
+	deniedPermissions:enable(
+		enums.permission.addReactions, enums.permission.sendMessages, enums.permission.usePublicThreads,
+		enums.permission.sendMessagesInThreads
+	)
 
-	if permissions:getAllowedPermissions() ~= discordia.Permissions() or permissions:getDeniedPermissions() ~= deniedPermissions then
+	if permissions:getAllowedPermissions() ~= discordia.Permissions()
+		or permissions:getDeniedPermissions() ~= deniedPermissions then
 		permissions:setPermissions('0', deniedPermissions)
 	end
 end
@@ -227,7 +359,6 @@ function Module:CheckVoiceMutePermissions(channel)
 		return
 	end
 
-
 	local permissions = channel:getPermissionOverwriteFor(mutedRole)
 	assert(permissions)
 
@@ -235,7 +366,8 @@ function Module:CheckVoiceMutePermissions(channel)
 	-- :enable here just sets the bit, disabling the permissions
 	deniedPermissions:enable(enums.permission.speak)
 
-	if permissions:getAllowedPermissions() ~= discordia.Permissions() or permissions:getDeniedPermissions() ~= deniedPermissions then
+	if permissions:getAllowedPermissions() ~= discordia.Permissions()
+		or permissions:getDeniedPermissions() ~= deniedPermissions then
 		permissions:setPermissions('0', deniedPermissions)
 	end
 end
@@ -270,7 +402,9 @@ function Module:RegisterUnmute(guild, userId, timestamp)
 			timer:Stop()
 		end
 
-		data.UnmuteTimers[userId] = Bot:ScheduleTimer(timestamp, function () self:Unmute(guild, userId) end)
+		data.UnmuteTimers[userId] = Bot:ScheduleTimer(timestamp, function ()
+			self:Unmute(guild, userId)
+		end)
 	end
 end
 

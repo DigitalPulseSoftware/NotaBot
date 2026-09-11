@@ -2,7 +2,6 @@ local bot = Bot
 local client = Client
 ---@type discordia
 local discordia = Discordia
-local prefix = Config.Prefix
 local enums = discordia.enums
 local http = require("coro-http")
 local linkShorteners = require("./data_linkshorteners")
@@ -17,9 +16,7 @@ local wrap = coroutine.wrap
     To preserve the flow of an happening conversation, a webhook is used to mimic the user that initially posted the message.
 ]]
 
-
 Module.Name = "clean_urls"
-
 
 function Module:GetConfigTable()
     return {
@@ -102,153 +99,28 @@ local function escapeRegex(str)
     end
 end
 
-
 Module.DefaultRules = {
-    "action_object_map",
-    "action_type_map",
-    "action_ref_map",
-    "spm@*.aliexpress.com",
-    "scm@*.aliexpress.com",
-    "aff_platform",
-    "aff_trace_key",
-    "algo_expid@*.aliexpress.*",
-    "algo_pvid@*.aliexpress.*",
-    "btsid",
-    "ws_ab_test",
-    "pd_rd_*@amazon.*",
-    "_encoding@amazon.*",
-    "psc@amazon.*",
-    "tag@amazon.*",
-    "ref_@amazon.*",
-    "pf_rd_*@amazon.*",
-    "pf@amazon.*",
-    "crid@amazon.*",
-    "keywords@amazon.*",
-    "sprefix@amazon.*",
-    "smid@amazon.*",
-    "creative*@amazon.*",
-    "th@amazon.*",
-    "linkCode@amazon.*",
-    "sr@amazon.*",
-    "ie@amazon.*",
-    "node@amazon.*",
-    "qid@amazon.*",
-    "dib@amazon.*",
-    "dib_tag@amazon.*",
-    "ref@amazon.*",
-    "callback@bilibili.com",
-    "cvid@bing.com",
-    "form@bing.com",
-    "sk@bing.com",
-    "sp@bing.com",
-    "sc@bing.com",
-    "qs@bing.com",
-    "pq@bing.com",
-    "sc_cid",
-    "mkt_tok",
-    "trk",
-    "trkCampaign",
-    "ga_*",
-    "gclid",
-    "gclsrc",
-    "hmb_campaign",
-    "hmb_medium",
-    "hmb_source",
-    "spReportId",
-    "spJobID",
-    "spUserID",
-    "spMailingID",
-    "itm_*",
-    "s_cid",
-    "elqTrackId",
-    "elqTrack",
-    "assetType",
-    "assetId",
-    "recipientId",
-    "campaignId",
-    "siteId",
-    "mc_cid",
-    "mc_eid",
-    "pk_*",
-    "sc_campaign",
-    "sc_channel",
-    "sc_content",
-    "sc_medium",
-    "sc_outcome",
-    "sc_geo",
-    "sc_country",
-    "nr_email_referer",
-    "vero_conv",
-    "vero_id",
-    "yclid",
-    "_openstat",
-    "mbid",
-    "cmpid",
-    "cid",
-    "c_id",
-    "campaign_id",
-    "Campaign",
-    "hash@ebay.*",
-    "fb_action_ids",
-    "fb_action_types",
-    "fb_ref",
-    "fb_source",
-    "fbclid",
-    "refsrc@facebook.com",
-    "hrc@facebook.com",
-    "gs_l",
-    "gs_lcp@google.*",
-    "ved@google.*",
-    "ei@google.*",
-    "sei@google.*",
-    "gws_rd@google.*",
-    "gs_gbg@google.*",
-    "gs_mss@google.*",
-    "gs_rn@google.*",
-    "_hsenc",
-    "_hsmi",
-    "__hssc",
-    "__hstc",
-    "hsCtaTracking",
-    "source@sourceforge.net",
-    "position@sourceforge.net",
-    "t@*.twitter.com",
-    "s@*.twitter.com",
-    "ref_*@*.twitter.com",
-    "t@*.x.com",
-    "s@*.x.com",
-    "ref_*@*.x.com",
-    "t@*.fixupx.com",
-    "s@*.fixupx.com",
-    "ref_*@*.fixupx.com",
-    "t@*.fxtwitter.com",
-    "s@*.fxtwitter.com",
-    "ref_*@*.fxtwitter.com",
-    "t@*.twittpr.com",
-    "s@*.twittpr.com",
-    "ref_*@*.twittpr.com",
-    "t@*.fixvx.com",
-    "s@*.fixvx.com",
-    "ref_*@*.fixvx.com",
-    "tt_medium",
-    "tt_content",
-    "lr@yandex.*",
-    "redircnt@yandex.*",
-    "feature@*.youtube.com",
-    "kw@*.youtube.com",
-    "si@*.youtube.com",
-    "pp@*.youtube.com",
-    "si@*.youtu.be",
-    "wt_zmc",
-    "utm_source",
-    "utm_content",
-    "utm_medium",
-    "utm_campaign",
-    "utm_term",
-    "si@open.spotify.com",
-    "igshid",
-    "igsh",
-    "share_id@reddit.com",
+    "action_object_map", "action_type_map", "action_ref_map", "spm@*.aliexpress.com", "scm@*.aliexpress.com",
+    "aff_platform", "aff_trace_key", "algo_expid@*.aliexpress.*", "algo_pvid@*.aliexpress.*", "btsid", "ws_ab_test",
+    "pd_rd_*@amazon.*", "_encoding@amazon.*", "psc@amazon.*", "tag@amazon.*", "ref_@amazon.*", "pf_rd_*@amazon.*",
+    "pf@amazon.*", "crid@amazon.*", "keywords@amazon.*", "sprefix@amazon.*", "smid@amazon.*", "creative*@amazon.*",
+    "th@amazon.*", "linkCode@amazon.*", "sr@amazon.*", "ie@amazon.*", "node@amazon.*", "qid@amazon.*", "dib@amazon.*",
+    "dib_tag@amazon.*", "ref@amazon.*", "callback@bilibili.com", "cvid@bing.com", "form@bing.com", "sk@bing.com",
+    "sp@bing.com", "sc@bing.com", "qs@bing.com", "pq@bing.com", "sc_cid", "mkt_tok", "trk", "trkCampaign", "ga_*",
+    "gclid", "gclsrc", "hmb_campaign", "hmb_medium", "hmb_source", "spReportId", "spJobID", "spUserID", "spMailingID",
+    "itm_*", "s_cid", "elqTrackId", "elqTrack", "assetType", "assetId", "recipientId", "campaignId", "siteId", "mc_cid",
+    "mc_eid", "pk_*", "sc_campaign", "sc_channel", "sc_content", "sc_medium", "sc_outcome", "sc_geo", "sc_country",
+    "nr_email_referer", "vero_conv", "vero_id", "yclid", "_openstat", "mbid", "cmpid", "cid", "c_id", "campaign_id",
+    "Campaign", "hash@ebay.*", "fb_action_ids", "fb_action_types", "fb_ref", "fb_source", "fbclid",
+    "refsrc@facebook.com", "hrc@facebook.com", "gs_l", "gs_lcp@google.*", "ved@google.*", "ei@google.*", "sei@google.*",
+    "gws_rd@google.*", "gs_gbg@google.*", "gs_mss@google.*", "gs_rn@google.*", "_hsenc", "_hsmi", "__hssc", "__hstc",
+    "hsCtaTracking", "source@sourceforge.net", "position@sourceforge.net", "t@*.twitter.com", "s@*.twitter.com",
+    "ref_*@*.twitter.com", "t@*.x.com", "s@*.x.com", "ref_*@*.x.com", "t@*.fixupx.com", "s@*.fixupx.com",
+    "ref_*@*.fixupx.com", "t@*.fxtwitter.com", "s@*.fxtwitter.com", "ref_*@*.fxtwitter.com", "t@*.twittpr.com",
+    "s@*.twittpr.com", "ref_*@*.twittpr.com", "t@*.fixvx.com", "s@*.fixvx.com", "ref_*@*.fixvx.com", "tt_medium",
+    "tt_content", "lr@yandex.*", "redircnt@yandex.*", "feature@*.youtube.com", "kw@*.youtube.com", "si@*.youtube.com",
+    "pp@*.youtube.com", "si@*.youtu.be", "wt_zmc", "utm_source", "utm_content", "utm_medium", "utm_campaign", "utm_term",
+    "si@open.spotify.com", "igshid", "igsh", "share_id@reddit.com"
 }
 
 Module.FixServices = {
@@ -265,7 +137,7 @@ Module.FixServices = {
     ["twitch.tv"] = "fxtwitch.tv",
     -- Use vxtwitter instead of fxtwitter since it includes greedy analytics
     ["twitter.com"] = "vxtwitter.com",
-    ["x.com"] = "fixvx.com",
+    ["x.com"] = "fixvx.com"
 }
 
 ---@type table<string, boolean>
@@ -278,7 +150,6 @@ Module.RulesByHost = {}
 function Module:CreateRules()
     -- Can be extended with a config option in the future
     local rules = self.DefaultRules
-
 
     for _, rule in ipairs(rules) do
         local splitRule = rule:split("@")
@@ -394,7 +265,6 @@ function Module:Replacer(match, config, data)
         return match
     end
 
-
     local wl = config.Whitelist
 
     for _, rule in ipairs(wl) do
@@ -497,7 +367,7 @@ local ansiColoursForeground = {
     blue = 34,
     magenta = 35,
     cyan = 36,
-    white = 37,
+    white = 37
 }
 
 ---@param rule string
@@ -513,10 +383,11 @@ local function formatRule(rule)
 
     local splitted = splitRule[2]:split("%.")
 
-    return string.format("\x1b[%dm%s\x1b[0m\x1b[%dm@\x1b[0m\x1b[%dm%s\x1b[0m\x1b[%dm.\x1b[0m\x1b[%dm%s\x1b[0m", colour,
-        splitRule[1], ansiColoursForeground.magenta, ansiColoursForeground.yellow, splitted[1],
-        ansiColoursForeground.blue,
-        ansiColoursForeground.red, splitted[2])
+    return string.format(
+        "\x1b[%dm%s\x1b[0m\x1b[%dm@\x1b[0m\x1b[%dm%s\x1b[0m\x1b[%dm.\x1b[0m\x1b[%dm%s\x1b[0m", colour, splitRule[1],
+        ansiColoursForeground.magenta, ansiColoursForeground.yellow, splitted[1], ansiColoursForeground.blue,
+        ansiColoursForeground.red, splitted[2]
+    )
 end
 
 function Module:OnLoaded()
@@ -526,7 +397,12 @@ function Module:OnLoaded()
         Name = "cleanurl",
         Args = {
             { Name = "url",              Description = "The URL to clean",                            Type = bot.ConfigType.String },
-            { Name = "deleteInvokation", Description = "Delete the message that invoked the command", Type = bot.ConfigType.Boolean, Optional = true }
+            {
+                Name = "deleteInvokation",
+                Description = "Delete the message that invoked the command",
+                Type = bot.ConfigType.Boolean,
+                Optional = true
+            }
         },
         Func = function(cmd, url, deleteInvokation)
             local config = self:GetConfig(cmd.guild)
@@ -540,8 +416,20 @@ function Module:OnLoaded()
             if deleteInvokation then
                 cmd.message:delete()
             end
-        end
+        end,
+        Slash = {
+            Description = "Clean tracking parameters from a URL",
+            Func = function (interaction, url)
+                local config = self:GetConfig(interaction.guild)
+                local data = self:GetData(interaction.guild)
+                local replaced = self:Replacer(url, config, data)
 
+                interaction:respond({
+                    type = enums.interactionResponseType.channelMessageWithSource,
+                    data = { content = replaced }
+                })
+            end
+        }
     })
 
     self:RegisterCommand({
@@ -563,7 +451,7 @@ function Module:OnLoaded()
     self:RegisterCommand({
         Name = "addcleanrule",
         Args = {
-            { Name = "rule", Description = "The rule to add", Type = bot.ConfigType.String, }
+            { Name = "rule", Description = "The rule to add", Type = bot.ConfigType.String }
         },
         Func = function(cmd, rule)
             if not rule then
@@ -578,7 +466,7 @@ function Module:OnLoaded()
     self:RegisterCommand({
         Name = "removecleanrule",
         Args = {
-            { Name = "rule", Description = "The rule to remove", Type = bot.ConfigType.String, }
+            { Name = "rule", Description = "The rule to remove", Type = bot.ConfigType.String }
         },
         Func = function(cmd, rule)
             if not rule then
@@ -648,7 +536,7 @@ function Module:CleanMessage(message, config, data)
         return
     end
 
-    if (message.content:startswith(prefix, true)) then
+    if (message.content:startswith(bot:GetGuildPrefix(message.guild), true)) then
         return
     end
     if message.content:find("http[s]?://") then
@@ -673,9 +561,8 @@ function Module:OnMessageCreate(message)
 
     ---@type GuildTextChannel
     ---@diagnostic disable-next-line: assign-type-mismatch
-    local realChannel = (message.channel.isThread) and
-        (message.client:getChannel(message.channel._parent_id)) or
-        message.channel
+    local realChannel = (message.channel.isThread) and (message.client:getChannel(message.channel._parent_id))
+        or message.channel
 
     local config = self:GetConfig(message.guild)
     local data = self:GetData(message.guild)
@@ -707,7 +594,6 @@ function Module:OnMessageCreate(message)
         _attachments[message.id] = attachments
     end
 
-
     if config.DeleteInvokationOnAutoCleanUrls then
         pcall(message.delete, message)
     end
@@ -722,7 +608,7 @@ function Module:OnMessageCreate(message)
                     type = enums.componentType.button,
                     style = enums.buttonStyle.danger,
                     label = Bot:Format(message.guild, "CLEAN_URLS_DELETE_BUTTON_LABEL"),
-                    custom_id = "delete_" .. message.author.id,
+                    custom_id = "clean_url_delete_" .. message.author.id
                 }
             }
         }
@@ -736,10 +622,8 @@ function Module:OnMessageCreate(message)
             avatar_url = message.author.avatarURL,
             username = message.author.globalName or message.author.username,
             content = replaced,
-            components = components,
-        },
-        { wait = true, thread_id = threadId },
-        newAttachments
+        components = components
+    }, { wait = true, thread_id = threadId }, newAttachments
     )
 
     _attachments[message.id] = nil
@@ -752,7 +636,8 @@ function Module:OnMessageCreate(message)
         if self.UsersHanging[message.author.id] then
             client._api:editWebhookMessage(webhook.id, webhook.token, msg.id, {
                 components = {}
-            }, { thread_id = threadId })
+            }, { thread_id = threadId }
+            )
             self.UsersHanging[message.author.id] = nil
         end
     end)
@@ -775,10 +660,18 @@ end
 
 ---@param interaction Interaction
 function Module:OnInteractionCreate(interaction)
+    if (interaction.type ~= enums.interactionRequestType.messageComponent) then
+        return
+    end
+
     local customId = interaction.data.custom_id
     local guild = interaction.guild
 
-    local authorId = customId:match("delete_(%d+)")
+    if not customId:startswith("clean_url_delete_") then
+        return
+    end
+
+    local authorId = customId:match("clean_url_delete_(%d+)")
     if not authorId then
         return
     end
@@ -803,7 +696,7 @@ function Module:OnInteractionCreate(interaction)
         type = enums.interactionResponseType.channelMessageWithSource,
         data = {
             flags = enums.interactionResponseFlag.ephemeral,
-            content = Bot:Format(guild, "CLEAN_URLS_DELETED_MESSAGE"),
+            content = Bot:Format(guild, "CLEAN_URLS_DELETED_MESSAGE")
         }
     })
 

@@ -10,6 +10,7 @@ return {
 	["1234"] = {
 		names = {
 			"1234",
+			"input_numbers",
 		},
 		codes = {
 			"\xF0\x9F\x94\xA2", -- 🔢
@@ -91,6 +92,7 @@ return {
 	["adult"] = {
 		names = {
 			"adult",
+			"person",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x91", -- 🧑
@@ -101,6 +103,7 @@ return {
 			"adult::skin-tone-1",
 			"adult_light_skin_tone",
 			"adult_tone1",
+			"person::skin-tone-1",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBB", -- 🧑🏻
@@ -111,6 +114,7 @@ return {
 			"adult::skin-tone-2",
 			"adult_medium_light_skin_tone",
 			"adult_tone2",
+			"person::skin-tone-2",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBC", -- 🧑🏼
@@ -121,6 +125,7 @@ return {
 			"adult::skin-tone-3",
 			"adult_medium_skin_tone",
 			"adult_tone3",
+			"person::skin-tone-3",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBD", -- 🧑🏽
@@ -131,6 +136,7 @@ return {
 			"adult::skin-tone-4",
 			"adult_medium_dark_skin_tone",
 			"adult_tone4",
+			"person::skin-tone-4",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBE", -- 🧑🏾
@@ -141,6 +147,7 @@ return {
 			"adult::skin-tone-5",
 			"adult_dark_skin_tone",
 			"adult_tone5",
+			"person::skin-tone-5",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBF", -- 🧑🏿
@@ -249,6 +256,7 @@ return {
 	["angel"] = {
 		names = {
 			"angel",
+			"baby_angel",
 		},
 		codes = {
 			"\xF0\x9F\x91\xBC", -- 👼
@@ -258,6 +266,7 @@ return {
 		names = {
 			"angel::skin-tone-1",
 			"angel_tone1",
+			"baby_angel::skin-tone-1",
 		},
 		codes = {
 			"\xF0\x9F\x91\xBC\xF0\x9F\x8F\xBB", -- 👼🏻
@@ -267,6 +276,7 @@ return {
 		names = {
 			"angel::skin-tone-2",
 			"angel_tone2",
+			"baby_angel::skin-tone-2",
 		},
 		codes = {
 			"\xF0\x9F\x91\xBC\xF0\x9F\x8F\xBC", -- 👼🏼
@@ -276,6 +286,7 @@ return {
 		names = {
 			"angel::skin-tone-3",
 			"angel_tone3",
+			"baby_angel::skin-tone-3",
 		},
 		codes = {
 			"\xF0\x9F\x91\xBC\xF0\x9F\x8F\xBD", -- 👼🏽
@@ -285,6 +296,7 @@ return {
 		names = {
 			"angel::skin-tone-4",
 			"angel_tone4",
+			"baby_angel::skin-tone-4",
 		},
 		codes = {
 			"\xF0\x9F\x91\xBC\xF0\x9F\x8F\xBE", -- 👼🏾
@@ -294,6 +306,7 @@ return {
 		names = {
 			"angel::skin-tone-5",
 			"angel_tone5",
+			"baby_angel::skin-tone-5",
 		},
 		codes = {
 			"\xF0\x9F\x91\xBC\xF0\x9F\x8F\xBF", -- 👼🏿
@@ -320,6 +333,7 @@ return {
 	["angry"] = {
 		names = {
 			"angry",
+			"angry_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\xA0", -- 😠
@@ -344,6 +358,7 @@ return {
 	["apple"] = {
 		names = {
 			"apple",
+			"red_apple",
 		},
 		codes = {
 			"\xF0\x9F\x8D\x8E", -- 🍎
@@ -393,6 +408,7 @@ return {
 	["arrow_down"] = {
 		names = {
 			"arrow_down",
+			"down_arrow",
 		},
 		codes = {
 			"\xE2\xAC\x87\xEF\xB8\x8F", -- ⬇️
@@ -437,6 +453,7 @@ return {
 	["arrow_left"] = {
 		names = {
 			"arrow_left",
+			"left_arrow",
 		},
 		codes = {
 			"\xE2\xAC\x85\xEF\xB8\x8F", -- ⬅️
@@ -464,6 +481,7 @@ return {
 	["arrow_right"] = {
 		names = {
 			"arrow_right",
+			"right_arrow",
 		},
 		codes = {
 			"\xE2\x9E\xA1\xEF\xB8\x8F", -- ➡️
@@ -482,6 +500,7 @@ return {
 	["arrow_up"] = {
 		names = {
 			"arrow_up",
+			"up_arrow",
 		},
 		codes = {
 			"\xE2\xAC\x86\xEF\xB8\x8F", -- ⬆️
@@ -491,6 +510,7 @@ return {
 	["arrow_up_down"] = {
 		names = {
 			"arrow_up_down",
+			"up_down_arrow",
 		},
 		codes = {
 			"\xE2\x86\x95\xEF\xB8\x8F", -- ↕️
@@ -508,6 +528,7 @@ return {
 	["arrow_upper_left"] = {
 		names = {
 			"arrow_upper_left",
+			"up_left_arrow",
 		},
 		codes = {
 			"\xE2\x86\x96\xEF\xB8\x8F", -- ↖️
@@ -692,6 +713,7 @@ return {
 	["athletic_shoe"] = {
 		names = {
 			"athletic_shoe",
+			"running_shoe",
 		},
 		codes = {
 			"\xF0\x9F\x91\x9F", -- 👟
@@ -828,6 +850,7 @@ return {
 	["back"] = {
 		names = {
 			"back",
+			"back_arrow",
 		},
 		codes = {
 			"\xF0\x9F\x94\x99", -- 🔙
@@ -960,6 +983,7 @@ return {
 	["barber"] = {
 		names = {
 			"barber",
+			"barber_pole",
 		},
 		codes = {
 			"\xF0\x9F\x92\x88", -- 💈
@@ -1094,6 +1118,14 @@ return {
 			"\xE2\x9B\xB1", -- ⛱
 		},
 	},
+	["beans"] = {
+		names = {
+			"beans",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x98", -- 🫘
+		},
+	},
 	["bear"] = {
 		names = {
 			"bear",
@@ -1105,6 +1137,7 @@ return {
 	["bearded_person"] = {
 		names = {
 			"bearded_person",
+			"person_beard",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x94", -- 🧔
@@ -1115,6 +1148,7 @@ return {
 			"bearded_person::skin-tone-1",
 			"bearded_person_light_skin_tone",
 			"bearded_person_tone1",
+			"person_beard::skin-tone-1",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x94\xF0\x9F\x8F\xBB", -- 🧔🏻
@@ -1125,6 +1159,7 @@ return {
 			"bearded_person::skin-tone-2",
 			"bearded_person_medium_light_skin_tone",
 			"bearded_person_tone2",
+			"person_beard::skin-tone-2",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x94\xF0\x9F\x8F\xBC", -- 🧔🏼
@@ -1135,6 +1170,7 @@ return {
 			"bearded_person::skin-tone-3",
 			"bearded_person_medium_skin_tone",
 			"bearded_person_tone3",
+			"person_beard::skin-tone-3",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x94\xF0\x9F\x8F\xBD", -- 🧔🏽
@@ -1145,6 +1181,7 @@ return {
 			"bearded_person::skin-tone-4",
 			"bearded_person_medium_dark_skin_tone",
 			"bearded_person_tone4",
+			"person_beard::skin-tone-4",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x94\xF0\x9F\x8F\xBE", -- 🧔🏾
@@ -1155,6 +1192,7 @@ return {
 			"bearded_person::skin-tone-5",
 			"bearded_person_dark_skin_tone",
 			"bearded_person_tone5",
+			"person_beard::skin-tone-5",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x94\xF0\x9F\x8F\xBF", -- 🧔🏿
@@ -1180,6 +1218,7 @@ return {
 	["bee"] = {
 		names = {
 			"bee",
+			"honeybee",
 		},
 		codes = {
 			"\xF0\x9F\x90\x9D", -- 🐝
@@ -1188,6 +1227,7 @@ return {
 	["beer"] = {
 		names = {
 			"beer",
+			"beer_mug",
 		},
 		codes = {
 			"\xF0\x9F\x8D\xBA", -- 🍺
@@ -1247,6 +1287,7 @@ return {
 	["bento"] = {
 		names = {
 			"bento",
+			"bento_box",
 		},
 		codes = {
 			"\xF0\x9F\x8D\xB1", -- 🍱
@@ -1270,6 +1311,7 @@ return {
 	},
 	["bike"] = {
 		names = {
+			"bicycle",
 			"bike",
 		},
 		codes = {
@@ -1313,6 +1355,7 @@ return {
 	["birthday"] = {
 		names = {
 			"birthday",
+			"birthday_cake",
 		},
 		codes = {
 			"\xF0\x9F\x8E\x82", -- 🎂
@@ -1324,6 +1367,22 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\xA6\xAC", -- 🦬
+		},
+	},
+	["biting_lip"] = {
+		names = {
+			"biting_lip",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xA6", -- 🫦
+		},
+	},
+	["black_bird"] = {
+		names = {
+			"black_bird",
+		},
+		codes = {
+			"\xF0\x9F\x90\xA6\xE2\x80\x8D\xE2\xAC\x9B", -- 🐦‍⬛
 		},
 	},
 	["black_cat"] = {
@@ -1353,6 +1412,7 @@ return {
 	["black_joker"] = {
 		names = {
 			"black_joker",
+			"joker",
 		},
 		codes = {
 			"\xF0\x9F\x83\x8F", -- 🃏
@@ -1688,6 +1748,7 @@ return {
 	["book"] = {
 		names = {
 			"book",
+			"open_book",
 		},
 		codes = {
 			"\xF0\x9F\x93\x96", -- 📖
@@ -1720,6 +1781,7 @@ return {
 	["boom"] = {
 		names = {
 			"boom",
+			"collision",
 		},
 		codes = {
 			"\xF0\x9F\x92\xA5", -- 💥
@@ -1736,6 +1798,7 @@ return {
 	["boot"] = {
 		names = {
 			"boot",
+			"womans_boot",
 		},
 		codes = {
 			"\xF0\x9F\x91\xA2", -- 👢
@@ -1920,6 +1983,7 @@ return {
 	},
 	["bricks"] = {
 		names = {
+			"brick",
 			"bricks",
 		},
 		codes = {
@@ -2011,6 +2075,14 @@ return {
 			"\xF0\x9F\xA5\xA6", -- 🥦
 		},
 	},
+	["broken_chain"] = {
+		names = {
+			"broken_chain",
+		},
+		codes = {
+			"\xE2\x9B\x93\xEF\xB8\x8F\xE2\x80\x8D\xF0\x9F\x92\xA5", -- ⛓️‍💥
+		},
+	},
 	["broken_heart"] = {
 		names = {
 			"broken_heart",
@@ -2043,6 +2115,14 @@ return {
 			"\xF0\x9F\xA4\x8E", -- 🤎
 		},
 	},
+	["brown_mushroom"] = {
+		names = {
+			"brown_mushroom",
+		},
+		codes = {
+			"\xF0\x9F\x8D\x84\xE2\x80\x8D\xF0\x9F\x9F\xAB", -- 🍄‍🟫
+		},
+	},
 	["brown_square"] = {
 		names = {
 			"brown_square",
@@ -2057,6 +2137,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\xA7\x8B", -- 🧋
+		},
+	},
+	["bubbles"] = {
+		names = {
+			"bubbles",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xA7", -- 🫧
 		},
 	},
 	["bucket"] = {
@@ -2078,6 +2166,7 @@ return {
 	["bulb"] = {
 		names = {
 			"bulb",
+			"light_bulb",
 		},
 		codes = {
 			"\xF0\x9F\x92\xA1", -- 💡
@@ -2085,6 +2174,7 @@ return {
 	},
 	["bullettrain_front"] = {
 		names = {
+			"bullet_train",
 			"bullettrain_front",
 		},
 		codes = {
@@ -2117,6 +2207,7 @@ return {
 	},
 	["busstop"] = {
 		names = {
+			"bus_stop",
 			"busstop",
 		},
 		codes = {
@@ -2166,6 +2257,7 @@ return {
 	["cake"] = {
 		names = {
 			"cake",
+			"shortcake",
 		},
 		codes = {
 			"\xF0\x9F\x8D\xB0", -- 🍰
@@ -2405,6 +2497,7 @@ return {
 	["cat"] = {
 		names = {
 			"cat",
+			"cat_face",
 		},
 		codes = {
 			"\xF0\x9F\x90\xB1", -- 🐱
@@ -2421,6 +2514,7 @@ return {
 	["cd"] = {
 		names = {
 			"cd",
+			"optical_disk",
 		},
 		codes = {
 			"\xF0\x9F\x92\xBF", -- 💿
@@ -2677,6 +2771,7 @@ return {
 		names = {
 			"city_sunrise",
 			"city_sunset",
+			"sunset",
 		},
 		codes = {
 			"\xF0\x9F\x8C\x87", -- 🌇
@@ -2755,6 +2850,7 @@ return {
 	["clapper"] = {
 		names = {
 			"clapper",
+			"clapper_board",
 		},
 		codes = {
 			"\xF0\x9F\x8E\xAC", -- 🎬
@@ -2790,6 +2886,7 @@ return {
 	["clock1"] = {
 		names = {
 			"clock1",
+			"one_oclock",
 		},
 		codes = {
 			"\xF0\x9F\x95\x90", -- 🕐
@@ -2798,6 +2895,7 @@ return {
 	["clock10"] = {
 		names = {
 			"clock10",
+			"ten_oclock",
 		},
 		codes = {
 			"\xF0\x9F\x95\x99", -- 🕙
@@ -2806,6 +2904,7 @@ return {
 	["clock1030"] = {
 		names = {
 			"clock1030",
+			"ten_thirty",
 		},
 		codes = {
 			"\xF0\x9F\x95\xA5", -- 🕥
@@ -2814,6 +2913,7 @@ return {
 	["clock11"] = {
 		names = {
 			"clock11",
+			"eleven_oclock",
 		},
 		codes = {
 			"\xF0\x9F\x95\x9A", -- 🕚
@@ -2822,6 +2922,7 @@ return {
 	["clock1130"] = {
 		names = {
 			"clock1130",
+			"eleven_thirty",
 		},
 		codes = {
 			"\xF0\x9F\x95\xA6", -- 🕦
@@ -2830,6 +2931,7 @@ return {
 	["clock12"] = {
 		names = {
 			"clock12",
+			"twelve_oclock",
 		},
 		codes = {
 			"\xF0\x9F\x95\x9B", -- 🕛
@@ -2838,6 +2940,7 @@ return {
 	["clock1230"] = {
 		names = {
 			"clock1230",
+			"twelve_thirty",
 		},
 		codes = {
 			"\xF0\x9F\x95\xA7", -- 🕧
@@ -2846,6 +2949,7 @@ return {
 	["clock130"] = {
 		names = {
 			"clock130",
+			"one_thirty",
 		},
 		codes = {
 			"\xF0\x9F\x95\x9C", -- 🕜
@@ -2854,6 +2958,7 @@ return {
 	["clock2"] = {
 		names = {
 			"clock2",
+			"two_oclock",
 		},
 		codes = {
 			"\xF0\x9F\x95\x91", -- 🕑
@@ -2862,6 +2967,7 @@ return {
 	["clock230"] = {
 		names = {
 			"clock230",
+			"two_thirty",
 		},
 		codes = {
 			"\xF0\x9F\x95\x9D", -- 🕝
@@ -2870,6 +2976,7 @@ return {
 	["clock3"] = {
 		names = {
 			"clock3",
+			"three_oclock",
 		},
 		codes = {
 			"\xF0\x9F\x95\x92", -- 🕒
@@ -2878,6 +2985,7 @@ return {
 	["clock330"] = {
 		names = {
 			"clock330",
+			"three_thirty",
 		},
 		codes = {
 			"\xF0\x9F\x95\x9E", -- 🕞
@@ -2886,6 +2994,7 @@ return {
 	["clock4"] = {
 		names = {
 			"clock4",
+			"four_oclock",
 		},
 		codes = {
 			"\xF0\x9F\x95\x93", -- 🕓
@@ -2894,6 +3003,7 @@ return {
 	["clock430"] = {
 		names = {
 			"clock430",
+			"four_thirty",
 		},
 		codes = {
 			"\xF0\x9F\x95\x9F", -- 🕟
@@ -2902,6 +3012,7 @@ return {
 	["clock5"] = {
 		names = {
 			"clock5",
+			"five_oclock",
 		},
 		codes = {
 			"\xF0\x9F\x95\x94", -- 🕔
@@ -2910,6 +3021,7 @@ return {
 	["clock530"] = {
 		names = {
 			"clock530",
+			"five_thirty",
 		},
 		codes = {
 			"\xF0\x9F\x95\xA0", -- 🕠
@@ -2918,6 +3030,7 @@ return {
 	["clock6"] = {
 		names = {
 			"clock6",
+			"six_oclock",
 		},
 		codes = {
 			"\xF0\x9F\x95\x95", -- 🕕
@@ -2926,6 +3039,7 @@ return {
 	["clock630"] = {
 		names = {
 			"clock630",
+			"six_thirty",
 		},
 		codes = {
 			"\xF0\x9F\x95\xA1", -- 🕡
@@ -2934,6 +3048,7 @@ return {
 	["clock7"] = {
 		names = {
 			"clock7",
+			"seven_oclock",
 		},
 		codes = {
 			"\xF0\x9F\x95\x96", -- 🕖
@@ -2942,6 +3057,7 @@ return {
 	["clock730"] = {
 		names = {
 			"clock730",
+			"seven_thirty",
 		},
 		codes = {
 			"\xF0\x9F\x95\xA2", -- 🕢
@@ -2950,6 +3066,7 @@ return {
 	["clock8"] = {
 		names = {
 			"clock8",
+			"eight_oclock",
 		},
 		codes = {
 			"\xF0\x9F\x95\x97", -- 🕗
@@ -2958,6 +3075,7 @@ return {
 	["clock830"] = {
 		names = {
 			"clock830",
+			"eight_thirty",
 		},
 		codes = {
 			"\xF0\x9F\x95\xA3", -- 🕣
@@ -2966,6 +3084,7 @@ return {
 	["clock9"] = {
 		names = {
 			"clock9",
+			"nine_oclock",
 		},
 		codes = {
 			"\xF0\x9F\x95\x98", -- 🕘
@@ -2974,6 +3093,7 @@ return {
 	["clock930"] = {
 		names = {
 			"clock930",
+			"nine_thirty",
 		},
 		codes = {
 			"\xF0\x9F\x95\xA4", -- 🕤
@@ -3046,6 +3166,7 @@ return {
 		names = {
 			"cloud_tornado",
 			"cloud_with_tornado",
+			"tornado",
 		},
 		codes = {
 			"\xF0\x9F\x8C\xAA\xEF\xB8\x8F", -- 🌪️
@@ -3063,6 +3184,7 @@ return {
 	},
 	["clubs"] = {
 		names = {
+			"club_suit",
 			"clubs",
 		},
 		codes = {
@@ -3105,6 +3227,7 @@ return {
 	["coffee"] = {
 		names = {
 			"coffee",
+			"hot_beverage",
 		},
 		codes = {
 			"\xE2\x98\x95", -- ☕
@@ -3162,6 +3285,7 @@ return {
 	},
 	["compression"] = {
 		names = {
+			"clamp",
 			"compression",
 		},
 		codes = {
@@ -3196,6 +3320,7 @@ return {
 	["confused"] = {
 		names = {
 			"confused",
+			"confused_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\x95", -- 😕
@@ -3390,6 +3515,7 @@ return {
 	},
 	["copyright"] = {
 		names = {
+			"c",
 			"copyright",
 		},
 		codes = {
@@ -3397,9 +3523,18 @@ return {
 			"\xC2\xA9", -- ©
 		},
 	},
+	["coral"] = {
+		names = {
+			"coral",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xB8", -- 🪸
+		},
+	},
 	["corn"] = {
 		names = {
 			"corn",
+			"ear_of_corn",
 		},
 		codes = {
 			"\xF0\x9F\x8C\xBD", -- 🌽
@@ -4368,6 +4503,7 @@ return {
 	["cow"] = {
 		names = {
 			"cow",
+			"cow_face",
 		},
 		codes = {
 			"\xF0\x9F\x90\xAE", -- 🐮
@@ -4503,9 +4639,18 @@ return {
 			"\xF0\x9F\x9B\xB3", -- 🛳
 		},
 	},
+	["crutch"] = {
+		names = {
+			"crutch",
+		},
+		codes = {
+			"\xF0\x9F\xA9\xBC", -- 🩼
+		},
+	},
 	["cry"] = {
 		names = {
 			"cry",
+			"crying_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\xA2", -- 😢
@@ -4513,6 +4658,7 @@ return {
 	},
 	["crying_cat_face"] = {
 		names = {
+			"crying_cat",
 			"crying_cat_face",
 		},
 		codes = {
@@ -4586,6 +4732,7 @@ return {
 	["curry"] = {
 		names = {
 			"curry",
+			"curry_rice",
 		},
 		codes = {
 			"\xF0\x9F\x8D\x9B", -- 🍛
@@ -4638,6 +4785,7 @@ return {
 	["dancer"] = {
 		names = {
 			"dancer",
+			"woman_dancing",
 		},
 		codes = {
 			"\xF0\x9F\x92\x83", -- 💃
@@ -4647,6 +4795,7 @@ return {
 		names = {
 			"dancer::skin-tone-1",
 			"dancer_tone1",
+			"woman_dancing::skin-tone-1",
 		},
 		codes = {
 			"\xF0\x9F\x92\x83\xF0\x9F\x8F\xBB", -- 💃🏻
@@ -4656,6 +4805,7 @@ return {
 		names = {
 			"dancer::skin-tone-2",
 			"dancer_tone2",
+			"woman_dancing::skin-tone-2",
 		},
 		codes = {
 			"\xF0\x9F\x92\x83\xF0\x9F\x8F\xBC", -- 💃🏼
@@ -4665,6 +4815,7 @@ return {
 		names = {
 			"dancer::skin-tone-3",
 			"dancer_tone3",
+			"woman_dancing::skin-tone-3",
 		},
 		codes = {
 			"\xF0\x9F\x92\x83\xF0\x9F\x8F\xBD", -- 💃🏽
@@ -4674,6 +4825,7 @@ return {
 		names = {
 			"dancer::skin-tone-4",
 			"dancer_tone4",
+			"woman_dancing::skin-tone-4",
 		},
 		codes = {
 			"\xF0\x9F\x92\x83\xF0\x9F\x8F\xBE", -- 💃🏾
@@ -4683,6 +4835,7 @@ return {
 		names = {
 			"dancer::skin-tone-5",
 			"dancer_tone5",
+			"woman_dancing::skin-tone-5",
 		},
 		codes = {
 			"\xF0\x9F\x92\x83\xF0\x9F\x8F\xBF", -- 💃🏿
@@ -4716,6 +4869,7 @@ return {
 	["dart"] = {
 		names = {
 			"dart",
+			"direct_hit",
 		},
 		codes = {
 			"\xF0\x9F\x8E\xAF", -- 🎯
@@ -4724,6 +4878,7 @@ return {
 	["dash"] = {
 		names = {
 			"dash",
+			"dashing_away",
 		},
 		codes = {
 			"\xF0\x9F\x92\xA8", -- 💨
@@ -5039,6 +5194,7 @@ return {
 	},
 	["diamonds"] = {
 		names = {
+			"diamond_suit",
 			"diamonds",
 		},
 		codes = {
@@ -5123,6 +5279,7 @@ return {
 	["do_not_litter"] = {
 		names = {
 			"do_not_litter",
+			"no_littering",
 		},
 		codes = {
 			"\xF0\x9F\x9A\xAF", -- 🚯
@@ -5139,6 +5296,7 @@ return {
 	["dog"] = {
 		names = {
 			"dog",
+			"dog_face",
 		},
 		codes = {
 			"\xF0\x9F\x90\xB6", -- 🐶
@@ -5176,12 +5334,28 @@ return {
 			"\xF0\x9F\x90\xAC", -- 🐬
 		},
 	},
+	["donkey"] = {
+		names = {
+			"donkey",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x8F", -- 🫏
+		},
+	},
 	["door"] = {
 		names = {
 			"door",
 		},
 		codes = {
 			"\xF0\x9F\x9A\xAA", -- 🚪
+		},
+	},
+	["dotted_line_face"] = {
+		names = {
+			"dotted_line_face",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xA5", -- 🫥
 		},
 	},
 	["doughnut"] = {
@@ -5320,6 +5494,7 @@ return {
 	["ear_of_rice"] = {
 		names = {
 			"ear_of_rice",
+			"sheaf_of_rice",
 		},
 		codes = {
 			"\xF0\x9F\x8C\xBE", -- 🌾
@@ -5471,6 +5646,7 @@ return {
 	["eight"] = {
 		names = {
 			"eight",
+			"number_8",
 		},
 		codes = {
 			"\x38\xEF\xB8\x8F\xE2\x83\xA3", -- 8️⃣
@@ -5587,9 +5763,18 @@ return {
 			"\xF0\x9F\xA7\x9D\xF0\x9F\x8F\xBF", -- 🧝🏿
 		},
 	},
+	["empty_nest"] = {
+		names = {
+			"empty_nest",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xB9", -- 🪹
+		},
+	},
 	["end"] = {
 		names = {
 			"end",
+			"end_arrow",
 		},
 		codes = {
 			"\xF0\x9F\x94\x9A", -- 🔚
@@ -5623,6 +5808,7 @@ return {
 	["euro"] = {
 		names = {
 			"euro",
+			"euro_banknote",
 		},
 		codes = {
 			"\xF0\x9F\x92\xB6", -- 💶
@@ -5630,6 +5816,7 @@ return {
 	},
 	["european_castle"] = {
 		names = {
+			"castle",
 			"european_castle",
 		},
 		codes = {
@@ -5696,6 +5883,7 @@ return {
 	["eyeglasses"] = {
 		names = {
 			"eyeglasses",
+			"glasses",
 		},
 		codes = {
 			"\xF0\x9F\x91\x93", -- 👓
@@ -5715,6 +5903,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x98\xAE\xE2\x80\x8D\xF0\x9F\x92\xA8", -- 😮‍💨
+		},
+	},
+	["face_holding_back_tears"] = {
+		names = {
+			"face_holding_back_tears",
+		},
+		codes = {
+			"\xF0\x9F\xA5\xB9", -- 🥹
 		},
 	},
 	["face_in_clouds"] = {
@@ -5741,6 +5937,14 @@ return {
 			"\xF0\x9F\xA4\xAE", -- 🤮
 		},
 	},
+	["face_with_diagonal_mouth"] = {
+		names = {
+			"face_with_diagonal_mouth",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xA4", -- 🫤
+		},
+	},
 	["face_with_hand_over_mouth"] = {
 		names = {
 			"face_with_hand_over_mouth",
@@ -5755,6 +5959,22 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\xA7\x90", -- 🧐
+		},
+	},
+	["face_with_open_eyes_and_hand_over_mouth"] = {
+		names = {
+			"face_with_open_eyes_and_hand_over_mouth",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xA2", -- 🫢
+		},
+	},
+	["face_with_peeking_eye"] = {
+		names = {
+			"face_with_peeking_eye",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xA3", -- 🫣
 		},
 	},
 	["face_with_raised_eyebrow"] = {
@@ -5927,6 +6147,38 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x91\xAA", -- 👪
+		},
+	},
+	["family_adult_adult_child"] = {
+		names = {
+			"family_adult_adult_child",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xE2\x80\x8D\xF0\x9F\xA7\x91\xE2\x80\x8D\xF0\x9F\xA7\x92", -- 🧑‍🧑‍🧒
+		},
+	},
+	["family_adult_adult_child_child"] = {
+		names = {
+			"family_adult_adult_child_child",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xE2\x80\x8D\xF0\x9F\xA7\x91\xE2\x80\x8D\xF0\x9F\xA7\x92\xE2\x80\x8D\xF0\x9F\xA7\x92", -- 🧑‍🧑‍🧒‍🧒
+		},
+	},
+	["family_adult_child"] = {
+		names = {
+			"family_adult_child",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xE2\x80\x8D\xF0\x9F\xA7\x92", -- 🧑‍🧒
+		},
+	},
+	["family_adult_child_child"] = {
+		names = {
+			"family_adult_child_child",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xE2\x80\x8D\xF0\x9F\xA7\x92\xE2\x80\x8D\xF0\x9F\xA7\x92", -- 🧑‍🧒‍🧒
 		},
 	},
 	["family_man_boy"] = {
@@ -6198,6 +6450,7 @@ return {
 	["fax"] = {
 		names = {
 			"fax",
+			"fax_machine",
 		},
 		codes = {
 			"\xF0\x9F\x93\xA0", -- 📠
@@ -6206,6 +6459,7 @@ return {
 	["fearful"] = {
 		names = {
 			"fearful",
+			"fearful_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\xA8", -- 😨
@@ -6501,6 +6755,7 @@ return {
 	},
 	["fishing_pole_and_fish"] = {
 		names = {
+			"fishing_pole",
 			"fishing_pole_and_fish",
 		},
 		codes = {
@@ -6510,6 +6765,7 @@ return {
 	["fist"] = {
 		names = {
 			"fist",
+			"raised_fist",
 		},
 		codes = {
 			"\xE2\x9C\x8A", -- ✊
@@ -6519,6 +6775,7 @@ return {
 		names = {
 			"fist::skin-tone-1",
 			"fist_tone1",
+			"raised_fist::skin-tone-1",
 		},
 		codes = {
 			"\xE2\x9C\x8A\xF0\x9F\x8F\xBB", -- ✊🏻
@@ -6528,6 +6785,7 @@ return {
 		names = {
 			"fist::skin-tone-2",
 			"fist_tone2",
+			"raised_fist::skin-tone-2",
 		},
 		codes = {
 			"\xE2\x9C\x8A\xF0\x9F\x8F\xBC", -- ✊🏼
@@ -6537,6 +6795,7 @@ return {
 		names = {
 			"fist::skin-tone-3",
 			"fist_tone3",
+			"raised_fist::skin-tone-3",
 		},
 		codes = {
 			"\xE2\x9C\x8A\xF0\x9F\x8F\xBD", -- ✊🏽
@@ -6546,6 +6805,7 @@ return {
 		names = {
 			"fist::skin-tone-4",
 			"fist_tone4",
+			"raised_fist::skin-tone-4",
 		},
 		codes = {
 			"\xE2\x9C\x8A\xF0\x9F\x8F\xBE", -- ✊🏾
@@ -6555,6 +6815,7 @@ return {
 		names = {
 			"fist::skin-tone-5",
 			"fist_tone5",
+			"raised_fist::skin-tone-5",
 		},
 		codes = {
 			"\xE2\x9C\x8A\xF0\x9F\x8F\xBF", -- ✊🏿
@@ -6563,6 +6824,7 @@ return {
 	["five"] = {
 		names = {
 			"five",
+			"number_5",
 		},
 		codes = {
 			"\x35\xEF\xB8\x8F\xE2\x83\xA3", -- 5️⃣
@@ -8644,6 +8906,7 @@ return {
 	},
 	["flags"] = {
 		names = {
+			"carp_streamer",
 			"flags",
 		},
 		codes = {
@@ -8702,9 +8965,18 @@ return {
 	["flushed"] = {
 		names = {
 			"flushed",
+			"flushed_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\xB3", -- 😳
+		},
+	},
+	["flute"] = {
+		names = {
+			"flute",
+		},
+		codes = {
+			"\xF0\x9F\xAA\x88", -- 🪈
 		},
 	},
 	["fly"] = {
@@ -8746,6 +9018,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x8C\x81", -- 🌁
+		},
+	},
+	["folding_hand_fan"] = {
+		names = {
+			"folding_hand_fan",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xAD", -- 🪭
 		},
 	},
 	["fondue"] = {
@@ -8867,6 +9147,7 @@ return {
 	["four"] = {
 		names = {
 			"four",
+			"number_4",
 		},
 		codes = {
 			"\x34\xEF\xB8\x8F\xE2\x83\xA3", -- 4️⃣
@@ -8927,6 +9208,7 @@ return {
 	},
 	["fries"] = {
 		names = {
+			"french_fries",
 			"fries",
 		},
 		codes = {
@@ -8952,6 +9234,7 @@ return {
 	["frowning2"] = {
 		names = {
 			"frowning2",
+			"frowning_face",
 			"white_frowning_face",
 		},
 		codes = {
@@ -8961,6 +9244,7 @@ return {
 	},
 	["fuelpump"] = {
 		names = {
+			"fuel_pump",
 			"fuelpump",
 		},
 		codes = {
@@ -9019,6 +9303,7 @@ return {
 	["gem"] = {
 		names = {
 			"gem",
+			"gem_stone",
 		},
 		codes = {
 			"\xF0\x9F\x92\x8E", -- 💎
@@ -9051,6 +9336,7 @@ return {
 	["gift"] = {
 		names = {
 			"gift",
+			"wrapped_gift",
 		},
 		codes = {
 			"\xF0\x9F\x8E\x81", -- 🎁
@@ -9062,6 +9348,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x92\x9D", -- 💝
+		},
+	},
+	["ginger_root"] = {
+		names = {
+			"ginger_root",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x9A", -- 🫚
 		},
 	},
 	["giraffe"] = {
@@ -9168,6 +9462,7 @@ return {
 	},
 	["golf"] = {
 		names = {
+			"flag_in_hole",
 			"golf",
 		},
 		codes = {
@@ -9180,6 +9475,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x8F\x8C", -- 🏌
+		},
+	},
+	["goose"] = {
+		names = {
+			"goose",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xBF", -- 🪿
 		},
 	},
 	["gorilla"] = {
@@ -9246,6 +9549,14 @@ return {
 			"\xE2\x9D\x95", -- ❕
 		},
 	},
+	["grey_heart"] = {
+		names = {
+			"grey_heart",
+		},
+		codes = {
+			"\xF0\x9F\xA9\xB6", -- 🩶
+		},
+	},
 	["grey_question"] = {
 		names = {
 			"grey_question",
@@ -9273,6 +9584,7 @@ return {
 	["grinning"] = {
 		names = {
 			"grinning",
+			"grinning_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\x80", -- 😀
@@ -9369,9 +9681,18 @@ return {
 	["gun"] = {
 		names = {
 			"gun",
+			"pistol",
 		},
 		codes = {
 			"\xF0\x9F\x94\xAB", -- 🔫
+		},
+	},
+	["hair_pick"] = {
+		names = {
+			"hair_pick",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xAE", -- 🪮
 		},
 	},
 	["haircut"] = {
@@ -9406,6 +9727,14 @@ return {
 		codes = {
 			"\xE2\x9A\x92\xEF\xB8\x8F", -- ⚒️
 			"\xE2\x9A\x92", -- ⚒
+		},
+	},
+	["hamsa"] = {
+		names = {
+			"hamsa",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xAC", -- 🪬
 		},
 	},
 	["hamster"] = {
@@ -9481,6 +9810,64 @@ return {
 			"\xF0\x9F\x96\x90\xF0\x9F\x8F\xBF", -- 🖐🏿
 		},
 	},
+	["hand_with_index_finger_and_thumb_crossed"] = {
+		names = {
+			"hand_with_index_finger_and_thumb_crossed",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB0", -- 🫰
+		},
+	},
+	["hand_with_index_finger_and_thumb_crossed_tone1"] = {
+		names = {
+			"hand_with_index_finger_and_thumb_crossed::skin-tone-1",
+			"hand_with_index_finger_and_thumb_crossed_light_skin_tone",
+			"hand_with_index_finger_and_thumb_crossed_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB0\xF0\x9F\x8F\xBB", -- 🫰🏻
+		},
+	},
+	["hand_with_index_finger_and_thumb_crossed_tone2"] = {
+		names = {
+			"hand_with_index_finger_and_thumb_crossed::skin-tone-2",
+			"hand_with_index_finger_and_thumb_crossed_medium_light_skin_tone",
+			"hand_with_index_finger_and_thumb_crossed_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB0\xF0\x9F\x8F\xBC", -- 🫰🏼
+		},
+	},
+	["hand_with_index_finger_and_thumb_crossed_tone3"] = {
+		names = {
+			"hand_with_index_finger_and_thumb_crossed::skin-tone-3",
+			"hand_with_index_finger_and_thumb_crossed_medium_skin_tone",
+			"hand_with_index_finger_and_thumb_crossed_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB0\xF0\x9F\x8F\xBD", -- 🫰🏽
+		},
+	},
+	["hand_with_index_finger_and_thumb_crossed_tone4"] = {
+		names = {
+			"hand_with_index_finger_and_thumb_crossed::skin-tone-4",
+			"hand_with_index_finger_and_thumb_crossed_medium_dark_skin_tone",
+			"hand_with_index_finger_and_thumb_crossed_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB0\xF0\x9F\x8F\xBE", -- 🫰🏾
+		},
+	},
+	["hand_with_index_finger_and_thumb_crossed_tone5"] = {
+		names = {
+			"hand_with_index_finger_and_thumb_crossed::skin-tone-5",
+			"hand_with_index_finger_and_thumb_crossed_dark_skin_tone",
+			"hand_with_index_finger_and_thumb_crossed_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB0\xF0\x9F\x8F\xBF", -- 🫰🏿
+		},
+	},
 	["handbag"] = {
 		names = {
 			"handbag",
@@ -9504,6 +9891,231 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\xA4\x9D", -- 🤝
+		},
+	},
+	["handshake_tone1"] = {
+		names = {
+			"handshake_light_skin_tone",
+			"handshake_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xA4\x9D\xF0\x9F\x8F\xBB", -- 🤝🏻
+		},
+	},
+	["handshake_tone1_tone2"] = {
+		names = {
+			"handshake_light_skin_tone_medium_light_skin_tone",
+			"handshake_tone1_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBC", -- 🫱🏻‍🫲🏼
+		},
+	},
+	["handshake_tone1_tone3"] = {
+		names = {
+			"handshake_light_skin_tone_medium_skin_tone",
+			"handshake_tone1_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBD", -- 🫱🏻‍🫲🏽
+		},
+	},
+	["handshake_tone1_tone4"] = {
+		names = {
+			"handshake_light_skin_tone_medium_dark_skin_tone",
+			"handshake_tone1_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBE", -- 🫱🏻‍🫲🏾
+		},
+	},
+	["handshake_tone1_tone5"] = {
+		names = {
+			"handshake_light_skin_tone_dark_skin_tone",
+			"handshake_tone1_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBF", -- 🫱🏻‍🫲🏿
+		},
+	},
+	["handshake_tone2"] = {
+		names = {
+			"handshake_medium_light_skin_tone",
+			"handshake_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xA4\x9D\xF0\x9F\x8F\xBC", -- 🤝🏼
+		},
+	},
+	["handshake_tone2_tone1"] = {
+		names = {
+			"handshake_medium_light_skin_tone_light_skin_tone",
+			"handshake_tone2_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBB", -- 🫱🏼‍🫲🏻
+		},
+	},
+	["handshake_tone2_tone3"] = {
+		names = {
+			"handshake_medium_light_skin_tone_medium_skin_tone",
+			"handshake_tone2_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBD", -- 🫱🏼‍🫲🏽
+		},
+	},
+	["handshake_tone2_tone4"] = {
+		names = {
+			"handshake_medium_light_skin_tone_medium_dark_skin_tone",
+			"handshake_tone2_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBE", -- 🫱🏼‍🫲🏾
+		},
+	},
+	["handshake_tone2_tone5"] = {
+		names = {
+			"handshake_medium_light_skin_tone_dark_skin_tone",
+			"handshake_tone2_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBF", -- 🫱🏼‍🫲🏿
+		},
+	},
+	["handshake_tone3"] = {
+		names = {
+			"handshake_medium_skin_tone",
+			"handshake_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xA4\x9D\xF0\x9F\x8F\xBD", -- 🤝🏽
+		},
+	},
+	["handshake_tone3_tone1"] = {
+		names = {
+			"handshake_medium_skin_tone_light_skin_tone",
+			"handshake_tone3_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBB", -- 🫱🏽‍🫲🏻
+		},
+	},
+	["handshake_tone3_tone2"] = {
+		names = {
+			"handshake_medium_skin_tone_medium_light_skin_tone",
+			"handshake_tone3_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBC", -- 🫱🏽‍🫲🏼
+		},
+	},
+	["handshake_tone3_tone4"] = {
+		names = {
+			"handshake_medium_skin_tone_medium_dark_skin_tone",
+			"handshake_tone3_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBE", -- 🫱🏽‍🫲🏾
+		},
+	},
+	["handshake_tone3_tone5"] = {
+		names = {
+			"handshake_medium_skin_tone_dark_skin_tone",
+			"handshake_tone3_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBF", -- 🫱🏽‍🫲🏿
+		},
+	},
+	["handshake_tone4"] = {
+		names = {
+			"handshake_medium_dark_skin_tone",
+			"handshake_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xA4\x9D\xF0\x9F\x8F\xBE", -- 🤝🏾
+		},
+	},
+	["handshake_tone4_tone1"] = {
+		names = {
+			"handshake_medium_dark_skin_tone_light_skin_tone",
+			"handshake_tone4_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBB", -- 🫱🏾‍🫲🏻
+		},
+	},
+	["handshake_tone4_tone2"] = {
+		names = {
+			"handshake_medium_dark_skin_tone_medium_light_skin_tone",
+			"handshake_tone4_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBC", -- 🫱🏾‍🫲🏼
+		},
+	},
+	["handshake_tone4_tone3"] = {
+		names = {
+			"handshake_medium_dark_skin_tone_medium_skin_tone",
+			"handshake_tone4_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBD", -- 🫱🏾‍🫲🏽
+		},
+	},
+	["handshake_tone4_tone5"] = {
+		names = {
+			"handshake_medium_dark_skin_tone_dark_skin_tone",
+			"handshake_tone4_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBF", -- 🫱🏾‍🫲🏿
+		},
+	},
+	["handshake_tone5"] = {
+		names = {
+			"handshake_dark_skin_tone",
+			"handshake_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xA4\x9D\xF0\x9F\x8F\xBF", -- 🤝🏿
+		},
+	},
+	["handshake_tone5_tone1"] = {
+		names = {
+			"handshake_dark_skin_tone_light_skin_tone",
+			"handshake_tone5_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBB", -- 🫱🏿‍🫲🏻
+		},
+	},
+	["handshake_tone5_tone2"] = {
+		names = {
+			"handshake_dark_skin_tone_medium_light_skin_tone",
+			"handshake_tone5_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBC", -- 🫱🏿‍🫲🏼
+		},
+	},
+	["handshake_tone5_tone3"] = {
+		names = {
+			"handshake_dark_skin_tone_medium_skin_tone",
+			"handshake_tone5_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBD", -- 🫱🏿‍🫲🏽
+		},
+	},
+	["handshake_tone5_tone4"] = {
+		names = {
+			"handshake_dark_skin_tone_medium_dark_skin_tone",
+			"handshake_tone5_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBE", -- 🫱🏿‍🫲🏾
 		},
 	},
 	["hash"] = {
@@ -9540,8 +10152,25 @@ return {
 			"\xF0\x9F\xA4\x95", -- 🤕
 		},
 	},
+	["head_shaking_horizontally"] = {
+		names = {
+			"head_shaking_horizontally",
+		},
+		codes = {
+			"\xF0\x9F\x99\x82\xE2\x80\x8D\xE2\x86\x94\xEF\xB8\x8F", -- 🙂‍↔️
+		},
+	},
+	["head_shaking_vertically"] = {
+		names = {
+			"head_shaking_vertically",
+		},
+		codes = {
+			"\xF0\x9F\x99\x82\xE2\x80\x8D\xE2\x86\x95\xEF\xB8\x8F", -- 🙂‍↕️
+		},
+	},
 	["headphones"] = {
 		names = {
+			"headphone",
 			"headphones",
 		},
 		codes = {
@@ -9625,6 +10254,7 @@ return {
 	["heart"] = {
 		names = {
 			"heart",
+			"red_heart",
 		},
 		codes = {
 			"\xE2\x9D\xA4\xEF\xB8\x8F", -- ❤️
@@ -9665,6 +10295,64 @@ return {
 			"\xF0\x9F\x98\xBB", -- 😻
 		},
 	},
+	["heart_hands"] = {
+		names = {
+			"heart_hands",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB6", -- 🫶
+		},
+	},
+	["heart_hands_tone1"] = {
+		names = {
+			"heart_hands::skin-tone-1",
+			"heart_hands_light_skin_tone",
+			"heart_hands_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB6\xF0\x9F\x8F\xBB", -- 🫶🏻
+		},
+	},
+	["heart_hands_tone2"] = {
+		names = {
+			"heart_hands::skin-tone-2",
+			"heart_hands_medium_light_skin_tone",
+			"heart_hands_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB6\xF0\x9F\x8F\xBC", -- 🫶🏼
+		},
+	},
+	["heart_hands_tone3"] = {
+		names = {
+			"heart_hands::skin-tone-3",
+			"heart_hands_medium_skin_tone",
+			"heart_hands_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB6\xF0\x9F\x8F\xBD", -- 🫶🏽
+		},
+	},
+	["heart_hands_tone4"] = {
+		names = {
+			"heart_hands::skin-tone-4",
+			"heart_hands_medium_dark_skin_tone",
+			"heart_hands_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB6\xF0\x9F\x8F\xBE", -- 🫶🏾
+		},
+	},
+	["heart_hands_tone5"] = {
+		names = {
+			"heart_hands::skin-tone-5",
+			"heart_hands_dark_skin_tone",
+			"heart_hands_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB6\xF0\x9F\x8F\xBF", -- 🫶🏿
+		},
+	},
 	["heart_on_fire"] = {
 		names = {
 			"heart_on_fire",
@@ -9675,6 +10363,7 @@ return {
 	},
 	["heartbeat"] = {
 		names = {
+			"beating_heart",
 			"heartbeat",
 		},
 		codes = {
@@ -9683,6 +10372,7 @@ return {
 	},
 	["heartpulse"] = {
 		names = {
+			"growing_heart",
 			"heartpulse",
 		},
 		codes = {
@@ -9691,6 +10381,7 @@ return {
 	},
 	["hearts"] = {
 		names = {
+			"heart_suit",
 			"hearts",
 		},
 		codes = {
@@ -9700,6 +10391,7 @@ return {
 	},
 	["heavy_check_mark"] = {
 		names = {
+			"check_mark",
 			"heavy_check_mark",
 		},
 		codes = {
@@ -9721,6 +10413,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x92\xB2", -- 💲
+		},
+	},
+	["heavy_equals_sign"] = {
+		names = {
+			"heavy_equals_sign",
+		},
+		codes = {
+			"\xF0\x9F\x9F\xB0", -- 🟰
 		},
 	},
 	["heavy_minus_sign"] = {
@@ -9833,6 +10533,7 @@ return {
 	["hockey"] = {
 		names = {
 			"hockey",
+			"ice_hockey",
 		},
 		codes = {
 			"\xF0\x9F\x8F\x92", -- 🏒
@@ -9851,6 +10552,7 @@ return {
 		names = {
 			"homes",
 			"house_buildings",
+			"houses",
 		},
 		codes = {
 			"\xF0\x9F\x8F\x98\xEF\xB8\x8F", -- 🏘️
@@ -9876,6 +10578,7 @@ return {
 	["horse"] = {
 		names = {
 			"horse",
+			"horse_face",
 		},
 		codes = {
 			"\xF0\x9F\x90\xB4", -- 🐴
@@ -9978,6 +10681,7 @@ return {
 	},
 	["hotsprings"] = {
 		names = {
+			"hot_springs",
 			"hotsprings",
 		},
 		codes = {
@@ -10039,6 +10743,7 @@ return {
 	["hushed"] = {
 		names = {
 			"hushed",
+			"hushed_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\xAF", -- 😯
@@ -10050,6 +10755,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x9B\x96", -- 🛖
+		},
+	},
+	["hyacinth"] = {
+		names = {
+			"hyacinth",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xBB", -- 🪻
 		},
 	},
 	["ice_cream"] = {
@@ -10093,6 +10806,14 @@ return {
 			"\xF0\x9F\x86\x94", -- 🆔
 		},
 	},
+	["identification_card"] = {
+		names = {
+			"identification_card",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xAA", -- 🪪
+		},
+	},
 	["ideograph_advantage"] = {
 		names = {
 			"ideograph_advantage",
@@ -10125,6 +10846,64 @@ return {
 			"\xF0\x9F\x93\xA8", -- 📨
 		},
 	},
+	["index_pointing_at_the_viewer"] = {
+		names = {
+			"index_pointing_at_the_viewer",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB5", -- 🫵
+		},
+	},
+	["index_pointing_at_the_viewer_tone1"] = {
+		names = {
+			"index_pointing_at_the_viewer::skin-tone-1",
+			"index_pointing_at_the_viewer_light_skin_tone",
+			"index_pointing_at_the_viewer_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB5\xF0\x9F\x8F\xBB", -- 🫵🏻
+		},
+	},
+	["index_pointing_at_the_viewer_tone2"] = {
+		names = {
+			"index_pointing_at_the_viewer::skin-tone-2",
+			"index_pointing_at_the_viewer_medium_light_skin_tone",
+			"index_pointing_at_the_viewer_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB5\xF0\x9F\x8F\xBC", -- 🫵🏼
+		},
+	},
+	["index_pointing_at_the_viewer_tone3"] = {
+		names = {
+			"index_pointing_at_the_viewer::skin-tone-3",
+			"index_pointing_at_the_viewer_medium_skin_tone",
+			"index_pointing_at_the_viewer_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB5\xF0\x9F\x8F\xBD", -- 🫵🏽
+		},
+	},
+	["index_pointing_at_the_viewer_tone4"] = {
+		names = {
+			"index_pointing_at_the_viewer::skin-tone-4",
+			"index_pointing_at_the_viewer_medium_dark_skin_tone",
+			"index_pointing_at_the_viewer_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB5\xF0\x9F\x8F\xBE", -- 🫵🏾
+		},
+	},
+	["index_pointing_at_the_viewer_tone5"] = {
+		names = {
+			"index_pointing_at_the_viewer::skin-tone-5",
+			"index_pointing_at_the_viewer_dark_skin_tone",
+			"index_pointing_at_the_viewer_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB5\xF0\x9F\x8F\xBF", -- 🫵🏿
+		},
+	},
 	["infinity"] = {
 		names = {
 			"infinity",
@@ -10143,6 +10922,7 @@ return {
 	},
 	["information_source"] = {
 		names = {
+			"information",
 			"information_source",
 		},
 		codes = {
@@ -10204,6 +10984,7 @@ return {
 	["japan"] = {
 		names = {
 			"japan",
+			"map_of_japan",
 		},
 		codes = {
 			"\xF0\x9F\x97\xBE", -- 🗾
@@ -10219,6 +11000,7 @@ return {
 	},
 	["japanese_goblin"] = {
 		names = {
+			"goblin",
 			"japanese_goblin",
 		},
 		codes = {
@@ -10228,9 +11010,18 @@ return {
 	["japanese_ogre"] = {
 		names = {
 			"japanese_ogre",
+			"ogre",
 		},
 		codes = {
 			"\xF0\x9F\x91\xB9", -- 👹
+		},
+	},
+	["jar"] = {
+		names = {
+			"jar",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x99", -- 🫙
 		},
 	},
 	["jeans"] = {
@@ -10241,9 +11032,18 @@ return {
 			"\xF0\x9F\x91\x96", -- 👖
 		},
 	},
+	["jellyfish"] = {
+		names = {
+			"jellyfish",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xBC", -- 🪼
+		},
+	},
 	["jigsaw"] = {
 		names = {
 			"jigsaw",
+			"puzzle_piece",
 		},
 		codes = {
 			"\xF0\x9F\xA7\xA9", -- 🧩
@@ -10386,9 +11186,18 @@ return {
 	["keycap_ten"] = {
 		names = {
 			"keycap_ten",
+			"number_10",
 		},
 		codes = {
 			"\xF0\x9F\x94\x9F", -- 🔟
+		},
+	},
+	["khanda"] = {
+		names = {
+			"khanda",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xAF", -- 🪯
 		},
 	},
 	["kimono"] = {
@@ -10402,6 +11211,7 @@ return {
 	["kiss"] = {
 		names = {
 			"kiss",
+			"kiss_mark",
 		},
 		codes = {
 			"\xF0\x9F\x92\x8B", -- 💋
@@ -10635,6 +11445,7 @@ return {
 	["kiss_mm"] = {
 		names = {
 			"couplekiss_mm",
+			"kiss_man_man",
 			"kiss_mm",
 		},
 		codes = {
@@ -11336,6 +12147,7 @@ return {
 	["kissing"] = {
 		names = {
 			"kissing",
+			"kissing_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\x97", -- 😗
@@ -11384,6 +12196,7 @@ return {
 	["kiwi"] = {
 		names = {
 			"kiwi",
+			"kiwi_fruit",
 			"kiwifruit",
 		},
 		codes = {
@@ -11392,6 +12205,7 @@ return {
 	},
 	["knife"] = {
 		names = {
+			"kitchen_knife",
 			"knife",
 		},
 		codes = {
@@ -11626,6 +12440,122 @@ return {
 			"\xE2\x86\xA9", -- ↩
 		},
 	},
+	["leftwards_hand"] = {
+		names = {
+			"leftwards_hand",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB2", -- 🫲
+		},
+	},
+	["leftwards_hand_tone1"] = {
+		names = {
+			"leftwards_hand::skin-tone-1",
+			"leftwards_hand_light_skin_tone",
+			"leftwards_hand_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBB", -- 🫲🏻
+		},
+	},
+	["leftwards_hand_tone2"] = {
+		names = {
+			"leftwards_hand::skin-tone-2",
+			"leftwards_hand_medium_light_skin_tone",
+			"leftwards_hand_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBC", -- 🫲🏼
+		},
+	},
+	["leftwards_hand_tone3"] = {
+		names = {
+			"leftwards_hand::skin-tone-3",
+			"leftwards_hand_medium_skin_tone",
+			"leftwards_hand_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBD", -- 🫲🏽
+		},
+	},
+	["leftwards_hand_tone4"] = {
+		names = {
+			"leftwards_hand::skin-tone-4",
+			"leftwards_hand_medium_dark_skin_tone",
+			"leftwards_hand_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBE", -- 🫲🏾
+		},
+	},
+	["leftwards_hand_tone5"] = {
+		names = {
+			"leftwards_hand::skin-tone-5",
+			"leftwards_hand_dark_skin_tone",
+			"leftwards_hand_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB2\xF0\x9F\x8F\xBF", -- 🫲🏿
+		},
+	},
+	["leftwards_pushing_hand"] = {
+		names = {
+			"leftwards_pushing_hand",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB7", -- 🫷
+		},
+	},
+	["leftwards_pushing_hand_tone1"] = {
+		names = {
+			"leftwards_pushing_hand::skin-tone-1",
+			"leftwards_pushing_hand_light_skin_tone",
+			"leftwards_pushing_hand_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB7\xF0\x9F\x8F\xBB", -- 🫷🏻
+		},
+	},
+	["leftwards_pushing_hand_tone2"] = {
+		names = {
+			"leftwards_pushing_hand::skin-tone-2",
+			"leftwards_pushing_hand_medium_light_skin_tone",
+			"leftwards_pushing_hand_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB7\xF0\x9F\x8F\xBC", -- 🫷🏼
+		},
+	},
+	["leftwards_pushing_hand_tone3"] = {
+		names = {
+			"leftwards_pushing_hand::skin-tone-3",
+			"leftwards_pushing_hand_medium_skin_tone",
+			"leftwards_pushing_hand_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB7\xF0\x9F\x8F\xBD", -- 🫷🏽
+		},
+	},
+	["leftwards_pushing_hand_tone4"] = {
+		names = {
+			"leftwards_pushing_hand::skin-tone-4",
+			"leftwards_pushing_hand_medium_dark_skin_tone",
+			"leftwards_pushing_hand_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB7\xF0\x9F\x8F\xBE", -- 🫷🏾
+		},
+	},
+	["leftwards_pushing_hand_tone5"] = {
+		names = {
+			"leftwards_pushing_hand::skin-tone-5",
+			"leftwards_pushing_hand_dark_skin_tone",
+			"leftwards_pushing_hand_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB7\xF0\x9F\x8F\xBF", -- 🫷🏿
+		},
+	},
 	["leg"] = {
 		names = {
 			"leg",
@@ -11803,12 +12733,28 @@ return {
 			"\xF0\x9F\x8F\x8B", -- 🏋
 		},
 	},
+	["light_blue_heart"] = {
+		names = {
+			"light_blue_heart",
+		},
+		codes = {
+			"\xF0\x9F\xA9\xB5", -- 🩵
+		},
+	},
 	["light_rail"] = {
 		names = {
 			"light_rail",
 		},
 		codes = {
 			"\xF0\x9F\x9A\x88", -- 🚈
+		},
+	},
+	["lime"] = {
+		names = {
+			"lime",
+		},
+		codes = {
+			"\xF0\x9F\x8D\x8B\xE2\x80\x8D\xF0\x9F\x9F\xA9", -- 🍋‍🟩
 		},
 	},
 	["link"] = {
@@ -11831,6 +12777,7 @@ return {
 	["lips"] = {
 		names = {
 			"lips",
+			"mouth",
 		},
 		codes = {
 			"\xF0\x9F\x91\x84", -- 👄
@@ -11871,6 +12818,7 @@ return {
 	["lock"] = {
 		names = {
 			"lock",
+			"locked",
 		},
 		codes = {
 			"\xF0\x9F\x94\x92", -- 🔒
@@ -11906,6 +12854,14 @@ return {
 		},
 		codes = {
 			"\xE2\x9E\xBF", -- ➿
+		},
+	},
+	["lotus"] = {
+		names = {
+			"lotus",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xB7", -- 🪷
 		},
 	},
 	["loud_sound"] = {
@@ -11998,6 +12954,14 @@ return {
 			"\xF0\x9F\xA4\x9F\xF0\x9F\x8F\xBF", -- 🤟🏿
 		},
 	},
+	["low_battery"] = {
+		names = {
+			"low_battery",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xAB", -- 🪫
+		},
+	},
 	["low_brightness"] = {
 		names = {
 			"low_brightness",
@@ -12033,6 +12997,7 @@ return {
 	},
 	["m"] = {
 		names = {
+			"circled_m",
 			"m",
 		},
 		codes = {
@@ -13906,6 +14871,64 @@ return {
 			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\xA6\xBD", -- 👨‍🦽
 		},
 	},
+	["man_in_manual_wheelchair_facing_right"] = {
+		names = {
+			"man_in_manual_wheelchair_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨‍🦽‍➡️
+		},
+	},
+	["man_in_manual_wheelchair_facing_right_tone1"] = {
+		names = {
+			"man_in_manual_wheelchair_facing_right::skin-tone-1",
+			"man_in_manual_wheelchair_facing_right_light_skin_tone",
+			"man_in_manual_wheelchair_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏻‍🦽‍➡️
+		},
+	},
+	["man_in_manual_wheelchair_facing_right_tone2"] = {
+		names = {
+			"man_in_manual_wheelchair_facing_right::skin-tone-2",
+			"man_in_manual_wheelchair_facing_right_medium_light_skin_tone",
+			"man_in_manual_wheelchair_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏼‍🦽‍➡️
+		},
+	},
+	["man_in_manual_wheelchair_facing_right_tone3"] = {
+		names = {
+			"man_in_manual_wheelchair_facing_right::skin-tone-3",
+			"man_in_manual_wheelchair_facing_right_medium_skin_tone",
+			"man_in_manual_wheelchair_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏽‍🦽‍➡️
+		},
+	},
+	["man_in_manual_wheelchair_facing_right_tone4"] = {
+		names = {
+			"man_in_manual_wheelchair_facing_right::skin-tone-4",
+			"man_in_manual_wheelchair_facing_right_medium_dark_skin_tone",
+			"man_in_manual_wheelchair_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏾‍🦽‍➡️
+		},
+	},
+	["man_in_manual_wheelchair_facing_right_tone5"] = {
+		names = {
+			"man_in_manual_wheelchair_facing_right::skin-tone-5",
+			"man_in_manual_wheelchair_facing_right_dark_skin_tone",
+			"man_in_manual_wheelchair_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏿‍🦽‍➡️
+		},
+	},
 	["man_in_manual_wheelchair_tone1"] = {
 		names = {
 			"man_in_manual_wheelchair::skin-tone-1",
@@ -13962,6 +14985,64 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\xA6\xBC", -- 👨‍🦼
+		},
+	},
+	["man_in_motorized_wheelchair_facing_right"] = {
+		names = {
+			"man_in_motorized_wheelchair_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨‍🦼‍➡️
+		},
+	},
+	["man_in_motorized_wheelchair_facing_right_tone1"] = {
+		names = {
+			"man_in_motorized_wheelchair_facing_right::skin-tone-1",
+			"man_in_motorized_wheelchair_facing_right_light_skin_tone",
+			"man_in_motorized_wheelchair_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏻‍🦼‍➡️
+		},
+	},
+	["man_in_motorized_wheelchair_facing_right_tone2"] = {
+		names = {
+			"man_in_motorized_wheelchair_facing_right::skin-tone-2",
+			"man_in_motorized_wheelchair_facing_right_medium_light_skin_tone",
+			"man_in_motorized_wheelchair_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏼‍🦼‍➡️
+		},
+	},
+	["man_in_motorized_wheelchair_facing_right_tone3"] = {
+		names = {
+			"man_in_motorized_wheelchair_facing_right::skin-tone-3",
+			"man_in_motorized_wheelchair_facing_right_medium_skin_tone",
+			"man_in_motorized_wheelchair_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏽‍🦼‍➡️
+		},
+	},
+	["man_in_motorized_wheelchair_facing_right_tone4"] = {
+		names = {
+			"man_in_motorized_wheelchair_facing_right::skin-tone-4",
+			"man_in_motorized_wheelchair_facing_right_medium_dark_skin_tone",
+			"man_in_motorized_wheelchair_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏾‍🦼‍➡️
+		},
+	},
+	["man_in_motorized_wheelchair_facing_right_tone5"] = {
+		names = {
+			"man_in_motorized_wheelchair_facing_right::skin-tone-5",
+			"man_in_motorized_wheelchair_facing_right_dark_skin_tone",
+			"man_in_motorized_wheelchair_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏿‍🦼‍➡️
 		},
 	},
 	["man_in_motorized_wheelchair_tone1"] = {
@@ -14263,6 +15344,64 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\xA7\x8E\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F", -- 🧎‍♂️
+		},
+	},
+	["man_kneeling_facing_right"] = {
+		names = {
+			"man_kneeling_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎‍♂️‍➡️
+		},
+	},
+	["man_kneeling_facing_right_tone1"] = {
+		names = {
+			"man_kneeling_facing_right::skin-tone-1",
+			"man_kneeling_facing_right_light_skin_tone",
+			"man_kneeling_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBB\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏻‍♂️‍➡️
+		},
+	},
+	["man_kneeling_facing_right_tone2"] = {
+		names = {
+			"man_kneeling_facing_right::skin-tone-2",
+			"man_kneeling_facing_right_medium_light_skin_tone",
+			"man_kneeling_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBC\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏼‍♂️‍➡️
+		},
+	},
+	["man_kneeling_facing_right_tone3"] = {
+		names = {
+			"man_kneeling_facing_right::skin-tone-3",
+			"man_kneeling_facing_right_medium_skin_tone",
+			"man_kneeling_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBD\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏽‍♂️‍➡️
+		},
+	},
+	["man_kneeling_facing_right_tone4"] = {
+		names = {
+			"man_kneeling_facing_right::skin-tone-4",
+			"man_kneeling_facing_right_medium_dark_skin_tone",
+			"man_kneeling_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBE\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏾‍♂️‍➡️
+		},
+	},
+	["man_kneeling_facing_right_tone5"] = {
+		names = {
+			"man_kneeling_facing_right::skin-tone-5",
+			"man_kneeling_facing_right_dark_skin_tone",
+			"man_kneeling_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBF\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏿‍♂️‍➡️
 		},
 	},
 	["man_kneeling_tone1"] = {
@@ -14955,6 +16094,7 @@ return {
 	},
 	["man_red_haired"] = {
 		names = {
+			"man_red_hair",
 			"man_red_haired",
 		},
 		codes = {
@@ -14963,6 +16103,7 @@ return {
 	},
 	["man_red_haired_tone1"] = {
 		names = {
+			"man_red_hair::skin-tone-1",
 			"man_red_haired::skin-tone-1",
 			"man_red_haired_light_skin_tone",
 			"man_red_haired_tone1",
@@ -14973,6 +16114,7 @@ return {
 	},
 	["man_red_haired_tone2"] = {
 		names = {
+			"man_red_hair::skin-tone-2",
 			"man_red_haired::skin-tone-2",
 			"man_red_haired_medium_light_skin_tone",
 			"man_red_haired_tone2",
@@ -14983,6 +16125,7 @@ return {
 	},
 	["man_red_haired_tone3"] = {
 		names = {
+			"man_red_hair::skin-tone-3",
 			"man_red_haired::skin-tone-3",
 			"man_red_haired_medium_skin_tone",
 			"man_red_haired_tone3",
@@ -14993,6 +16136,7 @@ return {
 	},
 	["man_red_haired_tone4"] = {
 		names = {
+			"man_red_hair::skin-tone-4",
 			"man_red_haired::skin-tone-4",
 			"man_red_haired_medium_dark_skin_tone",
 			"man_red_haired_tone4",
@@ -15003,6 +16147,7 @@ return {
 	},
 	["man_red_haired_tone5"] = {
 		names = {
+			"man_red_hair::skin-tone-5",
 			"man_red_haired::skin-tone-5",
 			"man_red_haired_dark_skin_tone",
 			"man_red_haired_tone5",
@@ -15075,6 +16220,64 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x8F\x83\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F", -- 🏃‍♂️
+		},
+	},
+	["man_running_facing_right"] = {
+		names = {
+			"man_running_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃‍♂️‍➡️
+		},
+	},
+	["man_running_facing_right_tone1"] = {
+		names = {
+			"man_running_facing_right::skin-tone-1",
+			"man_running_facing_right_light_skin_tone",
+			"man_running_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBB\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏻‍♂️‍➡️
+		},
+	},
+	["man_running_facing_right_tone2"] = {
+		names = {
+			"man_running_facing_right::skin-tone-2",
+			"man_running_facing_right_medium_light_skin_tone",
+			"man_running_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBC\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏼‍♂️‍➡️
+		},
+	},
+	["man_running_facing_right_tone3"] = {
+		names = {
+			"man_running_facing_right::skin-tone-3",
+			"man_running_facing_right_medium_skin_tone",
+			"man_running_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBD\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏽‍♂️‍➡️
+		},
+	},
+	["man_running_facing_right_tone4"] = {
+		names = {
+			"man_running_facing_right::skin-tone-4",
+			"man_running_facing_right_medium_dark_skin_tone",
+			"man_running_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBE\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏾‍♂️‍➡️
+		},
+	},
+	["man_running_facing_right_tone5"] = {
+		names = {
+			"man_running_facing_right::skin-tone-5",
+			"man_running_facing_right_dark_skin_tone",
+			"man_running_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBF\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏿‍♂️‍➡️
 		},
 	},
 	["man_running_tone1"] = {
@@ -15984,6 +17187,64 @@ return {
 			"\xF0\x9F\x9A\xB6\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F", -- 🚶‍♂️
 		},
 	},
+	["man_walking_facing_right"] = {
+		names = {
+			"man_walking_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶‍♂️‍➡️
+		},
+	},
+	["man_walking_facing_right_tone1"] = {
+		names = {
+			"man_walking_facing_right::skin-tone-1",
+			"man_walking_facing_right_light_skin_tone",
+			"man_walking_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBB\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏻‍♂️‍➡️
+		},
+	},
+	["man_walking_facing_right_tone2"] = {
+		names = {
+			"man_walking_facing_right::skin-tone-2",
+			"man_walking_facing_right_medium_light_skin_tone",
+			"man_walking_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBC\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏼‍♂️‍➡️
+		},
+	},
+	["man_walking_facing_right_tone3"] = {
+		names = {
+			"man_walking_facing_right::skin-tone-3",
+			"man_walking_facing_right_medium_skin_tone",
+			"man_walking_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBD\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏽‍♂️‍➡️
+		},
+	},
+	["man_walking_facing_right_tone4"] = {
+		names = {
+			"man_walking_facing_right::skin-tone-4",
+			"man_walking_facing_right_medium_dark_skin_tone",
+			"man_walking_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBE\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏾‍♂️‍➡️
+		},
+	},
+	["man_walking_facing_right_tone5"] = {
+		names = {
+			"man_walking_facing_right::skin-tone-5",
+			"man_walking_facing_right_dark_skin_tone",
+			"man_walking_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBF\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏿‍♂️‍➡️
+		},
+	},
 	["man_walking_tone1"] = {
 		names = {
 			"man_walking::skin-tone-1",
@@ -16346,6 +17607,64 @@ return {
 			"\xF0\x9F\x91\xB0\xF0\x9F\x8F\xBF\xE2\x80\x8D\xE2\x99\x82\xEF\xB8\x8F", -- 👰🏿‍♂️
 		},
 	},
+	["man_with_white_cane_facing_right"] = {
+		names = {
+			"man_with_white_cane_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨‍🦯‍➡️
+		},
+	},
+	["man_with_white_cane_facing_right_tone1"] = {
+		names = {
+			"man_with_white_cane_facing_right::skin-tone-1",
+			"man_with_white_cane_facing_right_light_skin_tone",
+			"man_with_white_cane_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏻‍🦯‍➡️
+		},
+	},
+	["man_with_white_cane_facing_right_tone2"] = {
+		names = {
+			"man_with_white_cane_facing_right::skin-tone-2",
+			"man_with_white_cane_facing_right_medium_light_skin_tone",
+			"man_with_white_cane_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏼‍🦯‍➡️
+		},
+	},
+	["man_with_white_cane_facing_right_tone3"] = {
+		names = {
+			"man_with_white_cane_facing_right::skin-tone-3",
+			"man_with_white_cane_facing_right_medium_skin_tone",
+			"man_with_white_cane_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏽‍🦯‍➡️
+		},
+	},
+	["man_with_white_cane_facing_right_tone4"] = {
+		names = {
+			"man_with_white_cane_facing_right::skin-tone-4",
+			"man_with_white_cane_facing_right_medium_dark_skin_tone",
+			"man_with_white_cane_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏾‍🦯‍➡️
+		},
+	},
+	["man_with_white_cane_facing_right_tone5"] = {
+		names = {
+			"man_with_white_cane_facing_right::skin-tone-5",
+			"man_with_white_cane_facing_right_dark_skin_tone",
+			"man_with_white_cane_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA8\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👨🏿‍🦯‍➡️
+		},
+	},
 	["man_zombie"] = {
 		names = {
 			"man_zombie",
@@ -16394,6 +17713,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x8D\x81", -- 🍁
+		},
+	},
+	["maracas"] = {
+		names = {
+			"maracas",
+		},
+		codes = {
+			"\xF0\x9F\xAA\x87", -- 🪇
 		},
 	},
 	["martial_arts_uniform"] = {
@@ -16531,6 +17858,7 @@ return {
 	["mega"] = {
 		names = {
 			"mega",
+			"megaphone",
 		},
 		codes = {
 			"\xF0\x9F\x93\xA3", -- 📣
@@ -16542,6 +17870,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x8D\x88", -- 🍈
+		},
+	},
+	["melting_face"] = {
+		names = {
+			"melting_face",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xA0", -- 🫠
 		},
 	},
 	["men_holding_hands_tone1"] = {
@@ -16804,6 +18140,7 @@ return {
 	["mens"] = {
 		names = {
 			"mens",
+			"mens_room",
 		},
 		codes = {
 			"\xF0\x9F\x9A\xB9", -- 🚹
@@ -17197,6 +18534,7 @@ return {
 	},
 	["minidisc"] = {
 		names = {
+			"computer_disk",
 			"minidisc",
 		},
 		codes = {
@@ -17209,6 +18547,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\xAA\x9E", -- 🪞
+		},
+	},
+	["mirror_ball"] = {
+		names = {
+			"mirror_ball",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xA9", -- 🪩
 		},
 	},
 	["mobile_phone"] = {
@@ -17247,6 +18593,7 @@ return {
 	},
 	["moneybag"] = {
 		names = {
+			"money_bag",
 			"moneybag",
 		},
 		codes = {
@@ -17285,6 +18632,14 @@ return {
 			"\xF0\x9F\xA5\xAE", -- 🥮
 		},
 	},
+	["moose"] = {
+		names = {
+			"moose",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x8E", -- 🫎
+		},
+	},
 	["mortar_board"] = {
 		names = {
 			"mortar_board",
@@ -17320,6 +18675,7 @@ return {
 	},
 	["motorboat"] = {
 		names = {
+			"motor_boat",
 			"motorboat",
 		},
 		codes = {
@@ -17408,6 +18764,7 @@ return {
 	["mouse"] = {
 		names = {
 			"mouse",
+			"mouse_face",
 		},
 		codes = {
 			"\xF0\x9F\x90\xAD", -- 🐭
@@ -17449,6 +18806,7 @@ return {
 	},
 	["moyai"] = {
 		names = {
+			"moai",
 			"moyai",
 		},
 		codes = {
@@ -17521,6 +18879,7 @@ return {
 	},
 	["muscle"] = {
 		names = {
+			"flexed_biceps",
 			"muscle",
 		},
 		codes = {
@@ -17529,6 +18888,7 @@ return {
 	},
 	["muscle_tone1"] = {
 		names = {
+			"flexed_biceps::skin-tone-1",
 			"muscle::skin-tone-1",
 			"muscle_tone1",
 		},
@@ -17538,6 +18898,7 @@ return {
 	},
 	["muscle_tone2"] = {
 		names = {
+			"flexed_biceps::skin-tone-2",
 			"muscle::skin-tone-2",
 			"muscle_tone2",
 		},
@@ -17547,6 +18908,7 @@ return {
 	},
 	["muscle_tone3"] = {
 		names = {
+			"flexed_biceps::skin-tone-3",
 			"muscle::skin-tone-3",
 			"muscle_tone3",
 		},
@@ -17556,6 +18918,7 @@ return {
 	},
 	["muscle_tone4"] = {
 		names = {
+			"flexed_biceps::skin-tone-4",
 			"muscle::skin-tone-4",
 			"muscle_tone4",
 		},
@@ -17565,6 +18928,7 @@ return {
 	},
 	["muscle_tone5"] = {
 		names = {
+			"flexed_biceps::skin-tone-5",
 			"muscle::skin-tone-5",
 			"muscle_tone5",
 		},
@@ -17607,6 +18971,7 @@ return {
 	["mute"] = {
 		names = {
 			"mute",
+			"muted_speaker",
 		},
 		codes = {
 			"\xF0\x9F\x94\x87", -- 🔇
@@ -17673,6 +19038,7 @@ return {
 	["nail_care"] = {
 		names = {
 			"nail_care",
+			"nail_polish",
 		},
 		codes = {
 			"\xF0\x9F\x92\x85", -- 💅
@@ -17682,6 +19048,7 @@ return {
 		names = {
 			"nail_care::skin-tone-1",
 			"nail_care_tone1",
+			"nail_polish::skin-tone-1",
 		},
 		codes = {
 			"\xF0\x9F\x92\x85\xF0\x9F\x8F\xBB", -- 💅🏻
@@ -17691,6 +19058,7 @@ return {
 		names = {
 			"nail_care::skin-tone-2",
 			"nail_care_tone2",
+			"nail_polish::skin-tone-2",
 		},
 		codes = {
 			"\xF0\x9F\x92\x85\xF0\x9F\x8F\xBC", -- 💅🏼
@@ -17700,6 +19068,7 @@ return {
 		names = {
 			"nail_care::skin-tone-3",
 			"nail_care_tone3",
+			"nail_polish::skin-tone-3",
 		},
 		codes = {
 			"\xF0\x9F\x92\x85\xF0\x9F\x8F\xBD", -- 💅🏽
@@ -17709,6 +19078,7 @@ return {
 		names = {
 			"nail_care::skin-tone-4",
 			"nail_care_tone4",
+			"nail_polish::skin-tone-4",
 		},
 		codes = {
 			"\xF0\x9F\x92\x85\xF0\x9F\x8F\xBE", -- 💅🏾
@@ -17718,6 +19088,7 @@ return {
 		names = {
 			"nail_care::skin-tone-5",
 			"nail_care_tone5",
+			"nail_polish::skin-tone-5",
 		},
 		codes = {
 			"\xF0\x9F\x92\x85\xF0\x9F\x8F\xBF", -- 💅🏿
@@ -17773,6 +19144,14 @@ return {
 			"\xF0\x9F\xA4\x93", -- 🤓
 		},
 	},
+	["nest_with_eggs"] = {
+		names = {
+			"nest_with_eggs",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xBA", -- 🪺
+		},
+	},
 	["nesting_dolls"] = {
 		names = {
 			"nesting_dolls",
@@ -17807,6 +19186,7 @@ return {
 	},
 	["new_moon_with_face"] = {
 		names = {
+			"new_moon_face",
 			"new_moon_with_face",
 		},
 		codes = {
@@ -17850,6 +19230,7 @@ return {
 	["nine"] = {
 		names = {
 			"nine",
+			"number_9",
 		},
 		codes = {
 			"\x39\xEF\xB8\x8F\xE2\x83\xA3", -- 9️⃣
@@ -17941,6 +19322,7 @@ return {
 	["no_entry_sign"] = {
 		names = {
 			"no_entry_sign",
+			"prohibited",
 		},
 		codes = {
 			"\xF0\x9F\x9A\xAB", -- 🚫
@@ -18083,6 +19465,7 @@ return {
 	},
 	["notes"] = {
 		names = {
+			"musical_notes",
 			"notes",
 		},
 		codes = {
@@ -18117,6 +19500,7 @@ return {
 	["ocean"] = {
 		names = {
 			"ocean",
+			"water_wave",
 		},
 		codes = {
 			"\xF0\x9F\x8C\x8A", -- 🌊
@@ -18295,6 +19679,7 @@ return {
 	["older_adult"] = {
 		names = {
 			"older_adult",
+			"older_person",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x93", -- 🧓
@@ -18305,6 +19690,7 @@ return {
 			"older_adult::skin-tone-1",
 			"older_adult_light_skin_tone",
 			"older_adult_tone1",
+			"older_person::skin-tone-1",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x93\xF0\x9F\x8F\xBB", -- 🧓🏻
@@ -18315,6 +19701,7 @@ return {
 			"older_adult::skin-tone-2",
 			"older_adult_medium_light_skin_tone",
 			"older_adult_tone2",
+			"older_person::skin-tone-2",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x93\xF0\x9F\x8F\xBC", -- 🧓🏼
@@ -18325,6 +19712,7 @@ return {
 			"older_adult::skin-tone-3",
 			"older_adult_medium_skin_tone",
 			"older_adult_tone3",
+			"older_person::skin-tone-3",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x93\xF0\x9F\x8F\xBD", -- 🧓🏽
@@ -18335,6 +19723,7 @@ return {
 			"older_adult::skin-tone-4",
 			"older_adult_medium_dark_skin_tone",
 			"older_adult_tone4",
+			"older_person::skin-tone-4",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x93\xF0\x9F\x8F\xBE", -- 🧓🏾
@@ -18345,6 +19734,7 @@ return {
 			"older_adult::skin-tone-5",
 			"older_adult_dark_skin_tone",
 			"older_adult_tone5",
+			"older_person::skin-tone-5",
 		},
 		codes = {
 			"\xF0\x9F\xA7\x93\xF0\x9F\x8F\xBF", -- 🧓🏿
@@ -18352,6 +19742,7 @@ return {
 	},
 	["older_man"] = {
 		names = {
+			"old_man",
 			"older_man",
 		},
 		codes = {
@@ -18360,6 +19751,7 @@ return {
 	},
 	["older_man_tone1"] = {
 		names = {
+			"old_man::skin-tone-1",
 			"older_man::skin-tone-1",
 			"older_man_tone1",
 		},
@@ -18369,6 +19761,7 @@ return {
 	},
 	["older_man_tone2"] = {
 		names = {
+			"old_man::skin-tone-2",
 			"older_man::skin-tone-2",
 			"older_man_tone2",
 		},
@@ -18378,6 +19771,7 @@ return {
 	},
 	["older_man_tone3"] = {
 		names = {
+			"old_man::skin-tone-3",
 			"older_man::skin-tone-3",
 			"older_man_tone3",
 		},
@@ -18387,6 +19781,7 @@ return {
 	},
 	["older_man_tone4"] = {
 		names = {
+			"old_man::skin-tone-4",
 			"older_man::skin-tone-4",
 			"older_man_tone4",
 		},
@@ -18396,6 +19791,7 @@ return {
 	},
 	["older_man_tone5"] = {
 		names = {
+			"old_man::skin-tone-5",
 			"older_man::skin-tone-5",
 			"older_man_tone5",
 		},
@@ -18406,6 +19802,7 @@ return {
 	["older_woman"] = {
 		names = {
 			"grandma",
+			"old_woman",
 			"older_woman",
 		},
 		codes = {
@@ -18416,6 +19813,7 @@ return {
 		names = {
 			"grandma::skin-tone-1",
 			"grandma_tone1",
+			"old_woman::skin-tone-1",
 			"older_woman::skin-tone-1",
 			"older_woman_tone1",
 		},
@@ -18427,6 +19825,7 @@ return {
 		names = {
 			"grandma::skin-tone-2",
 			"grandma_tone2",
+			"old_woman::skin-tone-2",
 			"older_woman::skin-tone-2",
 			"older_woman_tone2",
 		},
@@ -18438,6 +19837,7 @@ return {
 		names = {
 			"grandma::skin-tone-3",
 			"grandma_tone3",
+			"old_woman::skin-tone-3",
 			"older_woman::skin-tone-3",
 			"older_woman_tone3",
 		},
@@ -18449,6 +19849,7 @@ return {
 		names = {
 			"grandma::skin-tone-4",
 			"grandma_tone4",
+			"old_woman::skin-tone-4",
 			"older_woman::skin-tone-4",
 			"older_woman_tone4",
 		},
@@ -18460,6 +19861,7 @@ return {
 		names = {
 			"grandma::skin-tone-5",
 			"grandma_tone5",
+			"old_woman::skin-tone-5",
 			"older_woman::skin-tone-5",
 			"older_woman_tone5",
 		},
@@ -18487,6 +19889,7 @@ return {
 	["on"] = {
 		names = {
 			"on",
+			"on_arrow",
 		},
 		codes = {
 			"\xF0\x9F\x94\x9B", -- 🔛
@@ -18526,6 +19929,7 @@ return {
 	},
 	["one"] = {
 		names = {
+			"number_1",
 			"one",
 		},
 		codes = {
@@ -18757,12 +20161,128 @@ return {
 			"\xF0\x9F\x96\x8C", -- 🖌
 		},
 	},
+	["palm_down_hand"] = {
+		names = {
+			"palm_down_hand",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB3", -- 🫳
+		},
+	},
+	["palm_down_hand_tone1"] = {
+		names = {
+			"palm_down_hand::skin-tone-1",
+			"palm_down_hand_light_skin_tone",
+			"palm_down_hand_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB3\xF0\x9F\x8F\xBB", -- 🫳🏻
+		},
+	},
+	["palm_down_hand_tone2"] = {
+		names = {
+			"palm_down_hand::skin-tone-2",
+			"palm_down_hand_medium_light_skin_tone",
+			"palm_down_hand_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB3\xF0\x9F\x8F\xBC", -- 🫳🏼
+		},
+	},
+	["palm_down_hand_tone3"] = {
+		names = {
+			"palm_down_hand::skin-tone-3",
+			"palm_down_hand_medium_skin_tone",
+			"palm_down_hand_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB3\xF0\x9F\x8F\xBD", -- 🫳🏽
+		},
+	},
+	["palm_down_hand_tone4"] = {
+		names = {
+			"palm_down_hand::skin-tone-4",
+			"palm_down_hand_medium_dark_skin_tone",
+			"palm_down_hand_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB3\xF0\x9F\x8F\xBE", -- 🫳🏾
+		},
+	},
+	["palm_down_hand_tone5"] = {
+		names = {
+			"palm_down_hand::skin-tone-5",
+			"palm_down_hand_dark_skin_tone",
+			"palm_down_hand_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB3\xF0\x9F\x8F\xBF", -- 🫳🏿
+		},
+	},
 	["palm_tree"] = {
 		names = {
 			"palm_tree",
 		},
 		codes = {
 			"\xF0\x9F\x8C\xB4", -- 🌴
+		},
+	},
+	["palm_up_hand"] = {
+		names = {
+			"palm_up_hand",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB4", -- 🫴
+		},
+	},
+	["palm_up_hand_tone1"] = {
+		names = {
+			"palm_up_hand::skin-tone-1",
+			"palm_up_hand_light_skin_tone",
+			"palm_up_hand_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB4\xF0\x9F\x8F\xBB", -- 🫴🏻
+		},
+	},
+	["palm_up_hand_tone2"] = {
+		names = {
+			"palm_up_hand::skin-tone-2",
+			"palm_up_hand_medium_light_skin_tone",
+			"palm_up_hand_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB4\xF0\x9F\x8F\xBC", -- 🫴🏼
+		},
+	},
+	["palm_up_hand_tone3"] = {
+		names = {
+			"palm_up_hand::skin-tone-3",
+			"palm_up_hand_medium_skin_tone",
+			"palm_up_hand_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB4\xF0\x9F\x8F\xBD", -- 🫴🏽
+		},
+	},
+	["palm_up_hand_tone4"] = {
+		names = {
+			"palm_up_hand::skin-tone-4",
+			"palm_up_hand_medium_dark_skin_tone",
+			"palm_up_hand_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB4\xF0\x9F\x8F\xBE", -- 🫴🏾
+		},
+	},
+	["palm_up_hand_tone5"] = {
+		names = {
+			"palm_up_hand::skin-tone-5",
+			"palm_up_hand_dark_skin_tone",
+			"palm_up_hand_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB4\xF0\x9F\x8F\xBF", -- 🫴🏿
 		},
 	},
 	["palms_up_together"] = {
@@ -18833,6 +20353,7 @@ return {
 	},
 	["panda_face"] = {
 		names = {
+			"panda",
 			"panda_face",
 		},
 		codes = {
@@ -18935,6 +20456,14 @@ return {
 			"\xE2\x8F\xB8", -- ⏸
 		},
 	},
+	["pea_pod"] = {
+		names = {
+			"pea_pod",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x9B", -- 🫛
+		},
+	},
 	["peace"] = {
 		names = {
 			"peace",
@@ -18981,6 +20510,7 @@ return {
 	["pen_ballpoint"] = {
 		names = {
 			"lower_left_ballpoint_pen",
+			"pen",
 			"pen_ballpoint",
 		},
 		codes = {
@@ -18990,6 +20520,7 @@ return {
 	},
 	["pen_fountain"] = {
 		names = {
+			"fountain_pen",
 			"lower_left_fountain_pen",
 			"pen_fountain",
 		},
@@ -19027,6 +20558,7 @@ return {
 	["pensive"] = {
 		names = {
 			"pensive",
+			"pensive_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\x94", -- 😔
@@ -20167,6 +21699,7 @@ return {
 	},
 	["person_in_bed_tone1"] = {
 		names = {
+			"person_in_bed::skin-tone-1",
 			"person_in_bed_light_skin_tone",
 			"person_in_bed_tone1",
 			"sleeping_accommodation::skin-tone-1",
@@ -20177,6 +21710,7 @@ return {
 	},
 	["person_in_bed_tone2"] = {
 		names = {
+			"person_in_bed::skin-tone-2",
 			"person_in_bed_medium_light_skin_tone",
 			"person_in_bed_tone2",
 			"sleeping_accommodation::skin-tone-2",
@@ -20187,6 +21721,7 @@ return {
 	},
 	["person_in_bed_tone3"] = {
 		names = {
+			"person_in_bed::skin-tone-3",
 			"person_in_bed_medium_skin_tone",
 			"person_in_bed_tone3",
 			"sleeping_accommodation::skin-tone-3",
@@ -20197,6 +21732,7 @@ return {
 	},
 	["person_in_bed_tone4"] = {
 		names = {
+			"person_in_bed::skin-tone-4",
 			"person_in_bed_medium_dark_skin_tone",
 			"person_in_bed_tone4",
 			"sleeping_accommodation::skin-tone-4",
@@ -20207,6 +21743,7 @@ return {
 	},
 	["person_in_bed_tone5"] = {
 		names = {
+			"person_in_bed::skin-tone-5",
 			"person_in_bed_dark_skin_tone",
 			"person_in_bed_tone5",
 			"sleeping_accommodation::skin-tone-5",
@@ -20281,6 +21818,64 @@ return {
 			"\xF0\x9F\xA7\x91\xE2\x80\x8D\xF0\x9F\xA6\xBD", -- 🧑‍🦽
 		},
 	},
+	["person_in_manual_wheelchair_facing_right"] = {
+		names = {
+			"person_in_manual_wheelchair_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑‍🦽‍➡️
+		},
+	},
+	["person_in_manual_wheelchair_facing_right_tone1"] = {
+		names = {
+			"person_in_manual_wheelchair_facing_right::skin-tone-1",
+			"person_in_manual_wheelchair_facing_right_light_skin_tone",
+			"person_in_manual_wheelchair_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏻‍🦽‍➡️
+		},
+	},
+	["person_in_manual_wheelchair_facing_right_tone2"] = {
+		names = {
+			"person_in_manual_wheelchair_facing_right::skin-tone-2",
+			"person_in_manual_wheelchair_facing_right_medium_light_skin_tone",
+			"person_in_manual_wheelchair_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏼‍🦽‍➡️
+		},
+	},
+	["person_in_manual_wheelchair_facing_right_tone3"] = {
+		names = {
+			"person_in_manual_wheelchair_facing_right::skin-tone-3",
+			"person_in_manual_wheelchair_facing_right_medium_skin_tone",
+			"person_in_manual_wheelchair_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏽‍🦽‍➡️
+		},
+	},
+	["person_in_manual_wheelchair_facing_right_tone4"] = {
+		names = {
+			"person_in_manual_wheelchair_facing_right::skin-tone-4",
+			"person_in_manual_wheelchair_facing_right_medium_dark_skin_tone",
+			"person_in_manual_wheelchair_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏾‍🦽‍➡️
+		},
+	},
+	["person_in_manual_wheelchair_facing_right_tone5"] = {
+		names = {
+			"person_in_manual_wheelchair_facing_right::skin-tone-5",
+			"person_in_manual_wheelchair_facing_right_dark_skin_tone",
+			"person_in_manual_wheelchair_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏿‍🦽‍➡️
+		},
+	},
 	["person_in_manual_wheelchair_tone1"] = {
 		names = {
 			"person_in_manual_wheelchair::skin-tone-1",
@@ -20337,6 +21932,64 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\xA7\x91\xE2\x80\x8D\xF0\x9F\xA6\xBC", -- 🧑‍🦼
+		},
+	},
+	["person_in_motorized_wheelchair_facing_right"] = {
+		names = {
+			"person_in_motorized_wheelchair_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑‍🦼‍➡️
+		},
+	},
+	["person_in_motorized_wheelchair_facing_right_tone1"] = {
+		names = {
+			"person_in_motorized_wheelchair_facing_right::skin-tone-1",
+			"person_in_motorized_wheelchair_facing_right_light_skin_tone",
+			"person_in_motorized_wheelchair_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏻‍🦼‍➡️
+		},
+	},
+	["person_in_motorized_wheelchair_facing_right_tone2"] = {
+		names = {
+			"person_in_motorized_wheelchair_facing_right::skin-tone-2",
+			"person_in_motorized_wheelchair_facing_right_medium_light_skin_tone",
+			"person_in_motorized_wheelchair_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏼‍🦼‍➡️
+		},
+	},
+	["person_in_motorized_wheelchair_facing_right_tone3"] = {
+		names = {
+			"person_in_motorized_wheelchair_facing_right::skin-tone-3",
+			"person_in_motorized_wheelchair_facing_right_medium_skin_tone",
+			"person_in_motorized_wheelchair_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏽‍🦼‍➡️
+		},
+	},
+	["person_in_motorized_wheelchair_facing_right_tone4"] = {
+		names = {
+			"person_in_motorized_wheelchair_facing_right::skin-tone-4",
+			"person_in_motorized_wheelchair_facing_right_medium_dark_skin_tone",
+			"person_in_motorized_wheelchair_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏾‍🦼‍➡️
+		},
+	},
+	["person_in_motorized_wheelchair_facing_right_tone5"] = {
+		names = {
+			"person_in_motorized_wheelchair_facing_right::skin-tone-5",
+			"person_in_motorized_wheelchair_facing_right_dark_skin_tone",
+			"person_in_motorized_wheelchair_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏿‍🦼‍➡️
 		},
 	},
 	["person_in_motorized_wheelchair_tone1"] = {
@@ -20586,6 +22239,64 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\xA7\x8E", -- 🧎
+		},
+	},
+	["person_kneeling_facing_right"] = {
+		names = {
+			"person_kneeling_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎‍➡️
+		},
+	},
+	["person_kneeling_facing_right_tone1"] = {
+		names = {
+			"person_kneeling_facing_right::skin-tone-1",
+			"person_kneeling_facing_right_light_skin_tone",
+			"person_kneeling_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBB\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏻‍➡️
+		},
+	},
+	["person_kneeling_facing_right_tone2"] = {
+		names = {
+			"person_kneeling_facing_right::skin-tone-2",
+			"person_kneeling_facing_right_medium_light_skin_tone",
+			"person_kneeling_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏼‍➡️
+		},
+	},
+	["person_kneeling_facing_right_tone3"] = {
+		names = {
+			"person_kneeling_facing_right::skin-tone-3",
+			"person_kneeling_facing_right_medium_skin_tone",
+			"person_kneeling_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏽‍➡️
+		},
+	},
+	["person_kneeling_facing_right_tone4"] = {
+		names = {
+			"person_kneeling_facing_right::skin-tone-4",
+			"person_kneeling_facing_right_medium_dark_skin_tone",
+			"person_kneeling_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBE\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏾‍➡️
+		},
+	},
+	["person_kneeling_facing_right_tone5"] = {
+		names = {
+			"person_kneeling_facing_right::skin-tone-5",
+			"person_kneeling_facing_right_dark_skin_tone",
+			"person_kneeling_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏿‍➡️
 		},
 	},
 	["person_kneeling_tone1"] = {
@@ -21112,6 +22823,64 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x8F\x83", -- 🏃
+		},
+	},
+	["person_running_facing_right"] = {
+		names = {
+			"person_running_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃‍➡️
+		},
+	},
+	["person_running_facing_right_tone1"] = {
+		names = {
+			"person_running_facing_right::skin-tone-1",
+			"person_running_facing_right_light_skin_tone",
+			"person_running_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBB\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏻‍➡️
+		},
+	},
+	["person_running_facing_right_tone2"] = {
+		names = {
+			"person_running_facing_right::skin-tone-2",
+			"person_running_facing_right_medium_light_skin_tone",
+			"person_running_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏼‍➡️
+		},
+	},
+	["person_running_facing_right_tone3"] = {
+		names = {
+			"person_running_facing_right::skin-tone-3",
+			"person_running_facing_right_medium_skin_tone",
+			"person_running_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏽‍➡️
+		},
+	},
+	["person_running_facing_right_tone4"] = {
+		names = {
+			"person_running_facing_right::skin-tone-4",
+			"person_running_facing_right_medium_dark_skin_tone",
+			"person_running_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBE\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏾‍➡️
+		},
+	},
+	["person_running_facing_right_tone5"] = {
+		names = {
+			"person_running_facing_right::skin-tone-5",
+			"person_running_facing_right_dark_skin_tone",
+			"person_running_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏿‍➡️
 		},
 	},
 	["person_running_tone1"] = {
@@ -21692,6 +23461,64 @@ return {
 			"\xF0\x9F\x9A\xB6", -- 🚶
 		},
 	},
+	["person_walking_facing_right"] = {
+		names = {
+			"person_walking_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶‍➡️
+		},
+	},
+	["person_walking_facing_right_tone1"] = {
+		names = {
+			"person_walking_facing_right::skin-tone-1",
+			"person_walking_facing_right_light_skin_tone",
+			"person_walking_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBB\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏻‍➡️
+		},
+	},
+	["person_walking_facing_right_tone2"] = {
+		names = {
+			"person_walking_facing_right::skin-tone-2",
+			"person_walking_facing_right_medium_light_skin_tone",
+			"person_walking_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏼‍➡️
+		},
+	},
+	["person_walking_facing_right_tone3"] = {
+		names = {
+			"person_walking_facing_right::skin-tone-3",
+			"person_walking_facing_right_medium_skin_tone",
+			"person_walking_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏽‍➡️
+		},
+	},
+	["person_walking_facing_right_tone4"] = {
+		names = {
+			"person_walking_facing_right::skin-tone-4",
+			"person_walking_facing_right_medium_dark_skin_tone",
+			"person_walking_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBE\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏾‍➡️
+		},
+	},
+	["person_walking_facing_right_tone5"] = {
+		names = {
+			"person_walking_facing_right::skin-tone-5",
+			"person_walking_facing_right_dark_skin_tone",
+			"person_walking_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏿‍➡️
+		},
+	},
 	["person_walking_tone1"] = {
 		names = {
 			"person_walking::skin-tone-1",
@@ -21827,6 +23654,64 @@ return {
 			"\xF0\x9F\x91\xB1", -- 👱
 		},
 	},
+	["person_with_crown"] = {
+		names = {
+			"person_with_crown",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x85", -- 🫅
+		},
+	},
+	["person_with_crown_tone1"] = {
+		names = {
+			"person_with_crown::skin-tone-1",
+			"person_with_crown_light_skin_tone",
+			"person_with_crown_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x85\xF0\x9F\x8F\xBB", -- 🫅🏻
+		},
+	},
+	["person_with_crown_tone2"] = {
+		names = {
+			"person_with_crown::skin-tone-2",
+			"person_with_crown_medium_light_skin_tone",
+			"person_with_crown_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x85\xF0\x9F\x8F\xBC", -- 🫅🏼
+		},
+	},
+	["person_with_crown_tone3"] = {
+		names = {
+			"person_with_crown::skin-tone-3",
+			"person_with_crown_medium_skin_tone",
+			"person_with_crown_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x85\xF0\x9F\x8F\xBD", -- 🫅🏽
+		},
+	},
+	["person_with_crown_tone4"] = {
+		names = {
+			"person_with_crown::skin-tone-4",
+			"person_with_crown_medium_dark_skin_tone",
+			"person_with_crown_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x85\xF0\x9F\x8F\xBE", -- 🫅🏾
+		},
+	},
+	["person_with_crown_tone5"] = {
+		names = {
+			"person_with_crown::skin-tone-5",
+			"person_with_crown_dark_skin_tone",
+			"person_with_crown_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x85\xF0\x9F\x8F\xBF", -- 🫅🏿
+		},
+	},
 	["person_with_pouting_face"] = {
 		names = {
 			"person_with_pouting_face",
@@ -21946,12 +23831,78 @@ return {
 			"\xF0\x9F\x91\xB0\xF0\x9F\x8F\xBF", -- 👰🏿
 		},
 	},
+	["person_with_white_cane_facing_right"] = {
+		names = {
+			"person_with_white_cane_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑‍🦯‍➡️
+		},
+	},
+	["person_with_white_cane_facing_right_tone1"] = {
+		names = {
+			"person_with_white_cane_facing_right::skin-tone-1",
+			"person_with_white_cane_facing_right_light_skin_tone",
+			"person_with_white_cane_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏻‍🦯‍➡️
+		},
+	},
+	["person_with_white_cane_facing_right_tone2"] = {
+		names = {
+			"person_with_white_cane_facing_right::skin-tone-2",
+			"person_with_white_cane_facing_right_medium_light_skin_tone",
+			"person_with_white_cane_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏼‍🦯‍➡️
+		},
+	},
+	["person_with_white_cane_facing_right_tone3"] = {
+		names = {
+			"person_with_white_cane_facing_right::skin-tone-3",
+			"person_with_white_cane_facing_right_medium_skin_tone",
+			"person_with_white_cane_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏽‍🦯‍➡️
+		},
+	},
+	["person_with_white_cane_facing_right_tone4"] = {
+		names = {
+			"person_with_white_cane_facing_right::skin-tone-4",
+			"person_with_white_cane_facing_right_medium_dark_skin_tone",
+			"person_with_white_cane_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏾‍🦯‍➡️
+		},
+	},
+	["person_with_white_cane_facing_right_tone5"] = {
+		names = {
+			"person_with_white_cane_facing_right::skin-tone-5",
+			"person_with_white_cane_facing_right_dark_skin_tone",
+			"person_with_white_cane_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x91\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧑🏿‍🦯‍➡️
+		},
+	},
 	["petri_dish"] = {
 		names = {
 			"petri_dish",
 		},
 		codes = {
 			"\xF0\x9F\xA7\xAB", -- 🧫
+		},
+	},
+	["phoenix"] = {
+		names = {
+			"phoenix",
+		},
+		codes = {
+			"\xF0\x9F\x90\xA6\xE2\x80\x8D\xF0\x9F\x94\xA5", -- 🐦‍🔥
 		},
 	},
 	["pick"] = {
@@ -21982,6 +23933,7 @@ return {
 	["pig"] = {
 		names = {
 			"pig",
+			"pig_face",
 		},
 		codes = {
 			"\xF0\x9F\x90\xB7", -- 🐷
@@ -22202,6 +24154,14 @@ return {
 			"\xF0\x9F\x8F\x93", -- 🏓
 		},
 	},
+	["pink_heart"] = {
+		names = {
+			"pink_heart",
+		},
+		codes = {
+			"\xF0\x9F\xA9\xB7", -- 🩷
+		},
+	},
 	["pirate_flag"] = {
 		names = {
 			"pirate_flag",
@@ -22258,6 +24218,14 @@ return {
 		codes = {
 			"\xE2\x8F\xAF\xEF\xB8\x8F", -- ⏯️
 			"\xE2\x8F\xAF", -- ⏯
+		},
+	},
+	["playground_slide"] = {
+		names = {
+			"playground_slide",
+		},
+		codes = {
+			"\xF0\x9F\x9B\x9D", -- 🛝
 		},
 	},
 	["pleading_face"] = {
@@ -22633,6 +24601,7 @@ return {
 	["poop"] = {
 		names = {
 			"hankey",
+			"pile_of_poo",
 			"poo",
 			"poop",
 			"shit",
@@ -22699,6 +24668,7 @@ return {
 	},
 	["pouch"] = {
 		names = {
+			"clutch_bag",
 			"pouch",
 		},
 		codes = {
@@ -22721,6 +24691,14 @@ return {
 			"\xF0\x9F\x92\xB7", -- 💷
 		},
 	},
+	["pouring_liquid"] = {
+		names = {
+			"pouring_liquid",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x97", -- 🫗
+		},
+	},
 	["pouting_cat"] = {
 		names = {
 			"pouting_cat",
@@ -22731,6 +24709,7 @@ return {
 	},
 	["pray"] = {
 		names = {
+			"folded_hands",
 			"pray",
 		},
 		codes = {
@@ -22739,6 +24718,7 @@ return {
 	},
 	["pray_tone1"] = {
 		names = {
+			"folded_hands::skin-tone-1",
 			"pray::skin-tone-1",
 			"pray_tone1",
 		},
@@ -22748,6 +24728,7 @@ return {
 	},
 	["pray_tone2"] = {
 		names = {
+			"folded_hands::skin-tone-2",
 			"pray::skin-tone-2",
 			"pray_tone2",
 		},
@@ -22757,6 +24738,7 @@ return {
 	},
 	["pray_tone3"] = {
 		names = {
+			"folded_hands::skin-tone-3",
 			"pray::skin-tone-3",
 			"pray_tone3",
 		},
@@ -22766,6 +24748,7 @@ return {
 	},
 	["pray_tone4"] = {
 		names = {
+			"folded_hands::skin-tone-4",
 			"pray::skin-tone-4",
 			"pray_tone4",
 		},
@@ -22775,6 +24758,7 @@ return {
 	},
 	["pray_tone5"] = {
 		names = {
+			"folded_hands::skin-tone-5",
 			"pray::skin-tone-5",
 			"pray_tone5",
 		},
@@ -22788,6 +24772,122 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x93\xBF", -- 📿
+		},
+	},
+	["pregnant_man"] = {
+		names = {
+			"pregnant_man",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x83", -- 🫃
+		},
+	},
+	["pregnant_man_tone1"] = {
+		names = {
+			"pregnant_man::skin-tone-1",
+			"pregnant_man_light_skin_tone",
+			"pregnant_man_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x83\xF0\x9F\x8F\xBB", -- 🫃🏻
+		},
+	},
+	["pregnant_man_tone2"] = {
+		names = {
+			"pregnant_man::skin-tone-2",
+			"pregnant_man_medium_light_skin_tone",
+			"pregnant_man_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x83\xF0\x9F\x8F\xBC", -- 🫃🏼
+		},
+	},
+	["pregnant_man_tone3"] = {
+		names = {
+			"pregnant_man::skin-tone-3",
+			"pregnant_man_medium_skin_tone",
+			"pregnant_man_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x83\xF0\x9F\x8F\xBD", -- 🫃🏽
+		},
+	},
+	["pregnant_man_tone4"] = {
+		names = {
+			"pregnant_man::skin-tone-4",
+			"pregnant_man_medium_dark_skin_tone",
+			"pregnant_man_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x83\xF0\x9F\x8F\xBE", -- 🫃🏾
+		},
+	},
+	["pregnant_man_tone5"] = {
+		names = {
+			"pregnant_man::skin-tone-5",
+			"pregnant_man_dark_skin_tone",
+			"pregnant_man_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x83\xF0\x9F\x8F\xBF", -- 🫃🏿
+		},
+	},
+	["pregnant_person"] = {
+		names = {
+			"pregnant_person",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x84", -- 🫄
+		},
+	},
+	["pregnant_person_tone1"] = {
+		names = {
+			"pregnant_person::skin-tone-1",
+			"pregnant_person_light_skin_tone",
+			"pregnant_person_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x84\xF0\x9F\x8F\xBB", -- 🫄🏻
+		},
+	},
+	["pregnant_person_tone2"] = {
+		names = {
+			"pregnant_person::skin-tone-2",
+			"pregnant_person_medium_light_skin_tone",
+			"pregnant_person_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x84\xF0\x9F\x8F\xBC", -- 🫄🏼
+		},
+	},
+	["pregnant_person_tone3"] = {
+		names = {
+			"pregnant_person::skin-tone-3",
+			"pregnant_person_medium_skin_tone",
+			"pregnant_person_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x84\xF0\x9F\x8F\xBD", -- 🫄🏽
+		},
+	},
+	["pregnant_person_tone4"] = {
+		names = {
+			"pregnant_person::skin-tone-4",
+			"pregnant_person_medium_dark_skin_tone",
+			"pregnant_person_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x84\xF0\x9F\x8F\xBE", -- 🫄🏾
+		},
+	},
+	["pregnant_person_tone5"] = {
+		names = {
+			"pregnant_person::skin-tone-5",
+			"pregnant_person_dark_skin_tone",
+			"pregnant_person_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\x84\xF0\x9F\x8F\xBF", -- 🫄🏿
 		},
 	},
 	["pregnant_woman"] = {
@@ -22997,6 +25097,7 @@ return {
 	},
 	["punch"] = {
 		names = {
+			"oncoming_fist",
 			"punch",
 		},
 		codes = {
@@ -23005,6 +25106,7 @@ return {
 	},
 	["punch_tone1"] = {
 		names = {
+			"oncoming_fist::skin-tone-1",
 			"punch::skin-tone-1",
 			"punch_tone1",
 		},
@@ -23014,6 +25116,7 @@ return {
 	},
 	["punch_tone2"] = {
 		names = {
+			"oncoming_fist::skin-tone-2",
 			"punch::skin-tone-2",
 			"punch_tone2",
 		},
@@ -23023,6 +25126,7 @@ return {
 	},
 	["punch_tone3"] = {
 		names = {
+			"oncoming_fist::skin-tone-3",
 			"punch::skin-tone-3",
 			"punch_tone3",
 		},
@@ -23032,6 +25136,7 @@ return {
 	},
 	["punch_tone4"] = {
 		names = {
+			"oncoming_fist::skin-tone-4",
 			"punch::skin-tone-4",
 			"punch_tone4",
 		},
@@ -23041,6 +25146,7 @@ return {
 	},
 	["punch_tone5"] = {
 		names = {
+			"oncoming_fist::skin-tone-5",
 			"punch::skin-tone-5",
 			"punch_tone5",
 		},
@@ -23099,6 +25205,7 @@ return {
 	["question"] = {
 		names = {
 			"question",
+			"question_mark",
 		},
 		codes = {
 			"\xE2\x9D\x93", -- ❓
@@ -23107,6 +25214,7 @@ return {
 	["rabbit"] = {
 		names = {
 			"rabbit",
+			"rabbit_face",
 		},
 		codes = {
 			"\xF0\x9F\x90\xB0", -- 🐰
@@ -23174,6 +25282,7 @@ return {
 	},
 	["rage"] = {
 		names = {
+			"pouting_face",
 			"rage",
 		},
 		codes = {
@@ -23335,6 +25444,7 @@ return {
 	["raised_hands"] = {
 		names = {
 			"raised_hands",
+			"raising_hands",
 		},
 		codes = {
 			"\xF0\x9F\x99\x8C", -- 🙌
@@ -23344,6 +25454,7 @@ return {
 		names = {
 			"raised_hands::skin-tone-1",
 			"raised_hands_tone1",
+			"raising_hands::skin-tone-1",
 		},
 		codes = {
 			"\xF0\x9F\x99\x8C\xF0\x9F\x8F\xBB", -- 🙌🏻
@@ -23353,6 +25464,7 @@ return {
 		names = {
 			"raised_hands::skin-tone-2",
 			"raised_hands_tone2",
+			"raising_hands::skin-tone-2",
 		},
 		codes = {
 			"\xF0\x9F\x99\x8C\xF0\x9F\x8F\xBC", -- 🙌🏼
@@ -23362,6 +25474,7 @@ return {
 		names = {
 			"raised_hands::skin-tone-3",
 			"raised_hands_tone3",
+			"raising_hands::skin-tone-3",
 		},
 		codes = {
 			"\xF0\x9F\x99\x8C\xF0\x9F\x8F\xBD", -- 🙌🏽
@@ -23371,6 +25484,7 @@ return {
 		names = {
 			"raised_hands::skin-tone-4",
 			"raised_hands_tone4",
+			"raising_hands::skin-tone-4",
 		},
 		codes = {
 			"\xF0\x9F\x99\x8C\xF0\x9F\x8F\xBE", -- 🙌🏾
@@ -23380,6 +25494,7 @@ return {
 		names = {
 			"raised_hands::skin-tone-5",
 			"raised_hands_tone5",
+			"raising_hands::skin-tone-5",
 		},
 		codes = {
 			"\xF0\x9F\x99\x8C\xF0\x9F\x8F\xBF", -- 🙌🏿
@@ -23404,6 +25519,7 @@ return {
 	["ramen"] = {
 		names = {
 			"ramen",
+			"steaming_bowl",
 		},
 		codes = {
 			"\xF0\x9F\x8D\x9C", -- 🍜
@@ -23453,6 +25569,7 @@ return {
 	},
 	["red_car"] = {
 		names = {
+			"automobile",
 			"red_car",
 		},
 		codes = {
@@ -23693,6 +25810,7 @@ return {
 	},
 	["registered"] = {
 		names = {
+			"r",
 			"registered",
 		},
 		codes = {
@@ -23703,6 +25821,7 @@ return {
 	["relaxed"] = {
 		names = {
 			"relaxed",
+			"smiling_face",
 		},
 		codes = {
 			"\xE2\x98\xBA\xEF\xB8\x8F", -- ☺️
@@ -23712,6 +25831,7 @@ return {
 	["relieved"] = {
 		names = {
 			"relieved",
+			"relieved_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\x8C", -- 😌
@@ -23785,6 +25905,7 @@ return {
 	},
 	["rice"] = {
 		names = {
+			"cooked_rice",
 			"rice",
 		},
 		codes = {
@@ -23879,12 +26000,136 @@ return {
 			"\xF0\x9F\xA4\x9C\xF0\x9F\x8F\xBF", -- 🤜🏿
 		},
 	},
+	["rightwards_hand"] = {
+		names = {
+			"rightwards_hand",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1", -- 🫱
+		},
+	},
+	["rightwards_hand_tone1"] = {
+		names = {
+			"rightwards_hand::skin-tone-1",
+			"rightwards_hand_light_skin_tone",
+			"rightwards_hand_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBB", -- 🫱🏻
+		},
+	},
+	["rightwards_hand_tone2"] = {
+		names = {
+			"rightwards_hand::skin-tone-2",
+			"rightwards_hand_medium_light_skin_tone",
+			"rightwards_hand_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBC", -- 🫱🏼
+		},
+	},
+	["rightwards_hand_tone3"] = {
+		names = {
+			"rightwards_hand::skin-tone-3",
+			"rightwards_hand_medium_skin_tone",
+			"rightwards_hand_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBD", -- 🫱🏽
+		},
+	},
+	["rightwards_hand_tone4"] = {
+		names = {
+			"rightwards_hand::skin-tone-4",
+			"rightwards_hand_medium_dark_skin_tone",
+			"rightwards_hand_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBE", -- 🫱🏾
+		},
+	},
+	["rightwards_hand_tone5"] = {
+		names = {
+			"rightwards_hand::skin-tone-5",
+			"rightwards_hand_dark_skin_tone",
+			"rightwards_hand_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB1\xF0\x9F\x8F\xBF", -- 🫱🏿
+		},
+	},
+	["rightwards_pushing_hand"] = {
+		names = {
+			"rightwards_pushing_hand",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB8", -- 🫸
+		},
+	},
+	["rightwards_pushing_hand_tone1"] = {
+		names = {
+			"rightwards_pushing_hand::skin-tone-1",
+			"rightwards_pushing_hand_light_skin_tone",
+			"rightwards_pushing_hand_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB8\xF0\x9F\x8F\xBB", -- 🫸🏻
+		},
+	},
+	["rightwards_pushing_hand_tone2"] = {
+		names = {
+			"rightwards_pushing_hand::skin-tone-2",
+			"rightwards_pushing_hand_medium_light_skin_tone",
+			"rightwards_pushing_hand_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB8\xF0\x9F\x8F\xBC", -- 🫸🏼
+		},
+	},
+	["rightwards_pushing_hand_tone3"] = {
+		names = {
+			"rightwards_pushing_hand::skin-tone-3",
+			"rightwards_pushing_hand_medium_skin_tone",
+			"rightwards_pushing_hand_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB8\xF0\x9F\x8F\xBD", -- 🫸🏽
+		},
+	},
+	["rightwards_pushing_hand_tone4"] = {
+		names = {
+			"rightwards_pushing_hand::skin-tone-4",
+			"rightwards_pushing_hand_medium_dark_skin_tone",
+			"rightwards_pushing_hand_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB8\xF0\x9F\x8F\xBE", -- 🫸🏾
+		},
+	},
+	["rightwards_pushing_hand_tone5"] = {
+		names = {
+			"rightwards_pushing_hand::skin-tone-5",
+			"rightwards_pushing_hand_dark_skin_tone",
+			"rightwards_pushing_hand_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xB8\xF0\x9F\x8F\xBF", -- 🫸🏿
+		},
+	},
 	["ring"] = {
 		names = {
 			"ring",
 		},
 		codes = {
 			"\xF0\x9F\x92\x8D", -- 💍
+		},
+	},
+	["ring_buoy"] = {
+		names = {
+			"ring_buoy",
+		},
+		codes = {
+			"\xF0\x9F\x9B\x9F", -- 🛟
 		},
 	},
 	["ringed_planet"] = {
@@ -24029,6 +26274,7 @@ return {
 	},
 	["running_shirt_with_sash"] = {
 		names = {
+			"running_shirt",
 			"running_shirt_with_sash",
 		},
 		codes = {
@@ -24101,9 +26347,18 @@ return {
 			"\xF0\x9F\xA7\x82", -- 🧂
 		},
 	},
+	["saluting_face"] = {
+		names = {
+			"saluting_face",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xA1", -- 🫡
+		},
+	},
 	["sandal"] = {
 		names = {
 			"sandal",
+			"womans_sandal",
 		},
 		codes = {
 			"\xF0\x9F\x91\xA1", -- 👡
@@ -24120,6 +26375,7 @@ return {
 	["santa"] = {
 		names = {
 			"santa",
+			"santa_claus",
 		},
 		codes = {
 			"\xF0\x9F\x8E\x85", -- 🎅
@@ -24128,6 +26384,7 @@ return {
 	["santa_tone1"] = {
 		names = {
 			"santa::skin-tone-1",
+			"santa_claus::skin-tone-1",
 			"santa_tone1",
 		},
 		codes = {
@@ -24137,6 +26394,7 @@ return {
 	["santa_tone2"] = {
 		names = {
 			"santa::skin-tone-2",
+			"santa_claus::skin-tone-2",
 			"santa_tone2",
 		},
 		codes = {
@@ -24146,6 +26404,7 @@ return {
 	["santa_tone3"] = {
 		names = {
 			"santa::skin-tone-3",
+			"santa_claus::skin-tone-3",
 			"santa_tone3",
 		},
 		codes = {
@@ -24155,6 +26414,7 @@ return {
 	["santa_tone4"] = {
 		names = {
 			"santa::skin-tone-4",
+			"santa_claus::skin-tone-4",
 			"santa_tone4",
 		},
 		codes = {
@@ -24164,6 +26424,7 @@ return {
 	["santa_tone5"] = {
 		names = {
 			"santa::skin-tone-5",
+			"santa_claus::skin-tone-5",
 			"santa_tone5",
 		},
 		codes = {
@@ -24213,6 +26474,7 @@ return {
 	},
 	["scales"] = {
 		names = {
+			"balance_scale",
 			"scales",
 		},
 		codes = {
@@ -24238,6 +26500,7 @@ return {
 	},
 	["school_satchel"] = {
 		names = {
+			"backpack",
 			"school_satchel",
 		},
 		codes = {
@@ -24313,6 +26576,7 @@ return {
 	},
 	["scooter"] = {
 		names = {
+			"kick_scooter",
 			"scooter",
 		},
 		codes = {
@@ -24329,6 +26593,7 @@ return {
 	},
 	["scorpius"] = {
 		names = {
+			"scorpio",
 			"scorpius",
 		},
 		codes = {
@@ -24354,6 +26619,7 @@ return {
 	["scream_cat"] = {
 		names = {
 			"scream_cat",
+			"weary_cat",
 		},
 		codes = {
 			"\xF0\x9F\x99\x80", -- 🙀
@@ -24488,6 +26754,7 @@ return {
 	},
 	["seven"] = {
 		names = {
+			"number_7",
 			"seven",
 		},
 		codes = {
@@ -24501,6 +26768,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\xAA\xA1", -- 🪡
+		},
+	},
+	["shaking_face"] = {
+		names = {
+			"shaking_face",
+		},
+		codes = {
+			"\xF0\x9F\xAB\xA8", -- 🫨
 		},
 	},
 	["shallow_pan_of_food"] = {
@@ -24539,6 +26814,7 @@ return {
 	},
 	["sheep"] = {
 		names = {
+			"ewe",
 			"sheep",
 		},
 		codes = {
@@ -24548,6 +26824,7 @@ return {
 	["shell"] = {
 		names = {
 			"shell",
+			"spiral_shell",
 		},
 		codes = {
 			"\xF0\x9F\x90\x9A", -- 🐚
@@ -24582,6 +26859,7 @@ return {
 	["shirt"] = {
 		names = {
 			"shirt",
+			"t_shirt",
 		},
 		codes = {
 			"\xF0\x9F\x91\x95", -- 👕
@@ -24647,6 +26925,7 @@ return {
 	},
 	["signal_strength"] = {
 		names = {
+			"antenna_bars",
 			"signal_strength",
 		},
 		codes = {
@@ -24713,6 +26992,7 @@ return {
 	},
 	["six"] = {
 		names = {
+			"number_6",
 			"six",
 		},
 		codes = {
@@ -24739,6 +27019,7 @@ return {
 	["ski"] = {
 		names = {
 			"ski",
+			"skis",
 		},
 		codes = {
 			"\xF0\x9F\x8E\xBF", -- 🎿
@@ -24791,6 +27072,7 @@ return {
 	["sleeping"] = {
 		names = {
 			"sleeping",
+			"sleeping_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\xB4", -- 😴
@@ -24798,6 +27080,7 @@ return {
 	},
 	["sleeping_accommodation"] = {
 		names = {
+			"person_in_bed",
 			"sleeping_accommodation",
 		},
 		codes = {
@@ -24807,6 +27090,7 @@ return {
 	["sleepy"] = {
 		names = {
 			"sleepy",
+			"sleepy_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\xAA", -- 😪
@@ -24904,6 +27188,7 @@ return {
 	},
 	["smiley_cat"] = {
 		names = {
+			"grinning_cat",
 			"smiley_cat",
 		},
 		codes = {
@@ -24937,6 +27222,7 @@ return {
 	["smirk"] = {
 		names = {
 			"smirk",
+			"smirking_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\x8F", -- 😏
@@ -24952,6 +27238,7 @@ return {
 	},
 	["smoking"] = {
 		names = {
+			"cigarette",
 			"smoking",
 		},
 		codes = {
@@ -25085,7 +27372,9 @@ return {
 	},
 	["soccer"] = {
 		names = {
+			"actual_football",
 			"soccer",
+			"soccer_ball",
 		},
 		codes = {
 			"\xE2\x9A\xBD", -- ⚽
@@ -25110,6 +27399,7 @@ return {
 	["soon"] = {
 		names = {
 			"soon",
+			"soon_arrow",
 		},
 		codes = {
 			"\xF0\x9F\x94\x9C", -- 🔜
@@ -25133,6 +27423,7 @@ return {
 	},
 	["space_invader"] = {
 		names = {
+			"alien_monster",
 			"space_invader",
 		},
 		codes = {
@@ -25141,6 +27432,7 @@ return {
 	},
 	["spades"] = {
 		names = {
+			"spade_suit",
 			"spades",
 		},
 		codes = {
@@ -25285,6 +27577,7 @@ return {
 	},
 	["squeeze_bottle"] = {
 		names = {
+			"lotion_bottle",
 			"squeeze_bottle",
 		},
 		codes = {
@@ -25318,6 +27611,7 @@ return {
 	},
 	["star2"] = {
 		names = {
+			"glowing_star",
 			"star2",
 		},
 		codes = {
@@ -25352,6 +27646,7 @@ return {
 	},
 	["stars"] = {
 		names = {
+			"shooting_star",
 			"stars",
 		},
 		codes = {
@@ -25376,6 +27671,7 @@ return {
 	},
 	["steam_locomotive"] = {
 		names = {
+			"locomotive",
 			"steam_locomotive",
 		},
 		codes = {
@@ -25392,6 +27688,7 @@ return {
 	},
 	["stew"] = {
 		names = {
+			"pot_of_food",
 			"stew",
 		},
 		codes = {
@@ -25549,6 +27846,7 @@ return {
 	},
 	["sunny"] = {
 		names = {
+			"sun",
 			"sunny",
 		},
 		codes = {
@@ -25762,6 +28060,7 @@ return {
 	},
 	["symbols"] = {
 		names = {
+			"input_symbols",
 			"symbols",
 		},
 		codes = {
@@ -25802,6 +28101,7 @@ return {
 	},
 	["tada"] = {
 		names = {
+			"party_popper",
 			"tada",
 		},
 		codes = {
@@ -26107,6 +28407,7 @@ return {
 	},
 	["three"] = {
 		names = {
+			"number_3",
 			"three",
 		},
 		codes = {
@@ -26118,6 +28419,7 @@ return {
 		names = {
 			"-1",
 			"thumbdown",
+			"thumbs_down",
 			"thumbsdown",
 		},
 		codes = {
@@ -26130,6 +28432,7 @@ return {
 			"_1_tone1",
 			"thumbdown::skin-tone-1",
 			"thumbdown_tone1",
+			"thumbs_down::skin-tone-1",
 			"thumbsdown::skin-tone-1",
 			"thumbsdown_tone1",
 		},
@@ -26143,6 +28446,7 @@ return {
 			"_1_tone2",
 			"thumbdown::skin-tone-2",
 			"thumbdown_tone2",
+			"thumbs_down::skin-tone-2",
 			"thumbsdown::skin-tone-2",
 			"thumbsdown_tone2",
 		},
@@ -26156,6 +28460,7 @@ return {
 			"_1_tone3",
 			"thumbdown::skin-tone-3",
 			"thumbdown_tone3",
+			"thumbs_down::skin-tone-3",
 			"thumbsdown::skin-tone-3",
 			"thumbsdown_tone3",
 		},
@@ -26169,6 +28474,7 @@ return {
 			"_1_tone4",
 			"thumbdown::skin-tone-4",
 			"thumbdown_tone4",
+			"thumbs_down::skin-tone-4",
 			"thumbsdown::skin-tone-4",
 			"thumbsdown_tone4",
 		},
@@ -26182,6 +28488,7 @@ return {
 			"_1_tone5",
 			"thumbdown::skin-tone-5",
 			"thumbdown_tone5",
+			"thumbs_down::skin-tone-5",
 			"thumbsdown::skin-tone-5",
 			"thumbsdown_tone5",
 		},
@@ -26192,6 +28499,7 @@ return {
 	["thumbsup"] = {
 		names = {
 			"+1",
+			"thumbs_up",
 			"thumbsup",
 			"thumbup",
 		},
@@ -26203,6 +28511,7 @@ return {
 		names = {
 			"+1::skin-tone-1",
 			"+1_tone1",
+			"thumbs_up::skin-tone-1",
 			"thumbsup::skin-tone-1",
 			"thumbsup_tone1",
 			"thumbup::skin-tone-1",
@@ -26216,6 +28525,7 @@ return {
 		names = {
 			"+1::skin-tone-2",
 			"+1_tone2",
+			"thumbs_up::skin-tone-2",
 			"thumbsup::skin-tone-2",
 			"thumbsup_tone2",
 			"thumbup::skin-tone-2",
@@ -26229,6 +28539,7 @@ return {
 		names = {
 			"+1::skin-tone-3",
 			"+1_tone3",
+			"thumbs_up::skin-tone-3",
 			"thumbsup::skin-tone-3",
 			"thumbsup_tone3",
 			"thumbup::skin-tone-3",
@@ -26242,6 +28553,7 @@ return {
 		names = {
 			"+1::skin-tone-4",
 			"+1_tone4",
+			"thumbs_up::skin-tone-4",
 			"thumbsup::skin-tone-4",
 			"thumbsup_tone4",
 			"thumbup::skin-tone-4",
@@ -26255,6 +28567,7 @@ return {
 		names = {
 			"+1::skin-tone-5",
 			"+1_tone5",
+			"thumbs_up::skin-tone-5",
 			"thumbsup::skin-tone-5",
 			"thumbsup_tone5",
 			"thumbup::skin-tone-5",
@@ -26295,6 +28608,7 @@ return {
 	["tiger"] = {
 		names = {
 			"tiger",
+			"tiger_face",
 		},
 		codes = {
 			"\xF0\x9F\x90\xAF", -- 🐯
@@ -26329,6 +28643,7 @@ return {
 	["tm"] = {
 		names = {
 			"tm",
+			"trade_mark",
 		},
 		codes = {
 			"\xE2\x84\xA2\xEF\xB8\x8F", -- ™️
@@ -26404,6 +28719,7 @@ return {
 	["top"] = {
 		names = {
 			"top",
+			"top_arrow",
 		},
 		codes = {
 			"\xF0\x9F\x94\x9D", -- 🔝
@@ -26411,6 +28727,7 @@ return {
 	},
 	["tophat"] = {
 		names = {
+			"top_hat",
 			"tophat",
 		},
 		codes = {
@@ -26465,6 +28782,7 @@ return {
 	["train"] = {
 		names = {
 			"train",
+			"tram_car",
 		},
 		codes = {
 			"\xF0\x9F\x9A\x8B", -- 🚋
@@ -26532,6 +28850,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x98\xA4", -- 😤
+		},
+	},
+	["troll"] = {
+		names = {
+			"troll",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8C", -- 🧌
 		},
 	},
 	["trolleybus"] = {
@@ -26617,6 +28943,7 @@ return {
 	},
 	["tv"] = {
 		names = {
+			"television",
 			"tv",
 		},
 		codes = {
@@ -26633,6 +28960,7 @@ return {
 	},
 	["two"] = {
 		names = {
+			"number_2",
 			"two",
 		},
 		codes = {
@@ -26773,6 +29101,7 @@ return {
 	["unamused"] = {
 		names = {
 			"unamused",
+			"unamused_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\x92", -- 😒
@@ -26806,6 +29135,7 @@ return {
 	["unlock"] = {
 		names = {
 			"unlock",
+			"unlocked",
 		},
 		codes = {
 			"\xF0\x9F\x94\x93", -- 🔓
@@ -26841,6 +29171,7 @@ return {
 	["v"] = {
 		names = {
 			"v",
+			"victory_hand",
 		},
 		codes = {
 			"\xE2\x9C\x8C\xEF\xB8\x8F", -- ✌️
@@ -26851,6 +29182,7 @@ return {
 		names = {
 			"v::skin-tone-1",
 			"v_tone1",
+			"victory_hand::skin-tone-1",
 		},
 		codes = {
 			"\xE2\x9C\x8C\xF0\x9F\x8F\xBB", -- ✌🏻
@@ -26860,6 +29192,7 @@ return {
 		names = {
 			"v::skin-tone-2",
 			"v_tone2",
+			"victory_hand::skin-tone-2",
 		},
 		codes = {
 			"\xE2\x9C\x8C\xF0\x9F\x8F\xBC", -- ✌🏼
@@ -26869,6 +29202,7 @@ return {
 		names = {
 			"v::skin-tone-3",
 			"v_tone3",
+			"victory_hand::skin-tone-3",
 		},
 		codes = {
 			"\xE2\x9C\x8C\xF0\x9F\x8F\xBD", -- ✌🏽
@@ -26878,6 +29212,7 @@ return {
 		names = {
 			"v::skin-tone-4",
 			"v_tone4",
+			"victory_hand::skin-tone-4",
 		},
 		codes = {
 			"\xE2\x9C\x8C\xF0\x9F\x8F\xBE", -- ✌🏾
@@ -26887,6 +29222,7 @@ return {
 		names = {
 			"v::skin-tone-5",
 			"v_tone5",
+			"victory_hand::skin-tone-5",
 		},
 		codes = {
 			"\xE2\x9C\x8C\xF0\x9F\x8F\xBF", -- ✌🏿
@@ -26961,6 +29297,7 @@ return {
 	["vhs"] = {
 		names = {
 			"vhs",
+			"videocassette",
 		},
 		codes = {
 			"\xF0\x9F\x93\xBC", -- 📼
@@ -27034,6 +29371,7 @@ return {
 		names = {
 			"raised_hand_with_part_between_middle_and_ring_fingers",
 			"vulcan",
+			"vulcan_salute",
 		},
 		codes = {
 			"\xF0\x9F\x96\x96", -- 🖖
@@ -27044,6 +29382,7 @@ return {
 			"raised_hand_with_part_between_middle_and_ring_fingers::skin-tone-1",
 			"raised_hand_with_part_between_middle_and_ring_fingers_tone1",
 			"vulcan::skin-tone-1",
+			"vulcan_salute::skin-tone-1",
 			"vulcan_tone1",
 		},
 		codes = {
@@ -27055,6 +29394,7 @@ return {
 			"raised_hand_with_part_between_middle_and_ring_fingers::skin-tone-2",
 			"raised_hand_with_part_between_middle_and_ring_fingers_tone2",
 			"vulcan::skin-tone-2",
+			"vulcan_salute::skin-tone-2",
 			"vulcan_tone2",
 		},
 		codes = {
@@ -27066,6 +29406,7 @@ return {
 			"raised_hand_with_part_between_middle_and_ring_fingers::skin-tone-3",
 			"raised_hand_with_part_between_middle_and_ring_fingers_tone3",
 			"vulcan::skin-tone-3",
+			"vulcan_salute::skin-tone-3",
 			"vulcan_tone3",
 		},
 		codes = {
@@ -27077,6 +29418,7 @@ return {
 			"raised_hand_with_part_between_middle_and_ring_fingers::skin-tone-4",
 			"raised_hand_with_part_between_middle_and_ring_fingers_tone4",
 			"vulcan::skin-tone-4",
+			"vulcan_salute::skin-tone-4",
 			"vulcan_tone4",
 		},
 		codes = {
@@ -27088,6 +29430,7 @@ return {
 			"raised_hand_with_part_between_middle_and_ring_fingers::skin-tone-5",
 			"raised_hand_with_part_between_middle_and_ring_fingers_tone5",
 			"vulcan::skin-tone-5",
+			"vulcan_salute::skin-tone-5",
 			"vulcan_tone5",
 		},
 		codes = {
@@ -27187,6 +29530,7 @@ return {
 	["wave"] = {
 		names = {
 			"wave",
+			"waving_hand",
 		},
 		codes = {
 			"\xF0\x9F\x91\x8B", -- 👋
@@ -27196,6 +29540,7 @@ return {
 		names = {
 			"wave::skin-tone-1",
 			"wave_tone1",
+			"waving_hand::skin-tone-1",
 		},
 		codes = {
 			"\xF0\x9F\x91\x8B\xF0\x9F\x8F\xBB", -- 👋🏻
@@ -27205,6 +29550,7 @@ return {
 		names = {
 			"wave::skin-tone-2",
 			"wave_tone2",
+			"waving_hand::skin-tone-2",
 		},
 		codes = {
 			"\xF0\x9F\x91\x8B\xF0\x9F\x8F\xBC", -- 👋🏼
@@ -27214,6 +29560,7 @@ return {
 		names = {
 			"wave::skin-tone-3",
 			"wave_tone3",
+			"waving_hand::skin-tone-3",
 		},
 		codes = {
 			"\xF0\x9F\x91\x8B\xF0\x9F\x8F\xBD", -- 👋🏽
@@ -27223,6 +29570,7 @@ return {
 		names = {
 			"wave::skin-tone-4",
 			"wave_tone4",
+			"waving_hand::skin-tone-4",
 		},
 		codes = {
 			"\xF0\x9F\x91\x8B\xF0\x9F\x8F\xBE", -- 👋🏾
@@ -27232,6 +29580,7 @@ return {
 		names = {
 			"wave::skin-tone-5",
 			"wave_tone5",
+			"waving_hand::skin-tone-5",
 		},
 		codes = {
 			"\xF0\x9F\x91\x8B\xF0\x9F\x8F\xBF", -- 👋🏿
@@ -27264,6 +29613,7 @@ return {
 	},
 	["wc"] = {
 		names = {
+			"water_closet",
 			"wc",
 		},
 		codes = {
@@ -27273,6 +29623,7 @@ return {
 	["weary"] = {
 		names = {
 			"weary",
+			"weary_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\xA9", -- 😩
@@ -27300,6 +29651,14 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x90\x8B", -- 🐋
+		},
+	},
+	["wheel"] = {
+		names = {
+			"wheel",
+		},
+		codes = {
+			"\xF0\x9F\x9B\x9E", -- 🛞
 		},
 	},
 	["wheel_of_dharma"] = {
@@ -27435,6 +29794,7 @@ return {
 	["wind_blowing_face"] = {
 		names = {
 			"wind_blowing_face",
+			"wind_face",
 		},
 		codes = {
 			"\xF0\x9F\x8C\xAC\xEF\xB8\x8F", -- 🌬️
@@ -27465,12 +29825,29 @@ return {
 			"\xF0\x9F\x8D\xB7", -- 🍷
 		},
 	},
+	["wing"] = {
+		names = {
+			"wing",
+		},
+		codes = {
+			"\xF0\x9F\xAA\xBD", -- 🪽
+		},
+	},
 	["wink"] = {
 		names = {
 			"wink",
+			"winking_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\x89", -- 😉
+		},
+	},
+	["wireless"] = {
+		names = {
+			"wireless",
+		},
+		codes = {
+			"\xF0\x9F\x9B\x9C", -- 🛜
 		},
 	},
 	["wolf"] = {
@@ -29362,6 +31739,64 @@ return {
 			"\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\xA6\xBD", -- 👩‍🦽
 		},
 	},
+	["woman_in_manual_wheelchair_facing_right"] = {
+		names = {
+			"woman_in_manual_wheelchair_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩‍🦽‍➡️
+		},
+	},
+	["woman_in_manual_wheelchair_facing_right_tone1"] = {
+		names = {
+			"woman_in_manual_wheelchair_facing_right::skin-tone-1",
+			"woman_in_manual_wheelchair_facing_right_light_skin_tone",
+			"woman_in_manual_wheelchair_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏻‍🦽‍➡️
+		},
+	},
+	["woman_in_manual_wheelchair_facing_right_tone2"] = {
+		names = {
+			"woman_in_manual_wheelchair_facing_right::skin-tone-2",
+			"woman_in_manual_wheelchair_facing_right_medium_light_skin_tone",
+			"woman_in_manual_wheelchair_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏼‍🦽‍➡️
+		},
+	},
+	["woman_in_manual_wheelchair_facing_right_tone3"] = {
+		names = {
+			"woman_in_manual_wheelchair_facing_right::skin-tone-3",
+			"woman_in_manual_wheelchair_facing_right_medium_skin_tone",
+			"woman_in_manual_wheelchair_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏽‍🦽‍➡️
+		},
+	},
+	["woman_in_manual_wheelchair_facing_right_tone4"] = {
+		names = {
+			"woman_in_manual_wheelchair_facing_right::skin-tone-4",
+			"woman_in_manual_wheelchair_facing_right_medium_dark_skin_tone",
+			"woman_in_manual_wheelchair_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏾‍🦽‍➡️
+		},
+	},
+	["woman_in_manual_wheelchair_facing_right_tone5"] = {
+		names = {
+			"woman_in_manual_wheelchair_facing_right::skin-tone-5",
+			"woman_in_manual_wheelchair_facing_right_dark_skin_tone",
+			"woman_in_manual_wheelchair_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xA6\xBD\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏿‍🦽‍➡️
+		},
+	},
 	["woman_in_manual_wheelchair_tone1"] = {
 		names = {
 			"woman_in_manual_wheelchair::skin-tone-1",
@@ -29418,6 +31853,64 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\xA6\xBC", -- 👩‍🦼
+		},
+	},
+	["woman_in_motorized_wheelchair_facing_right"] = {
+		names = {
+			"woman_in_motorized_wheelchair_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩‍🦼‍➡️
+		},
+	},
+	["woman_in_motorized_wheelchair_facing_right_tone1"] = {
+		names = {
+			"woman_in_motorized_wheelchair_facing_right::skin-tone-1",
+			"woman_in_motorized_wheelchair_facing_right_light_skin_tone",
+			"woman_in_motorized_wheelchair_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏻‍🦼‍➡️
+		},
+	},
+	["woman_in_motorized_wheelchair_facing_right_tone2"] = {
+		names = {
+			"woman_in_motorized_wheelchair_facing_right::skin-tone-2",
+			"woman_in_motorized_wheelchair_facing_right_medium_light_skin_tone",
+			"woman_in_motorized_wheelchair_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏼‍🦼‍➡️
+		},
+	},
+	["woman_in_motorized_wheelchair_facing_right_tone3"] = {
+		names = {
+			"woman_in_motorized_wheelchair_facing_right::skin-tone-3",
+			"woman_in_motorized_wheelchair_facing_right_medium_skin_tone",
+			"woman_in_motorized_wheelchair_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏽‍🦼‍➡️
+		},
+	},
+	["woman_in_motorized_wheelchair_facing_right_tone4"] = {
+		names = {
+			"woman_in_motorized_wheelchair_facing_right::skin-tone-4",
+			"woman_in_motorized_wheelchair_facing_right_medium_dark_skin_tone",
+			"woman_in_motorized_wheelchair_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏾‍🦼‍➡️
+		},
+	},
+	["woman_in_motorized_wheelchair_facing_right_tone5"] = {
+		names = {
+			"woman_in_motorized_wheelchair_facing_right::skin-tone-5",
+			"woman_in_motorized_wheelchair_facing_right_dark_skin_tone",
+			"woman_in_motorized_wheelchair_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xA6\xBC\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏿‍🦼‍➡️
 		},
 	},
 	["woman_in_motorized_wheelchair_tone1"] = {
@@ -29708,6 +32201,64 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\xA7\x8E\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F", -- 🧎‍♀️
+		},
+	},
+	["woman_kneeling_facing_right"] = {
+		names = {
+			"woman_kneeling_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎‍♀️‍➡️
+		},
+	},
+	["woman_kneeling_facing_right_tone1"] = {
+		names = {
+			"woman_kneeling_facing_right::skin-tone-1",
+			"woman_kneeling_facing_right_light_skin_tone",
+			"woman_kneeling_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBB\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏻‍♀️‍➡️
+		},
+	},
+	["woman_kneeling_facing_right_tone2"] = {
+		names = {
+			"woman_kneeling_facing_right::skin-tone-2",
+			"woman_kneeling_facing_right_medium_light_skin_tone",
+			"woman_kneeling_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBC\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏼‍♀️‍➡️
+		},
+	},
+	["woman_kneeling_facing_right_tone3"] = {
+		names = {
+			"woman_kneeling_facing_right::skin-tone-3",
+			"woman_kneeling_facing_right_medium_skin_tone",
+			"woman_kneeling_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBD\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏽‍♀️‍➡️
+		},
+	},
+	["woman_kneeling_facing_right_tone4"] = {
+		names = {
+			"woman_kneeling_facing_right::skin-tone-4",
+			"woman_kneeling_facing_right_medium_dark_skin_tone",
+			"woman_kneeling_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBE\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏾‍♀️‍➡️
+		},
+	},
+	["woman_kneeling_facing_right_tone5"] = {
+		names = {
+			"woman_kneeling_facing_right::skin-tone-5",
+			"woman_kneeling_facing_right_dark_skin_tone",
+			"woman_kneeling_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\xA7\x8E\xF0\x9F\x8F\xBF\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🧎🏿‍♀️‍➡️
 		},
 	},
 	["woman_kneeling_tone1"] = {
@@ -30520,6 +33071,64 @@ return {
 		},
 		codes = {
 			"\xF0\x9F\x8F\x83\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F", -- 🏃‍♀️
+		},
+	},
+	["woman_running_facing_right"] = {
+		names = {
+			"woman_running_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃‍♀️‍➡️
+		},
+	},
+	["woman_running_facing_right_tone1"] = {
+		names = {
+			"woman_running_facing_right::skin-tone-1",
+			"woman_running_facing_right_light_skin_tone",
+			"woman_running_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBB\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏻‍♀️‍➡️
+		},
+	},
+	["woman_running_facing_right_tone2"] = {
+		names = {
+			"woman_running_facing_right::skin-tone-2",
+			"woman_running_facing_right_medium_light_skin_tone",
+			"woman_running_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBC\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏼‍♀️‍➡️
+		},
+	},
+	["woman_running_facing_right_tone3"] = {
+		names = {
+			"woman_running_facing_right::skin-tone-3",
+			"woman_running_facing_right_medium_skin_tone",
+			"woman_running_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBD\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏽‍♀️‍➡️
+		},
+	},
+	["woman_running_facing_right_tone4"] = {
+		names = {
+			"woman_running_facing_right::skin-tone-4",
+			"woman_running_facing_right_medium_dark_skin_tone",
+			"woman_running_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBE\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏾‍♀️‍➡️
+		},
+	},
+	["woman_running_facing_right_tone5"] = {
+		names = {
+			"woman_running_facing_right::skin-tone-5",
+			"woman_running_facing_right_dark_skin_tone",
+			"woman_running_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\x8F\x83\xF0\x9F\x8F\xBF\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🏃🏿‍♀️‍➡️
 		},
 	},
 	["woman_running_tone1"] = {
@@ -31429,6 +34038,64 @@ return {
 			"\xF0\x9F\x9A\xB6\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F", -- 🚶‍♀️
 		},
 	},
+	["woman_walking_facing_right"] = {
+		names = {
+			"woman_walking_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶‍♀️‍➡️
+		},
+	},
+	["woman_walking_facing_right_tone1"] = {
+		names = {
+			"woman_walking_facing_right::skin-tone-1",
+			"woman_walking_facing_right_light_skin_tone",
+			"woman_walking_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBB\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏻‍♀️‍➡️
+		},
+	},
+	["woman_walking_facing_right_tone2"] = {
+		names = {
+			"woman_walking_facing_right::skin-tone-2",
+			"woman_walking_facing_right_medium_light_skin_tone",
+			"woman_walking_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBC\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏼‍♀️‍➡️
+		},
+	},
+	["woman_walking_facing_right_tone3"] = {
+		names = {
+			"woman_walking_facing_right::skin-tone-3",
+			"woman_walking_facing_right_medium_skin_tone",
+			"woman_walking_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBD\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏽‍♀️‍➡️
+		},
+	},
+	["woman_walking_facing_right_tone4"] = {
+		names = {
+			"woman_walking_facing_right::skin-tone-4",
+			"woman_walking_facing_right_medium_dark_skin_tone",
+			"woman_walking_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBE\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏾‍♀️‍➡️
+		},
+	},
+	["woman_walking_facing_right_tone5"] = {
+		names = {
+			"woman_walking_facing_right::skin-tone-5",
+			"woman_walking_facing_right_dark_skin_tone",
+			"woman_walking_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\x9A\xB6\xF0\x9F\x8F\xBF\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 🚶🏿‍♀️‍➡️
+		},
+	},
 	["woman_walking_tone1"] = {
 		names = {
 			"woman_walking::skin-tone-1",
@@ -31775,6 +34442,64 @@ return {
 			"\xF0\x9F\x91\xB0\xF0\x9F\x8F\xBF\xE2\x80\x8D\xE2\x99\x80\xEF\xB8\x8F", -- 👰🏿‍♀️
 		},
 	},
+	["woman_with_white_cane_facing_right"] = {
+		names = {
+			"woman_with_white_cane_facing_right",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩‍🦯‍➡️
+		},
+	},
+	["woman_with_white_cane_facing_right_tone1"] = {
+		names = {
+			"woman_with_white_cane_facing_right::skin-tone-1",
+			"woman_with_white_cane_facing_right_light_skin_tone",
+			"woman_with_white_cane_facing_right_tone1",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBB\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏻‍🦯‍➡️
+		},
+	},
+	["woman_with_white_cane_facing_right_tone2"] = {
+		names = {
+			"woman_with_white_cane_facing_right::skin-tone-2",
+			"woman_with_white_cane_facing_right_medium_light_skin_tone",
+			"woman_with_white_cane_facing_right_tone2",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBC\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏼‍🦯‍➡️
+		},
+	},
+	["woman_with_white_cane_facing_right_tone3"] = {
+		names = {
+			"woman_with_white_cane_facing_right::skin-tone-3",
+			"woman_with_white_cane_facing_right_medium_skin_tone",
+			"woman_with_white_cane_facing_right_tone3",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBD\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏽‍🦯‍➡️
+		},
+	},
+	["woman_with_white_cane_facing_right_tone4"] = {
+		names = {
+			"woman_with_white_cane_facing_right::skin-tone-4",
+			"woman_with_white_cane_facing_right_medium_dark_skin_tone",
+			"woman_with_white_cane_facing_right_tone4",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBE\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏾‍🦯‍➡️
+		},
+	},
+	["woman_with_white_cane_facing_right_tone5"] = {
+		names = {
+			"woman_with_white_cane_facing_right::skin-tone-5",
+			"woman_with_white_cane_facing_right_dark_skin_tone",
+			"woman_with_white_cane_facing_right_tone5",
+		},
+		codes = {
+			"\xF0\x9F\x91\xA9\xF0\x9F\x8F\xBF\xE2\x80\x8D\xF0\x9F\xA6\xAF\xE2\x80\x8D\xE2\x9E\xA1\xEF\xB8\x8F", -- 👩🏿‍🦯‍➡️
+		},
+	},
 	["woman_zombie"] = {
 		names = {
 			"woman_zombie",
@@ -31793,6 +34518,7 @@ return {
 	},
 	["womans_flat_shoe"] = {
 		names = {
+			"flat_shoe",
 			"womans_flat_shoe",
 		},
 		codes = {
@@ -32051,6 +34777,7 @@ return {
 	["womens"] = {
 		names = {
 			"womens",
+			"womens_room",
 		},
 		codes = {
 			"\xF0\x9F\x9A\xBA", -- 🚺
@@ -32083,6 +34810,7 @@ return {
 	["worried"] = {
 		names = {
 			"worried",
+			"worried_face",
 		},
 		codes = {
 			"\xF0\x9F\x98\x9F", -- 😟
@@ -32160,10 +34888,19 @@ return {
 	},
 	["x"] = {
 		names = {
+			"cross_mark",
 			"x",
 		},
 		codes = {
 			"\xE2\x9D\x8C", -- ❌
+		},
+	},
+	["x_ray"] = {
+		names = {
+			"x_ray",
+		},
+		codes = {
+			"\xF0\x9F\xA9\xBB", -- 🩻
 		},
 	},
 	["yarn"] = {
@@ -32209,6 +34946,7 @@ return {
 	["yen"] = {
 		names = {
 			"yen",
+			"yen_banknote",
 		},
 		codes = {
 			"\xF0\x9F\x92\xB4", -- 💴
@@ -32249,6 +34987,7 @@ return {
 	},
 	["zap"] = {
 		names = {
+			"high_voltage",
 			"zap",
 		},
 		codes = {
@@ -32265,6 +35004,7 @@ return {
 	},
 	["zero"] = {
 		names = {
+			"number_0",
 			"zero",
 		},
 		codes = {

@@ -257,7 +257,8 @@ function Module:HandleEmojiAdd(userId, message)
 								message = alertMessage.id
 							} or nil
 						})
-						message.channel:send(string.format("%s has been auto-muted for %s due to reporting", reportedUser.mentionString, durationStr, messageLink))
+						message.channel:send(string.format("%s has been auto-muted for %s due to reporting",
+							reportedUser.mentionString, durationStr))
 					else
 						alertChannel:send({
 							content = string.format("Failed to mute %s", reportedUser.mentionString),
@@ -276,7 +277,8 @@ function Module:HandleEmojiAdd(userId, message)
 				local moderatorRole = guild:getRole(config.ModeratorRole)
 				if (moderatorRole) then
 					alertChannel:send({
-						content = string.format("A message has been reported %d times %s\n<%s>", reporterCount, moderatorRole.mentionString, messageLink),
+						content = string.format("A message has been reported %d times %s",
+							reporterCount, moderatorRole.mentionString),
 						reference = alertMessage and {
 							message = alertMessage.id
 						} or nil
@@ -710,7 +712,6 @@ function Module:OnInteractionCreate(interaction)
 
 		actionStr = "Muted " .. util.DiscordRelativeTime(duration) .. " by " .. moderator.mentionString
 	elseif interactionType == "alertmodule_ban" then
-
 		if (not moderator:hasPermission(enums.permission.banMembers)) then
 			interaction:editResponse({
 				content = string.format("❌ You do not have permission ban this member")

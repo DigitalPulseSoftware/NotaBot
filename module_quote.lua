@@ -6,7 +6,6 @@ local client = Client
 local discordia = Discordia
 local bot = Bot
 local enums = discordia.enums
-local prefix = Config.Prefix
 
 
 Module.Name = "quote"
@@ -135,7 +134,7 @@ function Module:OnMessageCreate(message)
 		return
 	end
 
-	if (message.content:startswith(prefix, true)) then
+	if (message.content:startswith(bot:GetGuildPrefix(message.guild), true)) then
 		return
 	end
 

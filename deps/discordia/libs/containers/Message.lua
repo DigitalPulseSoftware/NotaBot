@@ -427,10 +427,18 @@ end
 @m reply
 @t http
 @p content string/table
+@p opts table
 @r Message
-@d Equivalent to `Message.channel:send(content)`.
+@d Equivalent to `Message.channel:send(content)`, but sent as a real Discord
+reply (message_reference) to this message. Pass `opts.mention = true` to ping
+the replied-to user.
 ]=]
-function Message:reply(content)
+function Message:reply(content, opts)
+	if type(content) == 'table' then
+		content.reference = content.reference or { message = self, mention = opts and opts.mention }
+	else
+		content = { content = content, reference = { message = self, mention = opts and opts.mention } }
+	end
 	return self._parent:send(content)
 end
 
