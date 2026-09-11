@@ -776,6 +776,23 @@ function Guild:createScheduledEvents(eventData)
 	end
 end
 
+--[=[
+@m setVanityUrl
+@t http
+@p code string
+@r Invite
+@d Sets the vanity URL for the guild. This is only available for guilds that have a level 3.
+]=]
+function Guild:setVanityCode(code)
+	local data, err = self.client._api:setGuildVanityUrl(self._id, {code = code})
+
+	if data then
+		return Invite(data, self.client)
+	else
+		return nil, err
+	end
+end
+
 --[=[@p shardId number The ID of the shard on which this guild is served. If only one shard is in
 operation, then this will always be 0.]=]
 function get.shardId(self)
