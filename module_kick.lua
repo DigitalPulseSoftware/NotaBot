@@ -109,6 +109,7 @@ function Module:OnLoaded()
 		end,
 		Slash = {
 			Description = "Kick a member",
+			DefaultMemberPermissions = enums.permission.kickMembers,
 			Func = function (interaction, targetMember, reason)
 				local success, text = self:PerformKick(interaction.guild, interaction.member, targetMember, reason)
 				interaction:respond({
@@ -119,6 +120,7 @@ function Module:OnLoaded()
 		},
 		ContextMenu = {
 			Type = "user",
+			DefaultMemberPermissions = enums.permission.kickMembers,
 			Func = function (interaction, targetMember)
 				interaction:respond(BuildKickModal(targetMember))
 			end

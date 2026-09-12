@@ -126,6 +126,7 @@ function Module:OnLoaded()
 		end,
 		Slash = {
 			Description = "Delete a number of recent messages in this channel",
+			DefaultMemberPermissions = Enums.permission.manageMessages,
 			Func = function (interaction, nbMessages)
 				local guild = interaction.guild
 
@@ -166,6 +167,7 @@ function Module:OnLoaded()
 		end,
 		ContextMenu = {
 			Type = "message",
+			DefaultMemberPermissions = Enums.permission.manageMessages,
 			Func = function (interaction, targetMessage)
 				local guild = interaction.guild
 

@@ -108,6 +108,14 @@ end
 
 Bot.ApplicationCommandIds = {}
 
+local function EncodeDefaultMemberPermissions(permissions)
+	if (not permissions) then
+		return nil
+	end
+
+	return string.format("%d", permissions)
+end
+
 local function buildOptionsFromArgs(argsList)
 	local options = {}
 	for _, argData in ipairs(argsList or {}) do
@@ -122,7 +130,48 @@ local function buildOptionsFromArgs(argsList)
 	return options
 end
 
+local function CacheKeyForApplicationCommand(guildId, name, commandType)
+	local kind = commandType == 1 and "slash" or "context"
+	return guildId .. ":" .. kind .. ":" .. name
+end
+
+-- Refreshes Bot.ApplicationCommandIds from Discord instead of trusting the in-memory cache,
+-- which is empty right after a bot restart and would otherwise leave stale/renamed commands
+-- (e.g. a removed ContextMenu block) registered on Discord forever.
+function Bot:RefreshApplicationCommandIdsForGuild(guild, commandNames)
+	self.Client:info("Refreshing application command ids for guild %s (%d command(s))", guild.id, #commandNames)
+
+	local nameSet = {}
+	for _, name in ipairs(commandNames) do
+		nameSet[name] = true
+	end
+
+	local existingCommands, err = client._api:getGuildApplicationCommands(applicationId, guild.id)
+	if (not existingCommands) then
+		self.Client:error("Failed to fetch existing application commands for guild %s: %s", guild.id, err)
+		return nil
+	end
+
+	local byName = {}
+	for _, existing in ipairs(existingCommands) do
+		if (nameSet[existing.name]) then
+			self.ApplicationCommandIds[CacheKeyForApplicationCommand(guild.id, existing.name, existing.type)] = existing.id
+
+			byName[existing.name] = byName[existing.name] or {}
+			byName[existing.name][existing.type] = existing.id
+		end
+	end
+
+	self.Client:info("Found %d existing application command(s) for guild %s", #existingCommands, guild.id)
+
+	return byName
+end
+
 function Bot:SyncApplicationCommandsForGuild(guild, commandNames)
+	self.Client:info("Syncing application commands for guild %s: %s", guild.id, table.concat(commandNames, ", "))
+
+	local existingByName = self:RefreshApplicationCommandIdsForGuild(guild, commandNames) or {}
+
 	for _, name in ipairs(commandNames) do
 		local commandTable = self.Commands[name]
 		if (commandTable) then
@@ -147,6 +196,7 @@ function Bot:SyncApplicationCommandsForGuild(guild, commandNames)
 				local cmd, err = client._api:createGuildApplicationCommand(applicationId, guild.id, payload)
 				if (cmd) then
 					self.ApplicationCommandIds[guild.id .. ":slash:" .. name] = cmd.id
+					self.Client:info("Registered slash command %s (id %s) for guild %s", name, cmd.id, guild.id)
 				else
 					self.Client:error("Failed to register slash command %s: %s", name, err)
 				end
@@ -158,23 +208,60 @@ function Bot:SyncApplicationCommandsForGuild(guild, commandNames)
 				else
 					description = description or commandTable.Help
 				end
-				local payload = { name = name, description = description, type = 1, options = #options > 0 and options
-					or nil }
+				local payload = {
+					name = name,
+					description = description,
+					type = 1,
+					options = #options > 0 and options or nil,
+					default_member_permissions = EncodeDefaultMemberPermissions(commandTable.Slash.DefaultMemberPermissions)
+				}
 				local cmd, err = client._api:createGuildApplicationCommand(applicationId, guild.id, payload)
 				if (cmd) then
 					self.ApplicationCommandIds[guild.id .. ":slash:" .. name] = cmd.id
+					self.Client:info("Registered slash command %s (id %s) for guild %s", name, cmd.id, guild.id)
 				else
 					self.Client:error("Failed to register slash command %s: %s", name, err)
 				end
 			end
 			if (commandTable.ContextMenu) then
 				local menuType = commandTable.ContextMenu.Type == "message" and 3 or 2
-				local payload = { name = name, type = menuType }
+				local payload = {
+					name = name,
+					type = menuType,
+					default_member_permissions = EncodeDefaultMemberPermissions(commandTable.ContextMenu.DefaultMemberPermissions)
+				}
 				local cmd, err = client._api:createGuildApplicationCommand(applicationId, guild.id, payload)
 				if (cmd) then
 					self.ApplicationCommandIds[guild.id .. ":context:" .. name] = cmd.id
+					self.Client:info("Registered context menu command %s (id %s) for guild %s", name, cmd.id, guild.id)
 				else
 					self.Client:error("Failed to register context menu command %s: %s", name, err)
+				end
+			end
+
+			-- Delete any command type Discord still has registered under this name that the
+			-- current code no longer declares (e.g. a ContextMenu/Slash block that got removed).
+			local expectedTypes = {}
+			if (commandTable.Subcommands or commandTable.Slash) then
+				expectedTypes[1] = true
+			end
+			if (commandTable.ContextMenu) then
+				expectedTypes[commandTable.ContextMenu.Type == "message" and 3 or 2] = true
+			end
+
+			for existingType, existingId in pairs(existingByName[name] or {}) do
+				if (not expectedTypes[existingType]) then
+					local success, err = client._api:deleteGuildApplicationCommand(applicationId, guild.id, existingId)
+					if (success) then
+						self.ApplicationCommandIds[CacheKeyForApplicationCommand(guild.id, name, existingType)] = nil
+						self.Client:info(
+							"Removed orphaned application command %s (type %d) for guild %s", name, existingType, guild.id
+						)
+					else
+						self.Client:error(
+							"Failed to remove orphaned application command %s (type %d): %s", name, existingType, err
+						)
+					end
 				end
 			end
 				end
