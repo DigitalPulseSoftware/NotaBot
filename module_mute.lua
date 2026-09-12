@@ -195,6 +195,7 @@ function Module:OnLoaded()
 		end,
 		Slash = {
 			Description = "Mute a member",
+			DefaultMemberPermissions = enums.permission.administrator,
 			Func = function (interaction, targetMember, duration, reason)
 				local success, text = self:PerformMute(
 					interaction.guild, interaction.member, targetMember, duration, reason
@@ -207,6 +208,7 @@ function Module:OnLoaded()
 		},
 		ContextMenu = {
 			Type = "user",
+			DefaultMemberPermissions = enums.permission.administrator,
 			Func = function (interaction, targetMember)
 				interaction:respond(BuildMuteModal(targetMember))
 		end
@@ -228,6 +230,7 @@ function Module:OnLoaded()
 		end,
 		Slash = {
 			Description = "Unmute a member",
+			DefaultMemberPermissions = enums.permission.administrator,
 			Func = function (interaction, targetUser, reason)
 				local success, text = self:PerformUnmute(interaction.guild, interaction.member, targetUser, reason)
 				interaction:respond(
@@ -237,6 +240,7 @@ function Module:OnLoaded()
 		},
 		ContextMenu = {
 			Type = "user",
+			DefaultMemberPermissions = enums.permission.administrator,
 			Func = function (interaction, targetUser)
 				interaction:respond(BuildUnmuteModal(targetUser.user or targetUser))
 			end

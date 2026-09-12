@@ -190,6 +190,7 @@ function Module:OnLoaded()
 		end,
 		Slash = {
 			Description = "Ban a member",
+			DefaultMemberPermissions = enums.permission.banMembers,
 			Func = function (interaction, targetUser, duration, reason)
 				local success, text = self:PerformBan(
 					interaction.guild, interaction.member, targetUser, duration, reason
@@ -202,6 +203,7 @@ function Module:OnLoaded()
 		},
 		ContextMenu = {
 			Type = "user",
+			DefaultMemberPermissions = enums.permission.banMembers,
 			Func = function (interaction, targetMember)
 				interaction:respond(BuildBanModal(targetMember))
 			end
@@ -224,6 +226,7 @@ function Module:OnLoaded()
 		end,
 		Slash = {
 			Description = "Unban a member",
+			DefaultMemberPermissions = enums.permission.banMembers,
 			Func = function (interaction, targetUser, reason)
 				local success, text = self:PerformUnban(interaction.guild, interaction.member, targetUser, reason)
 				interaction:respond({

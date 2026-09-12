@@ -391,7 +391,7 @@ end
 
 function API:editApplicationCommandPermissions(application_id, guild_id, command_id, payload, query)
 	local endpoint = f(endpoints.APPLICATION_GUILD_COMMAND_PERMISSIONS, application_id, guild_id, command_id)
-	return self:request("PUT", endpoint, payload, query, payload)
+	return self:request("PUT", endpoint, payload, query)
 end
 
 function API:batchEditApplicationCommandPermissions(application_id, guild_id, payload, query)
