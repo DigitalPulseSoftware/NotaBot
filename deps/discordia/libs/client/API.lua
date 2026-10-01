@@ -404,6 +404,11 @@ function API:getGuildAuditLog(guild_id, query)
 	return self:request("GET", endpoint, nil, query)
 end
 
+function API:setGuildVanityUrl(guild_id, code)
+	local endpoint = f(endpoints.GUILD_VANITY_URL, guild_id)
+	return self:request("PATCH", endpoint, {code = code})
+end
+
 function API:getChannel(channel_id) -- not exposed, use cache
 	local endpoint = f(endpoints.CHANNEL, channel_id)
 	return self:request("GET", endpoint)
